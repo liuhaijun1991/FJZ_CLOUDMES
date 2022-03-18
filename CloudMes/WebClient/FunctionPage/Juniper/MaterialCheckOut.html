@@ -1,0 +1,894 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Check Out</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-content {
+            padding-top: 20px;
+        }
+
+        .panel-title-display {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 15px !important;
+        }
+
+        .panel-title-cust {
+            display: block;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .panel-title-display .btn {
+            padding: 3px 10px !important;
+        }
+
+        table tbody tr td {
+            white-space: nowrap;
+            padding-top: 3px !important;
+            padding-bottom: 3px !important;
+        }
+
+            table tbody tr td .btn {
+                padding: 3px 10px !important;
+            }
+
+        #divCheckOutPanel, #divReturnView {
+            padding-top: 10px;
+        }
+
+            #divCheckOutPanel .form-group, #divReturnView .form-group {
+                margin: 0px 0px 5px 0px !important;
+            }
+
+        .new-pallet-title {
+            background-color: #2e6da4 !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .layui-layer-page {
+            border: 1px solid #2e6da4 !important;
+            border-radius: 5px !important;
+        }
+
+        .my-title .layui-layer-title {
+            background-color: #2e6da4 !important;
+            color: white !important;
+        }
+
+        #inputDate:hover, #selectLineGroup:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="div-content">
+        <div class="col-xs-12 form-horizontal">
+            <div class="form-group col-xs-3" id="divLineGroup">
+                <label class="col-xs-4 control-label text-right">LineGroup:</label>
+                <div class="col-xs-8">
+                    <select class="form-control" id="selectLineGroup">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-xs-3" id="divDate">
+                <label class="col-xs-4 control-label text-right">Date:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="inputDate" readonly />
+                </div>
+            </div>
+            <div class="form-group col-xs-4" id="divRefresh">
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-primary" id="btnRefresh">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                    </button>
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-primary" id="btnReturn">
+                        <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><lan set-lan="html:">Return</lan>
+                    </button>
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-primary" id="btnCheckoutDetail">
+                        <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">CheckoutDetail</lan>
+                    </button>
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-primary" id="btnWipSummary">
+                        <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">WipSummary</lan>
+                    </button>
+                </div>
+            </div>
+            <!--<div class="form-group col-xs-3" id="divReturn">
+
+            </div>-->
+        </div>
+        <div class="col-xs-12 " style="height:600px;overflow-y:auto;">
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-title-display">
+                        <label class="panel-title-cust">9AM</label>
+                    </div>
+                    <div class="panel-body" style="padding:0">
+                        <table id="table9AM"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-title-display">
+                        <label class="panel-title-cust">2PM</label>
+                    </div>
+                    <div class="panel-body" style="padding:0">
+                        <table id="table2PM"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-title-display">
+                        <label class="panel-title-cust">6PM</label>
+                    </div>
+                    <div class="panel-body" style="padding:0">
+                        <table id="table6PM"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading panel-title-display">
+                        <label class="panel-title-cust">11PM</label>
+                    </div>
+                    <div class="panel-body" style="padding:0">
+                        <table id="table11PM"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add new request-->
+    <div id="divCheckOutPanel" class="form-horizontal" hidden>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">LineGroup:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtLineGroup" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">Date:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtDate" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">Time:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtTime" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">Line:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtLine" readonly />
+            </div>
+        </div>
+        <!--<div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">WO:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtWO" readonly />
+            </div>
+        </div>-->
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">PN:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtPN" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">RequestQty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtRequestQty" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">DeliveryQty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtDeliveryQty" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">WipQty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtWipQty" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4 control-label text-right">Qty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtQty" />
+            </div>
+        </div>
+        <!--<div class="form-group edit-qty-input col-xs-6">
+            <label class="col-xs-4"></label>
+            <div class="col-xs-7">
+                <button type="button" class="btn btn-primary" id="btnSunmit">Submit</button>
+            </div>
+        </div>-->
+    </div>
+
+    <div id="divReturnView" class="form-horizontal" hidden>
+        <div class="form-group edit-qty-input col-xs-12">
+            <label class="col-xs-4 control-label text-right">LineGroup:</label>
+            <div class="col-xs-7">
+                <select class="form-control" id="selectReturnGroup">
+                </select>
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-12">
+            <label class="col-xs-4 control-label text-right">PN:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtReturnPN" />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-12">
+            <label class="col-xs-4 control-label text-right">QTY:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtReturnQty" />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input col-xs-12">
+            <label class="col-xs-4"></label>
+            <div class="col-xs-7">
+                <button type="button" class="btn btn-primary" id="btnReturnSubmit">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divCheckoutDetialView" class="form-horizontal" hidden style="padding-left:10px;padding-right:10px;">
+        <table id="tableCheckoutDetail"></table>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+    <script type="text/javascript">
+        var re = new RegExp("^[0-9]*[1-9][0-9]*$");
+        window.ColumnBtnClick = {
+            'click #btnCheckOut': function (e, value, row, index) {
+                var _rowIndex = index;
+                var _this = this;
+                var tableId = $(_this.$el).attr("id");
+                var time = tableId.replace("table", "");
+                layer.open({
+                    id: "CheckOutPanel",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: "Check Out",
+                    area: ['60%', '50%'],
+                    content: $('#divCheckOutPanel'),
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#divCheckOutPanel").show();
+                        $("#txtLineGroup").val($("#selectLineGroup").val());
+                        $("#txtDate").val($("#inputDate").val());
+                        $("#txtTime").val(time);
+                        $("#txtLine").val(row.LINE);
+                        //$("#txtWO").val(row.WO);
+                        $("#txtPN").val(row.PN);
+                        $("#txtRequestQty").val(row.QTY);
+                        $("#txtWipQty").val(row.WipQTY);
+                        $("#txtDeliveryQty").val(row.DeliveryQTY);
+                        $("#txtQty").val("").focus().select();
+                    },
+                    end: function () {
+                        $("#divCheckOutPanel").hide();
+                        GetPlanData();
+                    },
+                    yes: function (index) {
+                        Submit(row);
+                    },
+                    cancel: function (index) {
+                        $("#divCheckOutPanel").hide();
+                        $(".layui-layer-title").removeClass("new-pallet-title");
+                        layer.close(index);
+                        GetPlanData();
+                    }
+                });
+            }
+        }
+        var GetPlanData = function () {
+            var date = $("#inputDate").val();
+            if (date == "" || date == undefined) {
+                layer.msg("Please input Date.", {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { });
+            }
+            var stockLocation = $("#selectLineGroup").val();
+            var loadDataIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span> Loading......</span></div></div>"
+            });
+            parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "GetPlanAndStock", {
+                DATE: date,
+                Stock_Location: stockLocation
+            }, function (e) {
+                layer.close(loadDataIndex);
+                if (e.Status == "Pass") {
+                    var data9AM = [];
+                    var data2PM = [];
+                    var data6PM = [];
+                    var data11PM = [];
+                    if (e.Data != null && e.Data.length > 0) {
+                        for (var i = 0; i < e.Data.length; i++) {
+                            if (e.Data[i].Time == "9AM") {
+                                data9AM.push(e.Data[i]);
+                            }
+                            else if (e.Data[i].Time == "2PM") {
+                                data2PM.push(e.Data[i]);
+                            }
+                            else if (e.Data[i].Time == "6PM") {
+                                data6PM.push(e.Data[i]);
+                            }
+                            else if (e.Data[i].Time == "11PM") {
+                                data11PM.push(e.Data[i]);
+                            }
+                        }
+                    }
+                    ShowTableList("#table9AM", data9AM);
+                    ShowTableList("#table2PM", data2PM);
+                    ShowTableList("#table6PM", data6PM);
+                    ShowTableList("#table11PM", data11PM);
+
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 6000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                    });
+                }
+            });
+        };
+        var ShowTableList = function (tableId, data) {
+            $(tableId).bootstrapTable("destroy");
+            $(tableId).bootstrapTable({
+                data: data,
+                striped: true,
+                //height: 200,
+                pagination: true,
+                sidePagination: "client",
+                pageNumber: 1,
+                pageSize: 10,
+                pageList: [5, 10, 20, 30, 50],
+                columns: [
+                    {
+                        field: "LINE",
+                        title: "Line",
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    //{
+                    //    field: "WO",
+                    //    title: "WO",
+                    //    align: 'center',
+                    //    valign: 'middle',
+                    //},
+                    {
+                        field: "PN",
+                        title: "PN",
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    {
+                        field: "QTY",
+                        title: "RequestQTY",
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    {
+                        field: "DeliveryQTY",
+                        title: "DeliveryQTY",
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    {
+                        field: "WipQTY",
+                        title: "WipQTY",
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    {
+                        field: "ACTION",
+                        title: "Action",
+                        align: 'center',
+                        valign: 'middle',
+                        formatter: function (value, row, index) {
+                            if (row.QTY <= row.DeliveryQTY) {
+                                return ['<label style="color:green">Enough Material</button >'].join('');
+                            }
+                            else {
+                                return ['<button id="btnCheckOut" type="button" class="btn btn-default" >CheckOut</button >'].join('');
+                            }
+                        },
+                        events: ColumnBtnClick
+                    }
+                ]
+            });
+        }
+        var Submit = function (row) {
+            if (row.WipQTY >= 600) {
+                layer.msg("WipQTY QTY more than 600", {
+                    icon: 2,
+                    time: 6000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () {
+                    $("#txtQty").focus();
+                });
+                return;
+            }
+
+            var qty = $("#txtQty").val();
+            if (qty == "") {
+                layer.msg("Please input Qty", {
+                    icon: 2,
+                    time: 6000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () {
+                    $("#txtQty").focus();
+                });
+                return;
+            }
+            if (qty != "0" && !re.test(qty)) {
+                layer.msg("Please input a number", {
+                    icon: 2,
+                    time: 6000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () {
+                    $("#txtQty").focus();
+                });
+                return;
+            }
+            //if (qty + row.DeliveryQTY > row.QTY) {
+            //    layer.msg("Checkout QTY more than Request QTY", {
+            //        icon: 2,
+            //        time: 6000,
+            //        title: 'ERROR',
+            //        btn: ['OK']
+            //    }, function () {
+            //        $("#txtQty").focus();
+            //    });
+            //    return;
+            //}
+            if (qty != row.QTY) {
+                layer.msg("Checkout qty not equal request qty", {
+                    icon: 2,
+                    time: 6000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () {
+                    $("#txtQty").focus();
+                });
+                return;
+            }
+            var date = $("#inputDate").val();
+            if (date == "" || date == undefined) {
+                layer.msg("Please input Date.", {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { });
+            }
+            parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "MatlCheckoutChecker",
+                {
+                    STOCK_LOCATION: $("#txtLineGroup").val(),
+                    DATE: date,
+                    TIME:$("#txtTime").val(),
+                    LINE:$("#txtLine").val(),
+                    PN: $("#txtPN").val(),
+                    REQUEST_QTY: row.QTY ,
+                    CHECKOUT_QTY:qty
+                },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        var dateStr=new Date($("#inputDate").val());
+                        parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "MatlIssue", {
+                            JsonData: {
+                                STOCK_LOCATION: $("#txtLineGroup").val(),
+                                PN: $("#txtPN").val(),
+                                QTY: qty,
+                                OPTION_TYPE: 0,
+                                FROM_LOCATION: "JRAW",
+                                TO_LOCATION: "CWIP",
+                                DETAIL1: "",//$("#txtWO").val(),
+                                DETAIL2: $("#txtTime").val(),
+                                DETAIL3: $("#txtLine").val(),
+                                DETAIL4: dateStr.format('yyyyMMdd')
+                            }
+                        }, function (e) {
+                            layer.closeAll();
+                            if (e.Status == "Pass") {
+                                $("#divCheckOutPanel").hide();
+                                $(".layui-layer-title").removeClass("new-pallet-title");
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 500,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                });
+                                GetPlanData();
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 6000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                });
+                            }
+                        });
+
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 6000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    }
+                });
+        }
+        $(document).ready(function () {
+            var today = new Date();
+            $("#inputDate").datetimepicker({
+                format: 'yyyy/MM/dd',
+                language: 'en-US',
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2
+            }).on("changeDate", function (e) {
+                GetPlanData();
+            });
+            $("#inputDate").val(today.format('yyyy/MM/dd'));
+            parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "GetGroupName", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#selectLineGroup").html("");
+                    for (var i = 0; i < e.Data.length; i++) {
+                        $("#selectLineGroup").append($('<option value="' + e.Data[i] + '">' + e.Data[i] + '</option>'));
+                        $("#selectReturnGroup").append($('<option value="' + e.Data[i] + '">' + e.Data[i] + '</option>'));
+                    }
+                    $("#selectLineGroup option:first").attr("selected", true);
+                    $("#selectReturnGroup option:first").attr("selected", true);
+                    GetPlanData()
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+            $("#selectLineGroup").change(function () {
+                GetPlanData();
+            });
+            $("#btnRefresh").click(function () {
+                GetPlanData();
+            });
+            $("#txtQty").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    Submit();
+                }
+            });
+            $("#btnReturn").click(function () {
+                layer.open({
+                    id: "ReturnView",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: "Return PN",
+                    area: ['30%', '40%'],
+                    content: $('#divReturnView'),
+                    success: function (layero, index) {
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#divReturnView").show();
+                        $("#txtReturnPN").val("").focus().select();
+                        $("#txtReturnQty").val("");
+                    },
+                    end: function () {
+                        $("#divReturnView").hide();
+                        GetPlanData();
+                    },
+                    cancel: function (index) {
+                        $("#divReturnView").hide();
+                        $(".layui-layer-title").removeClass("new-pallet-title");
+                        layer.close(index);
+                        GetPlanData();
+                    }
+                });
+            });
+            $("#btnReturnSubmit").click(function () {
+                var returnPN = $("#txtReturnPN").val();
+                if (returnPN == "") {
+                    layer.msg("Please input PN", {
+                        icon: 2,
+                        time: 6000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        $("#txtReturnPN").focus();
+                    });
+                    return;
+                }
+                var returnQty = $("#txtReturnQty").val();
+                if (returnQty == "") {
+                    layer.msg("Please input Qty", {
+                        icon: 2,
+                        time: 6000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        $("#txtReturnQty").focus();
+                    });
+                    return;
+                }
+                if (returnQty != "0" && !re.test(returnQty)) {
+                    layer.msg("Please input a number", {
+                        icon: 2,
+                        time: 6000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        $("#txtReturnQty").focus();
+                    });
+                    return;
+                }
+                parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "MatlReturnChecker", { STOCK_LOCATION: $("#selectReturnGroup").val(), PN: returnPN, QTY: returnQty },
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "MatlIssue", {
+                                JsonData: {
+                                    STOCK_LOCATION: $("#selectReturnGroup").val(),
+                                    PN: returnPN,
+                                    QTY: -returnQty,
+                                    OPTION_TYPE: 3,
+                                    FROM_LOCATION: "CWIP",
+                                    TO_LOCATION: "JRAW"
+                                }
+                            }, function (e) {
+                                if (e.Status == "Pass") {
+                                    layer.closeAll();
+                                    layer.msg(e.Message, {
+                                        icon: 1,
+                                        time: 500,
+                                        title: 'Tip',
+                                        btn: ['OK']
+                                    }, function () {
+                                    });
+                                    GetPlanData();
+
+                                } else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 6000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () {
+                                    });
+                                }
+                            });
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 6000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () {
+                            });
+                        }
+                    });
+
+            });
+            $("#btnCheckoutDetail").click(function (e) {
+                var date = $("#inputDate").val();
+                if (date == "" || date == undefined) {
+                    layer.msg("Please input Date.", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+                var stockLocation = $("#selectLineGroup").val();
+                layer.open({
+                    id: "CheckoutDetial",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: stockLocation + "  " + date +"  Checkout Detial",
+                    area: ['90%', '80%'],
+                    content: $('#divCheckoutDetialView'),                   
+                    success: function (layero, index) {
+                        $("#divCheckoutDetialView").show();
+                        var loadDataIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Loading......</span></div></div>"
+                        });
+                        parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "GetCheckoutDetail", { DATE: date, STOCK_LOCATION: stockLocation }, function (e) {
+                            layer.close(loadDataIndex);
+                            if (e.Status == "Pass") {
+                                var columns = [];
+                                for (var item in e.Data[0]) {
+                                    var cell = {
+                                        field: item,
+                                        title: item,
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    };
+                                    columns.push(cell);
+                                }
+                                $("#tableCheckoutDetail").bootstrapTable("destroy");
+                                $("#tableCheckoutDetail").bootstrapTable({
+                                    data: e.Data,
+                                    striped: true,
+                                    //height: 200,
+                                    search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                    searchOnEnterKey: false,            //回车搜索
+                                    searchAlign: "left",              //查询框对齐方式
+                                    pagination: true,
+                                    sidePagination: "client",
+                                    pageNumber: 1,
+                                    pageSize: 10,
+                                    pageList: [5, 10, 20, 30, 50],
+                                    columns: columns
+                                });
+                            }
+                            else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    end: function () {
+                        $("#divCheckoutDetialView").hide();                       
+                    }                    
+                });
+               
+            });
+
+            $("#btnWipSummary").click(function (e) {
+                var date = $("#inputDate").val();
+                if (date == "" || date == undefined) {
+                    layer.msg("Please input Date.", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+                var stockLocation = $("#selectLineGroup").val();
+                layer.open({
+                    id: "CheckoutDetial",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: stockLocation + "  " + date + "  Checkout Detial",
+                    area: ['90%', '80%'],
+                    content: $('#divCheckoutDetialView'),
+                    success: function (layero, index) {
+                        $("#divCheckoutDetialView").show();
+                        var loadDataIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Loading......</span></div></div>"
+                        });
+                        parent.client.CallFunction("MESJuniper.Api.LineMatlPlanAPI", "GetWipSummaryDetail", { DATE: date, STOCK_LOCATION: stockLocation }, function (e) {
+                            layer.close(loadDataIndex);
+                            if (e.Status == "Pass") {
+                                var columns = [];
+                                for (var item in e.Data[0]) {
+                                    var cell = {
+                                        field: item,
+                                        title: item,
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    };
+                                    columns.push(cell);
+                                }
+                                $("#tableCheckoutDetail").bootstrapTable("destroy");
+                                $("#tableCheckoutDetail").bootstrapTable({
+                                    data: e.Data,
+                                    striped: true,
+                                    //height: 200,
+                                    search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                    searchOnEnterKey: false,            //回车搜索
+                                    searchAlign: "left",              //查询框对齐方式
+                                    pagination: true,
+                                    sidePagination: "client",
+                                    pageNumber: 1,
+                                    pageSize: 10,
+                                    pageList: [5, 10, 20, 30, 50],
+                                    columns: columns
+                                });
+                            }
+                            else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    end: function () {
+                        $("#divCheckoutDetialView").hide();
+                    }
+                });
+
+            });
+        });
+    </script>
+</body>
+</html>

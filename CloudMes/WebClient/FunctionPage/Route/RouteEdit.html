@@ -1,0 +1,434 @@
+﻿<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <h3>Routing master information</h3>
+                            <div class="ibox-content">
+                                <form role="form" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" set-lan="html:RouteName">RouteName</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label" set-lan="html:SemiRouteName">SemiRouteName</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label" set-lan="html:Modelseries">SkuSeries</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" set-lan="html:ApplicableNo">ApplicablePartNo</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label" set-lan="html:whichApplicableNo">whichApplicablePartNo</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <!-- Example Events -->
+                    <div class="example-wrap">
+                        <h3>Routing slave information</h3>
+                        <div class="ibox-content">
+                            <div class="example">
+                                <div class="bootstrap-table">
+                                    <div class="fixed-table-toolbar table-responsive">
+                                        <div class="bars pull-left">
+                                            <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                                <button type="button" class="btn btn-outline btn-default" id="RoutAdd">
+                                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline btn-default" id="RoutModify">
+                                                    <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline btn-default">
+                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="columns columns-right btn-group pull-right">
+                                        <button class="btn btn-default btn-outline" type="button" name="refresh" title="refresh">
+                                            <i class="glyphicon glyphicon-repeat">
+                                            </i>
+                                            </button>
+                                        </div>
+                                        <div class="pull-right search">
+                                        <input class="form-control input-outline" type="text" placeholder="search">
+                                        </div>
+                                    </div>
+                                    <table id="tb_departments" class="table table-hover">
+                                        <tr>
+                                            
+                                            <td>PACE260-2220000B</td>
+                                            <td>PACE260-2220000B</td>
+                                            <td>10</td>
+                                            <td>AOI</td>
+                                            <td>SMT1</td>
+                                            <td>VI,ICT</td>
+                                            <td>JobStart</td>
+                                            <td>N</td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>PACE260-2220000B</td>
+                                            <td>PACE260-2220000B</td>
+                                            <td>10</td>
+                                            <td>AOI</td>
+                                            <td>SMT1</td>
+                                            <td>VI,ICT</td>
+                                            <td>JobStart</td>
+                                            <td>N</td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>PACE260-2220000B</td>
+                                            <td>PACE260-2220000B</td>
+                                            <td>10</td>
+                                            <td>AOI</td>
+                                            <td>SMT1</td>
+                                            <td>VI,ICT</td>
+                                            <td>JobStart</td>
+                                            <td>N</td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>PACE260-2220000B</td>
+                                            <td>PACE260-2220000B</td>
+                                            <td>10</td>
+                                            <td>lla</td>
+                                            <td>SMT1</td>
+                                            <td>VI,ICT</td>
+                                            <td>JobStart</td>
+                                            <td>N</td>
+                                        </tr>
+                                    </table>
+                                </div><div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Example Events -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增修改彈出窗口-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label" set-lan="html:RouteName">RouteName:</label>
+                            <input type="text" class="form-control" id="Modal-RouteID">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:EventSeqNo">EventSeqNo:</label>
+                            <input type="text" class="form-control" id="Modal-EventSeqNo">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:EventPoint">EventPoint:</label>
+                            <input type="text" class="form-control" id="Modal-EventPoint">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:NextEventPoint">NextEventPoint:</label>
+                            <input type="text" class="form-control" id="Modal-NextEventPoint">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:RREventPoint">RREventPoint:</label>
+                            <input type="text" class="form-control" id="Modal-RREventPoint">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:EventFeature">EventFeature:</label>
+                            <input type="text" class="form-control" id="Modal-EventFeature">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:VirtualStation">VirtualStation:</label>
+                            <input type="text" class="form-control" id="Modal-VirtualStation">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script>
+        $(document).ready(function () {
+            var JsonData = [
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+}
+, {
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+},
+{
+    RouteID: "PACE260-2220000B",
+    EventSeqNo: "10",
+    EventPoint: "AOI",
+    NextEventPoint: "SMT1",
+    RREventPoint: "VI,ICT",
+    EventFeature: "JobStart",
+    VirtualStation: "N"
+}
+            ];            
+            //JsonData = JSON.stringify(JsonData);
+            $('#tb_departments').bootstrapTable({
+                data:JsonData,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: true,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "RouteID",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'RouteID',
+                   title: 'RouteName',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'EventSeqNo',
+                    title: 'EventSeqNo',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'EventPoint',
+                    title: 'EventPoint',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'NextEventPoint',
+                    title: 'NextEventPoint',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'RREventPoint',
+                    title: 'REEventPoint',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'EventFeature',
+                    title: 'EventFeature',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'VirtualStation',
+                    title: 'VirtualStation',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }]
+            });
+            var postdata = {};
+            $("#RoutAdd").click(function () {
+                $("#exampleModalLabel").text("NewAdd");
+                $("#exampleModal").find(".form-control").val("");
+                $('#exampleModal').modal();
+                postdata.DEPARTMENT_ID = "";
+            });
+
+            $("#RoutModify").click(function () {
+                var arrselections = $("#tb_departments").bootstrapTable('getSelections');
+                if (arrselections.length > 1) {
+                    // toastr.warning('只能选择一行进行编辑');
+                    alert('Only one row can be selected for edit');
+                    return;
+                }
+                if (arrselections.length <= 0) {
+                    //toastr.warning('请选择有效数据');
+                    alert('Please select valid data');
+                    return;
+                }
+                $("#exampleModalLabel").text("Edit");
+                $("#Modal-RouteID").val(arrselections[0].RouteID);
+                $("#Modal-EventSeqNo").val(arrselections[0].EventSeqNo);
+                $("#Modal-EventPoint").val(arrselections[0].RouteID);
+                $("#Modal-NextEventPoint").val(arrselections[0].EventSeqNo);
+                $("#Modal-RREventPoint").val(arrselections[0].RouteID);
+                $("#Modal-EventFeature").val(arrselections[0].EventSeqNo);
+                $("#Modal-VirtualStation").val(arrselections[0].RouteID);
+                postdata.RouteID = arrselections[0].RouteID;
+              
+                $('#exampleModal').modal();
+            });            
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1543 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair DISC</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+        }
+
+        .repair-nav-tabs > li > a {
+            padding: 5px 15px 0 15px !important;
+            margin-left: 0px !important;
+        }
+
+        .repair-nav-tabs > li.active {
+            border-left: 0px solid #f9f7f7;
+            background-color: #f5f5f5;
+        }
+
+        .repair-nav-tabs {
+            background-color: #f5f5f5;
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+            .repair-nav-tabs li h3 {
+                font-size: inherit;
+            }
+
+            .repair-nav-tabs > li.active > a,
+            .repair-nav-tabs > li.active > a:hover,
+            .repair-nav-tabs > li.active > a:focus {
+                color: #fff;
+                background-color: #007bff !important;
+                border: 1px solid #337ab7;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                font-size: inherit;
+                font-weight: 600;
+            }
+
+        .fieldset-border {
+            padding-top: -10px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            border: 1px solid silver;
+            border-radius: 4px;
+            border-color: #e7eaec;
+            margin-bottom: 5px;
+            border-color: #f8ac59;
+        }
+
+        .legend-border {
+            padding: 0 5px;
+            width: auto;
+            border: 0;
+            font-size: inherit;
+            font-weight: 600;
+            margin-bottom: 0px;
+        }
+
+        .border-primary {
+            border-color: #337ab7;
+        }
+
+        .list-inline li {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .tab-pane table, .panel table {
+            margin-bottom: 0;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .no-border {
+            border: 0;
+        }
+
+        h3 label, h3 span {
+            padding-left: 10px;
+        }
+
+        button lan {
+            padding-left: 5px;
+        }
+
+        .padding-top-5 {
+            padding-top: 5px !important;
+        }
+
+        .padding-right-15 {
+            padding-right: 15px !important;
+        }
+
+        .form-group input, .form-group select {
+            border-radius: 5px;
+        }
+
+        .tab-pane table {
+            border-radius: 0px;
+        }
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+            .repair-output .form-group label {
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+            .repair-output .form-group div {
+                padding-top: 7px;
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+        .table-tr-background-color {
+            background-color: #f8ac59 !important;
+        }
+
+        #divRepairList .search {
+            margin-top: 3px !important;
+            margin-bottom: 3px !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-horizontal .control-label {
+                padding-top: 7px;
+                margin-bottom: 0;
+                text-align: right;
+            }
+        }
+
+        .file-outline {
+            padding: 4px 0 0 0;
+            margin-left: -5px !important;
+            z-index: 0;
+            height: 33px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        .RepairtBtn button {
+            margin: auto;
+        }
+
+        .fileupload {
+            border-style: ridge;
+            border-width: 1px;
+            border-color: aqua;
+            width: 100%;
+            height: 70px;
+        }
+
+            .fileupload label {
+                z-index: 1;
+                font-size: 35px;
+                font-weight: bold;
+                background-color: rgba(51, 122, 183, 0.23);
+                -webkit-text-stroke: 1px rgba(0, 0, 0, 0.49);
+                margin: 5px 0 5px 5px;
+                border: rgba(51, 122, 183, 0.23);
+                border-radius: 5px;
+            }
+
+        .imglist {
+            margin: 0px;
+            padding: 0px;
+            float: left;
+        }
+
+            .imglist div {
+                height: 60px;
+                min-width: 60px;
+                margin: 5px;
+                border: solid 1px #f8ac59;
+                float: left;
+                overflow: hidden;
+            }
+
+                .imglist div img {
+                    float: left;
+                    height: 100%;
+                    width: 60px;
+                    padding: 0;
+                    margin: 0;
+                    background-color: #f8ac59;
+                }
+
+                .imglist div span {
+                    width: 30px;
+                    height: 30px;
+                    -webkit-transform: rotate(-45deg);
+                    -moz-transform: rotate(-45deg);
+                    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+                    background-image: url(../../img/begad.png);
+                    background-size: 30px;
+                    display: block;
+                    position: relative;
+                    top: -15px;
+                    left: 45px;
+                }
+
+                    .imglist div span:hover {
+                        opacity: 0.5;
+                        cursor: pointer;
+                    }
+    </style>
+</head>
+<body class="color-cPage">
+    <div id="divRepairInfo" class="form-horizontal col-xs-12" style="margin-top:5px;">
+        <div class="panel panel-default no-padding">
+            <div class="panel-heading" style="padding:2px 10px;">
+                <div class="col-xs-1">
+                    <h3 class="">Fail Info</h3>
+                </div>
+                <button class="btn btn-primary" id="btnReset" style="margin:0px;">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+                <button class="btn btn-primary" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>
+            </div>
+            <div class="panel-body no-padding padding-top-5">
+                <div class="col-xs-3">
+                    <div class="col-xs-12" id="divRepairSN">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">SN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" id="divRepairSkuno">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">SKU:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" id="divRepairWO">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">WO:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" id="divRepairCount">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">Count:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" id="divMdsFlag">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">MDSFlag:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divRepairList" class="col-xs-9">
+                    <div class="panel panel-default">
+                        <div class="tab-pane">
+                            <ul class="nav nav-tabs repair-nav-tabs">
+                                <li class="active" style="padding-left:0px;margin-left:0px;">
+                                    <a href="#divFailCodeList" data-toggle="tab">
+                                        <h3>Fail Code List</h3>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#divRepairActionList" data-toggle="tab">
+                                        <h3>Repair Action List</h3>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#divSNKpList" data-toggle="tab">
+                                        <h3>SN Kp List</h3>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="divFailCodeList">
+                                <table id="tableFailCodeList" class="table table-bordered table-hover"></table>
+                            </div>
+                            <div class="tab-pane fade" id="divRepairActionList">
+                                <table id="tableActionList" class="table table-bordered table-hover"></table>
+                            </div>
+                            <div class="tab-pane fade" id="divSNKpList">
+                                <table id="tableSNKpList" class="table table-bordered table-hover"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divRepairAction" class="form-horizontal col-xs-12">
+        <div class="panel panel-default no-padding">
+            <div class="panel-heading" style="padding:2px 10px;">
+                <h3 class="">Repair Action</h3>
+            </div>
+            <div class="panel-body no-padding padding-top-5">
+                <div id="divRepairBase" class="col-xs-6">
+                    <div id="divFailCodeID" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">FailCodeID:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" disabled="disabled" />
+                        </div>
+                    </div>
+                    <div id="divFailCode" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">FailCode:</label>
+                        <div class="col-xs-8">
+                            <input id="uFailCode" type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divActionCode" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">ActionCode:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divActionCodeDesc" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">ActionCodeDesc:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divPCBASN" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">PCBASN:</label>
+                        <div class="col-xs-8">
+                            <select name="PCBASN" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div id="divProcess" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Process:</label>
+                        <div class="col-xs-8">
+                            <select name="Process" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div id="divKpNo" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">KpNo:</label>
+                        <div class="col-xs-8">
+                            <select name="KpNo" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div id="divLocation" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Location:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divCategory" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Category:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divRootCause" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">RootCause:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divRootCauseDesc" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">RepairComments:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divCompomentID" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">CompomentID:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div id="divReturnStation" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">ReturnStation:</label>
+                        <div class="col-xs-8">
+                            <select name="ReturnStation" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div id="divIsPCBA" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">IsPCBA:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divDefectclassification" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Defectclassification:</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" id="Defectclassification" AutoPostback="true">
+                                <option>NTF</option>
+                                <option>rGBA</option>
+                                <option>NULL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="divDefecttype" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Defecttype:</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" id="Defecttype" AutoPostback="true">
+                                <option>Component</option>
+                                <option>NDF</option>
+                                <option>Placement</option>
+                                <option>Solder</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div id="divUniquetestid" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Unique_test_id:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divTestcycletestloop" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Test_cycle_test_loop:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divTeststarttimestamp" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Test_start_timestamp:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control datepicker" data-date-format="yyyy-mm-dd hh:ii:ss" data-autopostback="False" data-sendchange="False" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divPartnumerrevision" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Part_numer_revision:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div id="divTeststep" class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label text-right">Test_step:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" value="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6" style="border-left:1px solid #ddd;padding-top:5px;">
+                    <div id="divOriginalCSN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OriginalCSN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divReplaceCSN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">ReplaceCSN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldTRSN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldTRSN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewTRSN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewTRSN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldKPNO" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldKPNO:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewKPNO" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewKPNO:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldDC" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldDC:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewDC" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewDC:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldLC" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldLC:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewLC" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewLC:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldMfrCode" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldMfrCode:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewMfrCode" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewMfrCode:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldMfrName" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldMfrName:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewMfrName" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewMfrName:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOldMPN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">OldMPN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divNewMPN" class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label text-right">NewMPN:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" value="" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="hr-line-solid"></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="fileupload">
+                            <div class="imglist">
+                            </div>
+                            <label class="img-bg btn btn-primary" for="ImageFileUpload">+</label>
+                            <input id="ImageFileUpload" type="file" class="hidden" accept=".png,.jpg,.jpeg,.bmp,.gif">
+                        </div>
+                    </div>
+                    <div id="divRepairButton" class="col-xs-6">
+                        <div class="form-group">
+                            <div class="col-xs-12 RepairtBtn">
+                                <button class="btn btn-primary" id="btnSaveReplace">
+                                    <i class="glyphicon glyphicon-save"></i> <lan set-lan="html:Reset">SaveReplace</lan>
+                                </button>
+                                <button class="btn btn-primary" id="btnClosedFlag">
+                                    <i class="glyphicon glyphicon-save"></i> <lan set-lan="html:Reset">Closed</lan>
+                                </button>
+                                <button class="btn btn-primary" id="btnSaveFinish">
+                                    <i class="glyphicon glyphicon-save"></i> <lan set-lan="html:Reset">SaveFinish</lan>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divRepariMsg" class="col-xs-12">
+        <div class="panel panel-default no-padding">
+            <div class="panel-heading" style="padding:2px 10px;">
+                <h3 class="">Message</h3>
+            </div>
+            <div class="panel-body no-padding" id="divMessage">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script>
+        var keypressEvent = jQuery.Event("keypress");           //模拟一个键盘事件
+        keypressEvent.keyCode = 13;                             //回車事件的keyCode=13
+        var EMessage = new MessageElements();                          //調用消息機制
+        var line_name = "Line1";                                 //當前工站所選線別,默認Line1
+        var station_name = "PCBA_REPAIR";  //當前工站名
+        var fail_station = "";
+        var GetSNFailInfo = function (sn) {
+            parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "GetSNFailInfo", { SN: sn }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#divRepairSkuno").find("input[type=text]").val(e.Data.SKUNO);
+                    $("#divRepairWO").find("input[type=text]").val(e.Data.WO);
+                    $("#divRepairCount").find("input[type=text]").val(e.Data.RepairedCount);
+                    $("#divMdsFlag").find("input[type=text]").val(e.Data.MDSFlag);
+                    if (e.Data.CodeList) {
+                        ShowTable("#tableFailCodeList", e.Data.CodeList)
+                    }
+                    if (e.Data.AcionList) {
+                        ShowTable("#tableActionList", e.Data.AcionList)
+                    }
+                    if (e.Data.KPList) {
+                        ShowTable("#tableSNKpList", e.Data.KPList)
+                    }
+                    EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                    //the number of repairs - 維修次數提示
+                    if (e.Data.RepairedCount >= 1) {
+                        layer.confirm("The product has been repaired " + e.Data.RepairedCount + "times！", { icon: 3, title: 'Warning：', btn: ["YES", "NO"] },
+                            function () {
+                                layer.closeAll("dialog");
+                            });
+                    }
+                    parent.client.CallFunction("MESStation.Stations.StationConfig.SelectInputConfig", "GetPcbaSNBySN", { SN: sn }, function (e) {
+                        if (e.Status == "Pass") {
+                            for (var i = 0; i < e.Data.length; i++) {
+                                $("#divPCBASN select").append($("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>"));
+                            }
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                    parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "GetAllKPPartno", { SN: sn }, function (e) {
+                        $("#divKpNo select").append("<option value=''>NULL</option>");
+                        if (e.Status == "Pass") {
+                            for (var i = 0; i < e.Data.length; i++) {
+                                $("#divKpNo select").append($("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>"));
+                            }
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                    parent.client.CallFunction("MESStation.Config.CProcessConfig", "GetAllProcess", { SN: sn }, function (e) {
+                        if (e.Status == "Pass") {
+                            for (var i = 0; i < e.Data.length; i++) {
+                                $("#divProcess select").append($("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>"));
+                            }
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                    parent.client.CallFunction("MESStation.Stations.StationConfig.SelectInputConfig", "GetReturnStation", { SN: sn }, function (e) {
+                        if (e.Status == "Pass") {
+                            for (var i = 0; i < e.Data.length; i++) {
+                                $("#divReturnStation select").append($("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>"));
+                            }
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+        var ShowTable = function (tableid, data) {
+            $(tableid).bootstrapTable("destroy");
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                columns.push(cell);
+            }
+            $(tableid).bootstrapTable({
+                data: data,
+                striped: true,
+                height: 150,
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                columns: columns,                   //是否显示行间隔色
+                fixedColumns: true,
+                fixedNumber: 1
+            });
+        }
+
+        var StationReset = function () {
+            $("#divRepairSkuno").find("input[type=text]").val("");
+            $("#divRepairWO").find("input[type=text]").val("");
+            $("#divRepairCount").find("input[type=text]").val("");
+            $("#divMdsFlag").find("input[type=text]").val("");
+            //$("#divFailCodeID").find("input[type=text]").val("");//LHJ新增的btnClosedFlag按鈕事件會用到
+            $("#uFailCode").val("");
+            $("#divActionCode").find("input[type=text]").val("");
+            $("#divActionCodeDesc").find("input[type=text]").val("");
+            $("#divPCBASN select").empty();
+            //$("#divPCBASN select").append($("<option value=''></option>"));
+            $("#divLocation").find("input[type=text]").val("");
+            $("#divCategory").find("input[type=text]").val("");
+            $("#divCompomentID").find("input[type=text]").val("");
+            $("#divIsPCBA").find("input[type=text]").val("");
+            $("#divRootCause").find("input[type=text]").val("");
+            $("#divRootCauseDesc").find("input[type=text]").val("");
+            $("#divKpNo select").empty();
+            //$("#divKpNo select").append($("<option value=''></option>"));
+            $("#divProcess select").empty();
+            //$("#divProcess select").append($("<option value=''></option>"));
+            $("#divOriginalCSN").find("input[type=text]").val("");
+            $("#divReplaceCSN").find("input[type=text]").val("");
+            $("#divOldTRSN").find("input[type=text]").val("");
+            $("#divNewTRSN").find("input[type=text]").val("");
+            $("#divNewKPNO").find("input[type=text]").val("");
+            $("#divOldKPNO").find("input[type=text]").val("");
+            $("#divOldDC").find("input[type=text]").val("");
+            $("#divNewDC").find("input[type=text]").val("");
+            $("#divOldLC").find("input[type=text]").val("");
+            $("#divNewLC").find("input[type=text]").val("");
+            $("#divOldMfrCode").find("input[type=text]").val("");
+            $("#divNewMfrCode").find("input[type=text]").val("");
+            $("#divOldMfrName").find("input[type=text]").val("");
+            $("#divNewMfrName").find("input[type=text]").val("");
+            $("#divOldMPN").find("input[type=text]").val("");
+            $("#divNewMPN").find("input[type=text]").val("");
+            $("#divReturnStation select").empty();
+
+            //$("#divDefectclassification").find("input[type=text]").val("");
+
+            $("#divUniquetestid").find("input[type=text]").val("");
+            $("#divTestcycletestloop").find("input[type=text]").val("");
+            $("#divTeststarttimestamp").find("input[type=text]").val("");
+            $("#divPartnumerrevision").find("input[type=text]").val("");
+            $("#divTeststep").find("input[type=text]").val("");
+            //$("#divRepaircomments").find("input[type=text]").val(""); remove
+
+            //$("#divReturnStation select").append($("<option value=''></option>"));
+            $("#tableFailCodeList").bootstrapTable("destroy");
+            $("#tableActionList").bootstrapTable("destroy");
+            $("#tableSNKpList").bootstrapTable("destroy");
+            $(".imglist").empty();
+        }
+
+        var CheckExistsESS = function (repairSN, failStation) {
+            if ($("#divIsPCBA").find("input[type=text]").val() != "") {
+                //檢查ESS工站提示:在ESS工站之後如有更換KP零件,需要返回BFT工站開始測試
+                parent.client.CallFunction("MESStation.Config.RepairKPReplace", "CheckExistsESS", { RepairSN: repairSN, STATION: failStation }, function (e) {
+                    if (e.Status == "Pass") {
+                        var action_code = $("#divActionCode").find("input[type=text]").val();
+                        action_code = action_code.toUpperCase();
+                        var sn = $("#divRepairSN").find("input[type=text]").val();
+                        for (var a = 0; a < e.Data.length; a++) {
+                            if (e.Data[a].SEQ_REPAIR > e.Data[a].SEQ_ESS && action_code == "A12") {
+                                EMessage.Default("SN:" + sn + " Station after ESS:" + fail_station + "Have KP are replaced, please return to BFT station for test!", 3, $("#divRepariMsg"));
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        var GetOldTRSNInfo = function (tr_sn) {
+            parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "GetTRSNInfo", { TR_SN: tr_sn, Type: "Old" }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#divOldTRSN").find("input[type=text]").val(e.Data[0].TR_SN);
+                    $("#divOldKPNO").find("input[type=text]").val(e.Data[0].CUST_KP_NO);
+                    $("#divOldDC").find("input[type=text]").val(e.Data[0].DATE_CODE);
+                    $("#divOldLC").find("input[type=text]").val(e.Data[0].LOT_CODE);
+                    $("#divOldMfrCode").find("input[type=text]").val(e.Data[0].MFR_CODE);
+                    $("#divOldMfrName").find("input[type=text]").val(e.Data[0].MFR_NAME);
+                    $("#divOldMPN").find("input[type=text]").val(e.Data[0].MFR_KP_NO);
+                    $("#divRootCause").find("input[type=text]").val("").focus();
+                    EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                    var action_code = $("#divActionCode").find("input[type=text]").val().toUpperCase();
+                    if (action_code == "A12") {
+                        $("#divNewTRSN").find("input[type=text]").val("").focus();
+                    }
+                } else {
+                    $("#divOldTRSN").find("input[type=text]").val("");
+                    $("#divOldKPNO").find("input[type=text]").val("");
+                    $("#divOldDC").find("input[type=text]").val("");
+                    $("#divOldLC").find("input[type=text]").val("");
+                    $("#divOldMfrCode").find("input[type=text]").val("");
+                    $("#divOldMfrName").find("input[type=text]").val("");
+                    $("#divOldMPN").find("input[type=text]").val("");
+                    EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+
+        var NewImageView = function (filename) {
+            layer.load(2, { shade: [0.2, '#393D49'] });
+            parent.client.CallFunction("MESStation.FileUpdate.FileUpload", "FileDownLoadByNameUseType",
+                {
+                    Name: filename,
+                    UseType: "RepAttr"
+                }, function (e) {
+                    layer.closeAll('loading');
+                    if (e.Status == "Pass") {
+                        var dv = $('<div class="dz-image-preview"></div>');
+                        var im = $('<img src="../../' + e.Data.replace('\\', '/') + '" />');
+                        var sp = $('<span data-FileName="' + filename + '"></span>');
+                        dv.append(im);
+                        dv.append(sp);
+                        $(".imglist").append(dv);
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 1500
+                        }, function () { });
+                    }
+                });
+        };
+
+        $(document).ready(function () {
+            line_name = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line_name) {
+                line_name = "Line1";
+            }
+            $("#btnResetLine").on("click", function (e) {
+                line_name = "Line1";
+                localStorage.setItem($.MES.CK_LINE_NAME, "");
+                var line = localStorage.getItem($.MES.CK_LINE_NAME);
+                self.parent.Loading(false);
+                var htmlstr = "<select onchange=\"localStorage.setItem($.MES.CK_LINE_NAME,$(this).val());\"><option>Line1</option>";
+                var linelist = JSON.parse(localStorage.getItem($.MES.CK_LINE_LIST));
+                for (var i = 0; i < linelist.length; i++) {
+                    htmlstr += "<option>" + linelist[i].LINE_NAME + "</option>";
+                }
+                htmlstr += "</select>";
+                swal.Data = this;
+                swal({
+                    title: "Select Station Line",
+                    text: htmlstr,
+                    html: true,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            line = localStorage.getItem($.MES.CK_LINE_NAME);
+                            if (line == undefined || line == null || line == "") {
+                                line = "Line1";
+                                localStorage.setItem($.MES.CK_LINE_NAME, line);
+                            }
+                            swal.Data.Line = line;
+                        }
+                        else {
+                            localStorage.setItem($.MES.CK_LINE_NAME, "");
+                        }
+                        swal.close();
+                        if (swal.Data.BeforeInit != undefined) {
+                            swal.Data.BeforeInit();
+                        }
+                        swal.Data.Init();
+                    });
+            });
+            $("#divRepairSN").find("input[type=text]").select().focus();
+            $("#divRepairSN").find("input[type=text]").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    StationReset();
+                    var sn = $("#divRepairSN").find("input[type=text]").val();
+                    if (sn.startsWith("WAX") || sn.startsWith("WCL") || sn.startsWith("2102")) {
+                        layer.confirm("Please set up the CPU Board before you set up the battery job！", { icon: 3, title: 'Warning：', btn: ["YES", "NO"] },
+                            function () {
+                                layer.closeAll("dialog");
+                                GetSNFailInfo(sn);
+                            });
+                    }
+                    else {
+                        GetSNFailInfo(sn);
+                    }
+                }
+            });
+            $("#tableFailCodeList").on("click-row.bs.table", function (e, row, ele) {
+                //Assign a value to uFailCode and simulate entering a FailCodeID input - 給uFailCode賦值，并模擬輸入FailCodeID輸入
+                parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "FailCodeChecker", { FailCodeID: row.ID }, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#divFailCodeID").find("input[type=text]").val(row.ID);
+                        $("#uFailCode").val(row.FAIL_CODE);
+                        $("#divTeststarttimestamp").find("input[type=text]").val(row.FAIL_TIME);
+                        $('.table-tr-background-color').removeClass('table-tr-background-color');
+                        $(ele).addClass('table-tr-background-color');
+                        $("#divActionCode").find("input[type=text]").val("").select().focus();
+
+                        //Get info
+                        if (e.Data.length > 0) {
+                            $("#divUniquetestid").find("input[type=text]").val(e.Data[0].UNIQUE_TEST_ID);
+                            $("#divTestcycletestloop").find("input[type=text]").val(e.Data[0].TEST_CYCLE_TEST_LOOP);
+                            $("#divPartnumerrevision").find("input[type=text]").val(e.Data[0].PART_NUMBER_REVISION);
+                            $("#divTeststep").find("input[type=text]").val(e.Data[0].TEST_STEP);
+                            $("#divTeststarttimestamp").find("input[type=text]").val(e.Data[0].TEST_START_TIMESTAMP);
+                        }
+
+                        fail_station = row.FAIL_STATION;
+                        EMessage.Default("OK", 1, $("#divRepariMsg"));
+                    } else {
+                        EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            });
+            $("#divActionCode").find("input[type=text]").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    $("#divActionCodeDesc").find("input[type=text]").val("");
+
+                    $("#divLocation").find("input[type=text]").val("");
+                    $("#divCategory").find("input[type=text]").val("");
+                    $("#divCompomentID").find("input[type=text]").val("");
+                    $("#divIsPCBA").find("input[type=text]").val("");
+                    $("#divRootCause").find("input[type=text]").val("");
+                    $("#divRootCauseDesc").find("input[type=text]").val("");
+
+                    $("#divOriginalCSN").find("input[type=text]").val("");
+                    $("#divReplaceCSN").find("input[type=text]").val("");
+                    $("#divNewTRSN").find("input[type=text]").val("");
+                    $("#divNewTRSN").find("input[type=text]").attr("disabled", "disabled");
+                    $("#divNewKPNO").find("input[type=text]").val("");
+                    $("#divNewDC").find("input[type=text]").val("");
+                    $("#divNewLC").find("input[type=text]").val("");
+                    $("#divNewMfrCode").find("input[type=text]").val("");
+                    $("#divNewMfrName").find("input[type=text]").val("");
+                    $("#divNewMPN").find("input[type=text]").val("");
+
+                    $("#divNewTRSN").find("input[type=text]").val("");
+                    $("#divNewTRSN").find("input[type=text]").attr("disabled", "disabled");
+                    $("#divNewKPNO").find("input[type=text]").val("");
+                    $("#divNewDC").find("input[type=text]").val("");
+                    $("#divNewLC").find("input[type=text]").val("");
+                    $("#divNewMfrCode").find("input[type=text]").val("");
+                    $("#divNewMfrName").find("input[type=text]").val("");
+                    $("#divNewMPN").find("input[type=text]").val("");
+
+                    $("#divOldTRSN").find("input[type=text]").val("");
+                    $("#divOldKPNO").find("input[type=text]").val("");
+                    $("#divOldDC").find("input[type=text]").val("");
+                    $("#divOldLC").find("input[type=text]").val("");
+                    $("#divOldMfrCode").find("input[type=text]").val("");
+                    $("#divOldMfrName").find("input[type=text]").val("");
+                    $("#divOldMPN").find("input[type=text]").val("");
+                    //repair station DISC-QMS
+                    $("#divDefectclassification").find("input[type=text]").val("");
+
+
+
+
+                    //$("#divRepaircomments").find("input[type=text]").val(""); remove
+
+                    var action_code = $("#divActionCode").find("input[type=text]").val();
+                    parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "ActionCodeChecker", { ActionCode: action_code }, function (e) {
+                        if (e.Status == "Pass") {
+                            $("#divActionCodeDesc").find("input[type=text]").val(e.Data);
+                            $("#divPCBASN select").focus();
+                            EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                        } else {
+                            EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                }
+            });
+            $("#divRootCause").find("input[type=text]").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    var action_code = $("#divActionCode").find("input[type=text]").val();
+                    var root_cause = $("#divRootCause").find("input[type=text]").val();
+                    var repalce_csn = $("#divReplaceCSN").find("input[type=text]").val();
+                    var tr_sn = $("#divNewTRSN").find("input[type=text]").val();
+                    parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "RootCauseDescLoader",
+                        { ActionCode: action_code, RootCause: root_cause, ReplaceCSN: repalce_csn, TRSN: tr_sn },
+                        function (e) {
+                            if (e.Status == "Pass") {
+                                $("#divRootCauseDesc").find("input[type=text]").val(e.Data);
+                                $("#divCompomentID").find("input[type=text]").select().focus();
+                                EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                            } else {
+                                EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                }
+            });
+            $("#divPCBASN select").change(function (e) {
+                var pcba_sn = $("#divPCBASN select").val();
+                if (pcba_sn != "" && pcba_sn != undefined) {
+                    $("#divKpNo select").val("");
+                    $("#divLocation").find("input[type=text]").val("").select().focus();
+                    $("#divIsPCBA").find("input[type=text]").val("YES");
+                }
+                else {
+                    $("#divIsPCBA").find("input[type=text]").val("NO");
+                }
+            });
+            $("#divKpNo select").change(function (e) {
+                var repair_sn = $("#divRepairSN").find("input[type=text]").val();
+                var repair_location = $("#divLocation").find("input[type=text]").val();
+                var kp_no = $("#divKpNo select").val();
+                var action_code = $("#divActionCode").find("input[type=text]").val().toUpperCase();
+                var pcba_sn = $("#divPCBASN select").val();
+
+                var show_layer = false;
+                if (action_code == "A12") {
+                    if (kp_no) {
+                        $("#divNewTRSN").find("input[type=text]").val("");
+                        $("#divNewTRSN").find("input[type=text]").attr("disabled", "disabled");
+                        $("#divNewKPNO").find("input[type=text]").val("");
+                        $("#divNewDC").find("input[type=text]").val("");
+                        $("#divNewLC").find("input[type=text]").val("");
+                        $("#divNewMfrCode").find("input[type=text]").val("");
+                        $("#divNewMfrName").find("input[type=text]").val("");
+                        $("#divNewMPN").find("input[type=text]").val("");
+
+                        $("#divOldTRSN").find("input[type=text]").val("");
+                        $("#divOldKPNO").find("input[type=text]").val("");
+                        $("#divOldDC").find("input[type=text]").val("");
+                        $("#divOldLC").find("input[type=text]").val("");
+                        $("#divOldMfrCode").find("input[type=text]").val("");
+                        $("#divOldMfrName").find("input[type=text]").val("");
+                        $("#divOldMPN").find("input[type=text]").val("");
+
+                        $("#divLocation").find("input[type=text]").val("");
+                        $("#divPCBASN select").val("");
+                        $("#divIsPCBA").find("input[type=text]").val("NO");
+                        layer.open({
+                            id: repair_sn,
+                            type: 2,
+                            title: ['Kp Replace', 'background-color: #007bff;font-size: 1.75rem;color:White;'],
+                            skin: 'demo-class',
+                            closeBtn: 1,
+                            shadeClose: false,
+                            shade: 0.5,
+                            maxmin: true, //开启最大化最小化按钮
+                            area: ['80%', '90%'],
+                            content: ['Repair_KpReplace.html'],
+                            success: function (layero, index) {
+                                //層彈出后的成功回調方法
+                                layer.getChildFrame("body", index).contents().find("#uRepairSN").val(repair_sn);
+                                layer.getChildFrame("body", index).contents().find("#uFailStation").val(fail_station);
+                                layer.getChildFrame("body", index).contents().find("#uRepairSN").focus();
+                            },
+                            cancel: function (index) {
+                                //取消和關閉按鈕觸發的回調方法
+                            },
+                            end: function (index) {
+                                //層銷毀后觸發的回調方法:只有當layer層填入值點擊Finish銷毀層才會走進去,否則什麼都不做
+                                if ($("#divIsPCBA").find("input[type=text]").val().length > 0) {
+                                    $("#RootCause").find("input[type=text]").focus();
+                                    CheckExistsESS(repair_sn, fail_station);//檢查ESS工站提示:在ESS工站之後如有更換KP零件,需要返回BFT工站開始測試(一個提示,待定?)
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $("#divPCBASN select").focus();
+                        $("#divNewTRSN").find("input[type=text]").removeAttr("disabled");
+                    }
+                }
+                else {
+                    $("#divKpNo select").val("");
+                }
+            });
+            $("#divLocation").find("input[type=text]").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    var repair_sn = $("#divRepairSN").find("input[type=text]").val();
+                    var repair_location = $("#divLocation").find("input[type=text]").val();
+                    var kp_no = $("#divKpNo select").val();
+                    var action_code = $("#divActionCode").find("input[type=text]").val().toUpperCase();
+                    var pcba_sn = $("#divPCBASN select").val();
+                    if (pcba_sn == undefined || pcba_sn === "") {
+                        pcba_sn = repair_sn;
+                    }
+                    if (action_code == "A12" || action_code == "A13") {
+                        if (kp_no) {
+                            $("#divLocation").find("input[type=text]").select().focus();
+                            EMessage.Default("Press enter Location bring out the material number information，Please select for KpNo", 2, $("#divRepariMsg"));
+                            layer.msg("Press enter Location bring out the material number information，Please select for KpNo", {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                            return;
+                        }
+                        else {
+                            $("#divNewTRSN").find("input[type=text]").removeAttr("disabled");
+                        }
+                    }
+                    parent.client.CallFunction("MESStation.Config.RepairKPReplace", "CheckAllpartBySNLocation", { RepairSN: pcba_sn, Location: repair_location }, function (e) {
+                        if (e.Status == "Pass") {
+                            //$("#divKpNo select").find("option[selected]").val(e.Data[0].KP_NO);
+                            GetOldTRSNInfo(e.Data[0].TR_SN);
+                        } else {
+                            $("#divOldTRSN").find("input[type=text]").val("");
+                            $("#divOldKPNO").find("input[type=text]").val("");
+                            $("#divOldDC").find("input[type=text]").val("");
+                            $("#divOldLC").find("input[type=text]").val("");
+                            $("#divOldMfrCode").find("input[type=text]").val("");
+                            $("#divOldMfrName").find("input[type=text]").val("");
+                            $("#divOldMPN").find("input[type=text]").val("");
+                            EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                            $("#divLocation").find("input[type=text]").select().focus();
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                }
+            });
+            $("#divNewTRSN").find("input[type=text]").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    var tr_sn = $("#divNewTRSN").find("input[type=text]").val();
+                    parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "GetTRSNInfo", { TR_SN: tr_sn, Type: "New" }, function (e) {
+                        if (e.Status == "Pass") {
+                            $("#divNewKPNO").find("input[type=text]").val(e.Data[0].CUST_KP_NO);
+                            $("#divNewDC").find("input[type=text]").val(e.Data[0].DATE_CODE);
+                            $("#divNewLC").find("input[type=text]").val(e.Data[0].LOT_CODE);
+                            $("#divNewMfrCode").find("input[type=text]").val(e.Data[0].MFR_CODE);
+                            $("#divNewMfrName").find("input[type=text]").val(e.Data[0].MFR_NAME);
+                            $("#divNewMPN").find("input[type=text]").val(e.Data[0].MFR_KP_NO);
+                            EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                        } else {
+                            $("#divNewKPNO").find("input[type=text]").val("");
+                            $("#divNewDC").find("input[type=text]").val("");
+                            $("#divNewLC").find("input[type=text]").val("");
+                            $("#divNewMfrCode").find("input[type=text]").val("");
+                            $("#divNewMfrName").find("input[type=text]").val("");
+                            $("#divNewMPN").find("input[type=text]").val("");
+                            $("#divNewTRSN").find("input[type=text]").select().focus();
+                            EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                }
+            });
+            $("#btnReset").click(function (e) {
+                StationReset();
+            });
+            $("#btnSaveReplace").click(function (e) {
+                var repair_sn = $("#divRepairSN").find("input[type=text]").val();
+                var fail_code_id = $("#divFailCodeID").find("input[type=text]").val();
+                var fail_code = $("#uFailCode").val();
+                var action_code = $("#divActionCode").find("input[type=text]").val();
+                var pcba_sn = $("#divPCBASN select").val();
+                if (pcba_sn == undefined || pcba_sn === "") {
+                    pcba_sn = repair_sn;
+                }
+                var process = $("#divProcess select").val();
+                var kp_no = $("#divKpNo select").val();
+                var repair_location = $("#divLocation").find("input[type=text]").val();
+                var category = $("#divCategory").find("input[type = text]").val();
+                var root_cause = $("#divRootCause").find("input[type=text]").val();
+                var compoment_id = $("#divCompomentID").find("input[type=text]").val();
+                var return_station = $("#divReturnStation select").val();
+                var is_pcba = $("#divIsPCBA").find("input[type=text]").val();
+                var original_csn = $("#divOriginalCSN").find("input[type=text]").val();
+                var replace_csn = $("#divReplaceCSN").find("input[type=text]").val();
+                var old_tr_sn = $("#divOldTRSN").find("input[type=text]").val();
+                var new_tr_sn = $("#divNewTRSN").find("input[type=text]").val();
+
+                var old_kp_no = $("#divOldKPNO").find("input[type=text]").val();
+                var oldMfrCode = $("#divOldMfrCode").find("input[type=text]").val();
+                var oldMfrName = $("#divOldMfrName").find("input[type=text]").val();
+                var oldDateCode = $("#divOldDC").find("input[type=text]").val();
+                var oldLotCode = $("#divOldLC").find("input[type=text]").val();
+                var oldMfrkpno = $("#divOldMPN").find("input[type=text]").val();
+
+                var new_kp_no = $("#divNewKPNO").find("input[type=text]").val();
+                var mfrCode = $("#divNewMfrCode").find("input[type=text]").val();
+                var mfrName = $("#divNewMfrName").find("input[type=text]").val();
+                var dateCode = $("#divNewDC").find("input[type=text]").val();
+                var lotCode = $("#divNewLC").find("input[type=text]").val();
+                var newMfrkpno = $("#divNewMPN").find("input[type=text]").val();
+
+                var uniquetestid = $("#divUniquetestid").find("input[type=text]").val();
+                var testcycletestloop = $("#divTestcycletestloop").find("input[type=text]").val();
+                var teststarttimestamp = $("#divTeststarttimestamp").find("input[type=text]").val();
+                var teststep = $("#divTeststep").find("input[type=text]").val();
+                var solution = $("#divDefectclassification select").val();
+                var section_id = $("#divDefecttype select").val();
+                var partnumerrevision = $("#divPartnumerrevision").find("input[type=text]").val();
+                //var description = $("#divRepaircomments").find("input[type=text]").val(); remove
+                var Attchments = [];
+                $('.imglist span').each((e, i) => { Attchments.push(i.dataset.filename) });
+
+                parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "SaveReplace",
+                    {
+                        RepairSN: repair_sn,
+                        FailCodeId: fail_code_id,
+                        FailCode: fail_code,
+                        ActionCode: action_code,
+                        PCBASN: pcba_sn,
+                        Process: process,
+                        KPNO: kp_no,
+                        Location: repair_location,
+                        Category: category,
+                        RootCause: root_cause,
+                        CompomentID: compoment_id,
+                        ReturnStation: return_station,
+                        IsPCBA: is_pcba,
+                        OriginalCSN: original_csn,
+                        ReplaceCSN: replace_csn,
+                        OldTRSN: old_tr_sn,
+                        NewTRSN: new_tr_sn,
+                        OldKPNO: old_kp_no,
+                        OldMfrCode: oldMfrCode,
+                        OldMfrName: oldMfrName,
+                        OldDateCode: oldDateCode,
+                        OldLotCode: oldLotCode,
+                        OldMfrkpno: oldMfrkpno,
+                        NewKPNO: new_kp_no,
+                        NewMfrCode: mfrCode,
+                        NewMfrName: mfrName,
+                        NewDateCode: dateCode,
+                        NewLotCode: lotCode,
+                        NewMfrkpno: newMfrkpno,
+                        Solution: solution,
+                        Section_id: section_id,
+                        Uniquetestid: uniquetestid,
+                        Testcycletestloop: testcycletestloop,
+                        Teststarttimestamp: teststarttimestamp,
+                        Teststep: teststep,
+                        Partnumerrevision: partnumerrevision,
+                        Attchment: Attchments
+                    }, function (e) {
+                        if (e.Status == "Pass") {
+                            StationReset();
+                            layer.msg("OK", {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Successful',
+                                btn: ['OK']
+                            }, function () { });
+                            EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                        } else {
+                            EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+            $("#btnClosedFlag").click(function (e) {
+                var repair_sn = $("#divRepairSN").find("input[type=text]").val();
+                fail_code_id = $("#divFailCodeID").find("input[type=text]").val();
+                line_name = localStorage.getItem($.MES.CK_LINE_NAME);
+                parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "ClosedFlag",
+                    {
+                        RepairSN: repair_sn,
+                        FailCodeId: fail_code_id
+                    }, function (e) {
+                        if (e.Status == "Pass") {
+                            StationReset();
+                            layer.msg("OK", {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Successful',
+                                btn: ['OK']
+                            }, function () { });
+                            EMessage.Default(e.Message, 1, $("#divRepariMsg"));
+                        } else {
+                            EMessage.Default(e.Message, 2, $("#divRepariMsg"));
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+            $("#btnSaveFinish").click(function (e) {
+                var repair_sn = $("#divRepairSN").find("input[type=text]").val();
+                line_name = localStorage.getItem($.MES.CK_LINE_NAME);
+                parent.client.CallFunction("MESStation.Config.JNP.JNPRepair", "SaveFinish",
+                    {
+                        RepairSN: repair_sn,
+                        StationName: station_name,
+                        LineName: line_name
+                    }, function (d) {
+                        if (d.FunctionType == UIInput.Normal) {
+                            var layers = new StationLayers({
+                                ServerMessageID: d.ServerMessageID,
+                                ClientID: d.ClientID,
+                                Title: d.Data.Tittle,
+                                IInput: d.Data,
+                                OutInputs: d.Data.OutInputs,
+                                UIArea: d.Data.UIArea,
+                                Station: "STATION",
+                                Client: parent.client,
+                                InputType: d.Data.Type,
+                                MustConfirm: d.Data.MustConfirm
+                            });
+                            layers.Show();
+                            return;
+                        }
+                        if (d.Status == "Pass") {
+                            layer.msg("OK", {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Successful',
+                                btn: ['OK']
+                            }, function () { });
+                            EMessage.Default(d.Message, 1, $("#divRepariMsg"));
+                        } else {
+                            $("#divNewTRSN").find("input[type=text]").select().focus();
+                            EMessage.Default(d.Message, 2, $("#divRepariMsg"));
+                            layer.msg(d.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+
+            $('#ImageFileUpload').change(function (e) {
+                var w = new Worker("../../Scripts/Setting/BigFileReader.js");
+                w.onmessage = function (e) {
+                    layer.closeAll("loading");
+                    if (e.data.Status == "Pass") {
+                        Bas64File = e.data.Bas64File;
+                        layer.load(2, { shade: [0.2, '#393D49'] });
+                        var savefilename = new Date().format('yyyyMMddhhmmssS') + "_" + Math.ceil(Math.random() * 10000).toString().padStart(4, 0) + "_REPAIR_ATTR";
+                        parent.client.CallFunction("MESStation.FileUpdate.FileUpload", "UpLoadFile",
+                            {
+                                Name: savefilename,
+                                FileName: filename,
+                                MD5: "",
+                                UseType: "RepAttr",
+                                Bas64File: Bas64File
+                            }, function (e) {
+                                layer.closeAll('loading');
+                                if (e.Status == "Pass") {
+                                    NewImageView(savefilename);
+                                    $("#ImageFileUpload").val("");
+                                } else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 3000
+                                    }, function () {
+                                    });
+                                }
+                            });
+                    } else {
+                        $('#ImageFileUpload').val("");
+                        layer.msg(e.data.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                };
+                w.onerror = function () {
+                    $('#ImageFileUpload').val("");
+                    layer.msg("Worker Error!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+                layer.load(3);
+                filename = $(this).val();
+                filename = filename.substring(filename.lastIndexOf("\\") + 1);
+                UseType = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+                w.postMessage({ file: e.target.files[0], filename: filename, UseType: UseType, ExtName: ".PNG,.JPG,.JPEG,.BMP,.GIF" });
+            });
+
+            $('.imglist').on('click', 'span', function (e) {
+                var dv = $(this).parent();
+                parent.client.CallFunction("MESStation.FileUpdate.FileUpload", "DeleteFilebyNameUseType",
+                    {
+                        NAME: this.dataset.filename,
+                        USETYPE: "RepAttr"
+                    }, function (e) {
+                        layer.closeAll('loading');
+                        if (e.Status == "Pass") {
+                            dv.remove();
+                            layer.msg("Success!", {
+                                icon: 1,
+                                time: 3000
+                            }, function () {
+                                $("#ImageFileUpload").val("");
+                            });
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () { });
+                        }
+                    });
+            });
+            $('.imglist').on('click', 'img', function (e) {
+                layer.open({ title: false, btn: false, area:['50%','80%'], content: "<img width='100%' height='auto' src='" + this.currentSrc + "' />" });
+            });
+        })
+    </script>
+</body>
+</html>

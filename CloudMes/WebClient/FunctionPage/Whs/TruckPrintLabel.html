@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <table id="TableNeedPrintList"></table>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/echarts.min.js"></script>-->
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script>
+        var client = self.parent.Client;
+        var loadIndex = 0;
+        var TONO = "";
+        var printWS = {
+            ClientID: "",
+            websocket: null,
+            Prints: function (Data, CallBack) {
+                var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                var data = { ClientID: printWS.ClientID, MessageID: MessageID, TCode: "PRINTS", Data: Data };
+                if (printWS.websocket.readyState == 1) {
+                    if (CallBack != null && CallBack != undefined) {
+                        $.subscribe(MessageID, function (e, d) {
+                            CallBack(d);
+                        });
+                    }
+                    var jsonStr = JSON.stringify(data);
+                    if ($.MES.DEBUG) {
+                        console.log("Send>_" + jsonStr);
+                    }
+                    printWS.websocket.send(jsonStr);
+                } else {
+                    console.log("Error>_ WebSocket not ready,State:" + printWS.websocket.readyState);
+                }
+            }
+        };
+
+        var PalletListTable = function (data) {
+            $('#TableNeedPrintList').bootstrapTable('destroy');
+            $('#TableNeedPrintList').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: false,
+                showRefresh: true,
+                columns: [
+                    {
+                        field: 'SerialNumber',
+                        sortable: true,
+                        align: "center",
+                        title: 'SEQ',
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        }
+                    }, {
+                        field: 'POLINE',
+                        title: 'PO Line',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'SALESORDER',
+                        title: 'SO#',
+                        align: "center"
+                    }, {
+                        field: 'SOLINE',
+                        title: 'SO Line',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'SKUNO',
+                        title: 'SKU#',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'GROUPID',
+                        title: 'Group ID',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'PALLETID',
+                        title: 'Physical Pallet#',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'XX',
+                        title: 'Operate',
+                        events: {
+                            'click .labelPrint': function (e, value, row, index) {
+                                loadIndex = layer.load(1, {
+                                    shade: [0.5, 'gray'],
+                                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                        + "<span> Print Physical Pallet [" + row.NEWPALLETID + "] Marster Label,Please wait ...</span></div></div>"
+                                });
+
+                                if (printWS.websocket.readyState != 1) {
+                                    layer.msg("Please open MESHelper!", {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () { });
+                                    return;
+                                }
+
+                                client.CallFunction("MESJuniper.Api.TruckLoadAPI", "PrintJuniperMasterPalletLabel", { NEWPALLETNO: row.PALLETID }, function (data) {
+                                    if (data.FunctionType == UIInput.Normal) {
+                                        var layers = new StationLayers({
+                                            ServerMessageID: data.ServerMessageID,
+                                            ClientID: data.ClientID,
+                                            Title: data.Data.Tittle,
+                                            IInput: data.Data,
+                                            OutInputs: data.Data.OutInputs,
+                                            UIArea: data.Data.UIArea,
+                                            Station: "STATION",
+                                            Client: client,
+                                            InputType: data.Data.Type,
+                                            MustConfirm: data.Data.MustConfirm
+                                        });
+                                        layers.Show();
+                                        return;
+                                    }
+
+                                    layer.close(loadIndex);
+                                    if (data.Status == "Pass") {
+                                        try {
+                                            for (var key in data.Data.LabelPrints) {
+                                                printWS.Prints(data.Data.LabelPrints[key], function (e) {
+                                                    if (e.Status == "PASS") {
+                                                        layer.msg(e, {
+                                                            icon: 1,
+                                                            time: 3000,
+                                                            title: 'Success'
+                                                        }, function () { });
+                                                    } else {
+                                                        layer.msg(e, {
+                                                            icon: 2,
+                                                            time: 6000,
+                                                            title: 'Error',
+                                                            btn: ['OK']
+                                                        }, function () { });
+                                                    }
+                                                });
+                                            }
+                                        } catch (e) {
+                                            layer.msg(e, {
+                                                icon: 2,
+                                                time: 6000,
+                                                title: 'ERROR',
+                                                btn: ['OK']
+                                            }, function () { });
+                                        }
+                                    }
+                                    else {
+                                        layer.msg(data.Message, {
+                                            icon: 2,
+                                            time: 6000,
+                                            title: 'ERROR',
+                                            btn: ['OK']
+                                        }, function () { });
+                                    }
+                                }
+                                );
+                            }
+                        },
+                        formatter: function (value, row, index) {
+                            return ['<button type="button" class="labelPrint btn btn-primary small" style="margin-right:15px;">Print</button>'].join('');
+                        },
+                        align: "center",
+                        sortable: true
+                    }
+                ]
+            });
+        };
+
+        var InitData = function () {
+            loadIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span> Executing,Please wait ...</span></div></div>"
+            });
+            client.CallFunction("MESJuniper.Api.TruckLoadAPI", "GetTOPhysicalPalletListLoading", { TONO }, function (e) {
+                if (e.Status == "Pass") {
+                    PalletListTable(e.Data);
+                    layer.close(loadIndex);
+                } else {
+                    layer.close(loadIndex);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        };
+
+        var initPrinter = function () {
+            if (printWS.websocket == null) {
+                if (printWS.ClientID == "") {
+                    printWS.ClientID = "CID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                }
+                printWS.websocket = new WebSocket("ws://localhost:" + $.MES.PRINTER_PORT + "/MESHelper");
+                printWS.websocket.onmessage = function (evt) {
+                    var msg = $.parseJSON(evt.data);
+                    if (msg.Status == "Fail") {
+                        layer.msg(msg.Message, {
+                            icon: 2,
+                            time: 10000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { layer.close(loadIndex); });
+                    }
+                    else {
+                        layer.msg("Print successful", {
+                            icon: 1,
+                            time: 3000
+                        }, function () { layer.close(loadIndex); });
+                    }
+
+                };
+                printWS.websocket.onclose = function (e) {
+                    layer.msg("MESHelper close,please open MESHelper and reopen this page", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        try {
+                            layer.close(loadIndex);
+                        } catch (e) {
+
+                        }
+                    });
+                };
+                printWS.websocket.onerror = function (e) {
+                    layer.msg("Connet to MESHelper error,please open MESHelper and reopen this page", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        layer.close(loadIndex);
+                    });
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            TONO = $.MES.getQueryString("TONO");
+            InitData();
+            initPrinter();
+        });
+    </script>
+</body>
+</html>

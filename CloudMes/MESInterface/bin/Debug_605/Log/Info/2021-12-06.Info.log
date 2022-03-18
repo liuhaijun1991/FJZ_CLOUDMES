@@ -1,0 +1,8 @@
+
+
+
+ RecordTime:2021-12-06 18:21:31,475 
+Type:  INFO  
+Class:MES_DCN.Juniper.AnalyseSAPFile.Download  
+MSG:Download 20211207_083004_FJZ_ITEMMASTER.xml fail.Error message:SFTP??????,??:??SFTP??,??:Reached authentication attempt limit for method (password). 
+

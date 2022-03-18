@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FA7C2F99-A446-47D3-9344-FAA3FA8CC40C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MESPubLab</RootNamespace>
+    <AssemblyName>MESPubLab</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=26.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.26.1.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco">
+      <HintPath>..\MESStation\DLL\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils">
+      <HintPath>..\MESStation\DLL\sapnco_utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlSugar, Version=4.9.9.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlSugar.4.9.9.11\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ExcelHelp.cs" />
+    <Compile Include="Common\FTPHelp.cs" />
+    <Compile Include="Common\HttpHelp.cs" />
+    <Compile Include="Common\MesAttribute.cs" />
+    <Compile Include="Common\MesLog.cs" />
+    <Compile Include="Common\MesMail.cs" />
+    <Compile Include="Common\ObjectDataHelper.cs" />
+    <Compile Include="Common\PublicHelp.cs" />
+    <Compile Include="Common\SFTPHelp.cs" />
+    <Compile Include="MesBase\MesFunctionRes.cs" />
+    <Compile Include="MesClient\TestFailInfo.cs" />
+    <Compile Include="MesException\MesException.cs" />
+    <Compile Include="Json\JsonSave.cs" />
+    <Compile Include="MesBase\MesConst.cs" />
+    <Compile Include="MesClient\MESAPIClient.cs" />
+    <Compile Include="MesClient\StationObjDotNET.cs" />
+    <Compile Include="MESInterface\CRC\CrcObj.cs" />
+    <Compile Include="MESInterface\CRC\FoxCrc.cs" />
+    <Compile Include="MESInterface\Email.cs" />
+    <Compile Include="MESInterface\Email\FoxLHEmailWebService.cs" />
+    <Compile Include="MESInterface\FunctionBase.cs" />
+    <Compile Include="MESInterface\InterfacePublicValues.cs" />
+    <Compile Include="MESInterface\I_Crc.cs" />
+    <Compile Include="MESInterface\I_Email.cs" />
+    <Compile Include="MESInterface\I_SMS.cs" />
+    <Compile Include="MESInterface\SMS\FoxLHSMSWebService.cs" />
+    <Compile Include="MesPublic.cs" />
+    <Compile Include="MesReportCenter\DataSourceBase.cs" />
+    <Compile Include="MesReportCenter\ReportBase.cs" />
+    <Compile Include="MesMessage\MesMessage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MesMessage.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MESStation\ActionParameter.cs" />
+    <Compile Include="MESStation\APIInfo.cs" />
+    <Compile Include="MESStation\APIInputInfo.cs" />
+    <Compile Include="MESStation\Label\ConfigableLabelBase.cs" />
+    <Compile Include="MESStation\Label\I_LabelValue.cs" />
+    <Compile Include="MESStation\Label\LabelBase.cs" />
+    <Compile Include="MESStation\LogicObject\User.cs" />
+    <Compile Include="MESStation\MesAPIBase.cs" />
+    <Compile Include="MESStation\MESCallUIFunction.cs" />
+    <Compile Include="MESStation\MESPermission.cs" />
+    <Compile Include="MESStation\MESReturnView\Public\GetApiClassListReturncs.cs" />
+    <Compile Include="MESStation\MESReturnView\Public\GetApiFunctionsListReturn.cs" />
+    <Compile Include="MESStation\MESReturnView\Public\LoginReturn.cs" />
+    <Compile Include="MESStation\MESReturnView\Public\PrivilegeReturn.cs" />
+    <Compile Include="MESStation\MESReturnView\Station\CallStationReturn.cs" />
+    <Compile Include="MESStation\MESStationBase.cs" />
+    <Compile Include="MESStation\MESStationInput.cs" />
+    <Compile Include="MESStation\MESStationModel.cs" />
+    <Compile Include="MESStation\MESStationReturn.cs" />
+    <Compile Include="MESStation\SNMaker\SNmaker.cs" />
+    <Compile Include="MESStation\SNMaker\SNRulerConfig.cs" />
+    <Compile Include="MESStation\UIInputData.cs" />
+    <Compile Include="Multilingual.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordServiceLog.cs" />
+    <Compile Include="REGHelp.cs" />
+    <Compile Include="SAP_RFC\MesSapHelp.cs" />
+    <Compile Include="SAP_RFC\SAP_RFC_BASE.cs" />
+    <Compile Include="SAP_RFC\ZCMM_NSBG_0025.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0001.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0005.cs" />
+    <Compile Include="SAP_RFC\ZCMM_NSBG_0051.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0005NE.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0009.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0027.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0029.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0038.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0045.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0091.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0121.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0122.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0123.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0129.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0130.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0140.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0141.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0279.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0302.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0303.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0593.cs" />
+    <Compile Include="SAP_RFC\ZCSD_NSBG_0008.cs" />
+    <Compile Include="SAP_RFC\ZCSD_NSBG_0018.cs" />
+    <Compile Include="SAP_RFC\ZRFC_NSG_SD_0005B.cs" />
+    <Compile Include="SAP_RFC\ZRFC_NSG_SD_0007B.cs" />
+    <Compile Include="SAP_RFC\ZCPP_NSBG_0280.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSGT_0002.cs" />
+    <Compile Include="SAP_RFC\ZCMM_NSBG_0013.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSGT_0004.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0001B.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0001HW.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0003.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0003E.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0009.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0011.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0020.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0022.cs" />
+    <Compile Include="SAP_RFC\ZRFC_SFC_NSG_0023T.cs" />
+    <Compile Include="Web References\LotusNotesService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WriteLog.cs" />
+    <EmbeddedResource Include="MesMessage\MesMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MesMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Label.cd" />
+    <None Include="MESStation\ClassDiagram1.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Web References\LotusNotesService\LotusNotesService.wsdl" />
+    <None Include="Web References\LotusNotesService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MESDataObject\MESDataObject.csproj">
+      <Project>{af4761e2-01c9-4d1b-a3bc-4bd7d37bb365}</Project>
+      <Name>MESDataObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDBHelper\MESDBHelper.csproj">
+      <Project>{c8bdb8fc-44f6-4109-a779-34ee99903270}</Project>
+      <Name>MESDBHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\websocket-sharp\WebSocket-Sharp.csproj">
+      <Project>{B357BAC7-529E-4D81-A0D2-71041B19C8DE}</Project>
+      <Name>WebSocket-Sharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://10.120.246.110/lotusNotesService/LotusNotesService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\LotusNotesService\</RelPath>
+      <UpdateFromURL>http://10.120.246.110/lotusNotesService/LotusNotesService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>MESPubLab_LotusNotesService_LotusNotesService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\LotusNotesService\LotusNotesService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Multilingual_Tags.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WebLabel.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

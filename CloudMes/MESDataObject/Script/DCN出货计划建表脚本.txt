@@ -1,0 +1,455 @@
+-- Create table
+create table SFCRUNTIME.R_CUST_PO
+(
+  id           VARCHAR2(50) not null,
+  cust_po_no   VARCHAR2(50),
+  c_cust_id    VARCHAR2(50),
+  bill_to_code VARCHAR2(50),
+  status       VARCHAR2(50),
+  po_file_type VARCHAR2(50),
+  po_file_desc VARCHAR2(50),
+  po_file_id   VARCHAR2(50),
+  edit_date    DATE,
+  edit_emp     VARCHAR2(50)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_CUST_PO
+  add constraint PK_R_CUST_PO primary key (ID)
+  using index 
+  tablespace RMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_CUST_PO to TEST;
+
+create public synonym R_CUST_PO for sfcruntime.R_CUST_PO;
+
+-- Create table
+create table SFCRUNTIME.R_CUST_PO_DETAIL
+(
+  id               VARCHAR2(50) not null,
+  r_cust_po_id     VARCHAR2(50),
+  cust_po_no       VARCHAR2(50),
+  line_no          VARCHAR2(10),
+  cust_skuno       VARCHAR2(50),
+  skuno            VARCHAR2(50),
+  qty              NUMBER,
+  dn_qty           NUMBER,
+  shiped_qty       NUMBER,
+  enable_date_from DATE,
+  enable_date_to   DATE,
+  need_by_date     DATE,
+  po_file_type     VARCHAR2(50),
+  po_file_desc     VARCHAR2(50),
+  po_file_id       VARCHAR2(50),
+  status           VARCHAR2(10),
+  ext_key1         VARCHAR2(20),
+  ext_value1       VARCHAR2(50),
+  ext_key2         VARCHAR2(20),
+  ext_value2       VARCHAR2(50),
+  ext_key3         VARCHAR2(20),
+  ext_value3       VARCHAR2(50),
+  edit_date        DATE,
+  edit_emp         VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate indexes 
+create index KEY1_R_CUST_PO_DETAIL on SFCRUNTIME.R_CUST_PO_DETAIL (R_CUST_PO_ID)
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_CUST_PO_DETAIL
+  add constraint PK_R_CUST_PO_DETAIL primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_CUST_PO_DETAIL to TEST;
+
+create public synonym R_CUST_PO_DETAIL for sfcruntime.R_CUST_PO_DETAIL;
+
+-- Create table
+create table SFCRUNTIME.R_DN_CUST_PO
+(
+  id              VARCHAR2(50) not null,
+  cust_po_no      VARCHAR2(50),
+  cust_po_line_no VARCHAR2(10),
+  cust_skuno      VARCHAR2(50),
+  po_qty          NUMBER not null,
+  dn_no           VARCHAR2(50),
+  dn_line_no      VARCHAR2(50),
+  dn_skuno        VARCHAR2(50),
+  dn_qty          NUMBER,
+  ext_key1        VARCHAR2(20),
+  ext_value1      VARCHAR2(50),
+  ext_key2        VARCHAR2(20),
+  ext_value2      VARCHAR2(50),
+  edit_date       DATE,
+  edit_emp        VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_DN_CUST_PO
+  add constraint PK_R_DN_CUST_PO primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_DN_CUST_PO to TEST;
+
+create public synonym R_DN_CUST_PO for sfcruntime.R_DN_CUST_PO;
+
+-- Create table
+create table SFCRUNTIME.R_SO
+(
+  id               VARCHAR2(50) not null,
+  so_no            VARCHAR2(50),
+  bill_to_code     VARCHAR2(10),
+  status           VARCHAR2(10),
+  enable_date_from DATE,
+  enable_date_to   DATE,
+  ext_key1         VARCHAR2(20),
+  ext_value1       VARCHAR2(50),
+  ext_key2         VARCHAR2(20),
+  ext_value2       VARCHAR2(50),
+  ext_key3         VARCHAR2(20),
+  ext_value3       VARCHAR2(50),
+  edit_date        DATE,
+  edit_emp         VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_SO
+  add constraint PK_R_SO primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_SO to TEST;
+
+create public synonym R_SO for sfcruntime.R_SO;
+
+-- Create table
+create table SFCRUNTIME.R_SO_DETAIL
+(
+  id         VARCHAR2(50) not null,
+  r_so_id    VARCHAR2(50),
+  so_no      VARCHAR2(50),
+  line_seq   VARCHAR2(10),
+  skuno      VARCHAR2(50),
+  qty        NUMBER,
+  dn_qty     NUMBER,
+  ext_key1   VARCHAR2(20),
+  ext_value1 VARCHAR2(50),
+  ext_key2   VARCHAR2(20),
+  ext_value2 VARCHAR2(50),
+  edit_date  DATE,
+  edit_emp   VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_SO_DETAIL
+  add constraint PK_R_SO_DETAIL primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_SO_DETAIL to TEST;
+
+create public synonym R_SO_DETAIL for sfcruntime.R_SO_DETAIL;
+
+-- Create table
+create table SFCRUNTIME.R_DN_SO
+(
+  id          VARCHAR2(50) not null,
+  dn_no       VARCHAR2(50),
+  dn_line     VARCHAR2(10),
+  dn_skuno    VARCHAR2(50),
+  dn_qty      NUMBER,
+  so_no       VARCHAR2(50),
+  so_line_seq VARCHAR2(10),
+  so_line_qty NUMBER,
+  edit_date   DATE,
+  edit_emp    VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_DN_SO
+  add constraint PK_R_DN_SO primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_DN_SO to TEST;
+
+create public synonym R_DN_SO for sfcruntime.R_DN_SO;
+
+-- Create table
+create table SFCRUNTIME.R_SO_FILE
+(
+  id        VARCHAR2(50) not null,
+  vbeln     VARCHAR2(50),
+  posnr     VARCHAR2(50),
+  matnr     VARCHAR2(50),
+  bstnk     VARCHAR2(50),
+  kwmeng    VARCHAR2(50),
+  cmpre     VARCHAR2(50),
+  kunnr     VARCHAR2(50),
+  kunnv     VARCHAR2(50),
+  arktx     VARCHAR2(500),
+  name      VARCHAR2(500),
+  land1     VARCHAR2(50),
+  netpr     VARCHAR2(50),
+  status    VARCHAR2(10),
+  edit_emp  VARCHAR2(20),
+  edit_date DATE
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the columns 
+comment on column SFCRUNTIME.R_SO_FILE.vbeln
+  is 'SO_NO';
+comment on column SFCRUNTIME.R_SO_FILE.posnr
+  is 'SO_LINE_SEQ';
+comment on column SFCRUNTIME.R_SO_FILE.matnr
+  is 'SKUNO';
+comment on column SFCRUNTIME.R_SO_FILE.kwmeng
+  is 'QTY';
+comment on column SFCRUNTIME.R_SO_FILE.kunnr
+  is 'CUST_NO';
+comment on column SFCRUNTIME.R_SO_FILE.kunnv
+  is 'SHIP_CUST_NO';
+comment on column SFCRUNTIME.R_SO_FILE.arktx
+  is 'DESC';
+comment on column SFCRUNTIME.R_SO_FILE.name
+  is 'CUST_NAME';
+comment on column SFCRUNTIME.R_SO_FILE.land1
+  is 'BILLTOCODE';
+-- Create/Recreate indexes 
+create index KEY1_R_SO_FILE on SFCRUNTIME.R_SO_FILE (VBELN)
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_SO_FILE
+  add constraint PK_R_SO_FILE primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_SO_FILE to TEST;
+
+create public synonym R_SO_FILE for sfcruntime.R_SO_FILE;
+
+-- Create table
+create table SFCRUNTIME.R_SN_OVERPACK
+(
+  id         varchar2(50),
+  dn_no      varchar2(20),
+  dn_line    varchar2(10),
+  pack_no    number,
+  sn         varchar2(50),
+  sn_id      varchar2(50),
+  valid_flag number,
+  edit_emp   varchar2(20),
+  edit_time  date,
+  ext_key1   varchar2(50),
+  ext_value1 varchar2(50),
+  ext_key2   varchar2(50),
+  ext_value2 varchar2(50)
+)
+tablespace RMES
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate indexes 
+create index K1_R_SN_OVERPACK on SFCRUNTIME.R_SN_OVERPACK (dn_no)
+  tablespace RIMES
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+create index k2_R_SN_OVERPACK on SFCRUNTIME.R_SN_OVERPACK (sn)
+  tablespace RIMES
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_SN_OVERPACK
+  add constraint PK_R_SN_OVERPACK primary key (ID)
+  using index 
+  tablespace RIMES
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_SN_OVERPACK to test;
+
+create public synonym R_SN_OVERPACK for sfcruntime.R_SN_OVERPACK;
+
+
+
+
+
+
+

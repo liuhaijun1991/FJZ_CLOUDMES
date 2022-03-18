@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD0DDE64-8CC7-4453-99B1-CA7558442AF7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MESStation</RootNamespace>
+    <AssemblyName>MESStation</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=26.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="MESPubLab, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MESPubLab\bin\Debug\MESPubLab.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\sapnco_utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.8.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.10.0\lib\net40\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=6.10.0.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.10.0\lib\net40\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=10.10.1.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.10.0\lib\net40\Spire.XLS.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlSugar, Version=4.9.9.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlSugar.4.9.9.11\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiHelper.cs" />
+    <Compile Include="ATE\Ate.cs" />
+    <Compile Include="ATE\DCN\DCNTE.cs" />
+    <Compile Include="ATE\HWT\EmsIntrf.cs" />
+    <Compile Include="ATE\HWT\FTV8.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Config\2DXLineConfig.cs" />
+    <Compile Include="Config\AddSampleWoConfig.cs" />
+    <Compile Include="Config\BonepileConfig.cs" />
+    <Compile Include="Config\BUConfig.cs" />
+    <Compile Include="Config\CActionCodeConfig.cs" />
+    <Compile Include="Config\CAqltypeConfig.cs" />
+    <Compile Include="Config\CControl.cs" />
+    <Compile Include="Config\CErrorCodeConfig.cs" />
+    <Compile Include="Config\CheckPLinDDN.cs" />
+    <Compile Include="Config\CMC\CMCConfig.cs" />
+    <Compile Include="Config\CMC\TMNConfig.cs" />
+    <Compile Include="Config\CBatchProcessing.cs" />
+    <Compile Include="Config\ConvertWorkorder.cs" />
+    <Compile Include="Config\CProcessConfig.cs" />
+    <Compile Include="Config\CReasonCodeConfig.cs" />
+    <Compile Include="Config\CReplaceSN.cs" />
+    <Compile Include="Config\CRMADetail.cs" />
+    <Compile Include="Config\CSectionConfig.cs" />
+    <Compile Include="Config\CSeqnoConfig.cs" />
+    <Compile Include="Config\CSkuDetailConfig.cs" />
+    <Compile Include="Config\CSkuSampleConfig.cs" />
+    <Compile Include="Config\CSnRuleConfig.cs" />
+    <Compile Include="Config\CStationConfig.cs" />
+    <Compile Include="Config\CUserControl.cs" />
+    <Compile Include="Config\DCheckConfig.cs" />
+    <Compile Include="Config\DCN\ArubaOrderManager.cs" />
+    <Compile Include="Config\DCN\BroadcomCustPO.cs" />
+    <Compile Include="Config\DCN\BroadcomDNManager.cs" />
+    <Compile Include="Config\DCN\DCNRepair.cs" />
+    <Compile Include="Config\DCN\EACU_Label_Setting.cs" />
+    <Compile Include="Config\DCN\FnnDcnExtApi.cs" />
+    <Compile Include="Config\DCN\ForBeaconShow.cs" />
+    <Compile Include="Config\DCN\GetSendCZData.cs" />
+    <Compile Include="Config\DCN\JuniperOrderManager.cs" />
+    <Compile Include="Config\DCN\OverPackConfig.cs" />
+    <Compile Include="Config\DebugConfig.cs" />
+    <Compile Include="Config\DepartmentConfig.cs" />
+    <Compile Include="Config\FactoryConfig.cs" />
+    <Compile Include="Config\FaiByPass.cs" />
+    <Compile Include="Config\FoxconnSkuConfig.cs" />
+    <Compile Include="Config\HWD\C7B5API.cs" />
+    <Compile Include="Config\HWD\C7B5Function.cs" />
+    <Compile Include="Config\HWD\DELIVER_INFOAPI.cs" />
+    <Compile Include="Config\HWD\InsertOldDB.cs" />
+    <Compile Include="Config\HWD\MoveDataToHisDB.cs" />
+    <Compile Include="Config\HWD\R7b5PlanData.cs" />
+    <Compile Include="Config\HWD\R_Task_Sappop_CompareAPI.cs" />
+    <Compile Include="Config\HWD\ServerManager.cs" />
+    <Compile Include="Config\HWD\TeApi.cs" />
+    <Compile Include="Config\HWD\TGMESApi.cs" />
+    <Compile Include="Config\HWT\CAgingConfig.cs" />
+    <Compile Include="Config\HWT\CSendDataConfig.cs" />
+    <Compile Include="Config\HWT\StationCheckActionAPI.cs" />
+    <Compile Include="Config\JNP\JuniperRepairStation.cs" />
+    <Compile Include="Config\JNP\JNPRepair.cs" />
+    <Compile Include="Config\JNP\StockManage.cs" />
+    <Compile Include="Config\LineConfig.cs" />
+    <Compile Include="Config\LinkConfig.cs" />
+    <Compile Include="Config\LinkControlSetting.cs" />
+    <Compile Include="Config\Lltconfig.cs" />
+    <Compile Include="Config\MaterialStageConfig.cs" />
+    <Compile Include="Config\NewProduct.cs" />
+    <Compile Include="Config\Oba_Control.cs" />
+    <Compile Include="Config\OnlineCardConfig.cs" />
+    <Compile Include="Config\ORACLE\AssemblyMappingConfig.cs" />
+    <Compile Include="Config\ORACLE\KPGroupPartNoConfig.cs" />
+    <Compile Include="Config\ORACLE\PartNoExceptionConfig.cs" />
+    <Compile Include="Config\OutLineTestConfig.cs" />
+    <Compile Include="Config\PassStationConfig.cs" />
+    <Compile Include="Config\PcbaBakeConfig.cs" />
+    <Compile Include="Config\PublicConfig.cs" />
+    <Compile Include="Config\RepairItemSelect.cs" />
+    <Compile Include="Config\RepairKPReplace.cs" />
+    <Compile Include="Config\RFacilityDetail.cs" />
+    <Compile Include="Config\RouteConfig.cs" />
+    <Compile Include="Config\RSnLockConfig.cs" />
+    <Compile Include="Config\RWoBaseExt.cs" />
+    <Compile Include="Config\SAPStationMapConfig.cs" />
+    <Compile Include="Config\ServiceMCSNConfig.cs" />
+    <Compile Include="Config\ShippingScheduleConfig.cs" />
+    <Compile Include="Config\ShippingScheduleConfigAPI.cs" />
+    <Compile Include="Config\SkuConfig.cs" />
+    <Compile Include="Config\SkuPackingConfig.cs" />
+    <Compile Include="Config\SkuKeyPartConfig.cs" />
+    <Compile Include="Config\SkuRouteMappingConfig.cs" />
+    <Compile Include="Config\SkuSeries.cs" />
+    <Compile Include="Config\SkuVerMappingSetting.cs" />
+    <Compile Include="Config\StationOnline.cs" />
+    <Compile Include="Config\StorageCodeConfig.cs" />
+    <Compile Include="Config\StorageItemConfig.cs" />
+    <Compile Include="Config\UnlockTypeSelect.cs" />
+    <Compile Include="Config\Vertiv\CAgeingTypeConfig.cs" />
+    <Compile Include="Config\Vertiv\CStockConfig.cs" />
+    <Compile Include="Config\Vertiv\MacRangeConfig.cs" />
+    <Compile Include="Config\Vertiv\CRMAConfig.cs" />
+    <Compile Include="Config\Vertiv\PrintOffLineLabelAPI.cs" />
+    <Compile Include="Config\Vertiv\SkuRangeConfig.cs" />
+    <Compile Include="Config\Vertiv\VertivPOApi.cs" />
+    <Compile Include="Config\VN\CRepairControlConfig.cs" />
+    <Compile Include="Config\VN\CWOLinkConfig.cs" />
+    <Compile Include="Config\VN\SFCWorkOrderStatusConfig.cs" />
+    <Compile Include="Config\VN\SKUPackoutSizeConfig.cs" />
+    <Compile Include="Config\CarrierInfoConfig.cs" />
+    <Compile Include="Config\DCN\ShipDataInfoConfirm.cs" />
+    <Compile Include="Config\WareHouseConfig.cs" />
+    <Compile Include="Config\WhsConfig.cs" />
+    <Compile Include="Config\WTConfig.cs" />
+    <Compile Include="DBHealth\DBHealth.cs" />
+    <Compile Include="FileUpdate\FileUpload.cs" />
+    <Compile Include="GlobalConfig\CallUIFunctionAPI.cs" />
+    <Compile Include="GlobalConfig\MESMessageConfig.cs" />
+    <Compile Include="Interface\DCN\DCNDataTrans.cs" />
+    <Compile Include="Interface\JobStockGT.cs" />
+    <Compile Include="Interface\Juniper\JuniperInterface.cs" />
+    <Compile Include="Interface\MrbBackFlush.cs" />
+    <Compile Include="Interface\SAPRFC\SAP_RFC_BASE.cs" />
+    <Compile Include="Interface\SAPRFC\ZCPP_NSBG_0091.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0001B.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0003.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0004.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0006.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0011.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0020.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_NSG_SD_0003.cs" />
+    <Compile Include="Interface\SAPRFC\ZRFC_SFC_NSG_0024B.cs" />
+    <Compile Include="Interface\Vertiv\VertivB2B.cs" />
+    <Compile Include="Label\API\ConfigLabelAPI.cs" />
+    <Compile Include="Label\DCN\PackingListLabel.cs" />
+    <Compile Include="Label\JuniperChassisLabel.cs" />
+    <Compile Include="Label\DCN\DCNBroadcomInvoiceValueGroup.cs" />
+    <Compile Include="Label\DCN\DCNOverPackValueGroup.cs" />
+    <Compile Include="Label\HWD\PrintPanelLab.cs" />
+    <Compile Include="Label\HWD\TGMESValueGroup.cs" />
+    <Compile Include="Label\HWT\HandleBar.cs" />
+    <Compile Include="Label\HWT\HwtAssyLabelAssy4.cs" />
+    <Compile Include="Label\HWT\HwtAssyLabelMAC12.cs" />
+    <Compile Include="Label\HWT\HwtAssyLabelMAC16.cs" />
+    <Compile Include="Label\HWT\HwtAssyLabelTC0010.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelSON_LIST01.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelSON_LIST02.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelTC0002.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelTC0002_NEW.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelTC0003.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelTc0030.cs" />
+    <Compile Include="Label\HWT\HwtCartonLabelTC0031.cs" />
+    <Compile Include="Label\HWT\HwtPalletLabel.cs" />
+    <Compile Include="Label\ORACLE\ORA_L11_POWER.cs" />
+    <Compile Include="Label\ORACLE\ORA_L11_RACK.cs" />
+    <Compile Include="Label\ORACLE\REPRINT_L11_LABEL.cs" />
+    <Compile Include="Label\Public\AgileAttrGroup.cs" />
+    <Compile Include="Label\Public\CommonValueGroup.cs" />
+    <Compile Include="Label\Public\CustomerPoValueGroup.cs" />
+    <Compile Include="Label\Public\CustSnValueGroup.cs" />
+    <Compile Include="Label\Public\EmbeddedValueGroup.cs" />
+    <Compile Include="Label\Public\I137Group.cs" />
+    <Compile Include="Label\Public\JuniperGroup.cs" />
+    <Compile Include="Label\Public\MACValueGroup.cs" />
+    <Compile Include="Label\Public\OOrderGroup.cs" />
+    <Compile Include="Label\Public\PackValueGroup.cs" />
+    <Compile Include="Label\Public\SKUValueGroup.cs" />
+    <Compile Include="Label\Public\SNValueGroup.cs" />
+    <Compile Include="Label\Public\WOValueGroup.cs" />
+    <Compile Include="Label\VertivOffLineLabel.cs" />
+    <Compile Include="Label\VertivPrintFixedWeightLabel.cs" />
+    <Compile Include="Label\VertivPublicLabel.cs" />
+    <Compile Include="Label\Vertiv\OffLineFTLabel.cs" />
+    <Compile Include="Label\Vertiv\OffLineGlobalLabel.cs" />
+    <Compile Include="Label\Vertiv\OffLineHMILabel.cs" />
+    <Compile Include="Label\Vertiv\VToffLineLabel.cs" />
+    <Compile Include="Management\CommonTool.cs" />
+    <Compile Include="Management\Reverse.cs" />
+    <Compile Include="Management\ControlWOCloseFlag.cs" />
+    <Compile Include="Management\FunctionControl.cs" />
+    <Compile Include="Management\SQLSearch.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Report\CallKanBan.cs" />
+    <Compile Include="KeyPart\KPListBase.cs" />
+    <Compile Include="KeyPart\KPListImport.cs" />
+    <Compile Include="KeyPart\KPScan.cs" />
+    <Compile Include="KeyPart\KP_ScanType_Check.cs" />
+    <Compile Include="KeyPart\SNKPBase.cs" />
+    <Compile Include="KeyPart\SN_KP.cs" />
+    <Compile Include="Label\BPD_C_CartonLabel.cs" />
+    <Compile Include="Label\BPD_Pallet.cs" />
+    <Compile Include="Label\BPD_SILOADING.cs" />
+    <Compile Include="Label\BPD_Sn.cs" />
+    <Compile Include="Label\HWD\MakeSn.cs" />
+    <Compile Include="Label\HWD\PrintLab.cs" />
+    <Compile Include="Label\JNP_CARTON_LABEL.cs" />
+    <Compile Include="Label\JNP_MC_TCIF.cs" />
+    <Compile Include="Label\LabelConfig.cs" />
+    <Compile Include="Label\ORACLE\ORA_LOT_SILOADING.cs" />
+    <Compile Include="Label\ORACLE\ORA_MAC_ASSY.cs" />
+    <Compile Include="Label\ORACLE\ORA_X7_ATO_CARTON.cs" />
+    <Compile Include="Label\ORACLE\X7_2_CIS_P1.cs" />
+    <Compile Include="Label\ORACLE\X7_2_CIS_P2.cs" />
+    <Compile Include="Label\ORACLE\X7_2_CIS_P3.cs" />
+    <Compile Include="Label\SnPalletList.cs" />
+    <Compile Include="Label\TestLabel.cs" />
+    <Compile Include="Label\TestLabel2.cs" />
+    <Compile Include="Label\VertivCartonLabel.cs" />
+    <Compile Include="Label\VertivPalletTitle.cs" />
+    <Compile Include="LogicObject\LotNo.cs" />
+    <Compile Include="LogicObject\Packing.cs" />
+    <Compile Include="LogicObject\TR_SN.cs" />
+    <Compile Include="Management\CutWoManager.cs" />
+    <Compile Include="Management\LockManager.cs" />
+    <Compile Include="Management\ManualWOManager.cs" />
+    <Compile Include="Management\OrderManager.cs" />
+    <Compile Include="Management\WoManager.cs" />
+    <Compile Include="MESUserManager\RegisterNewUser.cs" />
+    <Compile Include="Packing\PackConfigAPI.cs" />
+    <Compile Include="Packing\PackingBase.cs" />
+    <Compile Include="Report\CallReport.cs" />
+    <Compile Include="Service References\HateEmsGetDataService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Stations\StationActions\ActionRunners\AgingAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\APDataAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\AutoKPAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\BonepileAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\CMCAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\HWD_LOT_ACTION.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\InputStateAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\JuniperAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\LabelPrintAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\LabelProccessAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\LineMatlPlanAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\LinkActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\LotActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\NextInputAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\OutputAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\PackAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\PanelActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\PassAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\RepairActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\SampleAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\ShippingAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\SNActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\StationLoadingAction.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\TestAction.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckAging.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckAPData.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckBase.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckCMC.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckEmp.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckInputData.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckRepairPCBA.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckRFunctionControl.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckKeypart.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckKP.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckLocker.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckPack.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckShipping.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckSN.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckPanelData.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckRepairFail.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\JuniperDatachecker.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\StationLineChecker.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\LotCheckers.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\SkuCheckers.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\AgingDataloader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\APInfoDataloader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\CMCDataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\CustomLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\DataInputLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\IODataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\JuniperDataloader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\LotLoaders.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\PackingDataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\PackLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\PanelDataLoaders.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\RepairFailLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\RouteDataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\SectionDataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\ShippingLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\SkunoLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\StationDataLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\WoFromAnyDataLoader.cs" />
+    <Compile Include="Stations\StationActions\HateEmsCaller.cs" />
+    <Compile Include="Stations\StationActions\StationInit\DataForUseInit.cs" />
+    <Compile Include="Stations\StationActions\StationInit\Rework.cs" />
+    <Compile Include="Stations\StationConfig\SelectInputConfig.cs" />
+    <Compile Include="Test\InputValueTest.cs" />
+    <Compile Include="Test\NNDoorCard.cs" />
+    <Compile Include="WOManager\WOKPCompare.cs" />
+    <Compile Include="WOManager\WOBaseConfig.cs" />
+    <Compile Include="Interface\Interface.cs" />
+    <Compile Include="LogicObject\Route.cs" />
+    <Compile Include="LogicObject\SKU.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\TRSNActions.cs" />
+    <Compile Include="Stations\StationActions\ActionRunners\WorkorderActions.cs" />
+    <Compile Include="Stations\StationActions\DataCheckers\CheckWorkorder.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\NewSNDataloader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\SNLoader.cs" />
+    <Compile Include="Stations\StationConfig\ActionParaConfig.cs" />
+    <Compile Include="Stations\StationConfig\CStationActionConfig.cs" />
+    <Compile Include="Stations\StationConfig\InputActionConfig.cs" />
+    <Compile Include="Stations\StationConfig\InputConfig.cs" />
+    <Compile Include="Stations\StationConfig\RStationActionConfig.cs" />
+    <Compile Include="Stations\StationConfig\StationActionParaConfig.cs" />
+    <Compile Include="Stations\StationConfig\StationConfig.cs" />
+    <Compile Include="Stations\StationConfig\StationInputConfig.cs" />
+    <Compile Include="Stations\StationConfig\StationOutputConfig.cs" />
+    <Compile Include="WOManager\SNRangeConfig.cs" />
+    <Compile Include="GlobalConfig\GetCommonConfig.cs" />
+    <Compile Include="GlobalConfig\InputRuleConfig.cs" />
+    <Compile Include="GlobalConfig\LanguageConfig.cs" />
+    <Compile Include="GlobalConfig\LanguagePageConfig.cs" />
+    <Compile Include="GlobalConfig\SystemMenuConfig.cs" />
+    <Compile Include="Interface\DownLoad_WO.cs" />
+    <Compile Include="LogicObject\Carton.cs" />
+    <Compile Include="LogicObject\DN.cs" />
+    <Compile Include="LogicObject\Panel.cs" />
+    <Compile Include="LogicObject\PO.cs" />
+    <Compile Include="LogicObject\Privilege.cs" />
+    <Compile Include="LogicObject\Role.cs" />
+    <Compile Include="LogicObject\SN.cs" />
+    <Compile Include="LogicObject\Tray.cs" />
+    <Compile Include="LogicObject\WorkOrder.cs" />
+    <Compile Include="Config\CustomerConfig.cs" />
+    <Compile Include="Config\WorkClassConfig.cs" />
+    <Compile Include="MESUserManager\UserLogin.cs" />
+    <Compile Include="MESUserManager\UserManager.cs" />
+    <Compile Include="MESUserManager\UserPrivilege.cs" />
+    <Compile Include="MESUserManager\UserRole.cs" />
+    <Compile Include="Stations\CallStation.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\CounterLoader.cs" />
+    <Compile Include="Stations\StationActions\DataLoaders\WorkorderLoader.cs" />
+    <Compile Include="Test\APITest.cs" />
+    <Compile Include="Test\CreateClass.cs" />
+    <Compile Include="Test\RouteTest.cs" />
+    <Compile Include="Test\SectionSetUpConfig.cs" />
+    <Compile Include="Test\SkuRouteMappingTest.cs" />
+    <Compile Include="Test\SkuTest.cs" />
+    <Compile Include="Test\StationSetUpConfig.cs" />
+    <Compile Include="UserManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataBase.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DLL\CsvHelper.dll" />
+    <Content Include="DLL\HWDNNSFCBase.dll" />
+    <Content Include="DLL\Interop.LabelManager2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\Newtonsoft.Json.dll" />
+    <Content Include="DLL\Newtonsoft.Json.xml" />
+    <Content Include="DLL\Oracle.ManagedDataAccess.dll" />
+    <Content Include="DLL\rscp4n.dll" />
+    <Content Include="DLL\sapnco.dll" />
+    <Content Include="DLL\sapnco_utils.dll" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Service References\HateEmsGetDataService\MESStation.HateEmsGetDataService.emsGetDataServiceResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HateEmsGetDataService\MESStation.HateEmsGetDataService.hateEmsGetDataServiceOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HateEmsGetDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\HateEmsGetDataService\configuration.svcinfo" />
+    <None Include="Service References\HateEmsGetDataService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DcnSfcModel\DcnSfcModel.csproj">
+      <Project>{c833110e-4824-452c-97fe-26bb11c65239}</Project>
+      <Name>DcnSfcModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDataObject\MESDataObject.csproj">
+      <Project>{af4761e2-01c9-4d1b-a3bc-4bd7d37bb365}</Project>
+      <Name>MESDataObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDBHelper\MESDBHelper.csproj">
+      <Project>{c8bdb8fc-44f6-4109-a779-34ee99903270}</Project>
+      <Name>MESDBHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESJuniper\MESJuniper.csproj">
+      <Project>{ed432ae3-877a-4791-bc9b-d709e635138e}</Project>
+      <Name>MESJuniper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MesReportCenter\MesReportCenter.csproj">
+      <Project>{e02b20b2-898a-42e1-a7d2-bf9c19687f85}</Project>
+      <Name>MesReportCenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESReport\MESReport.csproj">
+      <Project>{33e293d4-9efe-4fac-aa57-865c74845c4f}</Project>
+      <Name>MESReport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MES_DCN\MES_DCN.csproj">
+      <Project>{0fddacad-1187-4afc-a63c-58db038986fe}</Project>
+      <Name>MES_DCN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\websocket-sharp\WebSocket-Sharp.csproj">
+      <Project>{b357bac7-529e-4d81-a0d2-71041b19c8de}</Project>
+      <Name>WebSocket-Sharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\HateEmsGetDataService\HateEmsGetDataServiceImplService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\HateEmsGetDataService\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

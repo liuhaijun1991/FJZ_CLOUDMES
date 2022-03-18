@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>联系我们</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="col-sm-12">
+        <div class="ibox-title">
+            <h3>系统介绍</h3>
+            <div class="ibox-tools">
+
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="alert alert-success">
+                <h3>
+                    MES简介
+                </h3> MES(Manufacturing Execution System)即制造企业生产过程执行系统是一套面向制造企业车间执行层的生产信息化管理系统。<br>
+                通过控制包括物料、设备、人员、流程指令和设施在内的所有工厂资源，
+                优化从订单到出货的整个生产活动，以最少的投入量出最优的产品，实现连续均衡生产。
+            </div>
+            <div class="alert alert-warning">
+                <h3>
+                    主要内容
+                </h3>以设备为基础、以计划为导向、以设备为基础 以计划为导向、掌握生产过程、
+                敏捷指挥调度、强化质量控制、制造成本透明、提升管控能力、 管理效率增值
+
+            </div>
+            <div class="alert alert-danger">
+                <h3>
+                    建设目标
+                </h3>整合可用资源、优化生产流程、完善管理手段、掌握生产现状、提供评价依据、指出改进方向。
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" id="ContactInformation">
+                
+    </div>
+    <div class="col-sm-12" id="VesionUpdate">        
+    </div>    
+    <!-- 全局js -->
+    <script src="../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <!-- 自定义js -->
+    <script>
+        $(document).ready(function () {
+            var JsonConContact =
+           [
+                { Name: "张三", Address: "中国广西南宁江南区同乐大道富士康科技园", Email: "xxxxxx@mail.foxconn.com", Tel: "(0771)5086999", Profession: "SFC Enginner" },
+                { Name: "李四", Address: "中国广西南宁江南区同乐大道富士康科技园", Email: "xxxxx.xxx@mail.foxconn.com", Tel: "(0771)5086999", Profession: "SFC Enginner" },
+                { Name: "钱五", Address: "中国广西南宁江南区同乐大道富士康科技园", Email: "xxxxxxxx.xx@mail.foxconn.com", Tel: "(0771)5086999", Profession: "SFC Enginner" }
+           ];
+
+            var JsonVersionData =
+               [
+                  { Ver: "1.0.1 新版本更新", UpdateTime: "2017-11-15 11:00:00", VerValue: " 1.更新前端框架，采用H+H后台主题UI框架。<br /> 2.新增模块,模块  :“物料管理”、“生产管理工具”、“生产管理”、“数据配置”。" },
+                  { Ver: "1.0.2 新版本更新", UpdateTime: "2017-11-16 10:30:00", VerValue: "1.更新前端框架，采用H+H后台主题UI框架。<br /> 2.新增主界面、注册界面以及登录界面。<br /> 3.物料管理新增子模块:“收料进料”、“收料检验”、“打印条码”、“装配物料”等。<br />4.生产工具新增子模块:“机台管理”、“钢网管理”、“刮刀管理”、“目检”等。 <br />5.生产管理新增子模块:“条码段”、“印刷段”、“打板段”等。<br />6.数据配置新增子模块:“机种”、“路由”、“登录注册相关”等。 " },
+                  { Ver: "1.0.3 新版本更新", UpdateTime: "2017-11-16 17:00:00", VerValue: " 1.更新前端登录界面Logo。<br /> 2.新增主界面选线卡：联系我们、个人资料、安全退出等。" },
+                  { Ver: "1.0.4 新版本更新", UpdateTime: "2017-11-15 11:00:00", VerValue: "1.更新数据配置子模块模块路由界面选项卡。<br /> 2.更新个人资料选项卡。 3.更新新建路由选项卡。" }
+               ];
+
+            var Num = "";
+
+            var CountValue = JsonConContact.length;
+            $("#ContactInformation").html("");
+            var h1 = " <div class=\"ibox-title\"><h3>联系方式</h3><div class=\"ibox-tools\"></div></div><br>";
+            for (var i = 0; i < CountValue; i++) {
+                Num = Math.ceil(Math.random() * 4);
+                h1 += "<div class=\"col-sm-4\"><div class=\"alert alert-info\" > <a href=\"#链接\"> </a><div class=\"col-sm-8\"> ";
+                h1 += " <a href=\"#链接\"><h3><strong>" + JsonConContact[i].Name + "</strong></h3><p><i class=\"fa fa-map-marker\"></i>";
+                h1 += JsonConContact[i].Address + "</p></a><address> <a href=\"#链接\"><strong>SFC Enginner.</strong><br> EMail:" + JsonConContact[i].Email + "<br><abbr title=\"Phone\">Tel:</abbr> " + JsonConContact[i].Tel + "</address></div> <div class=\"clearfix\"></div></div></div>";
+            }
+
+            $("#ContactInformation").append(h1);
+
+            var h2 = "<div  class=\"ibox-title\"><h3>版本更新内容</h3></div> ";
+            var CountParam = JsonVersionData.length;
+            $("#VesionUpdate").html("");
+            for (var p = 0; p < CountParam; p++) {
+                h2 += "<div class=\"col-sm-12\"><div class=\"alert alert-warning\" role=\"alert\"><h4>"
+                h2 += JsonVersionData[p].Ver + "</h4><h4>[ 更新时间 ]：" + JsonVersionData[p].UpdateTime + "</h4>" + JsonVersionData[p].VerValue + "</div></div>";
+            }
+            h2 += "</div>";
+            $("#VesionUpdate").append(h2);
+        });
+    </script>
+</body>
+</html>

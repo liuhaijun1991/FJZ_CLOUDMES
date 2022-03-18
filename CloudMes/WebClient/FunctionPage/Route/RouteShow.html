@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/plugins/contextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/pagination/bootstrap-paginator.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.js"></script>
+
+    <script src="../../Scripts/RouteConfig/d3.min.js"></script>
+    <script src="../../Scripts/RouteConfig/jquery.jsPlumb-1.4.0-all.js"></script>
+    <script src="../../Scripts/RouteConfig/jquery.contextMenu.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/RouteConfig/RoutView.js"></script>
+
+    <style>
+        .item {
+            width: 130px;
+            height: 60px;
+            position: absolute;
+            color: #ffffff;
+            font-size: 10px;
+            background-color: #1C84C6;
+        }
+
+            .item h5 {
+                margin-top: 20px;
+            }
+
+        .chart-design {
+            width: 1000px;
+            height: 600px;
+        }
+
+        .pre-scrollable {
+            max-height: 600px;
+        }
+
+        #S_RouteName {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("[data-toggle='popover']").popover();
+        });
+    </script>
+</head>
+
+
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <!--路由主界面-->
+                <div class="col-sm-12" id="RoutMain">
+                    <div class="ibox  float-e-margins">
+                        <div role="form" class="form-horizontal">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="S_RouteName" set-lan="attr:placeholder=PlaceholderRouteName">
+                            </div>
+                            <button class="btn btn-primary" id="S_info" onclick="SearchRoute()"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                            <!--<button class="btn btn-primary" onclick="AddRouteMain()"><i class="fa"><lan set-lan="html:AddRoute">新增路由</lan></i></button>-->
+                        </div>
+
+                        <div class="ibox-content">
+                            <table class="table table-hover " id="Table"></table>
+                           <!-- <div class="pull-right" id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/plugins/contextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/pagination/bootstrap-paginator.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.js"></script>
+
+    <script src="../../Scripts/RouteConfig/d3.min.js"></script>
+    <script src="../../Scripts/RouteConfig/jquery.jsPlumb-1.4.0-all.js"></script>
+    <script src="../../Scripts/RouteConfig/jquery.contextMenu.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/RouteConfig/RoutView.js"></script>
+
+    <style>
+        .item {
+            width: 130px;
+            height: 60px;
+            position: absolute;
+            color: #ffffff;
+            font-size: 10px;
+            background-color: #1C84C6;
+        }
+
+            .item h5 {
+                margin-top: 20px;
+            }
+
+        .chart-design {
+            width: 1000px;
+            height: 600px;
+        }
+
+        .pre-scrollable {
+            max-height: 600px;
+        }
+
+        #S_RouteName {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("[data-toggle='popover']").popover();
+        });
+    </script>
+</head>

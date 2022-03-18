@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="renderer" content="webkit" />
+    <title>FTX Oracle Test Status</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link rel="shortcut" href="../../favicon.ico" />
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/animate.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+
+        html {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(18, 00, 52, 0.68);
+            font-size: 67.5% !important; /* 10÷16=62.5% */
+            overflow: hidden;
+        }
+
+        .container-fluid {
+            height: 100%;
+        }
+
+        @media only screen and (min-width: 481px) {
+            html {
+                font-size: 94% !important; /* 15.04÷16=94% */
+            }
+        }
+
+        @media only screen and (min-width: 561px) {
+            html {
+                font-size: 109% !important; /* 17.44÷16=109% */
+            }
+        }
+
+        @media only screen and (min-width: 641px) {
+            html {
+                font-size: 125% !important; /* 20÷16=125% */
+            }
+        }
+
+        .time {
+            text-align: right;
+            font-size: 200%;
+            color: #ffffff;
+            padding: 0 2vw 0 0;
+            margin: 0;
+        }
+
+        .title {
+            color: #fff;
+            font-size: 450%;
+        }
+
+        .statusType {
+            padding-top: 20px;
+            color: #ffffff;
+        }
+
+        .tableView {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .tbtitle {
+            color: #fff;
+            background-color: #3399FF;
+        }
+
+        .ShowDetail {
+            height:calc(100% - 203px);
+            margin-top: 30px;
+            width: 100%;
+            overflow: hidden;
+            padding: 0 !important;
+        }
+
+        #ShowDetail {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            animation-delay: 3s;
+            -webkit-animation: DanTeng 30s linear infinite;
+            animation: DanTeng 30s linear infinite;
+            animation-direction: alternate;
+        }
+
+        @keyframes DanTeng {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(0, -50%);
+            }
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                
+            }
+        }
+        #ShowDetail:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="time" id="current-time">&nbsp;</div>
+        <div class="text-center">
+            <h1 class="title">FTX Oracle Test Status</h1>
+        </div>
+        <div class="row statusType">
+            <div class="col-xs-2"><span style="background-color:#00ff00;padding:0px 30px;margin:0 20px"></span><strong> PASS</strong></div>
+            <div class="col-xs-2"><span style="background-color:#ff0000;padding:0px 30px;margin:0 20px"></span><strong> FAIL</strong></div>
+            <div class="col-xs-2"><span style="background-color:#FFFF00;padding:0px 30px;margin:0 20px"></span><strong> TESTTING</strong></div>
+            <div class="col-xs-2"><span style="background-color:#0000FF;padding:0px 30px;margin:0 20px"></span><strong> INTERACTION</strong></div>
+            <div class="col-xs-2"><span style="background-color:#FFA500;padding:0px 30px;margin:0 20px"></span><strong> ABORTED</strong></div>
+            <div class="col-xs-2"><span style="background-color:#C0C0C0;padding:0px 30px;margin:0 20px"></span><strong> EMPTY</strong></div>
+        </div>
+        <div class="col-xs-12 ShowDetail">
+            <div id="ShowDetail">
+
+            </div>
+        </div>
+    </div>
+    <!--主程序窗口結束-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var ViewCoutOneRow = 8;
+        var ClassName = "MESStation.Report.CallKanBan";
+        var FunctionName = "GetOracleTestStatus";
+        var ClinetReady = 0;
+        var client = null;
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                GetData();
+            });
+        };
+
+        var GetData = function () {
+            client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                if (e.Status == "Pass") {
+                    show(e.Data);
+                } else {
+                    alert(e.Message);
+                }
+            });
+        };
+
+        var show = function (json) {
+            $('#ShowDetail').html("");
+            var htmlString = ""
+            htmlString += "<div class=\"row tableView\">";
+            for (var m = 0; m < json.MACHINE_NO.length / ViewCoutOneRow; m++) {
+                for (var i = 0; i < ViewCoutOneRow && m * ViewCoutOneRow + i < json.MACHINE_NO.length; i++) {
+                    htmlString += "<div style=\"float:left;width:calc(" + (1 / ViewCoutOneRow) * 100 + "% - 20px);margin:25px 10px\"> ";
+                    htmlString += "<table class=\"table table-bordered table-condensed\">";
+                    htmlString += "<tr>";
+                    htmlString += "<td colspan=\"2\" class=\"tbtitle\">" + json.MACHINE_NO[m * ViewCoutOneRow + i].MACHINE_NO + "</td>";
+                    htmlString += "</tr>";
+                    var z = 0;
+                    for (var k = 0; k < json.R_TEST_STATUS.length; k++) {
+                        if (json.R_TEST_STATUS[k].MACHINE_NO == json.MACHINE_NO[m * ViewCoutOneRow + i].MACHINE_NO) {
+                            if (z % 2 == 0) {
+                                htmlString += "<tr>";
+                            }
+                            var style = "";
+                            if (json.R_TEST_STATUS[k].STATUS == null) {
+                                json.R_TEST_STATUS[k].STATUS = "";
+                            }
+                            switch (json.R_TEST_STATUS[k].STATUS.toUpperCase()) {
+                                case "PASS":
+                                    style = "background-color:#00ff00; color: #000;";
+                                    break;
+                                case "FAIL":
+                                    style = "background-color:#ff0000; color: #fff;";
+                                    break;
+                                case "FAILING":
+                                    style = "background-color:#ff0000; color: #fff;";
+                                    break;
+                                case "TESTING":
+                                    style = "background-color:#FFFF00; color: #000;";
+                                    break;
+                                case "INTERACTION":
+                                    style = "background-color:#0000FF; color: #fff;";
+                                    break;
+                                case "ABORTED":
+                                    style = "background-color:#FFA500; color: #ffffff;";
+                                    break;
+                                default:
+                                    style = "background-color:#C0C0C0; color: #000000;";
+                                    break;
+                            }
+                            htmlString += "<td nowrap=\"nowrap\" style=\"" + style + " \">" + json.R_TEST_STATUS[k].SLOT_NO + "</td>";
+                            if (z % 2 != 0) {
+                                htmlString += "</tr>";
+                            }
+                            z++;
+                        }
+                    }
+                    htmlString += "</table>";
+                    htmlString += "</div>";
+                }
+            }
+            htmlString += "</div> ";
+
+            $('#ShowDetail').html(htmlString);
+        };
+
+        var j = 0
+
+        setInterval(function () {
+            var now = new Date().format("yyyy-MM-dd hh:mm:ss");
+            $('#current-time').text(now);
+            if (ClinetReady == 0 || ClinetReady == 3) {
+                ClinetReady = 2;
+                ClientInit();
+            }
+            if (j == 6 && ClinetReady == 1) {
+                GetData();
+            }
+            j = j + 1;
+            if (j % 60 == 0 && ClinetReady == 1) {
+                GetData();
+            }
+        }, 1000);
+
+        $(document).ready(function () {
+            $.MES.DEBUG = false;
+            ClientInit();
+        });
+    </script>
+</body>
+</html>

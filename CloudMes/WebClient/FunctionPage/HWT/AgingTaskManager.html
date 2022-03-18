@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Aging Task Manager</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        #divStartTableTool, #divEndTableTool {
+            float:left;
+            padding: 0px 2px 0px 0px;
+            margin: 0px;
+        }
+
+        .fixed-table-toolbar .pull-left {
+            /*padding-left: 10px !important;*/
+            padding-bottom: 2px !important;
+            margin: 0px !important;
+        }
+
+        .selectRowBrackround {
+            background-color:coral;
+            color:blue;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+   
+</head>
+<body class="color-cPage gray-bg">
+    <div class="row ibox-content">
+        <div id="divSearch" class="form-horizontal col-xs-12">
+            <div class="form-group col-xs-3">
+                <label for="txtFloor" class="col-xs-3 control-label text-right">樓層：</label>
+                <div class="col-xs-9">
+                    <input id="txtFloor" type="text" class="form-control" value=""  placeholder="樓層" >
+                </div>
+            </div>
+            <div class="form-group col-xs-3">
+                <label for="txtCabinet" class="col-xs-3 control-label text-right">老化柜：</label>
+                <div class="col-xs-9">
+                    <input id="txtCabinet" type="text" class="form-control" value=""  placeholder="老化柜">
+                </div>
+            </div>
+            <div class="btn-group col-xs-3">
+                <div class="col-xs-3">
+                    <button class="btn btn-primary small" id="btnSearch"><i class="fa fa-search">搜索</i></button>
+                </div>
+                <div class="col-xs-3">
+                    <button class="btn btn-primary small" id="btnRefresh"><i class="fa fa-refresh">刷新</i></button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div id="divWaitEndTable" class="bootstrap-table">
+                <div class="fixed-table-toolbar">
+                    <div class="btn-group" id="divEndTableTool" role="group">
+                        <button type="button" class="btn btn-outline btn-default" id="btnEndAging">
+                            <i class="glyphicon glyphicon-check" aria-hidden="true"></i><lan set-lan="html:EndAging">結束老化任務</lan>
+                        </button>
+                    </div>
+                </div>
+                <table id="tableWaitEnd" class="table table-hover"></table>
+            </div>
+            <div id="divWaitStartTable" style="margin-top:10px;">
+                <div class="fixed-table-toolbar">
+                    <div class="btn-group" id="divStartTableTool" role="group">
+                        <button type="button" class="btn btn-outline btn-default" id="btnStartAging">
+                            <i class="glyphicon glyphicon-check" aria-hidden="true"></i><lan set-lan="html:StartAging">開始老化任務</lan>
+                        </button>
+                    </div>
+                </div>
+                <table id="tableWaitStart" class="table table-hover"></table>
+            </div>
+        </div> 
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+
+    <script>
+        var ShowData = function (table_id, data, tool_id) {
+            var EndTable = false;
+            if (table_id == "#tableWaitEnd") {
+                EndTable = true;
+            }
+            $(table_id).bootstrapTable("destroy");
+            $(table_id).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                height:"258",
+                pagination: false,                  //是否显示分页（*） 
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: tool_id,                  //指定工具栏
+                toolbarAlign: "left",             //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                //locale: tableLocale,
+                columns: [
+                    {
+                        checkbox: true,
+                    },
+                    {
+                        field: 'NO',
+                        title: '<label set-lan="html:tableNO">序號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FLOOR',
+                        title: '<label set-lan="html:tableFloor">樓層</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'ITEMCODE',
+                        title: '<label set-lan="html:tableItemCode">料號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'CABINETNO',
+                        title: '<label set-lan="html:tableCabinetNo">老化櫃編號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },                   
+                    {
+                        field: 'AGINGTIME',
+                        title: '<label set-lan="html:tableAgingTime">老化時間</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'QTY',
+                        title: '<label set-lan="html:tableQty">數量</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'STARTTIME',
+                        title: '<label set-lan="html:tableStartTime">開始時間</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'ENDTIME',
+                        title: '<label set-lan="html:tableEndTime">結束時間</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'REALFINISHTIME',
+                        title: '<label set-lan="html:tableRealFinishTime">實際結束時間</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'IPADDRESS',
+                        title: '<label set-lan="html:tableIPAddress">IP地址</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'LOT_NO',
+                        title: '<label set-lan="html:tableLotno">流水號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'REMARK',
+                        title: '<label set-lan="html:tableRemark">備註</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FLAG',
+                        title: '<label set-lan="html:tableFlag">老化時間是否夠</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: EndTable
+                    }
+                ],
+                onCheck: function (row, element) {
+                    //$($element).removeClass('info');
+                    //$($element).addClass('selectRowBrackround');
+                },
+                onPostBody: function () {
+                    if (EndTable) {
+                        var table = document.getElementById("tableWaitEnd");
+                        for (var i = 1; i < table.rows.length; i++) {
+                            table.rows[i].setAttribute("hiden", "hiden");
+                            if (table.rows[i].cells[12].innerHTML == "YES") {
+                                table.rows[i].setAttribute("style", "color:#33CC00;");
+                            }
+                        }
+                    }
+                },
+            });
+        }
+        var GetData = function (floor, cabinet,type, table_id,tool_id) {
+            parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "AgingTaskLoadData", { FLOOR: floor, CABINTNO: cabinet,TYPE:type }, function (e) {               
+                if (e.Status == "Pass") {
+                    ShowData(table_id, e.Data, tool_id)
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+        var RunTask = function (type) {
+            var select;
+            var swalText;
+            if (type == "END") {
+                select = $("#tableWaitEnd").bootstrapTable('getSelections');
+                swalText = "請選擇要結束老化的老化柜！";
+            } else if (type == "START") {
+                select = $("#tableWaitStart").bootstrapTable('getSelections');
+                swalText = "請選擇要開始老化的老化柜！";
+            }
+            if (select.length <= 0) {
+                swal({
+                    title: "",
+                    text: swalText,
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "AgingTaskAction", { TYPE: type, FLOOR: select[0].FLOOR, CABINTNO: select[0].CABINETNO, LOTNO: select[0].LOT_NO },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        GetData("", "", "END", "#tableWaitEnd", "#divEndTableTool");
+                        GetData("", "", "START", "#tableWaitStart", "#divStartTableTool");
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+        }
+        $(document).ready(function () {
+            $("#txtFloor").focus();
+            GetData("", "", "END", "#tableWaitEnd", "#divEndTableTool");
+            GetData("", "", "START", "#tableWaitStart", "#divStartTableTool");
+            $("#btnSearch").click(function (e) {
+                GetData($("#txtFloor").val(), $("#txtCabinet").val(), "END", "#tableWaitEnd", "#divEndTableTool");
+                GetData($("#txtFloor").val(), $("#txtCabinet").val(), "START", "#tableWaitStart", "#divStartTableTool");
+            });
+            $("#btnRefresh").click(function (e) {
+                $("#txtFloor").val("");
+                $("#txtCabinet").val("");
+                $("#txtFloor").focus();               
+                GetData("", "", "END", "#tableWaitEnd", "#divEndTableTool");
+                GetData("", "", "START", "#tableWaitStart", "#divStartTableTool");
+            });
+            $("#btnEndAging").click(function (e) {
+                RunTask("END");
+            });
+            $("#btnStartAging").click(function (e) {
+                RunTask("START");
+            });
+        });
+    </script>
+</body>
+</html>

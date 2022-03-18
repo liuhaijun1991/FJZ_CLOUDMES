@@ -1,0 +1,11 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\WebSocket-Sharp.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\WebSocket-Sharp.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\WebSocket-Sharp.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\obj\Debug\WebSocket-Sharp.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\obj\Debug\WebSocket-Sharp.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\obj\Debug\WebSocket-Sharp.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\obj\Debug\WebSocket-Sharp.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\websocket-sharp\obj\Debug\WebSocket-Sharp.pdb

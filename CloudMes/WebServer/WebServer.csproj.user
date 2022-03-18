@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+    <PublishUrlHistory>ftp://10.14.253.156/|ftp://10.14.129.146/</PublishUrlHistory>
+    <InstallUrlHistory>http://10.14.253.156:8099/|http://10.14.129.146:8099/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>zh-TW</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>

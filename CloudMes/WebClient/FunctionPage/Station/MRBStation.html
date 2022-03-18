@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">MRB Station</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <!--<link href="../../css/Win8style.css" rel="stylesheet" />-->
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2 style="color:#1ab394">Station Type </h2>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                                <div class="container-fluid">
+                                    <ul class="nav navbar-nav"> 
+                                        <li  class="active"><a href="#">MRB CheckIn</a></li>
+                                        <li><a href="#">ASSY Return</a></li>
+                                        <li><a href="#">MRB CheckOut</a></li>
+                                        <li><a href="#">MRB DataRepair</a></li>
+                                        <li><a href="#">MRB Status</a></li>
+                                        <li><a href="#">MRB Batch</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <form role="form" class="form-horizontal">
+                                                <div class="col-md-2 text-center">
+                                                    <h3 style="color:#1ab394">Move To ： </h3>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control m-b" name="account" id="SelectChange">
+                                                        <option>F27M</option>
+                                                        <option>F28M</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 style="color:#1ab394">Station Task </h2>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-sm-12 " id="EventStation">
+                                </div>
+                                <div class="col-sm-12" id="StationType">
+                                </div>
+                                <div class="col-sm-12" id="IPAddress">
+                                </div>
+                                <div class="col-sm-12" id=">MacAddress">
+                                </div>
+                                <div class="col-sm-12" id="ProdcutionLine">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-10">
+                                <form role="form" class="form-horizontal">
+                                    <div class="col-xs-6">
+                                        <div id="WOBYSITE">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-10">
+                                <form role="form" class="form-horizontal">
+                                    <div class="col-xs-6">
+                                        <div id="SSNBYSITE">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="inputsite" class="container-fluid">
+        </div>
+        <div id="outputsite" class="container-fluid">
+        </div>
+        <div id="messagesite" class="container-fluid">
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.navbar-nav li').click(function (e) {
+                e.preventDefault();
+                $(this).addClass('active').siblings().removeClass('active');
+                StationLoad($(this)[0].innerText);
+
+            });
+            StationLoad("MRB CheckIn");
+            function StationLoad(InputName) {
+                var stationName = $.MES.getQueryString("StationName");
+                var Stationa = new MesStation({
+                    Client: self.parent.client,
+                    Line: "Line1",
+                    Name: stationName,
+                    IContainer: $("#inputsite"),
+                    OContainer: $("#outputsite"),
+                    MContainer: $("#messagesite"),
+                    MessageShowType: "Toastr",
+                    Init: function (d) {
+                        if (d.Status == "Pass") {
+                            Stationa.ShowOutput({
+                                OutputName: "EventStation",
+                                Container: $("#EventStation")
+                            });
+                            Stationa.ShowOutput({
+                                OutputName: "StationType",
+                                Container: $("#StationType")
+                            });
+                            Stationa.ShowOutput({
+                                OutputName: "IPAddress",
+                                Container: $("#IPAddress")
+                            });
+                            Stationa.ShowOutput({
+                                OutputName: "MacAddress",
+                                Container: $("#MacAddress")
+                            });
+                            Stationa.ShowOutput({
+                                OutputName: "ProdcutionLine",
+                                Container: $("#ProdcutionLine")
+                            });
+                            switch (InputName) {
+                                case "ASSY Return":
+                                    $("#MrbTitle").html("ASSY Return");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "NEW_SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                                case "MRB CheckOut":
+                                    $("#MrbTitle").html("MRB Out");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                                case "MRB DataRepair":
+                                    $("#MrbTitle").html("MRB DataRepair");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                                case "MRB Status":
+                                    $("#MrbTitle").html("MRB Status");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "NEW_SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                                case "MRB Batch":
+                                    $("#MrbTitle").html("MRB Batch");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "NEW_SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                                default:
+                                    $("#MrbTitle").html("MRB Checkin");
+                                    Stationa.ShowInput({
+                                        InputName: "WO",
+                                        Container: $("#WOBYSITE")
+                                    });
+                                    Stationa.ShowInput({
+                                        InputName: "NEW_SN",
+                                        Container: $("#SSNBYSITE")
+                                    });
+                                    break;
+                            }
+                        }
+                        else {
+                            swal("Station initialization failed！", d.Message, "error");
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

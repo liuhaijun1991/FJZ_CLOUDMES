@@ -1,0 +1,738 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>GetSendCZData</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 5px !important;
+            margin-left: -20px !important;
+            z-index: 0 !important;
+            height: 34px !important;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px) !important;
+        }
+
+        .div-excel {
+            padding: 0 20px;
+        }
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        #divTableList table tbody tr td {
+            white-space: nowrap;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div class="form-horizontal">
+        <div class="col-xs-12" style="margin:10px 0px 10px 5px;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline btn-primary" id="DownloadTemplateFile">
+                    <i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i><lan set-lan="html:Template"> Template</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnResendOneSN">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Template">ResendOneSN</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnResendMoreSN">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Template">ResendMoreSN</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnUpCZData">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Template">UpCZData</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnGetExcelData">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Template">GetExcelData</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnGetSendResult">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Template">GetSendResult</lan>
+                </button>
+            </div>
+
+        </div>
+        <div class="col-xs-12" style="margin:10px 0px 10px 5px;">
+            <!--<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Wait Resend SN.Ret transmit once in 2 hours.</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered" id="table">
+                    </table>
+                </div>
+            </div>-->
+            <div class="panel panel-default">
+                <div class="tab-pane">
+                    <ul class="nav nav-tabs repair-nav-tabs">
+                        <li class="active" style="padding-left:0px;margin-left:0px;">
+                            <a href="#divTableSN" data-toggle="tab" id="a_sn">
+                                <h3>Wait Resend SN</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#divTableLog" data-toggle="tab" id="a_log">
+                                <h3>Fail Log</h3>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="tab-content" style="padding:0px 10px;">
+                    <div class="tab-pane fade in active" id="divTableSN">
+                        <div class="table_sn_toolbar">
+                            <div class="btn-group" id="table_sn_bar" role="group">
+                                <h3>Wait Resend SN.Ret transmit once in 2 hours.</h3>
+                            </div>
+                        </div>
+                        <table id="table_sn" class="table table-bordered table-hover"></table>
+                    </div>
+                    <div class="tab-pane fade" id="divTableLog">
+                        <div class="table_sn_toolbar">
+                            <div class="btn-group" id="table_log_bar" role="group">
+                                <h3>Send CZ Data Log List</h3>
+                            </div>
+                        </div>
+                        <table id="table_log" class="table table-bordered table-hover"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="divResndSN" class="hidden  form-horizontal">
+        <div class="col-xs-3" style="margin:10px 0px 10px 5px;">
+            <div class="btn-group hidden-xs">
+                <label class="btn btn-primary " for="inputResndFile" style="z-index:999;height: 34px;"><lan set-lan="html:Upload"> File Path:</lan></label>
+                <input id="inputResndFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div id="divResndExcel" class="div-excel">
+        </div>
+    </div>
+    <div id="divSNExcel" class="hidden form-horizontal">
+        <div class="col-xs-3" style="margin:10px 0px 10px 5px;">
+            <div class="btn-group hidden-xs">
+                <label class="btn btn-primary " for="inputSNFile" style="z-index:999;height: 34px;"><lan set-lan="html:Upload"> File Path:</lan></label>
+                <input id="inputSNFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div id="divExcel" class="div-excel">
+        </div>
+    </div>
+
+    <div id="divSendResult" class="hidden form-horizontal" style="padding-top:10px">
+        <div class="col-xs-4" style="">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right"> SN:</label>
+                <div class="col-xs-7">
+                    <!--<textarea id="inputSearchSN" type="text" class="form-control" placeholder="One Lien One SN"></textarea>-->
+                    <input id="inputSearchSN" type="text" class="form-control" placeholder="SN" />
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-outline btn-primary" id="btnSubmitSearch">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Submit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">SendState:</label>
+                <div class="col-xs-8">
+                    <input id="inputSendState" type="text" class="form-control" readonly disabled />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">SendTime:</label>
+                <div class="col-xs-8">
+                    <input id="inputSendTime" type="text" class="form-control" readonly disabled />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div div class="panel panel-default">
+                <div class="tab-">
+                    <ul class="nav nav-tabs repair-nav-tabs">
+                        <li class="active">
+                            <a href="#divTableComponent" data-toggle="tab">Component Data</a>
+                        </li>
+                        <li>
+                            <a href="#divTableCserial" data-toggle="tab">Cserial Data</a>
+                        </li>
+                        <li>
+                            <a href="#divTableProduct" data-toggle="tab">Product Data</a>
+                        </li>
+                        <li>
+                            <a href="#divTableWWN" data-toggle="tab">WWN Data</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="divTableList">
+                    <div class="tab-pane fade in active" id="divTableComponent">
+                        <table id="tableComponent" class="table table-bordered table-hover"></table>
+                    </div>
+                    <div class="tab-pane fade" id="divTableCserial">
+                        <table id="tableCserial" class="table table-bordered table-hover"></table>
+                    </div>
+                    <div class="tab-pane fade" id="divTableProduct">
+                        <table id="tableProduct" class="table table-bordered table-hover"></table>
+                    </div>
+                    <div class="tab-pane fade" id="divTableWWN">
+                        <table id="tableWWN" class="table table-bordered table-hover"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+        var ShowTable = function (tableid, data, toolbar, searchAlign) {
+            var tableSearchAlign = "right";
+            if (searchAlign != undefined) {
+                tableSearchAlign = searchAlign;
+            }
+            $(tableid).bootstrapTable("destroy");
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                columns.push(cell);
+            }
+            $(tableid).bootstrapTable({
+                data: data,
+                striped: true,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: tableSearchAlign,              //查询框对齐方式
+                toolbar: toolbar,    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                columns: columns
+            });
+        }
+        var GetResendData = function () {
+            parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "GetWaitResendData", { SN: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.length > 0) {
+                        ShowTable("#table_sn", e.Data, "#table_sn_bar")
+                    }
+                    else {
+                        ShowTable("#table_sn", [], "#table_sn_bar");
+                    }
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        layer.close(loadIndex);
+                    });
+                }
+            });
+        }
+        var GetLogData = function () {
+            parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "GetSendFailLog", { SN: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.length > 0) {
+                        ShowTable("#table_log", e.Data, "#table_log_bar")
+                    }
+                    else {
+                        ShowTable("#table_log", [], "#table_log_bar");
+                    }
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                        layer.close(loadIndex);
+                    });
+                }
+            });
+        }
+        $(document).ready(function () {
+            GetResendData();
+            $('#a_sn').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+                GetResendData();
+            });
+
+            $('#a_log').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+                GetLogData();
+            })
+
+
+            $('#DownloadTemplateFile').on('click', function () {
+                window.open("../../File/ShippedSN.xlsx");
+            });
+            var showResndExcel = document.getElementById("divResndExcel");
+            var showExcel = document.getElementById("divExcel");
+            $("#inputResndFile").val("");
+            $("#inputSNFile").val("");
+            $("#btnResendMoreSN").click(function () {
+                layer.open({
+                    id: "UploadResndData",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Upload Resnd SN",
+                    area: ['90%', '90%'],
+                    content: $('#divResndSN'),
+                    btn: ["Upload", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divResndSN").removeClass("hidden");
+                        $("#inputResndFile").val("");
+                        $("#divResndExcel").html("");
+                    },
+                    end: function () {
+                        $("#divResndSN").addClass("hidden");
+                    },
+                    yes: function (index) {
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Processing,Please wait ...</span></div></div>"
+                        });
+                        var uploadData = $("#divResndExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                        parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "SaveResendSN", { ExcelData: JSON.stringify(uploadData) }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    $("#inputResndFile").val("");
+                                    GetResendData();
+                                    layer.close(loadIndex);
+                                });
+                            } else {
+                                $("#inputResndFile").val("");
+                                $("#divResndExcel").html("");
+                                $("#divResndExcel").html(e.Message);
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                    layer.close(loadIndex);
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#inputResndFile").val("");
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#inputResndFile").change(function (e) {
+                $("#divResndExcel").html("");
+                var filename = $("#inputResndFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0)
+                    || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0)
+                    || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showResndExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showResndExcel.innerHTML += htmlstr;
+                        });
+                        $("#divResndExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divResndExcel").children("table").length; i++) {
+                            $("#divResndExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divResndExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divResndExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divResndExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+            $("#btnGetExcelData").click(function () {
+                layer.open({
+                    id: "UploadSNData",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Upload SN For Get Excel",
+                    area: ['90%', '90%'],
+                    content: $('#divSNExcel'),
+                    btn: ["Upload", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divSNExcel").removeClass("hidden");
+                        $("#inputSNFile").val("");
+                        $("#divExcel").html("");
+                    },
+                    end: function () {
+                        $("#divSNExcel").addClass("hidden");
+                    },
+                    yes: function (index) {
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Processing,Please wait ...</span></div></div>"
+                        });
+                        var uploadData = $("#divExcel").children("table").eq(0).tableToJSON();
+                        parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "GetSendCZDataFromSN", { ExcelData: JSON.stringify(uploadData) }, function (e) {
+                            if (e.Status == "Pass") {
+                                for (var i = 0; i < e.Data.length; i++) {
+                                    var blob = b64toBlob(e.Data[i].Content);
+                                    if (window.navigator.msSaveOrOpenBlob) {
+                                        navigator.msSaveBlob(blob, e.Data[i].FileName);
+                                    } else {
+                                        var link = document.createElement('a');
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = e.Data[i].FileName;
+                                        link.click();
+                                        window.URL.revokeObjectURL(link.href);
+                                    }
+                                }
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    $("#inputSNFile").val("");
+                                    layer.close(loadIndex);
+                                });
+                            } else {
+                                $("#divExcel").html("");
+                                $("#divExcel").html(e.Message);
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                    layer.close(loadIndex);
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#inputSNFile").val("");
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#inputSNFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputSNFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0)
+                    || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0)
+                    || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+            $("#btnResendOneSN").click(function () {
+                layer.open({
+                    id: "ResendOneSN",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    offset: 30,
+                    title: "Resend One SN",
+                    area: ['30%', '25%'],
+                    content: '<div class="form-horizontal col-xs-10" style="margin-top: 30px;"><div class="form-group"><label class= "col-xs-3 control-label text-right"> SN:</label><div class="col-xs-8"><input id="input_sn" type="text" class="form-control" placeholder="SN" /></div></div ></div>',
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#input_sn").val("").focus();
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Processing,Please wait ...</span></div></div>"
+                        });
+                        var input_sn = $("#input_sn").val();
+                        parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "ResendOneSN", { SN: input_sn }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    GetResendData();
+                                    layer.close(loadIndex);
+                                });
+                            } else {
+                                $("#input_sn").select().focus();
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                    layer.close(loadIndex);
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+
+
+            });
+
+            $("#btnUpCZData").click(function () {
+                layer.open({
+                    id: "btnUpCZData",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    offset: 30,
+                    title: "Resend One SN",
+                    area: ['50%', '40%'],
+                    content: '<div class="form-horizontal col-xs-10" style="margin-top: 30px;"><div class="form-group"><label class= "col-xs-3 control-label text-right"> 84SN:</label><div class="col-xs-8"><input id="input_84sn" type="text" class="form-control" placeholder="84SN" /></div></div ><div class="form-group"><label class= "col-xs-3 control-label text-right"> 60SN:</label><div class="col-xs-8"><input id="input_60sn" type="text" class="form-control" placeholder="60SN" /></div></div ></div>',
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#input_sn").val("").focus();
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Processing,Please wait ...</span></div></div>"
+                        });
+                        var input_sn84 = $("#input_84sn").val();
+                        var input_sn60 = $("#input_60sn").val();
+                        parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "UpSendCzData", { SN84: input_sn84, SN60: input_sn60 }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    GetResendData();
+                                    layer.close(loadIndex);
+                                });
+                            } else {
+                                $("#input_sn").select().focus();
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                    layer.close(loadIndex);
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#btnGetSendResult").click(function (e) {
+                layer.open({
+                    id: "divSendResult",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "SendCZResult",
+                    area: ['98%', '98%'],
+                    content: $("#divSendResult"),
+                    success: function (layero, index) {
+                        $("#divSendResult").removeClass("hidden");
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#inputSearchSN").val("").select().focus();
+                        $("#tableComponent").bootstrapTable("destroy");
+                        $("#tableCserial").bootstrapTable("destroy");
+                        $("#tableProduct").bootstrapTable("destroy");
+                        $("#tableWWN").bootstrapTable("destroy");
+                    },
+                    end: function () {
+                        $("#divSendResult").addClass("hidden");
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#btnSubmitSearch").click(function (e) {
+                //var snList = $("#inputSearchSN").val().split("\n");
+                var snList = $("#inputSearchSN").val();
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Executing,Please wait ...</span></div></div>"
+                });
+                parent.client.CallFunction("MESStation.Config.DCN.GetSendCZData", "SearchSendResult", { SnList: snList }, function (e) {
+                    if (e.Status == "Pass") {       
+                        $("#inputSendState").val(e.Data.SendState);
+                        $("#inputSendTime").val(e.Data.SendTime);
+                        ShowTable("#tableComponent", e.Data.Component, "","left");
+                        ShowTable("#tableCserial", e.Data.Cserial, "", "left");
+                        ShowTable("#tableProduct", e.Data.Product, "", "left");
+                        ShowTable("#tableWWN", e.Data.WWN, "", "left");
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    layer.close(loadIndex);
+                });                
+            });
+        });
+    </script>
+</body>
+</html>

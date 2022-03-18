@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">InventoryReport</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        table, td, th {
+            margin: 0;
+            padding: 0 1px 1px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 10px !important;
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #4a4266 !important;
+            color: #f0fcff;
+        }
+
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: 400px;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 350px;
+            z-index:999;
+        }
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+        .tools .fade {
+            opacity:0.9;
+        } 
+        .intro { background-color: #C9C9C9; border:2px solid #fff;}
+        .introa{ border:1px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;} 
+    /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/  
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+
+<div class="tools bg-primary p-xs">
+    <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+    <div class="SearchBox fa-border fade" style="display: none">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">StartTime:</label>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <input type="text" id="txtStime" class="form-control datepicker" data-date-format="yyyy-mm-dd" />
+                </div>
+            </div>    
+            <br/>    
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">EndTime:</label>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <input type="text" id="txtEtime" class="form-control datepicker" data-date-format="yyyy-mm-dd" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" style="padding-top: 10px">
+            <button class="btn btn-primary btn-sm btn-block" id="btnSearch">SUBMIT</button>
+        </div>
+    </div>
+</div>
+    <div class="panel-body">
+        <table id="tableList"></table>
+    </div>
+    
+<div id="divsub" class="panel-body hidden" style="font-size: 1em;">
+    <div><table id="subtableMaterial" class="table table-condensed"></table></div>
+</div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var client = self.parent.client;
+        var postData = {};
+        var detailPage = "InventoryMaterialDetail.html";
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $("#txtStime").datetimepicker({ minView: "month", autoclose: "true" }); $("#txtStime").datetimepicker("setDate", new Date());
+            $("#txtEtime").datetimepicker({ minView: "month", autoclose: "true" }); $("#txtEtime").datetimepicker("setDate", new Date());
+            $("#btnSearch").click(function () {
+                SearchData(); $(".SearchBox").toggle();
+            });
+        });
+
+        var SearchData = function () {
+            $("#tableList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig", "GetMaterialStageMrb", { stime: $("#txtStime").val(), etime: $("#txtEtime").val()}, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        InitTable(e.Data);
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function InitTable(obj) {
+            $('#tableList').bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                buttonsAlign: "right", //按钮对齐方式
+                toolbar: "#divTableToolbar", //指定工具栏
+                toolbarAlign: "left", //工具栏对齐方式
+                locale: tableLocale,
+                columns: [
+                    {
+                        field: 'skuno',
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'version',
+                        title: '<label set-lan="html:VERSION">VERSION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'mrbnum',
+                        title: '<label set-lan="html:MRBNUM">MRBNUM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }
+                ],
+                onDblClickRow: function (row) {
+                    layer.open({
+                        type: 1,
+                        title: "InventoryDetail",
+                        area: ["35%", "95%"],
+                        offset: ["0px","0px"],
+                        skin: 'mes-layer-title',
+                        scrollbar: false,
+                        content: $("#divsub"),
+                        success: function (layero, index) {
+                            $("#divsub").removeClass("hidden");
+                            InitSubTable(row);},
+                        end: function () {
+                            $("#divsub").addClass("hidden");
+                        }
+                    });
+                }
+                //onExpandRow: function(index, row, $detail) {
+                //    InitSubTable(index, row, $detail);
+                //}
+            });
+            $('#tableList').on('click', 'td:has(.editable)', function (e) {
+                e.stopPropagation(); // 阻止事件的冒泡行为
+                $(this).find('.editable').editable('show'); // 打开被点击单元格的编辑状态
+            });
+
+        }
+
+        var InitSubTable = function(row) {
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "GetMaterialStageSkunoDetail",
+                { skuno: row.skuno, version: row.version, stime: $("#txtStime").val(), etime: $("#txtEtime").val() },
+                function(e) {
+                    $("#subtableMaterial").bootstrapTable('destroy');
+                    if (e.Data.length > 0) {
+                        $("#subtableMaterial").bootstrapTable({
+                            data: e.Data,
+                            striped: true, //是否显示行间隔色
+                            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true, //是否显示分页（*）
+                            sortable: false, //是否启用排序
+                            sortOrder: "asc", //排序方式
+                            sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1, //初始化加载第一页，默认第一页
+                            pageSize: 10, //每页的记录行数（*）
+                            showColumns: false, //是否显示所有的列
+                            showRefresh: false, //是否显示刷新按钮
+                            minimumCountColumns: 2, //最少允许的列数
+                            clickToSelect: true, //是否启用点击选中行
+                            uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                            showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                            cardView: false, //是否显示详细视图
+                            detailView: false, //是否显示父子表
+                            dataType: "json", //期待返回数据类型
+                            method: "post", //请求方式
+                            searchAlign: "right", //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right", //按钮对齐方式
+                            toolbar: "#divTableToolbar", //指定工具栏
+                            toolbarAlign: "left", //工具栏对齐方式
+                            locale: tableLocale,
+                            columns: [
+                                {
+                                    field: 'SKUNO',
+                                    title: 'SKUNO'
+                                }, {
+                                    field: 'VERSION',
+                                    title: 'VER'
+                                }, {
+                                    field: 'GROUPNAME',
+                                    title: 'STAGE'
+                                }, {
+                                    field: 'EVENTNAME',
+                                    title: 'EVENTNAME'
+                                }, {
+                                    field: 'ISMATERIAL',
+                                    title: 'MATERIAL',
+                                    sortable: true,
+                                    cellStyle: function (value, row, index) {
+                                        var bgc = "";
+                                        if (value == "Y") bgc = "#00e500"; else bgc = "#d6ecf0";
+                                        return {
+                                            "css": {
+                                                "background-color": bgc
+                                            }
+                                        };
+                                    },
+                                    formatter: function (value, row, index) {
+                                        if (value == undefined) return "N";
+                                        else return value;
+                                    }
+                                }, {
+                                    field: 'STORAGE',
+                                    title: 'STORAGE'
+                                }, {
+                                    field: 'MRBNUM',
+                                    title: 'MRBQTY',
+                                    events: operateEvents, //给按钮注册事件
+                                    formatter: aFormatter
+                                }
+                            ]
+                        });
+
+                        function aFormatter(value, row, index) {
+                            if (value == 0)
+                                return value;
+                            else
+                                return [
+                                    '<button id="bind" type="button" class="btn btn-link"><span class=\"layui-badge layui-bg-dot\">' + value + '</span></button>'
+                                ].join("");
+                        };
+                    } else {
+                        layer.closeAll();
+                        layer.msg('The MaterialStage is not configured', {
+                            time: 20000, //20s后自动关闭
+                            btn: ['OK']
+                        });
+                    }
+                });
+        };
+        window.operateEvents = {
+            'click #bind': function (e, value, row, index) {
+                var contenturl = detailPage +
+                    '?skuno=' +
+                    row.SKUNO +
+                    '&version=' +
+                    row.VERSION +
+                    '&groupname=' +
+                    row.GROUPNAME +
+                    '&eventname=' +
+                    row.EVENTNAME +
+                    '&stime=' +
+                    $("#txtStime").val() +
+                    '&etime=' +
+                    $("#txtEtime").val();
+                layer.open({
+                    type: 2,
+                    title: "Material Detail",
+                    Shade: 0,
+                    area: ["60%", "95%"],
+                    offset: ['0px', '650px'],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: [contenturl] ,
+                    success: function (layero, index) {
+                        //$("#divMaterial").removeClass("hidden");
+                    },
+                    end: function () {
+                        //$("#divMaterial").addClass("hidden");
+                    }
+                });
+            }
+        };
+        //var subdetail = function (row) {
+        //    alert(row.EVENTNAME);
+        //}
+
+        function GetList() {
+            $("#tableList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig", "GetMaterialStageHeadList", { SKUNO: $("#txtSkuno").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        InitTable(e.Data);
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

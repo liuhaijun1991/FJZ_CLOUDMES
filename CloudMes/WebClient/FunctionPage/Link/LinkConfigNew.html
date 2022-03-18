@@ -1,0 +1,1054 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Link Config</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="panel-heading bg-primary">
+                        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:LinkSetting">Link Setting</span></h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="KeypartList" class="row row-lg form-horizontal">
+                            <div class="col-sm-12">
+                                <div class="ibox float-e-margins no-margins">
+                                    <div class="ibox-content" style="padding-bottom:0px;">
+                                        <form>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 control-label text-right" set-lan="html:txtSKUNO">SKUNO:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" id="txtSKUNO" class="form-control" set-lan="attr:placeholder=placeholderSKUNO" placeholder="請輸入需要查詢的Keypart" onchange="ToUpper(this)"/>
+                                                </div>
+                                                <label class="col-sm-2 control-label text-right" set-lan="html:txtStationName">StationName:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" id="txtSTATIONNAME" class="form-control" set-lan="attr:placeholder=placeholderSTATIONNAME" placeholder="請輸入需要查詢的工站" onchange="ToUpper(this)"/>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button type="button" class="btn btn-primary" onclick="SearchKeypart()"><i class="fa fa-search"></i> <lan set-lan="html:select">查詢</lan></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="example-wrap">
+                                    <h3 set-lan="html:ViewKeypartList">Keypart List</h3>
+                                    <div class="ibox-content">
+                                        <div class="example">
+                                            <div class="bootstrap-table">
+                                                <div class="fixed-table-toolbar">
+                                                    <div class="bs-bars pull-left">
+                                                        <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                                            <button type="button" class="btn btn-outline btn-default" onclick="LinkAdd()">
+                                                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                                            </button>
+                                                            <button type="button" class="btn btn-outline btn-default" name="btnEdit" onclick="LinkModify()">
+                                                                <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i><lan set-lan="html:edit">Edit</lan>
+                                                            </button>
+                                                            <button type="button" class="btn btn-outline btn-default" onclick="LinkDel()">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table id="tb_departments" class="table table-hover"></table>
+                                            </div><div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="DetailList" class="clients-list">
+                            <!--tabs標題-->
+                            <div class="col-sm-12 tab-content row" style="margin-bottom: 10px;margin-top: -20px;">
+                                <button type="button" class="btn btn-primary" onclick="BackKeypart()"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                            </div>
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 set-lan="html:EditModelMsg">設置Link信息</h5>
+                                </div>
+                                <div id="EditModelDetail" class="row form-horizontal ibox-content profile-content">
+                                    <form role="form" class="form-horizontal m-t">
+                                        <div class="col-sm-5">
+                                            <div class="form-group draggable" style="display:none">
+                                                <label id="la1" class="col-sm-4 control-label" set-lan="html:EditID">ID：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="ID" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditKEYPARTID">KEYPART_ID：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="KEYPART_ID" placeholder="KEYPART_ID" onchange="ToUpper(this)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSEQNO">SEQ_NO：</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" name="SEQ_NO" id="SEQ_NO">
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="30">30</option>
+                                                        <option value="40">40</option>
+                                                        <option value="50">50</option>
+                                                        <option value="60">60</option>
+                                                        <option value="70">70</option>
+                                                        <option value="80">80</option>
+                                                        <option value="90">90</option>
+                                                        <option value="100">100</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditPARTNO">PART_NO：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="PART_NO" placeholder="PART_NO" onchange="ToUpper(this)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditPARTNOVER">PART_NO_VER：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="PART_NO_VER" placeholder="PART_NO_VER" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditQTY">QTY：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" class="form-control" name="QTY" placeholder="QTY" onchange="CheckNum(this)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditKeypartRule">KEYPART_RULE：</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" name="KEYPART_RULE" id="KEYPART_RULE"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSTATIONNAME">STATION_NAME：</label>
+                                                <div class="col-sm-8" name="divSeries">
+                                                    <input type="text" class="form-control" name="STATION_NAME" placeholder="STATION_NAME" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditCATEGORY">CATEGORY：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="CATEGORY" placeholder="CATEGORY" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditCATEGORYNAME">CATEGORY_NAME：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="CATEGORY_NAME" placeholder="CATEGORY_NAME" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSKUNO">SKUNO：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="SKUNO" placeholder="SKUNO" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSKUNOVER">SKUNO_VER：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="SKUNO_VER" placeholder="SKUNO_VER" onchange="ToUpper(this)"/>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditUniqueFlag">UNIQUE_FLAG：</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" name="UNIQUE_FLAG" id="UNIQUE_FLAG"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                        <div class="hr-line-dashed col-sm-12"></div>
+                                        <div class="form-group draggable">
+                                            <div class="col-sm-12 col-sm-offset-4">
+                                                <button type="button" class="btn btn-primary" onclick="UpdateKeypart()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">保存信息</lan></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="AddList" class="clients-list">
+                            <!--tabs標題-->
+                            <div class="col-sm-12 tab-content row" style="margin-bottom: 10px;margin-top: -20px;">
+                                <button type="button" class="btn btn-primary" onclick="BackKeypart()"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                            </div>
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 set-lan="html:AddModelMsg">添加Link信息</h5>
+                                </div>
+                                <div id="AddModelDetail" class="row form-horizontal ibox-content profile-content">
+                                    <form role="form" class="form-horizontal m-t">
+                                        <div class="col-sm-5">
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditKEYPARTID">KEYPART_ID：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="KEYPART_ID" placeholder="KEYPART_ID" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSKUNO">SKUNO：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="SKUNO" placeholder="SKUNO" onchange="CheckSkuno(this)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSTATIONNAME">STATION_NAME：</label>
+                                                <div class="col-sm-8" name="divSeries">
+                                                    <select class="form-control" name="STATION_NAME"></select>
+                                                    <!--<input type="text" class="form-control" name="STATION_NAME" placeholder="STATION_NAME" />-->
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditSKUNOVER">SKUNO_VER：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="SKUNO_VER" placeholder="SKUNO_VER" onchange="ToUpper(this)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12" id="table" style="overflow:auto;">
+                                            <div class="col-sm-12 tab-content row" style="margin-bottom: 10px;margin-top: 10px;">
+                                                <button type="button" class="btn btn-outline btn-default" onclick="SkunoAdd()">
+                                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                                </button>
+                                                <button type="button" class="btn btn-outline btn-default" onclick="SkunoDel()">
+                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                                </button>
+                                            </div>
+                                            <table id="AddSkunoTable" class="table table-hover"></table>
+                                        </div>
+                                        <div class="hr-line-dashed col-sm-12"></div>
+                                        <div class="form-group draggable">
+                                            <div class="col-sm-12 col-sm-offset-4">
+                                                <button type="button" class="btn btn-primary" onclick="SaveKeypartList()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">保存信息</lan></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var RuleList = "";
+        var UniqueFlagList = "<option value='N'>N</option><option value='Y'>Y</option>";
+
+        $(document).ready(function () {
+            $('#DetailList').hide();
+            $("#AddList").hide();
+            $('#KeypartList').show();
+            allData("START");
+            SkunoData("START");
+            GetRuleList();
+
+            mesUI.SetLanguage("LinkConfig");
+        });
+
+        function CheckSkuno(input){
+            var a=input.value.replace(' ','').toUpperCase();
+            input.value=a;
+            if(a!=""){
+                var param = "{\"SKUNO\":\"" + a + "\"}";
+                self.parent.client.CallFunction("MESStation.Config.LinkConfig", "CheckSkuno", JSON.parse(param), function (e) {
+                    if (e.Status == "Pass") {
+                        var data=e.Data;
+                        var html="";
+                        for (var i = 0; i < data.length; i++) {
+                            html = html + "<option value=\"" + data[i] + "\">" + data[i] + "</option>";
+                        }
+                        $("#AddModelDetail select[name=STATION_NAME]")[0].innerHTML = "";
+                        $("#AddModelDetail select[name=STATION_NAME]").append(html);
+                        $("#AddModelDetail input[name=KEYPART_ID]")[0].value=a;
+                    }else{
+                        swal({
+                            title: "ALERT",
+                            text: "SKUNO not correct, Please enter again!",
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        $("#AddModelDetail div[class*='draggable'] input").each(function () {
+                            if ($(this)[0].name != "ID") {
+                                $(this)[0].value = "";
+                            }
+                        });
+                        $("#AddModelDetail select[name=STATION_NAME]")[0].innerHTML = "";
+                        return;
+                    }
+                })
+            }
+        }
+
+        function ToUpper(input){
+            var a=input.value;
+            a=a.toUpperCase();
+            input.value=a;
+        }
+        
+        function CheckNum(input){
+            var a=input.value;
+            if (a < 0) {
+                swal({
+                    title: "QTY can not < 0",
+                    text: "ALERT",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+        }
+
+        function SkunoData(status) {
+            var tableLocale = "", locallan = $.cookie($.MES.CK_LAN_NAME);
+            if (locallan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (locallan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $('#AddSkunoTable').bootstrapTable({
+
+                data: {},
+
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+
+                pagination: true,                   //是否显示分页（*）
+
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+
+                pageSize: 5,                       //每页的记录行数（*）
+
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: false,                  //是否显示所有的列
+
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+
+                //height: 500,             //高度调整
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+                //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+
+                editable: true,
+                clickToSelect: true,
+                cache: false,
+
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    //params obj
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+
+                toolbarAlign: "right",//工具栏对齐方式
+
+                columns: [{
+                    checkbox: false
+                }, {
+                    field: 'PART_NO',
+                    title: '<label set-lan="html:PARTNO">PART NO</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'PART_NO_VER',
+                    title: '<label set-lan="html:PARTNOVER">PART NO VER</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },{
+                    field: 'SEQ',
+                    title: '<label set-lan="html:SEQ">SEQ</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'CATEGORY',
+                    title: '<label set-lan="html:CATEGORY">CATEGORY</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'CATEGORY_NAME',
+                    title: '<label set-lan="html:CATEGORYNAME">CATEGORY NAME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'QTY',
+                    title: '<label set-lan="html:QTY">QTY</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'KEYPART_RULE',
+                    title: '<label set-lan="html:KEYPART_RULE">KEYPART RULE</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'UNIQUE_FLAG',
+                    title: '<label set-lan="html:UNIQUE_FLAG">UNIQUE FLAG</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }],
+                locale: tableLocale//中文支持,
+            });
+            document.getElementById("table").style.height="240px";
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        function GetRuleList() {
+            self.parent.client.CallFunction("MESStation.Config.LinkConfig", "GetRuleList", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    for (var i = 0; i < e.Data.length; i++) {
+                        RuleList = RuleList + "<option value=\"" + e.Data[i].RULE_NAME + "\">" + e.Data[i].RULE_NAME + "</option>";
+                    }
+                }
+            });
+        }
+        
+
+        function SkunoAdd() {
+            var param="{}",selCate="",selCateName="",selSeq="",selRule="";
+            self.parent.client.CallFunction("MESStation.Config.LinkConfig", "GetCategoryLits", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    var data=e.Data;
+                    for (var i = 0; i < data.length; i++) {
+                        selCate = selCate + "<option value=\"" + data[i].CATEGORY + "\">" + data[i].CATEGORY + "</option>";
+                        selCateName= selCateName + "<option value=\"" + data[i].CATEGORY_NAME + "\">" + data[i].CATEGORY_NAME + "</option>";
+                    }
+                    for (var i = 1; i <= 30; i++) {
+                        selSeq = selSeq + "<option value=\"" + i*10 + "\">" + i*10 + "</option>";
+                    }
+                    
+                    param = "<tr><td class=\"bs-checkbox\"><input data-index=\"0\" name=\"btSelectItem\" type=\"checkbox\"></td>" +
+                    "<td><input class=\"form-control\" name=\"PART_NO\" onchange=\"ToUpper(this)\"/></td><td><input  class=\"form-control\" name=\"PART_NO_VER\" onchange=\"ToUpper(this)\"/></td><td><select class=\"form-control\" name=\"SEQ_NO\"> "+selSeq+"</select> </td><td><select class=\"form-control\" name=\"CATEGORY\">" + selCate + "</select></td>" +
+                    "<td><select class=\"form-control\" name=\"CATEGORY_NAME\">" + selCateName + "</select></td><td><input class=\"form-control\" type=\"number\" name=\"QTY\" value=\"1\" onchange=\"CheckNum(this)\"/></td>"+
+                    "<td><select class=\"form-control\" name=\"KEYPART_RULE\">" + RuleList + "</select><td><select class=\"form-control\" name=\"UNIQUE_FLAG\">" + UniqueFlagList + "</select></tr>";
+                    $("#AddSkunoTable tbody tr").each(function () {
+                        if ($(this)[0].className == "no-records-found") {
+                            $(this).remove();
+                        }
+                    })
+                    $("#AddSkunoTable tbody").append(param);
+                }else{
+                    swal({
+                        title: "NoData",
+                        text: "ALERT",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+
+        }
+
+        function SkunoDel() {
+            //var arrselections = $("#AddSkunoTable").bootstrapTable('getSelections');
+            var select = $("#AddSkunoTable tbody input:checked");
+            if (select.length <= 0) {
+                //toastr.warning('请选择有效数据');
+                swal({
+                    title: "ALERT",
+                    text: "Please choose a valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            } else {
+                for(var i=0;i<select.length;i++){
+                    var sel=select[i];
+                    sel.parentNode.parentNode.remove();
+                }
+
+            }
+        }
+
+        function SaveKeypartList(){
+            param = "{";
+
+            $("#AddModelDetail div[class*='draggable'] input").each(function () {
+                if ($(this)[0].name != "ID") {
+                    param = param + "\"" + $(this)[0].name + "\":\"" + $(this).val() + "\",";
+                }
+            });
+            $("#AddModelDetail div[class*='draggable'] select").each(function () {
+                param = param + "\"" + $(this)[0].name + "\":\"" + $(this).val() + "\",";
+            });
+            param = param.substring(0, param.length);
+            param = param + "\"KEYPARTLIST\":[";
+            $("#AddSkunoTable tbody tr").each(function () {
+                var a = $(this)[0];
+                param = param + "{";
+                for (var j = 1; j < a.cells.length; j++) {
+                    param = param + "\"" + a.cells[j].childNodes[0].name + "\":\"" + a.cells[j].childNodes[0].value + "\",";
+                }
+                param = param.substring(0, param.length - 1) + "},";
+            })
+            //for (var j = 0; j < .length;)
+            param = param.substring(0, param.length - 1) + "]}";
+            self.parent.client.CallFunction("MESStation.Config.LinkConfig", "AddKeypart", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "Success",
+                        text: "Save success",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                    location.reload(true);
+                } else {
+                    swal({
+                        title: "ALERT",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    return;
+                }
+            })
+        }
+
+        function allData(rule) {
+            //if (rule == "START") {
+            //    param = "{\"SKUNO\":\"\",\"STATION_NAME\":\"\"}";
+            //} else {
+            //    param = "{\"SKUNO\":\"" + $("#txtSKUNO").val() + "\",\"STATION_NAME\":\"" + $("#txtSTATIONNAME").val() + "\"}";
+            //}
+
+            param = "{\"SKUNO\":\"" + $("#txtSKUNO").val() + "\",\"STATION_NAME\":\"" + $("#txtSTATIONNAME").val() + "\"}";
+
+            self.parent.client.CallFunction("MESStation.Config.LinkConfig", "GetKeypartSettings", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    var tableLocale = "", locallan = $.cookie($.MES.CK_LAN_NAME);
+                    if (locallan == "CHINESE") {
+                        tableLocale = "zh-CN"
+                    }
+                    else if (locallan == "CHINESE_TW") {
+                        tableLocale = "zh-TW"
+                    }
+                    else {
+                        tableLocale = "en"
+                    };
+                    if (rule == "START") {
+                        $('#tb_departments').bootstrapTable({
+
+                            data: e.Data,
+
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+
+                            pagination: true,                   //是否显示分页（*）
+
+                            sortable: false,                     //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+
+                            pageNumber: 1,                       //初始化加载第一页，默认第一页
+
+                            pageSize: 5,                       //每页的记录行数（*）
+
+                            pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+
+                            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                  //是否显示所有的列
+
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+
+                            //height: 500,             //高度调整
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+
+                            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                   //是否显示父子表
+
+                            //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+
+                            dataType: "json",//期待返回数据类型
+                            method: "post",//请求方式
+                            searchAlign: "left",//查询框对齐方式
+
+                            queryParamsType: "limit",//查询参数组织方式
+                            queryParams: function getParams(params) {
+                                //params obj
+                                params.other = "otherInfo";
+                                return params;
+                            },
+                            buttonsAlign: "left",//按钮对齐方式
+                            toolbar: "#toolbar",//指定工具栏
+
+                            toolbarAlign: "right",//工具栏对齐方式
+
+                            columns: [{
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: 'ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'KEYPART_ID',
+                                title: '<label set-lan="html:KEYPARTID">KEYPART ID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'SEQ_NO',
+                                title: '<label set-lan="html:SEQNO">SEQ NO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'PART_NO',
+                                title: '<label set-lan="html:PARTNO">PART NO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'PART_NO_VER',
+                                title: '<label set-lan="html:PARTNOVER">PART NO VER</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            },
+                            {
+                                field: "QTY",
+                                title: '<label set-lan="html:QTY">QTY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            },
+                            {
+                                field: 'STATION_NAME',
+                                title: '<label set-lan="html:STATIONNAME">STATION NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'CATEGORY',
+                                title: '<label set-lan="html:CATEGORY">CATEGORY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'CATEGORY_NAME',
+                                title: '<label set-lan="html:CATEGORYNAME">CATEGORY NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'SKUNO',
+                                title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'SKUNO_VER',
+                                title: '<label set-lan="html:SKUNOVER">SKUNO VER</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'KEYPART_RULE',
+                                title: '<label set-lan="html:KEYPART_RULE">KEYPART RULE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'UNIQUE_FLAG',
+                                title: '<label set-lan="html:UNIQUE_FLAG">UNIQUE FLAG</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EDIT_EMP',
+                                title: '<label set-lan="html:EDITEMP">EDIT EMP</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'EDIT_TIME',
+                                title: '<label set-lan="html:EDITTIME">EDIT TIME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }],
+                            locale: tableLocale//中文支持,
+                        });
+                    } else {
+                        $('#tb_departments').bootstrapTable("load", parseToJson(e.Data));
+                    }
+                    mesUI.SetLanguage("LinkConfig");
+                }
+                else {
+                    $('#tb_departments').bootstrapTable("removeAll");
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function SearchKeypart() {
+            if ($("#txtSKUNO").val() == ""
+                && $("#txtSTATIONNAME").val() == "") {
+                swal({
+                    title: "ALERT",
+                    text: "SKUNO and StationName must enter one item at least!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            } else {
+                allData("SEARCH");
+            }
+
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        function BackKeypart() {
+            if ($("#txtSKUNO").val().trim() == "" && $("#txtSTATIONNAME").val().trim() == "") {
+                location.reload(true);
+            } else {
+                $('#DetailList').hide();
+                $("#AddList").hide();
+                $('#KeypartList').show();
+                SearchKeypart();
+                mesUI.SetLanguage("LinkConfig");
+            }
+        }
+
+        function LinkAdd() {
+            $("#KeypartList").hide();
+            $("#AddList").show();
+            $('#DetailList').hide();
+
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        function LinkModify() {
+            var arrselections = $("#tb_departments").bootstrapTable('getSelections');
+            if (arrselections.length > 1) {
+                // toastr.warning('只能选择一行进行编辑');
+                swal({
+                    title: "ALERT",
+                    text: "can only choose one item to edit",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (arrselections.length <= 0) {
+                //toastr.warning('请选择有效数据');
+                swal({
+                    title: "ALERT",
+                    text: "please choose a valid data",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            } else {
+
+            }
+            $("#KeypartList").hide();
+            $('#DetailList').show();
+            $("#AddList").hide();
+
+            for (var i = 0; i < $("#DetailList input").length; i++) {
+                FindValueByKey($("#DetailList input")[i], arrselections[0]);
+                if ($("#DetailList input")[i].name == "KEYPART_ID" || $("#DetailList input")[i].name == "STATION_NAME") {
+                    $("#DetailList input")[i].readOnly = true;
+                }
+            }
+
+            if ($("#KEYPART_RULE option").size() ==0) {
+                $("#KEYPART_RULE").append(RuleList);
+            }
+                
+            if ($("#UNIQUE_FLAG option").size() == 0) {
+                $("#UNIQUE_FLAG").append(UniqueFlagList);
+            }
+            
+
+            $("#DetailList select[name=SEQ_NO] ").val(arrselections[0]["SEQ_NO"]);
+            $("#KEYPART_RULE").val(arrselections[0]["KEYPART_RULE"]);
+            $("#UNIQUE_FLAG").val(arrselections[0]["UNIQUE_FLAG"]);
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        function LinkDel() {
+            var arrselections = $("#tb_departments").bootstrapTable('getSelections');
+            if (arrselections.length <= 0) {
+                //toastr.warning('请选择有效数据');
+                swal({
+                    title: "ALERT",
+                    text: "please choose a valid data",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var param = "{\"ID\":\"";
+            for (var i = 0; i < arrselections.length; i++) {
+                param = param + arrselections[i]["ID"] + ",";
+            }
+            param = param.substring(0, param.length - 1) + "\"}";
+            //var param = "{\"ID\":\"" + arrselections[0]["ID"] + "\"}";//DeleteKeyPart
+
+
+            self.parent.client.CallFunction("MESStation.Config.LinkConfig", "DeleteKeyPart", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "Success",
+                        text: e.Message,
+                        type: "success",
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    //刪除數據後重新加載清單
+                    param = "{\"SKUNO\":\"" + $("#txtSKUNO").val() + "\",\"STATION_NAME\":\"" + $("#txtSTATIONNAME").val() + "\"}";
+                    self.parent.client.CallFunction("MESStation.Config.LinkConfig", "SeKeyPart", JSON.parse(param), function (e) {
+                        if (e.Status == "Pass") {
+                            if (Object.prototype.toString.call(e.Data) === '[object Object]') {
+                                window.location = "FunctionPage/Link/LinkConig.html";
+                            } else {
+                                $('#tb_departments').bootstrapTable("load",e.Data);
+                            }
+                        } else {
+                            $('#tb_departments').bootstrapTable("removeAll");
+                        }
+                    });
+                } else {
+                    swal({
+                        title: "ALERT",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        function UpdateKeypart() {
+            var ClassName, FunctionName, param;
+
+            ClassName = "MESStation.Config.LinkConfig";
+            FunctionName = "UpdateKeypart";
+            param = "{\"KEYPARTLIST\":[{\"ID\":\"" + $("#DetailList input[name=ID]").val() + "\",";
+
+            $("#DetailList input").each(function () {
+                if ($(this)[0].name != "ID") {
+                    param = param + "\"" + $(this)[0].name + "\":\"" + $(this).val() + "\",";
+                }
+            });
+            $("#EditModelDetail select").each(function () {
+                param = param + "\"" + $(this)[0].name + "\":\"" + $(this).val() + "\",";
+            });
+            param = param.substring(0, param.length - 1) + "}]}";
+
+            //保存數據並清空所有input
+            self.parent.client.CallFunction(ClassName, FunctionName, JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "Success",
+                        text: e.Message,
+                        type: "success",
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    $("#DetailList input[type=text]").each(function () {
+                        $(this)[0].value = "";
+                    });
+                } else {
+                    swal({
+                        title: "ALERT",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            mesUI.SetLanguage("LinkConfig");
+        }
+
+        //到嵌套 JSON 中尋找指定 key 的值
+        function FindValueByKey(key, data) {
+            for (var d in data) {
+                if (key.name == d) {
+                    key.value = data[d];
+                    break;
+                }
+                else if (Object.prototype.toString.call(data[d]) === '[object Object]') {
+                    FindValueByKey(key, data[d]);
+                }
+            }
+        }
+
+        //將嵌套 JSON 平鋪成一層
+        function parseToJson(data) {
+            var objArr = new Array();
+            var result = '[';
+            var prefix = '';
+            for (i = 0; i < data.length; i++) {
+                result += '{';
+                obj = data[i];
+                for (var d in obj) {
+                    if (Object.prototype.toString.call(obj[d]) === '[object Object]') {
+                        if (prefix == '')
+                            result = parseToJson2(d, obj[d], result);
+                        else
+                            result = parseToJson2(prefix + "_" + d, obj[d], result);
+                    }
+                    else {
+                        if (prefix == '') {
+                            if (obj[d] == null || obj[d] == "null")
+                                result += '"' + d + '":"-",';
+                            else
+                                result += '"' + d + '":"' + obj[d] + '",';
+                        }
+
+                        else {
+                            if (obj[d] == null || obj[d] == "null")
+                                result += '"' + prefix + "_" + d + '":"-",';
+                            else
+                                result += '"' + prefix + "_" + d + '":"' + obj[d] + '",';
+                        }
+                    }
+
+                }
+                result = result.substring(0, result.lastIndexOf(","));
+                result += "},";
+            }
+            result = result.substring(0, result.lastIndexOf(","));
+            result += ']';
+            var objs = JSON.parse(result)
+            for (k = 0; k < objs.length; k++)
+                objArr.push(objs[k]);
+            return objArr;
+        }
+    </script>
+</body>
+</html>

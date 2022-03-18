@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/KeyPart.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div id="KPPanel" class="panel panel-primary">
+        <!-- Default panel contents -->
+        <!--div class="panel-heading">Key Part Scan</div-->
+        <div class="panel-body">
+            <div class="row" id="ScanSize">
+                <input id="ObjectKey" value="" style="display:none" />
+                <input id="Flag_IsCancel" value="1" style="display:none" />
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="Serial" class="col-xs-3 control-label text-right">Serial:</label>
+                    <div class="col-xs-9">
+                        <input id="Serial" class="form-control" disabled value="" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="StationName" class="col-xs-3 control-label text-right">Station:</label>
+                    <div class="col-xs-9">
+                        <input id="StationName" class="form-control" disabled value="" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="ScanValue" class="col-xs-3 control-label text-right">KpValue:</label>
+                    <div class="col-xs-9">
+                        <input id="ScanValue" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="ScanType" class="col-xs-3 control-label text-right">ScanType:</label>
+                    <div class="col-xs-9">
+                        <input id="ScanType" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="PartNo" class="col-xs-3 control-label text-right">PartNo:</label>
+                    <div class="col-xs-9">
+                        <select id="PartNo" name="PartNo" class="form-control" placeholder="PartNo" aria-describedby="basic-addon1">
+                        </select>
+                    </div>
+                </div>
+              <!--  20190108 patty commented out MPN selector
+                  <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <label for="MPN" class="col-xs-3 control-label text-right">MPN:</label>
+                    <div class="col-xs-9">
+                        <select id="MPN" name="MPN" class="form-control" placeholder="PartNo" aria-describedby="basic-addon1">
+                        </select>
+                    </div>
+                </div>
+            -->
+               
+            </div>
+        </div>
+        <!-- Table -->
+        <!--2018-12-27 FTX Patty added Location for Oracle customer-->
+        <!--2019-01-08 FTX Patty removed MPN column-->
+        <table id="KpHead" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Part No</th>
+                    <th>KeyPart Name</th>
+                    <th>SEQ</th>
+                    <th>MPN</th>
+                    <th>Location</th>
+                    <th>Scan Type</th>
+                    <th>KeyPart Value</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="TableConten">
+            <table id="KpList" class="table table-bordered text-center">
+                
+            </table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.KeyPartScan.js"></script>
+    <script>
+        $(document).ready(function () {
+            var KeyName = $.MES.getQueryString("KeyName");
+            var Data = $.MES.getQueryString("Data");
+            var WO = $.MES.getQueryString("WO");
+            var StationName = $.MES.getQueryString("StationName");
+            var ObjectKey = $.MES.getQueryString("ObjectKey");
+            $("[for=Serial]").text(KeyName + ":");
+            $("#Serial").val(Data);
+            $("#StationName").val(StationName);
+            $("#ObjectKey").val(ObjectKey);
+            var KPScan = new KeyPartScan({
+                Client: self.parent.Client,
+                StationName: StationName,
+                SN: Data,
+                WO: WO,
+                ScanInput: $("#ScanValue"),
+                PartNoSeletor: $("#PartNo"),
+                //MPNSeletor: $("#MPN"),20190108 patty commented out MPN selector
+                ScanType: $("#ScanType"),
+                KPListTable: $("#KpList")
+            });
+            KPScan.Init();
+        });
+    </script>
+</body>
+</html>

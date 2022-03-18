@@ -1,0 +1,451 @@
+﻿em {
+    font-style: unset;
+}
+
+.fixed-table-toolbar {
+    position: fixed;
+    top: 65px;
+}
+
+.toolbar {
+    height: 50px;
+}
+
+.helper {
+    position: relative;
+    height: 100%;
+}
+
+#SlistBox {
+    height: 100%;
+    overflow: hidden;
+}
+
+    #SlistBox .ibox-content {
+        height: calc(100% - 45px);
+    }
+
+#SEditBox {
+}
+
+.nav > li > a {
+    padding: 3px 10px;
+}
+
+.scroll-y {
+    overflow-y: scroll;
+}
+
+.scroll-x {
+    overflow-x: scroll;
+}
+
+.wizard > .steps > ul > li {
+    width: 25%;
+}
+
+.wizard > .content {
+    background-color: #f9f7f7;
+    height: -moz-calc(100% - 40px);
+    height: -webkit-calc(100% - 40px);
+    height: calc(100% - 40px);
+}
+
+    .wizard > .content > .body {
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+    }
+
+.wizard > .steps .current a, .wizard > .steps .current a:hover, .wizard > .steps .current a:active {
+    background: #2e6da4;
+    color: #fff;
+    cursor: default;
+}
+
+.wizard > .content > .body input {
+    display: block;
+    border: 1px solid #2e6da4;
+}
+
+.wizard > .actions a, .wizard > .actions a:hover, .wizard > .actions a:active {
+    background: #2e6da4;
+}
+
+
+.project-list {
+    height: calc(100% - 80px);
+    overflow-y: scroll;
+}
+
+#SEditBox {
+    height: -moz-calc(100% - 76px);
+    height: -webkit-calc(100% - 76px);
+    height: calc(100% - 0px);
+    overflow: hidden;
+}
+
+
+.Station {
+    height: 100%;
+}
+
+.OutputBox {
+    height: calc(100% - 40px);
+}
+
+.SInputContainer {
+}
+
+.InputList {
+    height: calc(100% - 40px);
+}
+
+.InputDragg {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transform: translate(0,0);
+    cursor: move;
+    min-height: 34px;
+    overflow: auto;
+}
+
+    .InputDragg li {
+        color: #ffffff;
+        list-style: none;
+        padding: 3px !important;
+        margin: 5px;
+        background-color: #0094ff;
+    }
+
+.Inputs {
+    border: dashed 1px #30f;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    min-height: 34px;
+}
+
+    .Inputs li {
+        color: #ffffff;
+        list-style: none;
+        width: calc(25% - 20px);
+        padding: 3px !important;
+        margin: 5px 10px;
+        background-color: #0094ff;
+        float: left;
+    }
+
+
+    .Inputs :not(:first-child):not(span):before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e092";
+        color: #b9a412;
+        font-size: 12px;
+        position: relative;
+        top: calc(50% - 10px);
+        left: -15px;
+        width: 10px;
+        height: 10px;
+    }
+
+.Outputs {
+    border: dashed 1px #30f;
+    margin: 0;
+    padding: 0;
+    min-height: 34px;
+    overflow: auto;
+}
+
+    .Outputs li {
+        color: #ffffff;
+        list-style: none;
+        width: calc(25% - 30px);
+        padding: 3px !important;
+        margin: 5px;
+        background-color: #0094ff;
+        float: left;
+    }
+
+    .Inputs em, .Outputs em {
+        display: inline-block;
+        width: calc(100% - 50px);
+        cursor: pointer;
+    }
+
+.SInputBox, .SOutputBox, .SActionBox {
+    overflow: auto;
+    padding: 10px 0;
+}
+
+    .SInputBox .form-group, .SOutputBox .form-group, .SActionBox .form-group {
+        margin-top: 10px;
+        overflow: auto;
+    }
+
+    .SInputBox, .SOutputBox .SInput, .SOutput, .SGAction {
+        padding: 10px;
+        margin: 10px 0 5px 0;
+    }
+
+.IAction {
+    border: ridge 1px #000000;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    min-height: 34px;
+}
+
+    .IAction li {
+        margin: 5px;
+        padding: 5px !important;
+        background-color: #626161;
+        color: #ffffff;
+        list-style: none;
+    }
+
+        .IAction li:before {
+            font-family: 'Glyphicons Halflings';
+            content: "\e025";
+            color: #0094ff;
+            font-size: 15px;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+        }
+
+.SAction, .LoaderDragg, .CheckerDragg, .RunnerDragg {
+    border: dashed 1px #0094ff;
+    list-style: none;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    transform: translate(0,0);
+    cursor: move;
+    min-height: 34px;
+    overflow: auto;
+}
+
+.ActionList {
+    height: 100%;
+    overflow: hidden;
+}
+
+    .ActionList .tab-content {
+        height: calc(100% - 50px);
+        overflow-y: scroll;
+    }
+
+.SAction li, .LoaderDragg li, .CheckerDragg li, .RunnerDragg li {
+    margin: 5px;
+    list-style: none;
+}
+
+.SAction li {
+    width: calc(33% - 25px);
+    margin-left: 10px;
+    float: left;
+}
+
+.SAction :not(:first-child):not(span):after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e092";
+    color: #b9a412;
+    font-size: 12px;
+    float: right;
+    position: relative;
+    top: 1px;
+    left: calc(-100% + 7px);
+    width: 10px;
+    height: 10px;
+}
+
+.SAction em {
+    display: inline-block;
+    width: calc(100% - 50px);
+    cursor: pointer;
+}
+
+.Loader {
+    background-color: #0094ff;
+    color: #ffffff;
+}
+
+    .Loader:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e025";
+        color: #ffffff;
+        font-size: 15px;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+    }
+
+.Checker {
+    background-color: #006699;
+    color: #ffffff;
+}
+
+    .Checker:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e067";
+        color: #ffffff;
+        font-size: 15px;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+    }
+
+.Runner {
+    background-color: #003366;
+    color: #ffffff;
+}
+
+    .Runner:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e250";
+        color: #ffffff;
+        font-size: 15px;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+    }
+
+.LoaderDragg, .CheckerDragg, .RunnerDragg {
+}
+
+.Inputs .active, .Outputs .active, .SAction .active, .ParaSA tr.active > td {
+    background-color: #b9a412 !important;
+}
+
+.close {
+    width: 10px;
+    height: 10px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+    .close:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e014";
+        color: #ffffff;
+        font-size: 8px;
+        width: 10px;
+        height: 10px;
+        position: relative;
+        top: -5px;
+        left: -3px;
+    }
+
+    .close:hover {
+        opacity: 1;
+    }
+
+.SAction:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e092";
+    color: #0094ff;
+    font-size: 25px;
+    position: fixed;
+    top: calc(50% - 15px);
+    left: -25px;
+    width: 10px;
+    height: 10px;
+}
+
+
+.droppable-active {
+    background-color: #ffe !important;
+}
+
+.tools a {
+    cursor: pointer;
+    font-size: 80%;
+}
+
+.form-body .col-md-6,
+.form-body .col-md-12 {
+    min-height: 400px;
+}
+
+.draggable {
+    cursor: move;
+}
+
+@media(max-width:768px) {
+    .wizard > .content {
+        height: 200px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+@media(max-width:992px) {
+    .wizard > .content {
+        height: -moz-calc(100% - 40px);
+        height: -webkit-calc(100% - 40px);
+        height: calc(100% - 40px);
+        overflow-x: hidden;
+    }
+}
+
+@media(max-width:1200px) {
+    .toolbar {
+        height: 0px;
+    }
+
+    .fixed-table-toolbar {
+        position: unset;
+    }
+
+    .ActionList {
+        height: 200px;
+    }
+
+        .ActionList .tab-content li {
+            float: left;
+            width: calc(33% - 10px);
+        }
+
+    .project-list {
+        height: 200px;
+    }
+
+    #SlistBox {
+        height: 400px;
+    }
+
+    #SEditBox {
+        height: 100%;
+    }
+}
+
+/*overwrite*/
+.wizard > .content {
+    margin: 0px;
+}
+
+    .wizard > .content > .body {
+        padding: 2px;
+    }
+
+.wizard > .steps a, .wizard > .steps a:hover, .wizard > .steps a:active {
+    padding: 2px 8px;
+}
+
+.panel-heading {
+    padding: 3px 15px;
+}
+.hr-line-dashed {
+    margin: 3px 0;
+}
+.form-group {
+    margin-bottom: 0px !important;
+}
+.panel {
+    margin-bottom:5px !important;
+}
+.project-list table tr td {
+    padding:2px !important;
+}

@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF4761E2-01C9-4D1B-A3BC-4BD7D37BB365}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MESDataObject</RootNamespace>
+    <AssemblyName>MESDataObject</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <DocumentationFile>bin\Debug\MESDataObject.xml</DocumentationFile>
+    <NoWarn>1591;1572;1570;</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlSugar, Version=4.9.9.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlSugar.4.9.9.11\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common\ConvertToJson.cs" />
+    <Compile Include="Common\EnumHelper.cs" />
+    <Compile Include="Common\DataHelper.cs" />
+    <Compile Include="Constants\DcnConstants.cs" />
+    <Compile Include="Common\JsonHelper.cs" />
+    <Compile Include="Constants\JuniperConstants.cs" />
+    <Compile Include="Constants\PublicConstants.cs" />
+    <Compile Include="Module\ARUBA\HPE_EDI_ORDER.cs" />
+    <Compile Include="Module\ARUBA\R_ARUBADATA_HEAD.cs" />
+    <Compile Include="Module\ARUBA\R_ARUBADATA_SN.cs" />
+    <Compile Include="Module\ARUBA\R_ARUBADATA_SN_SUB.cs" />
+    <Compile Include="Module\ARUBA\R_SNR.cs" />
+    <Compile Include="Module\C_BU_LOCATION.cs" />
+    <Compile Include="Module\C_CUSTOMER_FILE_FORMAT.cs" />
+    <Compile Include="Module\C_PACKING_RULE.cs" />
+    <Compile Include="DataObjectBase.cs" />
+    <Compile Include="DataObjectItem.cs" />
+    <Compile Include="DataObjectTable.cs" />
+    <Compile Include="MesDbBase.cs" />
+    <Compile Include="MESReturnMessage.cs" />
+    <Compile Include="ModuleHelp\FuncExecRes.cs" />
+    <Compile Include="Module\ALLPART\C_SMT_AP_LOCATION.cs" />
+    <Compile Include="Module\ALLPART\R_SN_LINK.cs" />
+    <Compile Include="Module\ALLPART\R_TR_CODE_DETAIL.cs" />
+    <Compile Include="Module\ALLPART\R_TR_PRODUCT_DETAIL.cs" />
+    <Compile Include="Module\ALLPART\R_TR_SN.cs" />
+    <Compile Include="Module\ALLPART\R_TR_SN_WIP.cs" />
+    <Compile Include="Module\AP_DLL.cs" />
+    <Compile Include="Module\ARUBA\HPE_SHIP_DATA.cs" />
+    <Compile Include="Module\BPD\R_RMA_CHECKIN.cs" />
+    <Compile Include="Module\BPD\R_RMA_MOVE.cs" />
+    <Compile Include="Module\BPD\R_RMA_REPAIR.cs" />
+    <Compile Include="Module\C_2DX5DX_SAMPLING.cs" />
+    <Compile Include="Module\C_2DXRAYLINE.cs" />
+    <Compile Include="Module\C_ACTION_CODE.cs" />
+    <Compile Include="Module\C_AQLTYPE.cs" />
+    <Compile Include="Module\C_BGA_SET.cs" />
+    <Compile Include="Module\C_CODE_MAPPING.cs" />
+    <Compile Include="Module\C_CONTROL.cs" />
+    <Compile Include="Module\C_ERROR_CODE.cs" />
+    <Compile Include="Module\C_FAI_SECTION.cs" />
+    <Compile Include="Module\C_ITEMCODE_MAPPING_EMS.cs" />
+    <Compile Include="Module\C_KEYPART.cs" />
+    <Compile Include="Module\C_KP_Check.cs" />
+    <Compile Include="Module\C_MCSN.cs" />
+    <Compile Include="Module\C_PROCCESS_ALERT.cs" />
+    <Compile Include="Module\C_PROCCESS_CHECK.cs" />
+    <Compile Include="Module\C_SERVICE_CONTROL.cs" />
+    <Compile Include="Module\C_WAREHOUSE_CONFIG_T.cs" />
+    <Compile Include="Module\C_WAREHOUSE_PALLET_POSITION_T.cs" />
+    <Compile Include="Module\C_WAREHOUS_POSITION_HIDE_T.cs" />
+    <Compile Include="Module\C_WO_MPN.cs" />
+    <Compile Include="Module\DBHealth\SFIS1.C_DBA_TABLE_T.cs" />
+    <Compile Include="Module\DCN\BroadcomPackingList.cs" />
+    <Compile Include="Module\DCN\HPE_EDI_824.cs" />
+    <Compile Include="Module\DCN\HPE_EDI_860.cs" />
+    <Compile Include="Module\DCN\R_OBA_CONTROL.cs" />
+    <Compile Include="Module\DCN\R_SHIPPING_REPORT.cs" />
+    <Compile Include="Module\DCN\C_PACKOUT_WEIGHT.cs" />
+    <Compile Include="Module\DCN\HPE_EDI_850.cs" />
+    <Compile Include="Module\DCN\HPE_EDI_856.cs" />
+    <Compile Include="Module\DCN\HPE_EDI_855.cs" />
+    <Compile Include="Module\DCN\R_ARUBA_855_REASON.cs" />
+    <Compile Include="Module\DCN\R_BRCD_EXSN.cs" />
+    <Compile Include="Module\DCN\R_BRCM_DATA_HEAD.cs" />
+    <Compile Include="Module\DCN\R_BRCM_PICK2SHIP_DATA.cs" />
+    <Compile Include="Module\DCN\R_BRCM_SHIP_DATA.cs" />
+    <Compile Include="Module\DCN\R_MDS_HEAD.cs" />
+    <Compile Include="Module\DCN\R_MDS_IQC.cs" />
+    <Compile Include="Module\DCN\R_MDS_IQC_AP.cs" />
+    <Compile Include="Module\DCN\R_MDS_STR.cs" />
+    <Compile Include="Module\DCN\R_MDS_YIELD.cs" />
+    <Compile Include="Module\DCN\R_ORT.cs" />
+    <Compile Include="Module\DCN\R_ORT_ALERT.cs" />
+    <Compile Include="Module\DCN\R_SN_LINK.cs" />
+    <Compile Include="Module\HWD\MIS_SERVER_CONFIG.cs" />
+    <Compile Include="Module\HWD\MIS_S_C_LOG.cs" />
+    <Compile Include="Module\HWD\R_SN_DELIVER_INFO.cs" />
+    <Compile Include="Module\HWD\R_SN_TGMES_INFO.cs" />
+    <Compile Include="Module\HWD\R_TASK_SAPPOP_COMPARE.cs" />
+    <Compile Include="Module\Juniper\C_RMQ_WOTYPE.cs" />
+    <Compile Include="Module\Juniper\JuniperAutoKpConfig.cs" />
+    <Compile Include="Module\Juniper\O_SKU_ATP.cs" />
+    <Compile Include="Module\Juniper\PackingLabelItem.cs" />
+    <Compile Include="Module\Juniper\R_COO_MAP.cs" />
+    <Compile Include="Module\Juniper\R_CUSTPN_MAP.cs" />
+    <Compile Include="Module\Juniper\R_DISC_DEFECT.cs" />
+    <Compile Include="Module\Juniper\R_DISC_HEAD.cs" />
+    <Compile Include="Module\Juniper\R_DISC_MFG.cs" />
+    <Compile Include="Module\Juniper\R_DISC_REPAIR.cs" />
+    <Compile Include="Module\Juniper\R_DISC_TEST.cs" />
+    <Compile Include="Module\Juniper\R_DISC_TRACE.cs" />
+    <Compile Include="Module\Juniper\R_FACILITY.cs" />
+    <Compile Include="Module\Juniper\R_GEOGRAPHIES_MAP.cs" />
+    <Compile Include="Module\Juniper\R_I054.cs" />
+    <Compile Include="Module\Juniper\R_I054_ACK.cs" />
+    <Compile Include="Module\Juniper\R_I137.cs" />
+    <Compile Include="Module\Juniper\R_I137_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_I137_HEAD.cs" />
+    <Compile Include="Module\Juniper\R_I137_ITEM.cs" />
+    <Compile Include="Module\Juniper\R_I139.cs" />
+    <Compile Include="Module\Juniper\R_I139_TEMP.cs" />
+    <Compile Include="Module\Juniper\R_I140.cs" />
+    <Compile Include="Module\Juniper\R_I140_MAIN.cs" />
+    <Compile Include="Module\Juniper\R_I140_MAIN_D.cs" />
+    <Compile Include="Module\Juniper\R_I244.cs" />
+    <Compile Include="Module\Juniper\R_I282.cs" />
+    <Compile Include="Module\Juniper\R_I285.cs" />
+    <Compile Include="Module\Juniper\R_I285_MAIN.cs" />
+    <Compile Include="Module\Juniper\R_I285_SOURCE.cs" />
+    <Compile Include="Module\Juniper\R_JNP_CREM.cs" />
+    <Compile Include="Module\Juniper\R_JNP_CSD_T.cs" />
+    <Compile Include="Module\Juniper\R_JNP_DOA_SHIPMENTS.cs" />
+    <Compile Include="Module\Juniper\R_JNP_DOA_SHIPMENTS_ACK.cs" />
+    <Compile Include="Module\Juniper\R_JNP_FULLMATCH.cs" />
+    <Compile Include="Module\Juniper\R_JNP_LINE_STOCK.cs" />
+    <Compile Include="Module\Juniper\R_JNP_LINE_STOCK_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_JNP_PD_KIT_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_JNP_REPLACEPN.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_BUNDLE.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_SILVER_WIP.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_SW.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_TRUCKLOAD_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_TRUCKLOAD_TO.cs" />
+    <Compile Include="Module\Juniper\R_PN_HB_MAP.cs" />
+    <Compile Include="Module\Juniper\R_PO_KP_REPLACE.cs" />
+    <Compile Include="Module\Juniper\R_SAP0593_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_SAP0593_HEAD.cs" />
+    <Compile Include="Module\Juniper\R_SAP_FILE.cs" />
+    <Compile Include="Module\Juniper\R_SAP_FILE_I590.cs" />
+    <Compile Include="Module\Juniper\R_SAP_FILE_I605.cs" />
+    <Compile Include="Module\Juniper\R_SAP_FILE_SEND.cs" />
+    <Compile Include="Module\Juniper\R_SAP_MOVEMENTS.cs" />
+    <Compile Include="Module\Juniper\R_SAP_PODETAIL.cs" />
+    <Compile Include="Module\Juniper\R_SILVER_ROTATION.cs" />
+    <Compile Include="Module\Juniper\R_SKU_JNP_G.cs" />
+    <Compile Include="Module\Juniper\R_SKU_JNP_P.cs" />
+    <Compile Include="Module\Juniper\R_SKU_PLANT.cs" />
+    <Compile Include="Module\Juniper\R_SAP_AS_BOM.cs" />
+    <Compile Include="Module\Juniper\R_SAP_HB.cs" />
+    <Compile Include="Module\Juniper\R_SUPERMARKET.cs" />
+    <Compile Include="Module\Juniper\R_SUPER_MARKET.cs" />
+    <Compile Include="Module\Juniper\R_TEST_JSNLIST.cs" />
+    <Compile Include="Module\Juniper\R_TEST_JUNIPER.cs" />
+    <Compile Include="Module\Juniper\R_WHS_SN.cs" />
+    <Compile Include="Module\OM\O_137CARTON_LABEL.cs" />
+    <Compile Include="Module\OM\O_137_COO_LABEL.cs" />
+    <Compile Include="Module\OM\O_AGILE_ATTR.cs" />
+    <Compile Include="Module\OM\O_B2B_ACK.cs" />
+    <Compile Include="Module\OM\O_EXCEPTION_DATA.cs" />
+    <Compile Include="Module\OM\O_I137.cs" />
+    <Compile Include="Module\OM\O_I137_DETAIL.cs" />
+    <Compile Include="Module\OM\O_I137_HEAD.cs" />
+    <Compile Include="Module\OM\O_I137_ITEM.cs" />
+    <Compile Include="Module\OM\O_I138.cs" />
+    <Compile Include="Module\OM\O_I138_REASON.cs" />
+    <Compile Include="Module\OM\O_I138_RECORD.cs" />
+    <Compile Include="Module\OM\O_J_HOLD_C.cs" />
+    <Compile Include="Module\OM\O_J_WOTYPE.cs" />
+    <Compile Include="Module\OM\O_ORDER_CHANGELOG.cs" />
+    <Compile Include="Module\OM\O_ORDER_HOLD.cs" />
+    <Compile Include="Module\OM\O_ORDER_MAIN.cs" />
+    <Compile Include="Module\OM\O_ORDER_MAIN_H.cs" />
+    <Compile Include="Module\OM\O_ORDER_OPTION.cs" />
+    <Compile Include="Module\OM\O_PO_STATUS.cs" />
+    <Compile Include="Module\OM\O_PO_STATUS_MAP_J.cs" />
+    <Compile Include="Module\OM\O_SKU_CONFIG.cs" />
+    <Compile Include="Module\OM\O_SKU_PACKAGE.cs" />
+    <Compile Include="Module\OM\O_WHS_PACKAGE.cs" />
+    <Compile Include="Module\OM\R_ORDER_WO.cs" />
+    <Compile Include="Module\R_2DXRAY.cs" />
+    <Compile Include="Module\R_BGA_DETAIL.cs" />
+    <Compile Include="Module\R_BONEPILE_BASIC.cs" />
+    <Compile Include="Module\R_BONEPILE_BASIC2.cs" />
+    <Compile Include="Module\R_BONEPILE_OVERALL.cs" />
+    <Compile Include="Module\Juniper\R_MODELSUBPN_MAP.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_MFPACKINGLIST.cs" />
+    <Compile Include="Module\R_DASHBOARDTRACKHISDATA.cs" />
+    <Compile Include="Module\R_DASHBOARDTRACKLIST.cs" />
+    <Compile Include="Module\R_JNP_ECNPAGE.cs" />
+    <Compile Include="Module\R_LLT.cs" />
+    <Compile Include="Module\R_LLT_TEST.cs" />
+    <Compile Include="Module\R_LOCK_BYPASS.cs" />
+    <Compile Include="Module\R_MAILFUNC_USER.cs" />
+    <Compile Include="Module\R_MAIL_DATA.cs" />
+    <Compile Include="Module\R_MES_CRC.cs" />
+    <Compile Include="Module\R_ONLINECAR.cs" />
+    <Compile Include="Module\R_ORDERSTATUS_MAP.cs" />
+    <Compile Include="Module\R_ORDER_MAIN.cs" />
+    <Compile Include="Module\R_OUTLINE_TEST.cs" />
+    <Compile Include="Module\R_PACKING_FIFO.cs" />
+    <Compile Include="Module\R_PROCCESS_EVENT.cs" />
+    <Compile Include="Module\R_REPAIR_PCBA_RELATIONSHIP.cs" />
+    <Compile Include="Module\R_SAP_JOB.cs" />
+    <Compile Include="Module\R_SAP_LOG.cs" />
+    <Compile Include="Module\R_SAP_PACKAGE.cs" />
+    <Compile Include="Module\R_SN_HIS.cs" />
+    <Compile Include="Module\R_STATION_OPERATOR.cs" />
+    <Compile Include="Module\R_TEST_IDENTITY.cs" />
+    <Compile Include="Module\R_WHEN_SHIPPED.cs" />
+    <Compile Include="Module\R_WO_BASE_EX.cs" />
+    <Compile Include="Module\R_WO_LOG.cs" />
+    <Compile Include="Module\C_KP_LIST.cs" />
+    <Compile Include="Module\C_KP_LIST_DF.cs" />
+    <Compile Include="Module\C_KP_List_Item.cs" />
+    <Compile Include="Module\C_KP_LIST_ITEM_CHECK.cs" />
+    <Compile Include="Module\C_KP_List_Item_Detail.cs" />
+    <Compile Include="Module\C_KP_Replace.cs" />
+    <Compile Include="Module\C_KP_Rule.cs" />
+    <Compile Include="Module\C_KP_ScanType.cs" />
+    <Compile Include="Module\C_LABEL_EX.cs" />
+    <Compile Include="Module\C_Label_Type.cs" />
+    <Compile Include="Module\C_LOT_RATE.cs" />
+    <Compile Include="Module\C_MACLABEL_CONFIG.cs" />
+    <Compile Include="Module\C_MACPRINT_CONFIG.cs" />
+    <Compile Include="Module\C_MMPRODMASTER.cs" />
+    <Compile Include="Module\C_MODEL_TYPE.cs" />
+    <Compile Include="Module\C_MODEL_USER.cs" />
+    <Compile Include="Module\C_NORETEST.cs" />
+    <Compile Include="Module\C_NPF_CODE_MAP.cs" />
+    <Compile Include="Module\C_ORACLE_MFASSEMBLYDATA.cs" />
+    <Compile Include="Module\C_ORTSAMPLE_DETAIL.cs" />
+    <Compile Include="Module\C_ORT_SAMPLING.cs" />
+    <Compile Include="Module\C_ORT_SAMPLING_SKU.cs" />
+    <Compile Include="Module\C_PACKING_SIZE.cs" />
+    <Compile Include="Module\C_PACKING_TYPE.cs" />
+    <Compile Include="Module\C_PARAMETER.cs" />
+    <Compile Include="Module\C_PROCESS.cs" />
+    <Compile Include="Module\C_QUACK_DELIVER_BU.cs" />
+    <Compile Include="Module\C_REASON_CODE.cs" />
+    <Compile Include="Module\C_REPAIR_DAY.cs" />
+    <Compile Include="Module\C_ACTION_PARA.cs" />
+    <Compile Include="Module\C_BU.cs" />
+    <Compile Include="Module\C_CUSTOMER.cs" />
+    <Compile Include="Module\C_DEPARTMENT.cs" />
+    <Compile Include="Module\C_FACTORY.cs" />
+    <Compile Include="Module\C_INPUT.cs" />
+    <Compile Include="Module\C_INPUT_RULE.cs" />
+    <Compile Include="Module\C_INTERFACE.cs" />
+    <Compile Include="Module\C_KEY_PART.cs" />
+    <Compile Include="Module\C_LANGUAGE.cs" />
+    <Compile Include="Module\C_LANGUAGE_PAGE.cs" />
+    <Compile Include="Module\C_LINE.cs" />
+    <Compile Include="Module\C_MENU.cs" />
+    <Compile Include="Module\C_MES_MESSAGE.cs" />
+    <Compile Include="Module\C_PACKING.cs" />
+    <Compile Include="Module\C_PRIVILEGE.cs" />
+    <Compile Include="Module\C_PROGRAM_SERVER.cs" />
+    <Compile Include="Module\C_REPAIR_ITEMS.cs" />
+    <Compile Include="Module\C_REPAIR_ITEMS_SON.cs" />
+    <Compile Include="Module\C_REPAIR_SN_CONTROL.cs" />
+    <Compile Include="Module\C_REPAIR_USER_CONTROL.cs" />
+    <Compile Include="Module\C_REWORK.cs" />
+    <Compile Include="Module\C_ROLE.cs" />
+    <Compile Include="Module\C_ROLE_PRIVILEGE.cs" />
+    <Compile Include="Module\C_ROUTE.cs" />
+    <Compile Include="Module\C_ROUTE_DETAIL.cs" />
+    <Compile Include="Module\C_ROUTE_DETAIL_DIRECTLINK.cs" />
+    <Compile Include="Module\C_ROUTE_DETAIL_EX.cs" />
+    <Compile Include="Module\C_ROUTE_DETAIL_RETURN.cs" />
+    <Compile Include="Module\C_SAP_STATION_MAP.cs" />
+    <Compile Include="Module\C_SECOND_USER.cs" />
+    <Compile Include="Module\C_SECTION.cs" />
+    <Compile Include="Module\C_SEQNO.cs" />
+    <Compile Include="Module\C_SERIES.cs" />
+    <Compile Include="Module\C_SFCControl.cs" />
+    <Compile Include="Module\C_SHIPPING_ROUTE.cs" />
+    <Compile Include="Module\C_SHIPPING_ROUTE_DETAIL.cs" />
+    <Compile Include="Module\C_SHIP_CUSTOMER.cs" />
+    <Compile Include="Module\C_SKU.cs" />
+    <Compile Include="Module\C_SKUNO_BASE.cs" />
+    <Compile Include="Module\C_SKU_AQL.cs" />
+    <Compile Include="Module\C_STATION_SCAN_LOG.cs" />
+    <Compile Include="Module\DCN\BROADCOM_CSV_DETAIL.cs" />
+    <Compile Include="Module\DCN\BROADCOM_CSV_HEAD.cs" />
+    <Compile Include="Module\DCN\R_FIFO_FGI.cs" />
+    <Compile Include="Module\DCN\R_NETGEAR_PTM_CTL.cs" />
+    <Compile Include="Module\DCN\R_NETGEAR_PTM_DATA.cs" />
+    <Compile Include="Module\DCN\R_ORDER_SN.cs" />
+    <Compile Include="Module\DCN\R_PTM_TACONFIG.cs" />
+    <Compile Include="Module\DCN\R_SN_REPLACE.cs" />
+    <Compile Include="Module\DCN\R_STATION_AUTOSCAN.cs" />
+    <Compile Include="Module\ORACLE\MFSYSCOMPONENT.cs" />
+    <Compile Include="Module\R_CONTROLRUN_DETAIL.cs" />
+    <Compile Include="Module\R_CONTROLRUN_STATION.cs" />
+    <Compile Include="Module\R_CONTROLRUN.cs" />
+    <Compile Include="Module\R_CRITICAL_BONEPILE.cs" />
+    <Compile Include="Module\C_CARRIER.cs" />
+    <Compile Include="Module\C_CARRIER_SKUNO_INFO.cs" />
+    <Compile Include="Module\R_CARRIER_SKUNO_LINK.cs" />
+    <Compile Include="Module\R_CARRIER_LINK.cs" />
+    <Compile Include="Module\R_CUSTSN_DETAIL_T.cs" />
+    <Compile Include="Module\R_CUSTSN_T.cs" />
+    <Compile Include="Module\R_CUST_PO.cs" />
+    <Compile Include="Module\R_CUST_PO_DETAIL.cs" />
+    <Compile Include="Module\R_DN_CUST_PO.cs" />
+    <Compile Include="Module\R_DN_SO.cs" />
+    <Compile Include="Module\R_FUNCTION_CONTROL_EX.cs" />
+    <Compile Include="Module\R_FUNCTION_CONTROL.cs" />
+    <Compile Include="Module\C_SKU_DETAIL.cs" />
+    <Compile Include="Module\C_SKU_FOXCONN_MAPPING.cs" />
+    <Compile Include="Module\C_SKU_Label.cs" />
+    <Compile Include="Module\C_SKU_MPN.cs" />
+    <Compile Include="Module\C_SKU_ORTSAMPLE.cs" />
+    <Compile Include="Module\C_SKU_SAMPLE.cs" />
+    <Compile Include="Module\C_SKU_SOFT_CONFIG.cs" />
+    <Compile Include="Module\C_SKU_TEST_CONFIG.cs" />
+    <Compile Include="Module\C_SKU_TEST_STATION.cs" />
+    <Compile Include="Module\C_SKU_VER_MAPPING.cs" />
+    <Compile Include="Module\C_SN_PRE_STATION_MAP.cs" />
+    <Compile Include="Module\C_SN_RULE.cs" />
+    <Compile Include="Module\C_SN_RULE_DETAIL.cs" />
+    <Compile Include="Module\C_STATION.cs" />
+    <Compile Include="Module\C_STATION_ACTION.cs" />
+    <Compile Include="Module\C_STORAGE_CODE.cs" />
+    <Compile Include="Module\C_STORAGE_ITEM.cs" />
+    <Compile Include="Module\C_SUMMERTIME.cs" />
+    <Compile Include="Module\C_TAB_COLUMN_MAP.cs" />
+    <Compile Include="Module\C_TEMES_STATION_MAPPING.cs" />
+    <Compile Include="Module\C_TRANSPORT_TYPE.cs" />
+    <Compile Include="Module\C_USER.cs" />
+    <Compile Include="Module\C_USER_FUNCTION.cs" />
+    <Compile Include="Module\C_USER_PRIVILEGE.cs" />
+    <Compile Include="Module\C_USER_ROLE.cs" />
+    <Compile Include="Module\C_WEIGHT.cs" />
+    <Compile Include="Module\C_WORK_CLASS.cs" />
+    <Compile Include="Module\C_WT_CONFIG.cs" />
+    <Compile Include="Module\DCN\R_TEST_BRCD.cs" />
+    <Compile Include="Module\DCN\WWN_DATASHARING.cs" />
+    <Compile Include="Module\HWD\C_SKU_7B5_CONFIG.cs" />
+    <Compile Include="Module\HWD\C_SKU_LINK_7B5.cs" />
+    <Compile Include="Module\HWD\R_7B5_EC.cs" />
+    <Compile Include="Module\HWD\R_7B5_PGI_DATA.cs" />
+    <Compile Include="Module\HWD\R_7B5_PLAN.cs" />
+    <Compile Include="Module\HWD\R_7B5_PLAN_TASK.cs" />
+    <Compile Include="Module\HWD\R_7B5_PLAN_TEMP.cs" />
+    <Compile Include="Module\HWD\R_7B5_PLAN_UPLOAD.cs" />
+    <Compile Include="Module\HWD\R_7B5_PO.cs" />
+    <Compile Include="Module\HWD\R_7B5_SHIP.cs" />
+    <Compile Include="Module\HWD\R_7B5_SHIP_DATA.cs" />
+    <Compile Include="Module\HWD\R_7B5_UPDATE_LIST.cs" />
+    <Compile Include="Module\HWD\R_7B5_WO.cs" />
+    <Compile Include="Module\HWD\R_7B5_WO_TEMP.cs" />
+    <Compile Include="Module\HWD\R_7B5_XML_T.cs" />
+    <Compile Include="Module\HWD\R_7B5_XML_T_HIS.cs" />
+    <Compile Include="Module\HWD\R_7B5_XML_T_TMP.cs" />
+    <Compile Include="Module\HWT\C_AGING_CONFIG_DETAIL.cs" />
+    <Compile Include="Module\HWT\C_ITEM_BOM.cs" />
+    <Compile Include="Module\HWT\C_OBA_SAMPLING.cs" />
+    <Compile Include="Module\HWT\C_SHIPPING_MODE.cs" />
+    <Compile Include="Module\HWT\C_SKU_FT_FIRST_CONFIG.cs" />
+    <Compile Include="Module\HWT\HWT_SFC_RELATION_DATA.cs" />
+    <Compile Include="Module\HWT\R_2D_SN_RMA_T.cs" />
+    <Compile Include="Module\HWT\R_AGING_CABINET_INFO.cs" />
+    <Compile Include="Module\HWT\R_AGING_SHELF_INFO.cs" />
+    <Compile Include="Module\HWT\R_ASN_ADDRESS.cs" />
+    <Compile Include="Module\HWT\R_DN_DETAIL.cs" />
+    <Compile Include="Module\HWT\R_FT_TBS.cs" />
+    <Compile Include="Module\HWT\R_LABEL_PRINT_T.cs" />
+    <Compile Include="Module\HWT\R_MAIL_T.cs" />
+    <Compile Include="Module\HWT\R_OBA_STAMP_CHECK.cs" />
+    <Compile Include="Module\HWT\R_OBA_TEMP.cs" />
+    <Compile Include="Module\HWT\R_PACK_INFO.cs" />
+    <Compile Include="Module\HWT\R_PALLET_DOUBLE_CHECK.cs" />
+    <Compile Include="Module\HWT\R_RECORD_PALLET_DETAIL.cs" />
+    <Compile Include="Module\HWT\R_RELATIONDATA_DETAIL.cs" />
+    <Compile Include="Module\HWT\R_RELATIONDATA_EXTERNAL.cs" />
+    <Compile Include="Module\HWT\R_RELATION_DATA.cs" />
+    <Compile Include="Module\HWT\R_SFCATE_CONFIG.cs" />
+    <Compile Include="Module\HWT\R_SFCATE_CONFIG_WIP.cs" />
+    <Compile Include="Module\HWT\R_SHIPPING_NOTICE.cs" />
+    <Compile Include="Module\HWT\R_SKUNO_ADDRESS.cs" />
+    <Compile Include="Module\HWT\R_SN_AGING_INFO.cs" />
+    <Compile Include="Module\HWT\R_TO_DETAIL_HWT.cs" />
+    <Compile Include="Module\HWT\R_TO_HEAD_HWT.cs" />
+    <Compile Include="Module\HWT\R_WH_STOCK_LIST.cs" />
+    <Compile Include="Module\H_5DX_TESTRECORD.cs" />
+    <Compile Include="Module\H_MRB_GT.cs" />
+    <Compile Include="Module\H_QUACK_LAYOUT.cs" />
+    <Compile Include="Module\H_QUACK_MISS_SN.cs" />
+    <Compile Include="Module\H_QUACK_SN.cs" />
+    <Compile Include="Module\H_QUACK_SN_LOT_DETAIL.cs" />
+    <Compile Include="Module\H_SHIP_DETAIL.cs" />
+    <Compile Include="Module\H_TESTRECORD.cs" />
+    <Compile Include="Module\H_WO_HEADER.cs" />
+    <Compile Include="Module\H_WO_ITEM.cs" />
+    <Compile Include="Module\H_WO_TEXT.cs" />
+    <Compile Include="Module\ICT_DETAIL.cs" />
+    <Compile Include="Module\ICT_HEADER.cs" />
+    <Compile Include="Module\Juniper\C_PO_STATUS_MAPPING.cs" />
+    <Compile Include="Module\Juniper\PO_CONFIRM_HEAD.cs" />
+    <Compile Include="Module\Juniper\PO_HEAD.cs" />
+    <Compile Include="Module\Juniper\PO_ITEM.cs" />
+    <Compile Include="Module\Juniper\PO_LINE.cs" />
+    <Compile Include="Module\Juniper\R_JUNIPER_I138_REASONCODE.cs" />
+    <Compile Include="Module\Juniper\R_PO.cs" />
+    <Compile Include="Module\Juniper\R_PO_TRACKING.cs" />
+    <Compile Include="Module\Juniper\R_PRE_WO_DETAIL.cs" />
+    <Compile Include="Module\Juniper\R_PRE_WO_HEAD.cs" />
+    <Compile Include="Module\Juniper\R_SILVER_ROTATION_DETAIL.cs" />
+    <Compile Include="Module\ORACLE\C_KP_GROUP.cs" />
+    <Compile Include="Module\ORACLE\C_KP_GROUP_PARTNO.cs" />
+    <Compile Include="Module\ORACLE\C_KP_TRIM.cs" />
+    <Compile Include="Module\ORACLE\C_ORA_L6_MAPPING.cs" />
+    <Compile Include="Module\ORACLE\C_PARTNO_EXCEPTION.cs" />
+    <Compile Include="Module\ORACLE\C_PARTNO_MAPPING.cs" />
+    <Compile Include="Module\ORACLE\MFSYSCSERIAL.cs" />
+    <Compile Include="Module\ORACLE\MFSYSPRODUCT.cs" />
+    <Compile Include="Module\ORACLE\MFWORKSTATUS.cs" />
+    <Compile Include="Module\ORACLE\R_FTX_CPU_OCR.cs" />
+    <Compile Include="Module\ORACLE\R_MFPRESETWODETAIL.cs" />
+    <Compile Include="Module\ORACLE\R_MFPRESETWOHEAD.cs" />
+    <Compile Include="Module\ORACLE\R_SN_KP_MV.cs" />
+    <Compile Include="Module\ORACLE\R_SN_MV.cs" />
+    <Compile Include="Module\ORACLE\R_WO_BOM_MV.cs" />
+    <Compile Include="Module\R_2D5D_WIP_QUERY.cs" />
+    <Compile Include="Module\R_2DX.cs" />
+    <Compile Include="Module\R_2DX5DX_SAMPLING_SN.cs" />
+    <Compile Include="Module\R_2DX5DX_SAMPLING_TESTDATA.cs" />
+    <Compile Include="Module\R_2DX5DX_SAMPLING_WO.cs" />
+    <Compile Include="Module\R_2DX_LOT_DETAIL.cs" />
+    <Compile Include="Module\R_2DX_LOT_STATUS.cs" />
+    <Compile Include="Module\r_2d_sn_relation.cs" />
+    <Compile Include="Module\R_5DX_FAIL_DATA.cs" />
+    <Compile Include="Module\R_5DX_TESTRECORD.cs" />
+    <Compile Include="Module\R_ALLPART_IC.cs" />
+    <Compile Include="Module\R_AOI_FILEINFO.cs" />
+    <Compile Include="Module\R_AOI_TESTRECORD.cs" />
+    <Compile Include="Module\R_AP_TEMP.cs" />
+    <Compile Include="Module\R_BGA_REWORK_RECORD.cs" />
+    <Compile Include="Module\R_CMCHOST.cs" />
+    <Compile Include="Module\R_CMCHOST_DETAIL.cs" />
+    <Compile Include="Module\R_ECN.cs" />
+    <Compile Include="Module\R_ECN_FILE.cs" />
+    <Compile Include="Module\R_ECN_WO.cs" />
+    <Compile Include="Module\R_ERMA.cs" />
+    <Compile Include="Module\R_FAI.cs" />
+    <Compile Include="Module\R_FAI_DETAIL.cs" />
+    <Compile Include="Module\R_FAI_STATION.cs" />
+    <Compile Include="Module\R_FIFO.cs" />
+    <Compile Include="Module\R_FT_LOGDATA.cs" />
+    <Compile Include="Module\R_IO_HEAD.cs" />
+    <Compile Include="Module\R_JSON.cs" />
+    <Compile Include="Module\R_LINE_STOP.cs" />
+    <Compile Include="Module\R_LINK_CONTROL.cs" />
+    <Compile Include="Module\R_MATERIAL_STAGE_CONFIRM.cs" />
+    <Compile Include="Module\R_MATERIAL_STAGE_DETAIL.cs" />
+    <Compile Include="Module\R_MATERIAL_STAGE_HEAD.cs" />
+    <Compile Include="Module\R_MESNO.cs" />
+    <Compile Include="Module\HWT\R_OBASAMPLING_BYTIME.cs" />
+    <Compile Include="Module\R_NORMAL_BONEPILE.cs" />
+    <Compile Include="Module\R_ORTSAMPLE.cs" />
+    <Compile Include="Module\R_ORT_SAMPLING_SN.cs" />
+    <Compile Include="Module\R_ORT_SAMPLING_TESTDATA.cs" />
+    <Compile Include="Module\R_ORT_SAMPLING_WO.cs" />
+    <Compile Include="Module\R_PACKING_RATE_DETAIL.cs" />
+    <Compile Include="Module\R_PCBA_GT.cs" />
+    <Compile Include="Module\R_PDA_SHIP_CHECK.cs" />
+    <Compile Include="Module\R_PLAN_LOCK.cs" />
+    <Compile Include="Module\R_PN_MASTER_DATA.cs" />
+    <Compile Include="Module\R_PROFILE.cs" />
+    <Compile Include="Module\R_QUACK_COST.cs" />
+    <Compile Include="Module\R_QUACK_LAYOUT.cs" />
+    <Compile Include="Module\R_QUACK_MISS_SN.cs" />
+    <Compile Include="Module\R_QUACK_POHEADER.cs" />
+    <Compile Include="Module\R_QUACK_PO_ITEMS.cs" />
+    <Compile Include="Module\R_QUACK_RECEIVE.cs" />
+    <Compile Include="Module\R_QUACK_RMA.cs" />
+    <Compile Include="Module\R_QUACK_SCRAP.cs" />
+    <Compile Include="Module\R_QUACK_SN.cs" />
+    <Compile Include="Module\R_QUACK_SN_KP.cs" />
+    <Compile Include="Module\R_QUACK_SN_LOT_DETAIL.cs" />
+    <Compile Include="Module\R_QUACK_SN_STATION_DETAIL.cs" />
+    <Compile Include="Module\R_QUACK_TEMP_SN.cs" />
+    <Compile Include="Module\R_QUACK_WIP.cs" />
+    <Compile Include="Module\R_QUACK_WO.cs" />
+    <Compile Include="Module\R_REPAIR_CHECK.cs" />
+    <Compile Include="Module\R_REPAIR_COUNT.cs" />
+    <Compile Include="Module\R_REPAIR_DATA.cs" />
+    <Compile Include="Module\R_REPAIR_OFFLINE.cs" />
+    <Compile Include="Module\R_REPAIR_PCBA_LINK.cs" />
+    <Compile Include="Module\R_REPAIR_REPLACE.cs" />
+    <Compile Include="Module\R_REPAIR_SELF.cs" />
+    <Compile Include="Module\R_RMA.cs" />
+    <Compile Include="Module\R_RMA_DETAIL.cs" />
+    <Compile Include="Module\R_SERVICE_ALARM_CONFIG.cs" />
+    <Compile Include="Module\R_SERVICE_LOG.cs" />
+    <Compile Include="Module\Juniper\R_WO_GROUPID.cs" />
+    <Compile Include="Module\R_BACKFLUSH_CHECK.cs" />
+    <Compile Include="Module\R_BACKFLUSH_HISTORY.cs" />
+    <Compile Include="Module\R_DN_STATUS.cs" />
+    <Compile Include="Module\R_FILE.cs" />
+    <Compile Include="Module\R_INPUT_ACTION.cs" />
+    <Compile Include="Module\R_KP_AGILE_SFC_MAPPING.cs" />
+    <Compile Include="Module\R_Label.cs" />
+    <Compile Include="Module\R_LOT_DETAIL.cs" />
+    <Compile Include="Module\R_LOT_PACK.cs" />
+    <Compile Include="Module\R_LOT_STATUS.cs" />
+    <Compile Include="Module\R_MES_EXT.cs" />
+    <Compile Include="Module\R_MES_LOG.cs" />
+    <Compile Include="Module\R_MOVE_LIST.cs" />
+    <Compile Include="Module\R_MRB.cs" />
+    <Compile Include="Module\R_MRB_GT.cs" />
+    <Compile Include="Module\R_PACKING.cs" />
+    <Compile Include="Module\R_PANEL_SN.cs" />
+    <Compile Include="Module\R_REPAIR_ACTION.cs" />
+    <Compile Include="Module\R_REPAIR_FAILCODE.cs" />
+    <Compile Include="Module\R_REPAIR_MAIN.cs" />
+    <Compile Include="Module\R_REPAIR_TRANSFER.cs" />
+    <Compile Include="Module\R_REPLACE_SN.cs" />
+    <Compile Include="Module\R_REPORTCENTER.cs" />
+    <Compile Include="Module\R_SAPLOG.cs" />
+    <Compile Include="Module\R_SAP_TEMP.cs" />
+    <Compile Include="Module\R_SHIP_DETAIL.cs" />
+    <Compile Include="Module\R_SIGN.cs" />
+    <Compile Include="Module\R_SN_DETAIL.cs" />
+    <Compile Include="Module\R_SN_EX.cs" />
+    <Compile Include="Module\R_SN_KEYPART_DETAIL.cs" />
+    <Compile Include="Module\R_SN_KP.cs" />
+    <Compile Include="Module\R_SN_LOCK.cs" />
+    <Compile Include="Module\R_SN_LOG.cs" />
+    <Compile Include="Module\R_SN_MAC.cs" />
+    <Compile Include="Module\R_SN_OVERPACK.cs" />
+    <Compile Include="Module\R_SN_PACKING.cs" />
+    <Compile Include="Module\R_SN_PASS.cs" />
+    <Compile Include="Module\R_SN_STATION_DETAIL.cs" />
+    <Compile Include="Module\R_SO.cs" />
+    <Compile Include="Module\R_SO_DETAIL.cs" />
+    <Compile Include="Module\R_SO_FILE.cs" />
+    <Compile Include="Module\R_STATION_OUTPUT.cs" />
+    <Compile Include="Module\R_SN.cs" />
+    <Compile Include="Module\R_STATION.cs" />
+    <Compile Include="Module\R_STATION_ACTION.cs" />
+    <Compile Include="Module\R_STATION_ACTION_PARA.cs" />
+    <Compile Include="Module\R_STATION_INPUT.cs" />
+    <Compile Include="Module\R_STATION_SCAN_LOG.cs" />
+    <Compile Include="Module\R_STOCK.cs" />
+    <Compile Include="Module\R_STOCK_GT.cs" />
+    <Compile Include="Module\R_SYNC_LOCK.cs" />
+    <Compile Include="Module\r_task_order_sn.cs" />
+    <Compile Include="Module\R_TCQS_YIELD_RATE_DETAIL.cs" />
+    <Compile Include="Module\R_TDMS_MDV_DATA.cs" />
+    <Compile Include="Module\R_TESTRECORD.cs" />
+    <Compile Include="Module\R_TEST_DETAIL_VERTIV.cs" />
+    <Compile Include="Module\R_TEST_RECORD.cs" />
+    <Compile Include="Module\R_TEST_STATUS.cs" />
+    <Compile Include="Module\R_TOUCHUP.cs" />
+    <Compile Include="Module\R_TO_DETAIL.cs" />
+    <Compile Include="Module\R_TO_HEAD.cs" />
+    <Compile Include="Module\R_WEIGHT.cs" />
+    <Compile Include="Module\R_WO_BASE.cs" />
+    <Compile Include="Module\R_WO_HEADER.cs" />
+    <Compile Include="Module\R_WO_ITEM.cs" />
+    <Compile Include="Module\R_WO_KP_Repalce.cs" />
+    <Compile Include="Module\R_WO_LINK.cs" />
+    <Compile Include="Module\R_WO_REGION.cs" />
+    <Compile Include="Module\R_WO_TEXT.cs" />
+    <Compile Include="Module\R_WO_TYPE.cs" />
+    <Compile Include="Module\R_XRAY_DETAIL_HWD.cs" />
+    <Compile Include="Module\R_XRAY_HEAD_HWD.cs" />
+    <Compile Include="Module\SD_CUSTMER_PO.cs" />
+    <Compile Include="Module\SD_CUSTOMER_PO_ITEM.cs" />
+    <Compile Include="Module\SD_CUSTOMER_SO.cs" />
+    <Compile Include="Module\SD_DN_DETAIL.cs" />
+    <Compile Include="Module\SD_REPORT_DETAIL.cs" />
+    <Compile Include="Module\SD_TO_DETAIL.cs" />
+    <Compile Include="Module\SD_TO_HEAD.cs" />
+    <Compile Include="Module\SFCPACKOUTSETTING.cs" />
+    <Compile Include="Module\T_C_FT_CONTROL_RULE.cs" />
+    <Compile Include="Module\T_R_WO_BOM.cs" />
+    <Compile Include="Module\Vertiv\C_AGEING_TYPE.cs" />
+    <Compile Include="Module\Vertiv\C_SHIPPING_ADDRESS.cs" />
+    <Compile Include="Module\Vertiv\C_STOCK_CONFIG.cs" />
+    <Compile Include="Module\Vertiv\ORDER_DETAIL_VT.cs" />
+    <Compile Include="Module\Vertiv\R_PRINT_LOG.cs" />
+    <Compile Include="Module\Vertiv\R_RANGE.cs" />
+    <Compile Include="Module\Vertiv\R_RANGE_DETAIL.cs" />
+    <Compile Include="Module\Vertiv\R_RMA_BONEPILE.cs" />
+    <Compile Include="Module\Vertiv\R_RANGE_RULE.cs" />
+    <Compile Include="Module\Vertiv\R_STOCK_RECORD.cs" />
+    <Compile Include="Module\Vertiv\R_VT_FORECAST_COMMIT.cs" />
+    <Compile Include="Module\Vertiv\R_VT_FORECAST.cs" />
+    <Compile Include="Module\Vertiv\R_VT_ORDER.cs" />
+    <Compile Include="Module\Vertiv\R_VT_ORDER_COMMIT.cs" />
+    <Compile Include="Module\Vertiv\R_VT_SHIPMENT.cs" />
+    <Compile Include="Module\Vertiv\R_VT_SHIPMENT_CANCEL.cs" />
+    <Compile Include="Module\Vertiv\R_WO_AGEING.cs" />
+    <Compile Include="Module\Vertiv\SHIPMENT_DETAIL_VT.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="TableExpandBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MESDBHelper\MESDBHelper.csproj">
+      <Project>{c8bdb8fc-44f6-4109-a779-34ee99903270}</Project>
+      <Name>MESDBHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Script\DCN出货计划建表脚本.txt" />
+    <Content Include="Script\排程监控.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

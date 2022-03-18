@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="renderer" content="webkit" />
+    <title>JUNIPER PTH</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link rel="shortcut" href="../../favicon.ico" />
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        html {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            /*background-color: rgba(71, 148, 211, 0.98);*/
+            background-color: rgb(51, 51, 51);
+            font-size: 67.5% !important; /* 10÷16=62.5% */
+            overflow: hidden;
+        }
+
+        .container-fluid {
+            height: 100%;
+        }
+
+        @media only screen and (min-width: 481px) {
+            html {
+                font-size: 94% !important; /* 15.04÷16=94% */
+            }
+        }
+
+        @media only screen and (min-width: 561px) {
+            html {
+                font-size: 109% !important; /* 17.44÷16=109% */
+            }
+        }
+
+        @media only screen and (min-width: 641px) {
+            html {
+                font-size: 125% !important; /* 20÷16=125% */
+            }
+        }
+
+        .time {
+            float: right;
+            text-align: right;
+            font-size: 200%;
+            color: #ffffff;
+            padding: 0 2vw 0 0;
+            margin: 0;
+        }
+
+        .title {
+            float: left;
+            color: #fff;
+            font-size: 200%;
+        }
+
+        .content-box {
+            height: 90%;
+        }
+
+        .charts {
+            height: 1%;
+        }
+
+        .tables {
+            height: 10%;
+            color: #fff;
+        }
+
+        .table-hover > tbody > tr:hover {
+            background-color: rgb(115, 95, 95);
+        }
+    </style>
+</head>
+<body>
+    <div class="time" id="current-time">&nbsp;</div>
+    <div class="row content-box">
+        <div class="col-xs-12 charts" id="charts">
+        </div>
+        <div class="col-xs-12 tables">
+            <div class="title"></div>
+            <table id="dataTable"></table>
+        </div>
+    </div>
+    <!--主程序窗口結束-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var timer = $.MES.getQueryString("timer");
+        timer = Number(timer) ? Number(timer) : 60;
+        var hours = $.MES.getQueryString("hours");
+        hours = Number(hours) ? Number(hours) : 4;
+        var line = $.MES.getQueryString("line");
+        line = line ? line : 'ALL';
+        var ClassName = "MESStation.Report.CallKanBan";
+        var FunctionName = "GetPthWip";
+        var ClinetReady = 0;
+        var client = null;
+        var TableOption = {
+            data: [],
+            striped: false,
+            cache: false,
+            pagination: false,
+            columns: [{
+                field: 'SKUNO',
+                title: 'SKUNO',
+                align: 'center',
+                valign: 'middle'
+                //formatter: function (value, row, index, field) {
+                //    return 'TOP' + (index + 1);
+                //}
+            }, {
+                field: 'WORKORDERNO',
+                title: 'WO',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'PTH',
+                title: 'PTH',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'FQA',
+                title: 'FQA',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'PRESS_FIT',
+                title: 'PRESS_FIT',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'DX2',
+                title: '5DX2',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'ICT',
+                title: 'ICT',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'STOCKIN',
+                title: 'STOCKIN',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'JOBFINISH',
+                title: 'JOBFINISH',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'FAILWIP',
+                title: 'FAILWIP',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'REPAIRWIP',
+                title: 'REPAIRWIP',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'TRANSFORMATION',
+                title: 'TRANSFORMATION',
+                align: 'center',
+                valign: 'middle'
+            }]
+        };
+        var myChart = echarts.init(document.getElementById('charts'), 'dark', { renderer: 'canvas', width: 'auto', height: 'auto' });
+        $('#dataTable').bootstrapTable(TableOption);
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                GetData();
+            });
+        };
+
+        var GetData = function () {
+            client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                if (e.Status == "Pass") {
+                    show(e.Data);
+                } else {
+                    alert(e.Message);
+                }
+            });
+        };
+
+        var show = function (json) {
+            TableOption.data = json.table;
+            //myChart.setOption(ChartOption, true);
+            $('#dataTable').bootstrapTable('load', json.table);
+        };
+
+        var j = 0
+
+        setInterval(function () {
+            var now = new Date().format("yyyy-MM-dd hh:mm:ss");
+            $('#current-time').text(now);
+            if (ClinetReady == 0 || ClinetReady == 3) {
+                ClinetReady = 2;
+                ClientInit();
+            }
+            if (j == 0 && ClinetReady == 1) {
+                GetData();
+            }
+            j = j + 1;
+            if (j % timer == 0 && ClinetReady == 1) {
+                GetData();
+            }
+        }, 1000);
+        window.onresize = myChart.resize;
+        $(document).ready(function () {
+            $.MES.DEBUG = false;
+            ClientInit();
+        });
+    </script>
+</body>
+</html>

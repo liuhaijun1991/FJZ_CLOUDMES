@@ -1,0 +1,819 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES ConvertWO</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }      
+         </style>
+</head>
+<body class="gray-bg">
+
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:Workorder List">Workorder List</span></h3>
+    </div>
+
+    <div class="panel-body" id="WorkorderList">
+        <div class="panel-body">
+            <div id="toolbar">
+                <div class="btn-group hidden-xs" role="group">
+                    <button type="button" class="btn btn-outline btn-primary" id="btnNew">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableControlList"></table>
+        </div>
+        <table id="mytab"></table>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight col-xs-12 col-md-12 col-sm-12 col-lg-12" id="TransferConvert">
+        <div class="ibox  float-e-margins">
+            <div class="panel-heading bg-primary">
+                <h3 id="Header"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_setworkorder">Set Workorder</lan></i></h3>
+            </div>
+            <div class="form-horizontal col-xs-12 col-md-12 col-sm-12 col-lg-12 ibox-content">
+                <div class="col-xs-12  col-md-12 col-sm-12 col-lg-12">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location='ConvertWorkOrderDcn.html'"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>
+                <div id="Parameters" class="form-horizontal m-t">
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row" style="display:none;">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelID">ID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtID" placeholder="ID" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderNo"><span style="color:red;">*</span>Work Order NO</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderNo" set-lan="attr:placeholder=placeholderWorkOrderNo" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderDate">Work Order Date</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderDate" set-lan="attr:placeholder=placeholderWorkOrderDate" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderQty">Work Order Qty</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderQty" set-lan="attr:placeholder=placeholderWorkOrderQty" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuNO">Sku No</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuNO" set-lan="attr:placeholder=placeholderSkuNO" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelFactoryId">Factory ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtFactoryId" set-lan="attr:placeholder=placeholderFactoryId" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderType">Work Order Type</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <select id="txtWorkOrderType" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelRouteId">Route ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input class="form-control" type="text" id="txtRouteId" set-lan="attr:placeholder=placeholderRouteId" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2" id="divReworkStartStation" hidden>
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelReworkStartStation">Rework Start Station</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtReworkStartStation" set-lan="attr:placeholder=placeholderReworkStartStation" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuVersion">Sku Version</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuVersion" set-lan="attr:placeholder=placeholderSkuVersion" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuDesc">Sku Desc</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuDesc" set-lan="attr:placeholder=placeholderSkuDesc" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelKeyPartListID">KeyPart List ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtKeyPartListID" set-lan="attr:placeholder=placeholderKeyPartListID" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-4 col-md-offset-4 col-lg-offset-5 col-sm-offset-4">
+                        <button class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-save"><lan set-lan="html:Submit">Submit</lan></i></button>
+                        <button class="btn btn-primary" onclick="ResetFunction()"><i class="fa fa-save"><lan set-lan="html:Reset">Reset</lan></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divUploadInfo" class="hidden">
+        <div class="form-group" style="margin-top:15px;">
+            <div class="btn-group hidden-xs m-l-lg" ID="EXCELTEMPLATE">
+                <button class="btn btn-primary" onclick="javascript: window.location = '../../File/WoUploadFile.xlsx'" style="width: 128px;height: 38px;"><i class="fa fa-save"><span set-lan="html:Excel template">Excel template</span></i></button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:150px">
+                <label class="btn btn-primary" for="inputUploadFileData" style="z-index:999;height:38px;"><lan set-lan="html:Upload"><i class="fa fa-upload" aria-hidden="true"> </i></lan></label>
+                <input id="inputUploadFileData" type="file" style="display:none;" class="btn btn-outline btn-primary" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+                <input id="inputUploadFileDataShow" readonly="readonly" class="btn btn-outline btn-primary" onclick="$('#inputUploadFileData').click()" style="height:38px;">
+            </div>
+        </div>
+
+        <div class="">
+            <div id="divExcel" style="padding:0 20px;">
+            </div>
+        </div>
+    </div>
+
+    <div id="divUploadFailRecord" class="hidden" style="margin:5px;">
+        <div class="div-table">
+            <table id="divRecordList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="380"></table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var isPostBack = false;
+        var btnCancel,uploadtitle,swaltitle,warningTitle,warningText, kpText;
+        window.operateEvents = {
+            'click .RoleOfedit': function (e, value, row, index) {
+                self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoInfoById", { ID: row.ID }, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#WorkorderList').hide();
+                        $('#TransferConvert').show();
+                        $("#txtID").val(e.Data[0].ID);
+                        $("#txtWorkOrderNo").val(e.Data[0].WORKORDERNO);
+                        $("#txtWorkOrderDate").val(e.Data[0].CREATE_DATE);
+                        $("#txtWorkOrderQty").val(e.Data[0].QTY);
+                        $("#txtSkuNO").val(e.Data[0].SKUNO);
+                        $("#txtFactoryId").val(e.Data[0].FACTORY);
+                        $("#txtWorkOrderType").val((e.Data[0].ORDERTYPE ? e.Data[0].ORDERTYPE : 'REGULAR'));
+                        $("#txtRouteId").val(e.Data[0].ROUTE_ID);
+                        $("#txtSkuVersion").val(e.Data[0].VERSION);
+                        $("#txtSkuDesc").val(e.Data[0].DESCRIPTION);
+
+                        if ($("#txtFactoryId").val() == "") $("#txtFactoryId").removeAttr("readonly");
+                        else $("#txtFactoryId").attr("readonly", true);
+
+                        if ($("#txtSkuDesc").val() == "") $("#txtSkuDesc").removeAttr("readonly");
+                        else $("#txtSkuDesc").attr("readonly", true);
+                        
+                        //self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetRouteBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+
+                        //    if (e.Status == "Pass") {
+                        //        $("#txtRouteId").empty();
+                        //        $('#txtRouteId').val(e.Data);
+                        //    }
+                        //});
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetRouteBySkunoAndVer", { SKUNO: e.Data[0].SKUNO, VERSION: e.Data[0].VERSION  }, function (e) {
+
+                            if (e.Status == "Pass") {
+                                $("#txtRouteId").empty();
+                                $('#txtRouteId').val(e.Data);
+                            }
+                        });
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetStationBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                            try {
+                                $("#txtReworkStartStation").autocomplete("destroy");
+                            } catch (e) {
+
+                            }
+                            if (e.Status == "Pass") {
+                                $("#txtReworkStartStation").autocomplete({
+                                    minLength: 0,
+                                    source: e.Data,
+                                    select: function (event, ui) {
+                                        $(this).val(ui.item.value);
+                                    },
+                                    create: function (event, ui) {
+                                        $(this).bind("click", function () {
+                                            var active = $(this).attr("autocomplete");
+                                            if (active == "off") {
+                                                $(this).autocomplete("search", "");
+                                            }
+                                        });
+                                    },
+                                    scroll: true,
+                                    scrollHeight: 180,
+                                    position: { my: "right top", at: "right bottom" }
+                                });
+                                if ($("#txtWorkOrderType").val().indexOf("REGULAR") >= 0) {
+                                    $("#divReworkStartStation").hide();
+                                }
+                                else {
+                                    $("#divReworkStartStation").show();
+                                }
+                            }
+                        });
+
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetKPBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                            try {
+                                $("#txtKeyPartListID").autocomplete("destroy");
+                            } catch (e) {
+
+                            }
+                            if (e.Status == "Pass") {
+                                $("#txtKeyPartListID").val(e.Data[0]);
+                            }
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: swaltitle,
+                            text: e.Message,
+                            timer: 2000,
+                            type: "warning",
+                            showConfirmButton: false
+                        });
+                    }
+                    mesUI.SetLanguage("ConvertWOSetting");
+                })
+            }
+        };
+
+        $(document).ready(function () {
+            $('#WorkorderList').show();
+            $('#TransferConvert').hide();
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+                uploadtitle = "工单上传";
+                btnCancel = "取消";
+                swaltitle = "信息";
+                warningTitle = "警告";
+                warningText = "请填写完整必填的信息";
+                kpText = "KP List name must start with SKUNO";
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+                btnCancel = "取消";
+                uploadtitle = "工單上传";
+                swaltitle = "信息";
+                warningTitle = "警告";
+                warningText = "請填寫完整必填的信息";
+                kpText = "KP List name must start with SKUNO";
+            }
+            else {
+                localelan = "en"
+                uploadtitle = "WO Upload";
+                btnCancel = "Cancel";
+                swaltitle = "Message";
+                warningTitle = "Warning";
+                warningText = "Please fill in the required information";
+                kpText = "KP List name must start with SKUNO";
+            }
+
+
+            $("#txtWorkOrderType").change(function () {
+                if ($("#txtWorkOrderType").val().indexOf("REGULAR") >= 0) {
+                    $("#divReworkStartStation").hide();
+                }
+                else {
+                    $("#divReworkStartStation").show();
+                }
+
+            })
+            $("#btnRefreshMapping").click(function () {//刷新按钮点击动作
+                ShowTableList();
+            });
+
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoType", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#txtWorkOrderType").empty();
+                    var WorkOrderType = $('#txtWorkOrderType');
+                    for (var item = 0; item < e.Data.length; item++) {
+                        WorkOrderType.append("<option>" + e.Data[item] + "</option>");
+                    }
+                }
+            });
+
+            ShowTableList();
+            mesUI.SetLanguage("ConvertWOSetting");
+
+
+            $("#btnNew").click(function () {
+                $("#divExcel").html("");
+                layer.open({
+                    id: "UploadData",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: uploadtitle,
+                    area: ['40%', '80%'],
+                    content: $('#divUploadInfo'),
+                    btn: [uploadtitle, btnCancel],
+                    success: function (layero, index) {
+                        $("#divUploadInfo").removeClass("hidden");
+                        $("#inputUploadFileData").val("");
+                        $("#inputUploadFileDataShow").val("");
+                    },
+                    end: function () {
+                        $("#divUploadInfo").addClass("hidden");
+                        ShowTableList();
+                        
+                    },
+                    yes: function (index) {
+                        var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                        parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "UploadExcelWO", { DataList: JSON.stringify(DataList) }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.close(index);
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 800
+                                }, function () {
+                                    $("#inputUploadFileData").val("");
+                                    if (e.Data != 0) {
+                                        ShowFailRecord("UploadExcelWO");
+                                    }
+                                });
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+
+
+            })
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFileData").change(function (e) {//EXCEL內容讀取
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFileData").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        var fromTo = wb.Sheets[shitname[0]]['!ref']
+                        var rowcount = fromTo.substring(fromTo.lastIndexOf(':') + 2, fromTo.length)
+                        for (var i = 0; i < rowcount.length; i++) {
+                            if (rowcount.charCodeAt(i) >= 48 && rowcount.charCodeAt(i) <= 57) {
+                                rowcount = rowcount.substring(i, rowcount.length)
+                                break;
+                            }
+                        }
+                        wb.Sheets[shitname[0]]['!ref'] = 'A1:D' + rowcount;//設置讀取行列
+                        wb.SheetNames.forEach(function (sheetName) {
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+
+
+
+        });
+
+        function ShowTableList() {
+            $('#mytab').html("");
+            $("#mytab").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoConvertList", {}, function (e) {
+                if (e.Status == "Pass") {
+                        var c = [];
+                        for (var item in e.Data[0]) {
+                            c.push({ field: item, title: "<label set-lan=\"html:table" + item + "\">" + item + "</label>" });
+                        }
+                        c.push({
+                            field: 'operate',
+                            title: '<label set-lan=html:tableoperate">OPERATE</label>',
+                            width: '80px',
+                            events: operateEvents,
+                            formatter: function operateFormatter(value, row, index) {
+                                return [
+                                    '<button type="button" id="' + row.ID + '" set-lan="value:operate" class="RoleOfedit btn btn-white" style="display:inline"><i class="fa fa-pencil"></i>Convert</button>',
+                                ].join('');
+                            }
+                        });
+                        $('#mytab').bootstrapTable({
+                            data: e.Data,
+                            striped: true,
+                            cache: false,
+                            pagination: true,
+                            sortable: true,
+                            sortOrder: "asc",
+                            sidePagination: "client",
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 15, 30, 70],
+                            search: true,
+                            strictSearch: true,
+                            searchOnEnterKey: false,
+                            showColumns: false,
+                            showRefresh: false,
+                            minimumCountColumns: 2,
+                            clickToSelect: true,
+                            showToggle: false,
+                            cardView: false,
+                            detailView: false,
+                            dataType: "json",
+                            method: "post",
+                            searchAlign: "right",
+                            buttonsAlign: "left",
+                            toolbar: "#toolbar",
+                            toolbarAlign: "left",
+                            locale: localelan,
+                            showExport: false,                  //是否显示导出按钮
+                            exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                            exportTypes: ['excel', 'csv'],     //导出文件类型
+                            Icons: 'glyphicon-export',
+                            exportOptions: {
+                                ignoreColumn: [0],             //忽略某一列的索引
+                                fileName: 'ConvertWorkorder List',     //文件名称设置
+                                worksheetName: 'sheet1',       //表格工作区名称
+                            },
+                            columns: c,
+
+                        });
+                        $('#mytab').bootstrapTable('hideColumn', 'ID');
+                        mesUI.SetLanguage("ConvertWOSetting");
+                    
+                }
+                else {
+                    swal({
+                        title: swaltitle,
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+
+            })
+
+        }
+        function ShowFailRecord(FUNCTIONNAME) {//失败数据显示
+            layer.open({
+                id: "FailRecord",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: "",
+                area: ['80%', '80%'],
+                content: $('#divUploadFailRecord'),
+                success: function () {
+                    $("#divUploadFailRecord").removeClass("hidden");
+                    parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "ShowFailRecord", { FUNCTION_NAME: FUNCTIONNAME }, function (e) {
+                        $('#divRecordList').bootstrapTable("destroy");
+                        if (e.Status == "Pass") {
+                            $('#divRecordList').bootstrapTable({
+                                data: e.Data,
+                                striped: false,                    //是否显示行间隔色
+                                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                sortable: false,                   //是否启用排序
+                                sortOrder: "desc",                  //排序方式
+                                pagination: true,                  //是否显示分页（*）
+                                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                pageSize: 20,                       //每页的记录行数（*）
+                                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                                showColumns: false,                 //是否显示 内容列下拉框
+                                showRefresh: false,                 //是否显示刷新按钮
+                                minimumCountColumns: 2,            //最少允许的列数
+                                clickToSelect: true,               //是否启用点击选中行
+                                singleSelect: true,                //单选checkbox
+                                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                                cardView: false,                   //是否显示详细视图
+                                detailView: false,                 //是否显示父子表
+                                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                searchOnEnterKey: false,            //回车搜索
+                                searchTimeOut: 500,                //设置搜索超时时间
+                                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                                searchAlign: "right",              //查询框对齐方式
+                                toolbarAlign: "right",              //工具栏对齐方式
+                                buttonsAlign: "right",             //按钮对齐方式
+                                showExport: false,                  //是否显示导出按钮
+                                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                exportTypes: ['excel', 'csv'],     //导出文件类型
+                                Icons: 'glyphicon-export',
+                                exportOptions: {
+                                    ignoreColumn: [0],             //忽略某一列的索引
+                                    fileName: 'FailRecord List',     //文件名称设置
+                                    worksheetName: 'sheet1',       //表格工作区名称
+                                },
+                                columns: [{
+                                    field: 'CLASS_NAME',
+                                    title: '<label set-lan="html:CLASS_NAME">CLASS_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'FUNCTION_NAME',
+                                    title: '<label set-lan="html:FUNCTION_NAME">FUNCTION_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'LOG_MESSAGE',
+                                    title: '<label set-lan="html:LOG_MESSAGE">LOG_MESSAGE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'DATA1',
+                                    title: "DATA1",
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'DATA2',
+                                    title: 'DATA2',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'EDIT_EMP',
+                                    title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },
+                                {
+                                    field: 'EDIT_TIME',
+                                    title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }]
+                            });
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                        }
+                    });
+
+                },
+                end: function () {
+                    $("#divUploadFailRecord").addClass("hidden");
+                },
+            });
+        };
+        function submitFunction() {
+            var ID = $("#txtID").val();
+            var WORKORDERNO = $("#txtWorkOrderNo").val();
+            var DOWNLOAD_DATE = $("#txtWorkOrderDate").val();
+            var WORKORDER_QTY = $("#txtWorkOrderQty").val();
+            var SKUNO = $("#txtSkuNO").val();
+            var PLANT = $("#txtFactoryId").val();
+            var WO_TYPE = $("#txtWorkOrderType").val();
+            var ROUTE_ID = $("#txtRouteId").val();
+            var START_STATION = $("#txtReworkStartStation").val();
+            var SKU_VER = $("#txtSkuVersion").val();
+            var SKU_DESC = $("#txtSkuDesc").val();
+            var KPLISTNAME = $("#txtKeyPartListID").val();
+            if (PLANT == "" || WO_TYPE == "" || ROUTE_ID == "" || WO_TYPE == null) {
+                swal({
+                    title: warningTitle,
+                    text: warningText,
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (WORKORDERNO.startsWith("0092") || WORKORDERNO.startsWith("0094")) {
+                if (!KPLISTNAME.includes(SKUNO)) {
+                    swal({
+                        title: warningTitle,
+                        text: kpText + "\n" + " KPListName: " + KPLISTNAME + ". SKUNO: " + SKUNO,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            }
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "SubmitWoInfoDcn", { wo: WORKORDERNO, date: DOWNLOAD_DATE, qty: WORKORDER_QTY, skuno: SKUNO, factory: PLANT, wo_type: WO_TYPE, route_name: ROUTE_ID, station: START_STATION, sku_ver: SKU_VER, KpListName: KPLISTNAME }, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: swaltitle,
+                        text: e.Message,
+                        type: "success",
+                        showConfirmButton: true
+                    }, function () {
+
+                        $('#WorkorderList').show();
+                        $('#TransferConvert').hide();
+                        ShowTableList();
+                    });
+
+                } else {
+                    swal({
+                        title: swaltitle,
+                        text: e.Message,
+                        type: "warning",
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    });
+                }
+
+            });
+        }
+        function ResetFunction() {
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoInfoById", { ID: $("#txtID").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#txtID").val(e.Data[0].ID);
+                    $("#txtWorkOrderNo").val(e.Data[0].WORKORDERNO);
+                    $("#txtWorkOrderDate").val(e.Data[0].CREATE_DATE);
+                    $("#txtWorkOrderQty").val(e.Data[0].QTY);
+                    $("#txtSkuNO").val(e.Data[0].SKUNO);
+                    $("#txtFactoryId").val(e.Data[0].FACTORY);
+                    $("#txtWorkOrderType").val(e.Data[0].ORDERTYPE == "" ? 'REGULAR' : e.Data[0].ORDERTYPE);
+                    $("#txtRouteId").val(e.Data[0].route_name);
+                    $("#txtReworkStartStation").val("");
+                    $("#txtSkuVersion").val(e.Data[0].VERSION);
+                    $("#txtSkuDesc").val(e.Data[0].DESCRIPTION);
+
+
+                    self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetRouteBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+
+                        if (e.Status == "Pass") {
+                            $("#txtRouteId").empty();
+                            $('#txtRouteId').val(e.Data);
+                        }
+
+                    });
+
+                    self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetStationBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                        try {
+                            $("#txtReworkStartStation").autocomplete("destroy");
+                        } catch (e) {
+
+                        }
+                        if (e.Status == "Pass") {
+                            $("#txtReworkStartStation").autocomplete({
+                                minLength: 0,
+                                source: e.Data,
+                                select: function (event, ui) {
+                                    $(this).val(ui.item.value);
+                                },
+                                create: function (event, ui) {
+                                    $(this).bind("click", function () {
+                                        var active = $(this).attr("autocomplete");
+                                        if (active == "off") {
+                                            $(this).autocomplete("search", "");
+                                        }
+                                    });
+                                },
+                                scroll: true,
+                                scrollHeight: 180,
+                                position: { my: "right top", at: "right bottom" }
+                            });
+                        }
+                    });
+                }
+                else {
+                    swal({
+                        title: swaltitle,
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>

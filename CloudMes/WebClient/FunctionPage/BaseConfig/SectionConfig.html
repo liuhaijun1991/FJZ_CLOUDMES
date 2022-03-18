@@ -1,0 +1,528 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Section Config</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div id="configConten" class="wrapper wrapper-content  animated fadeInRight">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SectionSetting">Section Setting</span></h3>
+        </div>
+        <div class="ibox-content">
+            <div id="divSectionDetail" class="row row-lg">
+                <div class="col-sm-12">
+                   
+                    <div class="ibox-content">
+                        <div class="form-group row form-horizontal">
+                            <label class="col-sm-1 control-label text-right" set-lan="html:txtSection">Section:</label>
+                            <div class="col-sm-2">
+                                <input type="text" id="txtSearchSectionName" class="form-control" set-lan="attr:placeholder=SectionValue">
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-primary" onclick="SearchSection()"><i class="fa fa-search"></i> <lan set-lan="html:select">Search</lan></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="example">
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                    <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-default" onclick="ShowAddSectionTab()">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">add</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" name="btnEdit" onclick="ShowModifySectionTab()">
+                                            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" onclick="DelSection()">
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">delete</lan>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12"></div>
+                            <table id="tableSectionList" class="table table-hover "></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divSectionEdit" class="row row-lg" style="display:none;">
+                <div class="col-sm-12" style="margin-bottom: 10px;margin-top: -10px;">
+                    <button type="button" class="btn btn-primary" onclick="GoBack('')"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>
+                <div id="divSectionAdd" class="col-sm-12" style="display:none;">
+                    <h3 set-lan="html:EditAddSection">添加Section信息</h3>
+                    <div class="ibox-content">
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-sm-offset-3 control-label text-right" set-lan="html:EditSectionName">Section Name：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtAddSectionName" set-lan="attr:placeholder=txtAddSectionName"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-sm-offset-2 control-label text-right" set-lan="html:EditSectionDescription">Section Description：</label>
+                            <div class="col-sm-4">
+                                <!--<input type="text" class="form-control" id="txtAddCustomerDescription"  placeholder="Customer Description" />-->
+                                <textarea class="form-control" rows="3" id="txtAddSectionDescription" set-lan="attr:placeholder=txtAddSectionDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-sm-offset-4">
+                                <button type="button" class="btn btn-primary" onclick="AddSection()"><i class="fa fa-pencil"></i> <lan set-lan="html:add">添加信息</lan></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divSectionModify" class="col-sm-12" style="display:none;">
+                    <h3 set-lan="html:EditModifySection">修改Section信息</h3>
+                    <div class="ibox-content">
+                        <div class="form-group row" style="display:none;">
+                            <label class="col-sm-1 col-sm-offset-3 control-label text-right" set-lan="html:EditSectionID">Section ID：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtModifySectionID" placeholder="Section ID" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-sm-offset-3 control-label text-right" set-lan="html:EditSectionName">Section Value：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtModifySectionName" set-lan="attr:placeholder=txtAddSectionName" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-sm-offset-2 control-label text-right" set-lan="html:EditNewSectionName">New Section Value：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtNewSectionName" set-lan="attr:placeholder=txtNewSectionName" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-sm-offset-2 control-label text-right" set-lan="html:EditSectionDescription">Section Description：</label>
+                            <div class="col-sm-4">
+                                <!--<input type="text" class="form-control" id="txtModifyCustomerDescription"  placeholder="Customer Description" />-->
+                                <textarea class="form-control" rows="3" id="txtModifySectionDescription" set-lan="attr:placeholder=txtAddSectionDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-sm-offset-4">
+                                <button type="button" class="btn btn-primary" onclick="ModifySection()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">保存信息</lan></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "ShowAllData", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowTable(e.Data);
+                } else {
+                    ShowTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                mesUI.SetLanguage("SectionSetting");
+            });
+            mesUI.SetLanguage("SectionSetting");
+        });
+
+        function SearchSection() {
+            var sectionName = $("#txtSearchSectionName").val().replace(/^\s+|\s+$/g, "");
+            if (sectionName.length == 0) {
+                DoAllSearchSection();
+            } else {
+                DoSearchSection(sectionName);
+            }
+        }
+
+        function DoSearchSection(sectionName) {
+            var param = { ColumnName: "Section_Name", ColumnValue: sectionName };
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "SelectByColumnName", param, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableSectionList').bootstrapTable("load", e.Data);
+                } else {
+                    $('#tableSectionList').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function DoAllSearchSection() {
+            var param = {};
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "ShowAllData", param, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableSectionList').bootstrapTable("load", e.Data);
+                } else {
+                    $('#tableSectionList').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ShowTable(Data) {
+            var tableLocale = $.cookie($.MES.CK_LAN_NAME);
+            if (tableLocale == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (tableLocale == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+
+            $('#tableSectionList').bootstrapTable({
+                data:Data,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                singleSelect: true,                     // 单选checkbox
+                //height: 500,             //高度调整
+                //uniqueId: "RouteID",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+                //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    //params obj
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+
+                toolbarAlign: "left",//工具栏对齐方式
+
+                columns: [{
+                    checkbox: true
+                },{
+                    field: 'ID',
+                    title: 'ID',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: false
+                },{
+                    field: 'Section_Name',
+                    title: '<label set-lan="html:tableSectionName">SECTION</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'Description',
+                    title: '<label set-lan="html:tableDescription">DESCRIPTION</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }],
+                locale: tableLocale//中文支持,
+            });
+            
+        }
+
+        function ShowAddSectionTab()
+        {
+            $("#divSectionDetail").hide();
+            $("#divSectionEdit").show();
+            $("#divSectionAdd").show();
+            $("#divSectionModify").hide();
+            ClearAll();
+            $("#txtAddSectionName").select();
+            $("#txtAddSectionName").focus;
+        }
+
+        function ShowModifySectionTab()
+        {
+            var selectSection = $("#tableSectionList").bootstrapTable('getSelections');
+            if (selectSection.length > 1) {
+                swal({
+                    title: "",
+                    text: "Only one row of data can be selected for editing",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (selectSection.length <= 0) {
+                swal({
+                    title: "",
+                    text: "Please select the valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            $("#divSectionDetail").hide();
+            $("#divSectionEdit").show();
+            $("#divSectionAdd").hide();
+            $("#divSectionModify").show();
+            ClearAll();
+            $("#txtModifySectionID").val(selectSection[0].ID);
+            $("#txtModifySectionName").val(selectSection[0].Section_Name);
+            $("#txtModifySectionDescription").val(selectSection[0].Description);
+            $("#txtNewSectionName").select();
+            $("#txtNewSectionName").focus;
+        }
+
+        function GoBack(value) {
+            ClearAll();
+            $("#divSectionDetail").show();
+            $("#divSectionEdit").hide();
+            $("#divSectionAdd").hide();
+            $("#divSectionModify").hide();
+            DoAllSearchSection();
+        }
+
+        function ClearAll()
+        {
+            $("#txtSearchSectionName").val("");
+            $("#txtAddSectionName").val("");
+            $("#txtAddSectionDescription").val("");
+            $("#txtModifySectionID").val("");
+            $("#txtModifySectionName").val("");
+            $("#txtNewSectionName").val("");
+            $("#txtModifySectionDescription").val("");
+        }
+
+        function AddSection()
+        {
+            var SectionName = $("#txtAddSectionName").val().replace(/^\s+|\s+$/g, "");
+            var SectionDescription = $("#txtAddSectionDescription").val().replace(/^\s+|\s+$/g, "");
+            if (SectionName == "" || SectionName == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter Section name",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddSectionName").focus;
+                    $("#txtAddSectionName").select();
+                }, 2001);
+                return;
+            }
+            if (SectionDescription == "" || SectionDescription == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter  Section desc",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddSectionDescription").focus;
+                    $("#txtAddSectionDescription").select();
+                }, 2001);
+                return;
+            }
+            var data = { SectionName: SectionName, DESCRIPTION: SectionDescription };
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "SectionInsert", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddSectionName").val("");
+                        $("#txtAddSectionDescription").val("");
+                        $("#txtAddSectionName").focus;
+                        $("#txtAddSectionName").select();
+                    }, 2001);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddSectionName").focus;
+                        $("#txtAddSectionName").select();
+                    }, 2001);
+                    return;
+                }
+            });
+        }
+
+        function ModifySection()
+        {
+            var SectionID = $("#txtModifySectionID").val().replace(/^\s+|\s+$/g, "");
+            var SectionName = $("#txtModifySectionName").val().replace(/^\s+|\s+$/g, "");
+            var newSectionName = $("#txtNewSectionName").val().replace(/^\s+|\s+$/g, "");
+            var SectionDescription = $("#txtModifySectionDescription").val().replace(/^\s+|\s+$/g, "");
+            if (SectionDescription == "" || SectionDescription == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter SECTION desc",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtModifySectionDescription").focus;
+                    $("#txtModifySectionDescription").select();
+                }, 2001);
+                return;
+            }
+            var data = { ID: SectionID, SectionName: newSectionName, DESCRIPTION: SectionDescription };
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "UpdateSectionByID", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    if (newSectionName == "" || newSectionName == undefined) {
+                        GoBack(SectionName);
+                    }
+                    else {
+                        GoBack(newSectionName);
+                    }
+                } else {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtModifySectionDescription").focus;
+                        $("#txtModifySectionDescription").select();
+                    }, 2001);
+                    return;
+                }
+            });
+        }
+
+        function DelSection() {
+            var selectSection = $("#tableSectionList").bootstrapTable('getSelections');
+            if (selectSection.length > 1) {
+                swal({
+                    title: "",
+                    text: "Only one row of data can be Deleted for one time",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (selectSection.length <= 0) {
+                swal({
+                    title: "",
+                    text: "Please select the valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var data = { ID: selectSection[0].ID };
+            self.parent.client.CallFunction("MESStation.Config.CSectionConfig", "DeleteSectionByID", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    DoAllSearchSection();
+                } else {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
+

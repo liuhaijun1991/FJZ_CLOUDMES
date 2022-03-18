@@ -1,0 +1,200 @@
+
+
+
+ 记录时间：2021-05-15 11:58:04,399 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 11:58:04,934 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Error:未能找到路径“C:\Users\juniper_user\Desktop\DESC\Interface\FJZ\DISCData\JuniperSFCProd.key”的一部分。 
+
+
+
+
+ 记录时间：2021-05-15 11:58:04,952 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：End 
+
+
+
+
+ 记录时间：2021-05-15 12:00:19,552 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 12:00:19,657 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Error:未能找到路径“E:\disc\DISCData\JuniperSFCProd.key”的一部分。 
+
+
+
+
+ 记录时间：2021-05-15 12:00:19,672 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：End 
+
+
+
+
+ 记录时间：2021-05-15 12:01:10,723 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 12:01:10,760 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Error:未能找到文件“E:\disc\DISCData\JuniperSFCProd.key”。 
+
+
+
+
+ 记录时间：2021-05-15 12:01:10,780 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：End 
+
+
+
+
+ 记录时间：2021-05-15 12:02:09,076 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,954 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：TRACE send success 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,954 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：TEST send success 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,955 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：DEFECT send success 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,955 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：MFG send success 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,955 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：REPAIR send success 
+
+
+
+
+ 记录时间：2021-05-15 12:29:23,955 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：End 
+
+
+
+
+ 记录时间：2021-05-15 12:49:56,820 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,838 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：TRACE send success 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,838 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：TEST send success 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,838 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：DEFECT send success 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,838 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：MFG send success 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,838 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：REPAIR send success 
+
+
+
+
+ 记录时间：2021-05-15 12:57:37,839 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：End 
+
+
+
+
+ 记录时间：2021-05-15 14:24:17,235 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+
+
+
+
+ 记录时间：2021-05-15 14:25:42,237 
+日志级别：  INFO  
+出错类：MESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+错误描述：Start 
+

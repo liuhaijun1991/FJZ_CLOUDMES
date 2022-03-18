@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Label Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .form-group label {
+            padding-top: 8px; 
+        }
+        .fixed-table-toolbar {
+            overflow: auto;
+        }
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+
+        .tabs-container .tabs-left > .nav-tabs,
+        .tabs-container .tabs-right > .nav-tabs {
+            width: 200px;
+        }
+
+        .file-outline {
+            padding: 4px 0 0 0;
+            margin-left: -5px !important;
+            z-index: 0;
+            height: 33px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+        
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body full-height">
+        <!--KP List Toolbar-->
+        <div id="Table_Toolbar">
+            <!-- div  class="btn-group hidden-xs" role="group">
+        <button type="button" class="btn btn-outline btn-primary" id="NewLabel">
+            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+        </button>
+        <button type="button" class="btn btn-outline btn-primary" id="EditLabel">
+            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+        </button>
+        <button type="button" class="btn btn-outline btn-primary" id="DeleteLabel">
+            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+        </button>
+    </div -->
+            <button type="button" class="btn btn-outline btn-primary" id="DownloadLabel">
+                <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i><lan set-lan="html:Download"> Download</lan>
+            </button>
+            <div class="btn-group hidden-xs" style="padding-right:200px">
+                <label class="btn btn-outline btn-primary input-group" for="LabelFileUpload" style="z-index:1;"><lan set-lan="html:Upload"> Upload</lan></label>
+                <input id="LabelFileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".lab,.txt,.xls,.xlsx">
+            </div>
+            <button type="button" class="btn btn-outline btn-default" id="DeleteLabel">
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+            </button>
+        </div>
+        <!--Kp List-->
+        <table id="Label_List_Table"></table>
+    </div>
+    <div id="NewLabelPanel" class="panel-body hidden">        
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <label class="col-xs-3 control-label text-right" set-lan="html:LabelName">Label Name:</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" id="txt_LabelName" set-lan="attr:placeholder=LabelName" placeholder="Label Name">
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-xs-3 control-label text-right" set-lan="html:PrinterIndex">Printer Index:</label>
+                <div class="col-xs-9">
+                    <select class="form-control" id="txt_PrintType">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-xs-3 control-label text-right" set-lan="html:ArrMaxLength">Max Length:</label>
+                <div class="col-xs-9">
+                    <input class="form-control" id="txt_ArryLength" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <img style="display:none; width:auto;height:auto;" id="uImg" />
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/Setting/LabelSetting.js"></script>
+    <script>
+
+       
+        
+    </script>
+</body>
+</html>

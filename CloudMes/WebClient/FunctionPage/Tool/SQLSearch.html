@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">SQL Search</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <!--加載窗口開始-->
+    <div class="ibox-content full-height login_page win8-bg" id="loadingScreen">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+            <div class="text-center font-bold note-fontsize-10">loading ...</div>
+        </div>
+    </div>
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i><span style="padding-left: 10px;">SQL Search</span>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <div class="form-horizontal" id="divData">
+                    <div class="panel panel-default no-padding col-xs-3">
+                        <div class="panel-heading">SQL</div>
+                        <div class="panel-body" style="padding-top:15px;padding-bottom:15px;">
+                            <textarea class="form-control" rows="18" id="inputSQL" placeholder="Please Input SQL"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" id="btnSubmit" style="margin-left: 30px;">
+                                <i class="glyphicon glyphicon-check" aria-hidden="true"></i><lan>&nbsp; SUBMIT</lan>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel panel-default no-padding col-xs-9">
+                        <div class="panel-heading">RESULT</div>
+                        <div class="panel-body" style="padding-top:0px;padding-bottom:0px;">
+                            <table id="tableResult" class="table table-hover"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+        var ShowList = function (tableID, data) {
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                if (item == "ID") {
+                    cell.visible = false;
+                }
+                columns.push(cell);
+            }
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                columns: columns
+            });
+        }
+        var GTLoading = function (flag) {
+            if (flag) {
+                $("#loadingScreen").show();
+                $("#divData").hide();
+            } else {
+                $("#loadingScreen").hide();
+                $("#divData").show();
+            }
+        };
+        $(document).ready(function () {
+            GTLoading(false);
+            $("#btnSubmit").bind("click", function (e) {
+                var sql = $("#inputSQL").val();
+                if (sql == "") {
+                    layer.msg("Please Input SQL!", { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                GTLoading(true);
+                self.parent.client.CallFunction("MESStation.Management.SQLSearch", "RunSQL", { SQL: sql },
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            ShowList("tableResult", e.Data);
+                        }
+                        else {
+                            layer.msg(e.Message, { icon: 2, time: 60000, title: 'ERROR', btn: ['OK'] },
+                                function () {
+                                    $("#inputSQL").val("");
+                                    $("#tableResult").bootstrapTable("destroy");
+                                });
+                        }
+                        GTLoading(false);
+                    }
+                );
+            });
+        });
+    </script>
+</body>
+</html>

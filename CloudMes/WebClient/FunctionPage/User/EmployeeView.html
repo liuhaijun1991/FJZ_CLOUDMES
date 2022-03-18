@@ -1,0 +1,882 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES Employee</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--<link href="css/animate.css" rel="stylesheet">-->
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        #Parameters .form-group {
+            padding-top: 10px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #toolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        /*div.export > button:first-child {
+             border-top-left-radius: 0; 
+             border-bottom-left-radius: 0;
+        }*/
+        #toolbar {
+            float:left;
+            padding:0px;
+            margin:0px;
+        }
+
+        #pagenum {
+            padding-right: 14px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInRight" id="Emp_list">
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+            <div class="ibox  float-e-margins">
+                <div class="panel-heading bg-primary">
+                    <h3><i class="glyphicon glyphicon-tags"></i><lan style="padding-left:10px;"  set-lan="text:h_UserInformation">User Information</lan></h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-horizontal row">
+                        <div class="form-group col-xs-8 col-md-8 col-sm-8 col-lg-8 col-xs-offset-1 col-sm-offset-1 col-lg-offset-1  col-md-offset-1">
+                            <label class="col-xs-3 col-md-3 col-sm-3 col-lg-2 control-label"><lan set-lan="text:lbl_EmpNO">EMP_NO</lan></label>
+                            <div class="col-xs-5 col-md-5 col-sm-5 col-lg-5">
+                                <input type="text" class="form-control" id="S_empno" oninput="TextChange()">
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2 col-lg-2">
+                                <button class="btn btn-primary" id="S_info"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ibox-content">
+                    <!--<h1>User List</h1>-->
+                    <div class="fixed-table-toolbar">
+                        <div class="btn-group" id="toolbar" role="group">
+                            <button type="button" class="btn btn-outline btn-default" id="Employee_Add">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"><lan set-lan="html:add">Add</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" id="Employee_Update">
+                                <i class="glyphicon glyphicon-pencil" aria-hidden="true"><lan set-lan="html:edit">Modify</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" id="Employee_Delete">
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"><lan set-lan="html:delete">Delete</lan></i>
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-hover" id="mytab"></table>
+                    <div class="fixed-table-pagination">
+                        <div class="pull-left pagination-detail">
+                            <span class="pagination-info" set-lan="html:PaginationShow">每頁顯示</span>
+                            <span class="page-list">
+                                <span class="btn-group dropup" >
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="page-size" id="page-size">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" id="dropdown-ul">
+                                        <li role="menuitem" class="active">
+                                            <a href="#">10</a>
+                                        </li>
+                                        <li role="menuitem" class="">
+                                            <a href="#">20</a>
+                                        </li>
+                                    </ul>
+                                </span>&nbsp;&nbsp;<span set-lan="html:PaginationPage">Data</span> 
+                            </span>
+                        </div>
+                        <div class="pull-right" id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--跳轉頁面彈出窗口-->
+    <div class="wrapper wrapper-content animated fadeInRight col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div class="ibox  float-e-margins" id="Emp_Add">
+            <!--<div class="row">-->
+            <div class="panel-heading bg-primary">
+                <!--<div><a href="EmployeeView.html"><i class="fa fa-mail-reply"><lan set-lan="html:a_ReturnList">返回列表</lan></i></a></div>-->
+                <h3 id="Header_A" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_newuser">New User</lan></i></h3>
+                <h3 id="Header_U" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_updateuser">Modify User</lan></i></h3>
+            </div>
+            <div class="form-horizontal col-xs-12 col-sm-12 col-lg-12 col-md-12 ibox-content">
+                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location='EmployeeView.html'"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>
+                <div id="Parameters" class="form-horizontal m-t">
+                    <div class="row">
+                        <div class="form-group col-xs-6 col-sm-6 col-lg-6 col-md-6" hidden="hidden">
+                            <label for="ID" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label">ID:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="ID" placeholder="ID">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <label for="FACTORY" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_factory">FACTORY</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <select id="FACTORY" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6 col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="BU_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_buname">BU_NAME</lan>:</label>
+                            <div class="col-xs-8  col-sm-9 col-lg-9 col-md-9">
+                                <select id="BU_NAME" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_NO" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empno">EMP_NO</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="EMP_NO" set-lan="attr:placeholder=placeholderEMP_NO" size="12">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_PASSWORD" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_emppassword">EMP_PASSWORD</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="password" name="show" class="form-control" id="EMP_PASSWORD" placeholder="密碼含数字,字母,特殊字符且超過6位的字符组成!">-->
+                                <input type="password" name="show" class="form-control" id="EMP_PASSWORD" set-lan="attr:placeholder=placeholderEMP_PASSWORD">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empname">EMP_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="EMP_NAME" set-lan="attr:placeholder=placeholderEMP_NAME">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="DPT_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_dptname">DPT_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <select id="DPT_NAME" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="POSITION_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3 control-label"><span style=" color:red">*</span><lan set-lan="html:h_positionname">POSITION_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="POSITION_NAME" set-lan="attr:placeholder=placeholderPOSITION_NAME">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="MAIL_ADDRESS" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_mailaddress">MAIL_ADDRESS</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="text" name="show" class="form-control" id="MAIL_ADDRESS" placeholder="以@mail.foxconn.com或@foxconn.com結尾">-->
+                                <input type="text" name="show" class="form-control" id="MAIL_ADDRESS" set-lan="attr:placeholder=placeholderMailAddress">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="PHONE_NUMBER" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_phonenumber">PHONE_NUMBER</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="text" name="show" class="form-control" id="PHONE_NUMBER" placeholder="分機格式560-XXXXX 短號格式42+XXXXXX 手機11位">-->
+                                <input type="text" name="show" class="form-control" id="PHONE_NUMBER" set-lan="attr:placeholder=placeholderPhoneNumber">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="LOCATION" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_location">LOCATION</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="LOCATION" set-lan="attr:placeholder=placeholderLOCATION">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="message-text" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empdesc">EMP_DESC</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="EMP_DESC" set-lan="attr:placeholder=placeholderEMP_DESC">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="AGENT_EMP_NO" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label"><lan set-lan="html:h_agentempno">AGENT_EMP_NO</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="AGENT_EMP_NO" set-lan="attr:placeholder=placeholderAGENT_EMP_NO">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="message-text" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label "><lan set-lan="html:h_empenname">EMP_EN_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" class="form-control" id="EMP_EN_NAME" set-lan="attr:placeholder=placeholderEMP_EN_NAME">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span style="color:red;" class="col-xs-3 col-sm-3 col-lg-3 col-md-3">帶*為必填項</span>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6  col-xs-offset-6 col-sm-offset-6 col-md-offset-6 col-lg-offset-6">
+                        <button class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-save"><lan set-lan="html:save">Save</lan></i></button>
+                    </div>
+                </div>
+            </div>
+            <!--</div>-->
+        </div>
+    </div>
+
+    <!--新增修改彈出窗口-->
+    <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document" style=" width:60%; height:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel"><lan set-lan="text:h_newuser"></lan></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="form-group col-xs-6  ss" hidden="hidden">
+                                <label for="ID" class="col-xs-2  control-label">ID:</label>
+                                <div class="col-xs-10">
+                                    <input type="text" name="show" class="form-control" id="ID" placeholder="ID">
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-6  ss">
+                                <label for="FACTORY" class="col-xs-2  control-label"><span style=" color:red">*</span>FACTORY:</label>
+                                <div class="col-xs-10">
+                                    <select id="FACTORY" name="show" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="BU_NAME" class="col-xs-2 control-label"><span style=" color:red">*</span>BU_NAME:</label>
+                                <div class="col-xs-10">
+                                    <select id="BU_NAME" name="show" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="EMP_NO" class="col-xs-2 control-label"><span style=" color:red">*</span>EMP_NO:</label>
+                                <div class="col-xs-10">
+                                    <input type="text" name="show" class="form-control" id="EMP_NO" placeholder="EMP_NO" size="12">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="EMP_PASSWORD" class="col-xs-3 control-label"><span style=" color:red">*</span>EMP_PASSWORD:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="EMP_PASSWORD" placeholder="密碼含数字,字母,特殊字符且超過6位的字符组成!">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="EMP_NAME" class="col-xs-2 control-label"><span style=" color:red">*</span>EMP_NAME:</label>
+                                <div class="col-xs-10">
+                                    <input type="text" name="show" class="form-control" id="EMP_NAME" placeholder="EMP_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="DPT_NAME" class="col-xs-2 control-label"><span style=" color:red">*</span>DPT_NAME:</label>
+                                <div class="col-xs-10">
+                                    <select id="DPT_NAME" name="show" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="POSITION_NAME" class="col-xs-3 control-label"><span style=" color:red">*</span>POSITION_NAME:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="POSITION_NAME" placeholder="POSITION_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="MAIL_ADDRESS" class="col-xs-3 control-label"><span style=" color:red">*</span>MAIL_ADDRESS:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="MAIL_ADDRESS" placeholder="以@mail.foxconn.com或@foxconn.com結尾">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="PHONE_NUMBER" class="col-xs-3 control-label"><span style=" color:red">*</span>PHONE_NUMBER:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="PHONE_NUMBER" placeholder="分機格式560-XXXXX 短號格式42+XXXXXX 手機11位">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="LOCATION" class="col-xs-2 control-label"><span style=" color:red">*</span>LOCATION:</label>
+                                <div class="col-xs-10">
+                                    <input type="text" name="show" class="form-control" id="LOCATION" placeholder="LOCATION">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="message-text" class="col-xs-2 control-label"><span style=" color:red">*</span>EMP_DESC:</label>
+                                <div class="col-xs-10">
+                                    <input type="text" name="show" class="form-control" id="EMP_DESC" placeholder="EMP_DESC">
+                                </div>
+                            </div>
+                            <div class="form-group  col-xs-6  ss">
+                                <label for="AGENT_EMP_NO" class="col-xs-3 control-label">AGENT_EMP_NO:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="AGENT_EMP_NO" placeholder="AGENT_EMP_NO">
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-6  ss">
+                                <label for="message-text" class="control-label col-xs-3">EMP_EN_NAME:</label>
+                                <div class="col-xs-9">
+                                    <input type="text" name="show" class="form-control" id="EMP_EN_NAME" placeholder="EMP_EN_NAME">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span style="color:red; float:left;">帶*為必填項</span>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"><lan set-lan="html:btn_close">Close</lan></i></button>
+                    <button type="button" class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-tasks"><lan set-lan="html:btn_save">SAVE</lan></i></button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../../Scripts/plugins/pagination/bootstrap-paginator.js"></script>
+<script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定義 -->
+ 
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var ClassName = "MESStation.MESUserManager.UserManager";
+        var FunctionName = "CreateNewUser";
+        var Func;
+        var Infowarn;
+        var Sub_Func;
+        var isPostBack = false;
+        var checkthing = false;
+        var searchemp = "";
+        var mesUI = new MesClientUI(self.parent.client);
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {
+            $('#Emp_Add').hide();
+            $('#Emp_list').show();
+            var mesUI = new MesClientUI(self.parent.client);
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+
+            //加載廠區
+            self.parent.client.CallFunction("MESStation.Config.FactoryConfig", "GetAllFactory", { FACTORY_CODE: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    var dep = $('#FACTORY');
+                    for (var item = 0; item < e.Data.length; item++) {
+                        dep.append("<option>" + e.Data[item].FACTORY_CODE + "</option>");
+                    }
+                }
+            });
+            //加載部門
+            self.parent.client.CallFunction("MESStation.Config.DepartmentConfig", "GetDepartmentList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    var dep = $('#DPT_NAME');
+                    for (var item = 0; item < e.Data.length; item++) {
+                        dep.append("<option>" + e.Data[item] + "</option>");
+                    }
+                }
+            });
+            //加載BU
+            self.parent.client.CallFunction("MESStation.GlobalConfig.GetCommonConfig", "GetBU", {}, function (e) {
+                if (e.Status == "Pass") {
+                    var bu = $('#BU_NAME');
+                    for (var item = 0; item < e.Data.length; item++) {
+                        bu.append("<option>" + e.Data[item] + "</option>");
+                    }
+                }
+            });
+            //加載表數據
+            loadtable("LoadInformation", { PageRow: 10, PageCount: 1, emp_no: searchemp }, isPostBack);
+
+            //獲取並且賦值Page
+            //pagelist("");
+
+            //Page改變觸發，改變頁面數據
+            //$("#pagenum").change(function () {
+            //    var SelectText = $('#pagenum option:selected').text();
+            //    if (checkthing) {
+            //        loadtable("LoadInformation", { PageRow: 10, PageCount: SelectText, emp_no: $("#S_empno").val() }, true);
+            //    } else {
+            //        loadtable("LoadInformation", { PageRow: 10, PageCount: SelectText, emp_no: "" }, true);
+            //    }
+
+            //});
+            //工號查詢
+            $('#S_info').click(function () {
+                //pagelist($("#S_empno").val());
+                Search();
+                //if ($.trim($('#S_empno').val()) == "") {
+                //    loadtable("LoadInformation", { PageRow: 10, PageCount: "", emp_no: $("#S_empno").val() }, true);
+                //    pagelist();
+                //} else {
+                //    var searchdata = { EMP_NO: $('#S_empno').val() };
+                //    isPostBack = true;
+                //    loadtable("SelectInformation", searchdata, isPostBack);
+                //    $("#pagenum").empty();
+                //    var Pagenum = $("#pagenum");
+                //    Pagenum.append("<option selected >1</option>");
+                //}
+            });
+
+           
+            $("#S_empno").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    Search();
+                }
+            });
+            //工號限制
+            $('#EMP_NO').blur(function () {
+                if ($("#EMP_NO").val().replace(/^\s+|\s+$/g, "") == "" || $("#EMP_NO").val().replace(/^\s+|\s+$/g, "") == null) {
+                }
+                else if ($('#EMP_NO').val().length >= 9 || $('#EMP_NO').val().length <= 4) {
+                    swal({
+                        title: "警告",
+                        text: "請輸入正確的工號!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    $('#EMP_NO').val("");
+                }
+            });
+            //密碼限制
+            $('#EMP_PASSWORD').blur(function () {
+                //Debug 正則表達式需要加密才能加入，取出時解密。
+                //var jiemi = decodeURI("/%5E(?!%5B0-9%5D+$)(?!%5Ba-zA-Z%5D+$)(?!(%5B%5E(0-9a-zA-Z)%5D%7C%5B()%5D)+$)(%5B%5E(0-9a-zA-Z)%5D%7C%5B()%5D%7C%5Ba-zA-Z%5D%7C%5B0-9%5D)%7B6,%7D$/");
+                //var jiami = encodeURI("/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,}$/");
+                //var sss = /^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,}$/;
+                if ($("#EMP_PASSWORD").val().replace(/^\s+|\s+$/g, "") == "" || $("#EMP_PASSWORD").val().replace(/^\s+|\s+$/g, "") == null) {
+                }
+                else {
+                    self.parent.client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "EMP_PASSWORD" }, function (e) {
+                        if (e.Status == "Pass") {
+                            var reg = eval(decodeURI(e.Data.EMP_PASSWORD));
+                            if (!reg.test($('#EMP_PASSWORD').val())) {
+                                swal({
+                                    title: "警告",
+                                    text: "密碼含数字,字母,特殊字符且超過6位的字符组成!",
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                $('#EMP_PASSWORD').val("");
+                            }
+                        }
+                    })
+                }
+            });
+            //電話號碼限制
+            $('#PHONE_NUMBER').blur(function () {
+                //var fff = /(^5\d{2,3}-\d{5,6}$)|(^4\d{1,2}\+\d{6}$)|(^\d{11}$)/;
+                if ($("#PHONE_NUMBER").val().replace(/^\s+|\s+$/g, "") == "" || $("#PHONE_NUMBER").val().replace(/^\s+|\s+$/g, "") == null) {
+                }
+                else {
+                    self.parent.client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "PHONE_NUMBER" }, function (e) {
+                        if (e.Status == "Pass") {
+                            var reg = eval(decodeURI(e.Data.PHONE_NUMBER));
+                            if (!(reg.test($('#PHONE_NUMBER').val()))) {
+                                swal({
+                                    title: "警告",
+                                    text: "請輸入正確的號碼!",
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                $('#PHONE_NUMBER').val("");
+
+                            }
+                        }
+                    })
+                }
+            });
+            //郵箱限制
+            $('#MAIL_ADDRESS').blur(function () {
+                //var fff = /(^[A-Za-zd]+([-_.][A-Za-zd]+)*@foxconn.com$)|(^[A-Za-zd]+([-_.][A-Za-zd]+)*@mail.foxconn.com$)/;
+                if ($("#MAIL_ADDRESS").val().replace(/^\s+|\s+$/g, "") == "" || $("#MAIL_ADDRESS").val().replace(/^\s+|\s+$/g, "") == null) {
+                } else {
+                    self.parent.client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "MAIL_ADDRESS" }, function (e) {
+                        if (e.Status == "Pass") {
+                            var reg = eval(decodeURI(e.Data.MAIL_ADDRESS));
+                            if (!reg.test($('#MAIL_ADDRESS').val().replace(/^\s+|\s+$/g, ""))) {
+                                swal({
+                                    title: "警告",
+                                    text: "請輸入正確的郵箱!",
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                $('#MAIL_ADDRESS').val("");
+
+                            }
+                        }
+                    })
+                }
+            });
+            //新增用戶
+            $("#Employee_Add").on('click', function () {
+                $('#Emp_Add').show();
+                $('#Emp_list').hide();
+                $("#Header_A").removeAttr('hidden', 'hidden');
+                $("#Header_U").attr('hidden', 'hidden');
+                //$("#Header_A").text("New User");
+                $("#Parameters").find(".form-control").val("");
+                //$('#exampleModalLabel').text("New User");
+                //$('#exampleModal').modal();
+                //$("#exampleModal").find(".form-control").val("");
+                mesUI.SetLanguage("UserList");
+            });
+            //修改信息
+            $('#Employee_Update').click(function () {
+                var arrselections = $("#mytab").bootstrapTable('getSelections');
+                if (arrselections.length > 1) {
+                    swal({
+                        title: "警告",
+                        text: "只能選擇一行數據!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (arrselections.length <= 0) {
+                    swal({
+                        title: "警告",
+                        text: "請選擇有效的數據!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                //$('#exampleModalLabel').text("Update Infomation");
+                //$('#exampleModal').modal();
+                $('#Emp_Add').show();
+                $('#Emp_list').hide();
+                $("#Header_A").attr('hidden', 'hidden');
+                $("#Header_U").removeAttr('hidden', 'hidden');
+                //$("#Header_U").text("Update Information");
+                self.parent.client.CallFunction(ClassName, "SelectInformation", { EMP_NO: arrselections[0].EMP_NO }, function (e) {
+                    if (e.Status == "Pass") {
+                        var dd = $("#Parameters").find("[name=show]");
+                        for (var item = 0 ; item < dd.length; item++) {
+                            var inputname = dd[item].id;
+                            $("#" + inputname).val(e.Data[0][inputname]);
+                        }
+                        //$('#Factory').val(e.Data["Factory"]);
+                        //$('#BU_NAME').val(e.Data["BU_NAME"]);
+                        //$('#EMP_NO').val(e.Data["EMP_NO"]);
+                        //$('#EMP_PASSWORD').val(e.Data["EMP_PASSWORD"]);
+                        //$('#EMP_LEVEL').val(e.Data["EMP_LEVEL"]);
+                        //$('#DPT_NAME').val(e.Data["DPT_NAME"]);
+                        //$('#POSITION_NAME').val(e.Data["POSITION_NAME"]);
+                        //$('#MAIL_ADDRESS').val(e.Data["MAIL_ADDRESS"]);
+                        //$('#PHONE_NUMBER').val(e.Data["PHONE_NUMBER"]);
+                        //$('#LOCATION').val(e.Data["LOCATION"]);
+                        //$('#AGENT_EMP_NO').val(e.Data["AGENT_EMP_NO"]);
+                        //$('#EMP_DESC').val(e.Data["EMP_DESC"]);
+                        //$('#EMP_EN_NAME').val(e.Data["EMP_EN_NAME"]);
+                    }
+                })
+                mesUI.SetLanguage("UserList");
+            });
+            //刪除用戶
+            $('#Employee_Delete').click(function () {
+                var arrselections = $("#mytab").bootstrapTable('getSelections');
+                if (arrselections.length <= 0) {
+                    swal("警告", "請選擇有效的數據!", "warning");
+                    return;
+                }
+                swal({
+                    title: "提示",
+                    text: "確認要刪除選擇的" + arrselections.length + "條數據嗎！",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定删除！",
+                    showCancelButton: true
+                }, function () {
+                    //var data = "{ \"ID\" :\"";
+                    //for (var i = 0; i < arrselections.length; i++) {
+                    //    data += arrselections[i].ID + ",";
+                    //}
+                    //data = data.substr(0, data.length - 1);
+                    //data += "\"}";
+                    var IDArray = new Array();
+                    for (var i = 0; i < arrselections.length; i++) {
+                        IDArray.push(arrselections[i].ID);
+                    }
+                    var data = { ID: IDArray };
+                    self.parent.client.CallFunction(ClassName, "DeleteInformation", data, function (e) {
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "提示",
+                                text: "刪除成功！",
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            }, function () {
+                                window.location = "EmployeeView.html";
+                            });
+                        }
+                    })
+
+                });
+
+            });
+
+            $("#dropdown-ul").on("click", "li", function () {
+                $("#dropdown-ul li").removeClass("active");
+                $(this).addClass("active");
+                $("#page-size").text($(this).text());
+                loadtable("LoadInformation", { PageRow: 10, PageCount: 1, emp_no: searchemp }, true);
+            });
+            mesUI.SetLanguage("UserList");
+        });
+
+        function Search() {
+            searchemp = $("#S_empno").val();
+            loadtable("LoadInformation", { PageRow: 10, PageCount: "", emp_no: searchemp }, true);
+            if ($("#S_empno").val().replace(/^\s+|\s+$/g, "") == "" || $("#S_empno").val().replace(/^\s+|\s+$/g, "") == null) {
+                checkthing = false;
+            } else {
+                checkthing = true;
+            }
+        }
+        function TextChange() {
+            if ($("#S_empno").val() == "") {
+                Search();
+            }
+        };
+       
+        //加載表數據
+        function loadtable(f, d, i) {
+            var PageSizs;
+            if ($("#page-size").text() != "") {
+                PageSizs = $("#page-size").text();
+            }
+            d = { PageRow: parseInt(PageSizs), PageCount: d.PageCount, emp_no: d.emp_no };
+            self.parent.client.CallFunction(ClassName, f, d, function (e) {
+                if (e.Status == "Pass") {
+                    if (i) {
+                        $('#mytab').bootstrapTable('load', e.Data);
+                    }
+                    else {
+                        var c = [];
+                        var checkbox = " title:'checkall',field:'select',checkbox: true, width: 30, align: 'center',valign: 'middle' ";
+                        c.push({ checkbox });
+                        for (var item in e.Data[0]) {
+                            c.push({ field: item, title: "<label set-lan=\"html:table" + item + "\">" + item + "</label>" });
+                        };
+                        c.push({ field: 'operate',title: 'OwnerRole',align: 'center',events: "operateEvents",formatter: operateFormatter });
+                        $('#mytab').bootstrapTable({
+                            data: e.Data,
+                            striped: false,
+                            cache: false,
+                            //pagination: true,
+                            sortable: false,
+                            sortOrder: "asc",
+                            //sidePagination: "server",
+                            //pageNumber: n,
+                            //pageSize: s,
+                            //pageList: [8, 15, 30, 70],
+                            search: false,
+                            strictSearch: true,
+                            searchOnEnterKey: false,
+                            showColumns: false,
+                            showRefresh: false,
+                            minimumCountColumns: 2,
+                            clickToSelect: true,
+                            showToggle: false,
+                            cardView: false,
+                            detailView: false,
+                            dataType: "json",
+                            method: "post",
+                            searchAlign: "left",
+                            buttonsAlign: "left",
+                            toolbar: "#toolbar",
+                            toolbarAlign: "left",
+                            showExport: true,                  //是否显示导出按钮
+                            exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                            exportTypes: ['excel', 'csv'],     //导出文件类型
+                            Icons: 'glyphicon-export',
+                            exportOptions: {
+                                ignoreColumn: [0],             //忽略某一列的索引
+                                fileName: 'Customer List',     //文件名称设置
+                                worksheetName: 'sheet1',       //表格工作区名称
+                            },
+                            columns: c,
+                            locale: localelan
+                            //onpagechange: function (n, s) {
+                            //    loadtable(n, s);
+                            //}
+
+                           
+                        });
+                       
+                        $('#mytab').bootstrapTable('hideColumn', 'ID');
+                        $('#mytab').bootstrapTable('hideColumn', 'EMP_PASSWORD');
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                    self.parent.client.CallFunction(ClassName, "GetMaxPage", { PageRow: parseInt(PageSizs), Emp_No: d.emp_no }, function (g) {
+                        if (g.Status == "Pass") {
+                            Pagination(g.Data, d.PageCount);
+                        }
+                    });
+                   
+                }
+                else {
+                    swal({
+                        title: "提示",
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+                mesUI.SetLanguage("UserList");
+            })
+        };
+
+        function operateFormatter(value, row, index) {
+            var cqaBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;"><span class="glyphicon glyphicon-user"></span>Role</button>';
+            return [cqaBtn].join('');
+        }
+
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+                self.parent.client.CallFunction("MESStation.MESUserManager.UserRole", "SelectUserRoleInfo", { EMP_NO: row.EMP_NO }, function (g) {
+                    if (g.Status == "Pass") {
+                        var msgstr = "";
+                        for (var i = 0; i < g.Data.length; i++) {
+                            msgstr += g.Data[i].ROLE_NAME+'\\';
+                        }
+                        msgstr = msgstr.length == 0 ? "NoData!" : msgstr;
+                        layer.tips(msgstr, e.currentTarget,{
+                            tips: [2, '#3595CC'],
+                            time: 4000
+                        });
+                    }
+                });
+                
+            }
+        };
+
+        function Pagination(PageNum, currentPage) {
+           
+            $('#pageLimit').bootstrapPaginator({
+                currentPage: currentPage,//当前的请求页面。
+                totalPages: PageNum,//一共多少页。
+                size: "normal",//应该是页眉的大小。
+                bootstrapMajorVersion: 3,//bootstrap的版本要求。
+                alignment: "right",
+                numberOfPages: 5,//一页列出多少数据。
+                itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+                    switch (type) {
+                        case "first": return "<<";
+                        case "prev": return "<";
+                        case "next": return ">";
+                        case "last": return ">>";
+                        case "page": return page;
+                    }
+                }, onPageClicked: function (event, originalEvent, type, page) {//给每个页眉绑定一个事件，其实就是ajax请求，其中page变量为当前点击的页上的数字。
+                    loadtable("LoadInformation", { PageRow: 10, PageCount: page, emp_no: "" }, true);
+                }
+            });
+        }
+        //獲取頁面數
+        //function pagelist(Emp_No) {
+        //    self.parent.client.CallFunction(ClassName, "GetMaxPage", { PageRow: 10, Emp_No: Emp_No }, function (e) {
+        //        $("#pagenum").empty();
+        //        var Pagenum = $("#pagenum");
+        //        if (e.Status == "Pass") {
+        //            for (var i = 1; i <= e.Data ; i++) {
+        //                Pagenum.append("<option " + (i == 1 ? "selected" : "") + ">" + i + "</option>");
+        //                //Pagenum.append("<li role='presentation><a role='menuitem' tabindex='-1' href=" + loadtable(i, 10, "LoadInformation", { PageRow: 10, PageCount: i, emp_no: "" }, true) + ">" + i + "</a></li> ");
+        //            }
+        //        }
+        //    })
+        //};
+        //提交
+        function submitFunction() {
+            if ($('#FACTORY option:selected').text() == "" || $('#BU_NAME option:selected').text() == "" || $('#EMP_NO').val() == "" || $('#EMP_PASSWORD').val() == "" || $('#DPT_NAME option:selected').text() == "" || $('#POSITION_NAME').val() == "" || $('#MAIL_ADDRESS').val() == "" || $('#PHONE_NUMBER').val() == "" || $('#LOCATION').val() == "" || $('#EMP_DESC').val() == "") {
+                swal({
+                    title: "警告",
+                    text: "請填寫完整必填的信息!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            else {
+                //var data = "{Token:\"" + self.parent.client.Token + "\",";
+                var data = "{";
+                var dd = $("#Parameters").find("[name=show]");
+                for (var item = 0; item < dd.length; item++) {
+                    var inputname = dd[item].id;
+                    if (inputname == "FACTORY" || inputname == "BU_NAME" || inputname == "DPT_NAME") {
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname + " option:selected").text() + "\",";
+                    }
+                    else {
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname).val() + "\",";
+                    }
+                }
+                data = data.substr(0, data.length - 1);
+                data += "}";
+                if ($("#Header_U").is(":visible") == true) {
+                    Infowarn = "修改";
+                    Sub_Func = "UpdateInformation";
+                } else {
+                    Infowarn = "註冊";
+                    Sub_Func = "CreateNewUser";
+                }
+                self.parent.client.CallFunction(ClassName, Sub_Func, JSON.parse(data), function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: Infowarn + "提示",
+                            text: Infowarn + "成功！",
+                            timer: 2000,
+                            type: "success",
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                                if (Infowarn == "註冊") {
+                                    $("#Parameters").find(".form-control").val("");
+                                }
+                                else {
+                                    window.location = "EmployeeView.html";
+                                }
+                        },2001);
+                    }
+                    else {
+                        swal({
+                            title: Infowarn + "提示",
+                            text: e.Message,
+                            type: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>

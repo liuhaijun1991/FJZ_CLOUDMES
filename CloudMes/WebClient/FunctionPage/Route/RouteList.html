@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>RouteTest</title>
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="col-sm-12">
+            <h1 style="color:#1ab394">Route</h1>
+            <div class="btn-group hidden-xs" id="toolbar" role="group">
+                <button type="button" class="btn btn-outline btn-default">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true">New</i>
+                </button>
+                <a class="J_menuItem btn btn-outline btn-default" href="RouteEdit.html">
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</i>
+                </a>
+                <button type="button" class="btn btn-outline btn-default" id="del">
+                    <i class="glyphicon glyphicon-minus" aria-hidden="true">Delete</i>
+                </button>
+            </div>
+            <table class="table table-hover " id="mytab"></table>
+        </div>
+    </div>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- Bootstrap table -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/PageContabs.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var datajson = [{ "RouteID": "SMT", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-01", "RouteDesc": "前端" },
+            { "RouteID": "SMT1", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-02", "RouteDesc": "前端" },
+            { "RouteID": "SMT2", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-03", "RouteDesc": "前端" },
+            { "RouteID": "SMT3", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-04", "RouteDesc": "前端" },
+            { "RouteID": "5", "RouteCategory": "5", "CustomerID": "5", "MainSkuno": "5", "RouteDesc": "前端" },
+            { "RouteID": "SMT", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-01", "RouteDesc": "前端" },
+            { "RouteID": "SMT1", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-02", "RouteDesc": "前端" },
+            { "RouteID": "SMT2", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-03", "RouteDesc": "前端" },
+            { "RouteID": "SMT3", "RouteCategory": "PCBA", "CustomerID": "PAC", "MainSkuno": "73-12222-04", "RouteDesc": "前端" },
+            { "RouteID": "5", "RouteCategory": "5", "CustomerID": "5", "MainSkuno": "5", "RouteDesc": "前端" }];
+
+            $('#mytab').bootstrapTable({
+                data: datajson,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+
+                pagination: true,                   //是否显示分页（*）
+
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+
+                pageSize: 5,                       //每页的记录行数（*）
+
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+
+                search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: true,                  //是否显示所有的列
+
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+
+                //height: 500,             //高度调整
+                uniqueId: "RouteID",                     //每一行的唯一标识，一般为主键列
+
+                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+                //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    //params obj
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+
+                toolbarAlign: "right",//工具栏对齐方式
+
+                columns: [
+                    {
+                        title: "selectAll",
+                        field: "select",
+                        checkbox: true,
+                        width: 30,//宽度
+                        align: "center",//水平
+                        valign: "middle"//垂直
+                    },
+                    {
+                        field: 'RouteID',
+                        title: 'RouteID',
+                        sortable: true,//是否可排序
+
+                        order: "desc"//默认排序方式
+                    },
+                    {
+                        field: 'RouteCategory',
+                        title: 'RouteCategory'
+                    },
+                    {
+                        field: 'CustomerID',
+                        title: 'CustomerID'
+                    },
+                    {
+                        field: 'MainSkuno',
+                        title: 'MainSkuno'
+                    },
+                    {
+                        field: 'RouteDesc',
+                        title: 'RouteDesc'
+                    }
+                ],
+                locale: "zh-CN"//中文支持,
+
+
+            });
+
+            //根据窗口调整表格高度
+            //$(window).resize(function () {
+            //    $('#mytab').bootstrapTable('resetView', {
+            //        height: tableHeight()
+            //    })
+            //});
+
+            function tableHeight() {
+                return $(window).height() - 200;
+            }
+
+            //$('#del').click(function () {
+            //    var arrselections = $("#editable").bootstrapTable('getSelections');
+            //    if (arrselections.length <= 0) {
+            //        toastr.warning('请选择有效数据');
+            //        return;
+            //    }
+
+            //    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+            //        if (!e) {
+            //            return;
+            //        }
+            //    });
+            //});            
+        });
+
+    </script>
+</body>
+</html>

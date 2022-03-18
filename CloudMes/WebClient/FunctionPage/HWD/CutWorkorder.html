@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Cut Workorder</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }     
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i><span style="padding-left: 10px;">Cut Workorder </span>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <div class="form-horizontal">
+                    <div class="col-xs-12">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-5 control-label text-right">WO:</label>
+                            <div class="col-xs-7">
+                                <input type="text" id="inputWO" class="form-control" />
+                                <!--<select class="form-control" id="inputWO"></select>-->
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <input class="checkbox checkbox-inline" type="checkbox" id="ckByStation" value="Cut WO by station" />
+                            <label for="ckByStation">Cut WO by station</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-5 control-label text-right">WOQty:</label>
+                            <div class="col-xs-7">
+                                <input type="text" id="inputWOQty" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <label class="control-label text-left">Input WO QTY&amp;Cut WO station QTY</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-5 control-label text-right">Version:</label>
+                            <div class="col-xs-7">
+                                <input type="text" id="inputVersion" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <label class="control-label text-left">WO version&amp;Input DEL to delete WO</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-5 control-label text-right">StartStation:</label>
+                            <div class="col-xs-7">
+                                <input type="text" id="inputStartStation" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <label class="control-label text-left">WO start station&amp;Cut WO station</label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="col-xs-6  col-xs-offset-3">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" id="btnCheckData" style="width:120px;">
+                                    <i class="glyphicon glyphicon-check" aria-hidden="true"></i><lan>&nbsp; CheckData</lan>
+                                </button>
+                                <button type="button" class="btn btn-primary" id="btnSubmit" style="width:120px;">
+                                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan>&nbsp; Submit</lan>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+        var woList = [];
+        var GetWODataInfo = function (wo) {
+            self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "GetWODataInfo", { WO: wo },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        $("#inputWOQty").val(e.Data[0].WORKORDER_QTY);
+                        $("#inputVersion").val(e.Data[0].SKU_VER);
+                        $("#inputStartStation").val(e.Data[0].START_STATION);
+                        $("#btnSubmit").select().focus();
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                }
+            );
+        };
+        var GetWoList = function () {
+            self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "GetCutWoList", {},
+                function (e) {
+                    if (e.Status == "Pass") {
+                        woList.splice(0, woList.length);
+                        for (var i = 0; i < e.Data.length; i++) {
+                            woList.push(e.Data[i].WORKORDERNO);
+                        }
+                        $("#inputWO").autocomplete({
+                            minLength: 0,
+                            source: woList,
+                            select: function (event, ui) {
+                                $(this).val(ui.item.value);
+                                GetWODataInfo(ui.item.value);
+
+                            },
+                            create: function (event, ui) {
+                                $(this).bind("click", function () {
+                                    var active = $(this).attr("autocomplete");
+                                    if (active == "off") {
+                                        $(this).autocomplete("search", "");
+                                    }
+                                });
+                            },
+                            scroll: true,
+                            scrollHeight: 50,
+                            position: { my: "left top", at: "left bottom" }
+                        });
+                    }
+                }
+            );
+        };
+
+        $(document).ready(function () {            
+            GetWoList()
+            $("#btnCheckData").hide();
+            $("#ckByStation").change(function () {
+                if ($("#ckByStation").is(":checked")) {
+                    $("#btnCheckData").show();
+                }
+                else {
+                    $("#btnCheckData").hide();
+                }
+            });
+
+            $("#inputWOQty").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    $("#inputVersion").select().focus();
+                }
+            });
+
+            $("#inputVersion").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    $("#inputStartStation").select().focus();
+                }
+            });
+
+            $("#inputStartStation").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    $("#btnSubmit").select().focus();
+                }
+            });
+            $("#btnCheckData").bind("click", function (e) {
+                var wo = $("#inputWO").val();
+                var startStation = $("#inputStartStation").val();
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "CutWoCheckWoData", { WO: wo, StartStation: startStation },
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            $("#inputWOQty").val(e.Data);
+                            $("#inputWOQty").select().focus();
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    }
+                );
+            });
+            $("#btnSubmit").bind("click", function (e) {
+                var wo = $("#inputWO").val();
+                if (wo == "") {
+                    layer.msg("You must input the WO!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+                var qty = $("#inputWOQty").val();
+                var version = $("#inputVersion").val();
+                var startStation = $("#inputStartStation").val();
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "CutWo", { WO: wo, QTY: qty, Version: version, StartStation: startStation },
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 3000
+                            }, function () { });
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+</body>
+</html>

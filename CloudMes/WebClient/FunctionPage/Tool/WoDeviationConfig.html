@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">MES</title>
+    <meta charset="utf-8">
+    <meta name="author" content="champion" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        #ConfigView {
+            display: none;
+        }
+
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #toolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"><lan set-lan="html:WoDeviationView" style="padding-left:10px;" id="TitleName">WoDeviation</lan></i></h3>
+        </div>
+        <div class="ibox-content">
+            <div id="WoDeviationView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="col-xs-5   col-sm-6  col-md-5  col-lg-4 col-xs-offset-2">
+                                <input type="text" set-lan="attr:placeholder=PlaceholderSearchContent" class="form-control" id="SearchText">
+                            </div>
+                            <div class="col-xs-3   col-sm-2 col-md-2  col-lg-1"><button class="btn btn-primary" id="Search"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar">
+                            <div class="btn-group div-table-tool" id="toolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-default" id="AddClick">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="ModifyClick">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="Delclick">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                </button>
+                            </div>
+                        </div>
+                        <table class="table table-hover" id="WoDeviationTable"></table>
+                    </div>
+                </div>
+            </div>
+            <div id="DeviationConfigView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;margin-top: -10px;">
+                        <button type="button" class="btn btn-primary" id="GoBack"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <form role="form" class="form-horizontal m-t">
+                        <div class="col-sm-12">
+                            <div class="form-group draggable" id="WorkOrderDiv">
+                                <label class="col-sm-3 control-label" set-lan="html:WorkOrder">Work Order：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" readonly="readonly" class="form-control" id="WORKORDER" set-lan="attr:placeholder=PlaceholderWorkOrder" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label" id="MessageText"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:Devation">Deviation：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="WODEVIATION" set-lan="attr:placeholder=PlaceholderWoDeviation" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="hr-line-dashed col-sm-12"></div>
+                        <div class="form-group draggable">
+                            <div class="col-sm-12 col-sm-offset-5 col-xs-offset-5">
+                                <button type="button" class="btn btn-primary" id="AddSave"><i class="fa fa-pencil" set-lan="html:save">保存信息</i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var check = "";
+        $(document).ready(function () {
+            var LoginName = self.parent.client.UserInfo.EMP_NO;
+            var LoginLevel = self.parent.client.UserInfo.EMP_LEVEL;
+            var mesUI = new MesClientUI(self.parent.client);
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+            //初始加載
+            function LoadData() {
+                $("#DeviationConfigView").hide();
+                var ClassName = "MESStation.Config.ConvertWorkorder";
+                var FunctionName = "GetWoDeviation";
+
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowTable(e.Data, "#WoDeviationTable");
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                    else {
+                        ShowTable([], "#WoDeviationTable");
+                        MessageAlert("ERROR", "No corresponding data found！");
+                        return;
+                    }
+                });
+                //mesUI.SetLanguage("WoDeviationSetting");
+            }
+            $("#GoBack").click(function () {
+                ClearAll();
+            });
+            function ClearAll() {
+                //-----------------------------------
+                $("#WoDeviationView").show();
+                $("#DeviationConfigView").hide();
+
+                //$("#TitleName").html("<lan set-lan='html:h_actioncode'>ActionCode</lan>");
+                //$("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:WoDeviationView');
+                $("#WORKORDER").val("");
+                $("#WODEVIATION").val("");
+                var ClassName = "MESStation.Config.ConvertWorkorder";
+                var FunctionName = "GetWoDeviation";
+
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#WoDeviationTable').bootstrapTable('load', e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                    else {
+                        ShowTable([], "#WoDeviationTable");
+                        MessageAlert("ERROR", "No corresponding data found！");
+                        return;
+                    }
+                });
+
+                //mesUI.SetLanguage("WoDeviationSetting");
+
+
+                //-----------------------------------
+            }
+            //搜索框事件
+            $("#Search").click(function () {
+                var EValue = $.trim($("#SearchText").val());
+                if (EValue.length < 1) {
+                    MessageAlert("ERROR", " Please enter valid data！");
+                    return;
+                }
+                var ClassName = "MESStation.Config.ConvertWorkorder";
+                var FunctionName = "GetWoDeviationByFuzzySearch";
+                self.parent.client.CallFunction(ClassName, FunctionName, { SearchValue: EValue }, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#WoDeviationTable').bootstrapTable("load", e.Data);
+                    }
+                    else {
+                        MessageAlert("ERROR", "No corresponding data found！");
+                        return;
+                    }
+                });
+            });
+            //清空搜索框返回列表
+            $("#SearchText").change(function () {
+                if ($.trim($("#SearchText").val()).length < 1) {
+                    var ClassName = "MESStation.Config.ConvertWorkorder";
+                    var FunctionName = "GetWoDeviation";
+                    self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                        if (e.Status == "Pass") {
+                            $('#WoDeviationTable').bootstrapTable("load", e.Data);
+                        }
+                        else {
+                            MessageAlert("ERROR", "No corresponding data found！");
+                            return;
+                        }
+                    });
+                }
+            });
+
+            $("#SearchText").keydown(function (event) {
+                var EValue = $.trim($("#SearchText").val());
+                if (event.keyCode == 13) {
+                    if ($.trim($("#SearchText").val()).length > 0) {
+                        var ClassName = "MESStation.Config.ConvertWorkorder";
+                        var FunctionName = "GetWoDeviationByFuzzySearch";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { SearchValue: EValue }, function (e) {
+                            if (e.Status == "Pass") {
+                                $('#WoDeviationTable').bootstrapTable("load", e.Data);
+                            }
+                            else {
+                                MessageAlert("ERROR", "No corresponding data found！");
+                                return;
+                            }
+                        });
+                    }
+                }
+            });
+            //增加按钮事件
+            $("#AddClick").click(function () {
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    AddWoDeviation();
+                }
+                else {
+                    MessageAlert("ERROR", "Do not have permission to add！！");
+                    return;
+                }
+            });
+            function AddWoDeviation() {
+                $("#WoDeviationView").hide();
+                $("#DeviationConfigView").show();
+                ////$("#TitleName").html("<lan set-lan='html:h_addactioncode'>AddActionCode</lan>");
+                //$("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:h_AddActionCode');
+                //$("#ErrorMessage").attr("class", "form-group draggable");
+                $("#WORKORDER").removeAttr("readonly");
+                $("#WORKORDER").focus();
+                $("#WORKORDER").val("");
+                $("#WODEVIATION").val("");
+                check = "ADD";
+                //mesUI.SetLanguage("WoDeviationSetting");
+            }
+            $("#ModifyClick").click(function () {
+                var Selections = $("#WoDeviationTable").bootstrapTable('getSelections');
+                if (Selections.length != 1) {
+                    MessageAlert("ERROR", "You must select a row to modify！");
+                    return;
+                }
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    ModifyWoDeviation();
+                }
+                else {
+                    MessageAlert("ERROR", "You do not have permission to edit！！");
+                    return;
+                }
+            });
+            function ModifyWoDeviation() {
+                var Selections = $("#WoDeviationTable").bootstrapTable('getSelections');
+                if (Selections.length < 1 || Selections.length > 1) {
+                    MessageAlert("ERROR", "You must select a row to modify！");
+                    return;
+                }
+                $("#WoDeviationView").hide();
+                $("#DeviationConfigView").show();
+                //$("#TitleName").html("<lan set-lan='html:h_modifyacitoncode'>ModifyActionCode</lan>");
+                //$("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:h_ModifyActionCode');
+                $("#WORKORDER").val(Selections[0].WORKORDERNO);
+                $("#WORKORDER").attr("readonly", "readonly");
+                //$("#ErrorMessage").attr("class", "form-group draggable");
+                //$("#MessageText").html("");
+                $("#WODEVIATION").val(Selections[0].DEVIATION);
+                check = "";
+                //mesUI.SetLanguage("WoDeviationSetting");
+            }
+            //刪除用戶權限
+            $("#Delclick").click(function () {
+                var Selections = $("#WoDeviationTable").bootstrapTable('getSelections');
+                if (Selections.length != 1) {
+                    MessageAlert("ERROR", "Select at least one row to modify！");
+                    return;
+                }
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    DeleteWoDeviation();
+                }
+                else {
+                    MessageAlert("ERROR", "You do not have permission to add. ！！");
+                    return;
+                }
+            });
+            function DeleteWoDeviation() {
+                var Selections = $("#WoDeviationTable").bootstrapTable('getSelections');
+                if (Selections.length < 1) {
+                    MessageAlert("ERROR", "Select at least one row to delete！");
+                    return;
+                }
+                else {
+                    var DeviationId = "";
+                    for (var i = 0; i < Selections.length; i++) {
+                        DeviationId += "'"+Selections[i].ID+"',";
+                    }
+                    DeviationId = DeviationId.substr(0, DeviationId.length - 1);
+                    swal({
+                        title: "Are you sure you want to delete this" + Selections.length + "a Deviation?",
+                        //text: "刪除的Action：" + DeleteCode,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Delete",
+                        closeOnConfirm: false
+                    }, function () {
+                        //-------------------------------------------------------
+                        //删除事务
+                        var ClassName = "MESStation.Config.ConvertWorkorder";
+                        var FunctionName = "DeleteWoDeviationByIds";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { Ids: DeviationId }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "delete success！");
+                                ClearAll();
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "No corresponding data found！");
+                                return;
+                            }
+                        });
+
+                        //------------------------------------------------------
+                        MessageAlert("OK", "The data you operated on has been deleted successfully！");
+                        return;
+                    });
+                }
+            }
+            //Add点击SAVE触发事件
+            $("#AddSave").click(function () {
+                var SaveType = $("#TitleName").html();
+                var Wo = $.trim($("#WORKORDER").val().toUpperCase());
+                var Deviation = $.trim($("#WODEVIATION").val());
+                if (Wo.length < 0 ) {
+                    MessageAlert("ERROR", "Please enter the work order number！");
+                    return;
+                }
+                if (Deviation.length < 0) {
+                    MessageAlert("ERROR", "Please enter Deviation！");
+                    return;
+                }
+
+                var myReg = /^[0-9]+$/;
+                if (!myReg.test(Wo)) {
+                    MessageAlert("ERROR", "Order number can only be number！");
+                    return;
+                }
+				/*
+                var edReg = /^D[0-9]{6}$/;
+                if (!edReg.test(Deviation)) {
+                    MessageAlert("ERROR", "Deviation 格式不正確，必須以 D 開頭！");
+                    return;
+                }*/
+                if (check == "ADD") {
+                    swal({
+                        title: "Are you sure you want to add" + Deviation + "this Deviation?",
+                        text: "The data is priceless, please operate with caution！",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#f8bb86",
+                        confirmButtonText: "Insert",
+                        closeOnConfirm: false
+                    }, function () {
+                        var ClassName = "MESStation.Config.ConvertWorkorder";
+                        var FunctionName = "AddNewWoDeviation";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { WO: Wo, DEVIATION: Deviation }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "The data of your operation has been updated successfully！");
+                                $("#WORKORDER").val("");
+                                $("#WODEVIATION").val("");
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "Update failed. Please try again later！");
+                                return;
+                            }
+                        });
+
+                    });
+                }
+                else {
+                    var Selections = $("#WoDeviationTable").bootstrapTable('getSelections');
+                    if (Selections.length != 1) {
+                        MessageAlert("ERROR", "Only one row can be selected for modif！");
+                        return;
+                    }
+                    var Id = Selections[0].ID;
+                    var WorkOrder = Selections[0].WORKORDERNO;
+                    var Deviation = $("#WODEVIATION").val();
+
+                    swal({
+                        title: "Are you sure you want to modify it" + WorkOrder + "Deviation?",
+                        text: "The data is priceless, please operate with caution！",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "Modify",
+                        closeOnConfirm: false
+                    }, function () {
+                        var ClassName = "MESStation.Config.ConvertWorkorder";
+                        var FunctionName = "UpdateWoDeviationById";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { Id: Id, Deviation:Deviation }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "The data of your operation has been updated successfully！");
+                                ClearAll();
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "Not found Data！");
+                                return;
+                            }
+                        });
+                    });
+
+
+                }
+            });
+
+            //創建表格
+            function ShowTable(Data, TableName) {
+                var fie = [];
+                var checkbox = "";
+                fie.push({ title: 'checkall', field: 'checkall', checkbox: true, align: 'center' });
+                for (var item in Data[0]) {
+                    fie.push({ field: item, title: item });
+                }
+                $(TableName).bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    toolbar: "#toolbar",       //指定工具栏
+                    toolbarAlign: "left",              //工具栏对齐方式
+                    buttonsAlign: "left",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'WoDeviationExcel',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    columns: fie,
+                    locale: localelan //中文支持,
+                });
+                $(TableName).bootstrapTable('hideColumn', 'ID');
+
+            }
+            //MessgeBox
+            function MessageAlert(MsgType, MsgTitle) {
+                if (MsgType == "ERROR") {
+                    swal({
+                        title: MsgTitle,
+                        text: "The data is priceless, please operate with caution！",
+                        type: "warning",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                }
+                if (MsgType == "OK") {
+                    swal({
+                        title: MsgTitle,
+                        text: "The data is priceless, please operate with caution！",
+                        type: "success",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                }
+            }
+            // ---------------------------------------END---------------------------------------//
+            LoadData();
+            mesUI.SetLanguage("WoDeviationSetting");
+        });
+    </script>
+</body>
+</html>

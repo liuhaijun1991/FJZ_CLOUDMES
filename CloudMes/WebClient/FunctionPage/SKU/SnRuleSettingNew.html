@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8" />
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sn Rule Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapvalidator/bootstrapValidator.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .editable {
+            color:blue;
+            text-decoration:underline;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body">
+        <div id="divNewSnRule" class="form-horizontal">
+            <div class="form-group col-xs-6">
+                <label id="labelNewRuleName" class="col-xs-2 control-label text-right">Rule Name:</label>
+                <div class="col-xs-5 inline">
+                    <input type="text" class="form-control" name="newRuleName" id="txtNewRuleName" />
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-outline btn-default" id="btnNewSNRule">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:add">New SN Rule</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="divSNRuleList" class="col-xs-12">
+            <div class="bootstrap-table">
+                <div class="fixed-table-toolbar">
+                    <div class="btn-group div-table-tool" id="tableRuleToolbar" role="group">
+                        <button type="button" class="btn btn-outline btn-default" id="btnToolRefresh">
+                            <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                        </button>
+                    </div>
+                </div>
+                <table id="SNRuleListTable" class="table table-hover table-bordered"></table>
+            </div>
+        </div>
+        <div id="divRuleDetail" class="hidden">
+            <div class="col-xs-7">
+                <div class="bootstrap-table">
+                    <div class="fixed-table-toolbar">
+                        <div class="btn-group div-table-tool" id="tableRuleDetailToolbar" role="group">
+                            <button type="button" class="btn btn-outline btn-default" id="btnToolSave">
+                                <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:">Save</lan>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" id="btnCopy">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                <lan set-lan="text:Copy">Copy</lan>
+                            </button>
+                            <button id="btnAddNewRow" type="button" class="btn btn-outline btn-default">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>AddNewRow
+                            </button>
+                        </div>
+                    </div>
+                    <table id="tableRuleDetail" class="table table-hover table-bordered">
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <div class="bootstrap-table">
+                    <div class="fixed-table-toolbar">
+                        <div class="btn-group div-table-tool" id="tableCodeTypeToolbar" role="group">
+                            <select id="selectCodeType" class="btn btn-outline btn-default" style="height:34px;">
+                            </select>
+                        </div>
+                    </div>
+                    <table id="tableCodeType" class="table table-hover">
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="divCopy" class="form-horizontal" hidden>
+            <div style="margin-top:10px;">
+                <label class="col-xs-5 control-label text-right">Reference Rule Name:</label>
+                <div class="col-xs-6 inline">
+                    <input type="text" class="form-control" id="txtReferenceName" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-1.11.1.js"></script>-->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script type="text/javascript">
+        let inputType;
+        let codeType;
+        let resetSnFlag;
+        let c_sn_rule_id;
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        window.ColumnBtnClick = {
+            'click #btnDetail': function (e, value, row, index) {
+                c_sn_rule_id = "";
+                layer.open({
+                    title: '<label class="layer-title-field">Name:</label><label class="layer-title-value">' + row.NAME + '</label>',
+                    type: 1,
+                    skin: 'layui-layer-demo', //样式类名
+                    anim: 2,
+                    maxmin: true,
+                    area: ['100%', '90%'], //宽高
+                    content: $('#divRuleDetail'),
+                    success: function (layero, index) {
+                        $("#divRuleDetail").removeClass("hidden");
+                        c_sn_rule_id = row.ID;
+                        GetSNRuleDetail(c_sn_rule_id);
+                    },
+                    //end: function () {
+                    //    $("#divRuleDetail").addClass("hidden");
+                    //},
+                    cancel: function (index) {
+                        GetRuleList();
+                    }
+                });
+            },
+            'click #btnDelete': function (e, value, row, index) {
+                $('#tableRuleDetail').bootstrapTable("removeByUniqueId", row.ID)
+            },
+            'click #btnAdd': function (e, value, row, index) {
+                if (!row.SEQ || !row.INPUTTYPE || !row.CODETYPE || !row.CURVALUE || !row.RESETSN_FLAG) {
+                    layer.msg("Please input SEQ,INPUTTYPE,CODETYPE,CURVALUE,RESETSN_FLAG", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                row.ID = row.SEQ + row.INPUTTYPE + row.CODETYPE + row.CURVALUE;
+                $('#tableRuleDetail').bootstrapTable("insertRow",
+                    {
+                        index: index + 1,
+                        row: {
+                            "ID": "",
+                            "C_SN_RULE_ID": c_sn_rule_id,
+                            "SEQ": "",
+                            "INPUTTYPE": "",
+                            "CODETYPE": "",
+                            "CURVALUE": "",
+                            "RESETSN_FLAG": "",
+                            "RESETVALUE": "",
+                            "CHECK_FLAG": "",
+                            "EDIT_TIME": "",
+                            "EDIT_EMP": "",
+                            "VALUE10": ""
+                        }
+                    });
+            }
+        }
+        var GetSNRuleDetail = function (ruleId, isCopy, newRuleId) {
+            parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "GetSNRuleDetailByIdNew", { RuleId: ruleId }, function (e) {
+                if (e.Status == "Pass") {
+                    let tableData = e.Data;
+                    if (isCopy) {
+                        $.each(tableData, function (item, value) {
+                            value.C_SN_RULE_ID = newRuleId;
+                            value.ID = "";
+                        });
+                    }
+
+                    $('#tableRuleDetail').bootstrapTable("destroy");
+                    $('#tableRuleDetail').bootstrapTable({
+                        data: tableData,
+                        uniqueId: "ID",
+                        striped: true,                    //是否显示行间隔色
+                        pagination: true,                  //是否显示分页（*）
+                        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                     //初始化加载第一页，默认第一页
+                        pageSize: 5,                       //每页的记录行数（*）
+                        pageList: [5, 10, 20, 60, 100],        //可供选择的每页的行数（*）
+                        minimumCountColumns: 2,            //最少允许的列数
+                        searchAlign: "right",              //查询框对齐方式
+                        toolbar: "#tableRuleDetailToolbar",    //指定工具栏
+                        toolbarAlign: "left",              //工具栏对齐方式
+                        buttonsAlign: "left",             //按钮对齐方式
+                        locale: tableLocale,
+                        columns: [
+                            {
+                                field: 'ID',
+                                title: 'ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                visible: false
+                            },
+                            {
+                                field: 'C_SN_RULE_ID',
+                                title: 'C_SN_RULE_ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                visible: false
+                            },
+                            {
+                                field: 'SEQ',
+                                title: 'SEQ',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    //type: 'text',
+                                    //title: 'SEQ',
+                                    //emptytext: 'Edit',
+                                    //validate: function (v) {
+                                    //    if (!v) return 'is not null'
+                                    //    let re = new RegExp("^[0-9]*[1-9][0-9]*$");
+                                    //    if (!re.test(v)) {
+                                    //        return "Please input a number";
+                                    //    }
+                                    //}
+                                    type: 'select',
+                                    title: 'SEQ',
+                                    emptytext: 'Edit',
+                                    source: ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+                                }
+                            },
+                            {
+                                field: 'INPUTTYPE',
+                                title: 'INPUTTYPE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    type: 'select',
+                                    title: 'INPUTTYPE',
+                                    emptytext: 'Edit',
+                                    source: inputType
+                                }
+                            },
+                            {
+                                field: 'CODETYPE',
+                                title: 'CODETYPE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    type: 'select',
+                                    title: 'CODETYPE',
+                                    emptytext: 'Edit',
+                                    source: codeType
+                                }
+                            },
+                            {
+                                field: 'CURVALUE',
+                                title: 'CURVALUE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    type: 'text',
+                                    title: 'CURVALUE',
+                                    emptytext: 'Edit',
+                                    validate: function (v) {
+                                        if (!v) return 'is not null'
+                                    }
+                                }
+                            },
+                            {
+                                field: 'RESETSN_FLAG',
+                                title: 'RESETSN_FLAG',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    type: 'select',
+                                    //title: 'RESETSN_FLAG',
+                                    emptytext: 'Edit',
+                                    source: resetSnFlag
+                                }
+                            },
+                            {
+                                field: 'RESETVALUE',
+                                title: 'RESETVALUE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                editable: {
+                                    type: 'text',
+                                    title: 'RESETVALUE',
+                                    emptytext: 'Edit'
+                                }
+                            },
+                            //{
+                            //    field: 'CHECK_FLAG',
+                            //    title: 'CHECK_FLAG',
+                            //    rowspan: 1,
+                            //    align: 'center',
+                            //    valign: 'middle'
+                            //},
+                            {
+                                field: 'EDIT_TIME',
+                                title: 'EDIT_TIME',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle'
+                            },
+                            {
+                                field: 'EDIT_EMP',
+                                title: 'EDIT_EMP',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle'
+                            },
+                            {
+                                field: "Action",
+                                title: "Action",
+                                align: 'center',
+                                valign: 'middle',
+                                formatter: function (value, row, index) {
+                                    return ['<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>Delete</button >'].join('');
+                                    //if (row.SEQ && row.INPUTTYPE && row.CODETYPE) {
+                                    //    //return ['<button id="btnAdd" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add</button >'].join('');
+                                    //    return ['<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>Delete</button >'].join('');
+                                    //}
+                                    //else {
+                                    //    //return ['<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>Delete</button >'].join('');
+                                    //    return ['<button id="btnAdd" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add</button >'].join('');
+                                    //}
+                                },
+                                events: ColumnBtnClick
+                            }
+                        ]
+                    });
+                    //var newIndex = $("#tableRuleDetail").bootstrapTable('getData').length;
+                    //$('#tableRuleDetail').bootstrapTable("insertRow",
+                    //    {
+                    //        index: newIndex,
+                    //        row: {
+                    //            "ID": "",
+                    //            "C_SN_RULE_ID": c_sn_rule_id,
+                    //            "SEQ": "",
+                    //            "INPUTTYPE": "",
+                    //            "CODETYPE": "",
+                    //            "CURVALUE": "",
+                    //            "RESETSN_FLAG": "",
+                    //            "RESETVALUE": "",
+                    //            "CHECK_FLAG": "",
+                    //            "EDIT_TIME": "",
+                    //            "EDIT_EMP": "",
+                    //            "VALUE10": ""
+                    //        }
+                    //    });
+                    GetCodeTypeList();
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        };
+        var GetRuleList = function () {
+            parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "GetAllSNRuleAndSkuno", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#SNRuleListTable").bootstrapTable('load', e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                    });
+                }
+            });
+        }
+        var GetSelectValue = function () {
+            parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "GetSelectValue", {}, function (e) {
+                if (e.Status == "Pass") {
+                    inputType = e.Data.InputType;
+                    codeType = e.Data.CodeType;
+                    resetSnFlag = e.Data.ResetSnFlag;
+                    $("#selectCodeType").html("");
+                    $("#selectCodeType").append($('<option value="ALL">ALL</option>'));
+                    for (var i = 0; i < e.Data.CodeType.length; i++) {
+                        $("#selectCodeType").append($('<option value="' + e.Data.CodeType[i] + '">' + e.Data.CodeType[i] + '</option>'));
+                    }
+
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+        var GetCodeTypeList = function () {
+            parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "GetAllCodeType", { CodeType: $("#selectCodeType").val() }, function (e) {
+                $("#tableCodeType").bootstrapTable("destroy");
+                $('#tableCodeType').bootstrapTable({
+                    pagination: true,
+                    pageSize: 5,
+                    pageList: [5, 10, 20, 50, 100],
+                    search: true,
+                    striped: true,
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    searchAlign: "right",              //查询框对齐方式
+                    toolbar: "#tableCodeTypeToolbar",    //指定工具栏
+                    toolbarAlign: "left",              //工具栏对齐方式
+                    locale: tableLocale,
+                    columns: [
+                        {
+                            field: 'ID',
+                            title: 'ID',
+                            visible: false
+                        },
+                        {
+                            field: 'CODETYPE',
+                            title: 'CODETYPE'
+                        },
+                        {
+                            field: 'VALUE',
+                            title: 'VALUE'
+                        },
+                        {
+                            field: 'CODEVALUE',
+                            title: 'CODEVALUE'
+                        },
+                        {
+                            field: 'SEQ',
+                            title: 'SEQ'
+                        },
+                        {
+                            field: 'EDIT_TIME',
+                            title: 'EDIT_TIME'
+                        },
+                        {
+                            field: 'EDIT_EMP',
+                            title: 'EDIT_EMP'
+                        }
+                    ]
+                });
+                if (e.Status == "Pass") {
+                    $("#tableCodeType").bootstrapTable('load', e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+
+            });
+        }
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $("#txtNewRuleName").val("").select();
+            $('#SNRuleListTable').bootstrapTable({
+                pagination: true,
+                pageSize: 5,
+                pageList: [5, 10, 20, 50, 100],
+                search: true,
+                searchAlign: "left",
+                striped: true,
+                toolbar: "#tableRuleToolbar",
+                locale: tableLocale,
+                columns: [
+                    {
+                        field: 'Detail',
+                        title: 'Detail',
+                        formatter: function (value, row, index) {
+                            return ['<button id="btnDetail" type="button" class="btn btn-default" ><i class="glyphicon " aria-hidden="true"></i><lan set-lan="html:">Detail</lan></button >'].join('');
+                        },
+                        events: ColumnBtnClick
+                    },
+                    {
+                        field: 'NAME',
+                        title: 'Name'
+                    },
+                    {
+                        field: 'CURVALUE',
+                        title: 'Curvalue'
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: 'EditEmp'
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: 'EditTime'
+                    },
+                    {
+                        field: 'SKUNO',
+                        title: 'Skuno'
+                    }
+                ]
+            });
+            GetRuleList();
+            GetSelectValue();
+            $("#btnToolRefresh").click(function () {
+                GetRuleList();
+            });
+
+            $("#btnToolSave").click(function () {
+                var arrayData = $("#tableRuleDetail").bootstrapTable('getData');
+                let detail = arrayData;// arrayData.slice(0, arrayData.length - 1);
+                if (detail.length == 0) {
+                    layer.msg('Please input sn rule.', {
+                        icon: 2,
+                        time: 3000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () {
+                    });
+                    return;
+                }
+                //for (var i = 0; i < detail.length; i++) {
+                //    detail[i]["RESETSN_FLAG"] = detail[i]["RESETSN_FLAG"] == "YES" ? 1 : 0;
+                //}
+                var tableData = JSON.stringify(detail);
+                parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "SaveSNRuleDetail", { SnRuleDetail: tableData },
+                    function (e) {
+                        if (e.FunctionType == UIInput.Normal) {
+                            var layers = new StationLayers({
+                                ServerMessageID: e.ServerMessageID,
+                                ClientID: e.ClientID,
+                                Title: e.Data.Tittle,
+                                IInput: e.Data,
+                                OutInputs: e.Data.OutInputs,
+                                UIArea: e.Data.UIArea,
+                                Station: "STATION",
+                                Client: parent.client,
+                                InputType: e.Data.Type,
+                                MustConfirm: e.Data.MustConfirm
+                            });
+                            layers.Show();
+                            return;
+                        }
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 3000,
+                                title: 'Tip',
+                                btn: ['OK']
+                            }, function () {
+                            });
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () {
+                            });
+                        }
+                        GetSNRuleDetail(c_sn_rule_id, false, "");
+                        GetRuleList();
+                    });
+            });
+            $("#selectCodeType").change(function (e) {
+                GetCodeTypeList();
+            });
+            $("#btnNewSNRule").click(function () {
+                parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "AddRule", { RuleName: $("#txtNewRuleName").val() }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 3000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                        GetRuleList();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    }
+                });
+            });
+            $("#btnCopy").click(function () {
+                layer.open({
+                    id: "CopyRule",
+                    type: 1,
+                    shade: 0,
+                    shadeClose: false,
+                    title: "Copy Rule",
+                    area: ['500px'],
+                    offset: "100px",
+                    content: $('#divCopy'),
+                    btn: ["Copy", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divCopy").show;
+                        $("#txtReferenceName").val("").focus();
+                    },
+                    end: function () {
+                        $("#divCopy").hide();
+                    },
+                    yes: function (index) {
+                        var referenceName = $("#txtReferenceName").val();
+                        if (referenceName == "") {
+                            layer.msg("Please Input Rule Name.", {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                            $("#txtReferenceName").focus();
+                            return;
+                        }
+                        parent.client.CallFunction("MESStation.Config.CSnRuleConfig", "GetSNRuleIdByName", {
+                            RuleName: referenceName,
+                        }, function (e) {
+                            if (e.Status == "Pass") {
+                                GetSNRuleDetail(e.Data, true, c_sn_rule_id);
+                                layer.close(index);
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+            $("#btnAddNewRow").click(function (e) {
+                let index = $("#tableRuleDetail").bootstrapTable('getData').length;
+                $('#tableRuleDetail').bootstrapTable("insertRow",
+                    {
+                        index: index + 1,
+                        row: {
+                            "ID": "",
+                            "C_SN_RULE_ID": c_sn_rule_id,
+                            "SEQ": "",
+                            "INPUTTYPE": "",
+                            "CODETYPE": "",
+                            "CURVALUE": "",
+                            "RESETSN_FLAG": "",
+                            "RESETVALUE": "",
+                            "CHECK_FLAG": "",
+                            "EDIT_TIME": "",
+                            "EDIT_EMP": "",
+                            "VALUE10": ""
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Print Panel SN</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        #divPrintSetting .radio .checkbox {
+            width:20px;
+            height:20px;
+        }
+
+        #divPrintSetting .form-group {
+            margin-bottom: 5px !important;
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height" id="divStationBody">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i><span style="padding-left: 10px;">Print Panel SN </span>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <div class="panel panel-default col-xs-8 col-xs-offset-2 no-padding ">
+                    <div class="panel-heading" style="background-color: #92B5D3 !important; font-size: large; font-weight: bold;">
+                        SET
+                        <label style="color:red;margin-left:100px;">Be careful! Please press enter after entering the value!</label>
+                    </div>
+                    <div class="panel-body no-padding form-horizontal" id="divPrintSetting">
+                        <div class=" col-xs-12" style="padding-top:5px;">
+                            <div class="form-group">
+                                <div class="col-xs-2 col-xs-offset-2">
+                                    <input class="radio radio-inline" name="inputRadio" type="radio" id="rdCodeSoft" value="CodeSoft">
+                                    <label for="rdCodeSoft">CodeSoft</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <input class="radio radio-inline" name="inputRadio" type="radio" id="rdZebra_600DPI" value="Zebra 600DPI">
+                                    <label for="rdZebra_600DPI">Zebra 600DPI</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <input class="radio radio-inline" name="inputRadio" type="radio" id="rdZebra_300DPI" value="Zebra 300DPI">
+                                    <label for="rdZebra_300DPI">Zebra 300DPI</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group col-xs-4" id="divInputPrintType" hidden>
+                            </div>
+                            <div class="form-group col-xs-4" id="divInputLeft">
+                            </div>
+                            <div class="form-group col-xs-4" id="divInputHeight">
+                            </div>
+                            <div class="form-group col-xs-4" id="divInputTemperature" hidden>
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <label class="col-xs-5  control-label text-right">Temperature:</label>
+                                <div class="col-xs-7">                                    
+                                    <select class="form-control" id="inputTemperature"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group col-xs-4" id="divInputPrintQty">
+                               
+                            </div>
+                            <div class="form-group col-xs-4" id="divInputCK97a" hidden>
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <div class="form-group">
+                                    <label for="ck97a" class="col-xs-5 control-label text-right">79A series special:</label>
+                                    <div class="col-xs-7" style="padding-top:3px;">
+                                        <input class="checkbox checkbox-inline" type="checkbox" id="ck97a" value="YES" style="height:25px;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4  col-xs-offset-2">
+                            <div class="col-xs-6">
+                                <div id="divInputBtnTest"></div>
+                               
+                            </div>
+                            <div  class="col-xs-6">
+                                <div id="divInputBtnPrint"></div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default col-xs-8 col-xs-offset-2 no-padding">
+                    <div class="panel-heading" style="background-color: #92B5D3 !important; font-size: large; font-weight: bold;">Message</div>
+                    <div class="panel-body no-padding" id="messagesite">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.min.js"></script>
+
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+
+        var option = null;       
+        var printStaion = null;
+        var stationName = $.MES.getQueryString("StationName");
+        var keypressEvent = jQuery.Event("keypress");//模拟一个键盘事件
+        keypressEvent.keyCode = 13;//keyCode=13是回车
+       
+        var bStationLoading = true;
+        var StationInit = function (station, d, callback) {
+            if (d.Status == "Pass") {                
+                station.ShowInput({
+                    InputName: "PrintType",
+                    Scale: "5:7",
+                    Container: $("#divInputPrintType")
+                });
+                station.ShowInput({
+                    InputName: "Left",
+                    Scale: "5:7",
+                    Container: $("#divInputLeft")
+                });
+                station.ShowInput({
+                    InputName: "Height",
+                    Scale: "5:7",
+                    Container: $("#divInputHeight")
+                });
+                station.ShowInput({
+                    InputName: "Temperature",
+                    Scale: "5:7",
+                    Container: $("#divInputTemperature")
+                });               
+                station.ShowInput({
+                    InputName: "OnlyFor79a",
+                    Scale: "5:7",
+                    Container: $("#divInputCK97a")
+                });
+                station.ShowInput({
+                    InputName: "PrintQty",
+                    Scale: "5:7",
+                    Container: $("#divInputPrintQty")
+                });
+                station.ShowInput({
+                    InputName: "Test",
+                    //Scale: "5:7",
+                    Container: $("#divInputBtnTest")
+                });
+                station.ShowInput({
+                    InputName: "Print",
+                    //Scale: "5:7",
+                    Container: $("#divInputBtnPrint")
+                });
+                if (typeof callback === "function" && bStationLoading) {
+                    callback();
+                }
+
+            } else {
+                swal("Station initialization failed!", d.Message, "error");
+            }               
+        }
+        var PrintInit = function () {
+            $("#rdZebra_600DPI").attr("checked", true);
+            var printType = $("input[name='inputRadio']:checked").val();
+            $("#divInputPrintType").find("input[name='PrintType']").val(printType);
+            $("#divInputPrintType").find("input[name='PrintType']").trigger(keypressEvent);//模拟輸入框按下回车 
+            bStationLoading = false;
+             for (var i = 5; i <= 30; i++) {
+                if (i == 16) {
+                    $("#inputTemperature").append("<option value='" + i + "' selected='selected'>" + i + "</option>");
+                }
+                else {
+                    $("#inputTemperature").append("<option value='" + i + "'>" + i + "</option>");
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            option = {
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                IScale: "2:10",
+                //IContainer: $("#inputsite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#messagesite"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    StationInit(printStaion, d, PrintInit);
+                }             
+            }
+            printStaion = new MesStation(option);           
+            $("#inputTemperature").bind("change", function () {
+                var temperature = $("#inputTemperature").val();
+                $("#divInputTemperature").find("input[name='Temperature']").val(temperature);
+                $("#divInputTemperature").find("input[name='Temperature']").trigger(keypressEvent);//模拟輸入框按下回车                 
+            });
+
+            $("#divPrintSetting").find("input:radio[name='inputRadio']").click(function () {
+                var printType = $("input[name='inputRadio']:checked").val();
+                $("#divInputPrintType").find("input[name='PrintType']").val(printType);
+                $("#divInputPrintType").find("input[name='PrintType']").trigger(keypressEvent);//模拟輸入框按下回车               
+            });
+           
+            $("#ck97a").bind("click", function (e) {
+                if ($("#ck97a").is(":checked")) {
+                    $("#divInputCK97a").find("input[name='OnlyFor79a']").val("YES");
+                }
+                else {
+                    $("#divInputCK97a").find("input[name='OnlyFor79a']").val("NO");
+                }
+                $("#divInputCK97a").find("input[name='OnlyFor79a']").trigger(keypressEvent);//模拟輸入框按下回车                
+            });
+           
+        });
+    </script>
+</body>
+</html>

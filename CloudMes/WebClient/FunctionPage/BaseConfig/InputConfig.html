@@ -1,0 +1,1298 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Config</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--<link href="css/animate.css" rel="stylesheet">-->
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        .box-shadow {
+            box-shadow: 0px 0px 5px #bcbcbc;
+        }
+        .bs-bars {
+            margin-right:20px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <!--<div class="ibox-content">-->
+        <div id="InputConfig_list" class="row row-lg">
+            <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                <div class="ibox  float-e-margins">
+                    <div class="panel-heading bg-primary">
+                        <h3><i class="glyphicon glyphicon-tags"></i><lan style="padding-left:10px;" set-lan="text:h_InputConfig">Input Config</lan></h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-horizontal row">
+                            <div class="form-group col-xs-7 col-md-7 col-sm-7 col-lg-7 col-xs-offset-1 col-sm-offset-1 col-lg-offset-1  col-md-offset-1">
+                                <label class="col-xs-1 col-md-1 col-sm-1 col-lg-1 control-label"><lan set-lan="text:labelID">ID:</label>
+                                <div class="col-xs-2 col-md-2 col-lg-2 col-sm-2">
+                                    <input type="text" class="form-control" id="txtSearchID" set-lan="attr:placeholder=placeholderID">
+                                </div>
+                                <label class="col-xs-1 col-md-1 col-sm-1 col-lg-1 control-label text-right" set-lan="html:labelWO">WO：</label>
+                                <div class="col-xs-2 col-md-2 col-lg-2 col-sm-2">
+                                    <input type="text" id="txtSearchWO" class="form-control" set-lan="attr:placeholder=placeholderWO" />                                   
+                                </div>
+                                <label class="col-xs-2 col-md-2 col-sm-2 col-lg-2 control-label text-right" set-lan="html:labelDisplayType">DisplayType：</label>
+                                <div class="col-xs-2 col-md-2 col-lg-2 col-sm-2">
+                                    <select class="form-control" id="txtSearchDisplayType">
+                                        <option value="TXT" selected>TXT</option>
+                                        <option value="Textarea">Textarea</option>
+                                        <option value="Select">Select</option>
+                                        <option value="Checkbox">Checkbox</option>
+                                        <option value="Radio">Radio</option>
+                                        <option value="Autocomplete">Autocomplete</option>
+                                        <option value="LocalChecker">LocalChecker</option>
+                                        <option value="Button">Button</option>
+                                        <option value="Table">Table</option>
+                                        <option value="PassWord">PassWord</option>
+                                        <option value="LayerWindow">LayerWindow</option>
+                                        <option value="File">File</option>
+                                    </select>
+                                    <!--<input type="text" id="txtSearchDisplayType" class="form-control" set-lan="attr:placeholder=placeholderDisplayType" />-->
+                                </div>
+                                <div class="col-xs-3 col-md-1 col-sm-2 col-lg-2">
+                                    <button class="btn btn-primary" id="S_info"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content">
+                        <!--<h1 style="color:#1ab394">Input List</h1>-->
+                        <div class="btn-group" id="toolbar" role="group">
+                            <button type="button" class="btn btn-outline btn-default" onclick="InputConfig_Add()">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"><lan set-lan="html:add">add</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" onclick="InputConfig_Update()">
+                                <i class="glyphicon glyphicon-pencil" aria-hidden="true"><lan set-lan="html:edit">edit</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" onclick="InputConfig_Delete()">
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"><lan set-lan="html:delete">delete</lan></i>
+                            </button>
+                        </div>
+                        <table class="table table-hover " id="mytab"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="InputConfig_OperateList" class="row row-lg" style="display:none">
+            <div class="panel-heading bg-primary">
+                <h3><i class="glyphicon glyphicon-tags"></i><lan style="padding-left:10px;" set-lan="text:h_InputConfig">Input Config</lan></h3>
+            </div>
+            <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12 ibox-content">
+                <button type="button" class="btn btn-primary" onclick="GoBack(true)"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+            </div>
+            <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12 ibox-content form-horizontal">
+                <div class="row">
+                    <div id="First" class="col-xs-5 col-md-5 col-lg-5 col-sm-5">
+                        <!--<div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                            <button type="button" class="btn btn-primary" onclick="GoBack(true)"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                        </div>-->
+                        <!--<h2><lan set-lan="text:h_FirstConfig">Input Config</lan></h2>
+                        <div class="ibox-title"></div>-->
+                        <div class="ibox float-e-margins box-shadow">
+                            <div class="panel panel-default ">
+                                <div class="panel-heading"><h3 class="panel-title"><lan set-lan="text:h_InputConfig">Input Config</lan></h3></div>
+                                <div class="panel-body">
+                                    <div class="form-group row" style="display:none;">
+                                        <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_InputID">ID:</label>
+                                        <div class="col-xs-8 col-md-8 col-sm-8 col-lg-8">
+                                            <input type="text" class="form-control" id="A_InputID" set-lan="attr:placeholder=placeholderInputID" />                                           
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_InputName">InputName:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <input type="text" class="form-control" id="A_InputName" set-lan="attr:placeholder=placeholderInputName" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:labelDisplayType">DisplayType:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <select class="form-control" id="A_DisplayType">
+                                                <option value="TXT" selected>TXT</option>
+                                                <option value="Textarea">Textarea</option>
+                                                <option value="Select">Select</option>
+                                                <option value="Checkbox">Checkbox</option>
+                                                <option value="Radio">Radio</option>
+                                                <option value="Autocomplete">Autocomplete</option>
+                                                <option value="LocalChecker">LocalChecker</option>
+                                                <option value="Button">Button</option>
+                                                <option value="Table">Table</option>
+                                                <option value="PassWord">PassWord</option>
+                                                <option value="LayerWindow">LayerWindow</option>
+                                                <option value="File">File</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_DataSourceApi">DataSourceApi:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <input type="text" class="form-control" id="A_DataSourceApi" set-lan="attr:placeholder=placeholderDataSourceApi" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_DataSourceApiPara">DataSourceApiPara:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <input type="text" class="form-control" id="A_DataSourceApiPara" set-lan="attr:placeholder=placeholderDataSourceApiPara" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_RefreshType">RefreshType:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <select class="form-control" id="A_RefreshType">
+                                                <option value="Default" selected>Default</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xs-2 col-md-3 col-lg-3 col-sm-3 col-xs-offset-1 col-md-offset-1 col-lg-offset-1 col-sm-offset-1 control-label text-right" set-lan="html:lbl_Description">Description:</label>
+                                        <div class="col-xs-8 col-md-7 col-sm-7 col-lg-7">
+                                            <input type="text" class="form-control" id="A_Description" set-lan="attr:placeholder=placeholderDescription" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                                            <button type="button" class="btn btn-primary" onclick="InputStart()" id="InputAdd"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Second" class=" col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <div class="ibox float-e-margins box-shadow">
+                            <div class="panel panel-default ">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><lan set-lan="text:h_SecondConfig">Input Action</lan></h3>
+                                </div>
+                                <!--<h2><lan set-lan="text:h_SecondConfig">InputAction</lan></h2>-->
+                                <!--<div class="ibox-title"></div>-->
+                                <div class="panel-body">
+                                    <div class="btn-group" id="toolbar_second" role="group">
+                                        <button type="button" class="btn btn-outline btn-default" onclick="InputActionConfig_Add()">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"><lan set-lan="html:add">add</lan></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" onclick="InputActionConfig_Update()">
+                                            <i class="glyphicon glyphicon-pencil" aria-hidden="true"><lan set-lan="html:edit">Modify</lan></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" onclick="InputActionConfig_Delete()">
+                                            <i class="glyphicon glyphicon-minus" aria-hidden="true"><lan set-lan="html:delete">delete</lan></i>
+                                        </button>
+                                    </div>
+                                    <table class="table table-hover " id="A_InputAction"></table>
+                                    <div id="Input_Operate" style="margin-top:20px;">
+                                        <div class="form-group row" style="display:none;">
+                                            <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-2 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 control-label text-right" set-lan="html:lbl_InputActionID">ID:</label>
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                <input type="text" class="form-control" id="A_InputActionID" set-lan="attr:placeholder=placeholderInputActionID" />
+                                            </div>
+                                        </div>
+                                        <table class="table table-hover " id="A_CStationAction"></table>
+                                        <div class="form-group row">
+                                            <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-right" set-lan="html:lbl_ConfigType">ConfigType:</label>
+                                            <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                                                <select class="form-control" id="A_ConfigType">
+                                                    <option value="Default" selected>Default</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-right" set-lan="html:lbl_ConfigValue">ConfigValue:</label>
+                                            <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                                                <input type="text" class="form-control" id="A_ConfigValue" set-lan="attr:placeholder=placeholderConfigValue" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1control-label text-right" set-lan="html:lbl_SeqNo">SeqNo:</label>
+                                            <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                                                <input type="text" class="form-control" id="A_SeqNo" set-lan="attr:placeholder=placeholderSeqNo" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-xs-2 col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 control-label text-right" set-lan="html:lbl_AddFalg">AddFalg:</label>
+                                            <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                                                <!--<input type="text" class="form-control" id="A_AddFlag" set-lan="attr:placeholder=placeholderAddFalg" />-->
+                                                <select class="form-control" id="A_AddFlag">
+                                                    <option value="0" selected>0</option>
+                                                    <option value="1" selected>1</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 ">
+                                                <button type="button" class="btn btn-primary" onclick="InputActionStart()" id="InputActionAdd"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定義 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var isPostBackInputAction = false;
+        var isPostBackStationAction = false;
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+                
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+           
+            var data = { ID: "", WO: "", DisplayType: "" }
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputConfig", "QueryInput", data, function (e) {
+                if (e.Status == "Pass") {
+                    ShowInputList(e.Data);
+                } else {
+                    ShowInputList([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            
+           
+            //按照條件查詢
+            $('#S_info').click(function () {
+                var SearchID = $("#txtSearchID").val().replace(/^\s+|\s+$/g, "");
+                var SearchWO = $("#txtSearchWO").val().replace(/^\s+|\s+$/g, "");
+                var SearchDisplayType = $("#txtSearchDisplayType").val().replace(/^\s+|\s+$/g, "");
+                DoSearch(SearchID, SearchWO, SearchDisplayType);
+            });
+            mesUI.SetLanguage("InputSetting");
+        });
+
+        function InputConfig_Add() {
+            $("#InputConfig_list").hide();
+            $("#InputConfig_OperateList").show();
+            $("#First").show();
+            $("#Second").hide();
+            $("#Input_Operate").hide();
+            ClearAll();
+            $("#InputAdd").empty();
+            $("#InputAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:add\" >Add</lan>");
+            $("#A_DisplayType").val("TXT");
+            $("#A_RefreshType").val("Default");
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function InputConfig_Update() {
+            var arrselections = $("#mytab").bootstrapTable('getSelections');
+            if (arrselections.length > 1) {
+                swal({
+                    title: "warning",
+                    text: "Only one row of data can be selected!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (arrselections.length <= 0) {
+                swal({
+                    title: "warning",
+                    text: "Please select the valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            $("#InputConfig_list").hide();
+            $("#InputConfig_OperateList").show();
+            $("#First").show();
+            $("#InputAdd").empty();
+            $("#InputAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:edit\" >Edit</lan>");
+            $("#Second").show();
+            $("#Input_Operate").hide();
+
+            $("#A_InputID").val(arrselections[0].ID);
+            $("#A_InputName").val(arrselections[0].INPUT_NAME);
+            $("#A_DisplayType").val(arrselections[0].DISPLAY_TYPE);
+            $("#A_DataSourceApi").val(arrselections[0].DATA_SOURCE_API);
+            $("#A_DataSourceApiPara").val(arrselections[0].DATA_SOURCE_API_PARA);
+            $("#A_RefreshType").val(arrselections[0].REFRESH_TYPE);
+            $("#A_Description").val(arrselections[0].DESCRIPTION);
+            showtablecinput(isPostBackInputAction, { InputID: arrselections[0].ID });
+            isPostBackInputAction = true;
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function InputConfig_Delete() {
+            var arrselections = $("#mytab").bootstrapTable('getSelections');
+            if (arrselections.length <= 0) {
+                swal("warning", "Please select the valid data!", "warning");
+                return;
+            }
+            var IDArray = new Array();
+            for (var i = 0; i < arrselections.length; i++) {
+                IDArray.push(arrselections[i].ID);
+            }
+            var data = { ID: IDArray };
+            var databy = { InputID: IDArray };
+            swal({
+                title: "Tips",
+                text: "Are you sure you want to delete the selected " + arrselections.length + " data！",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK to delete！",
+                showCancelButton: true
+            }, function () {
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputConfig", "DeleteInput", data, function (e) {
+                    if (e.Status == "Pass") {
+                        self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "DeleteInputActionByInputID", databy, function (e) {
+                            if (e.Status == "Pass") {
+                                swal({
+                                    title: "",
+                                    text: e.Message,
+                                    type: "success",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                DoSearch("", "", "");
+                            }
+                            else {
+                                swal({
+                                    title: "",
+                                    text: e.Message,
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                return;
+                            }
+                        });
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        DoSearch("", "", "");
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            });
+
+        }
+
+        function InputStart() {
+            var InputId = $("#A_InputID").val().replace(/^\s+|\s+$/g, "");
+            var InputName = $("#A_InputName").val().replace(/^\s+|\s+$/g, "");
+            var DisplayType = $("#A_DisplayType").val();
+            var DataSourceApi = $("#A_DataSourceApi").val().replace(/^\s+|\s+$/g, "");
+            var DataSourceApiPara = $("#A_DataSourceApiPara").val().replace(/^\s+|\s+$/g, "");
+            var RefreshType = $("#A_RefreshType").val();
+            var Desc = $("#A_Description").val().replace(/^\s+|\s+$/g, "");
+            if (InputName == "" || InputName == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter InputName",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#A_InputName").focus;
+                    $("#A_InputName").select();
+                }, 2001);
+                return;
+            }
+            if (DisplayType == "" || DisplayType == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter DisplayType",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#A_DisplayType").focus;
+                    $("#A_DisplayType").select();
+                }, 2001);
+                return;
+            }
+            //if (DataSourceApi == "" || DataSourceApi == undefined) {
+            //    swal({
+            //        title: "",
+            //        text: "請輸入DataSourceApi",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    setTimeout(function () {
+            //        $("#A_DataSourceApi").focus;
+            //        $("#A_DataSourceApi").select();
+            //    }, 2001);
+            //    return;
+            //}
+            //if (DataSourceApiPara == "" || DataSourceApiPara == undefined) {
+            //    swal({
+            //        title: "",
+            //        text: "請輸入DataSourceApiPara",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    setTimeout(function () {
+            //        $("#A_DataSourceApiPara").focus;
+            //        $("#A_DataSourceApiPara").select();
+            //    }, 2001);
+            //    return;
+            //}
+            //if (RefreshType == "" || RefreshType == undefined) {
+            //    swal({
+            //        title: "",
+            //        text: "請輸入RefreshType",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    setTimeout(function () {
+            //        $("#A_RefreshType").focus;
+            //        $("#A_RefreshType").select();
+            //    }, 2001);
+            //    return;
+            //}
+            if (Desc == "" || Desc == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter Description",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#A_Description").focus;
+                    $("#A_Description").select();
+                }, 2001);
+                return;
+            }
+            if (InputId != "") {
+                var data = { ID: InputId, InputName: InputName, DisplayType: DisplayType, DataSourceApi: DataSourceApi, DataSourceApiPara: DataSourceApiPara, RefreshType: RefreshType, Desc: Desc };
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputConfig", "UpdateInput", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            } else {
+                var data = { InputName: InputName, DisplayType: DisplayType, DataSourceApi: DataSourceApi, DataSourceApiPara: DataSourceApiPara, RefreshType: RefreshType, Desc: Desc };
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputConfig", "AddInput", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                            $("#Second").show();
+                            $("#Input_Operate").show();
+                            $("#InputActionAdd").empty();
+                            $("#InputActionAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:add\" >Add</lan>");
+                            $("#A_InputID").val(e.Data);
+                            showtablecinput(isPostBackInputAction, { InputID: e.Data });
+                            isPostBackInputAction = true;
+                            showtableStationAction(isPostBackStationAction, { ID: "", ActionType: "" });
+                            isPostBackStationAction = true;
+                            $("#A_InputActionID").val("");
+                            $("#A_SeqNo").val("");
+                            $("#A_ConfigType").val("Default");
+                            $("#A_ConfigValue").val("");
+                            $("#A_AddFlag").val("0");
+                            $("#InputAdd").empty();
+                            $("#InputAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:edit\" >Edit</lan>");
+                        }, 2001);
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            }
+        }
+
+        function InputActionConfig_Add() {
+            $("#Input_Operate").show();
+            showtableStationAction(isPostBackStationAction, { ID: "", ActionType: "" });
+            isPostBackStationAction = true;
+            $("#A_InputActionID").val("");
+            $("#A_SeqNo").val("");
+            $("#A_ConfigType").val("Default");
+            $("#A_ConfigValue").val("");
+            $("#A_AddFlag").val("0");
+            $("#InputActionAdd").empty();
+            $("#InputActionAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:add\" >Add</lan>");
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function InputActionConfig_Update() {
+            var arrselections = $("#A_InputAction").bootstrapTable('getSelections');
+            if (arrselections.length > 1) {
+                swal({
+                    title: "warning",
+                    text: "Only one row of data can be selected!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (arrselections.length <= 0) {
+                swal({
+                    title: "warning",
+                    text: "Please select the valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            $("#Input_Operate").show();
+            showtableStationAction(isPostBackStationAction, { ID: "", ActionType: "" });
+            isPostBackStationAction = true;
+            $("#A_InputActionID").val(arrselections[0].ID);
+            $("#A_SeqNo").val(arrselections[0].SEQ_NO);
+            $("#A_ConfigType").val(arrselections[0].CONFIG_TYPE);
+            $("#A_ConfigValue").val(arrselections[0].CONFIG_VALUE);
+            $("#A_AddFlag").val(arrselections[0].ADD_FLAG);
+            $("#InputActionAdd").empty();
+            $("#InputActionAdd").append("<i class=\"fa fa-pencil\"></i><lan set-lan=\"html:edit\" >Edit</lan>");
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function InputActionConfig_Delete() {
+            var arrselections = $("#A_InputAction").bootstrapTable('getSelections');
+            if (arrselections.length <= 0) {
+                swal("warning", "Please select the valid data!", "warning");
+                return;
+            }
+            var IDArray = new Array();
+            for (var i = 0; i < arrselections.length; i++) {
+                IDArray.push(arrselections[i].ID);
+            }
+            var data = { ID: IDArray };
+            swal({
+                title: "Tips",
+                text: "Are you sure you want to delete the selected " + arrselections.length + "data ！",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定删除！",
+                showCancelButton: true
+            }, function () {
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "DeleteInputAction", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                            DoDetailSearch($("#A_InputID").val());
+                            $("#A_InputActionID").val("");
+                            $("#A_SeqNo").val("");
+                            $("#A_ConfigType").val("Default");
+                            $("#A_ConfigValue").val("");
+                            $("#A_AddFlag").val("0");
+                        }, 2001);
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            });
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function DoDetailSearch(InputID) {
+            var data = { InputID: InputID }
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "QueryInputActionByinputID", data, function (e) {
+                if (e.Status == "Pass") {
+                    $('#A_InputAction').bootstrapTable("load", e.Data);
+                } else {
+                    $('#A_InputAction').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function InputActionStart() {
+            var arrselections = $("#A_CStationAction").bootstrapTable("getSelections");
+            if (arrselections.length > 1 || arrselections.length <= 0) {
+                swal({
+                    title: "warning",
+                    text: "Only one row of data can be selected!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var InputID = $("#A_InputID").val().replace(/^\s+|\s+$/g, "");
+            var ID = $("#A_InputActionID").val().replace(/^\s+|\s+$/g, "");
+            var StationActionID = arrselections[0].ID;
+            var SeqNo = $("#A_SeqNo").val().replace(/^\s+|\s+$/g, "");
+            var ConfigType = $("#A_ConfigType").val();
+            var ConfigValue = $("#A_ConfigValue").val().replace(/^\s+|\s+$/g, "");
+            var AddFlag = $("#A_AddFlag").val().replace(/^\s+|\s+$/g, "");
+            var checkseq = /^[0-9]*$/;
+            if (SeqNo == "" || SeqNo == undefined || !checkseq.test(SeqNo)) {
+                swal({
+                    title: "",
+                    text: "Please enter correct Seq",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#A_SeqNo").focus();
+                    $("#A_SeqNo").select();
+                }, 2001);
+                return;
+            }
+            //if (ConfigType == "" || ConfigType == undefined) {
+            //    swal({
+            //        title: "",
+            //        text: "請選擇ConfigType",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    setTimeout(function () {
+            //        $("#A_ConfigType").focus();
+            //        $("#A_ConfigType").select();
+            //    }, 2001);
+            //    return;
+            //}
+            //if (ConfigValue == "" || ConfigValue == undefined) {
+            //    swal({
+            //        title: "",
+            //        text: "請選擇ConfigValue",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    setTimeout(function () {
+            //        $("#A_ConfigValue").focus();
+            //        $("#A_ConfigValue").select();
+            //    }, 2001);
+            //    return;
+            //}
+            if (AddFlag == "" || AddFlag == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter AddFlag",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#A_AddFlag").focus();
+                    $("#A_AddFlag").select();
+                }, 2001);
+                return;
+            }
+            if (ID != "") {
+                var data = { ID: ID, InputID: InputID, StationActionID: StationActionID, SeqNo: SeqNo, ConfigType: ConfigType, ConfigValue: ConfigValue, AddFlag: AddFlag };
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "UpdateInputAction", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                            DoDetailSearch(e.Data);
+                            $("#A_InputActionID").val("");
+                            $("#A_SeqNo").val("");
+                            $("#A_ConfigType").val("Default");
+                            $("#A_ConfigValue").val("");
+                            $("#A_AddFlag").val("0");
+                        }, 2001);
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            } else {
+                var data = { InputID: InputID, StationActionID: StationActionID, SeqNo: SeqNo, ConfigType: ConfigType, ConfigValue: ConfigValue, AddFlag: AddFlag };
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "AddInputAction", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        })
+                        setTimeout(function () {
+                            DoDetailSearch(InputID);
+                            $("#A_InputActionID").val("");
+                            $("#A_SeqNo").val("");
+                            $("#A_ConfigType").val("Default");
+                            $("#A_ConfigValue").val("");
+                            $("#A_AddFlag").val("0");
+                        }, 2001);
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            }
+        }
+
+        function GoBack(obj) {
+            $("#InputConfig_list").show();
+            $("#InputConfig_OperateList").hide();
+            $("#First").hide();
+            $("#Second").hide();
+            ClearAll();
+            if (obj) {
+                DoSearch("", "", "")
+            }
+        }
+
+        function showtablecinput(postback, data) {
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "QueryInputActionByinputID", data, function (e) {
+                if (e.Status == "Pass") {
+                    if (postback) {
+                        $("#A_InputAction").bootstrapTable('load', e.Data);
+                    }
+                    else {
+                        $('#A_InputAction').bootstrapTable({
+                            data: e.Data,
+                            striped: false,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                     //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                       //初始化加载第一页，默认第一页
+                            pageSize: 10,                       //每页的记录行数（*）
+                            pageList: [10, 16],        //可供选择的每页的行数（*）
+                            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                  //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            singleSelect: true,                     // 单选checkbox
+                            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                   //是否显示父子表
+                            //onExpandRow: function (index, row, $Subdetail) {
+                            //    self.parent.client.CallFunction("MESStation.Stations.StationConfig.CStationActionConfig", "QueryCStationAcation", { ID: row.C_STATION_ACTION_ID, ActionType: "" }, function (e) {
+                            //        if (e.Status == "Pass") {
+                            //            var c = [];
+                            //            c.push({ field: "ACTION_TYPE", title: "ACTION_TYPE" }, { field: "ACTION_NAME", title: "ACTION_NAME" }, { field: "DLL_NAME", title: "DLL_NAME" }, { field: "CLASS_NAME", title: "CLASS_NAME" }, { field: "FUNCTION_NAME", title: "FUNCTION_NAME" }, { field: "DESCRIPTION", title: "DESCRIPTION" });
+                            //            InitSubTable(index, row, $Subdetail, c, e.Data);
+                            //        }
+                            //    });
+                            //},
+                            dataType: "json",//期待返回数据类型
+                            method: "post",//请求方式
+                            searchAlign: "left",//查询框对齐方式
+                            queryParamsType: "limit",//查询参数组织方式
+                            queryParams: function getParams(params) {
+                                params.other = "otherInfo";
+                                return params;
+                            },
+                            buttonsAlign: "left",//按钮对齐方式
+                            toolbar: "#toolbar_second",//指定工具栏
+                            toolbarAlign: "left",//工具栏对齐方式
+                            locale: tableLocale,//中文支持,
+                            columns: [{
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: 'ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'ACTION_NAME',
+                                title: '<label set-lan="html:tableACTION_NAME">ACTION_NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'CLASS_NAME',
+                                title: '<label set-lan="html:tableCLASS_NAME">CLASS_NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'FUNCTION_NAME',
+                                title: '<label set-lan="html:tableFUNCTION_NAME">FUNCTION_NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'DESCRIPTION',
+                                title: '<label set-lan="html:tableDESCRIPTION">DESCRIPTION</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'SEQ_NO',
+                                title: '<label set-lan="html:tableSEQ_NO">SEQ_NO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'CONFIG_TYPE',
+                                title: '<label set-lan="html:tableCONFIG_TYPE">CONFIG_TYPE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            },
+                             {
+                                 field: 'CONFIG_VALUE',
+                                 title: '<label set-lan="html:tableCONFIG_VALUE">CONFIG_VALUE</label>',
+                                 rowspan: 1,
+                                 align: 'center',
+                                 valign: 'middle',
+                                 sortable: true,
+                                 visible: true
+                             },
+                             {
+                                 field: 'ADD_FLAG',
+                                 title: '<label set-lan="html:tableADD_FLAG">ADD_FLAG</label>',
+                                 rowspan: 1,
+                                 align: 'center',
+                                 valign: 'middle',
+                                 sortable: true,
+                                 visible: true
+                             }]
+                            
+                        });
+                    }
+                }
+                else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                mesUI.SetLanguage("InputSetting");
+            })
+           
+        }
+
+        function showtableStationAction(postback, data) {
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.CStationActionConfig", "QueryCStationAcation", data, function (e) {
+                if (e.Status == "Pass") {
+                    if (postback) {
+                        $('#A_CStationAction').bootstrapTable("load", e.Data);
+                    }
+                    else {
+                        $('#A_CStationAction').bootstrapTable({
+                            data: e.Data,
+                            striped: false,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                     //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                       //初始化加载第一页，默认第一页
+                            pageSize: 10,                       //每页的记录行数（*）
+                            pageList: [10,17],        //可供选择的每页的行数（*）
+                            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                  //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            singleSelect: true,                     // 单选checkbox
+                            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                   //是否显示父子表
+                            dataType: "json",//期待返回数据类型
+                            method: "post",//请求方式
+                            searchAlign: "left",//查询框对齐方式
+                            queryParamsType: "limit",//查询参数组织方式
+                            queryParams: function getParams(params) {
+                                params.other = "otherInfo";
+                                return params;
+                            },
+                            buttonsAlign: "left",//按钮对齐方式
+                            columns: [{
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: 'ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'ACTION_TYPE',
+                                title: '<label set-lan="html:tableACTION_TYPE">ACTION_TYPE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'ACTION_NAME',
+                                title: '<label set-lan="html:tableACTION_NAME">ACTION_NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: 'DLL_NAME',
+                                title: '<label set-lan="html:tableDLL_NAME">DLL_NAME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            },
+                             {
+                                 field: 'CLASS_NAME',
+                                 title: '<label set-lan="html:tableCLASS_NAME">CLASS_NAME</label>',
+                                 rowspan: 1,
+                                 align: 'center',
+                                 valign: 'middle',
+                                 sortable: true,
+                                 visible: true
+                             },
+                             {
+                                 field: 'FUNCTION_NAME',
+                                 title: '<label set-lan="html:tableFUNCTION_NAME">FUNCTION_NAME</label>',
+                                 rowspan: 1,
+                                 align: 'center',
+                                 valign: 'middle',
+                                 sortable: true,
+                                 visible: true
+                             },
+                             {
+                                 field: 'DESCRIPTION',
+                                 title: '<label set-lan="html:tableDESCRIPTION">DESCRIPTION</label>',
+                                 rowspan: 1,
+                                 align: 'center',
+                                 valign: 'middle',
+                                 sortable: true,
+                                 visible: true
+                             }],
+                            locale: tableLocale//中文支持,
+                        });
+                    }
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                   
+                }
+                mesUI.SetLanguage("InputSetting");
+            })
+        }
+
+        function ShowInputList(Data) {
+            $('#mytab').bootstrapTable({
+                data: Data,
+                striped: false,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 18],        //可供选择的每页的行数（*）
+                search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                singleSelect: true,                     // 单选checkbox
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: true,                   //是否显示父子表
+                onExpandRow: function (index, row, $Subdetail) {
+                    self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputActionConfig", "QueryInputActionByinputID", { InputID: row.ID }, function (e) {
+                        if (e.Status == "Pass") {
+                            var c = [];
+                            c.push({ field: "ACTION_NAME", title: '<label set-lan="html:tableACTION_NAME">ACTION_NAME</label>' }, { field: "CLASS_NAME", title: '<label set-lan="html:tableCLASS_NAME">CLASS_NAME</label>' }, { field: "FUNCTION_NAME", title: '<label set-lan="html:tableFUNCTION_NAME">FUNCTION_NAME</label>' }, { field: "DESCRIPTION", title: '<label set-lan="html:table_Description">DESCRIPTION</label>' }, { field: "CONFIG_TYPE", title: '<label set-lan="html:tableCONFIG_TYPE">CONFIG_TYPE</label>' }, { field: "CONFIG_VALUE", title: '<label set-lan="html:tableCONFIG_VALUE">CONFIG_VALUE</label>' }, { field: "SEQ_NO", title: '<label set-lan="html:tableSEQ_NO">SEQ_NO</label>', sortable: true }, { field: "ADD_FLAG", title: '<label set-lan="html:tableADD_FLAG">ADD_FLAG</label>' });
+                            InitSubTable(index, row, $Subdetail, c, e.Data);
+                        }
+                    });
+                },
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+                toolbarAlign: "left",//工具栏对齐方式
+                locale: tableLocale,//中文支持,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'ID',
+                    title: 'ID',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: false
+                }, {
+                    field: 'INPUT_NAME',
+                    title: '<label set-lan="html:table_InputName">INPUT_NAME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'DISPLAY_TYPE',
+                    title: '<label set-lan="html:table_DisplayType">DISPLAY_TYPE</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'DATA_SOURCE_API',
+                    title: '<label set-lan="html:table_DataSourceApi">DATA_SOURCE_API</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                 {
+                     field: 'DATA_SOURCE_API_PARA',
+                     title: '<label set-lan="html:table_DataSourceApiPara">DATA_SOURCE_API_PARA</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 },
+                 {
+                     field: 'REFRESH_TYPE',
+                     title: '<label set-lan="html:table_RefreshType">REFRESH_TYPE</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 },
+                 {
+                     field: 'DESCRIPTION',
+                     title: '<label set-lan="html:table_Description">DESCRIPTION</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 },
+                 {
+                     field: 'EDIT_TIME',
+                     title: '<label set-lan="html:tableEditTime">Edit Time</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 }, {
+                     field: 'EDIT_EMP',
+                     title: '<label set-lan="html:tableEditEmp">Edit Emp</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 }]
+                
+            });
+            mesUI.SetLanguage("InputSetting");
+        }
+
+        function InitSubTable(index, row, $detail, c, d) {
+            var cur_table = $detail.html('<table></table>').find('table');
+            $(cur_table).bootstrapTable({
+                clickToSelect: false,
+                detailView: false,//父子表
+                pageSize: 10,
+                pageList: [10, 19],
+                columns: c,
+                data: d,
+                locale: tableLocale//中文支持,
+            });
+        }
+
+        function DoSearch(txtSearchID, txtSearchWO, txtSearchDisplayType) {
+            var data = { ID: txtSearchID, WO: txtSearchWO, DisplayType: txtSearchDisplayType }
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.InputConfig", "QueryInput", data, function (e) {
+                if (e.Status == "Pass") {
+                    $('#mytab').bootstrapTable("load", e.Data);
+                } else {
+                    $('#mytab').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ClearAll() {
+            $("#txtSearchID").val();
+            $("#txtSearchWO").val();
+            $("#txtSearchDisplayType").val();
+            $("#A_InputID").val("");
+            $("#A_InputName").val("");
+            $("#A_DisplayType").val("");
+            $("#A_DataSourceApi").val("");
+            $("#A_DataSourceApiPara").val("");
+            $("#A_RefreshType").val("");
+            $("#A_Description").val("");
+            $("#A_InputActionID").val("");
+            $("#A_SeqNo").val("");
+            $("#A_ConfigType").val("");
+            $("#A_ConfigValue").val("");
+            $("#A_AddFlag").val("");
+        }
+
+    </script>
+</body>
+</html>

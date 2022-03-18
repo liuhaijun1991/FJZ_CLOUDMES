@@ -1,0 +1,1076 @@
+﻿<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=big5">
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../../css/animate.css" rel="stylesheet">
+    <!--<link href="../../../../css/style.css?v=4.1.0" rel="stylesheet">-->
+    <link href="../../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!--<title>選擇日期</title>-->
+    <title>Select date</title>
+    <script src="../../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+
+    <script src="../../../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+    <script src="../../../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <script src="../../../../Scripts/global.js"></script>
+    <script src="../../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../../Scripts/MesClient.js"></script>
+
+    <script language="JavaScript">
+
+
+        var mesUI = new MesClientUI(self.parent.client);
+        var client = self.parent.client;
+
+        $(document).ready(function () {
+
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0)
+                    || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0)
+                    || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+            init();
+            //$("#select_plant").on("change", function () {
+            //    init();
+            //});
+
+            $('#DownloadTemplateFile').on('click', function () {
+                window.open("../../../../File/upload_r_i285.xlsx");
+            });
+
+            $("#spanCalendar").on("click", ".CalendarDay", function (e) {
+                var date = this.attributes["date"].value;
+                var weekday = this.attributes["weekday"].value;
+                OpenOrUpload140(date, weekday);
+            });
+
+            initymd();//從數據庫獲取當前日期
+        });
+
+        function DownloadExcel() {
+            $("#subtableMaterial").tableExport({
+                type: 'excel',
+                escape: 'false',
+                fileName: 'I285'
+            });
+        }
+
+
+        var selectMinDate = "2005-01-01";	//Add by Zhong-hai Yang	2005/09/09
+        //Because of the current database's data is between selectMinDate and now,it must set a sign to user,tell them to search at History Website
+
+        var lstYear;
+        var lstMonth;
+        var spanDay;
+        var DayTable;
+
+        var maxYear = 2049;
+        var minYear = 1949;
+        var arrDate = new Array(42);
+        var arrstrDate = new Array(42);
+        var arrWeek = new Array("日", "一", "二", "三", "四", "五", "六");
+        try {
+            var arrCookie = document.cookie.split("; ");
+            for (var i = 0; i < arrCookie.length; i++) {
+                var sName = arrCookie[i].split("=");
+                //alert(sName[1]);
+                if (sName[0] == "LANG" && sName[1] == "en") {
+                    arrWeek = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+                    document.title = "Please Choose Date:"
+                    break;
+                } else {
+                    arrWeek = new Array("日", "一", "二", "三", "四", "五", "六");
+                }
+            }
+        } catch (e) { }
+
+        var currentDate = new Date();
+
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1;
+        var currentDay = currentDate.getDate();
+
+        var selectYear = currentYear;
+        var selectMonth = currentMonth;
+        var selectDay = 0;
+
+        var arg = window.dialogArguments;
+
+        function init() {
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetCurrentBu", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#select_plant").val(e.Data);
+                    initToolBar();
+                    lstYear = document.getElementById("lstYear");
+                    lstMonth = document.getElementById("lstMonth");
+                    spanDay = document.getElementById("spanDay");
+                    initYearList();
+                    initMonthList();
+                    initDate();
+                    computeDate(selectYear, selectMonth);
+                    displayDate();
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+
+                    });
+                }
+            });
+
+        }
+
+        function initymd() {
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetstrDateFromDatabase", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#labymd").html(e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+
+        function change_td_color() {
+            var i;
+            var STRD = "";
+            var VENDORCODE = $("#select_plant").val();
+            for (i = 1; i <= 42; i++) {
+                STRD = STRD + "'" + arrstrDate[i] + "',";
+            }
+            STRD = STRD.substr(0, STRD.length - 1)
+
+            //call 後台
+            var FILENAME = ""
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i285_FILENAMEbyDatestrArr", { STRD: STRD, VENDORCODE: VENDORCODE }, function (e) {
+                if (e.Status == "Pass") {
+                    for (i = 1; i <= 42; i++)//循環日期字符串
+                    {
+                        //去掉原來背景色是淺綠色的
+                        $("#" + "CELL_" + i).removeClass("bgY");
+
+                        for (var j = 0; j < e.Data.length; j++)//查找日期字符串對於的R_I140_MAIN_D.COMMITDATE 對應的COMMITID是否有值
+                        {
+                            var p = e.Data[j].COMMITDATE;
+                            var ID = e.Data[j].COMMITID;
+                            if (arrstrDate[i] == p) {
+                                if (ID != null && ID.length != null && ID.length > 0) {
+                                    $("#" + "CELL_" + i).addClass("bgY");
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+
+                }
+            });
+
+        }
+
+        function initDate() {
+            var i;
+            for (i = 1; i <= 42; i++) {
+                arrDate[i] = new Date();
+
+            }
+        }
+
+        function initstrDate() {
+            var i;
+            for (i = 1; i <= 42; i++) {
+                arrstrDate[i] = "";
+            }
+        }
+
+        function initYearList() {
+            var i;
+            var count = 0;
+            for (i = minYear; i <= maxYear; i++) {
+                lstYear.options[count] = (new Option(i, i));
+                count++;
+            }
+        }
+
+        function initMonthList() {
+            var i;
+            var count = 0;
+            for (i = 1; i <= 12; i++) {
+                lstMonth.options[count] = (new Option(i, i));
+                count++;
+            }
+        }
+
+        function initToolBar() {
+            var spanToolBar = $("#spanToolBar");
+            spanToolBar.empty();
+            var toolbar = $("<div id='toolBar' class='ControlBar'></div>");
+            //var prevYear = $("<span onclick='prevYear()' class='btn btn-default' style='cursor:hand;' title='上一年'>&lt;&lt;</span>");
+            var prevYear = $("<span onclick='prevYear()' class='btn btn-default' style='cursor:hand;' title='Last year'>&lt;&lt;</span>");
+            //var prevMonth = $("<span onclick='prevMonth()' class='btn btn-default' style='cursor:hand;' title='上一月'>&lt;</span>");
+            var prevMonth = $("<span onclick='prevMonth()' class='btn btn-default' style='cursor:hand;' title='Last month'>&lt;</span>");
+            var selectYear = $("<span style='text-align:right;'><select id='lstYear' name='lstYear' size='1' class='form-control'onchange='updateDate()'></select></span>");
+            //var selectToday = $("<span class='btn btn-default' onclick='gotoToday();' title='轉到今天'>+</span>");
+            var selectToday = $("<span class='btn btn-default' onclick='gotoToday();' title='Go to today'>+</span>");
+            var selectMonth = $("<span style='text-align:left;'><select name='lstMonth' id='lstMonth'size='1' class='form-control' onchange='updateDate()'></span>");
+            //var nextMonth = $("<span onclick=\"nextMonth();\" class='btn btn-default' style=\"cursor:hand;\"  title=\"下一月\">&gt;</span>");
+            var nextMonth = $("<span onclick=\"nextMonth();\" class='btn btn-default' style=\"cursor:hand;\"  title=\"Next month\">&gt;</span>");
+            //var nextYear = $("<span onclick=\"nextYear();\"  class='btn btn-default' style=\"cursor:hand;\" title=\"下一年\">&gt;&gt;</span>");
+            var nextYear = $("<span onclick=\"nextYear();\"  class='btn btn-default' style=\"cursor:hand;\" title=\"Nect year\">&gt;&gt;</span>");
+            toolbar.append(prevYear, prevMonth, selectYear, selectToday, selectMonth, nextMonth, nextYear);
+            spanToolBar.append(toolbar);
+            var spanCalendar = $("#spanCalendar");
+            spanCalendar.empty();
+            var i, j;
+            var count = 0;
+
+            for (i = 0; i <= 6; i++) {
+                spanCalendar.append($("<div class='WeekTitle'>" + arrWeek[i] + "</div>"));
+            }
+
+
+            for (i = 1; i <= 42; i++) {
+                spanCalendar.append($("<div class='CalendarDay'  id=\"CELL_" + i + "\">1</div>"));
+            }
+        }
+
+        function OpenLast140() {
+            var varplant = $("#select_plant").val();
+            var TRANID = "";
+            var STR_DATE = "";
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i140_lastTRANID", { PLANT: varplant }, function (e) {
+                if (e.Status == "Pass") {
+
+                    TRANID = e.Data[0].TRANID;
+                    STR_DATE = e.Data[0].STR_DATE;
+
+                    var url = "R_i140_rebuilt_byid.html?TRANID=" + TRANID + "&PLANT=" + varplant;
+                    var layerLast140 = layer.open({
+                        //title: "I140信息,最後更新時間:" + STR_DATE,
+                        title: "I140 information,last update timt:" + STR_DATE,
+                        type: 2,
+                        skin: 'layui-layer-demo', //样式类名
+                        anim: 2,
+                        maxmin: true,
+                        area: ['90%', '90%'], //宽高
+                        content: [url, 'yes'],
+                        cancel: function (index) {
+                        }
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+
+
+        function Open140His() {
+            var varplant = $("#select_plant").val();
+            var url = "R_i140_His.html";
+            var layerLast140 = layer.open({
+                //title: "I140歷史信息",
+                title: "I140 History information",
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['90%', '90%'], //宽高
+                content: [url, 'yes'],
+                cancel: function (index) {
+                }
+            });
+        }
+
+        function OpenI285Set() {
+            var varplant = $("#select_plant").val();
+            var url = "I285source.html";
+            layer.open({
+                title: "I285Set",
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['90%', '90%'], //宽高
+                content: [url, 'yes'],
+                cancel: function (index) {
+                }
+            });
+        }
+
+        function OpenI140Comparison() {
+            var url = "I140Comparison.html";
+            var indexcur = layer.open({
+                title: "Comparison",
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                fixed: true,
+                area: ['98%', '90%'], //宽高
+                content: [url, 'yes'],
+                cancel: function (index) {
+                }
+            });
+            layer.full(indexcur);
+        }
+
+
+        function GetDay(day) {
+            var outday = "";
+            if (day == "0") {
+                outday = "日";
+            }
+            else if (day == "1") {
+                outday = "一";
+            }
+            else if (day == "2") {
+                outday = "二";
+            }
+            else if (day == "3") {
+                outday = "三";
+            }
+            else if (day == "4") {
+                outday = "四";
+            }
+            else if (day == "5") {
+                outday = "五";
+            }
+            else if (day == "6") {
+                outday = "六";
+            }
+            return outday;
+        }
+
+        ///通過時間字符串獲取filename
+        function GetFILENAMEbydate(STRD, VENDORCODE) {
+            var FILENAME = ""
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i285_FILENAMEbyDatestr", { STRD: STRD, VENDORCODE: VENDORCODE }, function (e) {
+                if (e.Status == "Pass") {
+                    FILENAME = e.Data;
+                    open_r_i285(FILENAME);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+
+                }
+            });
+
+        }
+
+
+        ///d:日期天如27,STRD:日期字符串如20201227,DAY,周別
+        function OpenOrUpload140(STRD, DAY) {
+            var VENDORCODE = $("#select_plant").val();
+
+            var databasedate = $("#labymd").html();
+            DAY = GetDay(DAY);
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            if (STRD != databasedate && STRD != tomorrow.format("yyyyMMdd"))//選取的日期字符串和數據庫時間字符串對比
+            {
+                GetFILENAMEbydate(STRD, VENDORCODE);
+            }
+            else {
+                //先查看是否上傳過上傳過則打開
+                var FILENAME = ""
+                self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i285_FILENAMEbyDatestr", { STRD: STRD, VENDORCODE: VENDORCODE }, function (e) {
+                    if (e.Status == "Pass") {
+                        FILENAME = e.Data;
+                        if (FILENAME == "") {
+                            upload_r_i285byDATE(STRD, VENDORCODE, DAY);
+                        }
+                        else {
+                            open_r_i285(FILENAME);
+                        }
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+
+                    }
+                });
+            }
+        }
+
+        ///通過日期上傳285
+        function upload_r_i285byDATE(STR_DATE, VENDORCODE, DAY) {
+
+            var layermid = layer.open({
+                id: "UploadData",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: "上傳R_i285,by DATE," + STR_DATE + "," + VENDORCODE,
+                area: ['90%', '90%'],
+                content: $('#divUploadInfo'),
+                btn: ["上傳", "取消"],
+                success: function (layero, index) {
+                    $("#divUploadInfo").removeClass("hidden");
+                    $("#inputUploadFile").val("");
+                    $("#excelTable").html("");
+                    $("#divMsg").html("");
+
+                },
+                end: function () {
+                    $("#divUploadInfo").addClass("hidden");
+                },
+                yes: function (index) {
+                    var layerIndex = layer.open({
+                        type: 1,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: false,
+                        skin: 'layer_shin',
+                        offset: 'aotu',
+                        content: " <div style='background-color:transparent; border: 1px solid #fff;border-radius: 15px;padding:10px 5px;'> <div class=''><div class= 'sk-spinner sk-spinner-wave'><div class='sk-rect1'></div>"
+                            + "<div class='sk-rect2'></div><div class='sk-rect3'></div><div class='sk-rect4'></div><div class='sk-rect5'></div></div >"
+                            //+ "<div class='text-center font-bold note-fontsize-10'>系統正在加急處理,請耐心等待 ...</div></div ></div >"
+                            + "<div class='text-center font-bold note-fontsize-10'>The system is processing urgently,please wait patiently ...</div></div ></div >"
+                    });
+                    var uploadData = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                    //parent.client.CallFunction("MESJuniper.Api.R_i140Api", "UploadR_i285ExcelByDATE", { ExcelData: JSON.stringify(uploadData), TRANID: "", DAY: DAY, STR_DATE: STR_DATE, VENDORCODE: VENDORCODE }, function (e) {
+                    parent.client.CallFunction("MESJuniper.Api.R_i140Api", "Uploadi285", { ExcelData: JSON.stringify(uploadData), TRANID: "", DAY: DAY, STR_DATE: STR_DATE, VENDORCODE: VENDORCODE }, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Tip',
+                                btn: ['OK']
+                            }, function () {
+                                $("#inputUploadFile").val("");
+                                $("#divMsg").html(e.Message);
+                                $("#divExcel").html("");
+                                layer.close(layerIndex);
+                                layer.close(layermid);
+
+                            });
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () {
+                                $("#divMsg").html(e.Message);
+                                layer.close(layerIndex);
+
+                            });
+                        }
+
+                    });
+                },
+                cancel: function (index) {
+                    $("#inputUploadFile").val("");
+                    $("#excelTable").html("");
+                    layer.close(index);
+                    //  GetList();
+                }
+
+            });
+
+
+        }
+        function open_r_i285(F) {
+            //var d = F.substr(0, 4) + "年" + F.substr(4, 2) + "月" + F.substr(6, 2) + "日";
+            var d = F.substr(0, 4) + "Year" + F.substr(4, 2) + "Month" + F.substr(6, 2) + "Day";
+            layer.open({
+                type: 1,
+                //title: "R_I285,上傳日期:" + d + "文件名:" + F,
+                title: "R_I285,Upload date:" + d + "File name:" + F,
+                area: ['90%', '90%'],
+                offset: ["0px", "0px"],
+                skin: 'mes-layer-title',
+                scrollbar: false,
+                content: $("#divsub"),
+                success: function (layero, index) {
+                    $("#divsub").removeClass("hidden");
+                    InitR_I285(F);
+                },
+                end: function () {
+                    $("#divsub").addClass("hidden");
+                }
+            });
+
+        }
+
+        var deletei285 = function () {
+            var c285filename = $("#ci285filename").val();
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api", "DeleteI285ByFilename", { I285FILENAME: $("#ci285filename").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    },
+                        function () {
+                            location.reload();
+                        });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 5,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+
+        }
+
+        var InitR_I285 = function (FILENAME) {
+            self.parent.client.CallFunction("MESJuniper.Api.R_i140Api",
+                "GetR_i285_rebuiltDataByTRANID",
+                { FILENAME: FILENAME },
+                function (e) {
+                    e = JSON.parse(JSON.stringify(e).replaceAll("'", "").replaceAll("null", "0"));
+                    var columnsArray = [];
+                    //columnsArray.push({ field: '', title: '序号', formatter: function (value, row, index) { return index + 1; } });
+                    columnsArray.push({ field: '', title: 'Serial number', formatter: function (value, row, index) { return index + 1; } });
+                    $("#ci285filename").val(FILENAME);
+                    for (var p in e.Data[0]) {
+                        var property = p;
+                        columnsArray.push({
+                            "title": property,
+                            "field": property,
+                            switchable: true,
+                            align: "center",
+                            sortable: true
+                        });
+                    }
+
+                    $("#subtableMaterial").bootstrapTable('destroy');
+                    if (e.Data.length > 0) {
+                        $("#subtableMaterial").bootstrapTable({
+                            data: e.Data,
+                            striped: true, //是否显示行间隔色
+                            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true, //是否显示分页（*）
+                            sortable: false, //是否启用排序
+                            sortOrder: "asc", //排序方式
+                            sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1, //初始化加载第一页，默认第一页
+                            pageSize: 10000, //每页的记录行数（*）
+                            showColumns: false, //是否显示所有的列
+                            showRefresh: false, //是否显示刷新按钮
+                            minimumCountColumns: 2, //最少允许的列数
+                            clickToSelect: true, //是否启用点击选中行
+                            uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                            showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                            cardView: false, //是否显示详细视图
+                            detailView: false, //是否显示父子表
+                            dataType: "json", //期待返回数据类型
+                            method: "post", //请求方式
+                            searchAlign: "right", //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right", //按钮对齐方式
+                            toolbar: "#Table_Toolbar_1", //指定工具栏
+                            toolbarAlign: "left", //工具栏对齐方式
+                            columns: columnsArray
+                        });
+
+                        function aFormatter(value, row, index) {
+                            if (value == 0)
+                                return value;
+                            else
+                                return [
+                                    '<button id="bind" type="button" class="btn btn-link"><span class=\"layui-badge layui-bg-dot\">' + value + '</span></button>'
+                                ].join("");
+                        };
+                    } else {
+                        layer.closeAll();
+                        //layer.msg('未上傳R_I285', {
+                        //    time: 20000, //20s后自动关闭
+                        //    btn: ['明白了']
+                        //});
+
+                        layer.msg('Not uploaded R_I285', {
+                            time: 20000, //20s后自动关闭
+                            btn: ['Understood']
+                        });
+                    }
+                });
+        };
+
+
+        function computeDate(iYear, iMonth) {
+            selectYear = iYear;
+            selectMonth = iMonth;
+            var d = new Date(iYear, iMonth - 1, 1);
+            var maxDay = (new Date(iYear, iMonth, 0)).getDate();
+            var curDay = d.getDay();
+            var count;
+            count = curDay;
+            for (i = 1; i <= maxDay; i++) {
+                count++;
+                arrDate[count] = new Date(iYear, iMonth - 1, i);
+            }
+            var temp = count + 1;
+            count = 0;
+            for (i = temp; i <= 42; i++) {
+                count++;
+                arrDate[i] = new Date(iYear, iMonth, count);
+            }
+            count = (new Date(iYear, iMonth - 1, 0)).getDate();
+            for (i = curDay; i >= 1; i--) {
+                arrDate[i] = new Date(iYear, iMonth - 2, count);
+                count--;
+            }
+            setSelectYear(iYear);
+            setSelectMonth(iMonth);
+        }
+
+        function p(s) {
+            return s < 10 ? '0' + s : s;
+        }
+
+        function displayDate() {
+            var i;
+            var o, d, day;
+            initstrDate();
+            for (i = 1; i <= 42; i++) {
+                o = $("#CELL_" + i);
+                d = arrDate[i];
+                o.html(d.getDate());
+                o.attr("weekday", (i - 1) % 7);
+                day = d.getDay();
+                var mon = (d.getMonth() + 1).toString();
+                mon = p(mon);
+                var date = d.getDate().toString();
+                date = p(date);
+                var datestr = d.getFullYear().toString() + mon + date;
+                o.attr("date", datestr);
+                arrstrDate[i] = datestr;//用來CALL後台看是否有i285數據,有則標綠色;
+
+                if (d.getMonth() == selectMonth - 1) o.addClass("DayGrid");
+                if (d.getMonth() != selectMonth - 1) o.addClass("DayGridGray");
+                if (d.getMonth() == currentMonth - 1 && d.getFullYear() == currentYear && d.getDate() == currentDay) o.addClass("DayGridCurrent");
+            }
+            change_td_color();
+        }
+
+        function returnDate() {
+            if (arg == "") arg = "yyyy/mm/dd"
+            var s;
+            if (selectDay > 0)
+                d = arrDate[selectDay];
+            else
+                d = new Date();
+            var sYear = new String(d.getFullYear());
+            var sMonth = new String(d.getMonth() + 1);
+            var sDay = new String(d.getDate());
+            if (sMonth.length < 2) sMonth = "0" + sMonth;
+            if (sDay.length < 2) sDay = "0" + sDay;
+            //alert(sYear + "/" + sMonth + "/" + sDay);
+            try {
+                s = arg;
+                s = s.replace("yyyy", sYear);
+                s = s.replace("mm", sMonth);
+                s = s.replace("dd", sDay);
+
+                //added by Zhong-hai Yang 2005/09/09	Show the message to user,tell them the searching method
+                var ss = s.replace("-", "/").replace("-", "/");
+                var standard = Date.parse(selectMinDate.replace("-", "/").replace("-", "/"));
+                var select = Date.parse(ss);
+
+                if (standard > select) {
+                    alert("The date you select can't be earlier than " + selectMinDate + ".\n\n" +
+                        " If you want to search the data before " + selectMinDate + ",you must search at History Website.\n" +
+                        "The URL is 'http://10.132.48.64:60/allpartsHistory2005'.");
+                    s = selectMinDate;
+                }
+
+
+
+                window.returnValue = s;
+            }
+            catch (e) { }
+        }
+
+        function setSelectYear(iYear) {
+            if (iYear >= minYear && iYear <= maxYear)
+                lstYear.value = iYear;
+
+        }
+
+        function setSelectMonth(iMonth) {
+            if (iMonth < 13 && iMonth > 0)
+                lstMonth.value = iMonth;
+        }
+
+        function updateDate() {
+            computeDate(lstYear.value, lstMonth.value);
+            displayDate();
+        }
+
+        function nextMonth() {
+            init();
+            if ((new Number(selectMonth)).valueOf() + 1 > 12) {
+                nextYear();
+                selectMonth = 1;
+            } else {
+                selectMonth++;
+            }
+
+            computeDate(selectYear, selectMonth);
+            displayDate();
+        }
+
+        function nextYear() {
+            init();
+            if ((new Number(selectYear)).valueOf() + 1 < maxYear) {
+                computeDate((new Number(selectYear)).valueOf() + 1, selectMonth);
+                displayDate();
+            }
+        }
+
+        function prevYear() {
+            init();
+            if (selectYear - 1 > minYear) {
+                computeDate(selectYear - 1, selectMonth);
+                displayDate();
+            }
+        }
+
+        function prevMonth() {
+            init();
+            if (selectMonth - 1 < 1) {
+                prevYear();
+                selectMonth = 12;
+            } else {
+                selectMonth--;
+            }
+            computeDate(selectYear, selectMonth);
+            displayDate();
+        }
+
+        function gotoToday() {
+            computeDate(currentYear, currentMonth);
+            displayDate();
+        }
+
+        function UploadSkuGroup() {
+            layer.open({
+                title: '<span class="layui-breadcrumb" style="" >UploadSkuGroup</span>',
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['95%', '100%'], //宽高
+                content: 'UploadSkuGroup.html',
+                cancel: function (index) {
+                }
+            });
+        }
+        function UploadSkuPrice() {
+            layer.open({
+                title: '<span class="layui-breadcrumb" style="" >UploadSkuPrice</span>',
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['95%', '100%'], //宽高
+                content: 'UploadSkuPrice.html',
+                cancel: function (index) {
+                }
+            });
+        }
+        //-->
+    </script>
+    <style type="text/css">
+        <!--
+        table {
+            font-family: Verdana;
+            font-size: 9pt;
+            border-collapse: collapse;
+        }
+
+        .DayGrid {
+            color: black;
+            text-align: center;
+            background-color: rgb(224,239,250);
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            cursor: hand;
+        }
+
+        .DayGridGray {
+            color: rgb(153,153,153);
+            text-align: center;
+            background-color: rgb(228,225,219);
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            cursor: hand;
+        }
+
+        .DayGridCurrent {
+            color: black;
+            text-align: center;
+            background-color: rgb(255,255,204);
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            cursor: hand;
+        }
+
+        .DayGridOver {
+            color: black;
+            text-align: center;
+            background-color: rgb(255,255,204);
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            cursor: hand;
+        }
+
+        .WeekTitle {
+            float: left;
+            width: calc(100% / 7);
+            height: 54px;
+            color: black;
+            background-color: #336699;
+            color: #FFFFFF;
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            overflow: auto;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            padding-left: calc((((100% - 54px) / 7) - 14px) / 2);
+        }
+
+        .CalendarDay {
+            float: left;
+            width: calc(100% / 7);
+            height: calc(((100% - 154px) / 6) - 2px);
+            line-height: calc(((100% - 154px) / 6) - 2px);
+            border-width: 1px;
+            border-color: rgb(104,160,196);
+            border-style: solid;
+            overflow: auto;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-align-content: center;
+            padding-left: calc((((100% - 54px) / 7) - 14px) / 2);
+        }
+
+            .CalendarDay.bgY {
+                background-color: Lightgreen;
+            }
+
+                .CalendarDay:hover, .CalendarDay.bgY:hover {
+                    background-color: #CCCCFF;
+                }
+
+        .ControlBar {
+            width: 100%;
+            height: 40px;
+            color: white;
+            background-color: rgb(104,160,196);
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-align-content: center;
+        }
+
+            .ControlBar span {
+                text-align: center;
+                display: inline-block;
+                width: calc(100% /7);
+                margin: 5px 10px;
+            }
+
+        select.listBox {
+            font-family: Arial;
+            font-size: 9pt;
+            scrollbar-3dLight-color: #CCCCFF;
+            scrollbar-arrow-color: #CCCCFF;
+            scrollbar-base-color: #CCCCFF;
+            scrollbar-darkshadow-color: #CCCCFF;
+            scrollbar-face-color: #CCCCFF;
+            scrollbar-highlight-color: #CCCCFF;
+            scrollbar-shadow-color: #CCCCFF;
+            scrollbar-track-color: #CCCCFF;
+        }
+
+        input.button {
+            font-family: Verdana;
+            font-size: 9pt;
+            background-color: rgb(152,186,223);
+            border-width: 1px;
+            border-color: rgb(224,239,250);
+            border-style: solid;
+        }
+
+        select, textarea {
+            margin: 0;
+            font: inherit;
+            color: black;
+        }
+
+        .file {
+            position: absolute;
+            font-size: 15px;
+            line-height: 34px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+
+        -->
+    </style>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="purple" alink="red" scroll="no" onload="init()" onselectstart="return false;" onunload="returnDate()">
+    <div class="container-fluid">
+        <div id="Table_Toolbar" class="panel-body">
+            <input type="hidden" class="form-control" id="select_plant" />
+            <button class="btn btn-success" id="OpenLast140" onclick="OpenLast140()">OpenLastUpload140</button>
+            <button class="btn btn-success" id="Open140His" onclick="Open140His()">Open140History</button>
+            <button class="btn btn-success" id="OpenI285Set" onclick="OpenI285Set()">I285Set</button>
+            <button class="btn btn-success" id="UploadSkuGroup" onclick="UploadSkuGroup()">UploadSkuGroup</button>
+            <button class="btn btn-success" id="UploadSkuPrice" onclick="UploadSkuPrice()">UploadSkuPrice</button>
+            <button class="btn btn-success" id="OpenI140Comparison" onclick="OpenI140Comparison()">I140Comparison</button>
+            <button class="btn btn-info disabled" id="labymd"></button>
+        </div>
+        <div id="divUploadInfo" class="hidden  form-horizontal form-inline">
+            <div class="col-xs-1 ">
+                <button type="button" class="btn btn-primary" id="DownloadTemplateFile">
+                    <i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i><lan set-lan="html:Template"> 下載模板</lan>
+                </button>
+            </div>
+            <div class="col-xs-11">
+                <div class="btn-group">
+                    <label class="btn btn-primary" for="inputUploadFile"><lan set-lan="html:Upload"> 文件路徑:</lan></label>
+                    <a href="javascript:;" class="btn btn-primary" style="width:200px;">
+                        點擊選擇文件
+                        <input id="inputUploadFile" type="file" class="file" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+                    </a>
+                </div>
+            </div>
+            <div id="divExcel" class="div-excel">
+            </div>
+        </div>
+        <div id="divsub" class="panel-body hidden" style="font-size: 1em;">
+            <div id="Table_Toolbar_1">
+                <div class="form-inline" role="group">
+                    <div class="input-group">
+                        <div>
+                            <input id="ci285filename" type="hidden" />
+                            <button class="btn btn-success" id="DownloadExcel" onclick="DownloadExcel()">Export Excel</button>
+                            <button class="btn btn-success" id="Deletei285" onclick="deletei285()">Delele</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div><table id="subtableMaterial" class="table table-condensed"></table></div>
+        </div>
+        <div id="calendar">
+            <div id="spanToolBar"></div>
+            <div id="spanCalendar">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

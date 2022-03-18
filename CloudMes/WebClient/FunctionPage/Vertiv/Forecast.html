@@ -1,0 +1,923 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Vertiv Forecast</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        .checkbox-input {
+            /*margin-left: -20px !important;*/
+            height: 25px;
+            width: 100%;
+            margin-top: -3px !important;
+        }
+
+        #divFilterCondition .form-group {
+            margin-bottom: 5px;
+        }
+
+        .tableEventsToolbar-margin-top {
+            margin-top: 10px;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+
+        .layer-title-field {
+            font-size: larger;
+            font-weight: bolder;
+        }
+
+        .layer-title-value {
+            color: blue;
+            font-size: larger;
+            font-weight: bolder;
+            margin-right: 20px;
+            margin-left: 5px;
+        }
+        .edit-id{
+            display:none;
+        }
+        .edit-value {
+            color: #ff6a00;
+            text-decoration: underline;
+        }
+        .edit-site {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .edit-site, .edit-value:hover {
+           cursor: pointer;
+        }
+
+
+
+        .edit-qty {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+            .edit-qty:hover {
+                cursor: pointer;
+            }
+
+        .edit-qty-input {
+            margin: 10px 0px !important;
+        }
+        table tbody tr td {
+            white-space: nowrap;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <label class="btn btn-outline btn-default">Validity:</label>
+                    <select id="selectValidity" class="btn btn-outline btn-default" style="height:34px;">
+                    </select>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolRefresh">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                    </button>
+                    <!--<button type="button" class="btn btn-outline btn-default" id="btnToolCommit">
+                        <i class="glyphicon glyphicon-send" aria-hidden="true"></i><lan set-lan="html:" style="color:blue;font-weight:bolder;">Commit</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolLog">
+                        <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">Log</lan>
+                    </button>-->
+                    <button type="button" class="btn btn-outline btn-default" id="btnShowFileList">
+                        <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">FileList</lan>
+                    </button>
+                    <!--<button type="button" class="btn btn-outline btn-default" id="btnShowCompareList">
+                        <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">Compare</lan>
+                    </button>-->
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+    <div id="divEditQty" class="form-horizontal" hidden>
+        <div class="form-group edit-qty-input">
+            <label class="col-xs-4 control-label text-right">Skuno:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtSkuno" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input">
+            <label class="col-xs-4 control-label text-right">Date:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtDate" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input">
+            <label class="col-xs-4 control-label text-right">Old Qty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtOldQty" readonly />
+            </div>
+        </div>
+        <div class="form-group edit-qty-input">
+            <label class="col-xs-4 control-label text-right">New Qty:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" id="txtNewQty" />
+            </div>
+        </div>
+    </div>
+
+    <div id="divLog" hidden style="padding:0 10px;">
+        <table id="tableLog" class="table table-hover"></table>
+    </div>
+    <div id="divFileList" hidden style="padding:0 10px;">
+        <div class="fixed-table-toolbar">
+            <div class="btn-group div-table-tool" id="tableCompareToolbar" role="group">
+                <button type="button" class="btn btn-outline btn-default" id="btnFileRefresh">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-default" id="btnShowCompareList">
+                    <i class="glyphicon glyphicon-file" aria-hidden="true"></i><lan set-lan="html:">Compare</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-default" id="btnDownloadCompareFile">
+                    <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i><lan set-lan="html:">DownloadCompareFile</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableFileList" class="table table-hover"></table>
+    </div>
+    <div id="divCompareList" hidden style="padding:0 10px;">
+        <table id="tableCompareList" class="table table-hover"></table>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var userLevel = "";
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+        window.ColumnClick = {
+            'click .edit-qty': function (e, value, row, index) {
+                //console.log(row);
+                let _this = this;
+                let _index = index;
+                layer.open({
+                    id: "EditQty",
+                    type: 1,
+                    shade: 0,
+                    shadeClose: false,
+                    title: "Edit Qty",
+                    area: ['100'],
+                    content: $('#divEditQty'),
+                    btn: ["OK", "cancel"],
+                    success: function (layero, index) {
+                        $("#divEditQty").show;//.removeClass("hidden");
+                        $("#txtSkuno").val(row.SKU);
+                        $("#txtOldQty").val(value.QTY);
+                        $.each(row, function (item, _value) {
+                            if (value.ID == _value.ID) {
+                                $("#txtDate").val(item);
+                                return false;
+                            }
+                        });
+                        $("#txtNewQty").val("").focus();
+                    },
+                    end: function () {
+                        $("#divEditQty").hide();//.addClass("hidden");
+                    },
+                    yes: function (index) {
+                        var newQty = $("#txtNewQty").val();
+                        //let re = new RegExp("^[0-9]*[1-9][0-9]*$");
+                        let re = new RegExp("^[0-9]*[1-9][0-9]*$");
+                        if (newQty == "") {
+                            layer.msg("Please input New Qty", {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                            $("#txtNewQty").focus();
+                            return;
+                        }
+                        if (newQty != "0" && !re.test(newQty)) {
+                            layer.msg("Please input a number", {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                            $("#txtNewQty").val("").focus();
+                            return;
+                        }
+
+                        parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "EditForecast", {
+                            ID: value.ID,
+                            NewQty: newQty
+                        }, function (e) {
+                            if (e.Status == "Pass") {
+                                $.each(row, function (item, _value) {
+                                    if (value.ID == _value.ID) {
+                                        value.QTY = newQty;
+                                        $("#tableList").bootstrapTable('updateRow', { _index, row })
+                                        return false;
+                                    }
+                                });
+                                layer.close(index);
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            }
+        }
+        var GetList = function () {
+            var loadIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span>Please wait ...</span></div></div>"
+            });
+            parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetForecast",
+                {
+                    Valid: $("#selectValidity").val()
+                }, function (e) {
+                    layer.close(loadIndex);
+                    var columns = [];
+                    if (e.Status == "Pass") {
+                        columns.push({
+                            field: 'LOT_NO',
+                            title: 'LOT_NO',
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            formatter: function (value, row, indx) {
+                                if (row.VALID_FLAG == "0") {
+                                    return ['<s>' + value + '</s >'].join('');
+                                }
+                                else {
+                                    return value;
+                                }
+                            }
+                        });
+                        columns.push({
+                            field: 'SKU',
+                            title: 'SKU',
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            formatter: function (value, row, indx) {
+                                if (row.VALID_FLAG == "0") {
+                                    return ['<s>' + value + '</s >'].join('');
+                                }
+                                else {
+                                    return value;
+                                }
+                            }
+                        });
+                        for (var item in e.Data[0]) {
+                            if (item == 'SKU' || item == 'LOT_NO') {
+                                continue;
+                            }
+                            else if (item == "VALID_FLAG") {
+                                var cell = {
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: false
+                                }
+                                columns.push(cell);
+                            }
+                            else {
+                                var cell = {
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: true,
+                                    formatter: function (value, row, indx) {
+                                        if (typeof (value) == "object") {
+                                            if (row.VALID_FLAG == 0) {
+                                                return ['<s>' + value["QTY"] + '</s >'].join('');
+                                                //if (value.length) {
+                                                //    var showLabel = "";
+                                                //    for (var i = 0; i < value.length; i++) {
+                                                //        var s = '<div class="edit" ><span class="edit-id">' + value[i].Key + '</span><span class="edit-site">' + value[i].Value.SITE_NAME + '&nbsp;:&nbsp;</span><span class="edit-value">' + value[i].Value.QTY + '</span ></div>';
+                                                //        showLabel = showLabel + s;
+                                                //    }
+                                                //    return [showLabel].join('');
+                                                //}
+                                                //else {
+                                                //    return ['<s>' + value["QTY"] + '</s >'].join('');
+                                                //}
+
+                                            }
+                                            else {
+                                                return ['<label class="edit-qty">' + value["QTY"] + '</label >'].join('');
+                                                //if (value.length) {
+                                                //    var showLabel = "";
+                                                //    for (var i = 0; i < value.length; i++) {
+                                                //        var s = '<div class="edit" ><span class="edit-id">' + value[i].Key + '</span><span class="edit-site">' + value[i].Value.SITE_NAME + '&nbsp;:&nbsp;</span><span class="edit-value">' + value[i].Value.QTY + '</span ></div>';
+                                                //        showLabel = showLabel + s;
+                                                //    }
+                                                //    return [showLabel].join('');
+                                                //}
+                                                //else {
+                                                //    return ['<label class="edit-qty">' + value["QTY"] + '</label >'].join('');
+                                                //}
+                                            }
+                                        }
+                                        else {
+                                            if (row.VALID_FLAG == 0) {
+                                                return ['<s>' + value + '</s >'].join('');
+                                            }
+                                            else {
+                                                return value;
+                                            }
+                                        }
+                                    },
+                                    //events: ColumnClick
+                                }
+                                columns.push(cell);
+                            }
+                        }
+                        $("#tableList").bootstrapTable("destroy");
+                        $("#tableList").bootstrapTable({
+                            data: e.Data,
+                            striped: true,                    //是否显示行间隔色
+                            cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            sortable: true,                   //是否启用排序
+                            sortOrder: "asc",                  //排序方式
+                            pagination: true,                  //是否显示分页（*）
+                            sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                     //初始化加载第一页，默认第一页
+                            pageSize: 10,                       //每页的记录行数（*）
+                            pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+                            search: true,
+                            searchTimeOut: 500,                //设置搜索超时时间
+                            searchAlign: "left",              //查询框对齐方式
+                            toolbar: "#tableEventsToolbar",    //指定工具栏
+                            toolbarAlign: "left",              //工具栏对齐方式
+                            buttonsAlign: "left",             //按钮对齐方式
+                            showExport: true,                  //是否显示导出按钮
+                            exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                            exportTypes: ['excel', 'csv'],     //导出文件类型
+                            Icons: 'glyphicon-export',
+                            locale: localelan,
+                            fixedColumns: true,
+                            fixedNumber: 2,
+                            exportOptions: {
+                                ignoreColumn: [0],             //忽略某一列的索引
+                                fileName: 'Forecast',     //文件名称设置
+                                worksheetName: 'sheet1',       //表格工作区名称
+                            },
+                            rowStyle: function (row, index) {
+                                switch (row.VALID_FLAG) {
+                                    case 0:
+                                        return { css: { 'color': '#b3b3b5' } };
+                                        break;
+                                    case 1:
+                                        return { css: { 'color': '#333' } };
+                                        break;
+                                    default:
+                                        return { css: { 'color': '#333' } };
+                                        break;
+                                }
+                            },
+                            columns: columns
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+        }
+        var Init = function () {
+            parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetForecastValid", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#selectValidity").html("");
+                    for (var i = 0; i < e.Data.length; i++) {
+                        $("#selectValidity").append($('<option value="' + e.Data[i] + '">' + e.Data[i] + '</option>'));
+                    }
+                    $("#selectValidity option:first").attr("selected", true);
+                    GetList();
+                }
+            });
+        }
+        var CloseAll = function () {
+            layer.closeAll();
+            GetList();
+        }
+
+        var GetFileList = function () {
+            parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetForecastFileList",
+                {
+                    Data: ""
+                }, function (e) {
+                    $("#tableFileList").bootstrapTable("destroy");
+                    var columns = [];
+                    if (e.Status == "Pass") {
+                        columns.push({
+                            checkbox: true
+                        });
+                        for (var item in e.Data[0]) {
+                            var cell = {
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false,
+                                visible: true
+                            }
+                            columns.push(cell);
+                        }
+                        $("#tableFileList").bootstrapTable({
+                            data: e.Data,
+                            striped: true,                    //是否显示行间隔色
+                            cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            sortable: true,                   //是否启用排序
+                            sortOrder: "asc",                  //排序方式
+                            pagination: true,                  //是否显示分页（*）
+                            sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                     //初始化加载第一页，默认第一页
+                            pageSize: 10,                       //每页的记录行数（*）
+                            pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+                            search: true,
+                            searchTimeOut: 500,                //设置搜索超时时间
+                            searchAlign: "left",              //查询框对齐方式
+                            buttonsAlign: "left",             //按钮对齐方式
+                            toolbar: "#tableCompareToolbar",    //指定工具栏
+                            showExport: true,                  //是否显示导出按钮
+                            exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                            exportTypes: ['excel', 'csv'],     //导出文件类型
+                            Icons: 'glyphicon-export',
+                            locale: localelan,
+                            exportOptions: {
+                                fileName: 'FileList',     //文件名称设置
+                                worksheetName: 'sheet1',       //表格工作区名称
+                            },
+                            columns: columns
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+        }
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+        $(document).ready(function () {
+            Init();
+            $("#btnToolRefresh").click(function () {
+                GetList();
+            });
+            //$("#selectAction").change(function (e) {
+            //    GetList();
+            //});
+            $("#selectValidity").change(function (e) {
+                GetList();
+            });
+            $("#btnToolCommit").click(function () {
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span>Please wait ...</span></div></div>"
+                });
+                parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CommitForecast", { Data: "" }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 6000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {
+                            layer.close(loadIndex);
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 6000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            layer.close(loadIndex);
+                        });
+                    }
+                });
+
+            });
+
+            $("#btnToolLog").click(function (e) {
+                layer.open({
+                    id: "Log",
+                    type: 1,
+                    shade: 0,
+                    shadeClose: false,
+                    title: "Log",
+                    area: ['90%', '90%'],
+                    content: $('#divLog'),
+                    success: function (layero, index) {
+                        $("#divLog").show;
+                        parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetForecastEditLog",
+                            {
+                                Data: ""
+                            }, function (e) {
+                                var columns = [];
+                                if (e.Status == "Pass") {
+                                    for (var item in e.Data[0]) {
+                                        var cell = {
+                                            field: item,
+                                            title: item,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: false,
+                                            visible: true
+                                        }
+                                        columns.push(cell);
+                                    }
+                                    $("#tableLog").bootstrapTable("destroy");
+                                    $("#tableLog").bootstrapTable({
+                                        data: e.Data,
+                                        striped: true,                    //是否显示行间隔色
+                                        cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                        sortable: true,                   //是否启用排序
+                                        sortOrder: "asc",                  //排序方式
+                                        pagination: true,                  //是否显示分页（*）
+                                        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                        pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                        pageSize: 10,                       //每页的记录行数（*）
+                                        pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+                                        search: true,
+                                        searchTimeOut: 500,                //设置搜索超时时间
+                                        searchAlign: "left",              //查询框对齐方式
+                                        buttonsAlign: "left",             //按钮对齐方式
+                                        showExport: true,                  //是否显示导出按钮
+                                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                                        Icons: 'glyphicon-export',
+                                        locale: localelan,
+                                        exportOptions: {
+                                            fileName: 'Log',     //文件名称设置
+                                            worksheetName: 'sheet1',       //表格工作区名称
+                                        },
+                                        columns: columns
+                                    });
+                                }
+                                else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () { });
+                                }
+                            });
+                    },
+                    end: function () {
+                        $("#divLog").hide();
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+            $("#btnShowFileList").click(function (e) {
+                layer.open({
+                    id: "FileList",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: "FileList",
+                    area: ['90%', '90%'],
+                    content: $('#divFileList'),
+                    success: function (layero, index) {
+                        $("#divFileList").show;
+                        GetFileList();
+                    },
+                    end: function () {
+                        $("#divFileList").hide();
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+            $("#btnFileRefresh").click(function (e) {
+                GetFileList();
+            });
+            $("#btnShowCompareList").click(function (e) {
+                var selectList = $('#tableFileList').bootstrapTable('getSelections');
+                if (selectList.length == 0) {
+                    layer.msg("Please select one or more file.", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                var lotNoList = [];
+                selectList.forEach(item => {
+                    lotNoList.push(item.LOT_NO);
+                });
+                layer.open({
+                    id: "CompareList",
+                    type: 1,
+                    shade: 0.5,
+                    shadeClose: false,
+                    title: "CompareList",
+                    area: ['98%', '98%'],
+                    content: $('#divCompareList'),
+                    success: function (layero, index) {
+                        $("#divCompareList").show;
+                        $("#tableCompareList").bootstrapTable("destroy");
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span>Please wait ...</span></div></div>"
+                        });                        
+                        parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CompareForecast",
+                            {
+                                LotNoList: lotNoList
+                            }, function (e) {
+                                layer.close(loadIndex);
+                                var columns = [];                                
+                                if (e.Status == "Pass") {                                    
+                                    columns.push({
+                                        field: "LOT_NO",
+                                        title: "LOT_NO",
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    });
+                                    columns.push({
+                                        field: "FILE_NAME",
+                                        title: "FILE_NAME",
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    });
+                                    columns.push({
+                                        field: "SITE_NAME",
+                                        title: "SITE_NAME",
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    });
+                                    columns.push({
+                                        field: "SKUNO",
+                                        title: "SKUNO",
+                                        align: 'center',
+                                        valign: 'middle',
+                                        sortable: false,
+                                        visible: true
+                                    });
+                                    for (var item in e.Data[0]) {
+                                        if (item == 'SITE_NAME' || item == 'LOT_NO' || item == 'FILE_NAME' || item == 'SKUNO') {
+                                            continue;
+                                        }
+                                        var cell = {
+                                            field: item,
+                                            title: item,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: false,
+                                            visible: true,
+                                            formatter: function (value, row, indx) {
+                                                try {
+                                                    var showValue = JSON.parse(value);
+                                                    return showValue.Qty
+                                                } catch (e) {
+                                                    return value;
+                                                }                                                
+                                            },
+                                            cellStyle: function (value, row, index, field) {
+                                                if (field != 'SITE_NAME' && field != 'LOT_NO' && field != 'FILE_NAME' && field != 'SKUNO' && !JSON.parse(value).IsSame) {
+                                                    return {
+                                                        css: { 'color': 'red', 'background-color': '#f5eb8f !important' }
+                                                    }
+                                                }
+                                                else {
+                                                    return { css: { 'color': '#333' } };
+                                                }
+                                            }
+                                        }
+                                        columns.push(cell);
+                                    }                                    
+                                    $("#tableCompareList").bootstrapTable({
+                                        data: e.Data,
+                                        striped: true,                    //是否显示行间隔色
+                                        cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                        sortable: true,                   //是否启用排序
+                                        sortOrder: "asc",                  //排序方式
+                                        pagination: true,                  //是否显示分页（*）
+                                        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                        pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                        pageSize: 10,                       //每页的记录行数（*）
+                                        pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+                                        searchAlign: "left",              //查询框对齐方式                                        
+                                        toolbarAlign: "left",              //工具栏对齐方式
+                                        buttonsAlign: "left",             //按钮对齐方式
+                                        search: true,
+                                        searchTimeOut: 500,                //设置搜索超时时间                                        
+                                        showExport: true,                  //是否显示导出按钮
+                                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                                        Icons: 'glyphicon-export',
+                                        fixedColumns: true,
+                                        fixedNumber: 4,
+                                        locale: localelan,
+                                        exportOptions: {
+                                            fileName: 'CompareList',     //文件名称设置
+                                            worksheetName: 'sheet1',       //表格工作区名称
+                                        },                                        
+                                        columns: columns
+                                    });
+                                }
+                                else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () { });
+                                }
+                            });
+                    },
+                    end: function () {
+                        $("#divCompareList").hide();
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+            $("#btnDownloadCompareFile").click(function (e) {
+                var selectList = $('#tableFileList').bootstrapTable('getSelections');
+                if (selectList.length == 0) {
+                    layer.msg("Please select one or more file.", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                var lotNoList = [];
+                selectList.forEach(item => {
+                    lotNoList.push(item.LOT_NO);
+                });
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span>Please wait ...</span></div></div>"
+                });
+                parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CompareAndDownloadForecast",
+                    {
+                        LotNoList: lotNoList
+                    }, function (e) {
+                        layer.close(loadIndex);                        
+                        if (e.Status == "Pass") {
+                            var blob = b64toBlob(e.Data.fileContent);
+                            if (window.navigator.msSaveOrOpenBlob) {
+                                navigator.msSaveBlob(blob, e.Data.fileName);
+                            } else {
+                                var link = document.createElement('a');
+                                link.href = window.URL.createObjectURL(blob);
+                                link.download = e.Data.fileName;
+                                link.click();
+                                window.URL.revokeObjectURL(link.href);
+                            }
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

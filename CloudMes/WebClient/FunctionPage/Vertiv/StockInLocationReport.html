@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockInLocation Report</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+        thead th {
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0px !important;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: 460px;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 350px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="full-height animated fadeInRight">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">Location:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtLocation" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">Value:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtValue" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">SkuNo:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtSkuNo" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">Workorder:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtWorkorder" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">Station:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtStation" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">FromDate:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtFromDate" class="form-control" data-date-format="yyyy-mm-dd" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">ToDate:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtToDate" class="form-control" data-date-format="yyyy-mm-dd" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12" style="padding-top: 10px">
+                <button class="btn btn-primary btn-sm btn-block" id="btnSearch">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tableList"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script>
+        var postData = {};
+        var mesUI = new MesClientUI(self.parent.client);
+
+        $(document).ready(function () {
+            $("#txtFromDate").datetimepicker({ minView: 2, autoclose: "true" });    //minView:0 可選取分鐘,1 可選取小時,2 可選取日期
+            $("#txtFromDate").datetimepicker("setDate", new Date());
+            $("#txtToDate").datetimepicker({ minView: 2, autoclose: "true" });    //minView:0 可選取分鐘,1 可選取小時,2 可選取日期
+            $("#txtToDate").datetimepicker("setDate", new Date());
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $("#btnSearch").click(function () {
+                SelectList()
+                $(".SearchBox").toggle();
+            });
+        });
+        var SelectList = function () {
+            $("#tableList").bootstrapTable('destroy');
+            postData = {
+                Location: $("#txtLocation").val(), Value: $("#txtValue").val(), SkuNo: $("#txtSkuNo").val(),
+                Workorder: $("#txtWorkorder").val(), Station: $("#txtStation").val(),
+                FromDate: $("#txtFromDate").val(), ToDate: $("#txtToDate").val()
+            };
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.CStockConfig", "SelectList", postData,
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, { icon: 1, time: 1000 }, function () { ShowList(e.Data); });
+                    } else {
+                        layer.msg(e.Message, { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                        return;
+                    }
+                });
+        };
+        var ShowList = function (data) {
+            $('#tableList').bootstrapTable({
+                data: data,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                    //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                      //初始化加载第一页，默认第一页
+                pageSize: 10,                        //每页的记录行数（*）
+                showColumns: false,                 //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                  //是否显示父子表
+                dataType: "json",                   //期待返回数据类型
+                method: "post",                     //请求方式
+                searchAlign: "right",               //查询框对齐方式
+                search: true,
+                buttonsAlign: "right",               //按钮对齐方式
+                toolbar: "#divTableToolbar",        //指定工具栏
+                toolbarAlign: "left",               //工具栏对齐方式
+                columns: [
+                    {
+                        field: 'ID',
+                        title: 'ID',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'LOCATION',
+                        title: '<label set-lan="html:LOCATION">LOCATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        cellStyle: function (value, row, index) {                            
+                            return { "css": { "background-color": "#d3ecf0" } };
+                        },
+                        formatter: function (value, row, index) {
+                            if (value == undefined) return "N/A";
+                            else return value;
+                        },
+                        editable: {
+                            type: 'text',
+                            //title: '儲位',
+                            title: 'Storge Location',
+                            validate: function (value) {
+                                if (!value) {
+                                    //return '儲位不能為空!'
+                                    return 'Storge location can not be nullable !'
+                                }
+                            }
+                        }
+                    }, {
+                        field: 'VALUE',
+                        title: '<label set-lan="html:VALUE">VALUE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true                        
+                    }, {
+                        field: "SKUNO",
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "WORKORDERNO",
+                        title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "STATION",
+                        title: '<label set-lan="html:STATION">STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDIT_TIME",
+                        title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDIT_EMP",
+                        title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }
+                ],
+                onEditableHidden: function (field, row, $el, reason) { // 当编辑状态被隐藏时触发
+                    if (reason === 'save') {
+                        self.parent.client.CallFunction("MESStation.Config.Vertiv.CStockConfig", "UpdateList", { ID: row.ID, Location: row.LOCATION }, function (e) {
+                            if (e.Status == "Pass") {
+                                swal({
+                                    title: e.Message,
+                                    //text: "温馨提示：数据无价，请谨慎操作！",
+                                    text: "Precious Data,be careful of to operate ",
+                                    type: "success",
+                                    timer: 5000,
+                                    showConfirmButton: true
+                                });
+                                SelectList();
+                            } else {
+                                swal({
+                                    //title: e.Message.replace("執行出現異常： ", ""),
+                                    title: e.Message.replace("Execute error： ", ""),
+                                    //text: "温馨提示：数据无价，请谨慎操作！",
+                                    text: "Precious Data,be careful of to operate ",
+                                    type: "warning",
+                                    timer: 5000,
+                                    showConfirmButton: true
+                                });
+                                return;
+                            }
+                        });
+                    }
+                }
+            });
+            $('#tableList').on('click', 'td:has(.editable)', function (e) {
+                e.stopPropagation(); // 阻止事件的冒泡行为
+                $(this).find('.editable').editable('show'); // 打开被点击单元格的编辑状态
+            });
+        };
+    </script>
+</body >
+</html >

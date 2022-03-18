@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootStrapaddTabs/bootstrap.addtabs.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: xx-small;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #8C8C8C !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <hr class="layui-bg-blue">
+    <!--<div class="panel panel-info">
+        <div class="panel-heading col-xs-12 colo" style="font-size: small; margin-bottom: 10px; font-weight: bold;">
+            <div id="divPoTitle" class="col-xs-11" style="font-size: 15px; float: left"></div>
+        </div>
+    </div>-->
+    <!--<div class="container">
+        <div >-->
+            <div class="col-md-3">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne" style="background-color:slategray;color:white">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Menu
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="main">
+                    <div id="tabs">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <!--<button type="button" class="btn btn-default" addtabs="save" id="save" url="/admin/save">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                                    SAVE
+                                </button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--</div>
+    </div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.js"></script>
+    <script>
+        var poid, pono, poline;
+        var client = self.parent.client;
+        $(document).ready(function () {
+            poid = $.MES.getQueryString("POID");
+            pono = $.MES.getQueryString("PONO");
+            poline = $.MES.getQueryString("POLINE");
+            var title = "";
+            //$('#divPoTitle').html("<span><strong>PO#:</strong></span>" + pono + "  <span>POLINE#:</span>" + poline);
+            var t = $('#collapseOne');
+            var menuHtml = "<ul class=\"list-group\">" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu1\" url=\"PoDetail/CustomerPoInfo.html?POID=" + poid + "\" class=\"list-group-item\">PoDetail</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu2\" url=\"PoCommit/PoCommit.html?POID=" + poid + "\" class=\"list-group-item\">PoCommit</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu3\" url=\"404.html\" class=\"list-group-item\">PoChange</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu4\" url=\"404.html\" class=\"list-group-item\">WorkOrderStatus</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu5\" url=\"404.html\" class=\"list-group-item\">PreASN</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu6\" url=\"404.html\" class=\"list-group-item\">FinalASN</a>" +
+                "<a href=\"javascript: void (0); \" data-addtab=\"userMenu5\" url=\"\" class=\"list-group-item\">AsbuldData</a></ul>";
+            $('#collapseOne').html(menuHtml);
+            $('#tabs').addtabs();
+        });
+
+        var GetFormateTable = function (Data) {
+            var col = [];
+            for (var k in Data[0]) {//遍历packJson 对象的每个key/value对,k为key
+                var cell = {
+                    field: k,
+                    title: k,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                };
+                col.push(cell);
+            }
+            return col;
+        }
+        var ShowTable = function (Data) {
+            $('#PoHeadList').bootstrapTable('destroy');
+            var colHead = GetFormateTable(Data.HeadData);
+            $('#PoHeadList').bootstrapTable({
+                data: Data.HeadData,
+                //columns: colHead,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                //searchOnEnterKey: true,
+                trimOnSearch: true,
+                showExport: true,
+                exportDataType: "all",
+                //pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 50,                       //每页的记录行数（*）
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "basic",             //basic', 'all', 'selected'.
+                exportOptions: {
+                    ignoreColumn: [0, 1],  //忽略某一列的索引  
+                    fileName: 'PoHeadList',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'PoHeadList',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                // pageList: [10, 25, 50, 100],
+                rowStyle: function (row, index) {
+                    var style = {};
+                    if (index % 2 == 0)
+                        style = { css: { 'font-size': 'xx-small', 'background': '#dfdad8', 'font-weight': 'bold', 'color': '#8B4500' } };
+                    return style;
+                },
+                columns: colHead
+            });
+
+
+            $('#PoItemList').bootstrapTable('destroy');
+            var colItem = GetFormateTable(Data.ItemData);
+            $('#PoItemList').bootstrapTable({
+                data: Data.ItemData,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                pageSize: 50,
+                search: true,
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "basic",             //basic', 'all', 'selected'.
+                exportOptions: {
+                    ignoreColumn: [0, 1],  //忽略某一列的索引  
+                    fileName: 'PoItemList',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'PoItemList',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                rowStyle: function (row, index) {
+                    var style = {};
+                    if (index % 2 == 0)
+                        style = { css: { 'font-size': 'xx-small', 'background': '#dfdad8', 'font-weight': 'bold', 'color': '#8B4500' } };
+                    return style;
+                },
+                columns: colItem
+            });
+
+
+            $('#PoLineList').bootstrapTable('destroy');
+            var colLine = GetFormateTable(Data.LineInfo);
+            $('#PoLineList').bootstrapTable({
+                data: Data.LineInfo,
+                striped: true,
+                search: true,
+                pagination: true,
+                clickToSelect: true,
+                showExport: true,
+                exportDataType: "all",
+                columns: colLine
+            });
+        }
+
+        function operateFormatter(value, row, index) {
+            var gtBtn;
+            if (row.GTEVENT == row.SEQ)
+                gtBtn =
+                    '<button type="button" class="RoleOfB btn btn-success btn-sm" style="margin-right:15px;" >執行</button>';
+            else
+                gtBtn =
+                    '<button type="button" class="RoleOfB btn btn-default btn-sm disabled" style="margin-right:15px;">執行</button>';
+            return [gtBtn].join('');
+        }
+
+        window.operateEvents = {
+            'click .RoleOfB': function (e, value, row, index) {
+                if (row.GTEVENT != row.SEQ) return;
+                doGt(row);
+            }
+        };
+
+        var LoadList = function (poid) {
+            self.parent.client.CallFunction("MESJuniper.Api.OrderManager",
+                "GetSingleOrderInfo",
+                { POID: poid },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        ShowTable(e.Data);
+                        var gtTitle = "OrderInfomation : Po:" + e.Data.ItemData[0].PO + " / PoLine:" + e.Data.ItemData[0].LINENO + "";
+                        $('#divGtTitle').html(gtTitle);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent()
+                            .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    } else {
+                        ShowGtListTable([]);
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-demo', //样式类名
+                            closeBtn: 0, //不显示关闭按钮
+                            anim: 2,
+                            shadeClose: true, //开启遮罩关闭
+                            content: e.Message
+                        });
+                        return;
+                    }
+                });
+        }
+
+    </script>
+</body>
+</html>

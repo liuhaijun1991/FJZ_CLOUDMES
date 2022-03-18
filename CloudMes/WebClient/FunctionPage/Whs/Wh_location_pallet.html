@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        .scroll {
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        #inputsite .form-group input, #inputsite .form-group select {
+            margin-bottom: 20px;
+            box-shadow: inset 0px 0px 1px #bcbcbc;
+            border-radius: 5px;
+        }
+
+        #IOSite {
+            background-color: #ffffff;
+            position: sticky;
+            top: 0px;
+            z-index: 100;
+        }
+
+        #inputsite .form-group label {
+            margin-top: 5px;
+            font-size: initial;
+        }
+
+        #inputsite .form-control {
+            font-size: 2rem !important;
+            font-weight: 500 !important;
+            border: 1px solid #4c4c4c;
+        }
+
+            #inputsite .form-control:focus {
+                background-color: #f6f7a6;
+            }
+
+        #outputsite {
+            font-size: 1rem !important;
+        }
+
+            #outputsite .form-group {
+                /*width: calc((100% - 45px)/3);*/
+                width: calc((100% - 45px)/2);
+                float: left;
+                border-bottom: 1px dotted #337ab7;
+                padding: 0 !important;
+                margin-right: 15px;
+            }
+
+                #outputsite .form-group label {
+                    padding: 0 15px 0 0 !important;
+                    margin: 0;
+                    /*font-size: small;*/
+                    float: left;
+                    width: auto;
+                }
+
+                #outputsite .form-group div {
+                    width: auto;
+                    padding: 0px !important;
+                    min-height: 18px;
+                }
+
+
+        #messagesite {
+            overflow: scroll;
+            font-size: 1.5rem;
+        }
+
+        .ibox {
+            margin-bottom: 0px;
+        }
+
+        .ibox-content {
+            /*height: calc(100% - 54px);*/
+        }
+
+        .bg-primary {
+            background-color: #337ab7 !important;
+        }
+
+        @media(max-width:1599px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc((100% - 30px)/2);
+                /*width: 100%;*/
+            }
+        }
+        /*ADD by TRANANH*/
+        .addButton {
+            position: absolute !important;
+            left: -6% !important;
+            top: -5px;
+        }
+
+        .infoButton {
+            position: absolute !important;
+            left: -6% !important;
+            top: -5px;
+        }
+
+        .test {
+            width: 10rem;
+            height: 6rem;
+        }
+
+        .card {
+            height: 100% !important;
+            border-radius: 9% !important;
+        }
+        /*TEST*/
+        .popover {
+            border-radius: 10px;
+            border: 1px solid white;
+            transform: scale(1);
+            animation: pulse 1.0s infinite;
+        }
+
+            .popover .popover-title i {
+                animation: color-animation 1s infinite linear alternate;
+            }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.90);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0.90);
+            }
+        }
+
+        @keyframes color-animation {
+            0% {
+                color: #f7f7f7;
+            }
+
+            50% {
+                color: #d9534f;
+            }
+
+            100% {
+                color: #f7f7f7;
+            }
+        }
+
+        @keyframes color-button-animation {
+            0% {
+                background-color: #d9534f;
+            }
+
+            50% {
+                background-color: rgb(240, 173, 78);
+            }
+
+            100% {
+                background-color: #d9534f;
+            }
+        }
+
+
+        @media(max-width:1199px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+
+        @media(max-width:991px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc(50% - 30px);
+                /*width: 100%;*/
+            }
+        }
+
+        @media(max-width:749px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class=" full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">
+                </span>
+                <button class="btn btn-default small" id="btnReset" onclick="selectWH()">
+                    <i class="glyphicon glyphicon-refresh"></i> Reset
+                </button>
+                <!--<button class="btn btn-default small" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>-->
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <div class="col-xs-12 " id="IOSite">
+                    <div class="col-xs-3">
+                        <div class="panel panel-default col-xs-12 no-padding">
+                            <div class="panel-heading" style=" margin-bottom:6px; font-weight:bold;">CHECK-IN</div>
+                            <div id="divBUDetail" class="row form-horizontal">
+                                <div class="col-xs-11 col-xs-offset-1">
+                                    <div class="form-group">
+                                        <div class="col-xs-6">
+                                            <input type="text" id="txt_search_pallet_no" class="form-control" placeholder="Enter pallet" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-12 no-padding" id="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="panel panel-default col-xs-12 no-padding " style="font-weight:bold;">
+                            <div class="panel-heading" style=" margin-bottom:6px; font-weight:bold;"><div class="row"><div class="col-xs-5">WHS Information</div><div class="col-xs-7">ACTION</div></div></div>
+                            <div class="col-xs-4 col-xs-offset-1 no-padding" id="outputsite">
+                                <div class="form-group" view-group="SKUNO">
+                                    <label for="factory_name" class="col-xs-3 control-label text-right">Factory:</label>
+                                    <div class="col-xs-9">
+                                        <span id="factory_name" class="form-control-static"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" view-group="SKUNO">
+                                    <label for="wh_name" class="col-xs-3 control-label text-right">WHS_Name:</label>
+                                    <div class="col-xs-9">
+                                        <span id="wh_name" class="form-control-static"></span>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group back-grou" view-group="SKUNO">
+                    <label for="wh_col" class="col-xs-3 control-label text-right">WHS Column:</label>
+                    <div class="col-xs-9">
+                        <span id="wh_col" class="form-control-static"></span>
+                    </div>
+                </div>
+                <div class="form-group" view-group="SKUNO">
+                    <label for="wh_row" class="col-xs-3 control-label text-right">WHS Row:</label>
+                    <div class="col-xs-9">
+                        <span id="wh_row" class="form-control-static"></span>
+                    </div>
+                </div>-->
+                            </div>
+                            <div class="form-group col-xs-7" id="">
+                                <div class=" col-xs-4">
+                                    <!--<label class="form-check-label col-xs-3" for="">1 Pallet</label>-->
+                                    <button type="button" id="btn-in" class="btn btn-warning col-xs-9">Check-IN</button>
+                                </div>
+                                <!--<label for="message-text" class="col-xs-1 control-label">Note:</label>-->
+                                <div class=" col-xs-4" role="group">
+                                    <!--<label class="form-check-label col-xs-3" for="">Empty</label>-->
+                                    <button type="button" class="btn btn-success col-xs-9" id="btn-out">Check-Out</button>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-12 no-padding" id="toolsite"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="panel panel-default col-xs-11 col-xs-offset-1 no-padding">
+                            <div class="panel-heading" style=" margin-bottom:6px; font-weight:bold;">CHECK-OUT</div>
+                            <div id="divBUDetail" class="row form-horizontal">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label text-right"></label>
+                                        <div class="col-xs-9 col-xs-offset-1">
+                                            <input type="text" id="txtCheck_In_Out" class="form-control" placeholder="Enter pallet" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-11 col-xs-offset-1 no-padding" id="outputsite">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default col-xs-12 no-padding ">
+                    <div class="panel-heading flexBox" style="background-color: #92B5D3 !important; font-size:small; font-weight:bold;" height: auto;display: flex; flex-flow: row wrap;justify-content: center;">WHS Position</div>
+                    <!--<div class="panel-body no-padding row flexBox scroll" id="" style="height: auto;display: flex; flex-flow: row wrap;justify-content: center;">-->
+                    <div class="panel-body no-padding  scroll" id="" style="height: auto;justify-content: center;">
+                        <table class="table table-hover" id="tabe_mapping"></table>
+                    </div>
+                    <textarea id="listpl" style="width:500px;height:238px" placeholder="CHECK-IN" disabled="disabled"></textarea>
+                    <textarea id="listpl-out" style="width:500px;height:238px;float:right"  placeholder="CHECK-OUT" disabled="disabled"></textarea>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-1.11.1.js"></script>
+    <!--<script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>-->
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        //$(document).ready(function () {
+        //    selectWH();
+
+        //});
+        var WH_ID = "";
+        $('#txt_search_pallet_no').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                var pallet = $("#txt_search_pallet_no").val();
+                if (pallet == "") {
+                    layer.msg("pls input data", { icon: 2, time: 1500, offset: ["25%"] });
+                    return;
+                }
+                else {
+                    self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "CheckPallet", { pallet: pallet }, function (e) {
+                        if (e.Status == "Pass") {
+                            var newLine = "\r\n";
+                            document.getElementById('listpl').innerHTML += pallet + "\r\n";
+                            $("#txt_search_pallet_no").val('');
+                            $("#txt_search_pallet_no").focus();
+                        }
+                        else
+                        {
+                            layer.msg(e.MessageCode, { icon: 2, time: 1500, offset: ["25%"] });
+                            $("#txt_search_pallet_no").val('');
+                            $("#txt_search_pallet_no").focus();
+                        }
+                    });
+
+                }
+            }
+        });
+
+        $("#btn-in").click(function () {
+            var listpl = $("#listpl").val();
+            if (listpl == "")
+            {
+                layer.msg("pls input data", { icon: 2, time: 1500, offset: ["25%"] });
+                return;
+            }
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "CheckinPLLocation", { listpl: listpl, WH_ID: WH_ID }, function (e) {
+                if (e.Status == "Pass") {
+                    //var newLine = "\r\n";
+                    //document.getElementById('listpl').innerHTML += pallet + "\r\n";
+                    layer.msg(e.MessageCode, { icon: 1, time: 1500, offset: ["25%"] });
+                    $("#listpl").val('');
+                    location.reload();
+                }
+                else
+                {
+                    layer.msg(e.MessageCode, { icon: 2, time: 1500, offset: ["25%"] });
+                    //$("#txt_search_pallet_no").val('');
+                    location.reload();
+                }
+            });
+        });
+
+        $('#txtCheck_In_Out').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                var pallet = $("#txtCheck_In_Out").val();
+                if (pallet == "") {
+                    layer.msg("pls input data", { icon: 2, time: 1500, offset: ["25%"] });
+                    return;
+                }
+                else {
+                    self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "CheckPalletEXIT", { pallet: pallet, WH_ID: WH_ID }, function (e) {
+                        if (e.Status == "Pass") {
+                            var newLine = "\r\n";
+                            document.getElementById('listpl-out').innerHTML += pallet + "\r\n";
+                            $("#txtCheck_In_Out").val('');
+                            $("#txtCheck_In_Out").focus();
+
+                        }
+                        else {
+                            layer.msg(e.MessageCode, { icon: 2, time: 1500, offset: ["25%"] });
+                            $("#txtCheck_In_Out").focus();
+                        }
+                    });
+
+                }
+            }
+        });
+
+        $("#btn-out").click(function () {
+            var listpl = $("#listpl-out").val();
+            if (listpl == "") {
+                layer.msg("pls input data", { icon: 2, time: 1500, offset: ["25%"] });
+                return;
+            }
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "CheckoutPLLocation", { listpl: listpl, WH_ID: WH_ID }, function (e) {
+                if (e.Status == "Pass") {
+                    //var newLine = "\r\n";
+                    //document.getElementById('listpl').innerHTML += pallet + "\r\n";
+                    layer.msg(e.MessageCode, { icon: 1, time: 1500, offset: ["25%"] });
+                    $("#listpl-out").val('');
+                    location.reload();
+                }
+                else {
+                    layer.msg(e.MessageCode, { icon: 2, time: 1500, offset: ["25%"] });
+                    //$("#txt_search_pallet_no").val('');
+                    location.reload();
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            selectWH();
+        });
+        function selectWH() {
+            $('.popover').popover('destroy');
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "GetWarehouseConfig", {}, function (e) {
+                if (e.Status == "Pass") {
+                    options = [];
+                    options.push('<select class="" name="" id="select_wh">');
+                    e.Data.forEach(function (value) {
+                        options.push('<option value="' + value.WH_ID + '">' + value.WH_NAME + '</option>');
+                    });
+                    options.push('</select>');
+                    swal({
+                        title: "Select Warehouse",
+                        html: true,
+                        text: options,
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            WH_ID = $("#select_wh").val();
+                            for (var i = 0; i < e.Data.length; i++) {
+                                if (e.Data[i].WH_ID == WH_ID) {
+                                    $("#factory_name").text(e.Data[i].NAME);
+                                    $("#wh_name").text(e.Data[i].WH_NAME);
+                                    document.getElementById('listpl').innerText = "";
+                                    document.getElementById('listpl-out').innerText = "";
+                                    //$("#txtCheck_In_Out").val('');
+                                    //$("#txt_search_pallet_no").val('');
+                                    //console.log(WH_ID);
+
+                                }
+                            }
+
+                        } else {
+                            return;
+                        }
+                    });
+                }
+                else {
+                    swal("error", e.Message, "error");
+                }
+            });
+        }
+    </script> 
+</body>
+</html>

@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">PanelFailStation</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">Panel Scan Fail Station</span>
+                <button class="btn btn-default small" id="btnReset">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+                <button class="btn btn-default small" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content padding-top-5">
+            <div class="row form-horizontal">
+                <div id="divScanBody">
+                    <div class="col-xs-4" id="divFailPanel">
+                        <div class="panel panel-default no-padding">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Fail Panel</h3>
+                            </div>
+                            <div class="panel-body ">
+                                <div id="divInputFailStation" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="Station_00001">
+                                        <label for="Station_00001" class="col-xs-3 control-label text-right">Station:</label>
+                                        <div class="col-xs-9">
+                                            <select id="Station_00001" class="form-control">
+                                                <option value="VI1">VI1</option>
+                                                <option value="VI2">VI2</option>
+                                                <option value="VI3">VI3</option>
+                                                <option value="VI4">VI4</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divInputPanel" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="Panel_00001">
+                                        <label for="Panel_00001" class="col-xs-3 control-label text-right">Panel:</label>
+                                        <div class="col-xs-9">
+                                            <input id="Panel_00001" type="text" class="form-control" placeholder="Panel" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divInputSNNumber" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="SNNumber_00001">
+                                        <label for="SNNumber_00001" class="col-xs-3 control-label text-right">SN Number:</label>
+                                        <div class="col-xs-9">
+                                            <select id="SNNumber_00001" class="form-control">
+                                                <option value="VI1">VI1</option>
+                                                <option value="VI2">VI2</option>
+                                                <option value="VI3">VI3</option>
+                                                <option value="VI4">VI4</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divInputLocation" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="Location_00001">
+                                        <label for="Location_00001" class="col-xs-3 control-label text-right">Location:</label>
+                                        <div class="col-xs-9">
+                                            <input id="Location_00001" type="text" class="form-control" placeholder="Location" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divInputFailCode" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="FailCode_00001">
+                                        <label for="FailCode_00001" class="col-xs-3 control-label text-right">FailCode:</label>
+                                        <div class="col-xs-9">
+                                            <input id="FailCode_00001" type="text" class="form-control" placeholder="FailCode" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divInputFailDesc" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="FailDesc_00001">
+                                        <label for="FailDesc_00001" class="col-xs-3 control-label text-right">FailDesc:</label>
+                                        <div class="col-xs-9">
+                                            <input id="FailDesc_00001" type="text" class="form-control" placeholder="FailDesc" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div id="divAddAction" class="col-xs-12">
+                                    <!--<div class="form-group" view-group="AddAction_00001">
+                                        <label for="AddAction_00001" class="col-xs-3 control-label text-right"></label>
+                                        <div class="col-xs-9">
+                                            <button id="">Add </button>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-8" id="divFailInfo" style="padding: 0px 5px;margin-top:-20px;">
+                        <table id="tableFailInfo" class="table table-bordered"></table>
+                        <!--<div class="panel panel-default no-padding">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Fail Info</h3>
+                            </div>
+                            <div class="panel-body" style="padding:0px;">
+
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div id="divMsg" class="col-xs-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="panel-body no-padding" id="divMessage">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script type="text/javascript">
+
+        var option = null;
+        var line = "Line1";
+        var station = null;
+        var stationName = $.MES.getQueryString("StationName");
+
+        var ShowList = function (tableID, data) {
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                if (item == "ID") {
+                    cell.visible = false;
+                }
+                columns.push(cell);
+            }
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                columns: columns
+            });
+        }
+
+        $(document).ready(function () {
+            line = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line) {
+                line = "Line1";
+            }
+            option = {
+                Client: self.parent.client,
+                Reset:false,
+                Line: "Line1",
+                Name: stationName,
+                MContainer: $("#divMessage"),
+                Init: function (d) {
+                    if (d.Status == "Pass") {
+                        if (option.Reset)
+                        {                            
+                            for (var i = 0; i < station.Outputs.length; i++) {
+                                station.Outputs[i].Value = [];
+                            }
+                            for (var i = 0; i < station.Inputs.length; i++) {
+                                station.Inputs[i].Value = "";
+                            }
+                            option.Reset = false;
+                        }
+                        station.ShowInput({
+                            InputName: "FailStation",
+                            Scale: "3:9",
+                            Container: $("#divInputFailStation")
+                        });
+                        station.ShowInput({
+                            InputName: "FailPanel",
+                            Scale: "3:9",
+                            Container: $("#divInputPanel")
+                        });
+                        station.ShowInput({
+                            InputName: "SNNumber",
+                            Scale: "3:9",
+                            Container: $("#divInputSNNumber")
+                        });
+                        station.ShowInput({
+                            InputName: "FailLocation",
+                            Scale: "3:9",
+                            Container: $("#divInputLocation")
+                        });
+                        station.ShowInput({
+                            InputName: "FailCode",
+                            Scale: "3:9",
+                            Container: $("#divInputFailCode")
+                        });
+                        station.ShowInput({
+                            InputName: "FailDesc",
+                            Scale: "3:9",
+                            Container: $("#divInputFailDesc")
+                        });
+                        station.ShowInput({
+                            InputName: "Add",
+                            Scale: "3:9",
+                            Container: $("#divAddAction")
+                        });
+                        for (var i = 0; i < station.Outputs.length; i++) {
+                            switch (station.Outputs[i].Name) {
+                                case "FailInfo":
+                                    ShowList("tableFailInfo", station.Outputs[i].Value);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else {
+                        swal("Station initialization failed!", d.Message, "error");
+                    }
+                }
+            }
+            station = new MesStation(option);
+
+            $("#btnReset").on("click", function (e) {
+                self.parent.Loading(true);
+                $("#divMessage").empty();
+                option.ScanType = station.ScanType;
+                option.Reset = true;
+                staion = new MesStation(option);
+            });
+            $("#btnResetLine").on("click", function (e) {
+                staion.Line = "Line1";
+                localStorage.setItem($.MES.CK_LINE_NAME, "");
+                option.ScanType = station.ScanType;
+                staion = new MesStation(option);
+            });
+        })
+
+
+    </script>
+</body>
+</html>

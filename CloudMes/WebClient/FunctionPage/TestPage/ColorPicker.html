@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../../Scripts/plugins/other/colorPicker.js"></script>
+</head>
+<body>
+    <script language=javascript>
+
+	function changeColor(){
+		var colorText = document.getElementById('color');
+		if (colorText.value == '') colorText.value = '#FFFFFF';
+		colorText.value = colorText.value.toUpperCase();
+		var colorFont = document.getElementById('colorFont');
+		colorFont.style.background = colorText.value;
+		document.getElementById('buttonOK').focus();
+	}
+    </script>
+    <input name="color" type="text" id="color" size="10" value="#FFFFFF" alt="clrDlg" readonly />
+    <font id="colorFont" size="3" style="background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+</body>
+</html>

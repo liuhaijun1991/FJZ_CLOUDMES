@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .blockquote-elem-quote {
+            margin-bottom: -50px;
+            padding: 10px;
+            line-height: 20px;
+            border-left: 12px solid #708090;
+            background-color: #D8ECF6;
+            border-top-color: white;
+            border-bottom-color: white;
+            color: #336699;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        .total, total a {
+            background-color: aqua;
+            color: darkslategrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote"><i class="layui-icon layui-icon-auz" style="font-size: 20px; color: white;"></i>Bone Pile Detail</blockquote>
+        <table id="BonePileDetailTable" class="table table-bordered text-center"></table>
+    </div>
+    <!--</div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var ClassName = "MESJuniper.Api.MetricsDashboardApi";
+        var ClinetReady = 0;
+        var client = null;
+
+        var MODEL = {};
+        var cHead = [];
+        var layui = layui;
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        $(document).ready(function () {
+            $.MES.DEBUG = false;
+            ClientInit();
+        });
+
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                LoadList();
+            });
+        };
+
+        var GetFormateTable = function (Data) {
+            var col = [];
+            for (var item in Data) {
+                if (item != 'numbs') {
+                    var cell = {
+                        field: item,
+                        title: item,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    };
+                    col.push(cell);
+                }
+            }
+            return col;
+        }
+
+        var ShowTable = function (cHead) {
+            $('#BonePileDetailTable').bootstrapTable('destroy');
+            $('#BonePileDetailTable').bootstrapTable({
+                data: [],
+                striped: true,
+                pagination: true,
+                pageSize: 25,
+                showExport: true,
+                exportDataType: "all",
+                exportOptions: {
+                    fileName: 'BonePileDetail',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'BonePileDetailTable',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                columns: cHead
+            });
+        }
+
+        var LoadList = function () {
+            layer.load(3, { area: ['30px', '30px'], shade: [0.5, '#393D49'] });
+
+            client.CallFunction(ClassName, "GetBonePileDetail", {}, function (e) {
+                if (e.Status == "Pass") {
+                    cHead = GetFormateTable(e.Data[0]);
+                    ShowTable(cHead);
+                    $('#BonePileDetailTable').bootstrapTable('load', e.Data);
+                } else {
+                    alert(e.Message);
+                }
+                layer.closeAll('loading');
+            });
+        }
+
+    </script>
+</body>
+</html>

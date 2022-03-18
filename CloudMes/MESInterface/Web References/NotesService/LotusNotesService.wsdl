@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SendNotesMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Lmail" type="tns:LotusMail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LotusMail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MailTo" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="MailTitle" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MailAttachment" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MailBody" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MailSave" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendNotesMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendNotesMailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="test">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="filename" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="testResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="testResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SendNotesMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendNotesMail" />
+  </wsdl:message>
+  <wsdl:message name="SendNotesMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendNotesMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="testSoapIn">
+    <wsdl:part name="parameters" element="tns:test" />
+  </wsdl:message>
+  <wsdl:message name="testSoapOut">
+    <wsdl:part name="parameters" element="tns:testResponse" />
+  </wsdl:message>
+  <wsdl:message name="testHttpGetIn">
+    <wsdl:part name="filename" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="testHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="testHttpPostIn">
+    <wsdl:part name="filename" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="testHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="LotusNotesServiceSoap">
+    <wsdl:operation name="SendNotesMail">
+      <wsdl:input message="tns:SendNotesMailSoapIn" />
+      <wsdl:output message="tns:SendNotesMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="test">
+      <wsdl:input message="tns:testSoapIn" />
+      <wsdl:output message="tns:testSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="LotusNotesServiceHttpGet">
+    <wsdl:operation name="test">
+      <wsdl:input message="tns:testHttpGetIn" />
+      <wsdl:output message="tns:testHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="LotusNotesServiceHttpPost">
+    <wsdl:operation name="test">
+      <wsdl:input message="tns:testHttpPostIn" />
+      <wsdl:output message="tns:testHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LotusNotesServiceSoap" type="tns:LotusNotesServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendNotesMail">
+      <soap:operation soapAction="http://tempuri.org/SendNotesMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test">
+      <soap:operation soapAction="http://tempuri.org/test" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LotusNotesServiceSoap12" type="tns:LotusNotesServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendNotesMail">
+      <soap12:operation soapAction="http://tempuri.org/SendNotesMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test">
+      <soap12:operation soapAction="http://tempuri.org/test" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LotusNotesServiceHttpGet" type="tns:LotusNotesServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="test">
+      <http:operation location="/test" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LotusNotesServiceHttpPost" type="tns:LotusNotesServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="test">
+      <http:operation location="/test" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LotusNotesService">
+    <wsdl:port name="LotusNotesServiceSoap" binding="tns:LotusNotesServiceSoap">
+      <soap:address location="http://10.120.246.110/LotusNotesService/LotusNotesService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LotusNotesServiceSoap12" binding="tns:LotusNotesServiceSoap12">
+      <soap12:address location="http://10.120.246.110/LotusNotesService/LotusNotesService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LotusNotesServiceHttpGet" binding="tns:LotusNotesServiceHttpGet">
+      <http:address location="http://10.120.246.110/LotusNotesService/LotusNotesService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LotusNotesServiceHttpPost" binding="tns:LotusNotesServiceHttpPost">
+      <http:address location="http://10.120.246.110/LotusNotesService/LotusNotesService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,672 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">New Aging</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+        h4 i span {
+            padding-left: 5px;
+        }
+
+        .panel-body-0 {
+            padding-top: 0px;
+        }
+        .margin-bottom-5 {
+            margin-bottom:5px;
+        }
+            .margin-bottom-5 .form-group {
+                margin-bottom: 5px;
+            }
+            .margin-bottom-5 .panel-body {
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 5px;
+                padding-bottom: 5px;                
+            }
+        .div-table {
+            margin-left:30px;
+            margin-right:30px;
+        }
+        .panel-heading-blue {
+            color: #fff;
+            background-color: #0069d9;
+        }
+
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+            .repair-output .form-group label {
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+            .repair-output .form-group div {
+                padding-top: 7px;
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+        .fixed-table-container tbody .selected td {
+            background-color: #EEE8AA !important;
+        }
+        #divDeleteCabinet .btn-primary {
+            color: #333 !important;
+            background-color: #fff !important;
+            border-color: #ccc !important;
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div id="divNewAging" class=" form-horizontal" style="margin-top:5px;margin-right:10px;margin-left:10px;">
+        <div class="panel panel-default margin-bottom-5">
+            <div class="panel-heading  bg-primary" style="font-size:medium; font-weight:bold;color:white!important;">
+                老化櫃信息
+            </div>
+            <div class="panel-body" style="padding-bottom:0;">
+                <div class="form-group" style="margin-bottom: 0px;">
+                    <div id="divStationLoading" hidden="hidden">自定義工站加載時加載的內容</div>
+                    <div id="divChangeCabinet" hidden="hidden">清除當前IP未提交的老化柜資料</div>
+                    <div id="divGetLastCabinet" hidden>獲取當前IP最後未提交的老化柜</div>
+                    <div id="divChangeShelf" hidden="hidden">清除當前老化柜未放滿的老化框</div>
+                    <div id="divGetLastShelf" hidden>獲取當前老化柜最後未放滿的老化框</div>
+                    <div id="divChangeTool" hidden="hidden">清除當前老化框未放滿的工具板</div>
+                    <div id="divGetLastTool" hidden>獲取當前老化框未放滿的工具板</div>
+                    <div id="divInputCabinet" class="col-xs-3">
+                    </div>
+                    <div id="divInputSkuno" class="col-xs-3">
+                    </div>
+                    <div id="divOutputSkunoName" class="col-xs-3">
+                        <div class="form-group">
+                            <label for="txtItemName" class="col-xs-3 control-label text-right">ItemName:</label>
+                            <div class="col-xs-9">
+                                <input id="txtItemName" output-name="ItemName" type="text" class="form-control" value="" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOutputAgingTime" class="col-xs-3">
+                        <div class="form-group">
+                            <label for="txtAgingTime" class="col-xs-3 control-label text-right">AgingTime:</label>
+                            <div class="col-xs-9">
+                                <input id="txtAgingTime" output-name="AgingTime" type="text" class="form-control" value="" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0px;">
+                    <div id="divOutputFloor" class="col-xs-3">
+                        <div class="form-group">
+                            <label for="txtFloor" class="col-xs-3 control-label text-right">Floor:</label>
+                            <div class="col-xs-9">
+                                <input id="txtFloor" output-name="Floor" type="text" class="form-control" value="" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOutputCabinetInfo" class="col-xs-3">
+                        <div class="form-group">
+                            <label for="txtCabinetInfo" class="col-xs-3 control-label text-right">CabinetInfo:</label>
+                            <div class="col-xs-9">
+                                <textarea id="txtCabinetInfo" output-name="CabinetInfo" type="text" class="form-control" rows="3" value="" readonly="readonly"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divOutputPCBAInfo" class="col-xs-3">
+                        <div class="form-group">
+                            <label for="txtPCBAInfo" class="col-xs-3 control-label text-right">PCBAInfo:</label>
+                            <div class="col-xs-9">
+                                <textarea id="txtPCBAInfo" output-name="PCBAInfo" type="text" class="form-control" rows="3" value="" readonly="readonly"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default margin-bottom-5">
+            <div class="panel-heading bg-primary" style="font-size:medium; font-weight:bold;color:white!important;">
+                老化信息
+            </div>
+            <div class="panel-body ">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="row">
+                        <div id="divOutputCabinetQty" class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">CabinetInputQty:</label>
+                                <div class="col-xs-8">
+                                    <input id="txtCabinetInputQty" output-name="CabinetInputQty" type="text" class="form-control" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divInputShelf" class="col-xs-6">
+                        </div>
+                        <!--<div id="divInputShelfQty" class="col-xs-6">
+                        </div>-->
+                        <div id="divOutputShelfInputQty" class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">ShelfInputQty:</label>
+                                <div class="col-xs-8">
+                                    <input id="txtShelfInputQty" output-name="ShelfInputQty" type="text" class="form-control" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="divInputTool" class="col-xs-6">
+                        </div>
+                        <div id="divOutputToolInputQty" class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">ToolInputQty:</label>
+                                <div class="col-xs-8">
+                                    <input id="txtToolInputQty" output-name="ToolInputQty" type="text" class="form-control" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <div class="col-xs-4">
+                                    <div id="divInputDeleteShelf" hidden="hidden"></div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <button class="btn btn-primary small" id="btnDeleteShelf" name="DeleteShelf" value="">DeleteShelf</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="divInputLocation" class="col-xs-6">
+                        </div>
+                        <div id="divInputSN" class="col-xs-6">
+                        </div>
+                        <div id="divInputRemark" class="col-xs-6">
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <div class="col-xs-4">
+                                    <div id="divInputDeleteSN" hidden="hidden"></div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <button class="btn btn-primary small" id="btnDeleteSN" name="DeleteSN" value="">DeleteSN</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divBtnSubmit" class="col-xs-6">
+                        </div>
+                    </div>
+                    <div class="panel panel-default margin-bottom-5">
+                        <div class="panel-heading" style="background-color: #92B5D3 !important; font-weight:bold;">
+                            Message
+                        </div>
+                        <div class="panel-body" id="divMessage">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div>
+                        <table id="tableOutputTableShelf" output-name="ShelfTable" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="215"></table>
+                    </div>
+                    <div style="padding-top:5px;">
+                        <table id="tableOutputTableSN" output-name="SNTable" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="215"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>       
+        var option = null;
+        var line = "Line1";
+        var agingStaion = null;
+        var bStationLoading = true;
+        var stationName = $.MES.getQueryString("StationName");
+        var keypressEvent = jQuery.Event("keypress");//模拟一个键盘事件
+        keypressEvent.keyCode = 13;//keyCode=13是回车
+
+        var shelfColumns = [
+            {
+                checkbox: true
+            },
+            {
+                field: 'NO',
+                title: 'NO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'CABINETNO',
+                title: 'CABINETNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'SHELFNO',
+                title: 'SHELFNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'USEQTY',
+                title: 'USEQTY',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'UNUSEQTY',
+                title: 'UNUSEQTY',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'TOOLS_FLAG',
+                title: 'TOOLS_FLAG',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            }
+        ];
+        var snColumns = [
+            {
+                checkbox: true
+            },
+            {
+                field: 'NO',
+                title: 'NO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'SN',
+                title: 'SN',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'SHELFNO',
+                title: 'SHELFNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'TOOLS_FLAG',
+                title: 'TOOLS_FLAG',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'TOOLSNO',
+                title: 'TOOLSNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'WORKORDERNO',
+                title: 'WORKORDERNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            },
+            {
+                field: 'SLOTNO',
+                title: 'SLOTNO',
+                rowspan: 1,
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                visible: true
+            }
+        ];
+        var ShowTableList = function (tableID, columns, data) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: false,                  //是否显示分页（*）
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                showExport: false,                  //是否显示导出按钮
+                //locale: tableLocale,
+                columns: columns
+            });
+        }
+        var StationInit = function (station, d, callback) {
+            if (d.Status == "Pass") {
+                station.ShowInput({
+                    InputName: "ChangeCabinet",
+                    Scale: "3:9",
+                    Container: $("#divChangeCabinet")
+                });
+                station.ShowInput({
+                    InputName: "GetLastCabinet",
+                    Scale: "3:9",
+                    Container: $("#divGetLastCabinet")
+                });
+                station.ShowInput({
+                    InputName: "ChangeShelf",
+                    Scale: "3:9",
+                    Container: $("#divChangeShelf")
+                });
+                station.ShowInput({
+                    InputName: "GetLastShelf",
+                    Scale: "3:9",
+                    Container: $("#divGetLastShelf")
+                });
+                station.ShowInput({
+                    InputName: "ChangeTool",
+                    Scale: "3:9",
+                    Container: $("#divChangeTool")
+                });
+                station.ShowInput({
+                    InputName: "GetLastTool",
+                    Scale: "3:9",
+                    Container: $("#divGetLastTool")
+                });
+
+                station.ShowInput({
+                    InputName: "StationLoading",
+                    Scale: "3:9",
+                    Container: $("#divStationLoading")
+                });
+                station.ShowInput({
+                    InputName: "CabinetNO",
+                    Scale: "3:9",
+                    Container: $("#divInputCabinet")
+                });
+                station.ShowInput({
+                    InputName: "Item",
+                    Scale: "3:9",
+                    Container: $("#divInputSkuno")
+                });
+                station.ShowInput({
+                    InputName: "ShelfNO",
+                    Scale: "4:8",
+                    Container: $("#divInputShelf")
+                });
+
+                station.ShowInput({
+                    InputName: "Tool",
+                    Scale: "4:8",
+                    Container: $("#divInputTool")
+                });
+                station.ShowInput({
+                    InputName: "DeleteShelf",
+                    Scale: "4:8",
+                    Container: $("#divInputDeleteShelf")
+                });
+                station.ShowInput({
+                    InputName: "Location",
+                    Scale: "4:8",
+                    Container: $("#divInputLocation")
+                });
+                station.ShowInput({
+                    InputName: "SN",
+                    Scale: "4:8",
+                    Container: $("#divInputSN")
+                });
+                station.ShowInput({
+                    InputName: "DeleteSN",
+                    Scale: "4:8",
+                    Container: $("#divInputDeleteSN")
+                });
+                station.ShowInput({
+                    InputName: "Remark",
+                    Scale: "4:8",
+                    Container: $("#divInputRemark")
+                });
+                station.ShowInput({
+                    InputName: "Submit",
+                    Scale: "4:8",
+                    Container: $("#divBtnSubmit")
+                });              
+
+                $("[output-name]").each(function () {
+                    var objOutput = this;
+                    var thisName = $(objOutput).attr("output-name");
+                    var thisID = $(objOutput).attr("id");
+                    for (var i = 0; i < station.Outputs.length; i++) {
+                        if (station.Outputs[i].Name == thisName) {
+                            if (station.Outputs[i].DisplayType == "TXT") {
+                                $(objOutput).val(station.Outputs[i].Value);
+                            }
+                            else if (station.Outputs[i].DisplayType == "Table") {
+                                if (station.Outputs[i].Name == "ShelfTable") {
+                                    ShowTableList(thisID, shelfColumns, station.Outputs[i].Value);
+                                }
+                                else if (station.Outputs[i].Name == "SNTable") {
+                                    ShowTableList(thisID, snColumns, station.Outputs[i].Value);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                });
+
+                for (var i = 0; i < station.Message.length; i++) {
+                    if (station.Message[i].State == 3) {
+                        //alert(station.Message[i].Message);
+                        layer.open({
+                            id: "LayerMessage",
+                            type: 0,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: "注意",
+                            area: ['40%', '30%'],
+                            content: station.Message[i].Message,
+                            btn: ["是", "否"],
+                            success: function (layero, index) {},
+                            end: function () {},
+                            yes: function (index) {
+                                if (station.CurrentInputJson.DisplayName == "Item") {
+                                    $($("#divChangeCabinet").find(".form-group").find("button")[0]).trigger("click");
+                                    $($("#divInputCabinet").find("input[type=text]")[0]).trigger(keypressEvent);
+                                }
+                                else if (station.CurrentInputJson.DisplayName == "Tool") {
+                                    $($("#divChangeShelf").find(".form-group").find("button")[0]).trigger("click");
+                                    $($("#divInputShelf").find("input[type=text]")[0]).trigger(keypressEvent);
+                                }
+                                else if (station.CurrentInputJson.DisplayName == "Location") {
+                                    $($("#divChangeTool").find(".form-group").find("button")[0]).trigger("click");
+                                    $($("#divInputTool").find("input[type=text]")[0]).trigger(keypressEvent);
+                                }
+                                layer.close(index);
+                            },
+                            cancel: function (index) {
+                                if (station.CurrentInputJson.DisplayName == "Item") {     
+                                    $($("#divGetLastCabinet").find(".form-group").find("button")[0]).trigger("click");                                                                      
+                                }
+                                else if (station.CurrentInputJson.DisplayName == "Tool") {                                    
+                                    $($("#divGetLastShelf").find(".form-group").find("button")[0]).trigger("click");
+                                }
+                                else if (station.CurrentInputJson.DisplayName == "Location") {
+                                    $($("#divGetLastTool").find(".form-group").find("button")[0]).trigger("click");
+                                }
+                                layer.close(index);
+                            }
+                        });
+                        break;
+                    }
+                }
+
+                if (typeof callback === "function" && bStationLoading) {
+                    callback();
+                }
+            }
+            else {
+                swal("工站初始化失败！", d.Message, "error");
+            }
+        }
+        var InitCallback = function () {
+            $($("#divStationLoading").find(".form-group").find("button")[0]).trigger("click");
+            bStationLoading = false;
+        }
+        $(document).ready(function () {
+            line = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line) {
+                line = "Line1";
+            }
+            option = {
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                //IScale:"4:8",
+                //IContainer: $("#inputsite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    StationInit(agingStaion, d, InitCallback);
+                }
+            }
+            agingStaion = new MesStation(option);
+
+            $("#btnDeleteSN").click(function (e) {
+                var selectSN = $("#tableOutputTableSN").bootstrapTable('getSelections');
+                if (selectSN.length <= 0) {
+                    swal({
+                        title: "",
+                        text: "Please select a SN!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectSN.length > 1) {
+                    swal({
+                        title: "",
+                        text: "Only one SN can be deleted at a time!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectSN[0].SN == undefined || selectSN[0].SN == "") {
+                    swal({
+                        title: "",
+                        text: "The selected SN is null",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                $($("#divInputDeleteSN").find("input[type=text]")[0]).val(selectSN[0].SN);
+                $($("#divInputDeleteSN").find("input[type=text]")[0]).trigger(keypressEvent);//模拟輸入框按下回车
+            });
+
+            $("#btnDeleteShelf").click(function (e) {
+                var selectShelf = $("#tableOutputTableShelf").bootstrapTable('getSelections');
+                if (selectShelf.length <= 0) {
+                    swal({
+                        title: "",
+                        text: "Please select a Shelf!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectShelf.length > 1) {
+                    swal({
+                        title: "",
+                        text: "Only one Shelf can be deleted at a time!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectShelf[0].SHELFNO == undefined || selectShelf[0].SHELFNO == "") {
+                    swal({
+                        title: "",
+                        text: "The selected Shelf is null",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                $($("#divInputDeleteShelf").find("input[type=text]")[0]).val(selectShelf[0].SHELFNO);
+                $($("#divInputDeleteShelf").find("input[type=text]")[0]).trigger(keypressEvent);//模拟輸入框按下回车
+            });
+        });
+
+    </script>
+</body>
+</html>

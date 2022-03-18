@@ -1,0 +1,621 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>R 7B5 WO TEMP</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        .checkbox-input {
+            margin-left: -80px !important;
+            height: 25px;
+            width: 100%;
+            margin-top: 4px !important;
+        }
+
+        #divFilterCondition .form-group {
+            margin-bottom: 5px;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+
+        .new-carton-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .layer_shin {
+            background-color: transparent;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+
+        body .layer_shin {
+            border-radius: 15px;
+        }
+
+        .editable {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .editable:hover {
+            cursor: pointer;
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <!--加載窗口開始-->
+    <div class="ibox-content full-height login_page win8-bg" id="loadingScreen">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+            <div class="text-center font-bold note-fontsize-10">loading ...</div>
+        </div>
+    </div>
+    <div id="divReturnMsg" class="row col-xs-12" style="margin-left:5px;margin-top:5px;color:blue;font-size:larger;"></div>
+    <div id="divListDetail" class="row col-xs-12 hidden" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">搜索</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover" style="font-size:10px;">
+            </table>
+        </div>
+    </div>
+    <div id="divPageLoadMsg" class="row col-xs-12">
+
+    </div>
+
+    <div id="divList">
+        <div id="divFilterCondition" class="col-xs-6 form-horizontal divReportInput">
+            <div class="col-xs-6" id="divModel">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Model:</label>
+                    <div class="col-xs-7">
+                        <select class="form-control" data-bind="options:Model,optionsText:'name', optionsValue:'value',value: Selected,optionsCaption: 'All',event:{change:ModelChange}"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6" id="divTaskNoType">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">TASK NO TYPE:</label>
+                    <div class="col-xs-7">
+                        <select class="form-control" data-bind="options:TASK_NO_TYPE,optionsText:'name', optionsValue:'value',value: Selected,optionsCaption: 'All',event:{change:TaskNoTypeChange}"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6" id="divZPN195Flag">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">ZPN195 FLAG:</label>
+                    <div class="col-xs-7">
+                        <select class="form-control" data-bind="options:ZPN195_FLAG,optionsText:'name', optionsValue:'value',value: Selected,optionsCaption: 'All',event:{change:ZPN195FlagChange}"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6" id="divPOFlag">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">PO FLAG:</label>
+                    <div class="col-xs-7">
+                        <select class="form-control" data-bind="options:PO_FLAG,optionsText:'name', optionsValue:'value',value: Selected,optionsCaption: 'All',event:{change:POFlagChange}"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="divFilterText">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">TaskNo:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtTASK_NO" data-bind="value:TASK_NO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">HW PN:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtHW_PN" data-bind="value:HW_PN" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">ReceiveDateFrom:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtRECEIVE_DATE_FROM" data-bind="value:RECEIVE_DATE_FROM" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">ReceiveDateTo:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtRECEIVE_DATE_TO" data-bind="value:RECEIVE_DATE_TO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">PlanDateFrom:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtPLAN_DATE_FROM" data-bind="value:PLAN_DATE_FROM" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">PlanDateTo:</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="txtPLAN_DATE_TO" data-bind="value:PLAN_DATE_TO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">OpenTaskOnly:</label>
+                        <div class="col-xs-7">
+                            <input type="checkbox" class="checkbox-input" id="txtOPEN_TASK_ONLY" data-bind="checked:OPEN_TASK_ONLY" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">非正常任務令:</label>
+                        <div class="col-xs-7">
+                            <input type="checkbox" class="checkbox-input" id="txtABNORMAL_TASK" data-bind="checked:ABNORMAL_TASK" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right"></label>
+                    <div class="col-xs-7">
+                        <button class="btn btn-primary small" id="btnSearch"><i class="fa fa-search">搜索</i></button>
+                        <button class="btn btn-primary small" id="btnNotSearch"><i class="fa fa-search">取消</i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var GTLoading = function (flag) {
+            if (flag) {
+                $("#loadingScreen").show();
+            } else {
+                $("#loadingScreen").hide();
+            }
+        };
+        var tableLocale;
+
+        var ObjectModel = function () {
+            var self = this;
+            self.TASK_NO = ko.observable("");
+            self.HW_PN = ko.observable("");
+            self.MODEL = ko.observable("");
+            self.TASK_NO_TYPE = ko.observable("");
+            self.ZPN195_FLAG = ko.observable("");
+            self.PO_FLAG = ko.observable("");
+            self.RECEIVE_DATE_FROM = ko.observable("");
+            self.RECEIVE_DATE_TO = ko.observable("");
+            self.PLAN_DATE_FROM = ko.observable("");
+            self.PLAN_DATE_TO = ko.observable("");
+            self.OPEN_TASK_ONLY = ko.observable(false);
+            self.ABNORMAL_TASK = ko.observable(false);
+        };
+        var viewModel = new ObjectModel();
+
+        var ObjectSeleteModel = function () {
+            var self = this;
+            self.Model = ko.observableArray([]);
+            self.Selected = ko.observable(0);
+            self.ModelChange = function () {
+                viewModel.MODEL(self.Selected());
+            };
+        }
+        var ObjectTaskNoType = function () {
+            var self = this;
+            self.TASK_NO_TYPE = ko.observableArray([{ name: "BS", value: "BS" }, { name: "CS", value: "CS" }]);
+            self.Selected = ko.observable(0);
+            self.TaskNoTypeChange = function () {
+                viewModel.TASK_NO_TYPE(self.Selected());
+            };
+        }
+        var ObjectZPN195Flag = function () {
+            var self = this;
+            self.ZPN195_FLAG = ko.observableArray([{ name: "Y", value: "Y" }, { name: "N", value: "N" }]);
+            self.Selected = ko.observable(0);
+            self.ZPN195FlagChange = function () {
+                viewModel.ZPN195_FLAG(self.Selected());
+            };
+        }
+        var ObjectPOFlag = function () {
+            var self = this;
+            self.PO_FLAG = ko.observableArray([{ name: "Y", value: "Y" }, { name: "N", value: "N" }]);
+            self.Selected = ko.observable(0);
+            self.POFlagChange = function () {
+                viewModel.PO_FLAG(self.Selected());
+            };
+        }
+        var select_model = new ObjectSeleteModel();
+        var taskno_type = new ObjectTaskNoType();
+        var zpn195_flag = new ObjectZPN195Flag();
+        var po_flag = new ObjectPOFlag();
+        ko.applyBindings(taskno_type, document.getElementById("divTaskNoType"));
+        ko.applyBindings(zpn195_flag, document.getElementById("divZPN195Flag"));
+        ko.applyBindings(po_flag, document.getElementById("divPOFlag"));
+
+        window.ColumnBtnClick = {
+            "click #btnSubmit": function (e, value, row, index) {
+                var layerIndex = layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    shadeClose: false,
+                    skin: 'layer_shin',
+                    offset: 'aotu',
+                    content: " <div style='background-color:transparent; border: 1px solid #fff;border-radius: 15px;padding:10px 5px;'> <div class=''><div class= 'sk-spinner sk-spinner-wave'><div class='sk-rect1'></div>"
+                        + "<div class='sk-rect2'></div><div class='sk-rect3'></div><div class='sk-rect4'></div><div class='sk-rect5'></div></div >"
+                        + "<div class='text-center font-bold note-fontsize-10'>系統正在加急處理,請耐心等待 ...</div></div ></div >"
+                });
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "R7B5WOTempEdit", row, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'OK',
+                            btn: ['OK']
+                        }, function () { layer.close(editIndex); });
+                        GetList();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    layer.close(layerIndex);
+                    $("#divReturnMsg").html(e.Message);
+                });
+            },
+            "click #btnDelete": function (e, value, row, index) {
+                swal({
+                    title: "",
+                    text: "Are you sure to delete " + row.TASK_NO + " recording?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "YES",
+                    confirmButtonColor: "#18a689"
+                }, function () {
+                    self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "R7B5WOTempDelete", row, function (e) {
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            GetList();
+                        } else {
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            }
+        };
+        var columns = [
+            { field: "RECEIVE_DATE", title: "RECEIVE_DATE", align: 'center', valign: 'middle' },
+            { field: "MODEL", title: "MODEL", align: 'center', valign: 'middle' },
+            { field: "TASK_NO", title: "TASK_NO", align: 'center', valign: 'middle' },
+            { field: "V_TASK_NO", title: "V_TASK_NO", align: 'center', valign: 'middle' },
+            { field: "HH_ITEM", title: "HH_ITEM", align: 'center', valign: 'middle' },
+            { field: "HW_ITEM", title: "HW_ITEM", align: 'center', valign: 'middle' },
+            {
+                field: "PLAN_FLAG", title: "PLAN_FLAG", align: 'center', valign: 'middle',             
+                cellStyle: function (value, row, index, field) {
+                    if (value == "N") {
+                        return { css: { "background-color": "HotPink" } }
+                    } else {
+                        return { css: { "background-color": "#ffffff" } }
+                    }
+                },
+                editable: {
+                    type: 'text',
+                    title: 'PLAN_FLAG',
+                    emptytext: 'Edit',
+                    validate: function (v) {
+                        if (!v) return 'is not null'
+                    }
+                }
+            },
+            {
+                field: "PO_FLAG", title: "PO_FLAG", align: 'center', valign: 'middle',
+                cellStyle: function (value, row, index, field) {
+                    if (value == "N") {
+                        return { css: { "background-color": "HotPink" } }
+                    } else {
+                        return { css: { "background-color": "#ffffff" } }
+                    }
+                },
+                editable: {
+                    type: 'text',
+                    title: 'PO_FLAG',
+                    emptytext: 'Edit',
+                    validate: function (v) {
+                        if (!v) return 'is not null'
+                    }
+                }
+            },
+            { field: "QTY", title: "QTY", align: 'center', valign: 'middle' },
+            { field: "CREAT_WO_QTY", title: "CREAT_WO_QTY", align: 'center', valign: 'middle' },
+            {
+                field: "SUGGEST_QTY", title: "SUGGEST_QTY", align: 'center', valign: 'middle',
+                editable: {
+                    type: 'text',
+                    title: 'SUGGEST_QTY',
+                    emptytext: 'Edit',
+                    validate: function (v) {
+                        if (!v) return 'is not null'
+                    }
+                }
+            },
+            {
+                field: "Submit", title: "Submit", align: 'center', valign: 'middle',
+                formatter: function (value, row, index) {
+                    return ['<button type="button" class="btn  btn-default" id="btnSubmit" >Submit</button >'];
+                },
+                events: ColumnBtnClick
+            },
+            { field: "ZNP195_FLAG", title: "ZNP195_FLAG", align: 'center', valign: 'middle' },
+            { field: "START_DATE", title: "START_DATE", align: 'center', valign: 'middle' },
+            { field: "COMPLETE_DATE", title: "COMPLETE_DATE", align: 'center', valign: 'middle' },
+            { field: "MAIN_WO_FLAG", title: "MAIN_WO_FLAG", align: 'center', valign: 'middle' },
+            { field: "WO_REMARK", title: "WO_REMARK", align: 'center', valign: 'middle' },
+            { field: "CREATE_TIME", title: "CREATE_TIME", align: 'center', valign: 'middle' },
+            { field: "WO_TYPE", title: "WO_TYPE", align: 'center', valign: 'middle' },
+            { field: "ZNP195_MESSAGE", title: "ZNP195_MESSAGE", align: 'center', valign: 'middle' },
+            { field: "TASK_NO_TYPE", title: "TASK_NO_TYPE", align: 'center', valign: 'middle' },
+            { field: "SAP_FACTORY", title: "SAP_FACTORY", align: 'center', valign: 'middle' },
+            { field: "TASK_NO_USE", title: "TASK_NO_USE", align: 'center', valign: 'middle' },
+            { field: "PRODUCT_LINE", title: "PRODUCT_LINE", align: 'center', valign: 'middle' },
+            { field: "CANCEL_FLAG", title: "CANCEL_FLAG", align: 'center', valign: 'middle' },
+            { field: "TASK_NO_LEVEL", title: "TASK_NO_LEVEL", align: 'center', valign: 'middle' },
+            {
+                field: "Delete", title: "Delete", align: 'center', valign: 'middle',
+                formatter: function (value, row, index) {
+                    return ['<button type="button" id="btnDelete"  class="btn  btn-default"  >Delete</button >'];
+                },
+                events: ColumnBtnClick
+            }
+        ];
+        var GetSeleteValue = function (callback) {
+            parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "GetWOTempSeleteValue", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    select_model.Model(e.Data.MODEL);
+                    viewModel.RECEIVE_DATE_FROM(e.Data.RECEIVE_DATE_FROM);
+                    viewModel.RECEIVE_DATE_TO(e.Data.RECEIVE_DATE_TO);
+                    viewModel.PLAN_DATE_FROM(e.Data.PLAN_DATE_FROM);
+                    viewModel.PLAN_DATE_TO(e.Data.PLAN_DATE_TO);
+
+                    ko.applyBindings(select_model, document.getElementById("divModel"));
+                    ko.applyBindings(viewModel, document.getElementById("divFilterText"));
+                    callback();
+                }
+                else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+        var PageLoadAction = function () {
+            GTLoading(true);
+            $("#divPageLoadMsg").html(" <p style='background-image: url(../../Scripts/plugins/layer/skin/default/loading-0.gif);background-repeat:no-repeat;background-position:200px 0px;padding:2px 0px 2px 20px;'>後台正在匹配所有任務令料號中</p >");
+            parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "R7B5WOTEMPageLoadAction", { Data: "" }, function (e) {
+                $("#divPageLoadMsg").html("<p style='padding:2px 0px 2px 20px;'>後台任務令匹配結果：" + e.Message + "</p>");
+                GTLoading(false);
+            });
+            $("#divListDetail").removeClass("hidden");
+            $("#divFilterCondition").show();
+            $("#txtTASK_NO").focus().select();
+            GTLoading(false);
+        }
+        var ShowList = function (tableID, data, columns, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: columns
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+        var GetList = function () {
+            var layerIndex = layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: false,
+                skin: 'layer_shin',
+                offset: 'aotu',
+                content: " <div style='background-color:transparent; border: 1px solid #fff;border-radius: 15px;padding:10px 5px;'> <div class=''><div class= 'sk-spinner sk-spinner-wave'><div class='sk-rect1'></div>"
+                    + "<div class='sk-rect2'></div><div class='sk-rect3'></div><div class='sk-rect4'></div><div class='sk-rect5'></div></div >"
+                    + "<div class='text-center font-bold note-fontsize-10'>系統正在加急處理,請耐心等待 ...</div></div ></div >"
+            });
+            parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5WOTempList", ko.toJS(viewModel), function (e) {
+                $("#divFilterCondition").hide();
+                if (e.Status == "Pass") {
+                    ShowList("tableList", e.Data, columns);
+                    layer.close(layerIndex);
+                }
+                else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    layer.close(layerIndex);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            ShowList("tableList", [], columns, tableLocale);
+            $("#divFilterCondition").hide();
+            GetSeleteValue(PageLoadAction);
+            $("#btnToolSearch").click(function () {
+                $("#divFilterCondition").toggle();
+            });
+            $("#btnSearch").click(function () {
+                GetList();
+            });
+            $("#btnNotSearch").click(function () {
+                $("#divFilterCondition").hide();
+            });
+            $("#txtTASK_NO").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    GetList();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

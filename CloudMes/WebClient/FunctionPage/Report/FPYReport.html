@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>FPY Report</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        .chartsSize {
+            border: 1px solid black; 
+            margin: 5px;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12 inputs">
+
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divOutputTable" class="container-fluid no-padding">        
+        
+    </div>
+
+    <div id="divColumnChart" >
+    </div>
+    <div id="divLineChart" >
+
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>   
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+
+    <script type="text/javascript">
+        var title = {
+            style: { color: '#3E576F', fontSize: '30px', fontWeight: 'lagger' },
+            text: ""
+        };
+        var xAxis = {
+            categories: [],
+            tickWidth: 1,//刻度的宽度
+            lineWidth: 1,//自定义x轴宽度
+            gridLineWidth: 1,//默认是0，即在图上没有纵轴间隔线
+            lineColor: '#000000',
+            oppsite: false,
+        };
+        var yAxis = {
+            title: {
+                text: '',
+                align: 'high',
+                offset: 0,
+                rotation: 0,
+                y: -20,
+                x: 30,
+                style: {
+                    color: '#000000',
+                    fontSize: '16px'
+                },
+            },
+            min: 0,
+            allowDecimals: false,
+            lineWidth: 10,//自定义x轴宽度
+        };
+        var credits = {
+            enabled: false
+        };
+        var legend = {
+            align: "right",
+            verticalAlign: "top",
+            x: 0,
+            y: -20
+        };
+
+        //绘图数据
+        var objectColumn = {};
+        var objectLine = {};
+        objectColumn.chart = {
+            type: 'column'
+        };
+        objectColumn.plotOptions = {
+            column: {
+                stacking: 'normal', //柱形堆叠
+                dataLabels: {
+                    enabled: true //开启数据显示
+                }
+            }
+        };
+        objectColumn.title = title;
+        objectColumn.xAxis = xAxis;
+        objectColumn.yAxis = yAxis;
+        objectColumn.credits = credits;
+        objectColumn.legend = legend;
+
+        objectLine.chart = {
+            type: 'line'
+        };
+        objectLine.plotOptions = {
+            line: {
+                dataLabels: {
+                    enabled: true,  //开启数据显示
+                    format:'{y}%'
+                }
+            }
+        };
+        objectLine.tooltip = {
+            enabled: true,            
+            pointFormat: '{series.name}:{point.y}%'
+        },
+        objectLine.title = title;
+        objectLine.xAxis = xAxis;
+        objectLine.yAxis = yAxis;
+        objectLine.credits = credits;
+        objectLine.legend = legend;        
+
+        var ReportClassName = "";
+        var Data = "";
+        var RunFlag = "";
+        var _Report = null;
+        var ShowReturn = function (obj) {
+            var _Mes = MesReport.prototype.ObjList[obj.MessageID];
+            delete MesReport.prototype.ObjList[obj.MessageID];
+            if (obj.Status == "Pass") {
+                $("#divOutputTable").html("");
+                $("#divColumnChart").html("");
+                $("#divLineChart").html("");
+                if (obj.Data.Outputs.length == 1 && obj.Data.Outputs[0].OutputType == "ReportAlart") {
+                    swal({
+                        title: "",
+                        text: obj.Data.Outputs[0].Msg,
+                        type: obj.Data.Outputs[0].AlartType
+                    }, function () { $(".SearchBox").toggle(); });                   
+                    return;
+                }
+                for (var i = 0; i < obj.Data.Outputs.length; i++) {
+
+                    switch (obj.Data.Outputs[i].OutputType) {
+                        case "ReportAlart":
+                            swal({
+                                title: "",
+                                text: obj.Data.Outputs[0].Msg,
+                                type: obj.Data.Outputs[0].AlartType
+                            }, function () { $(".SearchBox").toggle(); });
+                            return;
+                        case "ReportTable":
+                            var outputTable = new OutputElements();
+                            outputTable.Table($("#divOutputTable"), obj.Data.Outputs[i].Tittle, obj.Data.Outputs[i].Rows, obj.Data.Outputs[i].ColNames);
+                            $("#divOutputTable").on("click",".J_menuItem", OnLinkClick);
+                            break;
+                        case "ReportChart":
+                            if (obj.Data.Outputs[i].Type == "columnChart") {
+                                objectColumn.title.text = obj.Data.Outputs[i].Tittle;
+                                objectColumn.series = obj.Data.Outputs[i].ChartDatas;
+                                objectColumn.colors = ["rgb(67,67,72)", "rgb(144,237,125)"];
+                                objectColumn.xAxis.categories = obj.Data.Outputs[i].XAxis.Categories;
+                                objectColumn.yAxis.title.text = obj.Data.Outputs[i].YAxis.Title;//"Qty(pcs)"
+                                $("#divColumnChart").highcharts(objectColumn);
+                            }
+                            else if (obj.Data.Outputs[i].Type == "lineChart")
+                            {
+                                objectLine.title.text = obj.Data.Outputs[i].Tittle;
+                                objectLine.series = obj.Data.Outputs[i].ChartDatas;
+                                objectLine.colors = ["rgb(144,237,125)", "rgb(124,181,236)", "rgb(67,67,72)"];
+                                objectLine.xAxis.categories = obj.Data.Outputs[i].XAxis.Categories;
+                                objectLine.yAxis.title.text = obj.Data.Outputs[i].YAxis.Title;// "Rate(%)";
+                                $("#divLineChart").highcharts(objectLine);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }                
+            }
+            self.parent.Loading(false);
+        }
+        $(document).ready(function () {
+            ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+            //Data = $.MES.getQueryString("Data");//用于其他报表跳转传值
+
+            Data = $.MES.getQueryObj();
+            RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+            if (RunFlag == "1") {
+                RunFlag = "0";
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {                      
+                        if (_Report.Report.Inputs.length > 0) {
+                            for (var i = 1; i < Data.length; i++) {
+                                _Report.SetInputValue(Data[i][0], Data[i][1]);
+                            }
+                            _Report.Run();
+                        }
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    _Report.Run();
+                });
+                $(".SearchBox").toggle(false);
+            }
+            else {
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),                  
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();                  
+                    var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                    self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                        { ClassName: ReportClassName, Report: _Report.ReportJson }, ShowReturn, MessageID);
+                });
+                $(".SearchBox").toggle(true);
+            }
+
+        });
+    </script>
+</body>
+</html>

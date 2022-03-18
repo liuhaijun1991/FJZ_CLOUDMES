@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        .legend {
+            display: block;
+            padding: 0;
+            width: auto !important;
+            margin-bottom: 0px !important;
+            border-bottom: 0px solid #e5e5e5 !important;
+        }
+    </style>
+</head>
+<body id="layerbody" class="full-height">
+    <div id="layercard" class="layui-card">
+        <div class="layui-card-header" id="title"></div>
+        <div class="layui-card-body">
+            <div id="OnputTextAreaContainer">
+            </div>
+            <fieldset id="outputfield" class="layui-elem-field" hidden="hidden">
+                <legend class="legend"><span class="layui-badge layui-bg-cyan" style="font-size: 5px;">Msg:</span></legend>
+                <div id="OutputContainer" class="layui-field-box">
+                </div>
+            </fieldset>
+            <fieldset id="inputfield" class="col-xs-12 layui-elem-field" hidden="hidden">
+                <legend class="legend"><span class="layui-badge layui-bg-cyan" style="font-size: 5px;">Input:</span></legend>
+                <div id="InputContainer" class="layui-field-box">
+                </div>
+            </fieldset>
+            <div id="MsgContainer" class="col-xs-12 layui-field-box">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script>
+        $(document).ready(function () {
+            var ServerMessageID = $.MES.getQueryString("ServerMessageID");
+            var ClientID = $.MES.getQueryString("ClientID");
+            //var IInput = JSON.parse(unescape($.MES.getQueryString("IInput")));
+            //var OutInputs = JSON.parse(unescape($.MES.getQueryString("OutInputs")));
+            var ObjectKey = $.MES.getQueryString("ObjectKey");
+            var params = JSON.parse(sessionStorage.getItem(ObjectKey));
+            sessionStorage.removeItem(ObjectKey);
+            var IInput = params.IInput;
+            var OutInputs = params.OutInputs;
+            var InputType = JSON.parse(unescape($.MES.getQueryString("InputType")));
+            var Layer = new StationLayer({
+                ID: ObjectKey,
+                ServerMessageID: ServerMessageID,
+                Client: self.parent.Client || self.parent.client || self.parent.parent.Client || self.parent.parent.client,
+                Station: self.parent.station,
+                OutputContainer: $("#OutputContainer"),
+                InputContainer: $("#InputContainer"),
+                MsgContainer: $("#MsgContainer"),
+                OutputObj: OutInputs,
+                inputObj: IInput,
+                InputType: InputType
+            });
+            Layer.Init();
+        });
+    </script>
+</body>
+</html>

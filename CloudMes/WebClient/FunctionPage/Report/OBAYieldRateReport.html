@@ -1,0 +1,670 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBA Yield Rate Report</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 1;
+            background-color: #ffffff;
+        } 
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <br/>
+     <div class="layui-tab-item layui-show">   
+            <div class="panel-body">
+                <div id="divTableToolbar">
+                    <div class="btn-group hidden-xs" role="group">
+                            <button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:Search">Search</lan>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" id="btnSwichViews">
+                                    <i class="glyphicon glyphicon-road" aria-hidden="true"></i><lan set-lan="html:Switch views">Switch views</lan>
+                            </button>
+                    </div>
+                </div>
+                <table id="tableList"></table><br/><br/>
+            </div>
+        </div>
+     
+    <div id="EchartsContainer" style="width: 1500px;height:500px;"></div>
+    <div id="divQueryConditions" class="col-xs-4 form-horizontal divReportInput" style="margin-top:70px;">
+      <br/>  
+      <div  class="form-group  col-xs-12">
+            <label class="col-xs-3 control-label text-right" set-lan="html:OBA Type">OBA Type</label>
+            <div class="col-xs-9">
+                <select class="form-control" id="selectOBAType">
+                    <option value="OBA">OBA</option>
+                    <option value="NSGOBA">NSGOBA</option>
+                </select>
+            </div>
+        </div>
+        <div  class="form-group  col-xs-12">
+            <label class="col-xs-3 control-label text-right" set-lan="html:Type">Type</label>
+            <div class="col-xs-9">
+                <select class="form-control" id="QueryType">
+                    <option value="1" selected set-lan="html:By Day">By Day</option>
+                    <option value="2" set-lan="html:By Week">By Week</option>
+                    <option value="3" set-lan="html:By Month">By Month</option>
+                </select>
+            </div>
+        </div>
+        <div  class="form-group  col-xs-12">
+            <label class="col-xs-3 control-label text-right" set-lan="html:GROUP BY SKUNO">GROUP BY SKUNO</label>
+            <div class="col-xs-9">
+                <div class="layui-form">
+                    <input id="switchSku" type="checkbox" lay-skin="switch" >
+                </div>
+               
+            </div>
+        </div>
+        <div id="divQuerybyDays">
+            <div  class="form-group col-xs-12 form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:Date">Date</label>
+                <div  class="col-xs-9 ">
+                    <input type="text" id="inputDate" class="form-control" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
+        <div id="divQuerybyWeeks" hidden>
+            <div  class="form-group col-xs-12 form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:Week From">Week From:</label>
+               <div  class="col-xs-5 ">
+                    <input type="text" id="inputWeekYearFrom" class="form-control" autocomplete="off"/> 
+                </div>
+                <div  class="col-xs-4 ">
+                    <select type="text" id="selectWeekFrom" class="form-control" >
+                    </select>
+                </div>
+            </div>
+            <div  class="form-group col-xs-12 form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:Week To">Week To:</label>
+                    <div  class="col-xs-5 ">
+                            <input type="text" id="inputWeekYearTo" class="form-control" autocomplete="off"/> 
+                        </div>
+                    <div  class="col-xs-4">
+                        <select type="text" id="selectWeekTo" class="form-control">
+                        </select>
+                    </div>
+            </div>
+        </div>
+        <div id="divQuerybyMonths" hidden>
+            <div  class="form-group col-xs-12 form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:Month">Month:</label>
+                <div  class="col-xs-9 ">
+                    <input type="text" id="inputMonth" class="form-control" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
+        <div  class="form-group col-xs-12">
+            <label class="col-xs-2 control-label text-right"></label>
+            <div class="col-xs-10" style="text-align: center;">
+                <button type="button" id="btnQuery" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-ok"><lan set-lan="html:Submit">Submit</lan></i>
+                </button>
+ 
+            </div>
+        </div>
+    </div>
+    <div hidden><input id='tempOBAType' value="OBA"/></div>
+
+
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+
+       var textarea = "";
+        var client
+        var mesUI;
+        var calendarlang;
+        var arrayID = [];
+        var postData=[];
+        var CurDate,CurYear;
+        var tableLocale = $.cookie($.MES.CK_LAN_NAME);
+        var eMessage0,EChartTitle;
+        $(document).ready(function () {
+            if (tableLocale == "CHINESE") {
+                tableLocale = "zh-CN";
+                calendarlang="cn";
+                eMessage0="请选择正确的时间";
+                EChartTitle="批次失败率";
+            }
+            else if (tableLocale == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+                calendarlang="cn";
+                eMessage0="請選擇正確的時間";
+                EChartTitle="批次失敗率";
+            }
+            else {
+                tableLocale = "en";
+                calendarlang="en";
+                eMessage0="Please choose the correct time";
+                EChartTitle="LotFailRate";
+            }
+            client = self.parent.client;
+            mesUI = new MesClientUI(client);
+            CurDate = new Date();
+            CurYear=CurDate.getFullYear;
+            laydate('#inputDate');
+            layYear('#inputWeekYearFrom');
+            layYear('#inputWeekYearTo');
+            layMonth('#inputMonth');
+            
+           
+
+            mesUI.SetLanguage("OBAYieldRateReport");
+            //$("#divQueryConditions").hide();
+            
+          
+
+            $("#QueryType").change(function(){
+                switch($("#QueryType").val()){
+                    case "1":
+                    $("#divQuerybyDays").show();
+                    $("#divQuerybyWeeks").hide();
+                    $("#divQuerybyMonths").hide();
+                    $("#inputDate").val("");
+                    $("#inputWeekYearFrom").val("");
+                    $("#inputWeekYearTo").val("");
+                    $("#inputMonth").val("");
+                    $('#selectWeekFrom').empty();
+                    $('#selectWeekTo').empty();
+                    break;
+                    case "2":
+                    $("#divQuerybyDays").hide();
+                    $("#divQuerybyWeeks").show();
+                    $("#divQuerybyMonths").hide();
+                    $("#inputDate").val("");
+                    $("#inputWeekYearFrom").val("");
+                    $("#inputWeekYearTo").val("");
+                    $("#inputMonth").val("");
+                    initWeekSelect('#selectWeekFrom');
+                    initWeekSelect('#selectWeekTo');
+                    break;
+                    case "3":
+                    $("#divQuerybyDays").hide();
+                    $("#divQuerybyWeeks").hide();
+                    $("#divQuerybyMonths").show();
+                    $("#inputDate").val("");
+                    $("#inputWeekYearFrom").val("");
+                    $("#inputWeekYearTo").val("");
+                    $("#inputMonth").val("");
+                    $('#selectWeekFrom').empty();
+                    $('#selectWeekTo').empty();
+                    break;
+
+                }
+                 
+
+            })
+            $("#tableEventsToolbar").addClass("tableEventsToolbar-margin-top");
+            
+            $("#btnToolSearch").click(function () {
+                $("#divQueryConditions").toggle();
+            });
+            $("#btnSwichViews").click(function () {
+                $("#tableList").toggle();
+                $("#EchartsContainer").toggle();
+                $("#divQueryConditions").hide();
+                $("#btnToolSearch").toggle();
+            });
+           
+           
+           
+            $("#btnQuery").on("click", function () {
+                var OBAType=$("#selectOBAType").val();
+                var QueryType=$("#QueryType").val();
+                var inputDate="";
+                var WeekYearFrom="";
+                var WeekYearTo="";
+                var WeekFrom="";
+                var WeekTo="";
+                var skuFlag=$("#switchSku").is(":checked");
+                if(QueryType=="1"){
+                    inputDate=$("#inputDate").val();
+                }
+                else if(QueryType=="2") {
+                    WeekYearFrom=$("#inputWeekYearFrom").val();
+                    WeekYearTo=$("#inputWeekYearTo").val();
+                    WeekFrom=$("#selectWeekFrom").val();
+                    WeekTo=$("#selectWeekTo").val();
+                }
+                else if(QueryType=="3") {
+                    inputDate=$("#inputMonth").val();
+                }
+                if((QueryType=="3"&&inputDate!="")||(QueryType=="2"&&WeekYearFrom!=""&&WeekYearTo!="")||(QueryType=="1"&&inputDate!="")){
+                $("#tempOBAType").val(OBAType);
+                postData={OBAType:OBAType,QueryType:QueryType,skuFlag:skuFlag,inputDate:inputDate,WeekYearFrom:WeekYearFrom,WeekYearTo:WeekYearTo,WeekFrom:WeekFrom,WeekTo:WeekTo};
+                GetList(postData);
+                $("#divQueryConditions").hide();
+                }
+                else{
+                    layer.msg(eMessage0, 
+                    {
+                        icon: 2,
+                        time: 3000
+                    }, function () { 
+                    });
+                  
+                }
+            })
+
+          
+     });
+
+        function GetList(postData) {
+            var skuFlag=$("#switchSku").is(":checked");
+            $("#tableList").html("");
+            $("#tableList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESReport.BaseReport.OBAYieldRateReport", "GetList", postData, function (e) {
+                if (e.Status == "Pass") {
+                    var myChart = echarts.init(document.getElementById('EchartsContainer'));
+                     if(!skuFlag)
+                     {
+                         myChart.setOption(initCharts(e.Data,skuFlag));
+                         $("#btnSwichViews").removeAttr("disabled");
+                     }
+                     else{
+                        $("#btnSwichViews").attr("disabled",true);
+                     }
+
+                     $("#EchartsContainer").hide();
+                        $('#tableList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: false,                   //是否显示分页（*）
+                            //height:50,
+                            sortable: false,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            //pageSize: 1000,                        //每页的记录行数（*）
+                            //pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索
+                            strictSearch: false,                //严格搜索：完全匹配
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: true,            //回车搜索
+                            showColumns: false,                 //显示的列下拉列表
+                            showRefresh: false,                 //是否显示刷新按钮
+                            showHeader:true,                      //是否显示列头
+                            showFooter:false,                    //是否显示列脚
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: false,                //是否启用点击选中行
+                            //uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "left",               //查询框对齐方式
+                            buttonsAlign: "right",              //按钮对齐方式
+                            toolbar: "#tableEventsToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,                //表格的语言,
+                            showFullscreen:false,
+                            theadClasses:"thead-dark",//thead-light 或 .thead-dark 使用 thead 显示为浅灰色
+                            rowStyle: function (row, index) {
+                                    var strclass = "";
+                                    if(row.LotFailRatex100!=0){
+                                        strclass='danger';
+                                    }
+                                    return { classes: strclass }
+                                },
+                                 columns:[
+                                 {
+                                    field: 'Time',
+                                    title: '<label set-lan="html:TIME">TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    visible: true,
+                                },{
+                                    field: 'SKUNO',
+                                    title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    visible: skuFlag,
+                                },{
+                                    field: 'TotalBuiltLots',
+                                    title: '<label set-lan="html:TotalBuiltLots">TotalBuiltLots</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    formatter: TTBFormatter,
+                                    events: TTBoperateEvents,
+                                },{
+                                    field: 'TotalPassLots',
+                                    title: '<label set-lan="html:TotalPassLots">TotalPassLots</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    formatter: TTPFormatter,
+                                    events: TTPoperateEvents,
+                                },{
+                                    field: 'TotalFailLots',
+                                    title: '<label set-lan="html:TotalFailLots">TotalFailLots</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    formatter: TTFFormatter,
+                                    events: TTFoperateEvents,
+                                },{
+                                    field: 'LotFailRate',
+                                    title: '<label set-lan="html:LotFailRate">LotFailRate</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                             
+                                },{
+                                    field: 'TotalLotQTY',
+                                    title: '<label set-lan="html:TotalLotQTY">TotalLotQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                             
+                                },{
+                                    field: 'TotalSampleQTY',
+                                    title: '<label set-lan="html:TotalSampleQTY">TotalSampleQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    visible: false,
+                                },
+                                {
+                                    field: 'TotalPassQTY',
+                                    title: '<label set-lan="html:TotalPassQTY">TotalPassQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                 
+                                }, {
+                                    field: 'TotalFailQTY',
+                                    title: '<label set-lan="html:TotalFailQTY">TotalFailQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                  
+                                }
+                                ]
+                        });
+                        var myChart = echarts.init(document.getElementById('EchartsContainer'));
+                        myChart.setOption(initCharts(e.Data));
+                        mesUI.SetLanguage("OBAYieldRateReport");
+                    
+                } 
+                else{
+                    layer.msg(e.Message, 
+                    {
+                        icon: 2,
+                        time: 3000
+                    }, function () { 
+                        $("#divQueryConditions").show();
+                    });
+                    return;
+                }
+            });
+        }
+        function laydate(ID){
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: ID,
+                    lang: calendarlang,//en or cn
+                    theme:'#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: '~',//是否开启范围选择
+                    showBottom: true,//显示底部按钮
+                    format: 'yyyy/MM/dd',
+                    //min: '2018-01-01',
+                    //max: '2025-12-31',
+                    });
+                });
+        }
+        function layYear(ID){
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: ID,
+                    type: 'year',//year month day datetime
+                    lang: calendarlang,//en or cn
+                    theme:'#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: false,//是否开启范围选择
+                    showBottom: true,//显示底部按钮
+                    format: 'yyyy',
+                    //min: '2018-01-01',
+                    //max: '2025-12-31',
+                    });
+                });
+        }
+        function layMonth(ID){
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: ID,
+                    type: 'month',//year month day datetime
+                    lang: calendarlang,//en or cn
+                    theme:'#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: '~',//是否开启范围选择
+                    showBottom: true,//显示底部按钮
+                    format: 'yyyy/MM',
+                    //min: '2018-01-01',
+                   // max: '2025-12-31',
+                    });
+                });
+        }
+        function initWeekSelect(ID){
+            $(ID).empty();
+            for (var i=1;i<=53;i++){
+                 $(ID).append('<option value=\''+i+'\'>'+i+'</option>');
+            }
+        }
+        function initCharts(Data,skuFlag){
+        var DataTime=[];
+        var DataRate=[];
+        var DataSkuno=[];
+        Data.forEach(function(e){
+            DataTime.push(e.Time)
+            DataRate.push(e.LotFailRatex100)
+            DataSkuno.push(e.SKUNO)
+            }
+        )
+        var  option = {
+                        title: {
+                            text: EChartTitle+'(%)'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: DataTime
+                        },
+                        grid: {
+                            left: '8%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: DataTime
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: EChartTitle+'(%)',
+                                type: 'line',
+                                stack: '',
+                                data: DataRate,
+                            }
+                        ]
+                    };
+
+                return option;
+        }  
+        function TTBFormatter(value, row, index) {
+            var actions = [];
+            if(row.TotalBuiltLots!="0"){
+            actions.push('<button id="bind" type="button" class="btn btn-link">'+row.TotalBuiltLots+'</button>');
+            return actions.join('');}
+            else{
+                actions.push(row.TotalBuiltLots);
+                return actions.join('');
+            }
+        }
+        window.TTBoperateEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick(row.Time,"OBAYieldLots",$("#tempOBAType").val(),row.SKUNO,"1");
+            }
+        }
+        function TTPFormatter(value, row, index) {
+            var actions = [];
+            if(row.TotalPassLots!="0"){
+            actions.push('<button id="bind" type="button" class="btn btn-link">'+row.TotalPassLots+'</button>');
+            return actions.join('');}
+            else{
+                actions.push(row.TotalPassLots);
+                return actions.join('');
+            }
+        }
+        window.TTPoperateEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick(row.Time,"OBAYieldLots",$("#tempOBAType").val(),row.SKUNO,"2");
+            }
+        }
+        function TTFFormatter(value, row, index) {
+            var actions = [];
+            if(row.TotalFailLots!="0"){
+            actions.push('<button id="bind" type="button" class="btn btn-link">'+row.TotalFailLots+'</button>');
+            return actions.join('');}
+            else{
+                actions.push(row.TotalFailLots);
+                return actions.join('');
+            }
+        }
+        window.TTFoperateEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick(row.Time,"OBAYieldLots",$("#tempOBAType").val(),row.SKUNO,"3");
+            }
+        }
+        function OnLinkClick (time,functionName,OBAtype,Skuno,searchType) {//打开Iframe层
+        // 获取标识数据
+            var dataUrl="/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport."+functionName+"&OBAType="+OBAtype+"&searchTime="+time+"&Skuno="+Skuno+"&RunFlag=1&seachType="+searchType,
+            menuName=time+"_"+functionName+"_Report",
+            dataIndex = Date.now().toString()+Math.random(0,99999999).toString(),
+            flag = true;
+        if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
+
+        // 选项卡菜单已存在
+        $(self.parent.document).find(".J_menuTab").each(function () {
+            if ($(this).data('id') == dataUrl) {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                    self.parent.window.scrollToTab(this);
+                    // 显示tab对应的内容区
+                    $(self.parent.document).find('.J_mainContent .J_iframe').each(function () {
+                        if ($(this).data('id') == dataUrl) {
+                            $(this).show().siblings('.J_iframe').hide();
+                            return false;
+                        }
+                    });
+                }
+                flag = false;
+                return false;
+            }
+        });
+
+        // 选项卡菜单不存在
+        if (flag) {
+            $(self.parent.document).find('.J_iframe').hide();
+            var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+            $(self.parent.document).find('.J_menuTab').removeClass('active');
+            // 添加选项卡对应的iframe
+            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+            $(self.parent.document).find('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+            // 添加选项卡
+            $(self.parent.document).find('.J_menuTabs .page-tabs-content').append(str);
+            self.parent.window.scrollToTab($(self.parent.document).find('.J_menuTab.active'));
+        }
+        return false;
+    };
+        layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+        ,layer = layui.layer
+        ,layedit = layui.layedit
+        ,laydate = layui.laydate;
+        
+        
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+        /*  layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+            offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis) */
+        });
+        
+        });
+    </script>   
+</body>
+</html>

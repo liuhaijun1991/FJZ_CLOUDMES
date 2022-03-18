@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        body {
+            background: #EEF4FB
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            /*border-color: #BFC9D5 !important;*/
+            font-size: xx-small;
+            background: #DFEBF5 !important;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: inherit !important;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #DBE0E4 !important;
+            --background: white !important;
+            --color: white;
+        }
+
+        .container {
+            margin: 0;
+            width: calc((100% - 30px));
+        }
+    </style>
+</head>
+<body class="full-height">
+    <hr class="layui-bg-blue">
+    <div class="container">
+        <!--<blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote"><i class="layui-icon layui-icon-auz" style="font-size: 20px; color: white;"></i> PoInfo</blockquote>-->
+        <fieldset class="layui-elem-field">
+            <legend><span class="layui-badge layui-bg-blue">PoHead</span></legend>
+            <div class="layui-field-box">
+                <table id="PoHeadList" class="table table-bordered table-condensed text-center"></table>
+            </div>
+        </fieldset>
+      
+    </div>
+    <!-- 全局js -->
+    <script src="../../../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../../Scripts/global.js"></script>
+    <script src="../../../../Scripts/MesClient.js"></script>
+    <script src="../../../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var poid, pono, poline;
+        $(document).ready(function () {
+            poid = $.MES.getQueryString("POID");
+            LoadList(poid);
+        });
+
+        var formatSigle = function (Data) {
+            var fomatdata = [];
+            if (Data.length > 0) {
+                var nos = "ID,FLAG";
+                var row = Data[0];
+                for (var item in row) {
+                    if (item == "F_SHIP_DATE")
+                        fomatdata.push({
+                            Name: "ETA",
+                            Comments: row[item]
+                        });
+                    else
+                        if (nos.indexOf(item) === -1)
+                        fomatdata.push({
+                            Name: item,
+                            Comments: row[item]
+                        });
+                }
+            }
+            return fomatdata;
+        }
+
+        var GetFormateTable = function (Data) {
+            //var col = [];
+            //if (Data.length > 0) {
+            //    var row = Data[0];
+            //    for (var item in row) {
+            //        col.push({
+            //            field: item,
+            //            title: item,
+            //            align: 'center',
+            //            valign: 'middle',
+            //            sortable: true
+            //        });
+            //    }
+            //}
+            var col = [];
+            col.push({
+                field: "Name",
+                title: "Name",
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            });
+            col.push({
+                field: "Comments",
+                title: "Comments",
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            });
+            return col;
+        }
+        var ShowTable = function (Data) {
+            $('#PoHeadList').bootstrapTable('destroy');
+            var fomatData = formatSigle(Data);
+            var colHead = GetFormateTable(Data);
+            //var colHead = GetFormateTable(Data);
+            $('#PoHeadList').bootstrapTable({
+                data: fomatData,
+                clickToSelect: true,
+                search: true,
+                //searchOnEnterKey: true,
+                trimOnSearch: true,
+                showExport: true,
+                exportDataType: "all",
+                //pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 50,                       //每页的记录行数（*）
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "basic",             //basic', 'all', 'selected'.
+                exportOptions: {
+                    //ignoreColumn: [0, 1],  //忽略某一列的索引  
+                    fileName: 'PoInfoList',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'PoInfoList',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                // pageList: [10, 25, 50, 100],
+                rowStyle: function (row, index) {
+                    var style = {};
+                    //if (index % 2 == 0)
+                    style = { css: { 'font-size': 'xx-small', 'background': '#dfdad8', 'font-weight': 'bold', 'color': '#8B4500' } };
+                    return style;
+                },
+                columns: colHead
+            });
+
+        }
+
+        var LoadList = function (poid) {
+            self.parent.client.CallFunction("MESStation.Config.DCN.ArubaOrderManager", "GetSingleOrderInfo", { POID: poid },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        ShowTable(e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent()
+                            .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                });
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CEA7060-0186-4C17-9CB0-B1EFD306CFBA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MESInterface</RootNamespace>
+    <AssemblyName>MESInterface</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.26.1.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="HWDNNSFCBase">
+      <HintPath>..\MESStation\DLL\HWDNNSFCBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\MESStation\DLL\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="rscp4n">
+      <HintPath>..\MESStation\DLL\rscp4n.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MESStation\DLL\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MESStation\DLL\sapnco_utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=10.10.1.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FreeSpire.XLS.10.10.0\lib\net40\Spire.XLS.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlSugar">
+      <HintPath>..\packages\sqlSugar.4.9.9.11\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\CheckEventLog.cs" />
+    <Compile Include="Base\CheckProccessRun.cs" />
+    <Compile Include="Base\ProccessAlert.cs" />
+    <Compile Include="Base\ProccessAlert_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\ProccessAlert_UI.Designer.cs">
+      <DependentUpon>ProccessAlert_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\ProccessCkeckBase.cs" />
+    <Compile Include="BPD\BPDDnBase.cs" />
+    <Compile Include="BPD\BPDDownloadDN.cs" />
+    <Compile Include="BPD\CipherTool.cs" />
+    <Compile Include="BPD\FtpClient.cs" />
+    <Compile Include="BPD\RecordTestByMQ.cs" />
+    <Compile Include="BPD\RecordTestByMQ_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BPD\RecordTestByMQ_UI.Designer.cs">
+      <DependentUpon>RecordTestByMQ_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BPD\RecordTestFile.cs" />
+    <Compile Include="BPD\RecordTestFile_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BPD\RecordTestFile_UI.Designer.cs">
+      <DependentUpon>RecordTestFile_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BPD\RecordTestTable.cs" />
+    <Compile Include="BPD\RecordTestTable_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BPD\RecordTestTable_UI.Designer.cs">
+      <DependentUpon>RecordTestTable_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\DnBase.cs" />
+    <Compile Include="BPD\BPDDownloadDn_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BPD\BPDDownloadDn_UI.Designer.cs">
+      <DependentUpon>BPDDownloadDn_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\clsFTP.cs" />
+    <Compile Include="Common\common.cs" />
+    <Compile Include="Common\FileHelp.cs" />
+    <Compile Include="Common\FTPHelp.cs" />
+    <Compile Include="Common\Log.cs" />
+    <Compile Include="DCN\ArubaB2BSyn.cs" />
+    <Compile Include="DCN\ArubaReport.cs" />
+    <Compile Include="DCN\ArubaSendSNRB2BSyn.cs" />
+    <Compile Include="DCN\ArubaShipmentReport.cs" />
+    <Compile Include="DCN\BroadComMds.cs" />
+    <Compile Include="DCN\BroadComMds_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DCN\BroadComMds_UI.Designer.cs">
+      <DependentUpon>BroadComMds_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DCN\CheckSendCZDataProcess.cs" />
+    <Compile Include="DCN\DBTableP.cs" />
+    <Compile Include="DCN\DcnAgineData.cs" />
+    <Compile Include="DCN\DownLoadSapPackage.cs" />
+    <Compile Include="DCN\FNNSendUFIASNDataTaskSyn.cs" />
+    <Compile Include="DCN\FNNSendUFIASNDataUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DCN\FNNSendUFIASNDataUI.Designer.cs">
+      <DependentUpon>FNNSendUFIASNDataUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DCN\InterfaceTest.cs" />
+    <Compile Include="DCN\JuniperB2BSyn.cs" />
+    <Compile Include="DCN\JuniperSendDISCQMSDataB2BSyn.cs" />
+    <Compile Include="DCN\FNNSendUFIDataTaskSyn.cs" />
+    <Compile Include="DCN\FNNSendUFIDataUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DCN\FNNSendUFIDataUI.Designer.cs">
+      <DependentUpon>FNNSendUFIDataUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DCN\FVNSendUFIDataUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DCN\FVNSendUFIDataUI.Designer.cs">
+      <DependentUpon>FVNSendUFIDataUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DCN\JuniperSendDiscUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DCN\JuniperSendDiscUI.Designer.cs">
+      <DependentUpon>JuniperSendDiscUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DCN\NetgearPtm.cs" />
+    <Compile Include="DCN\SchneiderDataSyn.cs" />
+    <Compile Include="DCN\SendBrcmData.cs" />
+    <Compile Include="DCN\SendCZDataProccess.cs" />
+    <Compile Include="DCN\FVNSendUFIDataTaskSyn.cs" />
+    <Compile Include="DCN\SQLFilter.cs" />
+    <Compile Include="DCN\SQLPara.cs" />
+    <Compile Include="DCN\UpdateBroadcomPO.cs" />
+    <Compile Include="frmCollectBonepileData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCollectBonepileData.Designer.cs">
+      <DependentUpon>frmCollectBonepileData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConfigFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfigFile.Designer.cs">
+      <DependentUpon>frmConfigFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FSJ\FsjArubaSendSNRB2BSyn.cs" />
+    <Compile Include="HWD\Analyse_7B5XML.cs" />
+    <Compile Include="HWD\Analyse_7B5XML_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\Analyse_7B5XML_UI.Designer.cs">
+      <DependentUpon>Analyse_7B5XML_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\AssyReturnBackFlush.cs" />
+    <Compile Include="HWD\AssyReturnBackFlush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\AssyReturnBackFlush_UI.Designer.cs">
+      <DependentUpon>AssyReturnBackFlush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\BackFlush\BackFlushHelp.cs" />
+    <Compile Include="HWD\BackFlush\frmBackFlush.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\BackFlush\frmBackFlush.designer.cs">
+      <DependentUpon>frmBackFlush.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\BackFlush\R_BACKFLUSH_CHECK.cs" />
+    <Compile Include="HWD\BackFlush\R_BACKFLUSH_HISTORY.cs" />
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\CopySkuTypeToOld.cs" />
+    <Compile Include="HWD\CopySkuTypeToOld_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\CopySkuTypeToOld_UI.Designer.cs">
+      <DependentUpon>CopySkuTypeToOld_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\DownLoadWO.cs" />
+    <Compile Include="HWD\DownLoadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\DownLoadWO_UI.designer.cs">
+      <DependentUpon>DownLoadWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\MrbBackFlush.cs" />
+    <Compile Include="HWD\MrbBackFlush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\MrbBackFlush_UI.Designer.cs">
+      <DependentUpon>MrbBackFlush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWD\StockInBackFlush.cs" />
+    <Compile Include="HWD\StockInBackFlush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWD\StockInBackFlush_UI.Designer.cs">
+      <DependentUpon>StockInBackFlush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HWT\HWTDownloadDn.cs" />
+    <Compile Include="HWT\HWTDownloadDn_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWT\HWTDownloadDn_UI.Designer.cs" />
+    <Compile Include="jobBase.cs" />
+    <Compile Include="JUNIPER\AnalyesSapXml.cs" />
+    <Compile Include="JUNIPER\CBSBackflush.cs" />
+    <Compile Include="JUNIPER\CBSBackflush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\CBSBackflush_UI.Designer.cs">
+      <DependentUpon>CBSBackflush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\DownloadWO.cs" />
+    <Compile Include="JUNIPER\DownloadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\DownloadWO_UI.Designer.cs">
+      <DependentUpon>DownloadWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\EcoProcess.cs" />
+    <Compile Include="JUNIPER\FJZBackflush.cs" />
+    <Compile Include="JUNIPER\FJZDownloadWO.cs" />
+    <Compile Include="JUNIPER\FJZDownloadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\FJZDownloadWO_UI.designer.cs">
+      <DependentUpon>FJZDownloadWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\frmBackFlush.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\frmBackFlush.designer.cs">
+      <DependentUpon>frmBackFlush.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\DashboardDailyDataGenerate.cs" />
+    <Compile Include="JUNIPER\I054AckProcess.cs" />
+    <Compile Include="JUNIPER\DashboardDailyDataGenerate_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\DashboardDailyDataGenerate_UI.Designer.cs">
+      <DependentUpon>DashboardDailyDataGenerate_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\I054AckProcess_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\I054AckProcess_UI.Designer.cs">
+      <DependentUpon>I054AckProcess_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\I054CaptrueProcess.cs" />
+    <Compile Include="JUNIPER\CreateWO.cs" />
+    <Compile Include="JUNIPER\CreateWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\CreateWO_UI.designer.cs">
+      <DependentUpon>CreateWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\I054CaptrueProcess_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\I054CaptrueProcess_UI.Designer.cs">
+      <DependentUpon>I054CaptrueProcess_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\ICTDataUpload.cs" />
+    <Compile Include="JUNIPER\ICTDataUploadUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\ICTDataUploadUI.Designer.cs">
+      <DependentUpon>ICTDataUploadUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\JnpOrderDataTrans.cs" />
+    <Compile Include="JUNIPER\JuniperGetAllpartMPNQty.cs" />
+    <Compile Include="JUNIPER\JuniperRecivePo.cs" />
+    <Compile Include="JUNIPER\JuniperRecivePo_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\JuniperRecivePo_UI.Designer.cs">
+      <DependentUpon>JuniperRecivePo_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\MakePcbaWipReport.cs" />
+    <Compile Include="JUNIPER\MakePcbaWipReport_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JUNIPER\MakePcbaWipReport_UI.Designer.cs">
+      <DependentUpon>MakePcbaWipReport_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JUNIPER\SilverWIP_Controls.cs" />
+    <Compile Include="MBD\DownLoadWO.cs" />
+    <Compile Include="MBD\DownLoadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MBD\DownLoadWO_UI.designer.cs">
+      <DependentUpon>DownLoadWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageClient.cs" />
+    <Compile Include="MessageService.cs" />
+    <Compile Include="ORACLE\CreateInvoice.cs" />
+    <Compile Include="ORACLE\DownloadWO.cs" />
+    <Compile Include="ORACLE\DownloadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ORACLE\DownloadWO_UI.Designer.cs" />
+    <Compile Include="ORACLE\GetTDMSData.cs" />
+    <Compile Include="ORACLE\FileChecker.cs" />
+    <Compile Include="ORACLE\GetTDMSData_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ORACLE\GetTDMSData_UI.designer.cs">
+      <DependentUpon>GetTDMSData_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ORACLE\FileTransfer.cs" />
+    <Compile Include="ORACLE\FileChecker_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ORACLE\FileChecker_UI.designer.cs">
+      <DependentUpon>FileChecker_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ORACLE\FileTransfer_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ORACLE\FileTransfer_UI.designer.cs">
+      <DependentUpon>FileTransfer_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ORACLE\PackoutBackFlush.cs" />
+    <Compile Include="ORACLE\PackoutBackFlush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ORACLE\PackoutBackFlush_UI.Designer.cs">
+      <DependentUpon>PackoutBackFlush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ORACLE\PreUploadWO.cs" />
+    <Compile Include="ORACLE\UploadWO.cs" />
+    <Compile Include="ProccessAlert\AlertTypeBase.cs" />
+    <Compile Include="ProccessAlert\ProccessRunCheck.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicBackflush\SemifinishedBackflush.cs" />
+    <Compile Include="PublicBackflush\SemifinishedBackflush_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PublicBackflush\SemifinishedBackflush_UI.Designer.cs">
+      <DependentUpon>SemifinishedBackflush_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RouteBase.cs" />
+    <Compile Include="SAPMappingBase.cs" />
+    <Compile Include="taskBase.cs" />
+    <Compile Include="tools.cs" />
+    <Compile Include="UnitTest\TestInterface.cs" />
+    <Compile Include="VERTIV\AnalyseForecast.cs" />
+    <Compile Include="VERTIV\AnalysePOFile.cs" />
+    <Compile Include="VERTIV\AutoSkipE2openCommit.cs" />
+    <Compile Include="VERTIV\DownloadWO.cs" />
+    <Compile Include="VERTIV\DownloadWO_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VERTIV\DownloadWO_UI.Designer.cs">
+      <DependentUpon>DownloadWO_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VERTIV\ErrorFileAlert.cs" />
+    <Compile Include="VERTIV\SendYieldAlertEmail.cs" />
+    <Compile Include="VERTIV\SendCommitForecast.cs" />
+    <Compile Include="VERTIV\SendCommitOrderFile.cs" />
+    <Compile Include="VERTIV\SendShipment.cs" />
+    <Compile Include="VERTIV\VertivDownloadDn.cs" />
+    <Compile Include="VERTIV\VertivDownloadDn_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VERTIV\VertivDownloadDn_UI.Designer.cs">
+      <DependentUpon>VertivDownloadDn_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VERTIV\VTCreatASNAlert.cs" />
+    <Compile Include="Web References\NotesService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WOBase.cs" />
+    <EmbeddedResource Include="Base\ProccessAlert_UI.resx">
+      <DependentUpon>ProccessAlert_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BPD\RecordTestFile_UI.resx">
+      <DependentUpon>RecordTestFile_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BPD\RecordTestTable_UI.resx">
+      <DependentUpon>RecordTestTable_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BPD\BPDDownloadDn_UI.resx">
+      <DependentUpon>BPDDownloadDn_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCN\BroadComMds_UI.resx">
+      <DependentUpon>BroadComMds_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCN\FNNSendUFIASNDataUI.resx">
+      <DependentUpon>FNNSendUFIASNDataUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCN\FNNSendUFIDataUI.resx">
+      <DependentUpon>FNNSendUFIDataUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCN\FVNSendUFIDataUI.resx">
+      <DependentUpon>FVNSendUFIDataUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DCN\JuniperSendDiscUI.resx">
+      <DependentUpon>JuniperSendDiscUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCollectBonepileData.resx">
+      <DependentUpon>frmCollectBonepileData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConfigFile.resx">
+      <DependentUpon>frmConfigFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\Analyse_7B5XML_UI.resx">
+      <DependentUpon>Analyse_7B5XML_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\AssyReturnBackFlush_UI.resx">
+      <DependentUpon>AssyReturnBackFlush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\BackFlush\frmBackFlush.resx">
+      <DependentUpon>frmBackFlush.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\CopySkuTypeToOld_UI.resx">
+      <DependentUpon>CopySkuTypeToOld_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\DownLoadWO_UI.resx">
+      <DependentUpon>DownLoadWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\MrbBackFlush_UI.resx">
+      <DependentUpon>MrbBackFlush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWD\StockInBackFlush_UI.resx">
+      <DependentUpon>StockInBackFlush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HWT\HWTDownloadDn_UI.resx" />
+    <EmbeddedResource Include="JUNIPER\CBSBackflush_UI.resx">
+      <DependentUpon>CBSBackflush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\CreateWO_UI.resx">
+      <DependentUpon>CreateWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\DownloadWO_UI.resx">
+      <DependentUpon>DownloadWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\FJZDownloadWO_UI.resx">
+      <DependentUpon>FJZDownloadWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\frmBackFlush.resx">
+      <DependentUpon>frmBackFlush.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\DashboardDailyDataGenerate_UI.resx">
+      <DependentUpon>DashboardDailyDataGenerate_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\I054AckProcess_UI.resx">
+      <DependentUpon>I054AckProcess_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\I054CaptrueProcess_UI.resx">
+      <DependentUpon>I054CaptrueProcess_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\ICTDataUploadUI.resx">
+      <DependentUpon>ICTDataUploadUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JUNIPER\MakePcbaWipReport_UI.resx">
+      <DependentUpon>MakePcbaWipReport_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MBD\DownLoadWO_UI.resx">
+      <DependentUpon>DownLoadWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORACLE\DownloadWO_UI.resx" />
+    <EmbeddedResource Include="ORACLE\GetTDMSData_UI.resx">
+      <DependentUpon>GetTDMSData_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORACLE\FileChecker_UI.resx">
+      <DependentUpon>FileChecker_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORACLE\FileTransfer_UI.resx">
+      <DependentUpon>FileTransfer_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ORACLE\PackoutBackFlush_UI.resx">
+      <DependentUpon>PackoutBackFlush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="PublicBackflush\SemifinishedBackflush_UI.resx">
+      <DependentUpon>SemifinishedBackflush_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VERTIV\DownloadWO_UI.resx">
+      <DependentUpon>DownloadWO_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VERTIV\VertivDownloadDn_UI.resx">
+      <DependentUpon>VertivDownloadDn_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="config.ini" />
+    <None Include="config_BPD.ini" />
+    <None Include="config_HWD.ini" />
+    <None Include="config_HWT.ini" />
+    <None Include="config_vertiv.ini" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Web References\NotesService\LotusNotesService.wsdl" />
+    <None Include="Web References\NotesService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DcnSfcModel\DcnSfcModel.csproj">
+      <Project>{C833110E-4824-452C-97FE-26BB11C65239}</Project>
+      <Name>DcnSfcModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDataObject\MESDataObject.csproj">
+      <Project>{af4761e2-01c9-4d1b-a3bc-4bd7d37bb365}</Project>
+      <Name>MESDataObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDBHelper\MESDBHelper.csproj">
+      <Project>{c8bdb8fc-44f6-4109-a779-34ee99903270}</Project>
+      <Name>MESDBHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESJuniper\MESJuniper.csproj">
+      <Project>{ed432ae3-877a-4791-bc9b-d709e635138e}</Project>
+      <Name>MESJuniper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESMailCenter\MESMailCenter.csproj">
+      <Project>{af894a14-4c1f-4409-86d7-90d0050d185a}</Project>
+      <Name>MESMailCenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESPubLab\MESPubLab.csproj">
+      <Project>{fa7c2f99-a446-47d3-9344-faa3fa8cc40c}</Project>
+      <Name>MESPubLab</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESReport\MESReport.csproj">
+      <Project>{33e293d4-9efe-4fac-aa57-865c74845c4f}</Project>
+      <Name>MESReport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESStation\MESStation.csproj">
+      <Project>{cd0dde64-8cc7-4453-99b1-ca7558442af7}</Project>
+      <Name>MESStation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESWebAPI\MESWebAPI.csproj">
+      <Project>{6E8AC1E6-CCC6-4554-888C-A9FC96A99470}</Project>
+      <Name>MESWebAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MES_DCN\MES_DCN.csproj">
+      <Project>{0fddacad-1187-4afc-a63c-58db038986fe}</Project>
+      <Name>MES_DCN</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <None Include="Web References\NotesService\LotusNotesService.disco" />
+    <None Include="Resources\fii.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CsvHelper">
+      <Version>26.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="RabbitMQ.Client">
+      <Version>5.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="sqlSugar">
+      <Version>4.9.9.11</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://10.120.246.110/LotusNotesService/">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\NotesService\</RelPath>
+      <UpdateFromURL>http://10.120.246.110/LotusNotesService/</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>MESInterface_NotesService_LotusNotesService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

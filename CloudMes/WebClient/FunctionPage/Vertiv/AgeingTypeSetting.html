@@ -1,0 +1,603 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Ageing Type Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <!--<h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:AgeingTypeList">老化類型設置</span></h3>-->
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:AgeingTypeList">AGEING_TYPE</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAddAgeingType">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEditAgeingType" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteAgeingType" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshAgeingType">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableAgeingTypeList"></table>
+    </div>
+    <div id="divModify" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div id="divAgeingTypeID" class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div id="divAgeingType" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:AgeingType">AGEING_TYPE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtSkuno" class="form-control" set-lan="attr:placeholder=placeholderAGEING_TYPE" />
+                </div>
+            </div>
+            <div id="divAreaCode" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:AREA_CODE">AREA_CODE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <select class="form-control" ></select>
+                </div>
+            </div>
+            <div id="divMaxTime" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MAX_TIME">MAX_TIME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="" class="form-control" set-lan="attr:placeholder=placeholderMAX_TIME" />
+                </div>
+            </div>
+            <div id="divMaxPercentage" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MAX_PERCENTAGE">MAX_PERCENTAGE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="" class="form-control" set-lan="attr:placeholder=placeholderMAX_PERCENTAGE" />
+                </div>
+            </div>
+            <div id="divMinTime" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MIN_TIME">MIN_TIME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="" class="form-control" set-lan="attr:placeholder=placeholderMIN_TIME" />
+                </div>
+            </div>
+            <div id="divMinPercentage" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MIN_PERCENTAGE">MIN_PERCENTAGE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="" class="form-control" set-lan="attr:placeholder=placeholderMIN_PERCENTAGE" />
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <lan set-lan="html:btnSubmit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var skuList = [];
+        var submitType = "";
+        var postData = {};
+        var regTime = /^[1-9]?[0-9]*$/; //整數正則表達式
+        var regPercentage =/^([01](\.0+)?|0\.[0-9]+)$/; //大於0小於1的數
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            mesUI.SetLanguage("AgeingTypeSetting");
+            GetAgeingTypeList("");
+            $("#btnAddAgeingType").click(function () {
+                var addTitle = 'Add New AgeingType';
+                if (lan == "CHINESE") {
+                    addTitle = "添加新的老化类型"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "添加新的老化類型"                
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+                        $("#divAgeingType").find("input").removeAttr("readonly");
+                        $("#divAgeingType").find("input").val("");
+                        $("#divMaxTime").find("input").val("");
+                        $("#divMaxPercentage").find("input").val("");
+                        $("#divMinTime").find("input").val("");
+                        $("#divMinPercentage").find("input").val("");
+                        $("#divAgeingType").find("input").focus();
+                        submitType = "NEW";                        
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnEditAgeingType").click(function () {
+                var selectRows = $('#tableAgeingTypeList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit AgeingType';
+                if (lan == "CHINESE") {
+                    addTitle = "编辑对应关系"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "編輯對應關係"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+                        $("#divAgeingTypeID").find("input").val(selectRows[0].ID);
+                        $("#divAgeingType").find("input").val(selectRows[0].AGEING_TYPE);
+                        $("#divAgeingType").find("input").attr("readonly", "readonly");
+                        $("#divMaxTime").find("input").val(selectRows[0].MAX_AGEING_TIME);
+                        $("#divMaxPercentage").find("input").val(selectRows[0].MAX_AGEING_PERCENTAGE);
+                        $("#divMinTime").find("input").val(selectRows[0].MIN_AGEING_TIME);
+                        $("#divMinPercentage").find("input").val(selectRows[0].MIN_TIME_PERCENTAGE);
+                        $("#divMaxTime").find("input").focus();
+                        $("#divAreaCode").find("select").find("option").each(function (option) {
+                            if (this.value == selectRows[0].AGEING_AREA_CODE) {
+                                $.attr($(this), "selected", "true");
+                                return false;
+                            }
+                        });
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnDeleteAgeingType").click(function () {
+                var selectRows = $('#tableAgeingTypeList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                postData = { "ID": selectRows[0].ID};
+                self.parent.client.CallFunction("MESStation.Config.Vertiv.CAgeingTypeConfig", "DeleteAgeingType", postData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            GetAgeingTypeList("");
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                });
+            });
+            $("#btnRefreshAgeingType").click(function () {
+                GetAgeingTypeList("");
+            });
+            $("#divAgeingType").find("input").unbind("keypress").bind("keypress", function (event){
+                if (event.keyCode == 13)
+                {
+                    $("#divMaxTime").find("input").focus();
+                }
+            });
+            $("#divMaxTime").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divMaxPercentage").find("input").focus();
+                }
+            });
+            $("#divMaxPercentage").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divMinTime").find("input").focus();
+                }
+            });
+            $("#divMinTime").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divCustomerVersion").find("input").focus();
+                }
+            });
+            $("#divCustomerVersion").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divDoSubmit").find("button").focus();
+                }
+            });
+            $("#btnSubmit").click(function () {
+                if (submitType == "MODIFY") {
+                    ModifyAgeingType();
+                }
+                else if (submitType == "NEW") {
+                    AddNewAgeingType();
+                }
+                else {
+                    layer.msg("Type error", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.CAgeingTypeConfig", "GetAllShippingCode", {},
+                function (e) {
+                    if (e.Status == "Pass") {
+                        for (var i = 0; i < e.Data.length; i++) {
+                            var option = $("<option value='" + e.Data[i].AREA_CODE + "'>" + e.Data[i].SHIPPING_ADDRESS + "</option>");
+                            $("#divAreaCode").find("select").append(option);
+                        }
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                    }
+                }
+            );
+        });
+
+        function AddNewAgeingType() {
+            var type = $("#divAgeingType").find("input").val();
+            var areaCode = $("#divAreaCode").find("select").find("option:selected").val();
+            var maxTime = $("#divMaxTime").find("input").val();
+            var maxPercentage = $("#divMaxPercentage").find("input").val();
+            var minTime = $("#divMinTime").find("input").val();
+            var minPercentage = $("#divMinPercentage").find("input").val();
+            if (type == null || type == undefined || type == "") {
+                layer.msg("Please input type", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+            if (!regTime.test(maxTime) || !regTime.test(minTime))
+            {
+                //layer.msg("老化時間只能是非負整數", {
+                layer.msg("The ageing time must be nonnegative integer", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+            if (!regPercentage.test(minPercentage) || !regPercentage.test(maxPercentage)) {
+                //layer.msg("老化比例只能是大於0小於1的小數", {
+                layer.msg("The ageing proportion must be a decimals and greater than 0 and less than 1", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+
+            if (parseFloat(minPercentage) + parseFloat(maxPercentage) != 1) 
+            {
+                //layer.msg("最大老化時間與最小老化時間的比例相加不為1", {
+                layer.msg("Sum of the max and min ageing time proportion unequal to 1", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+
+            postData = { "Type": type, "Area_Code": areaCode, "Max_Time": maxTime, "Max_Percentage": maxPercentage, "Min_Time": minTime, "Min_Percentage": minPercentage};
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.CAgeingTypeConfig", "AddNewAgeingType", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetAgeingTypeList(type);
+                        });
+                }
+                else
+                {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyAgeingType()
+        {
+            var id = $("#divAgeingTypeID").find("input").val();
+            var type = $("#divAgeingType").find("input").val();
+            var areaCode = $("#divAreaCode").find("select").find("option:selected").val();
+            var maxTime = $("#divMaxTime").find("input").val();
+            var maxPercentage = $("#divMaxPercentage").find("input").val();
+            var minTime = $("#divMinTime").find("input").val();
+            var minPercentage = $("#divMinPercentage").find("input").val();
+            if (!regTime.test(maxTime) || !regTime.test(minTime)) {
+                //layer.msg("老化時間只能是非負整數", {
+                layer.msg("The ageing time must be nonnegative integer", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+            if (!regPercentage.test(minPercentage) || !regPercentage.test(maxPercentage)) {
+                //layer.msg("老化比例只能是大於0小於1的小數", {
+                layer.msg("The ageing proportion must be a decimals and greater than 0 and less than 1", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+
+            if (parseFloat(minPercentage) + parseFloat(maxPercentage) != 1) {
+                //layer.msg("最大老化時間與最小老化時間的比例相加不為1", {
+                layer.msg("Sum of the max and min ageing time proportion unequal to 1", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+            postData = { "ID": id, "Area_Code": areaCode, "Max_Time": maxTime, "Max_Percentage": maxPercentage, "Min_Time": minTime, "Min_Percentage": minPercentage};
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.CAgeingTypeConfig", "ModifyAgeingType", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetAgeingTypeList(type);
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function GetAgeingTypeList(type) {
+            var data = { "Type": type };
+            $("#btnEditAgeingType").attr("disabled", "disabled");
+            $("#btnDeleteAgeingType").attr("disabled", "disabled");
+            $("#tableAgeingTypeList").html("");
+            $("#tableAgeingTypeList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.CAgeingTypeConfig", "GetAgeingTypeList", data, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        $('#tableAgeingTypeList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 5,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            onCheck: function (row) {
+                                var rows = $('#tableAgeingTypeList').bootstrapTable('getSelections');
+                                if (rows.length == 1) {
+                                    //$("#btnEditAgeingType").attr("disabled", "disabled");
+                                    $("#btnEditAgeingType").removeAttr("disabled");
+                                } else {
+                                    //$("#btnEditAgeingType").removeAttr("disabled");
+                                    $("#btnEditAgeingType").attr("disabled", "disabled");
+                                }
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteAgeingType").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteAgeingType").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#tableAgeingTypeList').bootstrapTable('getSelections');
+                                $("#btnEditAgeingType").attr("disabled", "disabled");
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteAgeingType").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteAgeingType").removeAttr("disabled")
+                                }
+                            },
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: 'ID',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'AGEING_TYPE',
+                                    title: '<label set-lan="html:AGEING_TYPE">TYPE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'AGEING_AREA_CODE',
+                                    title: '<label set-lan="html:AGEING_AREA_CODE">SHIPPING_ADDTESS</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'MAX_AGEING_TIME',
+                                    title: '<label set-lan="html:MAX_AGEING_TIME">MAX_TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'MAX_AGEING_PERCENTAGE',
+                                    title: '<label set-lan="html:MAX_AGEING_PERCENTAGE">MAX_PERCENTAGE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: "MIN_AGEING_TIME",
+                                    title: '<label set-lan="html:MIN_AGEING_TIME">MIN_TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: 'MIN_TIME_PERCENTAGE',
+                                    title: '<label set-lan="html:MIN_AGEING_PERCENTAGE">MIN_PERCENTAGE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDIT_EMP',
+                                    title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDIT_TIME',
+                                    title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }],
+                            locale: tableLocale//中文支持,
+                        });
+                        mesUI.SetLanguage("AgeingTypeSetting");
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

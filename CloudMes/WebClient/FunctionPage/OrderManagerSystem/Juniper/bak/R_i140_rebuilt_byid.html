@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">R_i140_rebuilt</title>
+    <link href="../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        table, td, th {
+            margin: 0;
+            padding: 0 1px 1px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 10px !important;
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #4a4266 !important;
+            color: #f0fcff;
+        }
+
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: 400px;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 350px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/  
+    </style>
+</head>
+<body class="full-height">
+    <!--<div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SKUSetting">R_i140_rebuilt</span></h3>
+    </div>-->
+
+    <div id="outputsite" style="padding: 25px!important;">
+        <div>
+            <div id="Table_Toolbar">
+                <div class="form-inline" role="group">
+                    <div class="input-group">
+                        <table>
+                            <tr>
+                               
+                                <td>
+                                    <button class="btn btn-success" id="DownloadExcel" onclick="DownloadExcel()">Export Excel</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <table id="So_List_Table" class="table table-condensed"></table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../../Scripts/global.js"></script>
+    <script src="../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../Scripts/MesClient.js"></script>
+    <script src="../../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        $(document).ready(function () { 
+            var TRANID = $.MES.getQueryString("TRANID");  
+            var PLANT = $.MES.getQueryString("PLANT");  
+            LoadSoList(TRANID, PLANT);
+        });
+
+        
+        function DownloadExcel() {
+            $("#So_List_Table").tableExport({
+                type: 'excel',
+                escape: 'false',
+                fileName: 'I140'
+            });
+        }
+        var ShowSoListTable = function (data) {
+            data = JSON.parse(JSON.stringify(data).replaceAll("'", "").replaceAll("null", "0"));
+            $('#So_List_Table').bootstrapTable('destroy');           
+
+            var columnsArray = [];
+            //columnsArray.push({ field: "state", checkbox: true });  
+            //columnsArray.push({ field: '', title: '序号', formatter: function (value, row, index) { return index + 1; } });  
+            columnsArray.push({ field: '', title: 'Serial number', formatter: function (value, row, index) { return index + 1; } });  
+              
+            for (var p in data[0]) {
+                var property = p;
+                columnsArray.push({
+                    "title": property,
+                    "field": property,
+                    switchable: true,
+                    align: "center",                   
+                    sortable: true
+                });
+            }
+
+            //for (var p in data[0] ) { 
+            //    var property = p; 
+            //    columnsArray.push({
+            //        "title": property,
+            //        "field": property,
+            //        switchable: true,
+            //        align: "center",
+            //        sortable: true
+            //    });
+            //}
+            $('#So_List_Table').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                pageSize: 10000,
+                pageList: [10, 100, 10000],
+                showRefresh: true,
+                toolbar: "#Table_Toolbar",
+                rowStyle: function (row, index) {
+                    var strclass = "";
+                    switch (row.F_PLANT) {
+                        case "BTS": strclass = 'danger'; break;
+                        default: strclass = 'success'; break;
+                    }
+                    return { classes: strclass }
+                },
+                columns: columnsArray
+            });
+            $('#outputsite').find("[name='refresh']").unbind("click");
+            $('#outputsite').find("[name='refresh']").bind("click", {}, function (event) {
+                LoadSoList();
+            });
+        }
+
+        var LoadSoList = function (TRANID, PLANT) {
+            var site = $("#select_site").val();
+            client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i140_rebuiltDataByTRANID", { TRANID: TRANID, PLANT: PLANT }, function (e) {
+
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1615 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.5.2": {
+      "CsvHelper/26.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4",
+          "System.ValueTuple": "4.4.0"
+        },
+        "compile": {
+          "lib/net45/CsvHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/CsvHelper.dll": {}
+        }
+      },
+      "log4net/2.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/log4net.dll": {}
+        }
+      },
+      "Microsoft.CSharp/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "RabbitMQ.Client/5.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        }
+      },
+      "sqlSugar/4.9.9.11": {
+        "type": "package",
+        "compile": {
+          "lib/SqlSugar.dll": {}
+        },
+        "runtime": {
+          "lib/SqlSugar.dll": {}
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net45/System.Buffers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Buffers.dll": {}
+        }
+      },
+      "System.Memory/4.5.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
+      },
+      "DcnSfcModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        }
+      },
+      "MESDataObject/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESDataObject.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDataObject.dll": {}
+        }
+      },
+      "MESDBHelper/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        }
+      },
+      "MESJuniper/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESJuniper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESJuniper.dll": {}
+        }
+      },
+      "MESMailCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESReport": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        }
+      },
+      "MESPubLab/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESPubLab.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESPubLab.dll": {}
+        }
+      },
+      "MESReport/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "MES_DCN": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESReport.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESReport.dll": {}
+        }
+      },
+      "MesReportCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        }
+      },
+      "MESStation/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "DcnSfcModel": "1.0.0",
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESReport": "1.0.0",
+          "MES_DCN": "1.0.0",
+          "MesReportCenter": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESStation.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESStation.dll": {}
+        }
+      },
+      "MESWebAPI/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        }
+      },
+      "MES_DCN/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MES_DCN.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MES_DCN.dll": {}
+        }
+      },
+      "WebSocket-Sharp/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win": {
+      "CsvHelper/26.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4",
+          "System.ValueTuple": "4.4.0"
+        },
+        "compile": {
+          "lib/net45/CsvHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/CsvHelper.dll": {}
+        }
+      },
+      "log4net/2.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/log4net.dll": {}
+        }
+      },
+      "Microsoft.CSharp/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "RabbitMQ.Client/5.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        }
+      },
+      "sqlSugar/4.9.9.11": {
+        "type": "package",
+        "compile": {
+          "lib/SqlSugar.dll": {}
+        },
+        "runtime": {
+          "lib/SqlSugar.dll": {}
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net45/System.Buffers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Buffers.dll": {}
+        }
+      },
+      "System.Memory/4.5.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
+      },
+      "DcnSfcModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        }
+      },
+      "MESDataObject/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESDataObject.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDataObject.dll": {}
+        }
+      },
+      "MESDBHelper/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        }
+      },
+      "MESJuniper/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESJuniper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESJuniper.dll": {}
+        }
+      },
+      "MESMailCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESReport": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        }
+      },
+      "MESPubLab/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESPubLab.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESPubLab.dll": {}
+        }
+      },
+      "MESReport/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "MES_DCN": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESReport.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESReport.dll": {}
+        }
+      },
+      "MesReportCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        }
+      },
+      "MESStation/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "DcnSfcModel": "1.0.0",
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESReport": "1.0.0",
+          "MES_DCN": "1.0.0",
+          "MesReportCenter": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESStation.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESStation.dll": {}
+        }
+      },
+      "MESWebAPI/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        }
+      },
+      "MES_DCN/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MES_DCN.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MES_DCN.dll": {}
+        }
+      },
+      "WebSocket-Sharp/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win-x64": {
+      "CsvHelper/26.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4",
+          "System.ValueTuple": "4.4.0"
+        },
+        "compile": {
+          "lib/net45/CsvHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/CsvHelper.dll": {}
+        }
+      },
+      "log4net/2.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/log4net.dll": {}
+        }
+      },
+      "Microsoft.CSharp/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "RabbitMQ.Client/5.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        }
+      },
+      "sqlSugar/4.9.9.11": {
+        "type": "package",
+        "compile": {
+          "lib/SqlSugar.dll": {}
+        },
+        "runtime": {
+          "lib/SqlSugar.dll": {}
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net45/System.Buffers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Buffers.dll": {}
+        }
+      },
+      "System.Memory/4.5.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
+      },
+      "DcnSfcModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        }
+      },
+      "MESDataObject/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESDataObject.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDataObject.dll": {}
+        }
+      },
+      "MESDBHelper/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        }
+      },
+      "MESJuniper/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESJuniper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESJuniper.dll": {}
+        }
+      },
+      "MESMailCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESReport": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        }
+      },
+      "MESPubLab/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESPubLab.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESPubLab.dll": {}
+        }
+      },
+      "MESReport/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "MES_DCN": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESReport.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESReport.dll": {}
+        }
+      },
+      "MesReportCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        }
+      },
+      "MESStation/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "DcnSfcModel": "1.0.0",
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESReport": "1.0.0",
+          "MES_DCN": "1.0.0",
+          "MesReportCenter": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESStation.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESStation.dll": {}
+        }
+      },
+      "MESWebAPI/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        }
+      },
+      "MES_DCN/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MES_DCN.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MES_DCN.dll": {}
+        }
+      },
+      "WebSocket-Sharp/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win-x86": {
+      "CsvHelper/26.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.4",
+          "System.ValueTuple": "4.4.0"
+        },
+        "compile": {
+          "lib/net45/CsvHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/CsvHelper.dll": {}
+        }
+      },
+      "log4net/2.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/log4net.dll": {}
+        }
+      },
+      "Microsoft.CSharp/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "RabbitMQ.Client/5.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28"
+        },
+        "compile": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        },
+        "runtime": {
+          "lib/net451/RabbitMQ.Client.dll": {}
+        }
+      },
+      "sqlSugar/4.9.9.11": {
+        "type": "package",
+        "compile": {
+          "lib/SqlSugar.dll": {}
+        },
+        "runtime": {
+          "lib/SqlSugar.dll": {}
+        }
+      },
+      "System.Buffers/4.5.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net45/System.Buffers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Buffers.dll": {}
+        }
+      },
+      "System.Memory/4.5.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/System.Memory.dll": {}
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+        }
+      },
+      "System.ValueTuple/4.4.0": {
+        "type": "package",
+        "compile": {
+          "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
+      },
+      "DcnSfcModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DcnSfcModel.dll": {}
+        }
+      },
+      "MESDataObject/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESDataObject.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDataObject.dll": {}
+        }
+      },
+      "MESDBHelper/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESDBHelper.dll": {}
+        }
+      },
+      "MESJuniper/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESJuniper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESJuniper.dll": {}
+        }
+      },
+      "MESMailCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESReport": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESMailCenter.dll": {}
+        }
+      },
+      "MESPubLab/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESPubLab.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESPubLab.dll": {}
+        }
+      },
+      "MESReport/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "MES_DCN": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESReport.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESReport.dll": {}
+        }
+      },
+      "MesReportCenter/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MesReportCenter.dll": {}
+        }
+      },
+      "MESStation/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "DcnSfcModel": "1.0.0",
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESJuniper": "1.0.0",
+          "MESReport": "1.0.0",
+          "MES_DCN": "1.0.0",
+          "MesReportCenter": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESStation.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESStation.dll": {}
+        }
+      },
+      "MESWebAPI/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0",
+          "WebSocket-Sharp": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MESWebAPI.dll": {}
+        }
+      },
+      "MES_DCN/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MESDBHelper": "1.0.0",
+          "MESDataObject": "1.0.0",
+          "MESPubLab": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MES_DCN.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MES_DCN.dll": {}
+        }
+      },
+      "WebSocket-Sharp/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WebSocket-Sharp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CsvHelper/26.0.1": {
+      "sha512": "8osOmXbxzY8S1w21t5ilmWPIlo0DrfYNUklJvLiBWcb33Sm6v5jATN0DmCsBS5KVLYdwX+vnx+FIGoGF+rJwkw==",
+      "type": "package",
+      "path": "csvhelper/26.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "csvhelper.26.0.1.nupkg.sha512",
+        "csvhelper.nuspec",
+        "lib/net45/CsvHelper.dll",
+        "lib/net45/CsvHelper.xml",
+        "lib/net47/CsvHelper.dll",
+        "lib/net47/CsvHelper.xml",
+        "lib/net5.0/CsvHelper.dll",
+        "lib/net5.0/CsvHelper.xml",
+        "lib/netstandard2.0/CsvHelper.dll",
+        "lib/netstandard2.0/CsvHelper.xml",
+        "lib/netstandard2.1/CsvHelper.dll",
+        "lib/netstandard2.1/CsvHelper.xml"
+      ]
+    },
+    "log4net/2.0.8": {
+      "sha512": "N41MQGHZImiCfn0cUuSBjZxrcNfIQCuCgQP0rpgB3J/NWponEh3lc1LxJEuIsPAR9Oc1jVvfkNNFCY1C5hf9LA==",
+      "type": "package",
+      "path": "log4net/2.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20-full/log4net.dll",
+        "lib/net20-full/log4net.xml",
+        "lib/net35-client/log4net.dll",
+        "lib/net35-client/log4net.xml",
+        "lib/net35-full/log4net.dll",
+        "lib/net35-full/log4net.xml",
+        "lib/net40-client/log4net.dll",
+        "lib/net40-client/log4net.xml",
+        "lib/net40-full/log4net.dll",
+        "lib/net40-full/log4net.xml",
+        "lib/net45-full/log4net.dll",
+        "lib/net45-full/log4net.xml",
+        "lib/netstandard1.3/log4net.dll",
+        "log4net.2.0.8.nupkg.sha512",
+        "log4net.nuspec"
+      ]
+    },
+    "Microsoft.CSharp/4.5.0": {
+      "sha512": "kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
+      "type": "package",
+      "path": "microsoft.csharp/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/netcore50/Microsoft.CSharp.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.3/Microsoft.CSharp.dll",
+        "lib/netstandard2.0/Microsoft.CSharp.dll",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/uap10.0.16299/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "microsoft.csharp.4.5.0.nupkg.sha512",
+        "microsoft.csharp.nuspec",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/Microsoft.CSharp.dll",
+        "ref/netcore50/Microsoft.CSharp.xml",
+        "ref/netcore50/de/Microsoft.CSharp.xml",
+        "ref/netcore50/es/Microsoft.CSharp.xml",
+        "ref/netcore50/fr/Microsoft.CSharp.xml",
+        "ref/netcore50/it/Microsoft.CSharp.xml",
+        "ref/netcore50/ja/Microsoft.CSharp.xml",
+        "ref/netcore50/ko/Microsoft.CSharp.xml",
+        "ref/netcore50/ru/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hans/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hant/Microsoft.CSharp.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.0/Microsoft.CSharp.dll",
+        "ref/netstandard1.0/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/de/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/es/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/fr/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/it/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ja/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ko/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ru/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hans/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hant/Microsoft.CSharp.xml",
+        "ref/netstandard2.0/Microsoft.CSharp.dll",
+        "ref/netstandard2.0/Microsoft.CSharp.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/uap10.0.16299/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
+      "sha512": "pn07chRDMdeug9sHbuNlAEZG8ZN3zKgE07IMJG7qPeoQlX6ve01rKTwknKCY/2CVacRP78ONzykV8am84gxc2g==",
+      "type": "package",
+      "path": "microsoft.diagnostics.tracing.eventsource.redist/1.1.28",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License-Stable.rtf",
+        "lib/net35/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/net35/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/net40/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/net46/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/net46/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "lib/portable-win8+wpa81/Microsoft.Diagnostics.Tracing.EventSource.XML",
+        "lib/portable-win8+wpa81/Microsoft.Diagnostics.Tracing.EventSource.dll",
+        "microsoft.diagnostics.tracing.eventsource.redist.1.1.28.nupkg.sha512",
+        "microsoft.diagnostics.tracing.eventsource.redist.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "RabbitMQ.Client/5.1.2": {
+      "sha512": "Xhj+un0pw4N7h37SZWptxl/NEv7f1RLHwZhXjqzkCm3w3IdbFJh+HjVyPaciD848BUYLGoEQzadx90nShsbs4Q==",
+      "type": "package",
+      "path": "rabbitmq.client/5.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net451/RabbitMQ.Client.dll",
+        "lib/net451/RabbitMQ.Client.xml",
+        "lib/netstandard1.5/RabbitMQ.Client.dll",
+        "lib/netstandard1.5/RabbitMQ.Client.xml",
+        "lib/netstandard2.0/RabbitMQ.Client.dll",
+        "lib/netstandard2.0/RabbitMQ.Client.xml",
+        "rabbitmq.client.5.1.2.nupkg.sha512",
+        "rabbitmq.client.nuspec"
+      ]
+    },
+    "sqlSugar/4.9.9.11": {
+      "sha512": "73Xiy27oM3kbSw+1Tc+tvL/RqwmboJQmtPLLgoAvTSknMgt1AkcUxSTnInAIgnWMFLQHh8acPLJS9j9B9QDVVw==",
+      "type": "package",
+      "path": "sqlsugar/4.9.9.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/SqlSugar.dll",
+        "sqlsugar.4.9.9.11.nupkg.sha512",
+        "sqlsugar.nuspec"
+      ]
+    },
+    "System.Buffers/4.5.1": {
+      "sha512": "Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
+      "type": "package",
+      "path": "system.buffers/4.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Buffers.dll",
+        "lib/net461/System.Buffers.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.1/System.Buffers.dll",
+        "lib/netstandard1.1/System.Buffers.xml",
+        "lib/netstandard2.0/System.Buffers.dll",
+        "lib/netstandard2.0/System.Buffers.xml",
+        "lib/uap10.0.16299/_._",
+        "ref/net45/System.Buffers.dll",
+        "ref/net45/System.Buffers.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.1/System.Buffers.dll",
+        "ref/netstandard1.1/System.Buffers.xml",
+        "ref/netstandard2.0/System.Buffers.dll",
+        "ref/netstandard2.0/System.Buffers.xml",
+        "ref/uap10.0.16299/_._",
+        "system.buffers.4.5.1.nupkg.sha512",
+        "system.buffers.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Memory/4.5.4": {
+      "sha512": "1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "type": "package",
+      "path": "system.memory/4.5.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Memory.dll",
+        "lib/net461/System.Memory.xml",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.1/System.Memory.dll",
+        "lib/netstandard1.1/System.Memory.xml",
+        "lib/netstandard2.0/System.Memory.dll",
+        "lib/netstandard2.0/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
+        "system.memory.4.5.4.nupkg.sha512",
+        "system.memory.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.5.3": {
+      "sha512": "3TIsJhD1EiiT0w2CcDMN/iSSwnNnsrnbzeVHSKkaEgV85txMprmuO+Yq2AdSbeVGcg28pdNDTPK87tJhX7VFHw==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/4.5.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.4.5.3.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.ValueTuple/4.4.0": {
+      "sha512": "BahUww/+mdP4ARCAh2RQhQTg13wYLVrBb9SYVgW8ZlrwjraGCXHGjo0oIiUfZ34LUZkMMR+RAzR7dEY4S1HeQQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net461/System.ValueTuple.xml",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.4.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "DcnSfcModel/1.0.0": {
+      "type": "project",
+      "path": "../DcnSfcModel/DcnSfcModel.csproj",
+      "msbuildProject": "../DcnSfcModel/DcnSfcModel.csproj"
+    },
+    "MESDataObject/1.0.0": {
+      "type": "project",
+      "path": "../MESDataObject/MESDataObject.csproj",
+      "msbuildProject": "../MESDataObject/MESDataObject.csproj"
+    },
+    "MESDBHelper/1.0.0": {
+      "type": "project",
+      "path": "../MESDBHelper/MESDBHelper.csproj",
+      "msbuildProject": "../MESDBHelper/MESDBHelper.csproj"
+    },
+    "MESJuniper/1.0.0": {
+      "type": "project",
+      "path": "../MESJuniper/MESJuniper.csproj",
+      "msbuildProject": "../MESJuniper/MESJuniper.csproj"
+    },
+    "MESMailCenter/1.0.0": {
+      "type": "project",
+      "path": "../MESMailCenter/MESMailCenter.csproj",
+      "msbuildProject": "../MESMailCenter/MESMailCenter.csproj"
+    },
+    "MESPubLab/1.0.0": {
+      "type": "project",
+      "path": "../MESPubLab/MESPubLab.csproj",
+      "msbuildProject": "../MESPubLab/MESPubLab.csproj"
+    },
+    "MESReport/1.0.0": {
+      "type": "project",
+      "path": "../MESReport/MESReport.csproj",
+      "msbuildProject": "../MESReport/MESReport.csproj"
+    },
+    "MesReportCenter/1.0.0": {
+      "type": "project",
+      "path": "../MesReportCenter/MesReportCenter.csproj",
+      "msbuildProject": "../MesReportCenter/MesReportCenter.csproj"
+    },
+    "MESStation/1.0.0": {
+      "type": "project",
+      "path": "../MESStation/MESStation.csproj",
+      "msbuildProject": "../MESStation/MESStation.csproj"
+    },
+    "MESWebAPI/1.0.0": {
+      "type": "project",
+      "path": "../MESWebAPI/MESWebAPI.csproj",
+      "msbuildProject": "../MESWebAPI/MESWebAPI.csproj"
+    },
+    "MES_DCN/1.0.0": {
+      "type": "project",
+      "path": "../MES_DCN/MES_DCN.csproj",
+      "msbuildProject": "../MES_DCN/MES_DCN.csproj"
+    },
+    "WebSocket-Sharp/1.0.0": {
+      "type": "project",
+      "path": "../websocket-sharp/WebSocket-Sharp.csproj",
+      "msbuildProject": "../websocket-sharp/WebSocket-Sharp.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.5.2": [
+      "CsvHelper >= 26.0.1",
+      "DcnSfcModel >= 1.0.0",
+      "MESDBHelper >= 1.0.0",
+      "MESDataObject >= 1.0.0",
+      "MESJuniper >= 1.0.0",
+      "MESMailCenter >= 1.0.0",
+      "MESPubLab >= 1.0.0",
+      "MESReport >= 1.0.0",
+      "MESStation >= 1.0.0",
+      "MESWebAPI >= 1.0.0",
+      "MES_DCN >= 1.0.0",
+      "Newtonsoft.Json >= 12.0.3",
+      "RabbitMQ.Client >= 5.1.2",
+      "log4net >= 2.0.8",
+      "sqlSugar >= 4.9.9.11"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj",
+      "projectName": "MESInterface",
+      "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj",
+      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net452"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net452": {
+          "projectReferences": {
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj"
+            },
+            "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj"
+            }
+          }
+        }
+      }
+    },
+    "frameworks": {
+      "net452": {
+        "dependencies": {
+          "CsvHelper": {
+            "target": "Package",
+            "version": "[26.0.1, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[12.0.3, )"
+          },
+          "RabbitMQ.Client": {
+            "target": "Package",
+            "version": "[5.1.2, )"
+          },
+          "log4net": {
+            "target": "Package",
+            "version": "[2.0.8, )"
+          },
+          "sqlSugar": {
+            "target": "Package",
+            "version": "[4.9.9.11, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}

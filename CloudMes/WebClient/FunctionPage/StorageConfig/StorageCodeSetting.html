@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">StorageCode View</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        #ConfigView, #AlertMessage {
+            display: none;
+        }
+
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #toolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"><lan set-lan="html:StorageCodeView" style="padding-left:10px;" id="TitleName">StorageCode</lan></i></h3>
+        </div>
+        <div class="ibox-content">
+            <div id="StorageCodeView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="col-xs-5   col-sm-6  col-md-5  col-lg-4 col-xs-offset-2">
+                                <input type="text" set-lan="attr:placeholder=PlaceholderSearchContent" class="form-control" id="SearchText">
+                            </div>
+                            <div class="col-xs-3   col-sm-2 col-md-2  col-lg-1"><button class="btn btn-primary" id="Search"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar">
+                            <div class="btn-group div-table-tool" id="toolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-default" id="AddClick">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="Delclick">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                </button>
+                            </div>
+                        </div>
+                        <table class="table table-hover" id="StorageCodeTable"></table>
+                    </div>
+                </div>
+            </div>
+            <div id="ConfigView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;margin-top: -10px;">
+                        <button type="button" class="btn btn-primary" id="GoBack"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">Return</lan></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <form role="form" class="form-horizontal m-t">
+                        <div class="col-sm-12">
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:plant">PLANT：</label>
+                                <div class="col-sm-5 ">
+                                    <select class="form-control m-b" name="account" id="SelectPlant"></select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label" id=""></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable" id="ErrorMessage">
+                                <label class="col-sm-3 control-label" set-lan="html:StorageCode">STORAGE_CODE：</label>
+                                <div class="col-sm-5 ">
+                                    <input type="text" class="form-control" id="STORAGE_CODE" set-lan="attr:placeholder=PlaceholderStorageCode"  />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label" id="MessageText"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:StorageCodeDescription">DESCRIPTION：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="DESCRIPTION" set-lan="attr:placeholder=PlaceholderDescription" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed col-sm-12"></div>
+                        <div class="form-group draggable">
+                            <div class="col-sm-12 col-sm-offset-5 col-xs-offset-5">
+                                <button type="button" class="btn btn-primary" id="AddSave"><i class="fa fa-pencil" set-lan="html:save">Save</i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var check = "";
+        $(document).ready(function () { 
+            var LoginName = self.parent.client.UserInfo.EMP_NO;
+            var LoginLevel = self.parent.client.UserInfo.EMP_LEVEL;
+            var mesUI = new MesClientUI(self.parent.client);
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+            //初始加載
+            function LoadData() {
+                var ClassName = "MESStation.Config.StorageCodeConfig";
+                var FunctionName = "GetAllStorage";
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowTable(e.Data, "#StorageCodeTable");
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                    else {
+                        MessageAlert("ERROR", "No corresponding data was found!");
+                        return;
+                    }
+                });
+                mesUI.SetLanguage("StorageCodeSetting");
+            }
+            $("#GoBack").click(function () {
+                $("#StorageCodeView").show();
+                $("#ConfigView").hide();
+                //$("#TitleName").html("StorageCode");
+                $("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:StorageCodeView');
+                $("#STORAGE_CODE").val("");
+                $("#DESCRIPTION").val("");
+                ClearAll();
+                mesUI.SetLanguage("StorageCodeSetting");
+            });
+            function ClearAll() {
+                var ClassName = "MESStation.Config.StorageCodeConfig";
+                var FunctionName = "GetAllStorage";
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#StorageCodeTable').bootstrapTable("load", e.Data);
+                    }
+                    else {
+                        MessageAlert("ERROR", "No corresponding data was found!");
+                        return;
+                    }
+                });
+            }
+            //搜索框事件
+            $("#Search").click(function () {
+                var ActionData = $('#StorageCodeTable').bootstrapTable("getData");
+                var SearchValue = $.trim($("#SearchText").val());
+                var SearchData = [];
+                var Count = 0;
+                if (SearchValue.length < 1) {
+                    MessageAlert("ERROR", " Please enter valid data!");
+                    return;
+                }
+                if (ActionData.length > 0) {
+                    for (var i = 0; i < ActionData.length; i++) {
+                        if (ActionData[i].STORAGE_CODE == SearchValue.toUpperCase()) {
+                            SearchData[Count] = ActionData[i];
+                            Count++;
+                        }
+                        if (ActionData[i].DESCRIPTION == SearchValue) {
+                            SearchData[Count] = ActionData[i];
+                            Count++;
+                        }
+
+                    }
+                    if (SearchData.length > 0) {
+                        $('#StorageCodeTable').bootstrapTable("load", SearchData);
+                        MessageText
+                    }
+                }
+            });
+            //清空搜索框返回列表
+            //$("#SearchText").change(function () {
+            //    $('#StorageCodeTable').bootstrapTable("load", JsonData);
+            //});
+            //增加按钮事件
+            $("#AddClick").click(function () {
+                var PrivilegeFlag = false;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    AddActionCode();
+                }
+                else {
+                    MessageAlert("ERROR", "No permission to add operation!!");
+                    return;
+                }
+            });
+            function AddActionCode() {
+                var ClassName = "MESStation.Config.FactoryConfig";
+                var FunctionName = "GetAllFactory";
+                self.parent.client.CallFunction(ClassName, FunctionName, { FACTORY_CODE: "" }, function (e) {
+                    if (e.Status == "Pass") {
+                        var OptionData = "";
+                        $("#SelectPlant").empty();
+                        for (var i = 0; i < e.Data.length; i++) {
+                            OptionData = $("<option>" + e.Data[i].FACTORY_CODE + "</option>")
+                            $("#SelectPlant").append(OptionData);
+                        }
+                        $("#StorageCodeView").hide();
+                        $("#ConfigView").show();
+                        //$("#TitleName").html("AddStorageCode");
+                        $("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:h_AddStorageCode');
+                        $("#STORAGE_CODE").removeAttr("readonly");
+                        $("#ErrorMessage").attr("class", "form-group draggable");
+                        $("#MessageText").html("");
+                        mesUI.SetLanguage("StorageCodeSetting");
+                        return;
+                    }
+                    else {
+                        MessageAlert("ERROR", "A system error occurred at the fetching factory!");
+                        return;
+                    }
+                });
+            }
+            //刪除用戶權限
+            $("#Delclick").click(function () {
+                var PrivilegeFlag = false;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    DeleteActionCode();
+                }
+                else {
+                    MessageAlert("ERROR", "No permission to add operation!!");
+                    return;
+                }
+            });
+            function DeleteActionCode() {
+                var Selections = $("#StorageCodeTable").bootstrapTable('getSelections');
+                var DeleteID = [];
+                if (Selections.length < 1) {
+                    MessageAlert("ERROR", "Select at least one row to delete!");
+                    return;
+                }
+                else {
+                    for (var i = 0; i < Selections.length; i++) {
+                        DeleteID[i] = Selections[i].ID;
+                    }
+                    swal({
+                        title: "Are you sure you want to delete this" + DeleteID.length + " information?",
+                        text: "The deletion cannot be restored. Exercise caution when performing this operation.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Delete",
+                        closeOnConfirm: false
+                    }, function () {
+                        //-------------------------------------------------------
+                        var ClassName = "MESStation.Config.StorageCodeConfig";
+                        var FunctionName = "DeleteByIdArray";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { IdArray: DeleteID }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "The data you operated has been deleted successfully!");
+                                ClearAll();
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "Delete failed please try again later!!");
+                                return;
+                            }
+                        });
+
+                    });
+                }
+            }
+            $("#STORAGE_CODE").change(function () {
+                var StorageFlag = true;
+                var StorageCode = $.trim($("#STORAGE_CODE").val().toUpperCase());
+                var StorageData = $("#StorageCodeTable").bootstrapTable('getData');
+                for (var i = 0; i < StorageData.length; i++) {
+                    if (StorageCode == StorageData[i].STORAGE_CODE) {
+                        StorageFlag = false;
+                        $("#MessageText").html("* The input of" + StorageCode + "Store code exists in the system!");
+                        $("#ErrorMessage").attr("class", "form-group draggable has-error");
+                        $("#STORAGE_CODE").val("");
+                    }
+                }
+                if (StorageFlag) {
+                    $("#MessageText").html("");
+                    $("#ErrorMessage").attr("class", "form-group draggable");
+                }
+            });
+            //Add点击SAVE触发事件
+            $("#AddSave").click(function () {
+                if ($.trim($("#STORAGE_CODE").val().toUpperCase()).length <2) {
+                    MessageAlert("ERROR", "Please re-enter! StorageCode contains at least 2 characters!");
+                    return;
+                }
+                if ($.trim($("#DESCRIPTION").val()).length < 1) {
+                    MessageAlert("ERROR", "Please enter Description!");
+                    return;
+                }
+                var SaveType = $("#TitleName").html();
+                var Splant = $.trim($("#SelectPlant").val().toUpperCase());
+                var Scode = $.trim($("#STORAGE_CODE").val().toUpperCase());
+                var Sdescription = $.trim($("#DESCRIPTION").val());
+                swal({
+                    title: "Are you sure you want to add the message " + Scode,
+                    text: "Data is priceless, please operate with caution!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#f8bb86",
+                    confirmButtonText: "Insert",
+                    closeOnConfirm: false
+                }, function () {
+                    var ClassName = "MESStation.Config.StorageCodeConfig";
+                    var FunctionName = "AddNewStorage";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { Plant: Splant, StorageCode: Scode, Descriptions: Sdescription }, function (e) {
+                        if (e.Status == "Pass") {
+                            MessageAlert("OK", "The data you operated has been updated successfully!");
+                            $("#STORAGE_CODE").val("");
+                            $("#DESCRIPTION").val("");
+                            return;
+                        }
+                        else {
+                            MessageAlert("ERROR", "No corresponding data found!");
+                            return;
+                        }
+                    });
+                });
+            });
+            //創建表格
+            function ShowTable(Data, TableName) {
+                var fie = [];
+                var checkbox = "";
+                fie.push({ title: 'checkall', field: 'checkall', checkbox: true, align: 'center' });
+                for (var item in Data[0]) {
+                    fie.push({ field: item, title: item });
+                }
+                $(TableName).bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 5,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    toolbar: "#toolbar",       //指定工具栏
+                    toolbarAlign: "left",              //工具栏对齐方式
+                    buttonsAlign: "left",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'StorageCodeExcel',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    columns: fie,
+                    locale: localelan//中文支持,
+                });
+                $(TableName).bootstrapTable('hideColumn', 'ID');
+                $(TableName).bootstrapTable('hideColumn', 'EDIT_TIME');
+                $(TableName).bootstrapTable('hideColumn', 'EDIT_EMP');
+            }
+            //MessageAlert
+            function MessageAlert(MsgType, MsgTitle) {
+                if (MsgType == "ERROR") {
+                    swal({
+                        title: MsgTitle,
+                        text: "Tips: Data is priceless, please operate with caution!",
+                        type: "warning",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+                if (MsgType == "OK") {
+                    swal({
+                        title: MsgTitle,
+                        text: "Tips: Data is priceless, please operate with caution!",
+                        type: "success",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+            }
+            // ---------------------------------------END---------------------------------------//
+            LoadData();
+        });
+    </script>
+</body>
+</html>

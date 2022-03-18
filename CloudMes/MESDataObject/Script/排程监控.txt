@@ -1,0 +1,148 @@
+-- Create table
+create table SFCBASE.C_PROCCESS_ALERT
+(
+  id            VARCHAR2(50) not null,
+  proccess_name VARCHAR2(50),
+  lv1_sms       VARCHAR2(500),
+  lv1_mail      VARCHAR2(500),
+  lv2_sms       VARCHAR2(500),
+  lv2_mail      VARCHAR2(500),
+  lv3_sms       VARCHAR2(500),
+  lv3_mail      VARCHAR2(500),
+  monitor_name  VARCHAR2(50),
+  edit_date     DATE,
+  edit_emp      VARCHAR2(50)
+)
+tablespace MESBASE
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCBASE.C_PROCCESS_ALERT
+  add constraint PK_C_PROCCESS_ALERT primary key (ID)
+  using index 
+  tablespace RIMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCBASE.C_PROCCESS_ALERT to TEST;
+
+create public synonym C_PROCCESS_ALERT for SFCBASE.C_PROCCESS_ALERT;
+
+
+-- Create table
+create table SFCRUNTIME.R_PROCCESS_EVENT
+(
+  id            VARCHAR2(50) not null,
+  proccess_name VARCHAR2(50),
+  event_type    VARCHAR2(20),
+  message       VARCHAR2(500),
+  event_lv      NUMBER,
+  runtime_id    VARCHAR2(20),
+  ip            VARCHAR2(20),
+  state         VARCHAR2(10),
+  edit_emp      VARCHAR2(20),
+  edit_date     DATE
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate indexes 
+create index I1_R_PROCCESS_EVENT on SFCRUNTIME.R_PROCCESS_EVENT (PROCCESS_NAME)
+  tablespace SYSTEM
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCRUNTIME.R_PROCCESS_EVENT
+  add constraint PK_R_PROCCESS_EVENT primary key (ID)
+  using index 
+  tablespace RMES
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCRUNTIME.R_PROCCESS_EVENT to TEST;
+
+create public synonym R_PROCCESS_EVENT for SFCRUNTIME.R_PROCCESS_EVENT;
+
+-- Create table
+create table SFCBASE.C_PROCCESS_CHECK
+(
+  id            VARCHAR2(50) not null,
+  proccess_name VARCHAR2(50),
+  check_type    VARCHAR2(50),
+  config        VARCHAR2(2000),
+  alert_state   VARCHAR2(10),
+  run_time_data VARCHAR2(2000),
+  edit_date     DATE,
+  edit_emp      VARCHAR2(20)
+)
+tablespace RMES
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table SFCBASE.C_PROCCESS_CHECK
+  add constraint PK_C_PROCCESS_CHECK primary key (ID)
+  using index 
+  tablespace MESBASE
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Grant/Revoke object privileges 
+grant select, insert, update, delete on SFCBASE.C_PROCCESS_CHECK to TEST;
+
+create public synonym C_PROCCESS_CHECK for SFCBASE.C_PROCCESS_CHECK;
+

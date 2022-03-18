@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Combine PO</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="margin:10px">
+        <div class="bootstrap-table">           
+            <table class="table table-bordered table-hover" id="tableMainPO">
+            </table>
+        </div>
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableOtherPOToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolCombine">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:">Combine</lan>
+                    </button>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover" id="tableOtherPO">
+            </table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.parent.client;
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+
+        var GetWaitCombinePO = function (id) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetWaitCombinePO",
+                {
+                    ID: id,
+                    GetOther:"YES"
+                }, function (e) {
+                    if (e.Status == "Pass") {
+                        let columns = [];
+                        columns.push({ checkbox: true, align: 'center', valign: 'middle' });
+                        for (var item in e.Data[0]) {
+                            if (item == "ID") {
+                                columns.push({
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: false
+                                });
+                            }
+                            else {
+                                columns.push({
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: true,
+                                });
+                            }
+                        }
+                        LoadingData("#tableOtherPO", e.Data, columns, "#tableOtherPOToolbar");
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+        }
+        var GetMainCombinePO = function (id) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetWaitCombinePO",
+                {
+                    ID: id,
+                    GetOther: "NO"
+                }, function (e) {
+                    if (e.Status == "Pass") {
+                        let columns = [];
+                        for (var item in e.Data[0]) {
+                            if (item == "ID") {
+                                columns.push({
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: false
+                                });
+                            }
+                            else {
+                                columns.push({
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: true,
+                                });
+                            }         
+                        }
+                        LoadingData("#tableMainPO", e.Data, columns);
+                        GetWaitCombinePO(id);
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+        }
+        var LoadingData = function (tableID, data, columns, toolbarId) {
+            $(tableID).bootstrapTable("destroy");
+            $(tableID).bootstrapTable({
+                data: data,
+                striped: true,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）               
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 10, 20, 30, 50, 100],        //可供选择的每页的行数（*）     
+                //search: true,
+                //searchTimeOut: 500,                //设置搜索超时时间          
+                //searchAlign: "left",              //查询框对齐方式
+                toolbar: toolbarId,    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                //showExport: true,                  //是否显示导出按钮
+                //exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                //exportTypes: ['excel', 'csv'],     //导出文件类型
+                //Icons: 'glyphicon-export',
+                //locale: localelan,
+                //exportOptions: {
+                //    ignoreColumn: [0],             //忽略某一列的索引
+                //    fileName: 'POList',     //文件名称设置
+                //    worksheetName: 'sheet1',       //表格工作区名称
+                //},
+                columns: columns
+            });
+        }
+
+        $(document).ready(function () {
+            let poId = $.MES.getQueryString("POID");
+            GetMainCombinePO(poId);
+            $("#btnToolCombine").click(function () {
+                let mainRow = $("#tableMainPO").bootstrapTable('getData');
+                let otherRow = $("#tableOtherPO").bootstrapTable('getSelections');
+                if (otherRow.length == 0) {
+                    layer.msg("Please select one or more rows", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'Warning',
+                        btn: ['OK']
+                    }, function () { });                   
+                    return;
+                }                
+                client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CombinePO",
+                    {
+                        MainId: mainRow[0]["ID"],
+                        OtherId: otherRow
+                    }, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Tip',
+                                btn: ['OK']
+                            }, function () { });
+                            GetMainCombinePO(mainId);
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

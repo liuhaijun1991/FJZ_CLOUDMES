@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Repair YieldRate Report</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+
+        .chartsSize {
+            border: 1px solid black;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">RepairEmp:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtEmp" class="form-control" placeholder="RepairEmp" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">DateFrom:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtFrom" class="form-control datepicker" data-date-format="yyyy-mm-dd hh:ii" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">DateTo:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtTo" class="form-control datepicker" data-date-format="yyyy-mm-dd hh:ii" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit" id="btnSearch">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divReport" class="container-fluid no-padding">
+        <table id="reportTable"></table>
+    </div>
+
+    <div id="divSub" class="panel-body hidden" style="font-size: 1em;">
+        <table id="subTable" class="table table-condensed"></table>
+    </div>
+    <div id="divDetail" class="panel-body hidden" style="font-size: 1em;">
+        <table id="detailTable" class="table table-condensed"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $("#txtFrom").datetimepicker({ minView: 0, autoclose: "true" });    //minView:0 可選取分鐘,1 可選取小時,2 可選取日期
+            $("#txtFrom").datetimepicker("setDate", new Date());
+            $("#txtTo").datetimepicker({ minView: 0, autoclose: "true" });    //minView:0 可選取分鐘,1 可選取小時,2 可選取日期
+            $("#txtTo").datetimepicker("setDate", new Date());
+            $("#btnSearch").click(function () {
+                SearchData();
+                $(".SearchBox").toggle();
+            });
+        });
+
+        var tempEmp = null; //全局變量,存取RepairEmp,按工號取時間範圍內詳細數據時用到
+        var SearchData = function () {
+            $("#reportTable").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESReport.DCN.RepairYieldRateReport", "GetReport", {
+                RepairEmp: $("#txtEmp").val(), DateFrom: $("#txtFrom").val(), DateTo: $("#txtTo").val()
+            }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, { icon: 1, time: 500 }, function () {
+                        InitTable(e.Data);
+                    });
+                } else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        }
+        var InitTable = function (obj) {
+            $("#reportTable").bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    //ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                columns: [
+                    {
+                        field: 'RepairEmp',
+                        title: '<label set-lan="html:RepairEmp">RepairEmp</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'RepairQty',
+                        title: '<label set-lan="html:RepairQty">RepairQty</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'FirstRate',
+                        title: '<label set-lan="html:FirstRate">FirstRate</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'SecondRate',
+                        title: '<label set-lan="html:SecondRate">SecondRate</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'ThirdRate',
+                        title: '<label set-lan="html:ThirdRate">ThirdRate</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }
+                ],
+                onDblClickRow: function (row) {
+                    layer.open({
+                        type: 1,
+                        title: "SubReport",
+                        area: ["35%", "95%"],
+                        offset: ["0px", "0px"],
+                        skin: 'mes-layer-title',
+                        scrollbar: false,
+                        content: $("#divSub"),
+                        success: function (layero, index) {
+                            $("#divSub").removeClass("hidden");
+                            InitSubTable(row);
+                        },
+                        end: function () {
+                            $("#divSub").addClass("hidden");
+                        }
+                    });
+                }
+            });
+        }
+        var InitSubTable = function (row) {
+            var total = row.RepairQty;
+            var firstRate = row.FirstRate;
+            var secondRate = row.SecondRate;
+            var thirdRate = row.ThirdRate;
+            tempEmp = row.RepairEmp;
+            self.parent.client.CallFunction("MESReport.DCN.RepairYieldRateReport", "GetSubReport", {
+                RepairEmp: row.RepairEmp, DateFrom: $("#txtFrom").val(), DateTo: $("#txtTo").val()
+            }, function (e) {
+                $("#subTable").bootstrapTable('destroy');
+                if (e.Data.length > 0) {
+                    var pushArray = { Day: "Sum", Total: total, FirstRate: firstRate, SecondRate: secondRate, ThirdRate: thirdRate };
+                    e.Data.push(pushArray);
+                    $("#subTable").bootstrapTable({
+                        data: e.Data,
+                        striped: true, //是否显示行间隔色
+                        cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true, //是否显示分页（*）
+                        sortable: false, //是否启用排序
+                        sortOrder: "asc", //排序方式
+                        sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1, //初始化加载第一页，默认第一页
+                        pageSize: 10, //每页的记录行数（*）
+                        showColumns: false, //是否显示所有的列
+                        showRefresh: false, //是否显示刷新按钮
+                        minimumCountColumns: 2, //最少允许的列数
+                        clickToSelect: true, //是否启用点击选中行
+                        showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                        cardView: false, //是否显示详细视图
+                        detailView: false, //是否显示父子表
+                        dataType: "json", //期待返回数据类型
+                        method: "post", //请求方式
+                        searchAlign: "right", //查询框对齐方式
+                        search: true,
+                        columns: [
+                            {
+                                field: 'Day', title: 'Day', sortable: true
+                            }, {
+                                field: 'Total', title: 'Total', sortable: true,
+                                events: operateEvents, //给按钮注册事件
+                                formatter: aFormatter
+                            }, {
+                                field: 'FirstRate', title: 'FirstRate', sortable: true,
+                                cellStyle: function (value, row, index) {
+                                    var bgc = "";
+                                    if (value.indexOf("100%") > -1) bgc = "#8bdb88";
+                                    return { "css": { "background-color": bgc } };
+                                }
+                            }, {
+                                field: 'SecondRate', title: 'SecondRate', sortable: true,
+                                cellStyle: function (value, row, index) {
+                                    var bgc = "";
+                                    if (value.indexOf("100%") > -1) bgc = "#8bdb88";
+                                    return { "css": { "background-color": bgc } };
+                                }
+                            }, {
+                                field: 'ThirdRate', title: 'ThirdRate', sortable: true,
+                                cellStyle: function (value, row, index) {
+                                    var bgc = "";
+                                    if (value.indexOf("100%") > -1) bgc = "#8bdb88";
+                                    return { "css": { "background-color": bgc } };
+                                }
+                            }
+                        ]
+                    });
+                    
+                }
+            });
+            window.operateEvents = {
+                'click #bind': function (e, value, row, index) {
+                    layer.open({
+                        type: 1,
+                        title: "DetailReport",
+                        Shade: 0.5,
+                        area: ["65%", "95%"],
+                        offset: ['0px', '670px'],
+                        skin: 'mes-layer-title',
+                        scrollbar: false,
+                        content: $("#divDetail"),
+                        success: function (layero, index) {
+                            $("#divDetail").removeClass("hidden");
+                            InitDetailTable(row);
+                        },
+                        end: function () {
+                            $("#divDetail").addClass("hidden");
+                        }
+                    });
+                }
+            };
+            function aFormatter(value, row, index) {
+                if (value == 0)
+                    return value;
+                else
+                    return [
+                        '<button id="bind" type="button" class="btn btn-link"><span class=\"layui-badge layui-bg-dot\">' + value + '</span></button>'
+                    ].join("");
+            };
+        }
+        var InitDetailTable = function (row) {
+            var dayFrom = $("#txtFrom").val().substr(0, $("#txtFrom").val().indexOf(' '));
+            var dayTo = $("#txtTo").val().substr(0, $("#txtTo").val().indexOf(' '));
+            //如果當前行的日期=起始日期,則時間範圍為選擇的起始時間至晚上23:59分
+            //如果當前行的日期=結束日期,則時間範圍為當前行日期的00:00分至選擇的結束時間
+            //如果當前行的日期=Sum字符串,則時間範圍為選擇的起始時間至選擇的結束時間
+            //其他時候則取當前行日期一整天
+            if (row.Day == dayFrom) {
+                dayFrom = $("#txtFrom").val();
+                dayTo = row.Day + "23:59";
+            }
+            else if (row.Day == dayTo) {
+                dayFrom = row.Day + "00:00";
+                dayTo = $("#txtTo").val();
+            }
+            else if (row.Day == "Sum") {
+                dayFrom = $("#txtFrom").val();
+                dayTo = $("#txtTo").val();
+            }
+            else {
+                dayFrom = row.Day + "00:00";
+                dayTo = row.Day + "23:59";
+            }
+            self.parent.client.CallFunction("MESReport.DCN.RepairYieldRateReport", "GetDetailReport", {
+                RepairEmp: tempEmp, DateFrom: dayFrom, DateTo: dayTo
+            }, function (e) {
+                $("#detailTable").bootstrapTable('destroy');
+                if (e.Data.length > 0) {
+                    $("#detailTable").bootstrapTable({
+                        data: e.Data,
+                        striped: true, //是否显示行间隔色
+                        cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true, //是否显示分页（*）
+                        sortable: false, //是否启用排序
+                        sortOrder: "asc", //排序方式
+                        sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1, //初始化加载第一页，默认第一页
+                        pageSize: 10, //每页的记录行数（*）
+                        showColumns: false, //是否显示所有的列
+                        showRefresh: false, //是否显示刷新按钮
+                        minimumCountColumns: 2, //最少允许的列数
+                        clickToSelect: true, //是否启用点击选中行
+                        showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                        cardView: false, //是否显示详细视图
+                        detailView: false, //是否显示父子表
+                        dataType: "json", //期待返回数据类型
+                        method: "post", //请求方式
+                        searchAlign: "right", //查询框对齐方式
+                        search: true,
+                        columns: [{
+                            field: 'SKUNO', title: 'SKUNO', sortable: true
+                        }, {
+                            field: 'STATION', title: 'STATION', sortable: true
+                        }, {
+                            field: 'SN', title: 'SN', sortable: true
+                        }, {
+                            field: 'FAIL_CODE', title: 'FAIL_CODE', sortable: true
+                        }, {
+                            field: 'FAIL_DESC', title: 'FAIL_DESC', sortable: true
+                        }, {
+                            field: 'LOCATION', title: 'LOCATION', sortable: true
+                        }, {
+                            field: 'FAIL_TIME', title: 'FAIL_TIME', sortable: true
+                        }, {
+                            field: 'ACTION_DESC', title: 'ACTION_DESC', sortable: true
+                        }, {
+                            field: 'STATUS', title: 'STATUS', sortable: true
+                        }, {
+                            field: 'REPAIR_EMP', title: 'REPAIR_EMP', sortable: true
+                        }, {
+                            field: 'REPAIR_TIME', title: 'REPAIR_TIME', sortable: true
+                        }
+                        ]
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

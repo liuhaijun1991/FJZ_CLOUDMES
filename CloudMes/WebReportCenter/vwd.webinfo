@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<!-- 
+  Visual Studio global web project settings.
+-->
+<VisualWebDeveloper>
+
+  <Globals>
+    
+  
+    
+  
+    <UserProperties DemoJson_1json__JSONSchema="http://json.schemastore.org/bootstraprc"/>
+  </Globals>
+</VisualWebDeveloper>

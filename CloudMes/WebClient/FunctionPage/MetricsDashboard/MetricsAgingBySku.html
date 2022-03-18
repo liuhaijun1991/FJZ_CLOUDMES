@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .blockquote-elem-quote {
+            margin-bottom: -50px;
+            padding: 10px;
+            line-height: 20px;
+            border-left: 12px solid #708090;
+            background-color: #D8ECF6;
+            border-top-color: white;
+            border-bottom-color: white;
+            color: #336699;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        .total, total a {
+            background-color: aqua;
+            color: darkslategrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote"><i class="layui-icon layui-icon-auz" style="font-size: 20px; color: white;"></i><span id="PageHead"></span> Group By SKUNO</blockquote>
+        <div id="TabelToolBar" style="margin-left:5px;margin-top:-1px;">
+            <button id="btnByStation" class="btn btn-default">Group By Station</button>
+            <button id="btnByWO" class="btn btn-default">Group By WO</button>
+        </div>
+        <table id="AgingBySkuTable" class="table table-bordered text-center">
+        </table>
+    </div>
+    <!--</div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var ClassName = "MESJuniper.Api.MetricsDashboardApi";
+        var ClinetReady = 0;
+        var client = null;
+
+        var AgingType, Days;
+        var MODEL = {};
+        var skutxt = "";
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        $(document).ready(function () {
+            AgingType = getQueryString("AgingType");
+            Days = getQueryString("Days");
+            var dMaping =
+            {
+                "30": "<30 Days",
+                "60": "30~60 Days",
+                "90": "60~90 Days",
+                "120": "90~120 Days",
+                "180": "120~180 Days",
+                "270": "180~270 Days",
+                "360": "270~360 Days",
+                "M360": ">360 Days",
+            };
+            $("#PageHead").text(AgingType + " Aging " + (Days == 'ALL' ? '' : dMaping[Days]));
+            ShowTable();
+            $("#btnByStation").on("click", function (e) {
+                window.location.href = "MetricsAgingByStation.html?AgingType=" + AgingType + "&Days=" + Days;
+            });
+            $("#btnByWO").on("click", function (e) {
+                window.location.href = "MetricsAgingByWO.html?AgingType=" + AgingType + "&Days=" + Days;
+            });
+            $.MES.DEBUG = false;
+            ClientInit();
+        });
+
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                LoadList();
+            });
+        };
+
+        var ShowTable = function (cHead) {
+            $('#AgingBySkuTable').bootstrapTable('destroy');
+            $('#AgingBySkuTable').bootstrapTable({
+                data: [],
+                width: window.width,
+                height: window.height,
+                striped: true,
+                pagination: false,
+                showExport: true,
+                exportDataType: "all",
+                showFooter: true,
+                toolbar: "#TabelToolBar",
+                toolbarAlign: "right",
+                footerStyle: function (column) {
+                    return {
+                        classes: 'total'
+                    }
+                },
+                exportOptions: {
+                    fileName: 'AgingDetail',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'AgingBySkuTable',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                fixedColumns: true,
+                fixedNumber: 1,
+                columns: [
+                    {
+                        field: "SKUNO",
+                        title: "SKUNO",
+                        align: 'center',
+                        valign: 'middle',
+                        footerFormatter: function priceFormatter(data) {
+                            return "Total:"
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY30",
+                        title: "<30 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day30',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=30" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=30" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY60",
+                        title: "31-60 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day60',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=60" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=60" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY90",
+                        title: "61-90 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day90',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=90" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=90" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY120",
+                        title: "90-120 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day120',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=120" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=120" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY180",
+                        title: "120-180 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day180',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=180" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=180" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY270",
+                        title: "180-270 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day270',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=270" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=270" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAY360",
+                        title: "270-360 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day360',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=360" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=360" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "DAYM360",
+                        title: ">360 Days",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'daym360',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=M360" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + skutxt + '&Days=M360" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "TOTAL",
+                        title: "Total",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'total',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&SKUNO=' + row.SKUNO + '&Days=' + Days + '" target="_blank">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            return '<a href="MetricsAgingDetailData.html?AgingType=' + AgingType + '&Days=' + Days + '" target="_blank">' + value + '</a>';
+                        },
+                        sortable: false
+                    }
+                ]
+            });
+        }
+
+        var LoadList = function () {
+            layer.load(3, { area: ['30px', '30px'], shade: [0.5, '#393D49'] });
+            client.CallFunction(ClassName, "GetAingGroupBySkuno", { AgingType, Days}, function (e) {
+                if (e.Status == "Pass") {
+                    var data = [];
+                    for (var i = 0; i < e.Data.length; i++) {
+                        var index = data.findIndex(item => item.SKUNO == e.Data[i].SKUNO);
+                        if (index >= 0) {
+                            data[index][e.Data[i].AGING] = e.Data[i].QTY;
+                            data[index].TOTAL = data[index].TOTAL + e.Data[i].QTY;
+                        } else {
+                            skutxt += "," + e.Data[i]["SKUNO"];
+                            var obj = {
+                                SKUNO: '',
+                                DAY30: 0,
+                                DAY60: 0,
+                                DAY90: 0,
+                                DAY120: 0,
+                                DAY180: 0,
+                                DAY270: 0,
+                                DAY360: 0,
+                                DAYM360: 0,
+                                TOTAL: 0
+                            };
+                            obj.SKUNO = e.Data[i]["SKUNO"];
+                            obj[e.Data[i].AGING] = e.Data[i].QTY;
+                            obj.TOTAL = obj.TOTAL + e.Data[i].QTY;
+                            data.push(obj);
+                        }
+                    }
+                    skutxt = skutxt.substr(1);
+                    $('#AgingBySkuTable').bootstrapTable('append', data);
+                } else {
+                    alert(e.Message);
+                }
+                layer.closeAll('loading')
+            });
+        }
+
+    </script>
+</body>
+</html>

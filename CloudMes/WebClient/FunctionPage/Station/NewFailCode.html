@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>New Fail Code</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div class="panel-body row form-horizontal">
+        <div id="divFailInfo" class="col-xs-12">
+            <div class="panel panel-default no-padding">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fail Info</h3>
+                </div>
+                <div class="panel-body ">
+                    <div id="inputSite" class="col-xs-12 no-padding">
+                        <!--<div id="divSN">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-sm-3 control-label text-right">SN:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="SN" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divFailCode">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-sm-3 control-label text-right">FailCode:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="FailCode" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divFailDesc">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-sm-3 control-label text-right">FailDesc:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="FailDesc" value="">
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divMsg" class="col-xs-12" style="max-height:50px;">
+            <div class="panel panel-default no-padding col-xs-12">
+                <div class="panel-heading" style="background-color: #92B5D3 !important; font-size:large; font-weight:bold;">
+                    <h3 class="panel-title">Message</h3>
+                </div>
+                <div class="panel-body no-padding" id="divMessage" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/echarts.min.js"></script>-->
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var option = null;
+        var station = null;
+        var stationName = "NewFailCode";
+        $(document).ready(function () {
+
+            InitStation(function () {
+                $("#inputSite").find("input[type ='text',name='SN']").val("").focus();
+            })
+
+        });
+
+        function InitStation(callback) {
+            option = {
+                Client: self.parent.parent.client,
+                Line: 'LINE1',
+                Name: stationName,
+                IScale: "2:10",
+                //TContainer: $("#toolsite"),
+                IContainer: $("#inputSite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                BeforeInit: function () {
+                    //self.parent.parent.Loading(true);
+                    option.Line = localStorage.getItem($.MES.CK_LINE_NAME);
+                },
+                Init: function (d) {
+                    if (d.Status == "Pass") {
+                        stationName = station.Name;                        
+                    }
+                    else {
+                        swal("Station initialization failed！", d.Message, "error");
+                    }
+                }
+            };
+            station = new MesStation(option);
+            if ("fuction" == typeof(callback)) {
+                callback();
+            }
+        }
+
+    </script>
+</body>
+</html>

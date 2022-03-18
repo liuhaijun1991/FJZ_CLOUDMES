@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES API</title>
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="project-list panel-body">
+        <table class="table table-hover" id="APIList"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script src="Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script>
+        var JSONStr = [{ ClassName: "MESStation.ApiHelper" }, { ClassName: "MESStation.UserManager" }];
+        $(document).ready(function () {
+            self.parent.client.GetMesApiClass(MakeApiList);
+            function MakeApiList(e) {
+                if (e.Status == "Pass") {
+                    var d = [];
+                    var c = [];
+                    for (var item in e.Data) {
+                        c.push({ field: item, title: item });
+                        for (var i = 0; i < e.Data[item].length; i++) {
+                            d.push({ [item]: e.Data[item][i] });
+                        }
+                    }
+                    $("#APIList").bootstrapTable({
+                        data: d,
+                        detailView: true,//父子表
+                        search: true,
+                        searchAlign: "left",
+                        clickToSelect: false,
+                        pagination: true,
+                        sidePagination: "client",
+                        pageSize: 30,
+                        pageList: [30, 40, 50, 60],
+                        columns: c,
+                        onExpandRow: function (index, row, $Subdetail) {
+                            self.parent.client.GetMesFunctionList(row.ClassName, function (e) {
+                                if (e.Status == "Pass") {
+                                    var d = [];
+                                    var c = [];
+                                    c.push({ field: "ClassName", title: "ClassName" })
+                                    for (var item in e.Data) {
+                                        c.push({ field: item, title: item });
+                                        for (var Aitem in e.Data[item]) {
+                                            d.push({ ClassName: row.ClassName, [item]: Aitem, Data: e.Data[item][Aitem] });
+                                        }
+                                    }
+                                    InitSubTable(index, row, $Subdetail, c, d);
+                                }
+                            });
+                        }
+                    });
+                }
+                else {
+
+                }
+            }
+
+            function InitSubTable(index, row, $detail, c, d) {
+                var ClassName = row.ClassName;
+                var cur_table = $detail.html('<table></table>').find('table');
+                $(cur_table).bootstrapTable({
+                    queryParams: {
+                        strParentID: ClassName
+                    },
+                    ajaxOptions: {
+                        strParentID: ClassName
+                    },
+                    clickToSelect: false,
+                    detailView: false,//父子表
+
+                    uniqueId: "LineItem",
+                    pageSize: 10,
+                    pageList: [10, 25],
+                    columns: c,
+                    data: d,
+                    onClickRow: function (row) {
+                        localStorage.setItem("DEBUGCLASS", row.ClassName);
+                        localStorage.setItem("DEBUGFUNCTION", JSON.stringify(row.Data));
+                        // 获取标识数据
+                        var dataUrl = "debug.html?DebugName=" + row.Data.FunctionName,
+                            dataIndex = "debug" + row.Data.FunctionName,
+                            menuName = "Debug " + row.Data.FunctionName,
+                            flag = true;
+
+                        // 选项卡菜单已存在
+                        parent.$('.J_menuTab').each(function () {
+                            if (parent.$(this).data('id') == dataUrl) {
+                                if (!parent.$(this).hasClass('active')) {
+                                    parent.$(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                                    parent.scrollToTab(this);
+                                    // 显示tab对应的内容区
+                                    parent.$('.J_mainContent .J_iframe').each(function () {
+                                        if ($(this).data('id') == dataUrl) {
+                                            $(this).show().siblings('.J_iframe').hide();
+                                            $(this)[0].contentWindow.location.reload(true);
+                                            return false;
+                                        }
+                                    });
+                                }
+                                flag = false;
+                                return false;
+                            }
+                        });
+
+                        // 选项卡菜单不存在
+                        if (flag) {
+                            parent.$('.J_iframe').hide();
+                            var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+                            parent.$('.J_menuTab').removeClass('active');
+                            // 添加选项卡对应的iframe
+                            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+                            parent.$('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+                            // 添加选项卡
+                            parent.$('.J_menuTabs .page-tabs-content').append(str);
+                            parent.scrollToTab(parent.$('.J_menuTab.active'));
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

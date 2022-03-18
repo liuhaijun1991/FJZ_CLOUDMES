@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Edit Customer PO</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />   
+</head>
+<body class="animated fadeInRight">
+    <div class="col-xs-12">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group" id="tableToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolSave">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:">Save</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableOrderDetail" class="table table-bordered table-hover table-striped">
+                
+            </table>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+    <script type="text/javascript">
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        let orderId = "";
+        var client = self.parent.client;
+        localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+        var GetOrderDetail = function (id) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetVTOneOrderByID",
+                {
+                    ID: id
+                }, function (e) {
+                    if (e.Status == "Pass") {
+                        var itemIndex = 0;
+                        var data = [];
+                        for (var item in e.Data.OrderDetail) {
+                            itemIndex++;
+                            data.push({ NO: itemIndex, DisplayName: item, Value: e.Data.OrderDetail[item] });
+                        }
+                        orderId = e.Data.OrderId;
+                        $("#tableOrderDetail").bootstrapTable("destroy");
+                        $('#tableOrderDetail').bootstrapTable({
+                            data: data,
+                            height: 450,
+                            search: true,
+                            striped: true,
+                            toolbar: "#tableToolbar",
+                            onClickCell: function (field, value, row, $element) {
+                                $element.attr('contenteditable', true);
+                                $element.blur(function () {
+                                    let index = $element.parent().data('index');
+                                    let tdValue = $element.text();
+                                    $("#tableOrderDetail").bootstrapTable('updateCell',
+                                        {
+                                            index: index, //行索引 
+                                            field: field, //列名 
+                                            value: tdValue //cell值 
+                                        });
+                                });
+                            },
+                            columns: [
+                                {
+                                    field: "NO",
+                                    title: "NO",
+                                    align: 'center',
+                                    valign: 'middle',
+                                },
+                                {
+                                    field: "DisplayName",
+                                    title: "Display Name",
+                                    align: 'center',
+                                    valign: 'middle',
+                                },
+                                {
+                                    field: "Value",
+                                    title: "Value",
+                                    align: 'center',
+                                    valign: 'middle',
+                                }
+                            ]
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+        }
+        $(document).ready(function () {
+            GetOrderDetail($.MES.getQueryString("POID"));
+            $("#btnToolSave").click(function () {
+                var arrayData = $("#tableOrderDetail").bootstrapTable('getData');
+                client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "EditVTOrder", { OrderId: orderId, OrderDetail: arrayData }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 3000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    }
+                });
+            });            
+        });
+    </script>
+</body>
+</html>

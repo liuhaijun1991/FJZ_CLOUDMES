@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sn Rule Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapvalidator/bootstrapValidator.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SNRuleSetting">SNRule Setting</span></h3>
+    </div>
+    <div class="panel-body">
+        <div class="btn-group" role="group" id="SnRuleTool">
+            <!--<button type="button" class="btn btn-outline btn-primary" id="AddSnRule">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                <lan set-lan="text:add"> 添加</lan>
+            </button>-->
+            <button type="button" class="btn btn-outline btn-primary" id="DeleteSnRule" disabled="disabled">
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                <lan set-lan="text:delete"> 刪除</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="UpdateSnRule" disabled="disabled">
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+                <lan set-lan="text:modify"> 修改</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="AddSnRule">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                <lan set-lan="text:add"> 複製</lan>
+            </button>
+        </div>
+
+        <div class="btn-group" role="group" id="SnRuleDetailTool">
+            <!--<button type="button" class="btn btn-outline btn-primary" id="AddSnRuleDetail" disabled="disabled">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                <lan set-lan="text:add"> 添加</lan>
+            </button>-->
+            <button type="button" class="btn btn-outline btn-primary" id="DeleteSnRuleDetail" disabled="disabled">
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                <lan set-lan="text:delete"> 刪除</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="UpdateSnRuleDetail" disabled="disabled">
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+                <lan set-lan="text:modify"> 修改</lan>
+            </button>
+        </div>
+
+        <table id="SNRuleListTable" class="table table-hover"></table>
+        <table id="SNRuleDetailTable" class="table table-hover"></table>
+
+        <div id="SnRuleCopyForm" class="panel-body hidden">
+            <div class="form-group col-xs-12">
+                <label id="la1" class="col-xs-4 control-label" set-lan="html:CRuleName">Rule Name：</label>
+                <div class="col-xs-8 inline">
+                    <input type="text" class="form-control" name="CRuleName" id="CRuleName" />
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label id="la1" class="col-xs-4 control-label" set-lan="html:CPrefix">Prefix：</label>
+                <div class="col-xs-8 inline">
+                    <input type="text" class="form-control" name="CPrefix" id="CPrefix" />
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label id="la1" class="col-xs-4 control-label" set-lan="html:CSkuNo">Copy Skuno：</label>
+                <div class="col-xs-8 inline">
+                    <input type="text" class="form-control" name="CSkuNo" id="CSkuNo" />
+                </div>
+            </div>
+            <div class="btn-group hidden-xs form-group col-xs-12" role="group">
+                <button type="button" class="btn btn-outline btn-primary col-xs-3" id="SubmitCopy">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:add"> Submit</lan>
+                </button>
+            </div>
+        </div>
+        <div id="SnRuleEditForm" class="panel-body hidden">
+            <div class="form-group col-xs-8">
+                <label id="la1" class="col-xs-4 control-label" set-lan="html:RuleName">Rule Name：</label>
+                <div class="col-xs-8 inline">
+                    <input type="text" class="form-control" name="RuleName" id="RuleName" />
+                </div>
+            </div>
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="SubmitSnRule">
+                    <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:submit"> Submit</lan>
+                </button>
+            </div>
+        </div>
+
+        <div id="SNRuleDetailForm" class="panel-body hidden">
+            <table class="form-group col-xs-14">
+                <tr>
+                    <td class="col-xs-3"><label id="la0" class="control-label" set-lan="html:Seq">Seq No：</label></td>
+                    <td class="col-xs-7"><input type="text" class="form-control" name="SeqNo" id="SeqNo" /></td>
+                    <td class="col-xs-3">
+                        <button type="button" class="btn btn-outline btn-primary" id="SubmitSnRuleDetail">
+                            <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:submit">Submit</lan>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la1" class="control-label" set-lan="html:InputType">Input Type：</label></td>
+                    <td class="col-xs-7">
+                        <select type="text" class="form-control" name="InputType" id="InputType">
+                            <option value="PREFIX">PREFIX</option>
+                            <option value="YYYY">YYYY</option>
+                            <option value="MM">MM</option>
+                            <option value="DD">DD</option>
+                            <option value="WW">WW</option>
+                            <option value="SN">SN</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la2" class="control-label" set-lan="html:CodeType">Code Type：</label></td>
+                    <td class="col-xs-7">
+                        <select type="text" class="form-control" name="CodeType" id="CodeType" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la3" class="control-label" set-lan="html:ResetFlag">ResetFlag：</label></td>
+                    <td class="col-xs-7"><input type="checkbox" class="form-control" name="ResetFlag" id="ResetFlag" /></td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la4" class="control-label" set-lan="html:ResetValue">Reset Value：</label></td>
+                    <td class="col-xs-7"><input type="text" class="form-control" name="ResetValue" id="ResetValue" /></td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la5" class="control-label" set-lan="html:Check">Check：</label></td>
+                    <td class="col-xs-7"><input type="checkbox" class="form-control" name="CheckFlag" id="CheckFlag" /></td>
+                </tr>
+                <tr>
+                    <td class="col-xs-3"><label id="la6" class="control-label" set-lan="html:CurrentValue">Current Value：</label></td>
+                    <td class="col-xs-7"><input type="text" class="form-control" name="CurrentValue" id="CurrentValue" /></td>
+                </tr>
+            </table>
+            <!--<div class="btn-group hidden-xs" role="group">
+            <button type="button" class="btn btn-outline btn-primary" id="SubmitSnRuleDetail">
+                <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:submit">Submit</lan>
+            </button>
+        </div>-->
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Setting/SnRuleSetting.js"></script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">InventoryReport</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        table, td, th {
+            margin: 0;
+            padding: 0px !important;
+            font-size: 14px;
+            
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px !important;
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #4a4266 !important;
+            color: #f0fcff;
+        }
+
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: 400px;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 350px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div id="divTableToolbar">
+        <span class="layui-badge layui-bg-blue">Mrb Sn</span>
+    </div>
+<div class="panel-body">
+    <table id="MrbTable"></table>
+</div>
+
+<div id="divMaterialTableToolbar">
+    <div class="row">
+        <div>
+            <label class="control-label text-right form-inline">
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="layui-badge layui-bg-blue">Input batch Quantity:</span>
+                <input type="text" id="txtcalc" class="form-control"  onkeydown="calcevent(event)" />
+            </label>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <table id="MaterialTable"></table>
+</div>
+
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var postData = {};
+        var skuno = $.MES.getQueryString("skuno");
+        var version = $.MES.getQueryString("version");
+        var groupname = $.MES.getQueryString("groupname");
+        var eventname = $.MES.getQueryString("eventname");
+        var stime = $.MES.getQueryString("stime");
+        var etime = $.MES.getQueryString("etime");
+        var mrbsnqty = 0;
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+
+            skuno = $.MES.getQueryString("skuno");
+            version = $.MES.getQueryString("version");
+            groupname = $.MES.getQueryString("groupname");
+            eventname = $.MES.getQueryString("eventname");
+            stime = $.MES.getQueryString("stime");
+            etime = $.MES.getQueryString("etime");
+            ShowMrbSnData(skuno, version, eventname, stime, etime);
+        });
+
+        var ShowMrbSnData = function (skuno, version, eventname, stime, etime) {
+            $("#MrbTable").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "GetMaterialStageMrbSnDetail",
+                { skuno: skuno, version: version, eventname: eventname, stime: stime, etime: etime },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 500
+                            },
+                            function () {
+                                mrbsnqty = e.Data.length;
+                                InitMrbTable(e.Data);
+                                ShowMaterialTable(skuno, version, groupname, mrbsnqty);
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        var ShowMaterialTable = function (skuno, version, groupname, calcqty) {
+            $("#MaterialTable").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "GetStationMaterialStageDetail",
+                { skuno: skuno, version: version, groupname: groupname, calcqty: calcqty},
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 500
+                            },
+                            function () {
+                                InitMaterialTable(e.Data);
+                            });
+                    } else {
+                        layer.msg(e.Message, {
+                            time: 20000, //20s后自动关闭
+                            btn: ['OK']
+                        });
+                        return;
+                    }
+                });
+        }
+        var InitMrbTable = function (obj) {
+            $('#MrbTable').bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                buttonsAlign: "right", //按钮对齐方式
+                toolbar: "#divTableToolbar", //指定工具栏
+                toolbarAlign: "left", //工具栏对齐方式
+                locale: tableLocale,
+                columns: [
+                    {
+                        field: 'SKUNO',
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'SKU_VER',
+                        title: '<label set-lan="html:VERSION">VERSION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'SN',
+                        title: '<label set-lan="html:MRBNUM">SN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'NEXT_STATION',
+                        title: '<label set-lan="html:MRBNUM">STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'FROM_STORAGE',
+                        title: '<label set-lan="html:MRBNUM">FROM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'TO_STORAGE',
+                        title: '<label set-lan="html:MRBNUM">TO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'REWORK_WO',
+                        title: '<label set-lan="html:MRBNUM">REWORK_WO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'CREATE_TIME',
+                        title: '<label set-lan="html:MRBNUM">MRB_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'CREATE_EMP',
+                        title: '<label set-lan="html:MRBNUM">MRB_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'SAP_FLAG',
+                        title: '<label set-lan="html:MRBNUM">SAP_FLAG</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }
+                ]
+            });
+        }
+        var InitMaterialTable = function (obj) {
+            $('#MaterialTable').bootstrapTable({
+                    data: obj,
+                    striped: true, //是否显示行间隔色
+                    pagination: true, //是否显示分页（*）
+                    sortable: false, //是否启用排序
+                    sortOrder: "asc", //排序方式
+                    sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1, //初始化加载第一页，默认第一页
+                    pageSize: 10, //每页的记录行数（*）
+                    searchAlign: "right", //查询框对齐方式
+                    search: true,
+                    toolbar: "#divMaterialTableToolbar", //指定工具栏
+                    toolbarAlign: "left", //工具栏对齐方式          
+                    showExport: true,
+                    striped: true,
+                    exportDataType: "all",
+                    locale: tableLocale,
+                    columns: [
+                        {
+                            field: 'ID',
+                            title: 'ID',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: false
+                        }, {
+                            field: 'SKUNO',
+                            title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        }, {
+                            field: 'VERSION',
+                            title: '<label set-lan="html:GROUPNAME">VER</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        }, {
+                            field: 'EVENTPOINT',
+                            title: '<label set-lan="html:EVENTNAME">STATION</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            visible: true
+                        }, {
+                            field: "CUSTPARTNO",
+                            title: '<label set-lan="html:SEQNO">PARTNO</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "CUSTPNDESC",
+                            title: '<label set-lan="html:LASTEDITBY">CUSTPNDESC</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "QTY",
+                            title: '<label set-lan="html:LASTEDITBY">QTY</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "SOPPAGE",
+                            title: '<label set-lan="html:LASTEDITTIME">SOPPAGE</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: false
+                        }, {
+                            field: "SOPEVENTPN",
+                            title: '<label set-lan="html:LASTEDITTIME">SOPEVENTPN</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "NOTE",
+                            title: '<label set-lan="html:LASTEDITTIME">NOTE</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "MRBQTY",
+                            title: '<label set-lan="html:LASTEDITTIME">MRBQTY</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "TOTALQTY",
+                            title: '<label set-lan="html:LASTEDITTIME">TOTALQTY</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true,
+                            formatter: function (value, row, index) {
+                                return "<span class=\"layui-badge layui-bg-dot\">" + value + "</span>";
+                            }
+                        }, {
+                            field: "EDITBY",
+                            title: '<label set-lan="html:LASTEDITTIME">EDITBY</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }, {
+                            field: "EDITTIME",
+                            title: '<label set-lan="html:LASTEDITTIME">EDITTIME</label>',
+                            rowspan: 1,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true,
+                            visible: true
+                        }
+                    ]
+                });
+        };
+        var calcevent = function() {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) {
+                if ($("#txtcalc").val() > mrbsnqty) {
+                    layer.msg('The input Quantity is greater than Inventory Qty or less than or equal to 0', {
+                        time: 20000, //20s后自动关闭
+                        btn: ['OK']
+                    });
+                    return;
+                }
+                ShowMaterialTable(skuno, version, groupname, $("#txtcalc").val());
+            }
+        }
+
+    </script>
+
+</body>
+</html>
+

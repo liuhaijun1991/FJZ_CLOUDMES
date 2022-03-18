@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: smaller;
+            font-weight: bold;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+<hr class="layui-bg-blue">
+<div id="GTPanel" class="panel panel-primary">
+    <div class="panel-heading col-xs-12" style="font-size: small; margin-bottom: 10px; font-weight: bold;">
+        <div id="divGtTitle" class="col-xs-11" style="font-size: 15px; float: left"></div>
+        <div id="divGtTitleDo" class="col-xs-1"></div>
+    </div>
+    <div id="divGT">
+        <table id="GTList" class="table table-bordered text-center"></table>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+<script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="../../Scripts/plugins/JSON/json2.js"></script>
+<script src="../../Scripts/plugins/layer/layer.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../../Scripts/global.js"></script>
+<script src="../../Scripts/MesClient.js"></script>
+<script src="../../Scripts/MesClient.UI.js"></script>
+<script>
+    $(document).ready(function() {
+        var dn = $.MES.getQueryString("Dn");
+        var dnLine = $.MES.getQueryString("DnLine");
+        LoadGtList(dn, dnLine);
+    });
+
+    var ShowGtListTable = function(data) {
+        $('#GTList').bootstrapTable('destroy');
+        $('#GTList').bootstrapTable({
+            data: data,
+            striped: true,
+            pagination: true,
+            clickToSelect: true,
+            rowStyle: function(row, index) {
+                var strclass = "";
+                if (row.GTEVENT > row.SEQ)
+                    strclass = 'success';
+                else if (row.GTEVENT == row.SEQ)
+                    strclass = 'info';
+                else
+                    strclass = 'danger';
+                return { classes: strclass }
+            },
+            columns: [
+                {
+                    field: 'SEQ',
+                    sortable: true,
+                    align: "center",
+                    title: 'SEQ'
+                }, {
+                    field: 'ROUTENAME',
+                    title: 'RouteName',
+                    align: "center"
+                }, {
+                    field: 'ACTIONNAME',
+                    title: 'ActionName',
+                    align: "center"
+                }, {
+                    field: 'ACTIONTYPE',
+                    title: 'ActionType',
+                    align: "center"
+                }, {
+                    field: 'FROM_PLANT',
+                    title: 'From_Plant',
+                    align: "center"
+                }, {
+                    field: 'TO_PLANT',
+                    title: 'To_Plant',
+                    align: "center"
+                }, {
+                    field: 'FROM_STOCK',
+                    title: 'From_Stock',
+                    align: "center"
+                }, {
+                    field: 'TO_STOCK',
+                    title: 'To_Stock',
+                    align: "center"
+                }, {
+                    field: 'GTEVENT',
+                    title: 'Status',
+                    align: "center",
+                    formatter: function(value, row, index, field) {
+                        if (row.GTEVENT > row.SEQ)
+                            return "<span style='color: seagreen;'>已完成</span>";
+                        else if (row.GTEVENT == row.SEQ)
+                            return "<span style=''>執行扣帳</span>";
+                        else
+                            return "<span style=''>等待執行</span>";
+                    }
+                }, {
+                    field: 'operate',
+                    title: 'Operation',
+                    align: 'center',
+                    events: "operateEvents",
+                    formatter: operateFormatter
+                }
+            ]
+        });
+    }
+
+    function operateFormatter(value, row, index) {
+        var gtBtn;
+        if (row.GTEVENT == row.SEQ)
+            gtBtn =
+                '<button type="button" class="RoleOfB btn btn-success btn-sm" style="margin-right:15px;" >執行</button>';
+        else
+            gtBtn =
+                '<button type="button" class="RoleOfB btn btn-default btn-sm disabled" style="margin-right:15px;">執行</button>';
+        return [gtBtn].join('');
+    }
+
+    window.operateEvents = {
+        'click .RoleOfB': function(e, value, row, index) {
+            if (row.GTEVENT != row.SEQ) return;
+            doGt(row);
+        }
+    };
+
+    var doGt = function(obj) {
+        alert("test");
+    }
+
+    var doAllGt = function (dn, dnLine) {
+        var index = layer.load(1); //换了种风格
+        self.parent.client.CallFunction("MESStation.Config.WhsConfig",
+            "ShipOutGtAll",
+            { Dn: dn, DnLine: dnLine, Bu: self.parent.client.UserInfo.BU },
+            function (e) {
+                if (e.Status == "Pass") {
+                    LoadGtList(dn, dnLine);
+                } else {
+                    LoadGtList(dn, dnLine);
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏
+                        ,closeBtn: false
+                        ,area: '400px;'
+                        ,shade: 0.8
+                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        ,btn: ['我明白了']
+                        ,btnAlign: 'c'
+                        , moveType: 1 //拖拽模式，0或者1
+                        , content: '<div style="padding: 20px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">扣帳異常:<br>' + e.Message + '</div>'
+                    });
+                }
+                layer.close(index);
+            });
+    }
+
+    var LoadGtList = function(dn, dnLine) {
+        var gtTitle = "當前操作 : Dn:" + dn + " / DnLine:" + dnLine + "";
+        $('#divGtTitle').html(gtTitle);
+
+        self.parent.client.CallFunction("MESStation.Config.WhsConfig",
+            "GetGtDataByDnAndDnLine",
+            { Dn: dn, DnLine: dnLine },
+            function(e) {
+                if (e.Status == "Pass") {
+                    ShowGtListTable(e.Data);
+                    showAutoGtBtn(e.Data, dn, dnLine);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent()
+                        .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowGtListTable([]);
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-demo', //样式类名
+                        closeBtn: 0, //不显示关闭按钮
+                        anim: 2,
+                        shadeClose: true, //开启遮罩关闭
+                        content: e.Message
+                    });
+                    return;
+                }
+            });
+    }
+
+    var showAutoGtBtn = function(obj, dn, dnLine) {
+        var showDoBtnFlag = false;
+        $('#divGtTitleDo').html("");
+        for (var i = 0; i < obj.length; i++) {
+            if (obj[i].SEQ == obj[i].GTEVENT) {
+                showDoBtnFlag = true;
+                break;
+            }
+        }
+        if (showDoBtnFlag) {
+            var gtBtn = '<button type="button" class="btn btn-success btn-sm" onClick="doAllGt(' +
+                dn +
+                ',\'' +
+                dnLine +
+                '\')" >自動執行</button>';
+            $('#divGtTitleDo').html(gtBtn);
+        }
+    }
+
+
+</script>
+</body>
+</html>

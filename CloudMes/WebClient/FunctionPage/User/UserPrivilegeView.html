@@ -1,0 +1,708 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>UserPrivilegeManager</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:roleprivilege">UserPrivilege Manager</span></h3>
+        </div>
+        <div class="ibox-content">
+            <div id="UserPrivilegeView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="col-xs-5   col-sm-6  col-md-5  col-lg-4 col-xs-offset-2">
+                                <input type="text" set-lan="attr:placeholder=placeholderuserrole" class="form-control" id="SearchText">
+                            </div>
+                            <div class="col-xs-3   col-sm-2 col-md-2  col-lg-1"><button class="btn btn-primary" id="Search"><i class="fa fa-search"><lan set-lan="html:search">Search</lan></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-toolbar">
+                                <div class="bs-bars pull-left">
+                                    <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-default" id="AddUserPrivilege">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" id="DelUserPrivilege">
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="UserInformation" class="table table-hover "></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="UserPrivilegeModal" style="display:none;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;margin-top: -10px;">
+                        <button type="button" class="btn btn-primary" id="GoBack"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">back</lan></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="divUserPrivilegeAdd" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-md-12 col-lg-12 ">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h3 class="col-sm-12  col-xs-12   col-md-12 col-lg-12 text-center " set-lan="html:Emp_no" id="Edit_EMP"> </h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h3 class="col-sm-12  col-xs-12   col-md-12 col-lg-12 text-center " set-lan="html:Emp_no" id="Edit_NAME"> </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-sm-4  col-xs-12   col-md-4  col-lg-4 col-sm-offset-8  col-md-offset-8 col-lg-offset-8 ">
+                                        <div class="input-group pull-right mail-search">
+                                            <input type="text" id="BstapText" placeholder="Find permissions or descriptions" class="form-control input-sm">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-sm btn-primary" id="BstapSearch">
+                                                    Search
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="bootstrap-table">
+                                    <table id="Privilegelist" class="table table-hover"></table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                    <div id="AddPrivilegeBtn" style="display:none;">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" id="AddConfirm"><i class="fa fa-pencil" set-lan="html:save">Confirm new permission</i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                    <div id="DelUserPrivilegeBtn" style="display:none;">
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="button" class="btn btn-primary" id="DelConfirm"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Confirm delete permission</lan></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/content.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/WebSocketClient.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/pace/pace.min.js"></script>
+    <script src="../../Scripts/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var ClassName = "";
+            var FunctionName = "";
+            var LoginName = self.parent.client.UserInfo.EMP_NO;
+            var LoginLevel = self.parent.client.UserInfo.EMP_LEVEL;
+            //初始加載
+            function LoadData() {
+                ClassName = "MESStation.UserManager";
+                FunctionName = "LoadInformation";
+                self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: LoginName }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            ShowTable(e.Data, "#UserInformation", true);
+                        }
+                    }
+                    else {
+                        MessageAlert("ERROR", e.Message);
+                        return;
+                    }
+                });
+            }
+            $("#GoBack").click(function () {
+                ClearAll();
+            });
+            function ClearAll() {
+                $("#UserPrivilegeView").show();
+                $("#UserPrivilegeModal").hide();
+                ClassName = "MESStation.UserManager";
+                FunctionName = "LoadInformation";
+                self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: LoginName }, function (e) {
+                    if (e.Status == "Pass") {
+                        var UserData = [];
+                        UserData = e.Data;
+                        $("#UserInformation").bootstrapTable("load", UserData);
+                    }
+                });
+                $("#Edit_EMP").html("");
+                $("#Edit_NAME").html("");
+            }
+            // ---------------------------------用户权限管理模块---------------------------------//
+            // 搜索框点击事件
+            $("#Search").click(function () {
+                var SearchValue = "";
+                var SearchArray = [];
+                if ($.trim($("#SearchText").val()).length < 1) {
+                    MessageAlert("ERROR", "Please enter what you need to search!");
+                    return;
+                }
+                SearchValue = $.trim($("#SearchText").val()).toUpperCase();
+                ClassName = "MESStation.UserManager";
+                FunctionName = "LoadInformation";
+                self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: LoginName }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            var UserData = [];
+                            UserData = e.Data;
+                            for (i = 0; i < UserData.length; i++) {
+                                //匹配搜索的工號是否已緩存到BootstrapTable
+                                if (UserData[i].EMP_NO == SearchValue) {
+                                    SearchArray[0] = UserData[i];
+                                }
+                                if (UserData[i].EMP_NAME == SearchValue) {
+                                    SearchArray[0] = UserData[i];
+                                }
+                            }
+                            if (SearchArray.length < 1) {
+                                //如果不存在則,Call Function 查找所在廠區所在BU的所有用戶
+                                ClassName = "MESStation.UserManager";
+                                FunctionName = "SelectInformation";
+                                self.parent.client.CallFunction(ClassName, FunctionName, { EMP_NO: SearchValue }, function (e) {
+                                    if (e.Status == "Pass" || e.Data != null) {
+                                        $('#UserInformation').bootstrapTable("load", [e.Data]);
+                                    }
+                                    else {
+                                        //獲取數據失敗
+                                        MessageAlert("ERROR", e.Message);
+                                        return;
+                                    }
+                                });
+                            }
+                            else {
+                                //得到列表
+                                $('#UserInformation').bootstrapTable("load", SearchArray);
+                            }
+                        }
+                    }
+                });
+            })
+            //清空搜索框返回列表
+            $("#SearchText").change(function () {
+                ClassName = "MESStation.UserManager";
+                FunctionName = "LoadInformation";
+                self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: LoginName }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            var UserData = e.Data;
+                            $('#UserInformation').bootstrapTable("load", UserData);
+                        }
+                    }
+                    else {
+                        MessageAlert("ERROR", e.Message);
+                        return;
+                    }
+                });
+            });
+            //增加用戶权限管理
+            $("#AddUserPrivilege").click(function () {
+                var PrivilegeFlag = false;
+                //預留權限
+                if (LoginLevel == "9") {
+                    UserPrivilegeAdd();
+                }
+                else {
+                    if (PrivilegeFlag) {
+
+                        UserPrivilegeAdd();
+                    }
+                    else {
+                        MessageAlert("ERROR", "Permission denied!");
+                        return;
+                    }
+                }
+            });
+            function UserPrivilegeAdd() {
+                var Selections = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpno = "";
+                if (Selections.length < 1 || Selections.length > 1) {
+                    MessageAlert("ERROR", "Please select a record!");
+                    return;
+                }
+                EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+                //Call Function 獲取對應所有的權限
+                ClassName = "MESStation.MESUserManager.UserPrivilege";
+                FunctionName = "SelectUserPrivilege";
+                self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: EditEmpno }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            $("#Edit_EMP").html("EMPNO：" + Selections[0].EMP_NO);
+                            $("#Edit_NAME").html("EMPNAME：" + Selections[0].EMP_NAME);
+                            $("#Privilegelist").bootstrapTable('destroy');
+                            ShowTable(e.Data, "#Privilegelist", false);
+                            $("#UserPrivilegeView").hide();
+                            $("#UserPrivilegeModal").show();
+                            $("#divUserPrivilegeAdd").show();
+                            $("#AddPrivilegeBtn").show();
+                            $("#DelUserPrivilegeBtn").hide();
+                        }
+                        else {
+                            MessageAlert("ERROR", "Has full access!");
+                            return;
+                        }
+                    }
+                    else {
+                        MessageAlert("ERROR", e.Message);
+                        return;
+                    }
+                });
+            }
+            //查詢用戶权限管理
+            $("#BstapSearch").click(function () {
+                var SchData = [];
+                var SchText = "";
+                SchText = $.trim($("#BstapText").val());
+                BptData = $('#Privilegelist').bootstrapTable("getData");
+                if (SchText.length > 0) {
+                    for (var i = 0; i < BptData.length; i++) {
+                        if (SchText == BptData[i].PRIVILEGE_DESC) {
+                            SchData[0] = BptData[i];
+                        }
+                        else if (SchText == BptData[i].PRIVILEGE_NAME) {
+                            SchData[0] = BptData[i];
+                        }
+                        else {
+
+                        }
+                    }
+                    if (SchData.length > 0) {
+                        $('#Privilegelist').bootstrapTable("load", SchData);
+                    }
+                }
+            });
+
+            $("#BstapText").change(function () {
+                var Selections = $("#UserInformation").bootstrapTable('getSelections');
+                if ($.trim($("#BstapText").val()).length < 1) {
+                    $('#Privilegelist').bootstrapTable("load", BptData);
+                }
+            })
+            $("#SelectUserPrivilege").click(function () {
+                var Selections = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpno = "";
+                if (Selections.length != 1) {
+                    MessageAlert("ERROR", "Only one row is allowed!");
+                    return;
+                }
+                else {
+                    EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+                    //Call Function 獲取對應所有的權限
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "SelectEditPrivilege";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: EditEmpno }, function (e) {
+                        if (e.Status == "Pass") {
+                            if (e.Data.length > 0) {
+                                $("#Edit_EMP").html(Selections[0].EMP_NO);
+                                $("#Edit_NAME").html(Selections[0].EMP_NAME);
+                                $("#Privilegelist").bootstrapTable("load", e.Data);
+                                $('#Privilegelist').bootstrapTable('hideColumn', 'checkall');
+                                $("#UserPrivilegeView").hide();
+                                $("#UserPrivilegeModal").show();
+                                $("#divUserPrivilegeAdd").show();
+                                $("#AddPrivilegeBtn").hide();
+                                $("#DelUserPrivilegeBtn").hide();
+                            }
+                            else {
+                                MessageAlert("ERROR", "no data!");
+                                return;
+                            }
+                        }
+                        else {
+                            MessageAlert("ERROR", e.Message);
+                            return;
+                        }
+                    })
+                }
+            });
+            //刪除用戶權限
+            $("#DelUserPrivilege").click(function () {
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9") {
+                    UserPrivilegeDelete();
+                }
+                else {
+                    if (PrivilegeFlag) {
+                        var PrivilegeBool = false;
+                        var Selections = $("#UserInformation").bootstrapTable('getSelections');
+                        if (Selections.length == 1) {
+                            EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+                            ClassName = "MESStation.UserManager";
+                            FunctionName = "LoadInformation";
+                            self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: LoginName }, function (e) {
+                                if (e.Status == "Pass") {
+                                    if (e.Data.length > 0) {
+                                        for (var i = 0; i < e.Data.length; i++) {
+                                            if (EditEmpno == e.Data[i].EMP_NO) {
+                                                PrivilegeBool = true;
+                                            }
+                                        }
+                                        if (PrivilegeBool) {
+                                            UserPrivilegeDelete();
+                                        }
+                                        else {
+                                            MessageAlert("ERROR", "Cannot delete employee rights other than this department!");
+                                            return;
+                                        }
+                                    }
+                                }
+                                else {
+                                    MessageAlert("ERROR", e.Message);
+                                    return;
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        MessageAlert("ERROR", "Permission denied!");
+                        return;
+                    }
+                }
+            });
+            function UserPrivilegeDelete() {
+                var Selections = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpno = "";
+                var EditData = [];
+                var j = 0;
+                if (Selections.length != 1) {
+                    MessageAlert("ERROR", "Only one row is allowed!");
+                    return;
+                }
+                else {
+                    //Call Function 獲取對應所有的權限
+                    EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "SelectEditPrivilege";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: EditEmpno }, function (e) {
+                        if (e.Status == "Pass") {
+                            for (var i = 0; i < e.Data.length; i++) {
+                                if (e.Data[i].FLAG = "true") {
+                                    EditData[j] = e.Data[i];
+                                    j++;
+                                }
+                            }
+                            if (EditData.length > 0) {
+                                $("#Edit_EMP").html("EMPNO：" + Selections[0].EMP_NO);
+                                $("#Edit_NAME").html("EMPNAME：" + Selections[0].EMP_NAME);
+                                $("#Privilegelist").bootstrapTable('destroy');
+                                ShowTable(EditData, "#Privilegelist", false);
+                                $("#UserPrivilegeView").hide();
+                                $("#UserPrivilegeModal").show();
+                                $("#divUserPrivilegeAdd").show();
+                                $("#AddPrivilegeBtn").hide();
+                                $("#DelUserPrivilegeBtn").show();
+                            }
+                            else {
+                                MessageAlert("ERROR", "No data!");
+                                return;
+                            }
+
+                        }
+                        else {
+                            MessageAlert("ERROR", e.Message);
+                            return;
+                        }
+                    })
+                }
+            }
+            //Add点击SAVE触发事件
+            $("#AddConfirm").click(function () {
+                //獲取Checked項
+                var SaveData = [];
+                var Selections = $("#Privilegelist").bootstrapTable('getSelections');
+                var IndexData = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpno = "";
+                var IndexUser = IndexData[0].EMP_NO;
+                //防止空值傳入
+                if (Selections.length <= 0) {
+                    MessageAlert("ERROR", "Please select a record!");
+                    return;
+                }
+                //獲取選中所有選擇的權限
+                for (var i = 0; i < Selections.length; i++) {
+                    SaveData[i] = Selections[i].ID;
+                }
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to add these " + SaveData.length + " data?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#f8bb86",
+                    confirmButtonText: "Insert",
+                    closeOnConfirm: false
+                }, function () {
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "CreatUserPrivilege";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { GEMP_NO: LoginName, SEMP_NO: IndexUser, ID_ITEMS: SaveData }, function (e) {
+                        if (e.Status == "Pass") {
+                            MessageAlert("OK", e.Message);
+                            ClearAll();
+                            $("#UserPrivilegeView").show();
+                            $("#UserPrivilegeModal").hide();
+                        }
+                        else {
+                            MessageAlert("ERROR", e.Message);
+                            return;
+                        }
+                    })
+                });
+            });
+            //Del点击删除触发事件
+            $("#DelConfirm").click(function () {
+                //獲取Checked項
+                var SaveData = [];
+                var Selections = $("#Privilegelist").bootstrapTable('getSelections');
+                var IndexData = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpno = "";
+                var IndexUser = IndexData[0].EMP_NO;
+                //防止空值傳入
+                if (Selections.length <= 0) {
+                    MessageAlert("ERROR", "Please select a record!");
+                    return;
+                }
+                //獲取選中所有選擇的權限
+                for (var i = 0; i < Selections.length; i++) {
+                    SaveData[i] = Selections[i].ID;
+                }
+                swal({
+                    title: "Warning",
+                    text: "Are you sure to delete these " + SaveData.length + " data?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Delete",
+                    closeOnConfirm: false
+                }, function () {
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "DeleteEditPrivilege";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: IndexUser, PRS: SaveData }, function (e) {
+                        if (e.Status == "Pass") {
+                            MessageAlert("OK", e.Message);
+                            ClearAll();
+                            $("#UserPrivilegeView").show();
+                            $("#UserPrivilegeModal").hide();
+                        }
+                        else {
+                            MessageAlert("ERROR", e.Message);
+                            return;
+                        }
+                    });
+                });
+            });
+            //創建表格
+            function ShowTable(Data, TableName, CheckFlag) {
+                var fie = [];
+                var checkbox = "";
+                fie.push({ title: 'checkall', field: 'checkall', checkbox: true, align: 'center' });
+                for (var item in Data[0]) {
+                    fie.push({ field: item, title: item });
+                }
+
+                if (CheckFlag) {
+                    $(TableName).bootstrapTable({
+                        data: Data,
+                        striped: false,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: false,                     //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",
+                        pageNumber: 1,                       //初始化加载第一页，默认第一页
+                        pageSize: 10,                       //每页的记录行数（*）
+                        pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                        search: false,
+                        strictSearch: false,
+                        searchOnEnterKey: true,            //回车搜索
+                        showColumns: false,
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        singleSelect: false,
+                        showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: true,
+                        dataType: "json",//期待返回数据类型
+                        buttonsAlign: "left",//按钮对齐方式
+                        toolbar: "#toolbar",//指定工具栏
+                        toolbarAlign: "left",//工具栏对齐方式
+                        columns: fie,
+                        onExpandRow: function (index, row, $detail) {
+                            var parentid = row.EMP_NO;
+                            var DataSource = [];
+                            var c = [];
+                            ClassName = "MESStation.MESUserManager.UserPrivilege";
+                            FunctionName = "SelectEditPrivilege";
+                            self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: parentid }, function (e) {
+                                if (e.Data.length > 0) {
+                                    DataSource = e.Data;
+                                    for (var item in DataSource[0]) {
+                                        c.push({ field: item, title: item });
+                                    }
+                                    var cur_table = $detail.html('<table id="SonTable"></table>').find('table');
+                                    $(cur_table).bootstrapTable({
+                                        data: DataSource,
+                                        striped: false,                      //是否显示行间隔色
+                                        cache: false,                       //是否使用缓存，默认为true
+                                        pagination: true,                   //是否显示分页（*）
+                                        sortable: false,                     //是否启用排序
+                                        sortOrder: "asc",                   //排序方式
+                                        sidePagination: "client",
+                                        pageNumber: 1,                       //初始化加载第一页，默认第一页
+                                        pageSize: 10,                       //每页的记录行数（*）
+                                        pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                                        search: false,
+                                        strictSearch: false,
+                                        searchOnEnterKey: true,            //回车搜索
+                                        showColumns: false,
+                                        showRefresh: false,                  //是否显示刷新按钮
+                                        minimumCountColumns: 2,             //最少允许的列数
+                                        clickToSelect: true,                //是否启用点击选中行
+                                        singleSelect: false,
+                                        showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                                        cardView: false,                    //是否显示详细视图
+                                        detailView: false,
+                                        dataType: "json",//期待返回数据类型
+                                        buttonsAlign: "left",//按钮对齐方式
+                                        toolbar: "#toolbar",//指定工具栏
+                                        toolbarAlign: "left",//工具栏对齐方式
+                                        columns: c
+                                    })
+                                    $(cur_table).bootstrapTable('hideColumn', 'ID');
+                                    $(cur_table).bootstrapTable('hideColumn', 'SYSTEM_NAME');
+                                    $(cur_table).bootstrapTable('hideColumn', 'FACTORY');
+                                    $(cur_table).bootstrapTable('hideColumn', 'BU_NAME');
+                                    $(cur_table).bootstrapTable('hideColumn', 'DPT_NAME');
+                                    $(cur_table).bootstrapTable('hideColumn', 'EDIT_EMP');
+                                }
+                            })
+                        },
+                        locale: "en"//中文支持,
+                    });
+                    $(TableName).bootstrapTable('hideColumn', 'EMP_PASSWORD');
+                    $(TableName).bootstrapTable('hideColumn', 'EMP_LEVEL');
+                    $(TableName).bootstrapTable('hideColumn', 'POSITION_NAME');
+                    $(TableName).bootstrapTable('hideColumn', 'MAIL_ADDRESS');
+                    $(TableName).bootstrapTable('hideColumn', 'PHONE_NUMBER');
+                    $(TableName).bootstrapTable('hideColumn', 'LOCK_FLAG');
+                    $(TableName).bootstrapTable('hideColumn', 'AGENT_EMP_NO');
+                    $(TableName).bootstrapTable('hideColumn', 'EMP_DESC');
+                    $(TableName).bootstrapTable('hideColumn', 'EMP_EN_NAME');
+
+                }
+                else {
+                    $(TableName).bootstrapTable({
+                        data: Data,
+                        striped: false,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: false,                     //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",
+                        pageNumber: 1,                       //初始化加载第一页，默认第一页
+                        pageSize: 10,                       //每页的记录行数（*）
+                        pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                        search: false,
+                        strictSearch: false,
+                        searchOnEnterKey: true,            //回车搜索
+                        showColumns: false,
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        singleSelect: false,
+                        showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,
+                        dataType: "json",//期待返回数据类型
+                        buttonsAlign: "left",//按钮对齐方式
+                        toolbar: "#toolbar",//指定工具栏
+                        toolbarAlign: "left",//工具栏对齐方式
+                        columns: fie,
+                        locale: "en",//中文支持,
+                    });
+                }
+                $(TableName).bootstrapTable('hideColumn', 'ID');
+
+            }
+            //MessageAlert列表
+            function MessageAlert(MsgType, MsgTitle) {
+                if (MsgType == "ERROR") {
+                    swal({
+                        title: "Error",
+                        text: MsgTitle,
+                        type: "warning",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+                if (MsgType == "OK") {
+                    swal({
+                        title: "Success",
+                        text: MsgTitle,
+                        type: "success",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+            }
+            // ---------------------------------------END---------------------------------------//
+            LoadData();
+        });
+    </script>
+</body>
+</html>

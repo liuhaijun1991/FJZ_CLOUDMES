@@ -1,0 +1,677 @@
+﻿<script src="../../../lib/layui/layui.js"></script>
+<script>
+    layui.link('../../../lib/layui/css/layui.css');
+    layui.link('../../../lib/font-awesome/css/font-awesome.css');
+</script>
+<style>
+    .layui-form-label {
+        padding: 9px 0px;
+    }
+
+    legend {
+        width: auto !important;
+        padding: 0 !important;
+        margin-bottom: unset !important;
+        border-bottom: unset !important;
+    }
+
+    td .layui-table-cell {
+        height: 38px;
+        padding: 0 !important;
+        overflow: auto;
+    }
+
+        td .layui-table-cell select,
+        td .layui-table-cell input {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+    .layui-table-view .layui-table td {
+        padding: 0px;
+    }
+    .layui-table-cell .layui-form-checkbox {
+        margin:10px !important;
+    }
+    #DSSelector .layui-form-checkbox span {
+        height: 28px;
+    }
+
+    #xAxis + .layui-table-view,
+    #yAxis + .layui-table-view,
+    #series + .layui-table-view {
+        margin: 0 !important;
+    }
+</style>
+<div class="layui-row" style="margin:20px">
+    <div class="layui-form" lay-filter="EchartConfig">
+        <div style="width:400px; float:left">
+            <input class="layui-hide" lay-filter="ConfigObjectID" name="ConfigObjectID" value="" />
+            <input class="layui-hide" lay-filter="ConfigObjectType" name="ConfigObjectType" value="" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">標題</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" placeholder="請輸入標題" autocomplete="off" class="layui-input" lay-filter="title" lay-submit>
+                </div>
+            </div>
+            <div class="layui-inline layui-form-item">
+                <label class="layui-form-label">尺寸</label>
+                <div class="layui-input-inline" style="width: 50px; margin-left: 30px;">
+                    <input type="text" name="width" placeholder="width" autocomplete="off" class="layui-input" lay-filter="width" value="900" lay-verify="required|number" lay-submit>
+                </div>
+                <div class="layui-form-mid">*</div>
+                <div class="layui-input-inline" style="width: 50px;">
+                    <input type="text" name="height" placeholder="height" autocomplete="off" class="layui-input" lay-filter="height" value="400" lay-verify="required|number" lay-submit>
+                </div>
+            </div>
+            <fieldset class="layui-elem-field">
+                <legend>數據源</legend>
+                <div class="layui-field-box" id="DSSelector">
+
+                </div>
+            </fieldset>
+
+            <fieldset class="layui-elem-field">
+                <legend>X轴</legend>
+                <div class="layui-field-box" style="padding:0px">
+                    <table id="xAxis" lay-filter="xAxis"></table>
+                    <script type="text/html" id="xAxisTypeTpl">
+                        <select name="xAxisType" lay-filter="xAxisType" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            <option value="value" {{ d.type=='value'?'selected':''}}>value</option>
+                            <option value="category" {{ d.type=='category'?'selected':''}}>category</option>
+                        </select>
+                    </script>
+                    <script type="text/html" id="xAxisTitleTpl">
+                        <input type="text" name="xAxisTitle" placeholder="請輸入X轴標題" rel-index="{{ d.LAY_INDEX }}" class="layui-input" lay-filter="xAxisTitle" value="{{ d.name }}">
+                    </script>
+                    <script type="text/html" id="xAxisOperationTpl">
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="add" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-plus"></i></a>
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="del" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-minus"></i></a>
+                    </script>
+                </div>
+            </fieldset>
+            <fieldset class="layui-elem-field">
+                <legend>Y轴</legend>
+                <div class="layui-field-box" style="padding:0px">
+                    <table id="yAxis" lay-filter="yAxis"></table>
+                    <script type="text/html" id="yAxisTypeTpl">
+                        <select name="yAxisType" lay-filter="yAxisType" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            <option value="value" {{ d.type=='value'?'selected':''}}>value</option>
+                            <option value="category" {{ d.type=='category'?'selected':''}}>category</option>
+                        </select>
+                    </script>
+                    <script type="text/html" id="yAxisTitleTpl">
+                        <input type="text" name="yAxisTitle" placeholder="請輸入X轴標題" rel-index="{{ d.LAY_INDEX }}" class="layui-input" lay-filter="yAxisTitle" value="{{ d.name }}">
+                    </script>
+                    <script type="text/html" id="yAxisLabelTpl">
+                        <input type="text" name="yAxisLabel" placeholder="Label显示格式" rel-index="{{ d.LAY_INDEX }}" class="layui-input" lay-filter="yAxisLabel" value="{{ d.axisLabel.formatter?d.axisLabel.formatter:'' }}">
+                    </script>
+                    <script type="text/html" id="yAxisOperationTpl">
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="add" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-plus"></i></a>
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="del" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-minus"></i></a>
+                    </script>
+                </div>
+            </fieldset>
+        </div>
+        <div style="width:calc(100% - 420px); float:left; margin-left:20px;">
+            <div id="ChartTemp"></div>
+            <fieldset class="layui-elem-field" style=" clear:left;">
+                <legend>數據系列</legend>
+                <div class="layui-field-box" style="padding:0px">
+                    <table id="series" lay-filter="series"></table>
+                    <script type="text/html" id="seriesLayoutByTpl">
+                        <select name="seriesLayoutBy" lay-filter="seriesLayoutBy" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            {{#  for (var i = 0; i < ChartsOptionData.seriesLayoutBy.length; i++) { }}
+                            {{# if(d.seriesLayoutBy){ }}
+                            <option value="{{ ChartsOptionData.seriesLayoutBy[i] }}" {{ d.seriesLayoutBy==ChartsOptionData.seriesLayoutBy[i]?'selected':''}}>{{ ChartsOptionData.seriesLayoutBy[i] }}</option>
+                            {{#  }else{ }}
+                            <option value="{{ ChartsOptionData.seriesLayoutBy[i] }}" {{ ChartsOptionData.seriesLayoutBy[i]=="none"?'selected':''}}>{{ ChartsOptionData.seriesLayoutBy[i] }}</option>
+                            {{#  } }}
+                            {{#  } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="SourceIDTpl">
+                        <select name="SourceID" lay-filter="SourceID" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            {{# for(var i=0; i < AllDatasource.length ;i++){ }}
+                            {{# if(Datasource[AllDatasource[i].id]){ }}
+                            <option value="{{ AllDatasource[i].id }}" {{ d.SourceID==AllDatasource[i].id?'selected':''}}>{{ AllDatasource[i].name }}</option>
+                            {{# } }}
+                            {{# } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="columnIndexTpl">
+                        <select name="columnIndex" lay-filter="columnIndex" rel-index="{{ d.LAY_INDEX }}" {{ d.seriesLayoutBy!="row"?'disabled':'' }} lay-ignore>
+                            {{#  if(Datasource[d.SourceID].length > 0){ }}
+                            {{#  for(var i=0; i < Datasource[d.SourceID][0].length ;i++){ }}
+                            <option value="{{ i }}" {{ d.columnIndex==i?'selected':''}}>{{ Datasource[d.SourceID][0][i] }}</option>
+                            {{#  } }}
+                            {{#  } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="ChartsTypeTpl">
+                        <select name="type" lay-filter="type" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            {{#  for (var i = 0; i < ChartsOptionData.ChartsType.length; i++) { }}
+                            <option value="{{ ChartsOptionData.ChartsType[i].value }}" {{ d.type==ChartsOptionData.ChartsType[i].value?'selected':''}}>{{ ChartsOptionData.ChartsType[i].label }}</option>
+                            {{#  } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="xAxisIndexTpl">
+                        <select name="xAxisIndex" lay-filter="xAxisIndex" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            {{#  for (var i = 0; i < option.xAxis.length; i++) { }}
+                            <option value="{{ i }}" {{ d.xAxisIndex==i?'selected':''}}>{{ i }}</option>
+                            {{#  } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="yAxisIndexTpl">
+                        <select name="yAxisIndex" lay-filter="yAxisIndex" rel-index="{{ d.LAY_INDEX }}" lay-ignore>
+                            {{#  for (var i = 0; i < option.yAxis.length; i++) { }}
+                            <option value="{{ i }}" {{ d.yAxisIndex==i?'selected':''}}>{{ i }}</option>
+                            {{#  } }}
+                        </select>
+                    </script>
+                    <script type="text/html" id="seriesLabelTpl">
+                        <input type="text" name="label" placeholder="Label显示格式" rel-index="{{ d.LAY_INDEX }}" class="layui-input" lay-filter="label" value="{{ d.label.normal.formatter?d.label.normal.formatter:'' }}">
+                    </script>
+                    <script type="text/html" id="stackTpl">
+                        <input type="checkbox" name="stack" lay-filter="stack" title="" value="{{ d.stack?d.stack:('总量'+d.LAY_INDEX) }}" lay-skin="primary" rel-index="{{ d.LAY_INDEX }}" {{ d.stack?'checked':''}}>
+                    </script>
+                    <script type="text/html" id="seriesOperationTpl">
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="add" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-plus"></i></a>
+                        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="del" rel-index="{{ d.LAY_INDEX }}" style="margin-top: 10px;padding-top: 3px;"><i class="fa fa-minus"></i></a>
+                    </script>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<script>
+    AllDatasource = [];
+    Datasource = {};
+    option = {};
+    ChartsOptionData = {};
+    layui.config({
+        base: '../../../lib/'
+    }).extend({
+        common: 'common',
+        bootstrap: 'Bootstrap/js/bootstrap',
+        bootstrapTable: 'bootstrap-table/bootstrap-table',
+        echarts: 'echarts/echarts',
+        ChartDefaultOption: 'ChartDefaultOption'
+    }).use(['common', 'jquery', 'table', 'form', 'element', 'echarts', 'ChartDefaultOption'], function () {
+        var elid = layui.common.getQueryString('elid');
+        var objType = layui.common.getQueryString('type');
+        var $ = layui.$
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var Widget = parent.ReportOptions.Widgets.GetChild('id', elid);
+        option = Widget.option;
+        AllDatasource = parent.ReportOptions.DataSource;
+        ChartsOptionData = OptionData;
+        Datasource = {};
+
+        form.val('EchartConfig', { width: Widget.width, height: Widget.height, ConfigObjectID: elid, ConfigObjectType: objType });
+
+        var common = {
+            RunSql: function (sql) {
+                var res = [];
+                return res;
+            },
+            RunAJAX: function (url, data) {
+                var res = null;
+                $.get({
+                    async: false,
+                    url: url,
+                    dataType: 'text',
+                    data: data,
+                    success: function (r) {
+                        res = eval(r);
+                    },
+                    error: function (e) {
+                        res = 'error';
+                    }
+                });
+                return res;
+            },
+            ParseJSON: function (JsonStr) {
+                var obj;
+                try {
+                    obj = JSON.parse(JsonStr);
+                } catch (e) {
+                    obj = e;
+                }
+                return obj;
+            }
+        }
+
+        var charts = layui.echarts.init($('#ChartTemp')[0], layui.EchartsTheme, { width: 800, height: 400 });
+
+        function SetCharts() {
+            var o = {};
+            var ds = [];
+            for (var item in Datasource) {
+                if (ds.length == 0) {
+                    ds = $.extend(true, [], Datasource[item]);
+                } else if (ds.length != 0 && ds[0].length == Datasource[item][0].length) {
+                    var dt = $.extend(true, [], Datasource[item]);
+                    dt.splice(0, 1);
+                    ds = ds.concat(dt);
+                }
+            }
+            if (!o.dataset)
+                o['dataset'] = {};
+            if (!o.dataset.source)
+                o.dataset['source'] = ds;
+
+            if (option.title)
+                o['title'] = $.extend(true, {}, option.title);
+            if (option.legend) {
+                o['legend'] = { data: [] };
+                if (option.legend.orient)
+                    o['legend']['orient'] = $.extend(true, {}, option.legend.orient);
+                if (option.legend.DataType === 'row') {
+                    for (var i = 1; i < ds[option.legend.DataIndex].length; i++) {
+                        o['legend'].data.push(ds[option.legend.DataIndex][i]);
+                    }
+                }
+                else if (option.legend.DataType === 'column') {
+                    for (var i = 1; i < ds.length; i++) {
+                        o['legend'].data.push(ds[i][option.legend.DataIndex]);
+                    }
+                } else {
+                    o['legend'].data = $.extend(true, {}, option.legend.data);
+                }
+            }
+            if (option.xAxis)
+                o['xAxis'] = $.extend(true, [], option.xAxis);
+            if (option.yAxis)
+                o['yAxis'] = $.extend(true, [], option.yAxis);
+            if (option.visualMap)
+                o['visualMap'] = $.extend(true, {}, option.visualMap);
+            if (option.series) {
+                o['series'] = [];
+                for (var i = 0; i < option.series.length; i++) {
+                    if (option.series[i].type === 'line' || option.series[i].type === 'bar') {
+                        if (Datasource[option.series[i].SourceID] && option.series[i].seriesLayoutBy) {
+                            var dss = $.extend(true, [], Datasource[option.series[i].SourceID]);
+                            var serItem = {};
+                            if (option.series[i].type)
+                                serItem['type'] = option.series[i].type;
+                            if (option.series[i].seriesLayoutBy)
+                                serItem['seriesLayoutBy'] = option.series[i].seriesLayoutBy;
+                            if (option.series[i].stack)
+                                serItem['stack'] = option.series[i].stack;
+                            if (option.series[i].yAxisIndex)
+                                serItem['yAxisIndex'] = option.series[i].yAxisIndex;
+                            if (option.series[i].seriesLayoutBy) {
+                                if (option.series[i].seriesLayoutBy === 'row') {
+                                    for (var n = 1; n < dss.length; n++) {
+                                        var SItem = $.extend({}, serItem);
+                                        SItem['name'] = dss[n][option.series[i].columnIndex];
+                                        o['series'].push(SItem);
+                                    }
+                                } else {
+                                    for (var n = 1; n < dss[0].length; n++) {
+                                        var SItem = $.extend({}, serItem);
+                                        SItem['name'] = dss[0][n];
+                                        o['series'].push(SItem);
+                                    }
+                                }
+                            } else if (option.series[i].encode) {
+                                serItem['encode'] = $.extend(true, {}, option.series[i].encode);
+                                o['series'].push(serItem);
+                            }
+                        }
+                        else {
+                            var ser = $.extend(true, {}, option.series[i]);
+                            delete ser['SourceID'];
+                            delete ser['columnIndex'];
+                            o['series'].push(ser);
+                        }
+                    }
+                    else {
+                        o['series'].push(option.series[i]);
+                    }
+                }
+            }
+            charts.clear();
+            charts.setOption(o);
+        }
+
+        //数据源初始化
+        function InitDataSource() {
+            for (var n = 0; n < Widget.DataSource.length; n++) {
+                for (var i = 0; i < AllDatasource.length; i++) {
+                    if (Widget.DataSource[n] == AllDatasource[i].id) {
+                        switch (AllDatasource[i].type) {
+                            case 'HTTP':
+                                Datasource[AllDatasource[i].id] = common.RunAJAX(AllDatasource[i].data, {});
+                                break;
+                            case 'JSON':
+                                Datasource[AllDatasource[i].id] = common.ParseJSON(AllDatasource[i].data);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        InitDataSource();
+        SetCharts();
+
+        var DSSelector = $('#DSSelector');
+        DSSelector.empty();
+        for (var i = 0; i < AllDatasource.length; i++) {
+            DSSelector.append($('<input type="checkbox" name="DataSource" lay-filter="DataSource" value="' + AllDatasource[i].id + '" title="' + AllDatasource[i].name + '" lay-skin="primary" ' + (Widget.DataSource.indexOf(AllDatasource[i].id) >= 0 ? 'checked' : '') + '>'));
+        }
+        form.render();
+
+        $('[name=title]').on('change', function (e) {
+            option.title.text = this.value;
+            SetCharts()
+        });
+
+        $('[name=width]').on('change', function (e) {
+            Widget.width = this.value;
+            charts.resize({ width: this.value });
+        });
+
+        $('[name=height]').on('change', function (e) {
+            Widget.height = this.value;
+            charts.resize({ height: this.value });
+        });
+
+        form.on('checkbox(DataSource)', function (data) {
+            if (data.elem.checked) {
+                if (Widget.DataSource.indexOf(data.value) < 0) {
+                    Widget.DataSource.push(data.value);
+                    if (!option.xAxis) {
+                        option.xAxis = [];
+                    }
+                    if (!option.yAxis) {
+                        option.yAxis = [];
+                    }
+                    if (!option.series) {
+                        option.series = [];
+                    }
+                    if (option.xAxis.length == 0) {
+                        option.xAxis.push({ type: 'category', name: '' });
+                    }
+                    if (option.yAxis.length == 0) {
+                        option.yAxis.push({ type: 'value', name: '', axisLabel: { formatter: '{value}' } });
+                    }
+                    var ser = {
+                        seriesLayoutBy: "column",
+                        type: "bar",
+                        yAxisIndex: 0,
+                        xAxisIndex: 0,
+                        SourceID: data.value,
+                        columnIndex: 0,
+                        label: {
+                            normal: {
+                                show: true,
+                                formatter:"{@[1]}",
+                                position: "insideTop"
+                            }
+                        }
+                    };
+                    option.series.push(ser);
+                }
+            }
+            else {
+                if (Widget.DataSource.indexOf(data.value) >= 0) {
+                    Widget.DataSource.splice(Widget.DataSource.indexOf(data.value), 1);
+                    var ser = option.series.GetChild('SourceID', data.value);
+                    if (ser) {
+                        option.series.splice(option.series.indexOf(ser), 1);
+                    }
+                }
+                if (Widget.DataSource.length == 0) {
+                    option.xAxis = [];
+                    option.yAxis = [];
+                    option.series = [];
+                }
+            }
+            InitDataSource();
+            SetCharts();
+            seriesTable.reload({ data: $.extend([], option.series) });
+            xAxisTable.reload({ data: $.extend([], option.xAxis) });
+            yAxisTable.reload({ data: $.extend([], option.yAxis) });
+        });
+
+        var xAxisTable = table.render({
+            id: 'xAxis',
+            elem: '#xAxis',
+            width: 395,
+            cols: [[
+                { title: '序號', type: 'numbers', width: 40 },
+                { field: 'type', title: '类型', width: 120, templet: '#xAxisTypeTpl' },
+                { field: 'name', title: '名称', width: 150, templet: '#xAxisTitleTpl' },
+                { fixed: 'right', title: 'Operation', width: 80, align: 'center', toolbar: '#xAxisOperationTpl' }
+            ]],
+            data: $.extend(true, [], option.xAxis),
+            done: function (res, curr, count) {
+                form.render();
+                element.render();
+                xAxisBindEvent();
+            }
+        });
+
+        var yAxisTable = table.render({
+            id: 'yAxis',
+            elem: '#yAxis',
+            width: 395,
+            cols: [[
+                { title: '序號', type: 'numbers', width: 40 },
+                { field: 'type', title: '类型', width: 80, templet: '#yAxisTypeTpl' },
+                { field: 'name', title: '名称', width: 100, templet: '#yAxisTitleTpl' },
+                { field: 'axisLabel', title: 'Label格式', width: 89, templet: '#yAxisLabelTpl' },
+                { fixed: 'right', title: 'Operation', width: 80, align: 'center', toolbar: '#yAxisOperationTpl' }
+            ]],
+            data: $.extend(true, [], option.yAxis),
+            done: function (res, curr, count) {
+                form.render();
+                element.render();
+                yAxisBindEvent();
+            }
+        });
+
+        table.on('tool(xAxis)', function (obj) {
+            var index = obj.tr.attr('data-index') - 1;
+            switch (obj.event) {
+                case 'add':
+                    layer.msg('添加');
+                    var x = { type: 'category', name: '' };
+                    option.xAxis.push(x);
+                    break;
+                case 'del':
+                    layer.msg('删除');
+                    option.xAxis.splice(index, 1);
+                    break;
+            };
+            SetCharts();
+            xAxisTable.reload({ data: $.extend(true, [], option.xAxis) });
+            seriesTable.reload({ data: $.extend(true, [], option.series) });
+        });
+
+        table.on('tool(yAxis)', function (obj) {
+            var index = obj.tr.attr('data-index') - 1;
+            switch (obj.event) {
+                case 'add':
+                    layer.msg('添加');
+                    var y = {
+                        type: 'category', name: '', axisLabel: { formatter: '{value}' }
+                    };
+                    option.yAxis.push(y);
+                    break;
+                case 'del':
+                    layer.msg('删除');
+                    option.yAxis.splice(index, 1);
+                    break;
+            };
+            SetCharts();
+            yAxisTable.reload({ data: $.extend(true, [], option.yAxis) });
+            seriesTable.reload({ data: $.extend(true, [], option.series) });
+        });
+
+        function xAxisBindEvent() {
+            $('[name=xAxisType]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.xAxis[index].type = this.value;
+                SetCharts()
+            });
+
+            $('[name=xAxisTitle]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1
+                option.xAxis[index].name = this.value;
+                SetCharts()
+            });
+        }
+
+        function yAxisBindEvent() {
+            $('[name=yAxisType]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.yAxis[index].type = this.value;
+                SetCharts()
+            });
+
+            $('[name=yAxisTitle]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.yAxis[index].name = this.value;
+                SetCharts()
+            });
+
+            $('[name=yAxisLabel]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                if (this.value == "") {
+                    delete option.yAxis[index].axisLabel['formatter'];
+                } else {
+                    option.yAxis[index].axisLabel['formatter'] = this.value;
+                }
+                option.yAxis[index].axisLabel.formatter = this.value;
+                SetCharts()
+            });
+        }
+
+        var seriesTable = table.render({
+            id: 'series',
+            elem: '#series',
+            cols: [[
+                { title: '序號', type: 'numbers', width: 50 },
+                { field: 'SourceID', type: '', title: '数据源', width: 120, templet: '#SourceIDTpl' },
+                { field: 'seriesLayoutBy', title: '渲染方式', width: 90, templet: '#seriesLayoutByTpl' },
+                { field: 'columnIndex', title: '数据列', width: 90, templet: '#columnIndexTpl' },
+                { field: 'type', title: 'Charts類型', width: 120, templet: '#ChartsTypeTpl' },
+                { field: 'xAxisIndex', title: 'x轴', width: 80, templet: '#xAxisIndexTpl' },
+                { field: 'yAxisIndex', title: 'y轴', width: 80, templet: '#yAxisIndexTpl' },
+                { field: 'label', title: '标签格式', width: 90, templet: '#seriesLabelTpl' },
+                { field: 'stack', title: '堆叠', templet: '#stackTpl' },
+                { fixed: 'right', title: 'Operation', width: 80, align: 'center', toolbar: '#seriesOperationTpl' }
+            ]],
+            data: $.extend(true, [], option.series),
+            done: function (res, curr, count) {
+                form.render();
+                element.render();
+                SeriesBindEvent();
+            }
+        });
+
+        table.on('tool(series)', function (obj) {
+            var index = obj.tr.attr('data-index') - 1;
+            switch (obj.event) {
+                case 'add':
+                    var ser = {
+                        seriesLayoutBy: "column",
+                        type: "bar",
+                        yAxisIndex: 0,
+                        xAxisIndex: 0,
+                        SourceID: Widget.DataSource[0],
+                        columnIndex: 0,
+                        label: {
+                            normal: {
+                                show: true,
+                                formatter: "{@[1]}",
+                                position: "insideTop"
+                            }
+                        }
+                    };
+                    option.series.push(ser);
+                    break;
+                case 'del':
+                    option.series.splice(index, 1);
+                    break;
+            };
+            SetCharts();
+            seriesTable.reload({ data: $.extend(true, [], option.series) });
+        });
+
+        function SeriesBindEvent() {
+            $('[name=seriesLayoutBy]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                if (this.value == "none") {
+                    delete option.series[index]['seriesLayoutBy'];
+                    delete option.series[index]['columnIndex'];
+                } else {
+                    option.series[index]['seriesLayoutBy'] = this.value;
+                    option.series[index]['columnIndex'] = 0;
+                }
+                SetCharts();
+                seriesTable.reload({ data: $.extend([], option.series) });
+            });
+
+            $('[name=label]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1
+                if (this.value == "") {
+                    delete option.series[index].label.normal['formatter'];
+                } else {
+                    option.series[index].label.normal['formatter'] = this.value;
+                }
+                SetCharts()
+            });
+
+            $('[name=SourceID]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.series[index].SourceID = this.value;
+                SetCharts()
+            });
+
+            $('[name=columnIndex]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.series[index].columnIndex = this.value;
+                SetCharts()
+            });
+
+            $('[name=type]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.series[index].type = this.value;
+                SetCharts()
+            });
+
+            $('[name=xAxisIndex]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.series[index].xAxisIndex = this.value;
+                SetCharts()
+            });
+
+            $('[name=yAxisIndex]').on('change', function (e) {
+                var index = this.getAttribute('rel-index') - 1;
+                option.series[index].yAxisIndex = this.value;
+                SetCharts()
+            });
+
+            form.on('checkbox(stack)', function (data) {
+                var index = data.elem.getAttribute('rel-index') - 1;
+                if (data.elem.checked) {
+                    option.series[index]['stack'] = data.value;
+                } else {
+                    option.series[index]['stack'] = null;
+                }
+                SetCharts()
+            });
+        }
+    });
+</script>

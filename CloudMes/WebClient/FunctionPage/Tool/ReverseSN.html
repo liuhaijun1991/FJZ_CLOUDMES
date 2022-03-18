@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <script src="../../Scripts/Station/MesClient.KeyPartScan.js"></script>
+    <style>
+        #inputsite .form-group input, #inputsite .form-group select {
+            margin-bottom: 20px;
+            box-shadow: inset 0px 0px 1px #bcbcbc;
+            border-radius: 5px;
+        }
+
+        #inputsite .form-group label {
+            margin-top: 5px;
+            font-size: initial;
+        }
+
+        #inputsite .form-control {
+            font-size: 2rem !important;
+            font-weight: 500 !important;
+            border: 1px solid #4c4c4c;
+        }
+
+            #inputsite .form-control:focus {
+                background-color: #f6f7a6;
+            }
+
+        #messagesite {
+            overflow: scroll;
+            font-size: 1.5rem;
+        }
+
+        .ibox {
+            margin-bottom: 0px;
+        }
+
+        .ibox-content {
+            height: calc(100% - 54px);
+        }
+
+        @media(max-width:1599px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc((100% - 30px)/2);
+                /*width: 100%;*/
+            }
+        }
+
+        @media(max-width:1199px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+
+        @media(max-width:991px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc(50% - 30px);
+                /*width: 100%;*/
+            }
+        }
+
+        @media(max-width:749px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:ReversSN">REVERSE SN</span>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row full-height">
+                <div class="col-xs-12 form-inline">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label text-right">SN</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" id="ReversSN" data-scan="true" />
+                        </div>
+                        <div class="col-xs-10 offset-2">
+                            <p>&hearts; Please scan and enter the SN you need to reverse.</p>
+                            <p>&hearts; Scan only!!!Scan only!!!Scan only!!!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default col-xs-12 no-padding">
+                    <div class="panel-heading" style="background-color: #92B5D3 !important; font-size:large; font-weight:bold;" set-lan="html:StationMessage">Message</div>
+                    <div class="panel-body no-padding" id="messagesite">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/echarts.min.js"></script>-->
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var Client = null;
+        var MessageElements = function () {
+            MessageElements.prototype.Default = function (Message, State, Container) {
+                var DTime = new Date();
+                var time = DTime.format("yyyy-MM-dd hh:mm:ss");
+                var type = State == 0 ? "error" : (State == 1 || State == 6 ? "success" : (State == 2 ? "info" : (State == 3 ? "warning" : "info")));
+                if (Container.find) {
+                    if (Container.find("tbody").length > 0) {
+                        Container.find("tbody>tr:gt(200)").remove();
+                        var n = Container.find("tbody>tr:first>td:first").text();
+                        var tr = $("<tr class=\"" + type + "\"><td>" + (Number(n) + 1).toString() + "</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                        Container.find("tbody").prepend(tr);
+                    }
+                    else {
+                        var table = $("<table class=\"table table-striped\"></table>");
+                        var th = $("<thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>");
+                        var tb = $("<tbody></tbody>");
+                        var tr = $("<tr class=\"" + type + "\"><td>1</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                        tb.append(tr);
+                        table.append(th);
+                        table.append(tb);
+                        Container.empty();
+                        Container.prepend(table);
+                    }
+                }
+            };
+        };
+
+        $(document).ready(function () {
+            $.HtmlControl.MustScan();
+            $("#ReversSN").on('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    var v = $("#ReversSN").val();
+                    var msg = new MessageElements();
+                    self.parent.Loading(true);
+                    self.parent.client.CallFunction("MESStation.Management.Reverse", "ReverseSN", { "SN": v }, function (e) {
+                        self.parent.Loading(false);
+                        if (e.Status == "Pass") {
+                            msg.Default(Message = e.Message, State = 6, $("#messagesite"));
+                        }
+                        else {
+                            msg.Default(Message = e.Message, State = 0, $("#messagesite"));
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

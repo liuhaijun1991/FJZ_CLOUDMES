@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Quack Label</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .form-group label {
+            padding-top: 8px;
+        }
+
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+
+        .tabs-container .tabs-left > .nav-tabs,
+        .tabs-container .tabs-right > .nav-tabs {
+            width: 200px;
+        }
+
+        .file-outline {
+            padding: 4px 0 0 0;
+            margin-left: -4px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body full-height">
+        <div id="Table_Toolbar">
+            <div class="btn-group hidden-xs m-l-lg">
+                <button type="button" class="btn btn-outline btn-primary" id="DownloadTemplateFile">
+                    <i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i><lan set-lan="html:Template"> Template File</lan>
+                </button>
+            </div>
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:200px">
+                <label class="btn btn-outline btn-primary input-group" for="LabelFileUpload" style="z-index:1;"><lan set-lan="html:Upload"> Upload</lan></label>
+                <input id="LabelFileUpload" type="file" onchange="importExcel(this)" class="btn btn-outline btn-primary file-outline" accept=".xls,.xlsx">
+                
+            </div>
+            <!--<div id="demo"></div>-->
+        </div>
+    </div>
+    
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script>
+       
+        $(document).ready(function () {
+            $("#DownloadTemplateFile").on("click", function () {
+                window.open("../../File/QuackLabelTemplate.xlsx");
+            });
+        });
+
+        var wb;//读取完成的数据
+        var rABS = false; //是否将文件读取为二进制字符串
+        var excelFile = [];
+
+        function importExcel(obj) {//导入
+            if (!obj.files) {
+                return;
+            }
+            const IMPORTFILE_MAXSIZE = 1 * 1024;//这里可以自定义控制导入文件大小
+            var suffix = obj.files[0].name.split(".")[1]
+            if (suffix != 'xls' && suffix != 'xlsx') {
+                alert('The imported file format is incorrect!')
+                return
+            }
+            if (obj.files[0].size / 1024 > IMPORTFILE_MAXSIZE) {
+                alert('The imported file format is incorrect? The input table file cannot be greater than 1M')
+                return
+            }
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                if (rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                }
+                //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                //document.getElementById("demo").innerHTML = JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+
+                var data = JSON.parse(JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])));
+                //$.each(data,function (i,e) {
+                //    var html = "<div>" + e.SN + "<--->" + e.KEYPART_SN + "</div>";
+                //    $("#demo").append(html);
+                //});
+                UploadData(data);
+            };
+            if (rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
+            }
+        }
+
+        function fixdata(data) { //文件流转BinaryString
+            var o = "",
+                l = 0,
+                w = 10240;
+            for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+            return o;
+        }
+
+        function UploadData (data) {
+            parent.client.CallFunction("MESStation.FileUpdate.Fileuplaod", "UploadQuackLabelFile", { "KeyParts": data }, function (e) {
+                if (e.Status == "Pass") {
+                    KeyPartData = e.Data;
+                    $('#Label_List_Table').bootstrapTable('load', e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        $("#LabelFileUpload").val("");
+                    });
+                }
+            });
+        }
+
+        
+
+    </script>
+</body>
+</html>

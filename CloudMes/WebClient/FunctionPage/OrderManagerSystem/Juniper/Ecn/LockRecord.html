@@ -1,0 +1,1220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locking tool</title>
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../../../css/animate.css" rel="stylesheet" />
+    <link href="../../../../css/style.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../../Scripts/plugins/layer/laydate/need/laydate.css" rel="stylesheet" />
+    <style>
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div id="divQueryConditions" class="col-xs-6 form-horizontal divReportInput">
+        <div id="divQueryType" class="form-group col-xs-12">
+            <label class="col-xs-2 control-label text-right" set-lan="html:labelQueryType">Type:</label>
+            <div class="col-xs-10">
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="BySku" checked> By Sku
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="ByWo" checked> By WO
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="ByLot">By Lot
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="BySn"> By SN
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="ByPn"> By Component PN
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="QueryType" value="ByPOLine"> By PO Line
+                </label>
+            </div>
+        </div>
+        <div id="divQueryStatus" class="form-group  col-xs-12">
+            <label class="col-xs-2 control-label text-right" set-lan="html:labelLockStauts">Status:</label>
+            <div class="col-xs-10">
+                <select class="form-control">
+                    <option value="ALL" selected>All</option>
+                    <option value="1">Lock</option>
+                    <option value="0">UnLock</option>
+                </select>
+            </div>
+        </div>
+        <div id="divQueryData" class="form-group col-xs-12 form-group">
+            <label class="col-xs-2 control-label text-right">WO:</label>
+            <div id="divInputQueryData" class="col-xs-10 ">
+                <input type="text" class="form-control" />
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+        <div id="divQueryStatus" class="form-group col-xs-12">
+            <label class="col-xs-2 control-label text-right"></label>
+            <div class="col-xs-10">
+                <button type="button" id="btnQuery" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-ok"><lan set-lan="html:btnQuery">Submit</lan></i>
+                </button>
+                <button type="button" class="btn btn-primary" id="btnNotSearch">
+                    <i class="glyphicon glyphicon-remove">Cancel</i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <!--<button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">Search</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnQueryAll">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">Search All</lan>
+                    </button>
+
+                    <button type="button" class="btn btn-outline btn-default" id="btnLock">
+                        <i class="fa fa-lock" aria-hidden="true"></i><lan set-lan="html:Lock">Lock</lan>
+                    </button>-->
+                    <button type="button" class="btn btn-outline btn-default" id="btnUnLock">
+                        <i class="fa fa-unlock-alt" aria-hidden="true"></i><lan set-lan="html:UnLock">UnLock</lan>
+                    </button>
+                </div>
+            </div>
+            <div id="divLockingList">
+                <table id="tableLockingList" class="table table-hover"></table>
+            </div>
+        </div>
+    </div>
+
+    <div id="divNewLock" class="panel-body form-horizontal">
+        <div id="divLockType" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockType">Lock Type:</label>
+            <div class="col-xs-7 ">
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockBySku"> By Sku
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockByWo" checked="checked"> By WO
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockByLot">By Lot
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockBySn"> By SN
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockByPn"> By PN
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockByPOLine"> By POLine
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="LockType" value="LockBySO"> By SO
+                </label>
+            </div>
+        </div>
+        <div id="divSkuDescription" class="form-group">
+            <blockquote  class="text-center">
+                <small>When you do not need to specify SkuRev and EffeciveTime,Please do not need to fill in! </small>
+            </blockquote>
+        </div>
+        <div id="divLockSku" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockSku">Sku:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderSku" />
+            </div>
+        </div>
+        <div id="divLockWo" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockWO">WO:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderWO" />
+            </div>
+        </div>
+        <div id="divLockLot" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockLot">Lot:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderLotno" />
+            </div>
+        </div>
+        <div id="divLockSN" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockSN">SN:</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" rows="10" set-lan="attr:placeholder=placeholderSN"></textarea>
+            </div>
+        </div>
+        <div id="divLockPN" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockPN">PN:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderPartno" />
+            </div>
+        </div>
+        <div id="divLockPOLine" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockPOLine">POLine:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderPOLine" />
+            </div>
+        </div>
+        <div id="divLockSO" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockPN">SO:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderSO" />
+            </div>
+        </div>
+        <div id="divLockStation" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockType">Station:</label>
+            <div class="col-xs-7">
+                <select class="form-control"></select>
+            </div>
+        </div>
+        <div id="divLockSkuRev" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockSku">SkuRev:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" set-lan="attr:placeholder=placeholderSkuRev" />
+            </div>
+        </div>
+        <div id="divLockEffeciveTime" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockSku">EffeciveTime:</label>
+            <div class="col-xs-7">
+                <input type="text" id="EffeciveTime" class="form-control" set-lan="attr:placeholder=placeholderEffeciveTime" />
+            </div>
+        </div>
+        <div id="divLockReason" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockReason">Reason:</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" rows="3" set-lan="attr:placeholder=placeholderSN"></textarea>
+            </div>
+        </div>
+        <div id="divDoLock" class="form-group">
+            <label class="col-xs-3 control-label text-right"></label>
+            <div class="col-xs-7">
+                <button type="button" id="btnDoLock" class="btn btn-outline btn-primary">
+                    <i class="fa fa-lock" aria-hidden="true"></i><lan set-lan="html:btnLock">Lock</lan>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="divUnlock" class="panel-body form-horizontal">
+        <div id="divUnlockSku" class="form-group">
+            <label class="col-xs-3 control-label text-right">UnlockSku:</label>
+            <div class="col-xs-7 ">
+                <textarea class="form-control" rows="2" readonly></textarea>
+            </div>
+        </div>
+        <div id="divUnlockWO" class="form-group">
+            <label class="col-xs-3 control-label text-right">UnlockWO:</label>
+            <div class="col-xs-7 ">
+                <textarea class="form-control" rows="2" readonly></textarea>
+            </div>
+        </div>
+        <div id="divUnlockLot" class="form-group">
+            <label class="col-xs-3 control-label text-right">UnlockLotno:</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" rows="2" readonly></textarea>
+            </div>
+        </div>
+        <div id="divUnlockSN" class="form-group">
+            <label class="col-xs-3 control-label text-right">UnlockSN:</label>
+            <div class="col-xs-7">
+                <textarea class="form-control" rows="3" readonly></textarea>
+            </div>
+        </div>
+        <div id="divLockReasonReadonly" class="form-group">
+            <label class="col-xs-3  control-label text-right" set-lan="html:labelLockSN">Lock Reason:</label>
+            <div class="col-xs-7 ">
+                <textarea class="form-control" rows="3" readonly></textarea>
+            </div>
+        </div>
+        <div id="divUnlockReason" class="form-group">
+            <label class="col-xs-3 control-label text-right" set-lan="html:labelLockSN">Unlock Reason:</label>
+            <div class="col-xs-7 ">
+                <textarea class="form-control" rows="3" set-lan="attr:placeholder=placeholderUnlockReason"></textarea>
+            </div>
+        </div>
+        <div id="divDoUnLock" class="form-group">
+            <label class="col-xs-3 control-label text-right"></label>
+            <div class="col-xs-7">
+                <button type="button" id="btnDoUulock" class="btn btn-outline btn-primary">
+                    <i class="fa fa-unlock" aria-hidden="true"></i><lan set-lan="html:btnLock">Unlock</lan>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../../Scripts/plugins/layer/laydate/laydate.js"></script>
+
+    <script src="../../../../Scripts/global.js"></script>
+    <script src="../../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+
+        var textarea = "";
+        var client
+        var mesUI;
+        var lan;
+        var arrayID = [];
+        var callData;
+        $(document).ready(function () {
+            $("#divNewLock").addClass("hidden");
+            $("#divUnlock").addClass("hidden");
+            $("#divInputQueryData").find("textarea").addClass("hidden");
+            $("#divInputQueryData").find("input").val("");
+            $("#divSkuDescription").addClass("hidden");            
+            $("#divInputQueryData").find("input").focus();
+            $("#divQueryConditions").hide();
+            laydate({ elem: '#EffeciveTime',event: 'focus' });
+            client = self.parent.client;
+            mesUI = new MesClientUI(client);
+            lan = $.cookie($.MES.CK_LAN_NAME);
+
+            ShowWoData([]);
+            ShowAllLockedInfo();
+
+            $("#tableEventsToolbar").addClass("tableEventsToolbar-margin-top");
+            $("#btnToolSearch").click(function () {
+                $("#divInputQueryData").focus().select();
+                $("#divQueryConditions").toggle();
+            });
+            $("#btnNotSearch").click(function () {
+                $("#divQueryConditions").hide();
+            });
+
+            $("#divQueryType").find("input[name=QueryType]").click(function () {
+                if ($(this).val() == "BySku") {
+                    $("#divQueryData").find("label").html("Sku:")
+                    $("#divInputQueryData").find("textarea").addClass("hidden");
+                    $("#divInputQueryData").find("input").removeClass("hidden");
+                    $("#divInputQueryData").find("input").val("");
+                    $("#divInputQueryData").find("input").focus();
+                }
+                else if ($(this).val() == "ByWo") {
+                    $("#divQueryData").find("label").html("WO:")
+                    $("#divInputQueryData").find("textarea").addClass("hidden");
+                    $("#divInputQueryData").find("input").removeClass("hidden");
+                    $("#divInputQueryData").find("input").val("");
+                    $("#divInputQueryData").find("input").focus();
+                }
+                else if ($(this).val() == "ByLot") {
+                    $("#divQueryData").find("label").html("LOT:")
+                    $("#divInputQueryData").find("textarea").addClass("hidden");
+                    $("#divInputQueryData").find("input").removeClass("hidden");
+                    $("#divInputQueryData").find("input").val("");
+                    $("#divInputQueryData").find("input").focus();
+                }
+                else if ($(this).val() == "BySn") {
+                    $("#divQueryData").find("label").html("SN:")
+                    $("#divInputQueryData").find("textarea").removeClass("hidden");
+                    $("#divInputQueryData").find("input").addClass("hidden");
+                    $("#divInputQueryData").find("textarea").val("");
+                    $("#divInputQueryData").find("textarea").focus();
+                }
+                else if ($(this).val() == "ByPn") {
+                    $("#divQueryData").find("label").html("PN:")
+                    $("#divInputQueryData").find("textarea").addClass("hidden");
+                    $("#divInputQueryData").find("input").removeClass("hidden");
+                    $("#divInputQueryData").find("input").val("");
+                    $("#divInputQueryData").find("input").focus();
+                }
+                else if ($(this).val() == "ByPOLine") {
+                    $("#divQueryData").find("label").html("POLine:")
+                    $("#divInputQueryData").find("textarea").removeClass("hidden");
+                    $("#divInputQueryData").find("input").addClass("hidden");
+                    $("#divInputQueryData").find("textarea").val("");
+                    $("#divInputQueryData").find("textarea").focus();
+                }
+                else if ($(this).val() == "BySO") {
+                    $("#divQueryData").find("label").html("SO:")
+                    $("#divInputQueryData").find("textarea").removeClass("hidden");
+                    $("#divInputQueryData").find("input").addClass("hidden");
+                    $("#divInputQueryData").find("textarea").val("");
+                    $("#divInputQueryData").find("textarea").focus();
+                }
+            });
+            $("#btnQueryAll").on("click", function () {
+                ShowAllLockedInfo();
+            })
+            $("#btnQuery").on("click", function () {
+                var queryType = $("#divQueryType").find("input[name=QueryType]:checked").val();
+                var queryData = "";
+                var queryStatus = $("#divQueryStatus").find("select  option:selected").val();
+                if (queryType == "BySku" || queryType == "ByWo" || queryType == "ByLot" || queryType == "ByPn") {
+                    queryData = $("#divInputQueryData").find("input").val();
+                }
+                else {
+                    queryData = $("#divInputQueryData").find("textarea").val().split("\n");
+                }
+                if (queryData == "" || queryData == undefined) {
+                    layer.msg("Please input Query Data!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                SearchLockInfo(queryType, queryData, queryStatus);
+            })
+
+            $("#btnLock").on("click", function () {
+                layer.open({
+                    type: 1,
+                    title: 'New Lock',
+                    area: ["60%", "80%"],
+                    scrollbar: false,
+                    content: $("#divNewLock"),
+                    success: function (layero, index) {
+                        $("#divNewLock").removeClass("hidden");
+                        $("#divLockWo").removeClass("hidden");
+                        $("#divLockWo").find("input[type=text]").val("");
+                        $("#divLockWo").find("input[type=text]").focus();
+                        $("#divLockWo").find("input[type=text]").select();
+                        $("#divLockSku").addClass("hidden");
+                        $("#divLockLot").addClass("hidden");
+                        $("#divLockSN").addClass("hidden");
+                        $("#divLockPN").addClass("hidden");
+                        $("#divLockSO").addClass("hidden");
+                        $("#divLockPOLine").addClass("hidden");
+                        $("#divLockSkuRev").addClass("hidden");
+                        $("#divLockEffeciveTime").addClass("hidden");
+
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("input:radio[name='LockType']").attr("checked", false);
+                        $("input:radio[name='LockType']").eq(1).prop("checked", true);
+                        $($("#divLockStation").find("select")).find("option:selected").text("");
+                        $($("#divLockStation").find("select")).empty();
+                        $("#divLockReason").find("textarea").val("");
+                    },
+                    end: function () {
+                        $("#divNewLock").addClass("hidden");
+                    }
+                });
+            });
+
+            $("#divLockType").find("input[name=LockType]").click(function () {
+                if ($(this).val() == "LockBySku") {
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockSku").removeClass("hidden");
+                    $("#divLockSkuRev").removeClass("hidden");
+                    $("#divLockEffeciveTime").removeClass("hidden");
+                    $("#divLockSku").find("input[type=text]").val("");
+                    $("#divLockSku").find("input[type=text]").focus();
+                    $("#divLockSku").find("input[type=text]").select();
+                    $("#divSkuDescription").removeClass("hidden");    
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockSkuRev").find("input[type=text]").val("");
+                    $("#divLockEffeciveTime").find("input[type=text]").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                    GetLockStation("", "");
+                }
+                else if ($(this).val() == "LockByWo") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockWo").removeClass("hidden");
+                    $("#divLockWo").find("input[type=text]").val("");
+                    $("#divLockWo").find("input[type=text]").focus();
+                    $("#divLockWo").find("input[type=text]").select();
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockReason").find("textarea").val("");
+                    $("#divSkuDescription").addClass("hidden");     
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                }
+                else if ($(this).val() == "LockByLot") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divSkuDescription").addClass("hidden");     
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockLot").removeClass("hidden");
+                    $("#divLockLot").find("input[type=text]").val("");
+                    $("#divLockLot").find("input[type=text]").focus();
+                    $("#divLockLot").find("input[type=text]").select();
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockReason").find("textarea").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                }
+                else if ($(this).val() == "LockBySn") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockSN").removeClass("hidden");
+                    $("#divSkuDescription").addClass("hidden");     
+                    $("#divLockSN").find("textarea").val("");
+                    $("#divLockSN").find("textarea").focus();
+                    $("#divLockSN").find("textarea").select();
+                    $("#divLockReason").find("textarea").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                    GetLockStation("", "");
+                }
+                else if ($(this).val() == "LockByPn") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divSkuDescription").addClass("hidden");     
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockPN").removeClass("hidden");
+                    $("#divLockPN").find("textarea").val("");
+                    $("#divLockPN").find("textarea").focus();
+                    $("#divLockPN").find("textarea").select();
+                    $("#divLockReason").find("textarea").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                    GetLockStation("", "");
+                }
+                else if ($(this).val() == "LockByPOLine") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divSkuDescription").addClass("hidden");     
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockSO").addClass("hidden");
+                    $("#divLockPOLine").removeClass("hidden");
+                    $("#divLockPOLine").find("textarea").val("");
+                    $("#divLockPOLine").find("textarea").focus();
+                    $("#divLockPOLine").find("textarea").select();
+                    $("#divLockReason").find("textarea").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                }
+                else if ($(this).val() == "LockBySO") {
+                    $("#divLockSku").addClass("hidden");
+                    $("#divLockWo").addClass("hidden");
+                    $("#divLockLot").addClass("hidden");
+                    $("#divLockSN").addClass("hidden");
+                    $("#divLockSkuRev").addClass("hidden");
+                    $("#divLockEffeciveTime").addClass("hidden");
+                    $("#divSkuDescription").addClass("hidden");     
+                    $("#divLockPN").addClass("hidden");
+                    $("#divLockPOLine").addClass("hidden");
+                    $("#divLockSO").removeClass("hidden");
+                    $("#divLockPOLine").find("textarea").val("");
+                    $("#divLockPOLine").find("textarea").focus();
+                    $("#divLockPOLine").find("textarea").select();
+                    $("#divLockReason").find("textarea").val("");
+
+                    $($("#divLockStation").find("select")).find("option:selected").text("");
+                    $($("#divLockStation").find("select")).empty();
+                }
+            });
+            $("#divLockSku").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockBySku", { Sku: $("#divLockSku").find("input").val(), SkuRev: $("#divLockSkuRev").find("input").val(), EffeciveTime: $("#divLockEffeciveTime").find("input").val() });
+                }
+            });
+
+            $("#divLockWo").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockByWo", $("#divLockWo").find("input").val());
+                }
+            });
+
+            $("#divLockLot").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockByLot", $("#divLockLot").find("input").val());
+                }
+            });
+
+            $("#divLockPN").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockByPn", $("#divLockPN").find("input").val());
+                }
+            });
+
+            $("#divLockPOLine").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockByPOLine", $("#divLockPOLine").find("input").val());
+                }
+            });
+
+            $("#divLockSO").find("input").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetLockStation("LockBySO", $("#divLockSO").find("input").val());
+                }
+            });
+
+            $("#btnDoLock").on("click", function () {
+                var lockType = $("#divLockType").find("input[name=LockType]:checked").val();
+                var lockStation = $("#divLockStation").find("select  option:selected").val();
+                var lockData = "";
+                var lockReason = "";
+
+                if (lockStation == "" || lockStation == undefined) {
+                    layer.msg("Please select lock station ", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                if (lockType == "LockBySku") {
+                    if ($("#divLockSku").find("input[type=text]").val() == "") {
+                        layer.msg("Please input Sku!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                    else {
+                        lockData = { Sku: $("#divLockSku").find("input").val(), SkuRev: $("#divLockSkuRev").find("input").val(), EffeciveTime: $("#divLockEffeciveTime").find("input").val() };
+                    }
+                }
+                else if (lockType == "LockByWo") {
+                    if ($("#divLockWo").find("input[type=text]").val() == "") {
+
+                        layer.msg("Please input WO!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                    else {
+                        lockData = $("#divLockWo").find("input[type=text]").val();
+                    }
+                }
+                else if (lockType == "LockByLot") {
+                    if ($("#divLockLot").find("input[type=text]").val() == "") {
+                        layer.msg("Please input lotno!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    } else {
+                        lockData = $("#divLockLot").find("input[type=text]").val();
+                    }
+                } else if (lockType == "LockBySn") {
+                    if ($("#divLockSN").find("textarea").val() == "") {
+                        layer.msg("Please input SN!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    } else {
+                        lockData = $("#divLockSN").find("textarea").val().split("\n");
+                    }
+                } else if (lockType == "LockByPn") {
+                    if ($("#divLockPN").find("input[type=text]").val() == "") {
+                        layer.msg("Please input PN!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    } else {
+                        lockData = $("#divLockPN").find("input[type=text]").val();
+                    }
+                } else if (lockType == "LockByPOLine") {
+                    if ($("#divLockPOLine").find("input").val() == "") {
+                        layer.msg("Please input POLine!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    } else {
+                        lockData = $("#divLockPOLine").find("input[type=text]").val();
+                    }
+                } else if (lockType == "LockBySO") {
+                    if ($("#divLockSO").find("input[type=text]").val() == "") {
+                        layer.msg("Please input SO!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    } else {
+                        lockData = $("#divLockSO").find("input[type=text]").val();
+                    }
+                } else {
+                    layer.msg("Please select lock type!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+
+                if ($("#divLockReason").find("textarea").val() == "") {
+                    layer.msg("Please input reason!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                else {
+                    lockReason = $("#divLockReason").find("textarea").val();
+                }
+
+                callData = { "LockType": lockType, "LockData": lockData, "LockStation": lockStation, "LockReason": lockReason };
+                client.CallFunction("MESStation.Management.LockManager", "DoLock", callData, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowAllLockedInfo();
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+
+            $("#btnUnLock").on("click", function () {
+                var lock_type = "";
+                var tempLockLot = "";
+                var tempSKU = "";
+                var tempWo = "";
+                var tempSN = "";
+                var alertMsg = "";
+                var tempReason = "";
+                var arrayLockLot = [];
+                var arrayWO = [];
+                var arraySN = [];
+                var arrayLockReason = [];
+                var arraySku = [];
+                var arrayLockType = [];
+                arrayID.splice(0, arrayID.length);
+
+                var selectRows = $('#tableLockingList').bootstrapTable('getSelections');
+                if (selectRows.length <= 0) {
+                    layer.msg("no records selected", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                for (var i = 0; i < selectRows.length; i++) {
+                    if (selectRows[i].LOCK_STATUS == "0") {
+                        layer.msg(selectRows[i].SN + " have been unlock", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+
+                    // 20190626 Patty added: if lock type is WO, can not unlock by SN. fix bug here vince_20200221
+                    if (selectRows[i].TYPE == "WO" && selectRows[i].SN != "" && selectRows[i].SN != null) {
+                        layer.msg("Please unlock by WO: " + selectRows[i].WORKORDERNO, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+
+                    if (selectRows[i].LOCK_LOT != undefined && selectRows[i].LOCK_LOT != "") {
+                        arrayLockLot.push(selectRows[i].LOCK_LOT);
+                    }
+                    if (selectRows[i].WORKORDERNO != undefined && selectRows[i].WORKORDERNO != "") {
+                        arrayWO.push(selectRows[i].WORKORDERNO);
+                    }
+                    if (selectRows[i].WORKORDERNO != undefined && selectRows[i].WORKORDERNO != "") {
+                        arraySku.push(selectRows[i].WORKORDERNO);
+                    }
+                    if (selectRows[i].SN != undefined && selectRows[i].SN != "") {
+                        arraySN.push(selectRows[i].SN);
+                    }
+                    if (selectRows[i].LOCK_REASON != undefined && selectRows[i].LOCK_REASON != "") {
+                        arrayLockReason.push(selectRows[i].LOCK_REASON);
+                    }
+                    if (selectRows[i].TYPE != undefined && selectRows[i].TYPE != "") {
+                        arrayLockType.push(selectRows[i].TYPE);
+                    }
+                    arrayID.push(selectRows[i].ID);
+
+                }
+                //去重複
+                $.unique(arrayLockLot);
+                $.unique(arrayWO);
+                $.unique(arraySku);
+                $.unique(arraySN);
+                $.unique(arrayLockReason);
+                $.unique(arrayLockType);
+
+                if (arrayLockReason.length > 1) {
+                    $.each(arrayLockReason, function (index, value) {
+                        tempReason = tempReason + value + "</br>";
+                    });
+
+                    layer.msg("More Reason. </br>" + tempReason, {
+                        icon: 2,
+                        time: 6000
+                    }, function () { });
+                    return;
+                }
+                else {
+                    tempReason = arrayLockReason[0];
+                }
+
+                if (arrayLockLot.length > 1) {
+                    alertMsg = alertMsg + "More lock_lot,";
+                    $.each(arrayLockLot, function (index, value) {
+                        if (index == arrayLockLot.length - 1) {
+                            tempLockLot = tempLockLot + value;
+                        }
+                        else {
+                            tempLockLot = tempLockLot + value + "\n";
+                        }
+                    });
+                }
+                else {
+                    tempLockLot = arrayLockLot[0];
+                }
+
+                if (arraySku.length > 1) {
+                    alertMsg = alertMsg + "More WO,";
+                    $.each(arraySku, function (index, value) {
+                        if (index == arraySku.length - 1) {
+                            tempSKU = tempSKU + value;
+                        }
+                        else {
+                            tempSKU = tempSKU + value + "\n";
+                        }
+                    });
+                }
+                else {
+                    tempSKU = arraySku[0];
+                }
+
+                if (arrayWO.length > 1) {
+                    alertMsg = alertMsg + "More WO,";
+                    $.each(arrayWO, function (index, value) {
+                        if (index == arrayWO.length - 1) {
+                            tempWo = tempWo + value;
+                        }
+                        else {
+                            tempWo = tempWo + value + "\n";
+                        }
+                    });
+                }
+                else {
+                    tempWo = arrayWO[0];
+                }
+
+                if (arraySN.length > 1) {
+                    alertMsg = alertMsg + "More SN.";
+                    $.each(arraySN, function (index, value) {
+                        if (index == arraySN.length - 1) {
+                            tempSN = tempSN + value;
+                        }
+                        else {
+                            tempSN = tempSN + value + "\n";
+                        }
+                    });
+                }
+                else {
+                    tempSN = arraySN[0];
+                }
+
+                if (arrayLockType.length > 1) {
+                    alertMsg = alertMsg + "More SN.";
+                    $.each(arrayLockType, function (index, value) {
+                        if (index == arraySN.length - 1) {
+                            lock_type = lock_type + value;
+                        }
+                        else {
+                            lock_type = lock_type + value + "\n";
+                        }
+                    });
+                }
+                else {
+                    lock_type = arrayLockType[0];
+                }
+
+                if (alertMsg != "") {
+                    swal({
+                        title: alertMsg + "Are you sure to unlock these data?",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "YES",
+                        confirmButtonColor: "#18a689"
+                    }, function () {
+                        layer.open({
+                            type: 1,
+                            title: 'Unlock',
+                            area: ["60%", "90%"],
+                            scrollbar: false,
+                            content: $("#divUnlock"),
+                            success: function (layero, index) {
+                                $(".layui-layer-title").addClass("new-pallet-title");
+                                $("#divUnlock").removeClass("hidden");
+                                $("#divUnlockWO").find("textarea").val(tempWo);
+                                $("#divUnlockSku").find("textarea").val(tempSKU);
+                                $("#divUnlockLot").find("textarea").val(tempLockLot);
+                                $("#divUnlockSN").find("textarea").val(tempSN);
+                                $("#divLockReasonReadonly").find("textarea").val(tempReason);
+                                $("#divUnlockReason").find("textarea").val("");
+                                $("#divUnlockReason").find("textarea").select();
+                                $("#divUnlockReason").find("textarea").focus();
+                            },
+                            end: function () {
+                                $("#divUnlock").addClass("hidden");
+                            }
+                        });
+                        swal.close();
+                    });
+                }
+                else {
+                    layer.open({
+                        type: 1,
+                        title: 'Unlock',
+                        area: ["60%", "90%"],
+                        scrollbar: false,
+                        content: $("#divUnlock"),
+                        success: function (layero, index) {
+                            $(".layui-layer-title").addClass("new-pallet-title");
+                            $("#divUnlock").removeClass("hidden");
+                            if (lock_type == "SKU") {
+                                $("#divUnlockSku").find("textarea").val(tempSKU);
+                            }
+                            else if (lock_type == "PN") {
+                                $("#divUnlockSku").find("label").html("UnlockPN")
+                                $("#divUnlockSku").find("textarea").val(tempSKU);
+                            }
+                            else {
+                                $("#divUnlockWO").find("textarea").val(tempWo);
+                            }
+                            $("#divUnlockLot").find("textarea").val(tempLockLot);
+                            $("#divUnlockSN").find("textarea").val(tempSN);
+                            $("#divLockReasonReadonly").find("textarea").val(tempReason);
+                            $("#divUnlockReason").find("textarea").val("");
+                            $("#divUnlockReason").find("textarea").select();
+                            $("#divUnlockReason").find("textarea").focus();
+                        },
+                        end: function () {
+                            $("#divUnlock").addClass("hidden");
+                        }
+                    });
+                }
+
+            });
+
+            $("#btnDoUulock").on("click", function () {
+                var unlockReason = "";
+                if ($("#divUnlockReason").find("textarea").val() == "") {
+                    layer.msg("Please input unlock reason!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                else {
+                    unlockReason = $("#divUnlockReason").find("textarea").val();
+                }
+                if (arrayID.length == 0) {
+                    layer.msg("no records selected!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                callData = { "ID": arrayID, "UnlockReason": unlockReason };
+                client.CallFunction("MESStation.Management.LockManager", "DoUnlock", callData, function (e) {
+                    if (e.Status == "Pass") {
+                        SearchLockInfo("BYID", arrayID, "0");
+                        layer.closeAll("page");
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+        });
+
+        function ShowWoData(Data) {
+            var localeLan = $.cookie($.MES.CK_LAN_NAME);
+            if (localeLan == "CHINESE") {
+                localeLan = "zh-CN"
+            }
+            else if (localeLan == "CHINESE_TW") {
+                localeLan = "zh-TW"
+            }
+            else {
+                localeLan = "en"
+            }
+
+            $('#tableLockingList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                maintainSelected: true,
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'LockingList',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: localeLan,
+                columns: [{
+                    field: 'select',
+                    title: 'select',
+                    checkbox: true
+                },
+                {
+                    field: "ID",
+                    title: "ID",
+                    visible: false
+                },
+                {
+                    field: 'TYPE',
+                    title: 'LOCK_TYPE',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'WORKORDERNO',
+                    title: 'WORKORDERNO',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'LOCK_LOT',
+                    title: 'LOCK_LOT',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'SN',
+                    title: 'SN',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'LOCK_STATION',
+                    title: 'LOCK_STATION',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'LOCK_STATUS',
+                    title: 'LOCK_STATUS',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'LOCK_REASON',
+                    title: 'LOCK_REASON',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'UNLOCK_REASON',
+                    title: 'UNLOCK_REASON',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'LOCK_EMP',
+                    title: 'LOCK_EMP',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'LOCK_TIME',
+                    title: 'LOCK_TIME',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'UNLOCK_EMP',
+                    title: 'UNLOCK_EMP',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'UNLOCK_TIME',
+                    title: 'UNLOCK_TIME',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }]
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+
+        function SearchLockInfo(queryType, queryData, queryStatus) {
+            callData = { "Type": queryType, "Data": queryData, "Status": queryStatus };
+            client.CallFunction("MESStation.Management.LockManager", "GetLockInfo", callData, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableLockingList').bootstrapTable("load", e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+            $("#divQueryConditions").hide();
+        }
+        //Get All Data While WebPage Open
+        function ShowAllLockedInfo() {
+            client.CallFunction("MESStation.Management.LockManager", "GetLockedByEcn", callData, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableLockingList').bootstrapTable("load", e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+        function GetLockStation(lockType, lockData) {
+            callData = { "LockType": lockType, "LockData": lockData };
+            client.CallFunction("MESStation.Management.LockManager", "GetLockStation", callData, function (e) {
+                if (e.Status == "Pass") {
+                    var temp = e.Data;
+                    $("#divLockStation select").empty();
+                    $.each(e.Data, function (index, value) {
+                        $("#divLockStation select").append("<option value='" + value + "'>" + value + "</option>");
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

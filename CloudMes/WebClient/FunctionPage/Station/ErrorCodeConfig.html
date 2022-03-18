@@ -1,0 +1,718 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">ErrorCode View</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        #ConfigView, #AlertMessage {  
+            display: none;
+        }
+
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #toolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"><lan set-lan="html:ErrorCodeView" style="padding-left:10px;" id="TitleName">ErrorCode</lan></i></h3>
+        </div>
+        <div class="ibox-content">
+            <div id="ErrorCodeView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="col-xs-5   col-sm-6  col-md-5  col-lg-4 col-xs-offset-2">
+                                <input type="text" set-lan="attr:placeholder=PlaceholderSearchContent" class="form-control" id="SearchText">
+                            </div>
+                            <div class="col-xs-3   col-sm-2 col-md-2  col-lg-1"><button class="btn btn-primary" id="Search"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar">
+                            <div class="btn-group div-table-tool" id="toolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-default" id="AddClick">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="ModifyClick">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="Delclick">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" id="btnUpload">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:">Upload</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" onclick="javascript: window.location = '../../File/Upload ErrorCode Excel.xlsx'">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:">Template File</lan>
+                                </button>
+                            </div>
+                        </div>
+                        <table class="table table-hover" id="ErrorCodeTable"></table>
+                    </div>
+                </div>
+            </div>
+            <div id="ConfigView">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;margin-top: -10px;">
+                        <button type="button" class="btn btn-primary" id="GoBack"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <form role="form" class="form-horizontal m-t">
+                        <div class="col-sm-12">
+                            <div class="form-group draggable" id="ErrorMessage">
+                                <label class="col-sm-3 control-label" set-lan="html:ErrorCode">ERROR_CODE：</label>
+                                <div class="col-sm-5 ">
+                                    <input type="text" class="form-control" id="ERROR_CODE" set-lan="attr:placeholder=PlaceholderErrorCode" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label" id="MessageText"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:EnglishDescription">ENGLISH_DESCRIPTION：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="EN_DESCRIPTION" set-lan="attr:placeholder=PlaceholderEnglishDescription" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:ChineseDescription">CHINESE_DESCRIPTION：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="CHN_DESCRIPTION" set-lan="attr:placeholder=PlaceholderChineseDescription" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:ERRORCATEGORY">Error Category：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="ERRORCATEGORY" set-lan="attr:placeholder=PlaceholderErrorCategory" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label"></label>
+                                </div>
+                            </div>
+                            <div class="form-group draggable">
+                                <label class="col-sm-3 control-label" set-lan="html:DISC">DISC Defect：</label>
+                                <div class="col-sm-1" style="margin-left: -27px; margin-top: -5px">
+                                    <input type="checkbox" class="form-control" id="isDisc" set-lan="attr:placeholder=PlaceholderDefectDISC" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed col-sm-12"></div>
+                        <div class="form-group draggable">
+                            <div class="col-sm-12 col-sm-offset-5 col-xs-offset-5">
+                                <button type="button" class="btn btn-primary" id="AddSave"><i class="fa fa-pencil" set-lan="html:save">保存信息</i></button>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <div class="col-sm-12" style="margin-left: 40px">
+                                <h1>Important Information About DISC</h1>
+                                <h2>If DISC Defect is checked please consider: Include ONLY Defective Components (not solder defects, missing parts, etc).</h2>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divUploadInfo" class="hidden">
+        <div class="form-group" style="margin-top:15px;">
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:200px">
+                <label class="btn btn-primary " for="inputUploadFile" style="z-index:999;height: 38px;"><lan set-lan="html:Upload"> 文件路徑:</lan></label>
+                <input id="inputUploadFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div class="">
+            <div id="divExcel" style="padding:0 20px;">
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var DataList = [];
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var check = "";
+        $(document).ready(function () {
+            var LoginName = self.parent.client.UserInfo.EMP_NO;
+            var LoginLevel = self.parent.client.UserInfo.EMP_LEVEL;
+            var mesUI = new MesClientUI(self.parent.client);
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+            //初始加載
+            function LoadData() {
+                var ClassName = "MESStation.Config.CErrorCodeConfig";
+                var FunctionName = "GetAllErrorCode";
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowTable(e.Data, "#ErrorCodeTable");
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    }
+                    else {
+                        MessageAlert("ERROR", "No corresponding data found!");
+                        return;
+                    }
+                });
+                mesUI.SetLanguage("ErrorCodeSetting");
+            }
+            $("#GoBack").click(function () {
+                ClearAll();
+            });
+            function ClearAll() {
+                var ClassName = "MESStation.Config.CErrorCodeConfig";
+                var FunctionName = "GetAllErrorCode";
+                self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#ErrorCodeView").show();
+                        $("#ConfigView").hide();
+                        //$("#TitleName").html("<lan set-lan='html:ErrorCodeView'>ErrorCode</lan>");
+                        $("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:ErrorCodeView');
+                        $('#ErrorCodeTable').bootstrapTable("load", e.Data);
+                        $("#ERROR_CODE").val("");
+                        $("#CHN_DESCRIPTION").val("");
+                        $("#EN_DESCRIPTION").val("");
+                        $("#ERRORCATEGORY").val("");
+                        $("#isDisc").val("");
+                        mesUI.SetLanguage("ErrorCodeSetting");
+                    }
+                })
+            }
+            //搜索框事件
+            $("#Search").click(function () {
+                var EValue = $.trim($("#SearchText").val());
+                if (EValue.length < 1) {
+                    MessageAlert("ERROR", "Please enter valid data!");
+                    return;
+                }
+                var ClassName = "MESStation.Config.CErrorCodeConfig";
+                var FunctionName = "GetErrorCodeByFuzzySearch";
+                self.parent.client.CallFunction(ClassName, FunctionName, { SearchValue: EValue }, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#ErrorCodeTable').bootstrapTable("load", e.Data);
+                        return;
+                    }
+                    else {
+                        MessageAlert("ERROR", "No corresponding data found!");
+                        return;
+                    }
+                });
+            });
+
+            //清空搜索框返回列表
+            $("#SearchText").change(function () {
+                var EValue = $.trim($("#SearchText").val());
+                if (EValue.length < 1) {
+                    var ClassName = "MESStation.Config.CErrorCodeConfig";
+                    var FunctionName = "GetAllErrorCode";
+                    self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+                        if (e.Status == "Pass") {
+                            $('#ErrorCodeTable').bootstrapTable("load", e.Data);
+                        }
+                        else {
+                            MessageAlert("ERROR", "No corresponding data found!");
+                            return;
+                        }
+                    });
+                }
+            });
+            $("#EN_DESCRIPTION").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $('#CHN_DESCRIPTION').focus();
+                    $('#CHN_DESCRIPTION').select();
+                }
+            });
+            $("#ERROR_CODE").keydown(function (event) {
+                var EValue = $.trim($("#SearchText").val());
+                if (event.keyCode == 13) {
+                    ErrorFunctionEvent();
+                }
+            });
+            $("#SearchText").keydown(function (event) {
+                var EValue = $.trim($("#SearchText").val());
+                if (event.keyCode == 13) {
+                    if ($.trim($("#SearchText").val()).length > 0) {
+                        var ClassName = "MESStation.Config.CErrorCodeConfig";
+                        var FunctionName = "GetErrorCodeByFuzzySearch";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { SearchValue: EValue }, function (e) {
+                            if (e.Status == "Pass") {
+                                $('#ErrorCodeTable').bootstrapTable("load", e.Data);
+                            }
+                            else {
+                                MessageAlert("ERROR", "No corresponding data found!");
+                                return;
+                            }
+                        });
+                    }
+                }
+            });
+            //增加按钮事件
+            $("#AddClick").click(function () {
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    AddErrorCode();
+                }
+                else {
+                    MessageAlert("ERROR", "Do not have permission to add!!");
+                    return;
+                }
+            });
+            function AddErrorCode() {
+                $("#ErrorCodeView").hide();
+                $("#ConfigView").show();
+                $('#ERROR_CODE').focus();
+                //$("#TitleName").html("<lan set-lan='html:h_AddErrorCode'>AddErrorCode</lan>");
+                $("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:h_AddErrorCode');
+                $("#ERROR_CODE").removeAttr("readonly");
+                $("#ErrorMessage").attr("class", "form-group draggable");
+                $("#MessageText").html("");
+                check = "ADD";
+                mesUI.SetLanguage("ErrorCodeSetting");
+            }
+            $("#ModifyClick").click(function () {
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    ModifyErrorCode();
+                }
+                else {
+                    MessageAlert("ERROR", "Do not have permission to edit!!");
+                    return;
+                }
+            });
+            function ModifyErrorCode() {
+                var Selections = $("#ErrorCodeTable").bootstrapTable('getSelections');
+                if (Selections.length < 1 || Selections.length > 1) {
+                    MessageAlert("ERROR", "Please select a row to modify！");
+                    return;
+                }
+                $("#ErrorCodeView").hide();
+                $("#ConfigView").show();
+                //$("#TitleName").html("ModifyErrorCode");
+                $("#TitleName").removeAttr('set-lan').attr('set-lan', 'html:h_ModifyErrorCode');
+                $("#ERROR_CODE").val(Selections[0].ERROR_CODE);
+                $("#ERROR_CODE").attr("readonly", "readonly");
+                $("#ErrorMessage").attr("class", "form-group draggable");
+                $("#MessageText").html("");
+                $("#CHN_DESCRIPTION").val(Selections[0].CHINESE_DESC);
+                $("#EN_DESCRIPTION").val(Selections[0].ENGLISH_DESC);
+                $("#ERRORCATEGORY").val(Selections[0].ERROR_CATEGORY);
+                var isDiscDeff = Selections[0].DISC_DEFFECT;
+
+                if (isDiscDeff == "YES") {
+                    document.getElementById("isDisc").checked = true;
+                }
+                else {
+                    document.getElementById("isDisc").checked = false;
+                }
+                
+                check = "";
+                mesUI.SetLanguage("ErrorCodeSetting");
+            }
+            //刪除用戶權限
+            $("#Delclick").click(function () {
+                var PrivilegeFlag = true;
+                //預留權限
+                if (LoginLevel == "9" || PrivilegeFlag == true) {
+                    DeleteErrorCode();
+                }
+                else {
+                    MessageAlert("ERROR", "Do not have permission to add!！");
+                    return;
+                }
+            });
+            $("#btnUpload").click(function (e) {
+                $("#divExcel").html("");
+                parent.client.CallFunction("MESStation.Config.Vertiv.CRMAConfig", "CheckUploadPermissions", { DataList: JSON.stringify(DataList) }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.open({
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: "Upload ErrorCode information",
+                            area: ['80%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: ["Upload", "Cancel"],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                            },
+                            yes: function (index) {
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                parent.client.CallFunction("MESStation.Config.CErrorCodeConfig", "UploadErrorCodeExcel", { DataList: JSON.stringify(DataList) }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 3000
+                                        }, function () {
+                                            $("#inputUploadFile").val("");
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                $("#inputUploadFile").val("");
+                                layer.close(index);
+                            }
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+            function DeleteErrorCode() {
+                var Selections = $("#ErrorCodeTable").bootstrapTable('getSelections');
+                if (Selections.length < 1) {
+                    MessageAlert("ERROR", "Select at least one row to delete!");
+                    return;
+                }
+                else {
+                    swal({
+                        title: "Are you sure you want to delete this " + selections.Length + " message?",
+                        text: "It cannot be recovered after deletion. Please be careful!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Delete",
+                        closeOnConfirm: false
+                    }, function () {
+                        var ClassName = "MESStation.Config.CErrorCodeConfig";
+                        var FunctionName = "DeleteErrorCodeById";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { Id: Selections[0].ID }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "Delete OK！！");
+                                ClearAll();
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "No corresponding data found!");
+                                return;
+                            }
+                        });
+                    });
+                }
+            }
+            function ErrorFunctionEvent() {
+                var Ecode = $.trim($("#ERROR_CODE").val().toUpperCase());
+                if (Ecode.length > 0) {
+                    var ClassName = "MESStation.Config.CErrorCodeConfig";
+                    var FunctionName = "GetByErrorCode";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { ErrorCode: Ecode }, function (e) {
+                        if (e.Status == "Pass") {
+                            $("#MessageText").html("* The entered "+ ecode +" exists in the system!");
+                            $("#ErrorMessage").attr("class", "form-group draggable has-error");
+                            $("#ERROR_CODE").val("");
+                            $('#ERROR_CODE').focus();
+                            return;
+                        }
+                        else {
+                            $('#EN_DESCRIPTION').focus();
+                            $('#EN_DESCRIPTION').select();
+                            $("#MessageText").html("");
+                            $("#ErrorMessage").attr("class", "form-group draggable");
+                            return;
+                        }
+                    });
+                }
+                else {
+                    $("#MessageText").html("");
+                    $("#ErrorMessage").attr("class", "form-group draggable");
+                    return;
+                }
+            }
+            $("#ERROR_CODE").change(function () {
+                ErrorFunctionEvent();
+            });
+            //Add点击SAVE触发事件
+            $("#AddSave").click(function () {
+                var Ecode = $.trim($("#ERROR_CODE").val().toUpperCase());
+                var Edescription = $.trim($("#EN_DESCRIPTION").val());
+                var Cdescription = $.trim($("#CHN_DESCRIPTION").val());
+                var Errorcategory = $.trim($("#ERRORCATEGORY").val());
+                var isDisc = $("#isDisc").prop('checked');
+
+
+                if (Ecode.length < 2) {
+                    MessageAlert("ERROR", "Please re-enter！The ERROR_CODE must contain at last two characters！");
+                    return;
+                }
+                if (Edescription.length < 1) {
+                    MessageAlert("ERROR", "Please enter EN_DESCRIPTION！！");
+                    return;
+                }
+                if (Cdescription.length < 1) {
+                    MessageAlert("ERROR", "Please enter CHN_DESCRIPTION！！");
+                    return;
+                }
+                var myReg = /^[a-zA-Z0-9_-]{0,}$/;
+                if (!myReg.test(Ecode)) {
+                    MessageAlert("ERROR", "ERROR_CODE Cannot contain Chinese or book special characters！");
+                    return;
+                }
+                var edReg = /^[\u4e00-\u9fa5]+$/;
+                if (edReg.test(Edescription)) {
+                    MessageAlert("ERROR", "EN_DESCRIPTION Cannot contain Chinese！！");
+                    return;
+                }
+                var SaveType = $("#TitleName").html();
+                if (check == "ADD") {
+                    swal({
+                        title: "Do you want to add " + Ecode + " as an ErrorCode?",
+                        text: "Data is priceless！",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#f8bb86",
+                        confirmButtonText: "Insert",
+                        closeOnConfirm: false
+                    }, function () {
+                        var ClassName = "MESStation.Config.CErrorCodeConfig";
+                        var FunctionName = "AddNewErrorCode";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { ErrorCode: Ecode, EnglishDescription: Edescription, ChineseDescription: Cdescription, ErrorCategory: Errorcategory, isDisc: isDisc }, function (e) {
+                            if (e.Status == "Pass") {
+                                MessageAlert("OK", "The data you operated has been updated successfully！");
+                                $("#ERROR_CODE").val("");
+                                $("#CHN_DESCRIPTION").val("");
+                                $("#EN_DESCRIPTION").val("");
+                                $("#ERRORCATEGORY").val("");
+                                $("#isDisc").val("");
+                                return;
+                            }
+                            else {
+                                MessageAlert("ERROR", "Update missed. Please try again later！");
+                                return;
+                            }
+                        });
+                    });
+                }
+                else {
+                    var Selections = $("#ErrorCodeTable").bootstrapTable('getSelections');
+                    var ClassName = "MESStation.Config.CErrorCodeConfig";
+                    var FunctionName = "GetErrorCodeById";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { Id: Selections[0].ID }, function (e) {
+                        if (e.Status == "Pass") {
+                            if (Cdescription == e.Data.CHINESE_DESCRIPTION && Edescription == e.Data.ENGLISH_DESCRIPTION) {
+                                MessageAlert("ERROR", "Please modify the content before submitting！！");
+                                return;
+                            }
+                            else {
+                                swal({
+                                    title: "Are you sure you want to modify the information of " + Ecode ,
+                                    text: "The data is priceless, please operate with caution!！",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#1ab394",
+                                    confirmButtonText: "Modify",
+                                    closeOnConfirm: false
+                                }, function () {
+                                    var ClassName = "MESStation.Config.CErrorCodeConfig";
+                                    var FunctionName = "UpdateErrorCodeById";
+                                    self.parent.client.CallFunction(ClassName, FunctionName, { Id: Selections[0].ID, ErrorCode: Ecode, EnglishDescription: Edescription, ChineseDescription: Cdescription, ErrorCategory: Errorcategory, isDisc: isDisc }, function (e) {
+                                        if (e.Status == "Pass") {
+                                            MessageAlert("OK", "Your operation data has been updated successfully!");
+                                            ClearAll();
+                                            return;
+                                        }
+                                        else {
+                                            MessageAlert("ERROR", "No corresponding data found!");
+                                            return;
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                        else {
+                            MessageAlert("ERROR", "No corresponding data found!");
+                            return;
+                        }
+                    });
+                }
+            });
+            //創建表格
+            function ShowTable(Data, TableName) {
+                var fie = [];
+                var checkbox = "";
+                fie.push({ title: 'checkall', field: 'checkall', checkbox: true, align: 'center' });
+                for (var item in Data[0]) {
+                    fie.push({ field: item, title: item });
+                }
+                $(TableName).bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [15, 35, 65, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    toolbar: "#toolbar",       //指定工具栏
+                    toolbarAlign: "left",              //工具栏对齐方式
+                    buttonsAlign: "left",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'ErrorCodeExcel',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    columns: fie,
+                    locale: localelan//中文支持,
+                });
+                $(TableName).bootstrapTable('hideColumn', 'ID');
+                $(TableName).bootstrapTable('hideColumn', 'EDIT_TIME');
+                $(TableName).bootstrapTable('hideColumn', 'EDIT_EMP');
+            }
+            //MessageAlert
+            function MessageAlert(MsgType, MsgTitle) {
+                if (MsgType == "ERROR") {
+                    swal({
+                        title: MsgTitle,
+                        text: "Warm tip: data is priceless, please operate with caution!！",
+                        type: "warning",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+                if (MsgType == "OK") {
+                    swal({
+                        title: MsgTitle,
+                        text: "Warm tip: data is priceless, please operate with caution!",
+                        type: "success",
+                        timer: 5000,
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+            }
+            // ---------------------------------------END---------------------------------------//
+            LoadData();
+        });
+    </script>
+</body>
+</html>

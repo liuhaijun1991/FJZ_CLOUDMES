@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Check In/Out</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+        .fieldset-border {           
+            /*margin: 0;*/
+            padding-top: -10px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-right: 30px;
+            border: 1px solid silver;
+            border-radius: 4px;
+            border-color:#e7eaec;
+            margin-bottom:15px;
+            border-color:#f8ac59;
+        }
+        .legend-border {
+            padding: 0 5px;
+            width: auto;
+            border: 0;
+            font-size:inherit;
+            font-weight:600;
+            /*color:#337ab7;*/            
+        }
+        .list-inline li {
+        padding-top:2px;
+        padding-bottom:2px;
+        }
+    </style>
+</head>
+<body class="gray-bg animated fadeInRight">    
+    <div class="wrapper wrapper-content">
+        <div class="ibox">
+            <div class="ibox-heading">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <ul class="list-inline">
+                                <li><button type="button" class="btn btn-primary" onclick="ShowCheckIn()"><i class="fa fa-save"></i><lan set-lan="html:RepairIn">Check In</lan></button></li>
+                                <li><button type="button" class="btn btn-primary" onclick="ShowCheckOut()"><i class="fa fa-save"></i><lan set-lan="html:RepairOut">Check Out</lan></button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div id="divRepairIn" class="row form-horizontal">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <fieldset class="fieldset-border">
+                            <legend class="legend-border">Repair Check In</legend>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divInSendEmp">
+                                <div class="form-group" view-group="SendEmp_00001">
+                                    <label for="SendEmp_00001" class="col-sm-3 control-label text-right">Send Emp:</label>
+                                    <div class="col-sm-9">
+                                        <input id="SendEmp_00001" type="text" class="form-control" placeholder="Send Emp" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divInReceiveEmp">
+                                <div class="form-group" view-group="ReceiveEmp_00001">
+                                    <label for="ReceiveEmp_00001" class="col-sm-3 control-label text-right">Receive Emp:</label>
+                                    <div class="col-sm-9">
+                                        <input id="ReceiveEmp_00001" type="text" class="form-control" placeholder="Receive Emp" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divRepairEngineer">
+                                <div class="form-group" view-group="RepairEngineer_00001">
+                                    <label for="RepairEngineer_00001" class="col-sm-3 control-label text-right">Repair Engineer:</label>
+                                    <div class="col-sm-9">
+                                        <select id="RepairEngineer_00001" class="form-control" placeholder="placeholder" aria-describedby="basic-addon1">
+                                            <option value="ASSY" selected>Engineer 1</option>
+                                            <option value="SMT1">Engineer 2</option>
+                                            <option value="SMT2">Engineer 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divInSN">
+                                <div class="form-group" view-group="CheckInSN_00001">
+                                    <label for="CheckInSN_00001" class="col-sm-3 control-label text-right">Check In SN:</label>
+                                    <div class="col-sm-9">
+                                        <input id="CheckInSN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7">
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" id="divInTotal">
+                                    <div class="form-group" view-group="Total_00001">
+                                        <label for="Total_00001" class="col-sm-6 control-label text-right">Total:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Total_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3" id="divInPass">
+                                    <div class="form-group" view-group="Pass_00001">
+                                        <label for="Pass_00001" class="col-sm-6 control-label text-right">Pass:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Pass_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3" id="divInFail">
+                                    <div class="form-group" view-group="Fail_00001">
+                                        <label for="Fail_00001" class="col-sm-6 control-label text-right">Fail:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Fail_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="divInMessage">
+                        <div class="panel panel-default " style="border-color:#337ab7">
+                            <div class="panel-heading" style="background-color:#337ab7;color:#ffffff">
+                                <h3 class="panel-title">Message</h3>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>RootCause</td>
+                                        <td>Process</td>
+                                        <td>2018/01/02 14:55</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="divRepairOut" class="row form-horizontal" hidden>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <fieldset class="fieldset-border">
+                            <legend class="legend-border">Repair Check Out</legend>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" div="divOutSendEmp">
+                                <div class="form-group" view-group="SendEmp_00001">
+                                    <label for="SendEmp_00001" class="col-sm-3 control-label text-right">Send Emp:</label>
+                                    <div class="col-sm-9">
+                                        <input id="SendEmp_00001" type="text" class="form-control" placeholder="Send Emp" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divOutReceiveEmp">
+                                <div class="form-group" view-group="ReceiveEmp_00001">
+                                    <label for="ReceiveEmp_00001" class="col-sm-3 control-label text-right">Receive Emp:</label>
+                                    <div class="col-sm-9">
+                                        <input id="ReceiveEmp_00001" type="text" class="form-control" placeholder="Receive Emp" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7" id="divOutSN">
+                                <div class="form-group" view-group="CheckOutSN_00001">
+                                    <label for="CheckOutSN_00001" class="col-sm-3 control-label text-right">Check Out SN:</label>
+                                    <div class="col-sm-9">
+                                        <input id="CheckOutSN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7">
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" id="divOutTotal">
+                                    <div class="form-group" view-group="Total_00001">
+                                        <label for="Total_00001" class="col-sm-6 control-label text-right">Total:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Total_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3" id="divOutPass">
+                                    <div class="form-group" view-group="Pass_00001">
+                                        <label for="Pass_00001" class="col-sm-6 control-label text-right">Pass:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Pass_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3" id="divOutFail">
+                                    <div class="form-group" view-group="Fail_00001">
+                                        <label for="Fail_00001" class="col-sm-6 control-label text-right">Fail:</label>
+                                        <div class="col-sm-6">
+                                            <p id="Fail_00001" class="form-control-static">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="divOutMessage">
+                        <div class="panel panel-default" style="border-color:#337ab7">
+                            <div class="panel-heading" style="background-color:#337ab7;color:#ffffff">
+                                <h3 class="panel-title">Message</h3>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>RootCause</td>
+                                        <td>Process</td>
+                                        <td>2018/01/02 14:55</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        $(document).ready(function () {
+            //var stationName = $.MES.getQueryString("StationName");
+            ////var stationName = 'SFC_SMT_LOADING';
+            //var Stationa = new MesStation({
+            //    Client: self.parent.client,
+            //    Line: "Line1",
+            //    Name: stationName,
+            //    //IScale:"4:8",
+            //    //IContainer: $("#inputsite"),
+            //    //OContainer: $("#outputsite"),
+            //    //MContainer: $("#messagesite"),
+            //    Init: function (d) {
+            //        if (d.Status == "Pass") {
+            //            //Stationa.ShowInput({
+            //            //    InputName: "WO",
+            //            //    Scale: "4:8",
+            //            //    Container: $("#divRepairSN")
+            //            //});
+            //            //Stationa.ShowInput({
+            //            //    InputName: "NEW_SN",
+            //            //    Container: $("#divRepairStatus")
+            //            //});
+            //        }
+            //        else {
+            //            swal("工站初始化失败！", d.Message, "error");
+            //        }
+            //    }
+            //});
+
+
+            $("#divRepairIn").find("input[type=text]")[0].select();
+            $("#divRepairIn").find("input[type=text]")[0].focus();
+            $("#divRepairIn").find("input[placeholder='SN']").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divRepairIn").find("input[placeholder='Send Emp']").attr("disabled", true);
+                    $("#divRepairIn").find("input[placeholder='Receive Emp']").attr("disabled", true);
+                    $("#divRepairIn").find("input[placeholder='SN']").select();
+                    $("#divRepairIn").find("input[placeholder='SN']").focus();
+                }
+            });
+            $("#divRepairOut").find("input[placeholder='SN']").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divRepairOut").find("input[placeholder='Send Emp']").attr("disabled", true);
+                    $("#divRepairOut").find("input[placeholder='Receive Emp']").attr("disabled", true);
+                    $("#divRepairOut").find("input[placeholder='SN']").select();
+                    $("#divRepairOut").find("input[placeholder='SN']").focus();
+                }
+            });
+        });
+
+        function ShowCheckIn() {
+            $("#divRepairOut").hide();
+            $("#divRepairOut").find("input[type=text]").val("");
+            $("#divRepairIn").slideDown("slow");
+            $("#divRepairIn").find("input[placeholder='Send Emp']").attr("disabled", false);
+            $("#divRepairIn").find("input[placeholder='Receive Emp']").attr("disabled", false);
+            $("#divRepairIn").find("input[placeholder='Send Emp']").select();
+            $("#divRepairIn").find("input[placeholder='Send Emp']").focus();
+        }
+
+        function ShowCheckOut() {
+            $("#divRepairIn").hide();
+            $("#divRepairIn").find("input[type=text]").val("");
+            $("#divRepairOut").slideDown("slow");
+            $("#divRepairOut").find("input[placeholder='Send Emp']").attr("disabled", false);
+            $("#divRepairOut").find("input[placeholder='Receive Emp']").attr("disabled", false);
+            $("#divRepairOut").find("input[placeholder='Send Emp']").select();
+            $("#divRepairOut").find("input[placeholder='Send Emp']").focus();
+        }
+    </script>
+</body>
+</html>

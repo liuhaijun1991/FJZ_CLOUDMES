@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="txtScanKPTestKP_ITEM.Text" xml:space="preserve">
+    <value>[
+{
+      "ID": "VERTIV000000000000000000000000018DX8",
+      "R_SN_ID": "VERTIV000000000000000000000000018KQ1",
+      "SN": "2001100197BWK46",
+      "VALUE": "VT02312730",
+      "PARTNO": "VT02312730",
+      "KP_NAME": "BAT",
+      "MPN": "VT02312730",
+      "SCANTYPE": "PN",
+      "ITEMSEQ": 6.0,
+      "SCANSEQ": 7.0,
+      "DETAILSEQ": 1.0,
+      "STATION": "FI2",
+      "REGEX": "^2102312430{1}[0-9]{3}[0-9,A-C]{1}[0-9,A-Z]{2}[0-9,A-Z]{4}$",
+      "VALID_FLAG": 1.0,
+      "EXKEY1": null,
+      "EXVALUE1": null,
+      "EXKEY2": null,
+      "EXVALUE2": null,
+      "EDIT_TIME": "2020-01-12 05:29:38",
+      "EDIT_EMP": "G6005873"
+    }
+]</value>
+  </data>
+  <data name="txtScanKPKP_ITEM.Text" xml:space="preserve">
+    <value>[
+{
+      "ID": "VERTIV000000000000000000000000018DX8",
+      "R_SN_ID": "VERTIV000000000000000000000000018KQ1",
+      "SN": "2001100197BWK46",
+      "VALUE": "VT02312730",
+      "PARTNO": "VT02312730",
+      "KP_NAME": "BAT",
+      "MPN": "VT02312730",
+      "SCANTYPE": "PN",
+      "ITEMSEQ": 6.0,
+      "SCANSEQ": 7.0,
+      "DETAILSEQ": 1.0,
+      "STATION": "FI2",
+      "REGEX": "^2102312430{1}[0-9]{3}[0-9,A-C]{1}[0-9,A-Z]{2}[0-9,A-Z]{4}$",
+      "VALID_FLAG": 1.0,
+      "EXKEY1": null,
+      "EXVALUE1": null,
+      "EXKEY2": null,
+      "EXVALUE2": null,
+      "EDIT_TIME": "2020-01-12 05:29:38",
+      "EDIT_EMP": "G6005873"
+    }
+]</value>
+  </data>
+  <data name="txtR_TEST_BRCD_UPDATE.Text" xml:space="preserve">
+    <value>[
+  {
+    "ID": "TEST000000000000000000000000000009",
+    "SYSSERIALNO": "DVM3243Q00X",
+    "TESTDATE": "2019-10-31 04:28:43",
+    "EVENTNAME": "ICT",
+    "STATUS": "PASS",
+    "PARTNO": "40-1001273",
+    "SFPMPN": null,
+    "LOCATION": null,
+    "SYMPTOM": null,
+    "PCBASN": null,
+    "PCBAPN": null,
+    "VSN": null,
+    "VPN": null,
+    "CSN": null,
+    "CPN": null,
+    "FRUPCBASN": null,
+    "TESTREPORTNAME": null,
+    "LASTEDITDT": "1900-01-01 00:00:00",
+    "LASTEDITBY": null,
+    "FAILURECODE": null,
+    "TRAY_SN": null,
+    "TESTERNO": "DCNICT6",
+    "TEMP4": 0.0,
+    "TEMP5": 0.0,
+    "TATIME": "2019-10-31 04:17:54",
+    "BK1_KEY": null,
+    "BK1_VALUE": null,
+    "BK2_KEY": null,
+    "BK2_VALUE": null,
+    "BK3_KEY": null,
+    "BK3_VALUE": null,
+    "BK4_KEY": null,
+    "BK4_VALUE": null,
+    "R_TEST_RECORD_ID": "TEST000000000000000000000000000009"
+  }
+]</value>
+  </data>
+</root>

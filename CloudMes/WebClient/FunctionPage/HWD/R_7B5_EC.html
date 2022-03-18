@@ -1,0 +1,939 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">HWD SKU LINK 7B5</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body class="animated fadeInRight">
+
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnAdd">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnModify">
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnDelete">
+                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divEdit" class="form-horizontal hidden" style="padding-top:20px;" data-bind="validationOptions:{insertMessages:false}">
+        <div class="col-xs-6" hidden>
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">ID:</label>
+                <div class="col-xs-9 ">
+                    <input type="text" class="form-control" id="txtID" data-bind="value:ID" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:Status">狀態</label>
+                <div class="col-xs-6">
+                    <select class="form-control" id="selectStatus" data-bind="options:STATUS"></select>
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:STATUS"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">HW生效時間</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtRECEIVE_DT" data-bind="value:RECEIVE_DT" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:RECEIVE_DT"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">客戶文件名</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtCUSTOMER_FILE_NAME" data-bind="value:CUSTOMER_FILE_NAME" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:CUSTOMER_FILE_NAME"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">內部編號</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtEC_CODE" data-bind="value:EC_CODE" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:EC_CODE"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">廠內生效日期</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtFACTORY_EFFECT_DT" data-bind="value:FACTORY_EFFECT_DT" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:FACTORY_EFFECT_DT"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">項目名</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtMODEL" data-bind="value:MODEL" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:MODEL"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">涉及編碼</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtITEM" data-bind="value:ITEM" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:ITEM"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">涉及父項編碼</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtPARENT_ITEM" data-bind="value:PARENT_ITEM" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:PARENT_ITEM"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">EC內容</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtEC_CONTENT" data-bind="value:EC_CONTENT" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:EC_CONTENT"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">資料類別</label>
+                <div class="col-xs-6">
+                    <select class="form-control" id="selectItemType" data-bind="options:ITEM_TYPE"></select>
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:ITEM_TYPE"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">升級編碼</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtEC_ITEM" data-bind="value:EC_ITEM" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:EC_ITEM"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">庫存處理意見</label>
+                <div class="col-xs-6">
+                    <select class="form-control" id="selectStockRemark" data-bind="options:STOCK_DEAL_REMARK"></select>
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:STOCK_DEAL_REMARK"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">腺體</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtLINE" data-bind="value:LINE" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:LINE"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">上線時間</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtONLINE_DT" data-bind="value:ONLINE_DT" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:ONLINE_DT"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">工單</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtWO" data-bind="value:WO" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:WO"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">任務令</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtTASK_NO" data-bind="value:TASK_NO" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:TASK_NO"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">其他</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtOTHER" data-bind="value:OTHER" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:OTHER"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">EC類別</label>
+                <div class="col-xs-6">
+                    <select class="form-control" id="selectECType" data-bind="options:EC_TYPE"></select>
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:EC_TYPE"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">備註</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtREMARK" data-bind="value:REMARK" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:REMARK"></label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:"></label>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-primary" id="bteEdit" data-bind="enable:ClickCheck()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Save</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+
+        var tableLocale = $.cookie($.MES.CK_LAN_NAME);
+        var columns = [];
+        var SYSDATE = "";
+        var selectRow = [];
+        var mesUI = new MesClientUI(self.parent.client);
+        var AddColumns = function () {
+            columns.push({ checkbox: true });
+            for (var item in viewModel) {
+                if ("ClickCheck" == item || item == "ShowMessages") {
+                    continue;
+                }
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                if (item == "ID") {
+                    cell.visible = false;
+                }
+                if (tableLocale == "CHINESE" || tableLocale == "CHINESE_TW") {
+                    switch (item) {
+                        case "STATUS":
+                            cell.title = "狀態";
+                            break;
+                        case "RECEIVE_DT":
+                            cell.title = "HW生效時間";
+                            break;
+                        case "CUSTOMER_FILE_NAME":
+                            cell.title = "客戶文件名";
+                            break;
+                        case "EC_CODE":
+                            cell.title = "內部編號";
+                            break;
+                        case "FACTORY_EFFECT_DT":
+                            cell.title = "廠內生效時間";
+                            break;
+                        case "MODEL":
+                            cell.title = "項目名";
+                            break;
+                        case "ITEM":
+                            cell.title = "涉及編碼";
+                            break;
+                        case "PARENT_ITEM":
+                            cell.title = "涉及父項編碼";
+                            break;
+                        case "EC_CONTENT":
+                            cell.title = "EC内容";
+                            break;
+                        case "ITEM_TYPE":
+                            cell.title = "資料類別";
+                            break;
+                        case "EC_ITEM":
+                            cell.title = "需升級編碼";
+                            break;
+                        case "STOCK_DEAL_REMARK":
+                            cell.title = "庫存處理意見";
+                            break;
+                        case "LINE":
+                            cell.title = "線體";
+                            break;
+                        case "ONLINE_DT":
+                            cell.title = "上線時間";
+                            break;
+                        case "WO":
+                            cell.title = "工單";
+                            break;
+                        case "TASK_NO":
+                            cell.title = "任務令";
+                            break;
+                        case "OTHER":
+                            cell.title = "其他";
+                            break;
+                        case "EC_TYPE":
+                            cell.title = "EC類別";
+                            break;
+                        case "REMARK":
+                            cell.title = "EC備註";
+                            break;
+                    }
+                }
+                else {
+                    switch (item) {
+                        case "STATUS":
+                            cell.title = "STATUS";
+                            break;
+                        case "RECEIVE_DT":
+                            cell.title = "RECEIVE_DT";
+                            break;
+                        case "CUSTOMER_FILE_NAME":
+                            cell.title = "CUSTOMER_FILE_NAME";
+                            break;
+                        case "EC_CODE":
+                            cell.title = "EC_CODE";
+                            break;
+                        case "FACTORY_EFFECT_DT":
+                            cell.title = "FACTORY_EFFECT_DT";
+                            break;
+                        case "MODEL":
+                            cell.title = "MODEL";
+                            break;
+                        case "ITEM":
+                            cell.title = "ITEM";
+                            break;
+                        case "PARENT_ITEM":
+                            cell.title = "PARENT_ITEM";
+                            break;
+                        case "EC_CONTENT":
+                            cell.title = "EC_CONTENT";
+                            break;
+                        case "ITEM_TYPE":
+                            cell.title = "ITEM_TYPE";
+                            break;
+                        case "EC_ITEM":
+                            cell.title = "EC_ITEM";
+                            break;
+                        case "STOCK_DEAL_REMARK":
+                            cell.title = "STOCK_DEAL_REMARK";
+                            break;
+                        case "LINE":
+                            cell.title = "LINE";
+                            break;
+                        case "ONLINE_DT":
+                            cell.title = "ONLINE_DT";
+                            break;
+                        case "WO":
+                            cell.title = "WO";
+                            break;
+                        case "TASK_NO":
+                            cell.title = "TASK_NO";
+                            break;
+                        case "OTHER":
+                            cell.title = "OTHER";
+                            break;
+                        case "EC_TYPE":
+                            cell.title = "EC_TYPE";
+                            break;
+                        case "REMARK":
+                            cell.title = "REMARK";
+                            break;
+                    }
+                }
+                columns.push(cell);
+            }
+        }
+        var ShowList = function (tableID, data, columns, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: columns
+            });
+        }
+        var GetList = function () {
+            self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5ECList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowList("tableList", e.Data, columns, tableLocale);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+        var GetSelectList = function () {
+            self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5ECStatusList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    SYSDATE = e.Data["SYSDATE"];
+                    viewModel.STATUS(e.Data["STATUS"]);
+                    viewModel.ITEM_TYPE(e.Data["ITEM_TYPE"]);
+                    viewModel.STOCK_DEAL_REMARK(e.Data["STOCK_DEAL_REMARK"]);
+                    viewModel.EC_TYPE(e.Data["EC_TYPE"]);
+                } else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+
+
+        }
+        var ShowEditTab = function (labelTitle) {
+            $("#divListDetail").hide();
+            $("#divEdit").show();
+            $("#labelTitle").html(labelTitle);
+        }
+        var inputModel = {
+            ID: "",
+            STATUS: "",
+            RECEIVE_DT: "",
+            CUSTOMER_FILE_NAME: "",
+            EC_CODE: "",
+            FACTORY_EFFECT_DT: "",
+            MODEL: "",
+            ITEM: "",
+            PARENT_ITEM: "",
+            EC_CONTENT: "",
+            ITEM_TYPE: "",
+            EC_ITEM: "",
+            STOCK_DEAL_REMARK: "",
+            LINE: "",
+            ONLINE_DT: "",
+            WO: "",
+            TASK_NO: "",
+            OTHER: "",
+            EC_TYPE: "",
+            REMARK: "",
+            EDIT_EMP: "",
+            EDIT_DT: ""
+        };
+        var ObjectModel = function () {
+            var self = this;
+            self.ID = ko.observable("");
+            self.STATUS = ko.observableArray([]);
+            self.RECEIVE_DT = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.CUSTOMER_FILE_NAME = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.EC_CODE = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.FACTORY_EFFECT_DT = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.MODEL = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.ITEM = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.PARENT_ITEM = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.EC_CONTENT = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.ITEM_TYPE = ko.observableArray([]);
+            self.EC_ITEM = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.STOCK_DEAL_REMARK = ko.observableArray([])
+            self.LINE = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.ONLINE_DT = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.WO = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.TASK_NO = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.OTHER = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.EC_TYPE = ko.observableArray([]);
+            self.REMARK = ko.observable("").extend({
+                required: { params: true, message: "Required item, if it is blank, fill in NA!" }
+            });
+            self.EDIT_DT = ko.observable("");
+            self.EDIT_EMP = ko.observable("");
+            self.ClickCheck = function () {
+                if (ko.validation.group(self)().length > 0) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            };
+            self.ShowMessages = function () {
+                ko.validation.group(self).showAllMessages();
+            };
+        };
+        var viewModel = new ObjectModel();
+        ko.applyBindings(viewModel, document.getElementById("divEdit"));
+
+        var ShowEditDiv = function (title, divID, ) {
+            layer.open({
+                id: "EditDiv",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: title,
+                area: ['80%', '90%'],
+                content: $(divID),
+                //offset: "30px",
+                //btn: ["上傳", "取消"],
+                success: function (layero, index) {
+                    $(divID).removeClass("hidden");
+                    $("#txtRECEIVE_DT").select().focus();
+                    $(".layui-layer-title").addClass("new-pallet-title");
+                    if (title == "Modify A 7B5 EC") {
+                        $("#selectStatus").find("option[value='" + selectRow[0].STATUS + "']").attr("selected", true);
+                        $("#selectItemType").find("option[value='" + selectRow[0].ITEM_TYPE + "']").attr("selected", true);
+                        $("#selectStockRemark").find("option[value='" + selectRow[0].STOCK_DEAL_REMARK + "']").attr("selected", true);
+                        $("#selectECType").find("option[value='" + selectRow[0].EC_TYPE + "']").attr("selected", true);
+                    }
+                    else if (title == "Add A 7B5 EC") {
+                        $("#selectStatus").find("option[value='OPEN']").attr("selected", true);
+                    }
+                },
+                end: function () {
+                    $(divID).addClass("hidden");
+                },
+                yes: function (index) {
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    GetList();
+                    GetSelectList();
+                }
+            });
+        }
+        var editType = "";
+        $(document).ready(function () {
+            AddColumns();
+            tableLocale = $.cookie($.MES.CK_LAN_NAME);
+            if (tableLocale == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (tableLocale == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            }
+
+            GetList();
+            GetSelectList();
+            mesUI.SetLanguage("SKULINK7B5");
+
+            $("#btnAdd").click(function () {
+                viewModel.ID("");
+                viewModel.RECEIVE_DT(SYSDATE);
+                viewModel.CUSTOMER_FILE_NAME("");
+                viewModel.EC_CODE("");
+                viewModel.FACTORY_EFFECT_DT(SYSDATE);
+                viewModel.MODEL("");
+                viewModel.ITEM("");
+                viewModel.PARENT_ITEM("");
+                viewModel.EC_CONTENT("");
+                viewModel.EC_ITEM("");
+                viewModel.STOCK_DEAL_REMARK("");
+                viewModel.LINE("");
+                viewModel.ONLINE_DT(SYSDATE);
+                viewModel.WO("");
+                viewModel.TASK_NO("");
+                viewModel.OTHER("");
+                viewModel.REMARK("");
+                viewModel.EDIT_DT("");
+                viewModel.EDIT_EMP("");
+                $("#selectStatus").find("option[value='OPEN']").attr("selected", true);
+                editType = "ADD";
+                ShowEditDiv("Add A 7B5 EC", "#divEdit");
+            });
+            $("#btnModify").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length > 1) {
+                    swal({
+                        title: "",
+                        text: "You can only select one line for editing!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectRow.length <= 0) {
+                    swal({
+                        title: "",
+                        text: "Please select the valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                viewModel.ID(selectRow[0].ID);
+                viewModel.RECEIVE_DT(selectRow[0].RECEIVE_DT);
+                viewModel.CUSTOMER_FILE_NAME(selectRow[0].CUSTOMER_FILE_NAME);
+                viewModel.EC_CODE(selectRow[0].EC_CODE);
+                viewModel.FACTORY_EFFECT_DT(selectRow[0].FACTORY_EFFECT_DT);
+                viewModel.MODEL(selectRow[0].MODEL);
+                viewModel.ITEM(selectRow[0].ITEM);
+                viewModel.PARENT_ITEM(selectRow[0].PARENT_ITEM);
+                viewModel.EC_CONTENT(selectRow[0].EC_CONTENT);
+                viewModel.EC_ITEM(selectRow[0].EC_ITEM);
+                viewModel.LINE(selectRow[0].LINE);
+                viewModel.ONLINE_DT(selectRow[0].ONLINE_DT);
+                viewModel.WO(selectRow[0].WO);
+                viewModel.TASK_NO(selectRow[0].TASK_NO);
+                viewModel.OTHER(selectRow[0].OTHER);
+                viewModel.REMARK(selectRow[0].REMARK);
+                editType = "MODIFY";
+                ShowEditDiv("Modify A 7B5 EC", "#divEdit");
+            });
+            $("#btnDelete").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length <= 0) {
+                    swal({
+                        title: "",
+                        text: "Please select the valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                swal({
+                    title: "",
+                    text: "Are you sure to delete " + selectRow[0].CUSTOMER_FILE_NAME + " recording?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "YES",
+                    confirmButtonColor: "#18a689"
+                }, function () {
+                    self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Delete7B5EC", { ID: selectRow[0].ID }, function (e) {
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            GetList();
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                });
+            });
+            $("#bteEdit").click(function () {
+                inputModel.ID = viewModel.ID;
+                inputModel.RECEIVE_DT = viewModel.RECEIVE_DT;
+                inputModel.CUSTOMER_FILE_NAME = viewModel.CUSTOMER_FILE_NAME;
+                inputModel.EC_CODE = viewModel.EC_CODE;
+                inputModel.FACTORY_EFFECT_DT = viewModel.FACTORY_EFFECT_DT;
+                inputModel.MODEL = viewModel.MODEL;
+                inputModel.ITEM = viewModel.ITEM;
+                inputModel.PARENT_ITEM = viewModel.PARENT_ITEM;
+                inputModel.EC_CONTENT = viewModel.EC_CONTENT;
+                inputModel.EC_ITEM = viewModel.EC_ITEM;
+                inputModel.LINE = viewModel.LINE;
+                inputModel.ONLINE_DT = viewModel.ONLINE_DT;
+                inputModel.WO = viewModel.WO;
+                inputModel.TASK_NO = viewModel.TASK_NO;
+                inputModel.OTHER = viewModel.OTHER;
+                inputModel.REMARK = viewModel.REMARK;
+                inputModel.STATUS = $("#selectStatus").find("option:selected").text();
+                inputModel.ITEM_TYPE = $("#selectItemType").find("option:selected").text();
+                inputModel.STOCK_DEAL_REMARK = $("#selectStockRemark").find("option:selected").text();
+                inputModel.EC_TYPE = $("#selectECType").find("option:selected").text();
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Edit7B5EC", { ObjectModel: ko.toJSON(inputModel) }, function (e) {
+                    if (e.Status == "Pass") {                        
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {                            
+                        });
+                        if (type == "ADD") {
+                            viewModel.ID("");
+                            viewModel.RECEIVE_DT("");
+                            viewModel.CUSTOMER_FILE_NAME("");
+                            viewModel.EC_CODE("");
+                            viewModel.FACTORY_EFFECT_DT("");
+                            viewModel.MODEL("");
+                            viewModel.ITEM("");
+                            viewModel.PARENT_ITEM("");
+                            viewModel.EC_CONTENT("");
+                            viewModel.EC_ITEM("");
+                            viewModel.STOCK_DEAL_REMARK("");
+                            viewModel.LINE("");
+                            viewModel.ONLINE_DT("");
+                            viewModel.WO("");
+                            viewModel.TASK_NO("");
+                            viewModel.OTHER("");
+                            viewModel.REMARK("");
+                            viewModel.STATUS(selectStatus);
+                            viewModel.ITEM_TYPE(selectItemType);
+                            viewModel.STOCK_DEAL_REMARK(selectStockRemark);
+                            viewModel.EC_TYPE(selectECType);
+                        }
+                        $("#txtRECEIVE_DT").select().focus();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+                $("#txtSkuno").select().focus();
+            });
+
+
+            $("#txtRECEIVE_DT").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtCUSTOMER_FILE_NAME").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtCUSTOMER_FILE_NAME").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtEC_CODE").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtEC_CODE").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtFACTORY_EFFECT_DT").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtFACTORY_EFFECT_DT").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtMODEL").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtMODEL").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtITEM").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtITEM").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtPARENT_ITEM").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtPARENT_ITEM").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtEC_CONTENT").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtEC_CONTENT").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtEC_ITEM").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtEC_ITEM").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtLINE").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtLINE").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtONLINE_DT").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtONLINE_DT").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtWO").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtWO").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtTASK_NO").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtTASK_NO").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtOTHER").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtOTHER").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtREMARK").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+            $("#txtREMARK").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#bteEdit").select().focus();
+                    viewModel.ShowMessages();
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+
+
+
+ RecordTime:2021-12-18 18:20:06,890 
+Type:  INFO  
+Class:MES_DCN.Juniper.AnalyseSAPFile.Download  
+MSG:Download BAK fail.Error message:SFTP??????,??:Specified file is a directory. 
+

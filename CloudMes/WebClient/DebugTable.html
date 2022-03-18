@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES Table</title>
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div><a href="MesApiList.html">返回列表</a></div>
+    <div id="debugSite" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-5">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">TableName</label>
+            <div class="col-sm-5">
+                <input class="form-control" id="TableName" placeholder="TableName" />
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-primary" onclick="submitFunction()">Debug</button>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">Return</label>
+            <div class="col-sm-6">
+                <textarea id="ServiceRetrun" style=" height:200px; width:600px;" value=""></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script>
+        var ClassName = "";
+        var JsonFunction;
+        $(document).ready(function () {
+            //alert($.cookie("DEBUGFUNCTION"));
+            //ClassName = $.cookie("DEBUGCLASS");
+            //var DebugFunctionStr = $.cookie("DEBUGFUNCTION");
+            //JsonFunction = JSON.parse(DebugFunctionStr);
+            //$("#FunctionName").text(JsonFunction.FunctionName);
+            //$("#Description").text(JsonFunction.Description);
+            //var para = $("#Parameters");
+            //for (var i = 0; i < JsonFunction.Parameters.length; i++) {
+            //    var li = $("<li class=\"list-group-item node-treeview5\"></li>");
+            //    var div = $("<div class=\"form-group\"></div>");
+            //    var lab = $("<label class=\"col-sm-2 control-label\">" + JsonFunction.Parameters[i].InputName + "</label>");
+            //    var div1 = $("<div class=\"col-sm-5\"></div>");
+            //    var input = $("<input type=\"text\" class=\"form-control\" id=\"" + JsonFunction.Parameters[i].InputName + "\">");
+            //    div1.append(input);
+            //    div.append(lab);
+            //    div.append(div1);
+            //    li.append(div);
+            //    para.append(li);
+            //}
+            //var per = $("#Permissions");
+            //for (var i = 0; i < JsonFunction.Permissions.length; i++) {
+            //    var li = $("<li class=\"list-group-item node-treeview5\">ID:" + JsonFunction.Permissions[i].ID + " , Name:" + JsonFunction.Permissions[i].Name + " , Desc:" + JsonFunction.Permissions[i].Desc + "</li>");
+            //    per.append(li);
+            //}
+        });
+
+        function submitFunction() {
+            var data = "{ ";
+            var InputName = $("#TableName").val();
+            data += "\"TableName\":\"" + InputName + "\"";
+            data += "}";
+            self.parent.client.CallFunction(ClassName, InputName, JSON.parse(data), CallBack);
+
+        }
+        function CallBack(e) {
+            var result = JSON.stringify(e, null, 4);
+            $("#ServiceRetrun").val(result);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>JobStock</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        #inputsite .form-group input, #inputsite .form-group select {
+            margin-bottom: 20px;
+            box-shadow: inset 0px 0px 1px #bcbcbc;
+            border-radius: 5px;
+        }
+
+        #inputsite .form-group label {
+            margin-top: 5px;
+            font-size: initial;
+        }
+
+        #outputsite .form-group {
+            /*width: calc((100% - 45px)/3);*/
+            width: calc((100% - 45px)/2);
+            float: left;
+            border-bottom: 1px dotted #337ab7;
+            padding: 0 !important;
+            margin-right: 15px;
+        }
+
+            #outputsite .form-group label {
+                padding: 0 15px 0 0 !important;
+                margin: 0;
+                font-size: initial;
+                float: left;
+                width: auto;
+            }
+
+            #outputsite .form-group div {
+                width: auto;
+                padding: 0px !important;
+                min-height: 18px;
+            }
+
+        #echarts {
+            height: 230px;
+        }
+
+        #messagesite {
+            overflow: scroll;
+        }
+
+        .ibox {
+            margin-bottom: 0px;
+        }
+
+        .ibox-content {
+            height: calc(100% - 54px);
+        }
+
+        @media(max-width:992px) {
+            #echarts {
+                height: 0px;
+            }
+        }
+
+        @media(max-width:1599px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc((100% - 30px)/2);
+            }
+        }
+
+        @media(max-width:1199px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+
+        @media(max-width:991px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc(50% - 30px);
+            }
+        }
+
+        @media(max-width:749px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <!--加載窗口開始-->
+    <div class="ibox-content full-height login_page win8-bg" id="loadingScreen">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+            <div class="text-center font-bold note-fontsize-10">loading ...</div>
+        </div>
+    </div>
+    <!--加載窗口結束-->
+    <div class="ibox full-height" id="divStationBody">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i><span style="padding-left: 10px;" set-lan="html:"></span>
+                <button class="btn btn-default small" id="btnJobStockGT">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:MrbGT">JobStockGT</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <!--<div class="col-xs-12 col-sm-12 col-md-8 col-lg-5" id="IOSite">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-12 no-padding" id="outputsite">
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-12 no-padding" id="inputsite">
+
+                    </div>
+                </div>-->
+                <div class="col-xs-12" id="IOSite">
+                    <div class="col-xs-5">
+                        <div class="panel panel-default col-xs-12 no-padding">
+                            <div class="panel-heading" style="font-size: large; margin-bottom: 10px; font-weight: bold;">Station Information</div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-11 col-xs-offset-1 no-padding" id="outputsite">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-default col-xs-12 no-padding">
+                            <div class="panel-heading" style="font-size: large; margin-bottom: 10px; font-weight: bold;">Input</div>
+                            <div class="panel-body no-padding">
+                                <!--<div class="col-xs-12 no-padding" id="toolsite"></div>-->
+                                <div class="col-xs-12 no-padding" id="inputsite">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-xs-12 col-sm-12 col-md-4 col-lg-7" id="echarts">
+
+                </div>-->
+                <div class="panel panel-default col-xs-12 no-padding">
+                    <div class="panel-heading" style="background-color: #92B5D3 !important; font-size: large; font-weight: bold;">Message</div>
+                    <div class="panel-body no-padding" id="messagesite">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+    $(document)
+        .ready(function() {
+            var resize = function() {
+                var hg = $(".ibox-content").height() - $("#IOSite").height() - 40;
+                $("#messagesite").height(hg > 300 ? hg : 300);
+            };
+            var stationName = $.MES.getQueryString("StationName");
+            $('.panel-heading h3 span').text("JobStock Station");
+
+            var name;
+            var Outputs = [];
+            var Inputs = [];
+            var Output = [];
+            var Stationa = new MesStation({
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                IScale: "2:10",
+                IContainer: $("#inputsite"),
+                OContainer: $("#outputsite"),
+                MContainer: $("#messagesite"),
+                MessageShowType: undefined,
+                Init: function(d) {
+                    if (d.Status == "Pass") {
+
+                    } else {
+                        swal("Station initialization failed!", d.Message, "error");
+                    }
+                    resize();
+                    GTLoading(false);
+                }
+            });
+        });
+    var GTLoading = function(flag) {
+        if (flag) {
+            $("#loadingScreen").show();
+            $("#divStationBody").hide();
+        } else {
+            $("#loadingScreen").hide();
+            $("#divStationBody").show();
+        }
+    };
+        $("#btnJobStockGT").on('click',
+            function (e) {
+                GTLoading(true);
+                self.parent.client.CallFunction("MESStation.Interface.JobStockGT",
+                    "DoJobStockGT",
+                    {},
+                    function(e) {
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "",
+                                text: "JobStockGT success",
+                                //timer: 1500,
+                                type: "success",
+                                showConfirmButton: true
+                            });
+                            //setTimeout(function () {
+                            //    window.location = "MRBCheckinView.html";
+                            //}, 1501);
+                        } else {
+                            swal({
+                                title: "",
+                                text: e.Data,
+                                //timer: 2000,
+                                type: "warning",
+                                showConfirmButton: true
+                            });
+                        }
+                        GTLoading(false);
+                    });
+            });
+    </script>
+</body>
+</html>

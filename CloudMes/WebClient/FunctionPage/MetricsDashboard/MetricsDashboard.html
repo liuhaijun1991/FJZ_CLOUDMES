@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Foxconn Metrics Dashboard</title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .blockquote-elem-quote {
+            margin-bottom: -50px;
+            padding: 10px;
+            line-height: 20px;
+            border-left: 12px solid #708090;
+            background-color: #D8ECF6;
+            border-top-color: white;
+            border-bottom-color: white;
+            color: #336699;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        .total {
+            color: white;
+            background-color: blue;
+        }
+
+            .total a {
+                color: white;
+            }
+
+        span.low {
+            position: absolute;
+            right: 170px;
+            top: 1px;
+            height: 40px;
+            padding: 10px;
+        }
+
+        span.high {
+            position: absolute;
+            right: 100px;
+            top: 1px;
+            height: 40px;
+            padding: 10px;
+        }
+
+        .low {
+            color: #000000;
+            background-color: #d8d3ff;
+        }
+
+            .low a {
+                color: #000000
+            }
+
+        .high {
+            color: white;
+            background-color: red;
+        }
+
+            .high a {
+                color: white
+            }
+
+        .equal {
+            background-color: #ffd983
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote"><i class="layui-icon layui-icon-auz" style="font-size: 20px; color: white;"></i>Foxconn Metrics Dashboard <span class="low">Lower</span><span class="high">Upper</span></blockquote>
+        <table id="Dashboard" class="table table-bordered table-condensed table-sm text-center"></table>
+    </div>
+    <!--</div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var ClassName = "MESJuniper.Api.MetricsDashboardApi";
+        var ClinetReady = 0;
+        var client = null;
+
+        var trackList = [];
+        var dayMap = [];
+        var cHead = [];
+
+        var Days = 70;
+        var BU = "FJZ_JNP";
+        var loadindex = 0;
+
+        var datetime = new Date();
+        var timezone = -7;//Juraze
+        var offset_GMT = datetime.getTimezoneOffset();
+        var timenow = datetime.getTime();//local
+        var targetDate = new Date(timenow + offset_GMT * 60 * 1000 + timezone * 60 * 60 * 1000);//Juraze
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        $(document).ready(function () {
+            loadindex = layer.load(3, { area: ['30px', '30px'], shade: [0.5, '#393D49'] });
+            $.MES.DEBUG = false;
+            ClientInit();
+            $(window).resize(function () {
+                $('#Dashboard').bootstrapTable('resetView', { height: $(window).height() - 300 });
+            });
+        });
+
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                LoadDate();
+            });
+        };
+        /*Get Deashboard Track List*/
+        var GetTrackList = function () {
+            client.CallFunction(ClassName, "GetTrackList", { BU }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.length > 0) {
+                        console.log("GetTrackList:OK");
+                        trackList = e.Data;
+                        var datas = [];
+                        for (var i = 0; i < trackList.length; i++) {
+                            datas.push({
+                                Track: trackList[i].TRACK,
+                                TrackType: trackList[i].TRACKTYPE,
+                                Process: "",
+                                BU: "",
+                                Measure: "",
+                                Report: "",
+                                Owner: "",
+                                Goal: "",
+                                LinkPage: "",
+                                Params: []
+                            });
+                            trackList[i]["isLoading"] = true;
+                        }
+                        $('#Dashboard').bootstrapTable('append', datas);
+                        for (var i = 0; i < trackList.length; i++) {
+                            GetTrackData(trackList[i]);
+                        }
+                    } else {
+                        layer.close(loadindex);
+                        layer.msg("No Track Setting!");
+                    }
+                } else {
+                    layer.close(loadindex);
+                    alert(e.Message);
+                }
+            });
+        };
+
+        var GetTrackData = function (Track) {
+            client.CallFunction(ClassName, "GetTrackData", { Days, TrackName: Track.TRACK, TrackType: Track.TRACKTYPE, BU }, function (e) {
+                if (e.Status == "Pass") {
+                    console.log(Track.TRACK + '_' + Track.TRACKTYPE + ":OK");
+                    var row = {
+                        Track: e.Data.Track,
+                        TrackType: e.Data.TrackType,
+                        Process: e.Data.Process,
+                        BU: e.Data.BU,
+                        Measure: e.Data.Measure,
+                        Report: e.Data.Report,
+                        Owner: e.Data.Owner,
+                        Goal: e.Data.Goal,
+                        LinkPage: e.Data.LinkPage,
+                        Params: e.Data.Params
+                    };
+                    for (var n = 0; n < e.Data.data.length; n++) {
+                        row[e.Data.data[n].date] = e.Data.data[n].value;
+                    }
+                    var rowindex = trackList.findIndex(t => t.TRACK == row.Track && t.TRACKTYPE == row.TrackType);
+                    trackList[rowindex].isLoading = false;
+                    $('#Dashboard').bootstrapTable('updateRow', {
+                        index: rowindex,
+                        replace: true,
+                        row: row
+                    });
+                    if (IsFinish()) {
+                        layer.close(loadindex);
+                    }
+                } else {
+                    layer.close(loadindex);
+                    alert(e.Message);
+                }
+            });
+        }
+        //bootstrapTable('hideAllColumns')
+        var GetFormateTable = function (Data) {
+            var col = [];
+            col.push({
+                field: 'Track',
+                title: 'Track Name',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'TrackType',
+                title: 'Track Type',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'Process',
+                title: 'Process',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'BU',
+                title: 'BU',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'Measure',
+                title: 'Measure',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'Report',
+                title: 'Report',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'Owner',
+                title: 'Owner',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            col.push({
+                field: 'Goal',
+                title: 'Adj Goal',
+                align: 'center',
+                valign: 'middle',
+                switchable: false,
+                sortable: false
+            });
+            for (var i = 0; i < Data.length; i++) {
+                var cell = {
+                    field: Data[i],
+                    title: Data[i],
+                    align: 'center',
+                    valign: 'middle',
+                    cellStyle: function (value, row, index) {
+                        if (row.Goal != "" && row.Goal != null && value != undefined) {
+                            var ag = row.Goal.split('/');
+                            if (Number(ag[0]) <= Number(value) && Number(ag[1]) >= Number(value)) {
+                                return {
+                                    classes: 'equal'
+                                }
+                            } else if (Number(ag[0]) > Number(value)) {
+                                return {
+                                    classes: 'low'
+                                }
+                            } else {
+                                return {
+                                    classes: 'high'
+                                }
+                            }
+                        } else {
+                            return {
+                            }
+                        }
+                    },
+                    formatter: function (value, row, index, field) {
+                        var m = targetDate.toDateString().split(" ")[1];
+                        var d = targetDate.getDate().toString();
+                        var dm = d + "-" + m;
+                        if (Number(value) > 0 && row.LinkPage != "" && row.LinkPage != null && field == dm) {
+                            var link = row.LinkPage;
+                            for (var x = 0; x < row.Params.length; x++) {
+                                var param = "";
+                                if (row[row.Params[x]] !== undefined) {
+                                    param = row.Params[x] + "=" + row[row.Params[x]];
+                                } else {
+                                    param = row.Params[x];
+                                }
+                                if (x == 0) {
+                                    link += "?" + param
+                                }
+                                else {
+                                    link += "&" + param
+                                }
+                            }
+                            return '<a href="' + link + '" target="_blank">' + value + '</a>';;
+                        } else {
+                            return value;
+                        }
+                    },
+                    footerFormatter: function priceFormatter(data) {
+                        var field = this.field
+                        var value = data.map(function (row) {
+                            return +row[field];
+                        }).reduce(function (sum, i) {
+                            return sum + i
+                        }, 0);
+                        return value;
+                    },
+                    sortable: false
+                };
+                col.push(cell);
+            }
+            return col;
+        }
+
+        var ShowTable = function () {
+            $('#Dashboard').bootstrapTable('destroy');
+            $('#Dashboard').bootstrapTable({
+                data: [],
+                width: window.width,
+                height: window.height - 300,
+                paginationVAlign: false,
+                striped: true,
+                //showFooter: true,
+                showColumns: true,
+                pagination: false,
+                fixedColumns: true,
+                fixedNumber: 8,
+                rowStyle: function (row, index) {
+                    if (row.TrackType == 'Total') {
+                        return {
+                            classes: 'total',
+                            css: { 'background-color': '#0074D9;', 'color': '#ffffff' },
+                        }
+                    }
+                    return {};
+                },
+                columns: cHead
+            });
+        }
+
+        var LoadDate = function () {
+            client.CallFunction(ClassName, "GetTrackDate", { Days, BU }, function (e) {
+                if (e.Status == "Pass") {
+                    console.log("GetTrackDate:OK");
+                    dayMap = [];
+                    for (var i = 0; i < e.Data.length; i++) {
+                        if (e.Data.length > 7) {
+                            if (i % 7 == 0) {
+                                dayMap.unshift(e.Data[i])
+                            }
+                        } else {
+                            dayMap.unshift(e.Data[i])
+                        }
+                    }
+                    cHead = GetFormateTable(dayMap);
+                    ShowTable();
+                    GetTrackList();
+                } else {
+                    alert(e.Message);
+                }
+            });
+        }
+
+        var IsFinish = function () {
+            for (var i = 0; i < trackList.length; i++) {
+                if (trackList[i].isLoading) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    </script>
+</body>
+</html>

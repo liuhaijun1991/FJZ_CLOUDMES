@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Report</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+        .tools .fade {
+            opacity: 0.9;
+        }
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*#wipDetailTable th, #wipDetailTable td {
+            text-align: center;
+        }
+        #wipDetailTable th {
+            padding: 3px;
+            height: 30px;
+        }
+        #wipDetailTable td {
+            width: 100px !important;
+            height: 30px !important;
+        }*/
+        .blueColor {
+            color: blue;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12 inputs"></div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid no-padding">
+        <table id="wipTable" cellpadding="0" cellspacing="0" border="1" style="width: 100%;"></table>
+        <div id="divColumnChart"></div>
+    </div>
+    <div class="container-fluid no-padding" id="divDetail">
+        <!--<table id="wipDetailTable" cellpadding="0" cellspacing="0" border="1" style="width: 100%;"></table>-->
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script>
+        //绘图数据
+        var title = {
+            style: { color: '#3E576F', fontSize: '30px', fontWeight: 'lagger' },
+            text: "Repair Wip Report - Charts Report"
+        };
+        var subTitle = { style: { fontSize: '16px' }, text: "" };
+        var xAxis = {
+            categories: [],
+            tickWidth: 1,//刻度的宽度
+            lineWidth: 1,//自定义x轴宽度
+            gridLineWidth: 1,//默认是0，即在图上没有纵轴间隔线
+            labels: { style: { fontSize: '12px' } },
+            lineColor: '#000000',
+            oppsite: false,
+        };
+        var yAxis = {
+            title: {
+                text: '',
+                align: 'high',
+                offset: 0,
+                rotation: 0,
+                y: -20,
+                x: 30,
+                style: {
+                    color: '#000000',
+                    fontSize: '16px'
+                },
+            },
+            min: 0,
+            allowDecimals: false,
+            labels: { style: { fontSize: '12px' } },
+            lineColor: '#000000',
+            lineWidth: 1,//自定义y轴宽度
+        };
+        var credits = {
+            enabled: false
+        };
+        var legend = {
+            align: "right",
+            verticalAlign: "top",
+            x: 0,
+            y: -20
+        };
+
+        var objectColumn = {};
+        objectColumn.chart = {
+            type: 'column'
+        };
+        objectColumn.plotOptions = {
+            column: {
+                stacking: null, //柱形堆叠則stacking:'normal'
+                dataLabels: {
+                    enabled: true //开启数据显示
+                },
+                events: {
+                    click: function (e) {
+                    }
+                }
+            }
+        };
+        objectColumn.title = title;
+        objectColumn.subtitle = subTitle;
+        objectColumn.xAxis = xAxis;
+        objectColumn.yAxis = yAxis;
+        objectColumn.credits = credits;
+        objectColumn.legend = legend;
+
+        var Data = "";
+        var RunFlag = "";
+        var _Report = null;
+        var _ReportDetail = null;
+        var ReportClassName = "";
+        $(document).ready(function () {
+            ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+            Data = $.MES.getQueryObj();
+            RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+            if (RunFlag == "1") {
+                RunFlag = "0";
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+                        if (_Report.Report.Inputs.length > 0) {
+                            for (var i = 1; i < Data.length; i++) {
+                                _Report.SetInputValue(Data[i][0], Data[i][1]);
+                            }
+                            _Report.Run();
+                        }
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    _Report.Run();
+                });
+                $(".SearchBox").toggle(false);
+            }
+            else {
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                    self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                        { ClassName: ReportClassName, Report: _Report.ReportJson }, ShowReturn, MessageID);
+                });
+                $(".SearchBox").toggle(true);
+            }
+        });
+
+        function ShowReturn(obj) {
+            delete MesReport.prototype.ObjList[obj.MessageID];
+            if (obj.Status == "Pass") {
+                if (obj.Data.Outputs.length == 1 && obj.Data.Outputs[0].OutputType == "ReportAlart") {
+                    swal({
+                        title: "",
+                        text: obj.Data.Outputs[0].Msg,
+                        type: obj.Data.Outputs[0].AlartType
+                    }, function () { $(".SearchBox").toggle(); });
+                    return;
+                }
+                ShowWipReport(obj.Data.Inputs, obj.Data.Outputs);
+            }
+            self.parent.Loading(false);
+        }
+
+        function ShowWipReport(inputData, outData) {
+            $("#wipTable").html("");
+            $("#wipDetailTable").html("");
+            $("#divColumnChart").html("");
+
+            objectColumn.subtitle.text = "Customer:"
+                + inputData[0].Value + "  Series:"
+                + inputData[1].Value + "  SkuNo:"
+                + inputData[2].Value + "  Day:"
+                + inputData[3].Value + "  To  "
+                + inputData[4].Value;
+            for (var i = 0; i < outData.length; i++) {
+                switch (outData[i].OutputType) {
+                    case "ReportTable":
+                        var E = new OutputElements();
+                        E.Table($("#wipTable"), outData[i].Tittle, outData[i].Rows, outData[i].ColNames);
+                        break;
+                    case "ReportChart":
+                        if (outData[i].Type == "columnChart") {
+                            objectColumn.series = outData[i].ChartDatas;
+                            objectColumn.colors = ["#fdbb38", "#3cd05b"];
+                            objectColumn.xAxis.categories = outData[i].XAxis.Categories;
+                            objectColumn.yAxis.title.text = outData[i].YAxis.Title;
+                            objectColumn.plotOptions.column.events.click = function (e) {
+                                var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                                self.parent.client.CallFunction("MESReport.DCN.RepairWipReportDetail", "GetWipReportDetail", {
+                                    Date: e.point.category, Type: e.point.series.name,
+                                    Customer: inputData[0].Value, Series: inputData[1].Value, SkuNo: inputData[2].Value
+                                }, ShowWipDetail, MessageID);
+                            };
+                            $("#divColumnChart").highcharts(objectColumn);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        function ShowWipDetail(obj) {
+            $("#divDetail").html("");
+            delete MesReport.prototype.ObjList[obj.MessageID];
+            if (obj.Status == "Pass") {
+                layer.open({
+                    id: "divDetail",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "WipDetailTable",
+                    area: ['95%', '95%'],
+                    content: $('#divDetail'),
+                    success: function (layero, index) {
+                        $("#divDetail").removeClass("hidden");
+                        var E = new OutputElements();
+                        E.Table($("#divDetail"), obj.Data.Tittle, obj.Data.Rows, obj.Data.ColNames);
+                    },
+                    end: function () {
+                        $("#divDetail").addClass("hidden");
+                    }
+                });
+            }
+            else {
+                swal({ title: "", text: obj.Data.Msg, type: 2 });
+                return;
+            }
+            self.parent.Loading(false);
+        }
+    </script>
+</body>
+</html>

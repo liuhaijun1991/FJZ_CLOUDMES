@@ -1,0 +1,1094 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Control Run">Control Run</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+                
+         </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:Control Run">Control Run</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAddMapping">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEditMapping" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteMapping" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnUpload" disabled>
+                    <i class="fa fa-upload" aria-hidden="true"></i><lan set-lan="html:Upload"> Upload</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableControlList"></table>
+    </div>
+ 
+
+    <div id="divEditControl" class="panel-body hidden">
+            <div class="form-horizontal" id="divNewTypeLayerSan">
+                <div class="form-group hidden">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:ID">ID:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <input type="text" class="form-control" id="inputID" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:TYPE">TYPE:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <select type="text" id="FormTYPE" class="form-control" disabled>
+                            <option value="SN" selected >SN</option>
+                        </select>
+                    </div>
+                </div>
+              
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:CUS_DEV">CUS_DEV:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <input type="text" class="form-control" id="FormCUS_DEV" placeholder="Customer DEV/ECO"></input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:REVISION">REVISION:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <input type="text" class="form-control" id="FormREVISION"  placeholder="REVISION"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:STARTTIME">STARTTIME:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                            <input type="text" class="form-control" id="DateSelectSTARTTIME"  autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"  set-lan="html:ENDTIME">ENDTIME:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 " id="divDateSelectENDTIME">
+                        <input type="text" class="form-control" id="DateSelectENDTIME" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:REASON">REASON:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" >
+                        <textarea class="form-control" id="FormREASON" style="resize:vertical"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:COMMENTS">COMMENTS:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" >
+                        <textarea class="form-control" id="FormCOMMENTS" style="resize:vertical"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                        <!--<label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:stationSelect">stationSelect:</label>-->
+                        <div class="col-lg-10 col-lg-offset-2" >
+                            <div id="stationSelect" class="demo-transfer"></div>
+                        </div>
+                </div>
+    
+                <div id="divDoSubmit" class="form-group" style="text-align: center;">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <button type="button" class="btn btn-primary" id="btnSubmit" lay-demoTransferActive="getData"><i class="fa fa-pencil"></i> <lan set-lan="html:Submit">Submit</lan></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="divUploadInfo" class="hidden">
+                <div class="form-group" style="margin-top:15px;">
+                        <div class="form-group col-xs-12">
+                            <label class="btn btn-primary" style="z-index:999;height:38px;" ><lan set-lan="html:UploadType">UploadType</lan></label>
+                            <select type="text" id="UploadType" class="btn btn-outline btn-primary" style="z-index:999;height:38px;" >
+                                <option value="SN">SN</option>
+                                <option value="WORKORDERNO">WORKORDERNO</option>
+                            </select>
+                        </div>
+                        <div class="btn-group hidden-xs m-l-lg" ID="EXCELTEMPLATE">
+                                <button class="btn btn-primary" onclick="javascript: window.location = '../../File/UploadControlRunData.xlsx'" style="width: 128px;height: 38px;"><i class="fa fa-save"><span set-lan="html:Excel template">Excel template</span></i></button>
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <div class="btn-group hidden-xs m-l-lg" style="padding-right:150px">
+                        <label class="btn btn-primary" for="inputUploadFileData" style="z-index:999;height:38px;" ><lan set-lan="html:Upload"><i class="fa fa-upload" aria-hidden="true"> </i></lan></label>
+                        <input id="inputUploadFileData" type="file" style="display:none;" class="btn btn-outline btn-primary"  accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+                        <input id="inputUploadFileDataShow" readonly="readonly" class="btn btn-outline btn-primary" onclick="$('#inputUploadFileData').click()" style="height:38px;" >
+                    </div>
+                    
+                </div>
+                
+                <div class="">
+                    <div id="divExcel" style="padding:0 20px;">
+                    </div>
+                </div>
+            </div>
+            <div id="divUploadFailRecord" class="hidden" style="margin:5px;">
+                <div class="div-table">
+                    <table id="divRecordList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="380"></table>
+                </div>
+            </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+  
+   
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script> 
+    
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var skuList = [];
+        var submitType = "";
+        var postData = {};
+        var Modyfyflag=0;
+        var addTitle,calendarlang,retid,btnSubmit,btnCancel,SelectMes,DelWarningMes,
+        modifytitle,successmes,uploadtitle,OptinalStation,SelectedStation,DateMes;
+        var stationList=[];
+        var StationData;
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN";
+                calendarlang="cn";
+                addTitle = "新增";
+                retid="新建单号:";
+                btnSubmit="确认";
+                btnCancel="取消";
+                DelWarningMes="确认删除？";
+                SelectMes="请选择单号";
+                modifytitle="修改";
+                successmes="成功";
+                uploadtitle="数据上传";
+                OptinalStation="可选工站";
+                SelectedStation="已选工站";
+                DateMes="请选择开始结束时间";
+    
+     
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+                calendarlang="cn";
+                addTitle = "新增";
+                retid="新建單號:";
+                btnSubmit="確認"
+                btnCancel="取消";
+                DelWarningMes="確認刪除？";
+                SelectMes="請選擇單號";
+                modifytitle="修改";
+                successmes="成功";
+                uploadtitle="數據上传";
+                OptinalStation="可選工站";
+                SelectedStation="已選工站";
+                DateMes="請選擇開始結束時間";
+  
+            }
+            else {
+                tableLocale = "en";
+                calendarlang="en";
+                ddTitle = "New";
+                retid="New ID:";
+                btnSubmit="OK";
+                btnCancel="Cancel";
+                DelWarningMes="Sure to Delete?";
+                SelectMes="Please select one record";
+                modifytitle="Modify";
+                successmes="Successfully";
+                uploadtitle="Data Upload";
+                OptinalStation="Optinal Station";
+                SelectedStation="Selected Station";
+                DateMes="Please select STARTTIME & ENDTIME";
+
+            };
+            laydate('DateSelectSTARTTIME');
+            laydate('DateSelectENDTIME');
+
+            mesUI.SetLanguage("CONTROLRUN");
+            GetControlList();
+            GetStation();
+            
+
+            $("#btnAddMapping").click(function () {//新增按钮按钮
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["43%", "80%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        $("#FormTYPE").attr("disabled",true);
+                        $("#FormTYPE").val("SN");
+                        $("#FormCUS_DEV").val("");
+                        $("#FormREVISION").val("");
+                        $("#DateSelectSTARTTIME").val("");
+                        $("#DateSelectENDTIME").val("");
+                        $("#FormREASON").val("");
+                        $("#FormCOMMENTS").val("");
+                        //$("#FormTYPE").removeAttr("disabled");
+                        submitType = "NEW";
+                        GetStationData();
+                   
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnEditMapping").click(function () {//编辑按钮点击动作
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg(SelectMes, {
+                        icon: 2,
+                        time: 1500
+                    }, function () { });
+                    return;
+                }
+                layer.open({
+                    type: 1,
+                    title: modifytitle,
+                    area: ["43%", "80%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        Modyfyflag=1;
+                        $("#divEditControl").removeClass("hidden");
+
+                        $("#inputID").val(selectRows[0].ID);
+                        $("#FormTYPE").val(selectRows[0].TYPE);
+                        $("#FormCUS_DEV").val(selectRows[0].CUS_DEV);
+                        $("#FormREVISION").val(selectRows[0].REVISION);
+                        $("#DateSelectSTARTTIME").val(selectRows[0].STARTTIME);
+                        $("#DateSelectENDTIME").val(selectRows[0].ENDTIME);
+                        $("#FormREASON").val(selectRows[0].REASON);
+                        $("#FormCOMMENTS").val(selectRows[0].COMMENTS);
+                        $("#FormTYPE").attr("disabled", "disabled");
+                        self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "GetEditStation", {CONTROLID:selectRows[0].ID}, function (e){
+                            if (e.Status == "Pass") {
+                                    GetStationData(e.Data);
+                                }
+                            else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 2000
+                                }, function () {
+                                });
+                                return;
+                            }
+                         });
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                        Modyfyflag=0;
+                    }
+                })
+
+                
+            });    
+            $("#btnDeleteMapping").click(function () {//删除按钮点击动作
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg(SelectMes, {
+                        icon: 2,
+                        time: 1500
+                    }, function () { });
+                    return;
+                }
+                swal({
+                        title: DelWarningMes,
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: btnSubmit,
+                        cancelButtonText: btnCancel,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                        },
+                        function(isConfirm){
+                        if (isConfirm) {
+                            postData={ID:selectRows[0].ID};
+                            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "DelControlRun", postData, function (e) {
+                                if (e.Status == "Pass") {
+                                     GetControlList();
+                                }
+                                else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () { });
+                                        return;
+                                    }
+                            })
+                        } 
+                        });
+                
+            });
+            $("#btnRefreshMapping").click(function () {//刷新按钮点击动作
+                GetControlList();
+            });
+            $("#btnSubmit").click(function () {//点击保存的动作
+                if (submitType == "MODIFY") {
+                ModifyControl();
+                Modyfyflag=0;
+                
+                }
+                else if (submitType == "NEW") {
+                    AddNewControl();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+            $("#btnUpload").click(function () {//点击上传按钮动作
+                $("#divExcel").html("");
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg(SelectMes, {
+                        icon: 2,
+                        time: 1500
+                    }, function () { });
+                    return;
+                }
+                
+                layer.open({
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: uploadtitle,
+                            area: ['40%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: [uploadtitle, btnCancel],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                                $("#inputUploadFileData").val("");
+                                $("#inputUploadFileDataShow").val("");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                                GetControlList("");
+                            },
+                            yes: function (index) {
+                            var UploadType=$("#UploadType").val();
+                            var dataFunction=UploadType=="SN"?"UploadExcelSN":"UploadExcelWO";
+                            var CONTROLID=selectRows[0].ID;
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                parent.client.CallFunction("MESReport.BaseReport.ControlRun", dataFunction, { DataList: JSON.stringify(DataList),CONTROLID:CONTROLID }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 800
+                                        }, function () {
+                                            $("#inputUploadFileData").val("");
+                                            if(e.Data!=0){
+                                            ShowFailRecord(dataFunction);}
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                layer.close(index);
+                            }
+                        });
+
+
+            })
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFileData").change(function (e) {//EXCEL內容讀取
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFileData").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        var fromTo=wb.Sheets[shitname[0]]['!ref']
+                        var rowcount=fromTo.substring(fromTo.lastIndexOf(':')+2,fromTo.length)
+                        for(var i=0;i<rowcount.length;i++){
+                            if(rowcount.charCodeAt(i)>=48&&rowcount.charCodeAt(i)<=57){
+                                rowcount=rowcount.substring(i,rowcount.length)
+                                break;
+                            }
+                        }
+                        wb.Sheets[shitname[0]]['!ref']='A1:A'+rowcount;//設置讀取行列
+                        wb.SheetNames.forEach(function (sheetName) {
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+        });
+     
+        function AddNewControl() {//新增页面点击保存做INSERT动作
+            var TYPE = $("#FormTYPE").val();
+            var CUS_DEV = $("#FormCUS_DEV").val();
+            var REVISION = $("#FormREVISION").val();
+            var STARTTIME = $("#DateSelectSTARTTIME").val();
+            var ENDTIME = $("#DateSelectENDTIME").val();
+            var REASON = $("#FormREASON").val();
+            var COMMENTS = $("#FormCOMMENTS").val();
+            GetStationDataSelected();
+            postData = {TYPE:TYPE,CUS_DEV:CUS_DEV,REVISION:REVISION,STARTTIME:STARTTIME,ENDTIME:ENDTIME,REASON:REASON,COMMENTS:COMMENTS,STATIONDATA:StationData };
+
+            if(STARTTIME!=""&&ENDTIME!=""){
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "NewControlRun", postData, function (e){
+                if (e.Status == "Pass") {
+                        layer.closeAll();
+                        GetControlList();
+                        swal({
+                        title: retid,
+                        text: e.Data,
+                        type: "success",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: btnSubmit,
+                        closeOnConfirm: true,
+                        })
+                    }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 2000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+        else {  layer.msg(DateMes, {
+                        icon: 2,
+                        time: 2000
+                    }, function () {
+                    });
+                    return;
+                }
+    }  
+        function ModifyControl() {//编辑页面点击保存做的CHECK和INSERT等动作
+            var ID = $("#inputID").val();
+            var CUS_DEV = $("#FormCUS_DEV").val();
+            var REVISION = $("#FormREVISION").val();
+            var STARTTIME = $("#DateSelectSTARTTIME").val();
+            var ENDTIME = $("#DateSelectENDTIME").val();
+            var REASON = $("#FormREASON").val();
+            var COMMENTS = $("#FormCOMMENTS").val();
+            GetStationDataSelected();
+            postData = { "ID":ID,"CUS_DEV":CUS_DEV, "REVISION": REVISION, "STARTTIME": STARTTIME, "ENDTIME": ENDTIME, "REASON": REASON, "COMMENTS": COMMENTS,STATIONDATA:StationData};
+            if(STARTTIME!=""&&ENDTIME!=""){
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "ModifyControlRun", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(successmes, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetControlList();
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+         }
+        else {  layer.msg(DateMes, {
+                        icon: 2,
+                        time: 2000
+                    }, function () {
+                    });
+                    return;
+                }
+        }
+        function GetControlList() {//获取主页面报表函数
+            $("#btnEditMapping").attr("disabled", "disabled");
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#btnUpload").attr("disabled", "disabled");
+            $("#tableControlList").html("");
+            $("#tableControlList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "GetMainMenuList", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableControlList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: false,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: true,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,                //表格语言
+                            
+                            onCheck: function (row) {
+                                var rows = $('#tableControlList').bootstrapTable('getSelections');
+                                if (rows.length == 1) {
+                                    $("#btnEditMapping").removeAttr("disabled");
+                                } else {
+                                    $("#btnEditMapping").attr("disabled", "disabled");
+                                }
+                                if (rows.length == 1) {
+                                    $("#btnUpload").removeAttr("disabled");
+                                } else {
+                                    $("#btnUpload").attr("disabled", "disabled");
+                                }
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#tableControlList').bootstrapTable('getSelections');
+                                $("#btnEditMapping").attr("disabled", "disabled");
+                                $("#btnUpload").attr("disabled", "disabled");
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: '<label set-lan="html:ID">ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true,
+                                    events:SReportEvents,
+                                    formatter:SReportFormatter,
+                                }, {
+                                    field: 'TYPE',
+                                    title: '<label set-lan="html:TYPE">TYPE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'QTY',
+                                    title: '<label set-lan="html:QTY">QTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    events:QTYEvents,
+                                    formatter:QTYFormatter,
+                                },  {
+                                    field: 'CUS_DEV',
+                                    title: '<label set-lan="html:CUS_DEV">CUS_DEV</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                },  {
+                                    field: "REVISION",
+                                    title: '<label set-lan="html:REVISION">REVISION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "STARTTIME",
+                                    title: '<label set-lan="html:STARTTIME">STARTTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "ENDTIME",
+                                    title: '<label set-lan="html:ENDTIME">ENDTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "STATUS",
+                                    title: '<label set-lan="html:STATUS">STATUS</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'REASON',
+                                    title: '<label set-lan="html:REASON">REASON</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'COMMENTS',
+                                    title: '<label set-lan="html:COMMENTS">COMMENTS</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITTIME',
+                                    title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITBY',
+                                    title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }],
+                            onExpandRow: function(index, row, $Subdetail)//加載子表格
+                            {
+                                InitSubTable(index, row, $Subdetail);
+                            },
+                          
+                        });
+                       
+                        mesUI.SetLanguage("CONTROLRUN");
+                    
+                } 
+            });
+        }
+        function InitSubTable (index, row, $detail) {//初始化載具機種信息子表格
+            var cur_table = $detail.html('<table></table>').find('table');
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "GetExtendListStation",
+                { CONTROLID: row.ID },
+                function(e) {
+                    if (e.Data.length > 0) {
+                        $(cur_table).bootstrapTable({
+                            data: e.Data,
+                            search: false,
+                            clickToSelect: true,
+                            pageSize: 10,
+                            pageList: [10, 25],
+                            striped: true, //是否显示行间隔色
+                            pagination: false, //是否显示分页（*）
+                            paginationPreText: '<', //上下翻页
+                            paginationNextText: '>',
+                            columns: [
+                            {
+                                    field: 'ID',
+                                    title: 'ID',
+                                    visible: false,
+                                    
+                            }, {
+                                    field: 'CONTROLID',
+                                    title: '<label set-lan="html:CONTROLID">CONTROLID</label>',
+                                    visible: false,
+                            },{
+                                    field: 'STATION_NAME',
+                                    title: '<label set-lan="html:STATION_NAME">STATION_NAME</label>',
+                                    visible: true,
+                                },{
+                                    field: 'SEQNO',
+                                    title: '<label set-lan="html:SEQNO">SEQNO</label>',
+                                    visible: true,
+                                }
+                                ,{
+                                    field: 'VALID_FLAG',
+                                    title: '<label set-lan="html:VALID_FLAG">VALID_FLAG</label>',
+                                    visible: false,
+                                }
+                                ,{
+                                    field: 'EDITTIME',
+                                    title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                    visible: true,
+                                }
+                                ,{
+                                    field: 'EDITBY',
+                                    title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                    visible: true,
+                                }
+                                ]
+                        });
+                        mesUI.SetLanguage("CONTROLRUN");
+                    }
+                });
+        }; 
+        function laydate(ID){//日期选择控件
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#'+ID,
+                    type: 'datetime',//year month day datetime
+                    lang: calendarlang,//en or cn
+                    theme:'#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: false,//是否开启左右页
+                    });
+                });
+        }
+        function ShowFailRecord(FUNCTIONNAME) {//失败数据显示
+            var DATA1LAN=FUNCTIONNAME=="UploadExcelSN"?"<label set-lan='html:SN'>SN</label>":"<label set-lan='html:WORKORDERNO'>WORKORDERNO</label>";
+                layer.open({
+                    id: "FailRecord",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "",
+                    area: ['80%', '80%'],
+                    content: $('#divUploadFailRecord'),
+                    success: function () {
+                        $("#divUploadFailRecord").removeClass("hidden");
+                        parent.client.CallFunction("MESReport.BaseReport.ControlRun", "ShowFailRecord", {FUNCTION_NAME:FUNCTIONNAME}, function (e) {
+                            $('#divRecordList').bootstrapTable("destroy");
+                            if (e.Status == "Pass") {
+                                    $('#divRecordList').bootstrapTable({
+                                        data: e.Data,
+                                        striped: false,                    //是否显示行间隔色
+                                        cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                        sortable: false,                   //是否启用排序
+                                        sortOrder: "desc",                  //排序方式
+                                        pagination: true,                  //是否显示分页（*）
+                                        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                        pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                        pageSize: 5,                       //每页的记录行数（*）
+                                        pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                                        showColumns: false,                 //是否显示 内容列下拉框
+                                        showRefresh: false,                 //是否显示刷新按钮
+                                        minimumCountColumns: 2,            //最少允许的列数
+                                        clickToSelect: true,               //是否启用点击选中行
+                                        singleSelect: true,                //单选checkbox
+                                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                                        cardView: false,                   //是否显示详细视图
+                                        detailView: false,                 //是否显示父子表
+                                        search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                        strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                        searchOnEnterKey: false,            //回车搜索
+                                        searchTimeOut: 500,                //设置搜索超时时间
+                                        trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                                        searchAlign: "right",              //查询框对齐方式
+                                        toolbarAlign: "right",              //工具栏对齐方式
+                                        buttonsAlign: "right",             //按钮对齐方式
+                                        showExport: false,                  //是否显示导出按钮
+                                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                                        Icons: 'glyphicon-export',
+                                        exportOptions: {
+                                            ignoreColumn: [0],             //忽略某一列的索引
+                                            fileName: 'FailRecord List',     //文件名称设置
+                                            worksheetName: 'sheet1',       //表格工作区名称
+                                        },
+                                        columns: [{
+                                            field: 'CLASS_NAME',
+                                            title: '<label set-lan="html:CLASS_NAME">CLASS_NAME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'FUNCTION_NAME',
+                                            title: '<label set-lan="html:FUNCTION_NAME">FUNCTION_NAME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'LOG_MESSAGE',
+                                            title: '<label set-lan="html:LOG_MESSAGE">LOG_MESSAGE</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'DATA1',
+                                            title: DATA1LAN,
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'DATA2',
+                                            title: 'DATA2',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: false
+                                        },
+                                        {
+                                            field: 'EDIT_EMP',
+                                            title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'EDIT_TIME',
+                                            title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        }]
+                                    });
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                   
+                    },
+                    end: function () {
+                        $("#divUploadFailRecord").addClass("hidden");
+                    },
+                });
+            };   
+        window.QTYEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick("ControlRunSNList",row.ID,1);
+            }
+        }
+        window.SReportEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick("GetYieldRate",row.ID,1);
+            }
+        }
+        function SReportFormatter(value, row, index) {
+            var actions = [];
+            actions.push('<button id="bind" type="button" class="btn btn-link">'+row.ID+'</button>');
+            return actions.join('');
+        }
+
+        function QTYFormatter(value, row, index) {
+            var actions = [];
+            if(row.QTY!="0"){
+                actions.push('<button id="bind" type="button" class="btn btn-link">'+row.QTY+'</button>');
+            }
+            else{
+                actions.push(row.QTY);
+            }
+            return actions.join('');
+        }
+        function OnLinkClick (functionName,CONTROLID,QueryTYPE) {//打开Iframe层
+        // 获取标识数据
+            
+            var dataUrl="/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport."+functionName+"&RunFlag=1&CONTROLID="+CONTROLID+"&QueryTYPE="+QueryTYPE,
+            menuName=functionName+"_Report",
+            dataIndex = Date.now().toString()+Math.random(0,99999999).toString(),
+            flag = true;
+            if(functionName=="GetYieldRate")dataUrl="/FunctionPage/Report/ControlRunReport.html?CONTROLID="+CONTROLID;
+        if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
+
+        // 选项卡菜单已存在
+        $(self.parent.document).find(".J_menuTab").each(function () {
+            if ($(this).data('id') == dataUrl) {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                    self.parent.window.scrollToTab(this);
+                    // 显示tab对应的内容区
+                    $(self.parent.document).find('.J_mainContent .J_iframe').each(function () {
+                        if ($(this).data('id') == dataUrl) {
+                            $(this).show().siblings('.J_iframe').hide();
+                            return false;
+                        }
+                    });
+                }
+                flag = false;
+                return false;
+            }
+        });
+
+        // 选项卡菜单不存在
+        if (flag) {
+            $(self.parent.document).find('.J_iframe').hide();
+            var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+            $(self.parent.document).find('.J_menuTab').removeClass('active');
+            // 添加选项卡对应的iframe
+            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+            $(self.parent.document).find('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+            // 添加选项卡
+            $(self.parent.document).find('.J_menuTabs .page-tabs-content').append(str);
+            self.parent.window.scrollToTab($(self.parent.document).find('.J_menuTab.active'));
+        }
+        return false;
+    };
+        function GetStation(){
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "GetStation",{}, function (e) {
+                if (e.Status == "Pass") {
+                     stationList=e.Data;
+                }
+                else{
+                    layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                     return;
+                }
+            })
+        }
+        function GetStationData(init){
+        layui.use(['transfer', 'layer', 'util'], function(){
+            var transfer = layui.transfer
+            ,layer = layui.layer
+            ,util = layui.util;
+
+            transfer.render({
+                elem: '#stationSelect',
+                data: stationList,
+                title: [OptinalStation, SelectedStation],
+                showSearch: true,
+                id: 'keyStation', //定义唯一索引
+                value:init,
+                    })
+  
+            });
+        
+        }
+        function GetStationDataSelected(){
+        layui.use(['transfer', 'layer', 'util'], function(){
+            var transfer = layui.transfer
+            ,layer = layui.layer
+            ,util = layui.util; 
+                var getData = transfer.getData('keyStation'); //获取右侧数据
+                StationData=getData;
+          
+            });
+        
+        }
+
+
+        
+
+    </script>
+
+</body>
+</html>
+

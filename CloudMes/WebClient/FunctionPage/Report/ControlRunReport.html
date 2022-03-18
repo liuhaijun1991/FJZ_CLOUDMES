@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Control Run Report">Control Run Report</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+                
+         </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:Control Run">Control Run Report</span></h3>
+    </div>
+    <div style="margin-left: 50px;margin-top: 50px;">
+        <nav class="navbar" role="navigation" style="width: 1312px">
+            <div class="navbar-header">
+                <label class="alert alert-warning" id="ControlIDTitle" ></label>
+            </div>
+        </nav>
+    </div>
+    <div class="panel-body" style="margin-bottom: 100px;">
+        <table id="tableControlList"></table>
+    </div>
+ 
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+  
+   
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script> 
+    
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var postData = {};
+        var CONTROLID;
+        $(document).ready(function () {
+            CONTROLID = $.MES.getQueryString("CONTROLID");
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN";
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+            }
+            else {
+                tableLocale = "en";
+            };
+            GetList(CONTROLID);
+            $("#ControlIDTitle").html("ControlRun ID: "+CONTROLID)
+        });
+     
+        function GetList(CONTROLID) {//获取主页面报表函数
+            $("#btnEditMapping").attr("disabled", "disabled");
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#btnUpload").attr("disabled", "disabled");
+            $("#tableControlList").html("");
+            $("#tableControlList").bootstrapTable('destroy');
+            postData={CONTROLID:CONTROLID};
+            self.parent.client.CallFunction("MESReport.BaseReport.ControlRun", "GetYieldRate", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableControlList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: false,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: false,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,                //表格语言
+                            rowStyle: function (row, index) {
+                                    var strclass = "";
+                                    if(row.FailQTY>0){
+                                        strclass='danger';
+                                    }
+                                    else if (row.FailQTY==0&&row.BulidQTY!=0)
+                                    {
+                                        strclass='success';
+                                    }
+                                    else
+                                    {
+                                        strclass='';
+                                    }
+                                    return { classes: strclass }
+                                },
+                            columns: [ {
+                                    field: 'Staion',
+                                    title: '<label set-lan="html:STATION">STATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }, {
+                                    field: 'BulidQTY',
+                                    title: '<label set-lan="html:Build Qty">Build Qty</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    events:BulidQTYEvents,
+                                    formatter:BulidQTYFormatter,
+                                }, {
+                                    field: 'FailQTY',
+                                    title: '<label set-lan="html:Fail Qty">Fail Qty</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    events:FailQTYEvents,
+                                    formatter:FailQTYFormatter,
+                                },  {
+                                    field: 'FailRate',
+                                    title: '<label set-lan="html:Fail Rate">Fail Rate</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }]
+                         
+                        });
+                        mesUI.SetLanguage("CONTROLRUN");
+                    
+                } 
+            });
+        }
+        
+        window.BulidQTYEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick("ControlRunSNList",CONTROLID,2,row.Staion);
+            }
+        }
+        function BulidQTYFormatter(value, row, index) {
+            var actions = [];
+            if(row.BulidQTY!="0"){
+                actions.push('<button id="bind" type="button" class="btn btn-link">'+row.BulidQTY+'</button>');
+            }
+            else{
+                actions.push(row.BulidQTY);
+            }
+            return actions.join('');
+        }
+
+        window.FailQTYEvents = {
+            'click #bind': function(e, value, row, index) { 
+                OnLinkClick("ControlRunSNList",CONTROLID,3,row.Staion);
+            }
+        }
+        function FailQTYFormatter(value, row, index) {
+            var actions = [];
+            if(row.FailQTY!="0"){
+                actions.push('<button id="bind" type="button" class="btn btn-link">'+row.FailQTY+'</button>');
+            }
+            else{
+                actions.push(row.FailQTY);
+            }
+            return actions.join('');
+        }
+        function OnLinkClick (functionName,CONTROLID,QueryTYPE,Station) {//打开Iframe层
+        // 获取标识数据
+            
+        var dataUrl="/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport."+functionName+"&RunFlag=1&CONTROLID="+CONTROLID+"&QueryTYPE="+QueryTYPE+"&Station="+Station,
+           menuName=functionName+"_Report",
+            dataIndex = Date.now().toString()+Math.random(0,99999999).toString(),
+            flag = true;
+        if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
+
+        // 选项卡菜单已存在
+        $(self.parent.document).find(".J_menuTab").each(function () {
+            if ($(this).data('id') == dataUrl) {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
+                    self.parent.window.scrollToTab(this);
+                    // 显示tab对应的内容区
+                    $(self.parent.document).find('.J_mainContent .J_iframe').each(function () {
+                        if ($(this).data('id') == dataUrl) {
+                            $(this).show().siblings('.J_iframe').hide();
+                            return false;
+                        }
+                    });
+                }
+                flag = false;
+                return false;
+            }
+        });
+
+        // 选项卡菜单不存在
+        if (flag) {
+            $(self.parent.document).find('.J_iframe').hide();
+            var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+            $(self.parent.document).find('.J_menuTab').removeClass('active');
+            // 添加选项卡对应的iframe
+            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+            $(self.parent.document).find('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+            // 添加选项卡
+            $(self.parent.document).find('.J_menuTabs .page-tabs-content').append(str);
+            self.parent.window.scrollToTab($(self.parent.document).find('.J_menuTab.active'));
+        }
+        return false;
+    };
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDataObject.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDataObject.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDataObject.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDataObject.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDBHelper.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDBHelper.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\MESDBHelper.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\obj\Debug\MESDataObject.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\obj\Debug\MESDataObject.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\obj\Debug\MESDataObject.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\obj\Debug\MESDataObject.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDataObject\obj\Debug\MESDataObject.pdb

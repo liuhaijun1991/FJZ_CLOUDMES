@@ -1,0 +1,393 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>EACU Label Setting</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        /*.tableEventsToolbar-margin-top {
+            margin-top: 10px;
+        }*/
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group" id="tableEventsToolbar" role="group">                   
+                    <select class="btn btn-outline btn-default" style="height:34px;" id="toolSelect">
+                        <option value="TYPE" selected>TYPE</option>
+                        <option value="COO">COO</option>
+                    </select>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolNew">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:">New</lan>
+                    </button>
+                    <!--<button type="button" class="btn btn-outline btn-default" id="btnToolDownload">
+                        <i class="glyphicon glyphicon-download" aria-hidden="true"></i><lan set-lan="html:">Download</lan>
+                    </button>-->
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolRefresh">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divEdit" class="form-horizontal" style="padding-top:10px;">        
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">Category:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="txt_category" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" id="label_name">NAME:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="txt_name" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" id="label_english">ENGLISH:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="txt_english" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">RUSSIAN:</label>
+                <div class="col-xs-8">
+                    <textarea class="form-control" id="txt_russian" rows="4" cols="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script type="text/javascript">
+
+        var editIndex;
+       
+        var bSubmit = false;
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+
+        window.ColumnBtnClick = {
+            'click #btnEdit': function (e, value, row, index) {
+                if (editIndex != undefined || editIndex != "") {
+                    layer.close(editIndex);
+                }
+                editIndex = layer.open({
+                    id: "EditRecord",
+                    type: 1,
+                    offset: "10px",
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "EditRecord",
+                    area: ['50%', '50%'],
+                    content: $('#divEdit'),
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divEdit").show();
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#txt_category").val($("#toolSelect").val());
+                        $("#label_name").html($("#toolSelect").val() + ":");
+                        if ($("#toolSelect").val() == "TYPE") {
+                            $("#label_english").html("PREFIX:");
+                            $("#txt_name").val(row["TYPE"]);
+                            $("#txt_english").val(row["PREFIX"]);
+                            $("#txt_russian").val(row["RUSSIAN"]);
+                        }
+                        else {
+                            $("#label_english").html("ENGLISH:");
+                            $("#txt_name").val(row["COO"]);
+                            $("#txt_english").val(row["ENGLISH"]);
+                            $("#txt_russian").val(row["RUSSIAN"]);
+                        }
+                       
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var inputData = {
+                            ID: row["ID"],
+                            NAME: $("#txt_name").val(),
+                            ENGLISH: $("#txt_english").val(),
+                            RUSSIAN: $("#txt_russian").val()
+                        }
+                        parent.client.CallFunction("MESStation.Config.DCN.EACU_Label_Setting", "EditRecord", inputData, function (e) {
+                            if (e.Status == "Pass") {                                
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () { });
+                            } else {                                
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#divEdit").hide();
+                        layer.close(index);
+                        GetSettingData();
+                    }
+                });
+            },
+            'click #btnDelete': function (e, value, row, index) {
+                parent.client.CallFunction("MESStation.Config.DCN.EACU_Label_Setting", "Delete", { ID: row["ID"]}, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () { });
+                        ShowTable();
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            }
+        }
+
+        var ShowTable = function (data) {
+            $("#tableList").bootstrapTable("destroy");
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {};
+                if (item == "ID") {
+                    cell = {
+                        field: item,
+                        title: item,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: false
+                    };
+                }
+                else {
+                    cell = {
+                        field: item,
+                        title: item,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true
+                    };
+                }                
+                columns.push(cell);
+            }
+            columns.push({
+                field: "ACTION", title: "ACTION", align: 'center', valign: 'middle',
+                formatter: function (value, row, index) {
+                    return ['<button id = "btnEdit" type = "button" class= "btn btn-default" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:"></lan></button >'
+                        +'<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:"></lan></button >'].join('');
+                },
+                events: ColumnBtnClick
+            });
+            $("#tableList").bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 30, 50, 100, 300, 500],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                locale: localelan,
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                columns: columns
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+
+        var GetSettingData = function () {
+            parent.client.CallFunction("MESStation.Config.DCN.EACU_Label_Setting", "GetSettingData", { TYPE: $("#toolSelect").val(),}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowTable(e.Data);
+                }
+                else {                    
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }                
+            });
+        }
+
+        $(document).ready(function () {
+            GetSettingData();
+            $("#divEdit").hide();          
+           
+
+            $("#btnToolNew").click(function () {
+                if (editIndex != undefined || editIndex != "") {
+                    layer.close(editIndex);
+                }
+                editIndex = layer.open({
+                    id: "NewRecord",
+                    type: 1,
+                    offset: "10px",
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Add New Record",
+                    area: ['40%', '60%'],
+                    content: $('#divEdit'),
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divEdit").show();
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#txt_category").val($("#toolSelect").val());
+                        $("#label_name").html($("#toolSelect").val() + ":");
+                        if ($("#toolSelect").val() == "TYPE") {
+                            $("#label_english").html("PREFIX:");
+                        }
+                        else {
+                            $("#label_english").html("ENGLISH:");
+                        }
+                        $("#txt_name").val("").focus();
+                        $("#txt_english").val("");
+                        $("#txt_russian").val("");
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var inputData = {
+                            CATEGORY: $("#txt_category").val(),
+                            NAME: $("#txt_name").val(),
+                            ENGLISH: $("#txt_english").val(),
+                            RUSSIAN: $("#txt_russian").val()
+                        }
+                        parent.client.CallFunction("MESStation.Config.DCN.EACU_Label_Setting", "AddNewRecord", inputData, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#txt_name").val("").focus();
+                                $("#txt_english").val("");
+                                $("#txt_russian").val("");
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () { });
+                            } else {                                
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                        $("#divEdit").hide();
+                        GetSettingData();
+                    }
+                });
+            });
+
+            $("#btnToolRefresh").click(function () {
+                GetSettingData();
+            });            
+            
+            $("#toolSelect").change(function (e) {
+                GetSettingData();
+            });
+           
+        });
+    </script>
+</body>
+</html>

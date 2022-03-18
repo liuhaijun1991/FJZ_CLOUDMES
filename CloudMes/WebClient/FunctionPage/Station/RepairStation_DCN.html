@@ -1,0 +1,823 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+        }
+
+        .repair-nav-tabs > li > a {
+            padding: 5px 15px 0 15px !important;
+            margin-left: 0px !important;
+        }
+
+        .repair-nav-tabs > li.active {
+            border-left: 0px solid #f9f7f7;
+            background-color: #f5f5f5;
+        }
+
+        .repair-nav-tabs {
+            background-color: #f5f5f5;
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+        .repair-nav-tabs li h3 {
+            font-size: inherit;
+        }
+
+        .repair-nav-tabs > li.active > a,
+        .repair-nav-tabs > li.active > a:hover,
+        .repair-nav-tabs > li.active > a:focus {
+            color: #fff;
+            background-color: #007bff !important;
+            border: 1px solid #337ab7;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            font-size: inherit;
+            font-weight: 600;
+        }
+
+        .fieldset-border {
+            padding-top: -10px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            border: 1px solid silver;
+            border-radius: 4px;
+            border-color: #e7eaec;
+            margin-bottom: 5px;
+            border-color: #f8ac59;
+        }
+
+        .legend-border {
+            padding: 0 5px;
+            width: auto;
+            border: 0;
+            font-size: inherit;
+            font-weight: 600;
+            margin-bottom: 0px;
+        }
+
+        .border-primary {
+            border-color: #337ab7;
+        }
+
+        .list-inline li {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .tab-pane table, .panel table {
+            margin-bottom: 0;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .no-border {
+            border: 0;
+        }
+
+        h3 label, h3 span {
+            padding-left: 10px;
+        }
+
+        button lan {
+            padding-left: 5px;
+        }
+
+        .padding-top-5 {
+            padding-top: 5px !important;
+        }
+
+        .padding-right-15 {
+            padding-right: 15px !important;
+        }
+
+        .form-group input, .form-group select {
+            border-radius: 5px;
+        }
+
+        .tab-pane table {
+            border-radius: 0px;
+        }
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+            .repair-output .form-group label {
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+            .repair-output .form-group div {
+                padding-top: 7px;
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+        .table-tr-background-color {
+            background-color: #f8ac59 !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-horizontal .control-label {
+                padding-top: 7px;
+                margin-bottom: 0;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">Repair Station</span>
+                <button class="btn btn-default small" id="btnReset">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+                <button class="btn btn-default small" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>
+                <button class="btn btn-default small" id="btnNewFailCode">
+                    <i class="glyphicon glyphicon-file"></i> <lan set-lan="html:NewFailCode">NewFailCode</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content padding-top-5">
+            <div id="divRepair" class="row form-horizontal">
+                <div id="divRepairInputSn" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div id="divRepairSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-4"></div>
+                    <div id="divRepairOut" class="col-xs-10 col-sm-6 col-md-8 col-lg-8">
+                        <div id="divRepairSkuno" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 repair-output"></div>
+                        <div id="divRepairWO" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 repair-output"></div>
+                        <div id="divRepairCount" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 repair-output"></div>
+                        <div id="divMdsFlag" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 repair-output"></div>
+                    </div>
+                </div>
+
+                <div id="divRepairList" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="tab-">
+                            <ul class="nav nav-tabs repair-nav-tabs">
+                                <li class="active" style="padding-left:0px;margin-left:0px;">
+                                    <a href="#divFailCodeList" data-toggle="tab"><h3>Fail Code List</h3></a>
+                                </li>
+                                <li>
+                                    <a href="#divRepairActionList" data-toggle="tab"><h3>Repair Action List</h3></a>
+                                </li>
+                                <li>
+                                    <a href="#divSNKpList" data-toggle="tab"><h3>SN Kp List</h3></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="divFailCodeList"></div>
+                            <div class="tab-pane fade" id="divRepairActionList"></div>
+                            <div class="tab-pane fade" id="divSNKpList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepairAction" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Repair Action</h3>
+                        </div>
+                        <div class="panel-body  no-padding padding-top-5">
+                            <div id="divRepairBase" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div id="divFailCodeID" class="col-xs-10 col-sm-6 col-md-4 col-lg-3 " hidden></div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-2">
+                                    <div class="form-group" view-group="">
+                                        <label for="" class="col-xs-5 control-label text-right">FailCode:</label>
+                                        <div class="col-xs-7">
+                                            <input id="uFailCode" type="text" class="form-control" placeholder="Fail Code" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divActionCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-2"></div>
+                                <div id="divActionCodeDesc" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divPCBASN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divLocation" class="col-xs-10 col-sm-6 col-md-4 col-lg-2"></div>
+                                <div id="divCategory" class="col-xs-10 col-sm-6 col-md-4 col-lg-2" hidden></div>
+                                <div id="divProcess" class="col-xs-10 col-sm-6 col-md-4 col-lg-2"></div>
+                                <div id="divRootCause" class="col-xs-10 col-sm-6 col-md-4 col-lg-2"></div>
+                                <div id="divRootCauseDesc" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divKpNo" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divCompomentID" class="col-xs-10 col-sm-6 col-md-4 col-lg-2"></div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:1px solid #ddd;padding-top:5px;">
+                                <div id="divIsPCBA" class="col-xs-10 col-sm-6 col-md-4 col-lg-3" hidden></div>
+                                <div id="divOriginalCSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divReplaceCSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divOldTRSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divTRSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divDC" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divLC" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divMfrCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divMfrName" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divOldMPN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divNewMPN" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divReturnStation" class="col-xs-10 col-sm-6 col-md-4 col-lg-3"></div>
+                                <div id="divRepairButton" class="col-xs-10 col-sm-10 col-md-6 col-lg-3">
+                                    <div id="divEmpty" class="col-xs-10 col-sm-10 col-md-6 col-lg-3"></div>
+                                    <div id="divRepairSaveReplace" class="col-xs-3 col-xs-offset-3 col-sm-3 col-sm-offset-3 col-md-4 col-md-offset-0 col-lg-3 col-lg-offset-0"></div>
+                                    <div id="divRepairSave" class="col-xs-3 col-xs-offset-3 col-sm-3 col-sm-offset-3 col-md-4 col-md-offset-0 col-lg-3 col-lg-offset-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepariMsg" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="panel-body no-padding" id="divMessage">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script>
+        var option = null;
+        var Client = null;
+        var failCodeID = null;
+        var failStation = null;
+        var repairStaion = null;
+        var lineName = "Line1";                                 //當前工站所選線別,默認Line1
+        var stationName = $.MES.getQueryString("StationName");  //當前工站名
+        var E = new MessageElements();                          //調用消息機制
+        var keypressEvent = jQuery.Event("keypress");           //模拟一个键盘事件
+        keypressEvent.keyCode = 13;                             //回車事件的keyCode=13
+
+        $(document).ready(function () {
+            Client = self.parent.client;
+            lineName = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!lineName) {
+                lineName = "Line1";
+            }
+            option = {
+                Client: Client,
+                Line: "Line1",
+                Name: stationName,
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    StationInit(repairStaion, d, RepairInit);
+                }
+            }
+
+            repairStaion = new MesStation(option);
+            $("#uFailCode").attr("disabled", true);
+            $("#btnReset").on("click", function (e) {
+                self.parent.Loading(true);
+                $("#divMessage").empty();
+                option.ScanType = repairStaion.ScanType;
+                repairStaion = new MesStation(option);
+            });
+            $("#btnResetLine").on("click", function (e) {
+                repairStaion.Line = "Line1";
+                localStorage.setItem($.MES.CK_LINE_NAME, "");
+                option.ScanType = repairStaion.ScanType;
+                repairStaion = new MesStation(option);
+            });
+            $("#btnNewFailCode").on("click", function () {
+                layer.open({
+                    id: this.Serialno,
+                    type: 2,
+                    title: ['New Fail Code', 'background-color: #007bff;font-size: 1.75rem;color:White;'],
+                    skin: 'demo-class',
+                    closeBtn: 1,
+                    shadeClose: false,
+                    shade: 0.5,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['50%', '75%'],
+                    content: ['NewFailCode.html'], //iframe的url，no代表不显示滚动条
+                    cancel: function (index) {
+
+                    }
+                });
+            });
+            $("#divLocation").keypress(function (e) {
+                if (e.which === 13) {
+                    var layerFlag = false;
+                    var repairSN = $("#divRepairSN").find("input[type=text]").val().toUpperCase();
+                    var actionCode = $("#divActionCode").find("input[type=text]").val().toUpperCase();
+                    var pcbaSN = $("#divPCBASN").find("option[selected]").val();
+                    var kpNo = $("#divKpNo").find("option[selected]").val();
+                    var location = $("#divLocation").find("input[type=text]").val().toUpperCase();
+                    var replaceCSN = $("#divReplaceCSN").find("input[type=text]").val().toUpperCase();
+                    
+                    //這兩個條件為不彈窗條件,不彈窗則往后繼續執行
+                    if (actionCode != "A12" || replaceCSN != "") {
+                        layerFlag = true;
+                    }
+                    if (actionCode == "A12" && replaceCSN == "") {
+                        //檢查是否選擇PCBASN
+                        if (pcbaSN == "") {
+                            E.Default("Please select the PCBA SN to be refuelled in the PCBA option box!", 0, repairStaion.MContainer);
+                            $("#divLocation").find("input[type=text]").val("");
+                            $("#divPCBASN select").focus();
+                            return;
+                        }
+                        if (kpNo == "") {
+                            E.Default("請在KPNO選項框中選擇需換料的KeyPart!", 0, repairStaion.MContainer);
+                            $("#divLocation").find("input[type=text]").val("");
+                            $("#divKpNo select").focus();
+                            return;
+                        }
+                        layer.open({
+                            id: this.Serialno,
+                            type: 2,
+                            title: ['Kp Replace', 'background-color: #007bff;font-size: 1.75rem;color:White;'],
+                            skin: 'demo-class',
+                            closeBtn: 1,
+                            shadeClose: false,
+                            shade: 0.5,
+                            maxmin: true, //开启最大化最小化按钮
+                            area: ['80%', '90%'],
+                            content: ['Repair_KpReplace.html'],
+                            success: function (layero, index) {
+                                //層彈出后的成功回調方法
+                                layer.getChildFrame("body", index).contents().find("#uRepairSN").val(repairSN);
+                                layer.getChildFrame("body", index).contents().find("#uFailStation").val(failStation);
+                                layer.getChildFrame("body", index).contents().find("#uRepairSN").focus();
+                            },
+                            cancel: function (index) {
+                                //取消和關閉按鈕觸發的回調方法
+                            },
+                            end: function (index) {
+                                //層銷毀后觸發的回調方法:只有當layer層填入值點擊Finish銷毀層才會走進去,否則什麼都不做
+                                if ($("#divIsPCBA").find("input[type=text]").val().length > 0) {
+                                    $("#RootCause").find("input[type=text]").focus();
+                                    CheckExistsESS(repairSN, failStation);//檢查ESS工站提示:在ESS工站之後如有更換KP零件,需要返回BFT工站開始測試(一個提示,待定?)
+                                    ParentInitKeypress();
+                                }
+                            }
+                        });
+                    }
+
+                    //由於layer的異步處理機制,layer.open方法還沒執行完成也會繼續往後面走,layerFlag就是用來標識是否執行完成
+                    if (layerFlag) {
+                        CheckAllpart(repairSN, pcbaSN, location);
+                    }
+                    $("#RootCause").find("input[type=text]").focus();
+                }
+            });
+            $("#btnAPReplaceAction").on("click", function (e) {
+                //檢查一堆輸入
+                var repairSN = $("#divRepairSN").find("input[type=text]").val();
+                var actionCode = $("#divActionCode").find("input[type=text]").val();
+                var pcbaSN = $("#divPCBASN").find("option[selected]").val();
+                var location = $("#divLocation").find("input[type=text]").val();
+                var rootCause = $("#uRootCause").val();
+                var newTRSN = $("#divTRSN").find("input[type=text]").val();
+                if (repairSN == "") {
+                    E.Default("Please enter the SN to be repaired and press enter!", 0, repairStaion.MContainer);
+                    $("#divRepairSN").val("");
+                    return;
+                }
+                if (pcbaSN == "") {
+                    E.Default("請選擇PCBA SN!", 0, repairStaion.MContainer);
+                    $("#divKpNo").find("option[selected]").focus();
+                    return;
+                }
+                if (location == "") {
+                    E.Default("Invalid faillocation, <br/> please enter the correct faillocation and enter!", 0, repairStaion.MContainer);
+                    $("#divLocation").find("input[type=text]").focus();
+                    return;
+                }
+                //檢查RootCause是否有效:輸入RootCause后回車會檢查有效性,有效則將此欄位disabled
+                if (rootCause == "" && !$("#uRootCause")[0].disabled) {
+                    E.Default("Invalid errorcode,<br/>  please enter the correct errorcode (rootcause) and press enter!", 0, repairStaion.MContainer);
+                    $("#uRootCause").focus();
+                    return;
+                }
+                if (newTRSN == "") {
+                    E.Default("Please enter New allparts tr_ Sn and enter!", 0, repairStaion.MContainer);
+                    $("#divTRSN").find("input[type=text]").focus();
+                    return;
+                }
+                var okFlag = false;
+                if ((actionCode == "A12" || rootCause == "E206")) {
+                    if (rootCause == "E206") {
+                        var step1 = AllpartKPReplaceAction("1", pcbaSN, actionCode, rootCause, location, kpNo, oldTRSN, isPCBA, newTRSN);
+                        if (!step1) {
+                            return;
+                        }
+                        okFlag = true;
+                    }
+                }
+                E.Default("Allparts (non KP) material save OK!", 1, repairStaion.MContainer);
+                $("#btnAPReplaceAction").attr("disabled", true);
+                if (okFlag) {
+                    $("#divOriginalCSN").find("input[type=text]").val(oldDC + "/" + oldLC);
+                }
+            });
+        });
+
+        function StationInit(station, d, callback) {
+            if (d.Status == "Pass") {
+                station.ShowInput({
+                    InputName: "SN",
+                    Container: $("#divRepairSN")
+                });
+                station.ShowInput({
+                    InputName: "FailCodeID",
+                    Scale: "5:7",
+                    Container: $("#divFailCodeID")
+                });
+                station.ShowInput({
+                    InputName: "ActionCode",
+                    Scale: "5:7",
+                    Container: $("#divActionCode")
+                });
+                station.ShowInput({
+                    InputName: "ActionCodeDesc",
+                    Scale: "5:7",
+                    Container: $("#divActionCodeDesc")
+                });
+                station.ShowInput({
+                    InputName: "PCBASN",
+                    Scale: "5:7",
+                    Container: $("#divPCBASN")
+                });
+                station.ShowInput({
+                    InputName: "Location",
+                    Scale: "5:7",
+                    Container: $("#divLocation")
+                });
+                station.ShowInput({
+                    InputName: "Category",
+                    Scale: "5:7",
+                    Container: $("#divCategory")
+                });
+                station.ShowInput({
+                    InputName: "RootCause",
+                    Scale: "5:7",
+                    Container: $("#divRootCause")
+                });
+                station.ShowInput({
+                    InputName: "RootCauseDesc",
+                    Scale: "5:7",
+                    Container: $("#divRootCauseDesc")
+                });
+                station.ShowInput({
+                    InputName: "KpNo",
+                    Scale: "5:7",
+                    Container: $("#divKpNo")
+                });
+                station.ShowInput({
+                    InputName: "CompomentID",
+                    Scale: "5:7",
+                    Container: $("#divCompomentID")
+                });
+                station.ShowInput({
+                    InputName: "Process",
+                    Scale: "5:7",
+                    Container: $("#divProcess")
+                });
+                station.ShowInput({
+                    InputName: "IsPCBA",
+                    Scale: "5:7",
+                    Container: $("#divIsPCBA")
+                });
+                station.ShowInput({
+                    InputName: "OriginalCSN",
+                    Scale: "5:7",
+                    Container: $("#divOriginalCSN")
+                });
+                station.ShowInput({
+                    InputName: "OldTRSN",
+                    Scale: "5:7",
+                    Container: $("#divOldTRSN")
+                });
+                station.ShowInput({
+                    InputName: "ReplaceCSN",
+                    Scale: "5:7",
+                    Container: $("#divReplaceCSN")
+                });
+                station.ShowInput({
+                    InputName: "TRSN",
+                    Scale: "5:7",
+                    Container: $("#divTRSN")
+                });
+                station.ShowInput({
+                    InputName: "NewDC",
+                    Scale: "5:7",
+                    Container: $("#divDC")
+                });
+                station.ShowInput({
+                    InputName: "NewLC",
+                    Scale: "5:7",
+                    Container: $("#divLC")
+                });
+                station.ShowInput({
+                    InputName: "NewMfrCode",
+                    Scale: "5:7",
+                    Container: $("#divMfrCode")
+                });
+                station.ShowInput({
+                    InputName: "NewMfrName",
+                    Scale: "5:7",
+                    Container: $("#divMfrName")
+                });
+                station.ShowInput({
+                    InputName: "OldMPN",
+                    Scale: "5:7",
+                    Container: $("#divOldMPN")
+                });
+                station.ShowInput({
+                    InputName: "NewMPN",
+                    Scale: "5:7",
+                    Container: $("#divNewMPN")
+                });
+                station.ShowInput({
+                    InputName: "ReturnStation",
+                    Scale: "5:7",
+                    Container: $("#divReturnStation")
+                });
+                station.ShowInput({
+                    InputName: "SaveReplace",
+                    Scale: "0:10",
+                    Container: $("#divRepairSaveReplace")
+                });
+                station.ShowInput({
+                    InputName: "SaveFinish",
+                    Scale: "0:10",
+                    Container: $("#divRepairSave")
+                });
+                station.ShowOutput({
+                    OutputName: "Skuno",
+                    Container: $("#divRepairSkuno")
+                });
+                station.ShowOutput({
+                    OutputName: "WO",
+                    Container: $("#divRepairWO")
+                });
+                station.ShowOutput({
+                    OutputName: "RepairedCount",
+                    Container: $("#divRepairCount")
+                });
+                station.ShowOutput({
+                    OutputName: "MDSFlag",
+                    Container: $("#divMdsFlag")
+                });
+                station.ShowOutput({
+                    OutputName: "FAILCODE",
+                    Container: $("#divFailCodeList")
+                });
+                station.ShowOutput({
+                    OutputName: "REPAIRACTION",
+                    Container: $("#divRepairActionList")
+                });
+                station.ShowOutput({
+                    OutputName: "SNKP",
+                    Container: $("#divSNKpList")
+                });
+
+                if (typeof callback === "function") {
+                    callback(station, RepairInitCallback);
+                }
+            }
+            else {
+                swal("Station initialization failed！", d.Message, "error");
+            }
+        }
+
+        function RepairInit(station, callback) {
+            failCodeID = $("#divFailCodeID").find("input[type=text]").val();
+            $("#FailHistory,#RepairHistory,#RepairInfo,#FailCodeList").find("table").css({ 'margin-bottom': '0' });
+            $("#divRepairSN").find("input[type=text]").select();
+            $("#divRepairSN").find("input[type=text]").focus();
+            if (failCodeID != "" && failCodeID != undefined) {
+                $("#FAILCODE tr").each(function (i) {
+                    if ($("#FAILCODE tr").eq(i).find("td:first").html() == failCodeID) {
+                        $("#FAILCODE tr").eq(i).addClass("table-tr-background-color");
+                    }
+                });
+            }
+            $("#FAILCODE").on("click-row.bs.table", function (e, row, ele) {
+                //給uFailCode賦值，并模擬輸入FailCodeID輸入
+                $("#divFailCodeID").find("input[type=text]").val(row.ID);
+                $("#uFailCode").val(row.FAIL_CODE);
+                $("#divFailCodeID").find("input[type=text]").trigger(keypressEvent);//模拟輸入框按下回车
+                $("#divFailCodeID").find("input[type=text]").attr("disabled", true);
+                $('.table-tr-background-color').removeClass('table-tr-background-color');
+                $(ele).addClass('table-tr-background-color');
+                failStation = row.FAIL_STATION;
+            });
+            $.each($("#divFailCodeList").find(".bootstrap-table"), function () {
+                if ($(this).find(".fixed-table-body table").length == 0) {
+                    $(this).remove();
+                }
+            });
+            $.each($("#divRepairActionList").find(".bootstrap-table"), function () {
+                if ($(this).find(".fixed-table-body table").length == 0) {
+                    $(this).remove();
+                }
+            });
+            $.each($("#divSNKpList").find(".bootstrap-table"), function () {
+                if ($(this).find(".fixed-table-body table").length == 0) {
+                    $(this).remove();
+                }
+            });
+            $("#FAILCODE tr").each(function (i, value) {
+                $($(value).find("th")[0]).hide();
+                $($(value).find("th")[1]).hide();
+                $($(value).find("td")[0]).hide();
+                $($(value).find("td")[1]).hide()
+            });
+            $("#divRepairSN").find("input[type=text]").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    StationReset();
+                }
+            });
+
+            $("#divActionCodeDesc").find("input[type=text]").attr("disabled", true);
+            $("#divRootCauseDesc").find("input[type=text]").attr("disabled", true);
+            $("#divCategory").find("input[type=text]").attr("disabled", true);
+            $("#divIsPCBA").find("input[type=text]").attr("disabled", true);
+            $("#divOldTRSN").find("input[type=text]").attr("disabled", true);
+            
+            if (typeof callback === "function") {
+                callback(station);
+            }
+        }
+
+        function RepairInitCallback(station) {
+        }
+
+        function StationReset() {
+            $("#divRepairSkuno").find("u").html("");
+            $("#divRepairWO").find("u").html("");
+            $("#divRepairCount").find("u").html("");
+            $("#divMdsFlag").find("u").html("");
+            $("#divFailCodeList").html("");
+            $("#divRepairActionList").html("");
+            $("#divSNKpList").html("");
+            $("#divFailCodeID").find("input[type=text]").val("");
+            $("#uFailCode").val("");
+            $("#divActionCode").find("input[type=text]").val("");
+            $("#divActionCodeDesc").find("input[type=text]").val("");
+            $("#divPCBASN select").empty();
+            $("#divPCBASN select").append($("<option value=''></option>"));
+            $("#divLocation").find("input[type=text]").val("");
+            $("#divCategory").find("input[type=text]").val("");
+            $("#divCompomentID").find("input[type=text]").val("");
+            $("#divIsPCBA").find("input[type=text]").val("");
+            $("#divRootCause").find("input[type=text]").val("");
+            $("#divRootCauseDesc").find("input[type=text]").val("");
+            $("#divKpNo select").empty();
+            $("#divKpNo select").append($("<option value=''></option>"));
+            $("#divProcess select").empty();
+            $("#divProcess select").append($("<option value=''></option>"));
+            $("#divOriginalCSN").find("input[type=text]").val("");
+            $("#divOldTRSN").find("input[type=text]").val("");
+            $("#divReplaceCSN").find("input[type=text]").val("");
+            $("#divTRSN").find("input[type=text]").val("");
+            $("#divDC").find("input[type=text]").val("");
+            $("#divLC").find("input[type=text]").val("");
+            $("#divMfrCode").find("input[type=text]").val("");
+            $("#divMfrName").find("input[type=text]").val("");
+            $("#divOldMPN").find("input[type=text]").val("");
+            $("#divNewMPN").find("input[type=text]").val("");
+            $("#divReturnStation select").empty();
+            $("#divReturnStation select").append($("<option value=''></option>"));
+        }
+
+        function ParentInitKeypress() {
+            var category = $("#divCategory").find("input[type=text]").val();
+            var isPCBA = $("#divIsPCBA").find("input[type=text]").val();
+            var originalCSN = $("#divOriginalCSN").find("input[type=text]").val();
+            var replaceCSN = $("#divReplaceCSN").find("input[type=text]").val();
+            var TRSN = $("#divTRSN").find("input[type=text]").val();
+            var newDC = $("#divDC").find("input[type=text]").val();
+            var newLC = $("#divLC").find("input[type=text]").val();
+            var newMfrCode = $("#divMfrCode").find("input[type=text]").val();
+            var newMfrName = $("#divMfrName").find("input[type=text]").val();
+            var oldMPN = $("#divOldMPN").find("input[type=text]").val();
+            var newMPN = $("#divNewMPN").find("input[type=text]").val();
+            //模拟輸入框按下回车
+            if (category.length > 0) {
+                $("#divCategory").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (isPCBA.length > 0) {
+                $("#divIsPCBA").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (originalCSN.length > 0) {
+                $("#divOriginalCSN").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (replaceCSN.length > 0) {
+                $("#divReplaceCSN").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (TRSN.length > 0) {
+                $("#divTRSN").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (newDC.length > 0) {
+                $("#divDC").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (newLC.length > 0) {
+                $("#divLC").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (newMfrCode.length > 0) {
+                $("#divMfrCode").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (newMfrName.length > 0) {
+                $("#divMfrName").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (oldMPN.length > 0) {
+                $("#divOldMPN").find("input[type=text]").trigger(keypressEvent);
+            }
+            if (newMPN.length > 0) {
+                $("#divNewMPN").find("input[type=text]").trigger(keypressEvent);
+            }
+        }
+
+        function CheckAllpart(repairSN, pcbaSN, location) {
+            //檢查Allpart資料
+            if (pcbaSN.length > 0) {
+                parent.client.CallFunction("MESStation.Config.RepairKPReplace", "CheckAllpartBySNLocation", { RepairSN: repairSN, Location: location }, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#divKpNo").find("option[selected]").val(e.Data[0].KP_NO);
+                        $("#divKpNo").find("option[selected]").trigger(keypressEvent);
+                        $("#divOldTRSN").find("input[type=text]").val(e.Data[0].TR_SN);
+                        $("#divOldTRSN").find("input[type=text]").trigger(keypressEvent);
+                    } else {
+                        E.Default(e.Message, 2, repairStaion.MContainer);
+                        $("#divLocation").find("input[type=text]").focus();
+                        return;
+                    }
+                });
+            }
+        }
+
+        function CheckExistsESS(repairSN, failStation) {
+            if ($("#divIsPCBA").find("input[type=text]").val() != "") {
+                //檢查ESS工站提示:在ESS工站之後如有更換KP零件,需要返回BFT工站開始測試
+                parent.client.CallFunction("MESStation.Config.RepairKPReplace", "CheckExistsESS", { RepairSN: repairSN, STATION: failStation }, function (e) {
+                    if (e.Status == "Pass") {
+                        var actionCode = $("#divActionCode").find("input[type=text]").val();
+                        for (var a = 0; a < e.Data.length; a++) {
+                            if (e.Data[a].SEQ_REPAIR > e.Data[a].SEQ_ESS && actionCode == "A12") {
+                                E.Default("SN:" + sn + "In the station after ESS: "+ failstation +" has replaced KP parts, please return to BFT station to start testing!", 3, repairStaion.MContainer);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

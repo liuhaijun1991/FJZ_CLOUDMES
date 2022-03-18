@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Report</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 56px);
+            overflow-y: auto;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        .panel-heading {
+            padding:12px 15px;
+        }
+        .panel-body.tablebox {
+            margin-top: -44px;
+            padding: 0;
+        }
+        .pull-left.search.input-group, .pull-right.search.input-group {
+            width: auto;
+        }
+        .bootstrap-table .fixed-table-pagination > .pagination, .bootstrap-table .fixed-table-pagination > .pagination-detail {
+            margin-bottom:0;
+        }
+
+        /*change bg color style*/
+        .bg-primary {
+            background-color: #2C3E50 !important;
+        }
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            color: #F9F8FC;
+            background-color: #2C3E50 !important;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <button class="btn btn-default DownloadBtn"><span class="glyphicon glyphicon-download">Download</span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12 inputs">
+
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid no-padding outputs">
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <!--<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.debug.js"></script>-->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/jspdf.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/jspdf.plugin.autotable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <!--<script src="../../Scripts/Mes.js"></script>-->
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script>
+        var ReportClassName = "";
+        var Data = "";
+        var RunFlag = "";
+        var _Report = null;
+
+        var columns = [];
+        var bSubmit = false;
+        var PaginationServer = false;
+        var ajaxRequest = function (params) {
+            var _this = this;
+            if (bSubmit) {
+                _this.options.pageNumber = 1;
+                bSubmit = false;
+            }
+            var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+            self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                { ClassName: ReportClassName, Report: _Report.ReportJson, PageNumber: _this.options.pageNumber, PageSize: _this.options.pageSize },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        _this.$el.find(".J_menuItem").off("click");
+                        var p_server_data = e.Data.Outputs.filter(function (item) { return item.PaginationServer == true });
+                        if (p_server_data.length > 0) {
+                            params.success({
+                                total: p_server_data[0].TotalRows,
+                                rows: p_server_data[0].Rows
+                            });                           
+                        }
+                        _this.$el.on("click", ".J_menuItem", OnLinkClick);
+                        _Report.Report = new Report(e.Data, { Container: undefined });
+                        _Report.OContainer.find(".J_menuItem").off("click");                        
+                        for (var i = 0; i < _Report.Report.Outputs.length; i++) {
+                            //if (_Report.Report.Outputs[i].OutputType != "ReportAlart")
+                            //    _Report.Report.Outputs[i].Remove();
+                            if (_Report.Report.Outputs[i].PaginationServer || _Report.Report.Outputs[i].OutputType === "ReportAlart" || _Report.Report.Outputs[i].OutputType === "ReportColumns") {
+                                continue;
+                            }                            
+                            _Report.Report.Outputs[i].Show(_Report.OContainer, (_Report.OScale == undefined ? "3:9" : _Report.OScale));
+                        }
+                        _Report.OContainer.on("click", ".J_menuItem", OnLinkClick);
+                        $(".SearchBox").toggle(false);
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                }, MessageID);
+        }
+        var ShowTable = function () {
+            var tb = $('<table id="tableList" class="table table-hover"></table>');
+            $(".outputs").empty();
+            $(".outputs").append(tb);
+            $("#tableList").bootstrapTable("destroy");
+            $("#tableList").bootstrapTable({
+                ajax: ajaxRequest,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: true,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "server",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 50, 100, 150, 200, 300, 500, 1000],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 10000,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                columns: columns
+            });
+        }
+        var GetColumns = function (e) {
+            var columns_data = e.Data.Outputs.filter(function (item) { return item.OutputType == "ReportColumns" });
+            for (var i = 0; i < columns_data[0].Columns.length; i++) {
+                var cell = {
+                    field: columns_data[0].Columns[i],
+                    title: columns_data[0].Columns[i],
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true,
+                    formatter: function (value, row, index) {
+                        if (value != null) {
+                            if (value.LinkType != null && value.LinkType != undefined && value.LinkType != "") {
+                                switch (value.LinkType) {
+                                    case "Report":
+                                        return ['<a class="J_menuItem" href="javascript:;" url="/FunctionPage/Report/Report.html?ClassName=' + value.LinkData + '&Data=' + value + '&RunFlag=1">' + value + '</a>'].join('');
+                                        break;
+                                    case "Link":
+                                        return ['<a class="J_menuItem" href="javascript:;" url="' + value.LinkData + '">' + value.Value + '</a>'].join('');
+                                        break;
+                                    default:
+                                        return (value.Value == null || value.Value == undefined) ? value : value.Value;
+                                        break;
+                                }
+                            }
+                            else {
+                                return value.Value;
+                            }
+                        }
+                        else {
+                            return value;
+                        }
+                    },
+                    CalcRowspan: function (value, row, index) {
+                        return 'rowspan="' + row.RowSpan + '"';
+                    },
+                    CalcColspan: function (value, row, index) {
+                        return 'colspan="' + row.ColSpan + '"';
+                    },
+                    cellStyle: function (value, row, index, field) {
+                        var cssobj = { css: {} };
+                        cssobj.css = $.extend({}, true, row.CellStyle);
+                        if (row.RowSpan == 0 || row.ColSpan == 0) {
+                            cssobj.css['display'] = 'none';
+                        }
+                        return cssobj;
+                    }
+                };
+                columns.push(cell);
+            }
+        }
+
+
+        $(document).ready(function () {
+            ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+            //Data = $.MES.getQueryString("Data");//用于其他报表跳转传值
+
+            Data = $.MES.getQueryObj();
+            RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+            if (RunFlag == "1") {
+                RunFlag = "0";
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+                        //if (_Report.Report.Inputs.length > 0) {
+                        //    _Report.SetInputValue(_Report.Report.Inputs[0].Name, Data);
+                        //    _Report.Run();
+                        //}
+                        if (e.Data.PaginationServer) {
+                            GetColumns(e);
+                            bSubmit = true;
+                            PaginationServer = true;
+                            ShowTable();
+                        }
+                        else {
+                            if (_Report.Report.Inputs.length > 0) {
+                                for (var i = 1; i < Data.length; i++) {
+                                    _Report.SetInputValue(Data[i][0], Data[i][1]);
+                                }
+                            }
+                            _Report.Run();
+                        }
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    if (_Report.PaginationServer) {
+                        bSubmit = true;
+                        PaginationServer = true;
+                        ShowTable();
+                    }
+                    else {
+                        _Report.Run();
+                    }
+                });
+                $(".SearchBox").toggle(false);
+            }
+            else {
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+                        if (e.Data.PaginationServer) {
+                            PaginationServer = true;
+                            GetColumns(e);
+                        }
+                        $(".SearchBox").toggle();
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    if (PaginationServer) {
+                        bSubmit = true;
+                        ShowTable();
+                    }
+                    else {
+                        _Report.Run();
+                    }
+                });
+            }
+            $(document).on("click", ".DownloadBtn", function (e) {
+                _Report.DownFile();
+                $(".SearchBox").toggle(true);
+            });
+
+
+        });
+    </script>
+</body>
+</html>

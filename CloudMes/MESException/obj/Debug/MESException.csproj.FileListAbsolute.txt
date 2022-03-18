@@ -1,0 +1,11 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\MESException.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\MESException.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\MESException.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\obj\Debug\MESException.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\obj\Debug\MESException.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\obj\Debug\MESException.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\obj\Debug\MESException.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESException\obj\Debug\MESException.pdb

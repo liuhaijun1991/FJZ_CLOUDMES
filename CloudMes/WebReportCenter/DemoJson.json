@@ -1,0 +1,147 @@
+﻿{
+  Status: "Pass",
+  Message: "",
+  Data: {
+    "Layout": "<div for-elem='table1' style='width:1000px; height:400px;'><table></table></div><div for-elem='charts1' style='width:1000px; height:400px;'><div id='charts1'></div></div><div for-elem='charts2' style='width:1000px; height:400px;'><div id='charts2'></div></div>",
+    "DataSource": [
+      {
+        "id": "data1",
+        "type": "HTTP",
+        "data": "../JsonData1.json"
+      },
+      {
+        "id": "data2",
+        "type": "HTTP",
+        "data": "../JsonData2.json"
+      }
+    ],
+    "Widgets": [
+      {
+        "id": "table1",
+        "type": "Table",
+        "DataSource": [ "data1" ]
+      },
+      {
+        "id": "charts1",
+        "type": "Echarts",
+        "DataSource": [ "data1" ],
+        "width": 800,
+        "height": 300,
+        "option": {
+          "title": {},
+          "legend": {
+            "DataType": "row",
+            "DataIndex": 0
+          },
+          "xAxis": [
+            {
+              "type": "category"
+            }
+          ],
+          "yAxis": [
+            {
+              "type": "value"
+            }
+          ],
+          "visualMap": {
+            "pieces": [
+              {
+                "gt": 0,
+                "lte": 20,
+                "color": "#096"
+              },
+              {
+                "gt": 20,
+                "lte": 50,
+                "color": "#ffde33"
+              },
+              {
+                "gt": 50,
+                "lte": 70,
+                "color": "#ff9933"
+              },
+              {
+                "gt": 70,
+                "lte": 90,
+                "color": "#cc0033"
+              }
+            ],
+            "outOfRange": {
+              "color": "#999"
+            }
+          },
+          "series": [
+            {
+              "seriesLayoutBy": "row",
+              "type": "bar",
+              "stack": "总量",
+              "SourceID": "data1",
+              "columnIndex": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "charts2",
+        "type": "Echarts",
+        "DataSource": [ "data2" ],
+        "width": 1000,
+        "height": 500,
+        "option": {
+          "title": {},
+          "legend": {
+            "DataType": "row",
+            "DataIndex": 0
+          },
+          "xAxis": [
+            {
+              "name": "amount"
+            }
+          ],
+          "yAxis": [
+            {
+              "type": "category"
+            }
+          ],
+          "visualMap": {
+            "pieces": [
+              {
+                "gt": 0,
+                "lte": 20,
+                "color": "#096"
+              },
+              {
+                "gt": 20,
+                "lte": 50,
+                "color": "#ffde33"
+              },
+              {
+                "gt": 50,
+                "lte": 70,
+                "color": "#ff9933"
+              },
+              {
+                "gt": 70,
+                "lte": 90,
+                "color": "#cc0033"
+              }
+            ],
+            "outOfRange": {
+              "color": "#999"
+            }
+          },
+          "series": [
+            {
+              "type": "bar",
+              "encode": {
+                "x": "amount",
+                "y": "product"
+              },
+              "SourceID": "data2"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,430 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <style>
+        #inputsite .form-group input, #inputsite .form-group select {
+            margin-bottom: 20px;
+            box-shadow: inset 0px 0px 1px #bcbcbc;
+            border-radius: 5px;
+        }
+
+
+        #inputsite .form-group label {
+            margin-top: 5px;
+            font-size: initial;
+        }
+
+        #inputsite .form-control {
+            font-size: 2rem !important;
+            font-weight: 500 !important;
+            border: 1px solid #4c4c4c;
+        }
+
+            #inputsite .form-control:focus {
+                background-color: #f6f7a6;
+            }
+
+        #outputsite {
+            font-size: 2rem !important;
+        }
+
+            #outputsite .form-group {
+                /*width: calc((100% - 45px)/3);*/
+                width: calc(100%/4);
+                float: left;
+                border-bottom: 1px dotted #337ab7;
+                padding: 0 !important;
+                margin-right: 15px;
+            }
+
+                #outputsite .form-group label {
+                    padding: 0 15px 0 0 !important;
+                    margin: 0;
+                    font-size: small;
+                    float: left;
+                    width: auto;
+                }
+
+                #outputsite .form-group div {
+                    width: auto;
+                    padding: 0px !important;
+                    font-size: small;
+                    min-height: 18px;
+                }
+
+
+        #messagesite {
+            overflow: scroll;
+            font-size: 1.5rem;
+        }
+
+        .ibox {
+            margin-bottom: 0px;
+        }
+
+        .ibox-content {
+            height: calc(100% - 54px);
+        }
+
+        @media(max-width:1599px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc((100% - 30px)/4);
+                /*width: 100%;*/
+            }
+        }
+
+        @media(max-width:1199px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+
+        @media(max-width:991px) {
+            #outputsite .form-group {
+                float: left;
+                width: calc(50% - 30px);
+                /*width: 100%;*/
+            }
+        }
+
+        @media(max-width:749px) {
+            #outputsite .form-group {
+                float: left;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">
+                </span>
+                <button class="btn btn-default small" id="btnReset">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <!--<div class="col-xs-12">
+                    <div class="panel panel-default col-xs-12 no-padding">
+                        <div class="panel-heading" style=" font-size:medium; margin-bottom:10px; font-weight:bold;" set-lan="html:StationInfo">Lot Information</div>
+                        <div class="panel-body no-padding">
+                            <div class="col-xs-11 col-xs-offset-1 no-padding" id="outputsite">
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-xs-12" id="IOSite">
+                    <div class="col-xs-6">
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; font-weight:bold;" set-lan="html:TO_LIST">TO_LIST</div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-12 no-padding" id="divToList"></div>
+                            </div>
+                        </div>
+                        <!--<div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px; font-weight:bold;" set-lan="html:DN_LIST">DN_LIST</div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-12 no-padding" id="divDoList"></div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px; font-weight:bold;" set-lan="html:DN_ITEM">DN_ITEM</div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-12 no-padding" id="divDnItem"></div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px; font-weight:bold;" set-lan="html:ShipDataInfo">ShipDataInfo</div>
+                            <div class="panel-body no-padding" >
+                                <div class="col-xs-11 col-xs-offset-1 no-padding"  style="font-size:small;" id="outputsite">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px; font-weight:bold;" set-lan="html:ScanPackNo">Scan</div>
+                            <div class="panel-body no-padding">
+                                <div class="col-xs-7 form-horizontal" id="divPackno"></div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style="font-size:small; font-weight:bold;" set-lan="html:StationMessage">Message</div>
+                            <div class="panel-body no-padding" id="messagesite">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var Client = null;
+        var stationName = "SHIPOUT";
+        var option = null;
+        var station = null;
+        var line = "Line1";
+        var mesUI = null;
+        $(document).ready(function () {
+            Client = self.parent.client;
+            stationName = $.MES.getQueryString("StationName");
+            //ShipOutStation = new ShipOutStation(this);
+            $('.panel-heading h3 span').text(stationName);
+            var resize = function () {
+                var hg = $(".ibox-content").height() - $("#IOSite").height() - 40;
+                $("#messagesite").height(hg > 280 ? hg : 280);
+            };
+            option = {
+                Client: Client,
+                Line: line,
+                Name: stationName,
+                IScale: "2:10",
+                OContainer: $("#outputsite"),
+                MContainer: $("#messagesite"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    var thisStation = new ShipOutStation(this);
+                    if (d.Status == "Pass") {
+                        this.ShowInput({
+                            InputName: "PACKNO",
+                            IsClear: true,
+                            Container: $("#divPackno")
+                        });
+                        thisStation.ShowShipOutInput({
+                            InputName: "TO_LIST",
+                            Container: $("#divToList")
+                        });
+                    }
+                    else {
+                        swal("Station initialization failed！", d.Message, "error");
+                    }
+                    resize();
+                }
+            };
+
+            station = new MesStation(option);
+            $("#btnReset").on("click", function (e) {
+                self.parent.Loading(true);
+                $("#messagesite").empty();
+                option.ScanType = station.ScanType;
+                station = new MesStation(option);
+            });
+            mesUI = new MesClientUI(self.parent.client);
+            mesUI.SetLanguage("PassStation");
+            window.onresize = function () {
+                resize();
+            }
+
+        });
+
+        var ShipOutStation = function(o) {
+            var station = o;
+            ShipOutStation.prototype.ShowShipOutInput = function (obj) {
+                if (station.ScanType == "Pass") {
+                    for (var i = 0; i < station.Inputs.length; i++) {
+                        if (station.Inputs[i].DisplayName == obj.InputName) {
+                            obj.Container.find("button").unbind("click");
+                            obj.Container.find("input:radio").unbind("click");
+                            obj.Container.find("input.form-control").unbind("keypress");
+                            obj.Container.find("select.form-control").unbind("change");
+                            this.ShowTable(obj.Container,station.Inputs[i]);
+                            station.Inputs[i].SetEnable();
+                            station.Inputs[i].SetVisable();                     
+                            break;
+                        }
+                    }
+                }
+            }
+            ShipOutStation.prototype.ShowTable = function (c, Ip) {
+                var value = Ip.Value;
+                if (value[0] == "{" || value[0] == "[")
+                    return;
+                $("#divToList").html("");
+                var tb = $("<table id=\"" + Ip.Name + "\" view-group=\"" + Ip.Name + "_" + Ip.ID + "\"></table>");
+                c.append(tb);
+                var col = [];
+                if (value.length > 0) {
+                    for (var item in value[0]) {
+                        var cell = {
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false
+                        };
+                        col.push(cell);
+                    }
+                }
+                tb.bootstrapTable({
+                    data: value,
+                    search: true,
+                    searchAlign: "left",              //查询框对齐方式
+                    detailView: true,//父子表
+                    pageSize: 10,
+                    pageList: [10, 25],
+                    striped: true, //是否显示行间隔色
+                    pagination: true, //是否显示分页（*）
+                    paginationPreText: '<', //上下翻页
+                    paginationNextText: '>',
+                    columns: col,
+                    onExpandRow: function (index, row, $detail) {
+                        InitSubTable(index, row, $detail);
+                    }
+                });
+                SelectTableRowData(tb);
+            };
+        };
+
+        //初始化子表格(无线循环)
+        var InitSubTable = function (index, row, $detail) {
+            var cur_table = $detail.html('<table></table>').find('table');
+            var col = [];
+            self.parent.client.CallFunction("MESStation.Config.WhsConfig", "GetWaitShipOutToDetailDataByToNo",
+                { ToNo: row.TO_NO },
+                function(e) {
+                    if (e.Data.length > 0) {
+                        $(cur_table).bootstrapTable({
+                            data: e.Data,
+                            search: false,
+                            clickToSelect: true,
+                            detailView: true, //父子表
+                            pageSize: 10,
+                            pageList: [10, 25],
+                            striped: true, //是否显示行间隔色
+                            pagination: true, //是否显示分页（*）
+                            paginationPreText: '<', //上下翻页
+                            paginationNextText: '>',
+                            columns: [{
+                                    field: 'TO_ITEM_NO',
+                                    title: 'TO_ITEM_NO'
+                            }, {
+                                    field: 'DN_NO',
+                                    title: 'DN_NO'
+                            }, {
+                                    field: 'CREATETIME',
+                                    title: 'CREATETIME'
+                            } ],
+                            //无线循环取子表，直到子表里面没有记录
+                            onExpandRow: function(index, row, $Subdetail) {
+                                InitDnSubTable(index, row, $Subdetail);
+                            }
+                        });
+                    }
+                });
+        };
+
+        var InitDnSubTable = function (index, row, $detail) {
+            var cur_table = $detail.html('<table></table>').find('table');
+            var col = [];
+            self.parent.client.CallFunction("MESStation.Config.WhsConfig", "GetWaitShipOutDnDetailDataByDnNo",
+                { DnNo: row.DN_NO },
+                function(e) {
+                    if (e.Data.length > 0) {
+                        for (var item in e.Data[0]) {
+                            var cell = {
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false
+                            };
+                            col.push(cell);
+                        }
+                        $(cur_table).bootstrapTable({
+                            data: e.Data,
+                            clickToSelect: true,
+                            pageSize: 10,
+                            pageList: [10, 25],
+                            striped: true, //是否显示行间隔色
+                            pagination: true, //是否显示分页（*）
+                            paginationPreText: '<', //上下翻页
+                            paginationNextText: '>',
+                            columns: [
+                                {
+                                    field: 'DN_NO',
+                                    title: 'DN_NO'
+                                }, {
+                                    field: 'DN_LINE',
+                                    title: 'DN_LINE'
+                                }, {
+                                    field: 'SKUNO',
+                                    title: 'SKUNO'
+                                }, {
+                                    field: 'QTY',
+                                    title: 'QTY'
+                                }, {
+                                    field: 'DN_PLANT',
+                                    title: 'DN_PLANT'
+                                }, {
+                                    field: 'PO_NO',
+                                    title: 'PO_NO'
+                                }, {
+                                    field: 'PO_LINE',
+                                    title: 'PO_LINE'
+                                }, {
+                                    field: 'SO_NO',
+                                    title: 'SO_NO'
+                                }],
+                            onDblClickRow: function (row) {
+                                station.SetInputValue("TO_LIST", { DnNo: row.DN_NO,DnLine:row.DN_LINE});
+                                station.SendData();
+                            }
+                        });
+                    }
+                });
+        };
+
+        var SelectTableRowData = function(c) {
+            c.on('click-row.bs.table',
+                function(e, row, element) {
+                    $('.success').removeClass('success'); //去除之前选中的行的，选中样式
+                    $(element).addClass('success'); //添加当前选中的 success样式用于区别
+                    //var index = $('#formTempDetailTable_new').find('tr.success').data('index'); //获得选中的行的id
+                });
+        };
+    </script>
+</body>
+</html>

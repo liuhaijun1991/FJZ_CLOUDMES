@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">OrderList</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+                /*width: 100%;*/
+            }
+        }
+
+        body {
+            background: #fffbf0
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0px !important;
+            font-size: 14px;
+            
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background:  #375A7F !important;
+            color: white;
+        }
+
+        .W120 .th-inner {
+            width: 120px !important;
+        }
+
+    </style>
+</head>
+<body class="full-height">
+<div id="outputsite" class="panel-body">
+    <div id="Table_Toolbar">
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-outline btn-default" id="NewCard">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-default" id="EditCard" disabled>
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit/View</lan>
+            </button>
+            <!--<button type="button" class="btn btn-outline btn-primary" id="DeleteCard" disabled>
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="RefreshCard">
+                <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Delete"> Refresh</lan>
+            </button>-->
+        </div>
+    </div>
+    
+<div style="overflow-y:auto;overflow-x:auto;margin-top:15px;margin-left:10px;height:600px;" >
+    <table id="So_List_Table" class="table table-condensed" ></table>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+<script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+<!-- 第三方插件 -->
+<script src="../../Scripts/plugins/JSON/json2.js"></script>
+<script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+<script src="../../Scripts/plugins/JSON/json2.js"></script>
+<script src="../../Scripts/plugins/layer/layer.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+<script src="../../Scripts/global.js"></script>
+<script src="../../Scripts/MesClient.UI.js"></script>
+<script src="../../Scripts/MesClient.js"></script>
+<script type="text/javascript">
+    var client = self.parent.client;
+    var selectedres = {};
+    $(document).ready(function() {
+        LoadList();
+    });
+
+    $("#NewCard").on("click", function () {
+        var url = "NewCard.html";
+        layer.open({
+            title: 'New Card',
+            type: 2,
+            skin: 'layui-layer-rim', //加上边框
+            //skin: 'layui-layer-demo', //样式类名
+            anim: 2,
+            scrollar: false,
+            maxmin: true,
+            area: ['90%', '90%'], //宽高
+            content: url,
+            cancel: function (index) {
+               // LoadList();
+            }
+        });
+    });
+    $("#EditCard").on("click", function () {
+        var selectContent = $('#So_List_Table').bootstrapTable('getSelections')[0];
+        if(typeof(selectContent) == 'undefined') {
+            //toastr.warning('请选择一列数据!');
+            toastr.warning('Please select a column of data!');
+            return false;
+        }else{
+            selectedres = selectContent;
+            var url = "EditCard.html";
+            layer.open({
+                title: 'Edit Card',
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                //skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                scrollar: false,
+                maxmin: true,
+                area: ['90%', '98%'], //宽高
+                content: url,
+                cancel: function (index) {
+                    // LoadList();
+                }
+            });
+        }
+    });
+
+    var ShowSoListTable = function(data) {
+        var col = [];
+        var colstr = ["ID","CARNO", "CURRENTDEP", "CARTITLE", "SKUNAME", "SKUNO", "WORKORDERNO", "PRODUCTIONLINE", "STATION", "FINDTIME", "TOTIME", "SKUQTY", "FAILQTY", "FAILTEXT", "CREATETIME", "CREATEBY", "EDITTIME", "EDITBY"];
+            col.push({
+                checkbox: true
+            });
+        for (var i = 0; i < colstr.length; i++) 
+            col.push({
+                field: colstr[i],
+                title: colstr[i],
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                cellStyle: formatTableUnit,
+                formatter: paramsMatter
+            });
+        //if (data.length > 0) {
+        //    var row = data[0];
+        //    col.push({
+        //        checkbox: true
+        //    });
+        //    for (var item in row) {
+        //            col.push({
+        //                field: item,
+        //                title: item,
+        //                align: 'center',
+        //                valign: 'middle',
+        //                sortable: true,
+        //                cellStyle: formatTableUnit,
+        //                formatter: paramsMatter
+        //            });
+        //    }
+        //}
+        $('#So_List_Table').bootstrapTable('destroy');
+        $('#So_List_Table').bootstrapTable({
+            data: data,
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 50, 100],
+            search: true,
+            singleSelect: true,//单行选择单行,设置为true将禁止多选
+            striped: true,
+            showRefresh: false,
+            showSelectTitle: true,
+            //maintainSelected: false,
+            clickToSelect: true,
+            detailView: false,
+            uniqueId: "ID",
+            selectItemName: "ID",
+            toolbar: "#Table_Toolbar",
+            columns: col,
+            onCheck: function (row) {
+                var rows = $('#So_List_Table').bootstrapTable('getSelections');
+                if (rows.length > 1 || rows.length <= 0) {
+                    $("#EditCard").attr("disabled", "disabled");
+                } else {
+                    $("#EditCard").removeAttr("disabled");
+                }
+            },
+            onUncheck: function (row) {
+                var rows = $('#So_List_Table').bootstrapTable('getSelections');
+                if (rows.length > 1 || rows.length <= 0) {
+                    $("#EditCard").attr("disabled", "disabled");
+                } else {
+                    $("#EditCard").removeAttr("disabled")
+                }
+            },
+            rowStyle: function (row, index) {
+                var classes = ['active', 'success', 'info', 'warning', 'danger'];
+                if (row.ESTATUS!= 6 )
+                    return {
+                        classes: classes[4]
+                    }
+                return {
+                    classes: classes[1]
+                }
+            }
+        });
+        $('#outputsite').find("[name='refresh']").unbind("click");
+        $('#outputsite').find("[name='refresh']").bind("click",
+            {},
+            function(event) {
+                LoadSoList();
+            });
+        $('#So_List_Table').bootstrapTable('hideColumn', "ID"); //tableTest3为table的ID
+    }
+
+
+    var LoadList = function() {
+        client.CallFunction("MESStation.Config.OnlineCardConfig",
+            "GetOpenCardList",
+            {},
+            function(e) {
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent()
+                        .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+    }
+
+    var ShowPoInfoTab = function(obj) {
+        //var url = "PoCommit/PoCommit.html?POID=" + obj.F_ID ;
+        var url = "PoInfo.html?POID=" + obj.F_ID;
+        var titlehtml = "<span class=\"layui-breadcrumb\" lay-separator=\"—\">" +
+            "<a href = \"\" > OrderManager  /  </a>" +
+            "<a href=\"\">" +
+            obj.F_PO +
+            "  /  </a>" +
+            "<a><cite>" +
+            obj.F_LINE +
+            "</cite></a></span>";
+        layer.open({
+            title: titlehtml,
+            type: 2,
+            skin: 'layui-layer-demo', //样式类名
+            anim: 2,
+            maxmin: true,
+            area: ['95%', '90%'], //宽高
+            content: url,
+            cancel: function(index) {
+                LoadSoList();
+            }
+        });
+    };
+
+    window.operateEvents = {
+        'click .RoleOfA': function (e, value, row, index) {
+            ShowPoInfoTab(row);
+        }
+    };
+    function operateFormatter(value, row, index) {
+        //var detailBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">查看</button>';
+        var confirmBtn =
+            '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">PoDetail</button>';
+        return [confirmBtn].join('');
+    }
+
+    //表格超出宽度鼠标悬停显示td内容
+    function paramsMatter(value, row, index) {
+        var span = document.createElement("span");
+        span.setAttribute("title", value);
+        span.innerHTML = value;
+        return span.outerHTML;
+    }
+    //td宽度以及内容超过宽度隐藏
+    function formatTableUnit(value, row, index) {
+        return {
+            css: {
+                "white-space": "nowrap",
+                "text-overflow": "ellipsis",
+                "overflow": "hidden",
+                "max-width": "60px"
+            }
+        }
+    } 
+
+
+</script>
+</body>
+</html>

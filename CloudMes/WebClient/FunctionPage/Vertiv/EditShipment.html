@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Vertiv Shipment Detail</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="fgg" />
+    <!--<link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">-->
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootStrapaddTabs/bootstrap.addtabs.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        body {
+            background: #EEF4FB
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: xx-small;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #8C8C8C !important;
+            color: white;
+        }
+
+        .bitian {
+            color: red;
+            font-weight: bolder;
+        }
+
+        .action-margin-top {
+            margin-top: 10px;
+        }
+
+        .radio-inline-text {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group" id="tableToolbar" role="group">                    
+                    <button type="button" class="btn btn-outline btn-primary" id="btnToolSave" style="margin-right: 5px; border-top-left-radius:4px; border-bottom-left-radius:4px;">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:">Save</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var poid;
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        var GetOrderDetail = function (orderid) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetShipment", { ID: orderid }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#tableList").html("");                    
+                    $("#tableList").bootstrapTable("destroy");
+                    var itemIndex = 0;
+                    var data = [];
+                    for (var item in e.Data.ShipmentDetail) {
+                        itemIndex++;
+                        data.push({ NO: itemIndex, DisplayName: item, Value: e.Data.ShipmentDetail[item] });
+                    }
+                    $("#tableList").bootstrapTable({
+                        data: data,
+                        showRefresh: false,
+                        search: true,
+                        searchAlign: "left",              //查询框对齐方式
+                        height: 450,                       
+                        toolbar: "#tableToolbar",    //指定工具栏
+                        toolbarAlign: "left",              //工具栏对齐方式
+                        buttonsAlign: "left",             //按钮对齐方式
+                        showExport: true,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        Icons: 'glyphicon-export',
+                        locale: localelan,
+                        exportOptions: {
+                            fileName: 'List',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: [
+                            {
+                                field: "NO",
+                                title: "NO",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "DisplayName",
+                                title: "Display Name",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "Value",
+                                title: "Value",
+                                align: 'center',
+                                valign: 'middle',
+                            }
+                        ],
+                        onClickCell: function (field, value, row, $element) {
+                            $element.attr('contenteditable', true);
+                            $element.blur(function () {
+                                let index = $element.parent().data('index');
+                                let tdValue = $element.text();
+                                $("#tableList").bootstrapTable('updateCell',
+                                    {
+                                        index: index, //行索引
+                                        field: field, //列名
+                                        value: tdValue //cell值
+                                    });
+                            });
+                        }
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+        $(document).ready(function () {
+            poid = $.MES.getQueryString("SHIPMENTID");
+            GetOrderDetail(poid);
+            $("#btnToolSave").click(function () {
+                var arrayData = $("#tableList").bootstrapTable('getData');
+                self.parent.client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "EditShipment", { ID: $("#labelID").html(), ShipmentDetail: arrayData }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 3000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

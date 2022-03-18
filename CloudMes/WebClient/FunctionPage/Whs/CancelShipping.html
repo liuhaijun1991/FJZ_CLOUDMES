@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CancelShipping</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;">Cancel Shipping</span></h3>
+    </div>
+    <div class="panel-body form-horizontal" style="padding-top:20px;">
+        <div id="divEdit" class="row">
+            <div class="col-xs-6 col-xs-offset-1">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">TYPE:</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" id="selectType">
+                                <option value="DN" selected>DN</option>
+                                <option value="PALLET">PALLET</option>
+                                <option value="SN">SN</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right" id="labelInputType">DN:</label>
+                        <div class="col-xs-8">
+                            <input type="text" id="txtInputValue" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" id="divDNLine">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">DN LINE:</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" id="selectDNLine"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">Remark:</label>
+                        <div class="col-xs-8">
+                            <textarea id="txtRemark" class="form-control" rows="3" cols="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right" set-lan="html:"></label>
+                        <div class="col-xs-8">
+                            <button type="button" class="btn btn-primary" id="btnSubmit"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Submit</lan></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divListDetail" class="row">
+            <div class="col-xs-12">
+                <div class="bootstrap-table">
+                    <table id="tableList" class="table table-hover"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+    <script type="text/javascript">
+        var ShowList = function (tableID, data) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                //locale: tableLocale,
+                columns:
+                    [
+                        {
+                            field: "DN_NO",
+                            title: "DN_NO",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        },
+                        {
+                            field: "SKUNO",
+                            title: "SKUNO",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        },
+                        {
+                            field: "SN",
+                            title: "SN",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        },
+                        {
+                            field: "SHIPDATE",
+                            title: "SHIPDATE",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        },
+                        {
+                            field: "CREATEBY",
+                            title: "CREATEBY",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        }]
+            });
+        };
+
+        $(document).ready(function () {
+            $("#txtInputValue").val("").select().focus();
+
+            $("#selectType").bind("change", function () {
+                var type = $("#selectType").val();
+                $("#labelInputType").html(type + ":");
+                if (type == "DN") {
+                    $("#divDNLine").show();
+                }
+                else {
+                    $("#divDNLine").hide();
+                }
+                $("#txtInputValue").val("").select().focus();
+                ShowList("tableList", []);
+            });
+
+            $("#txtInputValue").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var type = $("#selectType").val();
+                    var inputValue = $("#txtInputValue").val();
+                    //獲取出貨記錄
+                    if (type == "DN") {
+                        $("#selectDNLine").html("");
+                        self.parent.client.CallFunction("MESStation.Config.WhsConfig", "GetDNLineList", { DN: inputValue }, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#selectDNLine").append("<option value='Please Select DN Line' selected='selected'>Please Select DN Line</option>");
+                                for (var i = 0; i < e.Data.length; i++) {
+                                    $("#selectDNLine").append("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>");
+                                }
+                            } else {
+                                swal({
+                                    title: "",
+                                    text: e.Message,
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                return;
+                            }
+                        });
+                        $("#selectDNLine").select().focus();
+                    }
+                    else {
+                        self.parent.client.CallFunction("MESStation.Config.WhsConfig", "GetShippingListByType", { Type: type, Value: inputValue, DNLine: "" }, function (e) {
+                            if (e.Status == "Pass") {
+                                ShowList("tableList", e.Data);
+                            } else {
+                                ShowList("tableList", []);
+                                swal({
+                                    title: "",
+                                    text: e.Message,
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                                return;
+                            }
+                        });
+                        $("#txtRemark").select().focus();
+                    }
+                }
+            });
+
+            $("#selectDNLine").bind("change", function () {
+                var type = $("#selectType").val();
+                var dn = $("#txtInputValue").val();
+                var dn_line = $("#selectDNLine").val();
+                if (dn_line != "Please Select DN Line") {
+                    self.parent.client.CallFunction("MESStation.Config.WhsConfig", "GetShippingListByType", { Type: type, Value: dn, DNLine: dn_line }, function (e) {
+                        if (e.Status == "Pass") {
+                            ShowList("tableList", e.Data);
+                        } else {
+                            ShowList("tableList", []);
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            return;
+                        }
+                    });
+                    //$("#txtRemark").val("").select().focus();
+                }
+            });
+
+            $("#btnSubmit").click(function () {
+                var type = $("#selectType").val();
+                var remark = $("#txtRemark").val();
+                var inputValue = $("#txtInputValue").val();
+                var dn_line = "";
+                if (type == "DN") {
+                    dn_line = $("#selectDNLine").val();
+                    if (dn_line == "" || dn_line == undefined) {
+                        swal({
+                            title: "",
+                            text: "Please Input DN Line!",
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                }
+                if (inputValue == "" || inputValue == undefined) {
+                    swal({
+                        title: "",
+                        text: "Please Input DN/SN/PALLET!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (remark == "" || remark == undefined) {
+                    swal({
+                        title: "",
+                        text: "Please Input Remark!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Cancle Shipping,Please wait ...</span></div></div>"
+                });
+                self.parent.client.CallFunction("MESStation.Config.WhsConfig", "CancelShipping", { Type: type, Value: inputValue, DNLine: dn_line, Remark: remark }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowList("tableList", []);
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        layer.close(loadIndex);
+                        return;
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        layer.close(loadIndex);
+                        return;
+                    }
+                });
+            })
+        });
+    </script>
+</body>
+</html>

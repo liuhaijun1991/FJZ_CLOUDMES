@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Shipping Scehedule Config</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .datetimepicker {
+            z-index: 99999999 !important;
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body">
+        <div id="toolbar">
+            <div class="form-group col-xs-12">
+                <div class="col-xs-4">
+                    <select type="text" id="slDownSoPlant" class="form-control">
+                        <option value="VUGS" selected>VUGS</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="inputDownSoTime" autocomplete="off" />
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-success" id="DownloadSO">Download SO</button>
+                </div>
+            </div>
+            
+            
+        </div>
+        <table id="So_List_Table" class="table table-condensed"></table>
+    </div>
+    <div class="row" id="ConvertSOParams" style="padding:15px 0px;margin:0px;display:none">
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">SO：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" readonly name="SO_NO" id="SO_NO" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">Enable Start Date：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" readonly name="START_DATE" id="START_DATE" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">Enable End Date：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" readonly name="END_DATE" id="END_DATE" />
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {
+            var date = new Date();
+            var yyyy = date.getFullYear().toString();
+            var MM = date.getMonth() + 1;
+            var dd = date.getDate();
+            MM = MM < 10 ? ("0" + MM).toString() : MM.toString() ;
+            dd = dd < 10 ? ("0" + dd).toString() : dd.toString() ;
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN";
+                calendarlang="cn";
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+                calendarlang="cn";
+            }
+            else {
+                tableLocale = "en";
+                calendarlang="en";
+            };
+            laydate('inputDownSoTime',yyyy+"-"+MM+"-"+dd);
+            GetData();
+            $("#DownloadSO").on("click", function (e) {
+                DownSAPSO();
+            });
+            $("#START_DATE").datetimepicker({
+                format: 'yyyy-mm-dd',//选择年月日時分秒
+                language: 'zh-CN',
+                weekStart: 0,//一周从哪一天开始。0（星期日）到6（星期六）
+                todayBtn: 0,//显示‘今日’按钮
+                autoclose: true,//当选择一个日期之后是否立即关闭此日期时间选择器
+                todayHighlight: true,//如果为true, 高亮当前日期。
+                startView: 2,//日期时间选择器打开之后首先显示的视图 0-hour,1-day,2-month,3-year,4-decade
+                minView: 2,
+                minuteStep: 1,
+                clearBtn: false,
+                forceParse: true,
+                keyboardNavigation: true
+            });
+            $("#END_DATE").datetimepicker({
+                format: 'yyyy-mm-dd',//选择年月日時分秒
+                language: 'zh-CN',
+                weekStart: 0,//一周从哪一天开始。0（星期日）到6（星期六）
+                todayBtn: 0,//显示‘今日’按钮
+                autoclose: true,//当选择一个日期之后是否立即关闭此日期时间选择器
+                todayHighlight: true,//如果为true, 高亮当前日期。
+                startView: 2,//日期时间选择器打开之后首先显示的视图 0-hour,1-day,2-month,3-year,4-decade
+                minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
+                minuteStep: 1,
+                clearBtn: false,//清除按钮
+                forceParse: true,//当选择器关闭的时候，是否强制解析输入框中的值。也就是说，当用户在输入框中输入了不正确的日期
+                //，选择器将会尽量解析输入的值，并将解析后的正确值按照给定的格式format设置到输入框中。
+                keyboardNavigation: true //是否允许通过方向键改变日期
+            });
+        });
+
+        var GetData = function () {
+            client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "GetSAPSOList", { Status: '', Page: '1', Pagesize: '999999' }, function (e) {
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data.ListData);
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        var SearchData = function (so) {
+            client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "GetSAPSO", { SO_NO: so }, function (e) {
+                if (e.Status == "Pass" && e.Data.ListData.length > 0) {
+                    ShowSoListTable(e.Data.ListData);
+                }
+            });
+        }
+
+        var ShowSoListTable = function (data) {
+            $('#So_List_Table').bootstrapTable('destroy');
+            $('#So_List_Table').bootstrapTable({
+                data: data,
+                toolbar: "#toolbar",
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                onSearch: function (text) {
+                    if (!this.data.Contain(text)) {
+                        SearchData(text);
+                    }
+                },
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                locale: tableLocale,  //表格语言
+                onRefresh: function (param) {
+                    GetData();
+                },
+                columns: [
+                    {
+                        field: 'VBELN',
+                        title: 'SO#',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'POSNR',
+                        title: 'SOLine',
+                        sortable: true,
+                        align: "center",
+                        visible: false
+                    }, {
+                        field: 'MATNR',
+                        title: 'PartNo',
+                        align: "center",
+                        sortable: true,
+                    }, {
+                        field: 'BSTNK',
+                        title: 'BSTNK',
+                        align: "center"
+                    }, {
+                        field: 'KWMENG',
+                        title: 'Qty',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'CMPRE',
+                        title: 'CMPRE',
+                        align: "center"
+                    }, {
+                        field: 'KUNNR',
+                        title: 'KUNNR',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'KUNNV',
+                        title: 'KUNNV',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'ARKTX',
+                        title: 'Part Desc',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'NAME',
+                        title: 'Customer',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'LAND1',
+                        title: 'LAND1',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'NETPR',
+                        title: 'Price',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'STATUS',
+                        title: 'Status',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'EDIT_EMP',
+                        title: 'Edit By',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'EDIT_DATE',
+                        title: 'Edit Date',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'operate',
+                        title: 'Operation',
+                        align: 'center',
+                        events: "operateEvents",
+                        formatter: operateFormatter
+                    }
+                ]
+            });
+        };
+
+        function operateFormatter(value, row, index) {
+            var Convert;
+            if (row.STATUS == "WaitToConvert") {
+                Convert = '<button type="button" class="ConvertSO btn btn-default  btn-sm" style="margin-right:15px;">Convert</button>';
+            } else {
+                Convert = "";
+            }
+            return [Convert].join('');
+        }
+
+        window.operateEvents = {
+            'click .ConvertSO': function (e, value, row, index) {
+                ConverSO(row);
+            }
+        };
+
+        var ConverSO = function (obj) {
+            $("#SO_NO").val(obj.VBELN);
+            layer.open({
+                title: 'Convert SO',
+                type: 1,
+                area: ['500px', '300px'],
+                content: $('#ConvertSOParams'),
+                btn: ['Submit', 'Cancel'],
+                yes: function (index, layero) {
+                    layer.load(2, { shade: [0.8, '#393D49'] });
+                    client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "ConvertSAPSO", { SO_NO: layero.find("#SO_NO").val(), START_DATE: layero.find("#START_DATE").val(), END_DATE: layero.find("#END_DATE").val() }, function (e) {
+                        layer.closeAll("loading");
+                        if (e.Status == "Pass") {
+                            layer.msg('OK!', { icon: 1, timer: 5000 });
+                            GetData();
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                timer: 5000
+                            });
+                        }
+                    });
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        };
+
+        var DownSAPSO = function () {
+            layer.load(2, { shade: [0.8, '#393D49'] });
+            var DownSoDate = $("#inputDownSoTime").val();
+            var DownSoPlant=$("#slDownSoPlant").val();
+            client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "DownloadSAPSO", {DownSoDate:DownSoDate,DownSoPlant:DownSoPlant}, function (e) {
+                layer.closeAll("loading");
+                if (e.Status == "Pass") {
+                    layer.msg('OK!' + e.Message, { icon: 1 });
+                    GetData();
+                } else {
+                    layer.open({
+                        type: 1,
+                        shade: false,
+                        content: e.Message
+                    });
+                    return;
+                }
+            });
+        };
+
+        function laydate(ID,nowaday){//日期选择控件
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#'+ID,
+                    //type: 'datetime',//year month day datetime
+                    lang: calendarlang,//en or cn
+                    theme:'#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: false,//是否开启左右页
+                    value: nowaday,// 'yyyy-MM-dd'默认值
+                    isInitValue: true,//是否初始化默认 值
+                    });
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES ConvertWO</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }      
+         </style>
+</head>
+<body class="gray-bg">    
+    <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:Workorder List">Workorder List</span></h3>
+        </div>
+        <div class="panel-body"  id="WorkorderList">
+<!--             <div id="divTableToolbar">
+            </div> -->
+            <table id="mytab"></table>
+        </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight col-xs-12 col-md-12 col-sm-12 col-lg-12" id="TransferConvert">
+        <div class="ibox  float-e-margins">
+            <div class="panel-heading bg-primary">
+                <h3 id="Header"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_setworkorder">Set Workorder</lan></i></h3>
+            </div>
+            <div class="form-horizontal col-xs-12 col-md-12 col-sm-12 col-lg-12 ibox-content">
+                <div class="col-xs-12  col-md-12 col-sm-12 col-lg-12">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location='ConvertWorkOrder.html'"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">back</lan></button>
+                </div>
+                <div id="Parameters" class="form-horizontal m-t">
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row" style="display:none;">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelID">ID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtID" placeholder="ID" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderNo"><span style="color:red;">*</span>Work Order NO</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderNo" set-lan="attr:placeholder=placeholderWorkOrderNo" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderDate">Work Order Date</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderDate" set-lan="attr:placeholder=placeholderWorkOrderDate" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderQty">Work Order Qty</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtWorkOrderQty" set-lan="attr:placeholder=placeholderWorkOrderQty" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuNO">Sku No</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuNO" set-lan="attr:placeholder=placeholderSkuNO" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelFactoryId">Factory ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtFactoryId" set-lan="attr:placeholder=placeholderFactoryId" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWorkOrderType">Work Order Type</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <!--<input type="text" class="form-control" id="txtWorkOrderType" set-lan="attr:placeholder=placeholderWorkOrderType" />-->
+                                <select id="txtWorkOrderType" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelRouteId">Route ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input class="form-control" type="text" id="txtRouteId" set-lan="attr:placeholder=placeholderRouteId" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelReworkStartStation">Rework Start Station</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtReworkStartStation" set-lan="attr:placeholder=placeholderReworkStartStation" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuVersion">Sku Version</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuVersion" set-lan="attr:placeholder=placeholderSkuVersion" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSkuDesc">Sku Desc</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtSkuDesc" set-lan="attr:placeholder=placeholderSkuDesc" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelKeyPartListID">KeyPart List ID</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtKeyPartListID" set-lan="attr:placeholder=placeholderKeyPartListID" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-4 col-md-offset-4 col-lg-offset-5 col-sm-offset-4">
+                        <button class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-save"><lan set-lan="html:Submit">Submit</lan></i></button>
+                        <button class="btn btn-primary" onclick="ResetFunction()"><i class="fa fa-save"><lan set-lan="html:Reset">Reset</lan></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- 全局js -->
+     <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+     <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+     <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+     <!-- 第三方插件 -->
+     <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+     <script src="../../Scripts/plugins/JSON/json2.js"></script>
+     <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+     <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+     <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+     <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+ 
+     <script src="../../Scripts/global.js"></script>
+     <script src="../../Scripts/MesClient.UI.js"></script>
+     <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+
+        window.operateEvents = {
+            'click .RoleOfedit': function (e, value, row, index) {
+                self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoInfoById", { ID: row.ID }, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#WorkorderList').hide();
+                        $('#TransferConvert').show();
+                        $("#txtID").val(e.Data[0].ID);
+                        $("#txtWorkOrderNo").val(e.Data[0].WORKORDERNO);
+                        $("#txtWorkOrderDate").val(e.Data[0].CREATE_DATE);
+                        $("#txtWorkOrderQty").val(e.Data[0].QTY);
+                        $("#txtSkuNO").val(e.Data[0].SKUNO);
+                        $("#txtFactoryId").val(e.Data[0].FACTORY);
+                        $("#txtWorkOrderType").val(e.Data[0].ORDERTYPE == "" ? 'REGULAR' : e.Data[0].ORDERTYPE);
+                        //$("#txtWorkOrderType").val('REGULAR');
+                        //$("#txtRouteId").val(e.Data[0].ROUTE_ID);
+                        //$("#txtReworkStartStation").val(e.Data[0].START_STATION);
+                        $("#txtSkuVersion").val(e.Data[0].VERSION);
+                        $("#txtSkuDesc").val(e.Data[0].DESCRIPTION);
+                        //$("#txtKeyPartListID").val(e.Data[0].KP_LIST_ID);
+
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetRouteBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                            try {
+                                $("#txtRouteId").autocomplete("destroy");
+                            } catch (e) {
+
+                            }
+                            if (e.Status == "Pass") {
+                                //var data = [];
+                                //for (var i=0 ; i < e.Data.length;i++) {
+                                //    data.push(e.Data[i].ROUTE_NAME);
+                                //}
+                                $("#txtRouteId").autocomplete({
+                                    minLength: 0,
+                                    source: e.Data,
+                                    select: function (event, ui) {
+                                        $(this).val(ui.item.value);
+                                    },
+                                    create: function (event, ui) {
+                                        $(this).bind("click", function () {
+                                            var active = $(this).attr("autocomplete");
+                                            if (active == "off") {
+                                                $(this).autocomplete("search", "");
+                                            }
+                                        });
+                                    },
+                                    scroll: true,
+                                    scrollHeight: 180,
+                                    position: { my: "right top", at: "right bottom" }
+                                });
+                            }
+                        });
+
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetStationBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                            try {
+                                $("#txtReworkStartStation").autocomplete("destroy");
+                            } catch (e) {
+
+                            }
+                            if (e.Status == "Pass") {
+                                $("#txtReworkStartStation").autocomplete({
+                                    minLength: 0,
+                                    source: e.Data,
+                                    select: function (event, ui) {
+                                        $(this).val(ui.item.value);
+                                    },
+                                    create: function (event, ui) {
+                                        $(this).bind("click", function () {
+                                            var active = $(this).attr("autocomplete");
+                                            if (active == "off") {
+                                                $(this).autocomplete("search", "");
+                                            }
+                                        });
+                                    },
+                                    scroll: true,
+                                    scrollHeight: 180,
+                                    position: { my: "right top", at: "right bottom" }
+                                });
+                            }
+                        });
+
+                        self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetKPBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                            try {
+                                $("#txtKeyPartListID").autocomplete("destroy");
+                            } catch (e) {
+
+                            }
+                            if (e.Status == "Pass") {
+                                $("#txtKeyPartListID").autocomplete({
+                                    minLength: 0,
+                                    source: e.Data,
+                                    select: function (event, ui) {
+                                        $(this).val(ui.item.value);
+                                    },
+                                    create: function (event, ui) {
+                                        $(this).bind("click", function () {
+                                            var active = $(this).attr("autocomplete");
+                                            if (active == "off") {
+                                                $(this).autocomplete("search", "");
+                                            }
+                                        });
+                                    },
+                                    scroll: true,
+                                    scrollHeight: 180,
+                                    position: { my: "right top", at: "right bottom" }
+                                });
+                            }
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Tips",
+                            text: e.Message,
+                            timer: 2000,
+                            type: "warning",
+                            showConfirmButton: false
+                        });
+                    }
+                    mesUI.SetLanguage("ConvertWOSetting");
+                })
+            }
+        };
+
+        $(document).ready(function () {
+            $('#WorkorderList').show();
+            $('#TransferConvert').hide();
+            if (lan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+            self.parent.client.CallFunction("MESStation.Config.FactoryConfig", "GetAllFactory", { FACTORY_CODE: "" }, function (e) {
+                try {
+                    $("#txtFactoryId").autocomplete("destroy");
+                } catch (e) {
+
+                }
+                if (e.Status == "Pass") {
+                    var data = [];
+                    for (var i = 0 ; i < e.Data.length; i++) {
+                        data.push(e.Data[i].FACTORY_CODE);
+                    }
+                    $("#txtFactoryId").autocomplete({
+                        minLength: 0,
+                        source: data,
+                        select: function (event, ui) {
+                            $(this).val(ui.item.value);
+                        },
+                        create: function (event, ui) {
+                            $(this).bind("click", function () {
+                                var active = $(this).attr("autocomplete");
+                                if (active == "off") {
+                                    $(this).autocomplete("search", "");
+                                }
+                            });
+                        },
+                        scroll: true,
+                        scrollHeight: 180,
+                        position: { my: "right top", at: "right bottom" }
+                    });
+                }
+            });
+
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoType", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#txtWorkOrderType").empty();
+                    var WorkOrderType = $('#txtWorkOrderType');
+                    for (var item = 0; item < e.Data.length; item++) {
+                        WorkOrderType.append("<option>" + e.Data[item] + "</option>");
+                    }
+                }
+                //try {
+                //    $("#txtWorkOrderType").autocomplete("destroy");
+                //} catch (e) {
+
+                //}
+                //if (e.Status == "Pass") {
+                //    $("#txtWorkOrderType").autocomplete({
+                //        minLength: 0,
+                //        source: e.Data,
+                //        select: function (event, ui) {
+                //            $(this).val(ui.item.value);
+                //        },
+                //        create: function (event, ui) {
+                //            $(this).bind("click", function () {
+                //                var active = $(this).attr("autocomplete");
+                //                if (active == "off") {
+                //                    $(this).autocomplete("search", "");
+                //                }
+                //            });
+                //        },
+                //        scroll: true,
+                //        scrollHeight: 180,
+                //        position: { my: "right top", at: "right bottom" },
+                //    });
+                //}
+            });
+
+            ShowTableList("MESStation.Config.ConvertWorkorder", "GetWoConvertList", {});
+            mesUI.SetLanguage("ConvertWOSetting");
+        });
+
+        function ShowTableList(ClassName, FunctionName, data) {
+            $("#mytab").html("");
+            $("#mytab").bootstrapTable('destroy');
+            self.parent.client.CallFunction(ClassName, FunctionName, data, function (e) {
+                if (e.Status == "Pass") {
+                        var c = [];
+                        for (var item in e.Data[0]) {
+                            c.push({ field: item, title: "<label set-lan=\"html:table" + item + "\">" + item + "</label>" });
+                        }
+                        c.push({
+                            field: 'operate',
+                            title: '<label set-lan=html:tableoperate">OPERATE</label>',
+                            width: '80px',
+                            events: operateEvents,
+                            formatter: function operateFormatter(value, row, index) {
+                                return [
+                                '<button type="button" id="' + row.ID + '" set-lan="value:operate" class="RoleOfedit btn btn-white" style="display:inline"><i class="fa fa-pencil"></i>Convert</button>',
+                                ].join('');
+                            }
+                        });
+                        $('#mytab').bootstrapTable({
+                            data: e.Data,
+                            striped: true,
+                            cache: false,
+                            pagination: true,
+                            sortable: true, 
+                            sortOrder: "asc",
+                            sidePagination: "client",
+                            pageNumber: 1,
+                            pageSize: 10,
+                            pageList: [10, 15, 30, 70],
+                            search: true,
+                            strictSearch: true,
+                            searchOnEnterKey: false,
+                            showColumns: false,
+                            showRefresh: false,
+                            minimumCountColumns: 2,
+                            clickToSelect: true,
+                            showToggle: false,
+                            cardView: false,
+                            detailView: false,
+                            dataType: "json",
+                            method: "post",
+                            searchAlign: "left",
+                            buttonsAlign: "right",
+                            //toolbar: "#toolbar",
+                            //toolbarAlign: "left",
+                            locale: localelan,
+                            columns: c, 
+                        
+
+                        });
+                        $('#mytab').bootstrapTable('hideColumn', 'ID');
+                        mesUI.SetLanguage("ConvertWOSetting");
+                    
+                }
+                else {
+                    swal({
+                        title: "Tips",
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+
+            })
+
+        }
+
+        function submitFunction() {
+            var ID = $("#txtID").val();
+            var WORKORDERNO = $("#txtWorkOrderNo").val();
+            var DOWNLOAD_DATE = $("#txtWorkOrderDate").val();
+            var WORKORDER_QTY = $("#txtWorkOrderQty").val();
+            var SKUNO = $("#txtSkuNO").val();
+            var PLANT = $("#txtFactoryId").val();
+            var WO_TYPE = $("#txtWorkOrderType").val();
+            var ROUTE_ID = $("#txtRouteId").val();
+            var START_STATION = $("#txtReworkStartStation").val();
+            var SKU_VER = $("#txtSkuVersion").val();
+            var SKU_DESC = $("#txtSkuDesc").val();
+            var KPLISTNAME = $("#txtKeyPartListID").val();
+            //if (WORKORDERNO == "" || DOWNLOAD_DATE == "" || WORKORDER_QTY == "" || SKUNO == "" || PLANT == "" || WO_TYPE == "" || ROUTE_ID == "" || START_STATION == "" || SKU_VER == "" || SKU_DESC == "" || KP_LIST_ID == "") {
+            if (PLANT == "" || WO_TYPE == "" || ROUTE_ID == "" || START_STATION == "") {
+                swal({
+                    title: "Tips",
+                    text: "Please complete the required information!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "SubmitWoInfo", { wo: WORKORDERNO, date: DOWNLOAD_DATE, qty: WORKORDER_QTY, skuno: SKUNO, factory: PLANT, wo_type: WO_TYPE, route_name: ROUTE_ID, station: START_STATION, sku_ver: SKU_VER, KpListName: KPLISTNAME }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg("Operation succeeded", {
+                                    icon: 1,
+                                    time: 2000
+                                }, function () {
+
+                        $('#WorkorderList').show();
+                        $('#TransferConvert').hide();
+                        ShowTableList("MESStation.Config.ConvertWorkorder", "GetWoConvertList", {}, false);
+                                });
+
+                } else {
+                    swal({
+                        title: "Tips",
+                        text: e.Data,
+                        type: "warning",
+                        showConfirmButton: true,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    });
+                }
+
+            });
+        }
+        function ResetFunction() {
+            self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetWoInfoById", { ID: $("#txtID").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#txtID").val(e.Data[0].ID);
+                    $("#txtWorkOrderNo").val(e.Data[0].WORKORDERNO);
+                    $("#txtWorkOrderDate").val(e.Data[0].CREATE_DATE);
+                    $("#txtWorkOrderQty").val(e.Data[0].QTY);
+                    $("#txtSkuNO").val(e.Data[0].SKUNO);
+                    $("#txtFactoryId").val(e.Data[0].FACTORY);
+                    $("#txtWorkOrderType").val(e.Data[0].ORDERTYPE == "" ? 'REGULAR' : e.Data[0].ORDERTYPE);
+                    //$("#txtWorkOrderType").val('REGULAR');
+                    $("#txtRouteId").val("");
+                    $("#txtReworkStartStation").val("");
+                    $("#txtSkuVersion").val(e.Data[0].VERSION);
+                    $("#txtSkuDesc").val(e.Data[0].DESCRIPTION);
+                    $("#txtKeyPartListID").val("");
+
+                    self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetRouteBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                        try {
+                            $("#txtRouteId").autocomplete("destroy");
+                        } catch (e) {
+
+                        }
+                        if (e.Status == "Pass") {
+                            //var data = [];
+                            //for (var i=0 ; i < e.Data.length;i++) {
+                            //    data.push(e.Data[i].ROUTE_NAME);
+                            //}
+                            $("#txtRouteId").autocomplete({
+                                minLength: 0,
+                                source: e.Data,
+                                select: function (event, ui) {
+                                    $(this).val(ui.item.value);
+                                },
+                                create: function (event, ui) {
+                                    $(this).bind("click", function () {
+                                        var active = $(this).attr("autocomplete");
+                                        if (active == "off") {
+                                            $(this).autocomplete("search", "");
+                                        }
+                                    });
+                                },
+                                scroll: true,
+                                scrollHeight: 180,
+                                position: { my: "right top", at: "right bottom" }
+                            });
+                        }
+                    });
+
+                    self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetStationBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                        try {
+                            $("#txtReworkStartStation").autocomplete("destroy");
+                        } catch (e) {
+
+                        }
+                        if (e.Status == "Pass") {
+                            $("#txtReworkStartStation").autocomplete({
+                                minLength: 0,
+                                source: e.Data,
+                                select: function (event, ui) {
+                                    $(this).val(ui.item.value);
+                                },
+                                create: function (event, ui) {
+                                    $(this).bind("click", function () {
+                                        var active = $(this).attr("autocomplete");
+                                        if (active == "off") {
+                                            $(this).autocomplete("search", "");
+                                        }
+                                    });
+                                },
+                                scroll: true,
+                                scrollHeight: 180,
+                                position: { my: "right top", at: "right bottom" }
+                            });
+                        }
+                    });
+
+                    self.parent.client.CallFunction("MESStation.Config.ConvertWorkorder", "GetKeyPartBySkuno", { skuno: e.Data[0].SKUNO }, function (e) {
+                        try {
+                            $("#txtKeyPartListID").autocomplete("destroy");
+                        } catch (e) {
+
+                        }
+                        if (e.Status == "Pass") {
+                            $("#txtKeyPartListID").autocomplete({
+                                minLength: 0,
+                                source: e.Data,
+                                select: function (event, ui) {
+                                    $(this).val(ui.item.value);
+                                },
+                                create: function (event, ui) {
+                                    $(this).bind("click", function () {
+                                        var active = $(this).attr("autocomplete");
+                                        if (active == "off") {
+                                            $(this).autocomplete("search", "");
+                                        }
+                                    });
+                                },
+                                scroll: true,
+                                scrollHeight: 180,
+                                position: { my: "right top", at: "right bottom" }
+                            });
+                        }
+                    });
+                }
+                else {
+                    swal({
+                        title: "Tips",
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>

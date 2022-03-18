@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">SNReplaceTimeSetting</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .tr-background-color {
+            background-color: Highlight !important;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+    <div id="divEdit" class="form-horizontal hidden" style="padding-top:20px;">        
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">CONTROL_NAME</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="edit_control_name" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">CONTROL_VALUE</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="edit_control_value" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">NEW VALUE</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="edit_new_value" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var tableLocale;
+        window.ColumnBtnClick = {
+            'click #btnModify': function (e, value, row, index) {
+                ShowEditDiv(row);
+            }
+        }
+        var TableRowDoubleClick = function (row, element) {
+            ShowEditDiv(row);
+        }
+        var ShowList = function (tableID, data, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                //toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                onDblClickRow: function (row, element) {
+                    TableRowDoubleClick(row, element);
+                },
+                columns: [                   
+                    {
+                        field: 'ID',
+                        title: 'ID',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: false
+                    },
+                    {
+                        field: 'CONTROL_NAME',
+                        title: 'CONTROL_NAME',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true
+                    },
+                    {
+                        field: 'CONTROL_VALUE',
+                        title: 'CONTROL_VALUE',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: 'EDIT_EMP',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: 'EDIT_TIME',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true
+                    },
+                    {
+                        field: "ACTION",
+                        title: "ACTION",
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true,
+                        formatter: function (value, row, index) {
+                            return ['<button id="btnModify" type="button" class="btn btn-default" >Modify</button >'].join('');
+                        },
+                        events: ColumnBtnClick
+                    }                    
+                ]
+            });            
+        }
+        var GetControlList = function () {
+            var sn = $("#inputSN").val();
+            parent.client.CallFunction("MESStation.Config.CControl", "GetHWDReplaceSetting", {}, function (e) {                
+                if (e.Status == "Pass") {
+                    ShowList("tableList", e.Data, tableLocale);
+                }
+                else {
+                    ShowList("tableList", [], tableLocale);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+        
+        var ShowEditDiv = function (row) {
+            var sn = $("#inputSN").val();
+            layer.open({
+                id: "EditDiv",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: "Setting Replace Time",
+                area: ['40%', '40%'],
+                content: $("#divEdit"),
+                offset: "30px",
+                btn: ["Save", "Cancel"],
+                success: function (layero, index) {
+                    $("#divEdit").removeClass("hidden");
+                    $(".layui-layer-title").addClass("new-pallet-title");
+                    $("#edit_control_name").val(row.CONTROL_NAME);
+                    $("#edit_control_value").val(row.CONTROL_VALUE);                   
+                    $("#edit_new_value").val("").focus().select();                    
+                },
+                end: function () {
+                },
+                yes: function (index) {
+                    var new_value = $("#edit_new_value").val();                   
+                    parent.client.CallFunction("MESStation.Config.CControl", "HWDReplaceSetting", { ID: row.ID, NUMBER: new_value }, function (e) {                       
+                        if (e.Status == "Pass") {
+                            layer.msg("OK", {
+                                icon: 1,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () {
+                                layer.close(index);
+                                    GetControlList();
+                                });                            
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    $("#divEdit").addClass("hidden");
+                    GetControlList();
+                }
+            });
+        }
+        $(document).ready(function () {
+            GetControlList();
+        });
+    </script>
+</body>
+</html>

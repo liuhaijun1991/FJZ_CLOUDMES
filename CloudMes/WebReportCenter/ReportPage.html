@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="ReportContainer" class="demo">
+
+        </div>
+    </div>
+    <script src="/lib/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '/lib/'
+        }).extend({
+            ReportPage: 'Report/ReportPage'
+        }).use(['jquery', 'ReportPage', 'IWebSocket', 'Config', 'common'], function () {
+            var $ = layui.$;
+            var page = layui.ReportPage;
+            var id = layui.common.getQueryString('id');
+            layui.IWebSocket.init({
+                url: 'ws://' + layui.Config.SOCKET_SERVERIP + ':' + layui.Config.SOCKET_SERVERPORT + '/' + layui.Config.SOCKET_SERVICE
+            }, function (e) {
+                layui.IWebSocket.Login('TEST', 'TEST', function (d) {
+                    page.init({
+                        ReportID: id,
+                        InitClass: 'MesReportCenter.ReportCenterBaseAPI',
+                        InitFunction: 'GetDataByID',
+                        Container: $('#ReportContainer')
+                    }, function (p) {
+
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

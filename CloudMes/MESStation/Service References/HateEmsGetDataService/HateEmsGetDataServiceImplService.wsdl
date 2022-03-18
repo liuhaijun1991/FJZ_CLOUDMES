@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://mes.it.huawei.com/ws/HateEmsGetDataService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://mesplus.com/exception" name="HateEmsGetDataServiceImplService" targetNamespace="http://mes.it.huawei.com/ws/HateEmsGetDataService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://mesplus.com/model" targetNamespace="http://mesplus.com/model" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="serviceIn" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:in">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="export" type="tns:export" />
+              <xs:element minOccurs="0" name="factory" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="fsDelFileId" nillable="true" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="fsTmpFileId" nillable="true" type="xs:string" />
+              <xs:element minOccurs="0" name="language" type="xs:unsignedShort" />
+              <xs:element minOccurs="0" name="limit" type="xs:int" />
+              <xs:element minOccurs="0" name="page" type="xs:int" />
+              <xs:element minOccurs="0" name="pageIndex" type="xs:int" />
+              <xs:element minOccurs="0" name="pageSize" type="xs:int" />
+              <xs:element minOccurs="0" name="procstep" type="xs:unsignedShort" />
+              <xs:element minOccurs="0" name="start" type="xs:int" />
+              <xs:element minOccurs="0" name="userid" type="xs:string" />
+              <xs:element name="__byPass" type="xs:boolean" />
+              <xs:element name="__notCheckPrivilege" type="xs:boolean" />
+              <xs:element name="__rollback" type="xs:boolean" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="in" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="baseObject" abstract="true">
+        <xs:sequence>
+          <xs:element name="extendedFields">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" name="key" type="xs:string" />
+                      <xs:element minOccurs="0" name="value" type="xs:anyType" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="export">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="columns" nillable="true" type="tns:column" />
+              <xs:element minOccurs="0" name="templatePath" type="xs:string" />
+              <xs:element minOccurs="0" name="title" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="column">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="columns" nillable="true" type="tns:column" />
+              <xs:element minOccurs="0" name="dataIndex" type="xs:string" />
+              <xs:element minOccurs="0" name="header" type="xs:string" />
+              <xs:element minOccurs="0" name="width" type="xs:int" />
+              <xs:element minOccurs="0" name="xtype" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="header">
+        <xs:sequence>
+          <xs:element name="props">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" name="key" type="xs:string" />
+                      <xs:element minOccurs="0" name="value" type="xs:anyType" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="serviceOut" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:out">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="fieldmsg" nillable="true" type="tns:fieldmsg" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="fileinfo" nillable="true" type="tns:fileinfo" />
+              <xs:element minOccurs="0" name="msg" type="xs:string" />
+              <xs:element minOccurs="0" name="msgcate" type="xs:unsignedShort" />
+              <xs:element minOccurs="0" name="msgcode" type="xs:string" />
+              <xs:element minOccurs="0" name="statusvalue" type="xs:unsignedShort" />
+              <xs:element minOccurs="0" name="total" type="xs:int" />
+              <xs:element name="__keepResultMsg" type="xs:boolean" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="out" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="fieldmsg">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="name" type="xs:string" />
+              <xs:element minOccurs="0" name="text" type="xs:string" />
+              <xs:element minOccurs="0" name="type" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="fileinfo">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="fileId" type="xs:string" />
+              <xs:element minOccurs="0" name="fileName" type="xs:string" />
+              <xs:element minOccurs="0" name="fileSize" type="xs:string" />
+              <xs:element minOccurs="0" name="fileType" type="xs:string" />
+              <xs:element minOccurs="0" name="groupId" type="xs:string" />
+              <xs:element minOccurs="0" name="paramName" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:ns1="http://mesplus.com/model" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://mes.it.huawei.com/ws/HateEmsGetDataService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://mesplus.com/model" />
+      <xs:element name="emsGetDataService" type="tns:emsGetDataService" />
+      <xs:element name="emsGetDataServiceResponse" type="tns:emsGetDataServiceResponse" />
+      <xs:complexType name="emsGetDataService">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="in" type="tns:hateEmsGetDataServiceIn" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="hateEmsGetDataServiceIn">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:serviceIn">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="barcode" type="xs:string" />
+              <xs:element minOccurs="0" name="barcodeType" type="xs:string" />
+              <xs:element minOccurs="0" name="beginTime" type="xs:string" />
+              <xs:element minOccurs="0" name="emsFactory" type="xs:string" />
+              <xs:element minOccurs="0" name="endTime" type="xs:string" />
+              <xs:element minOccurs="0" name="operation" type="xs:string" />
+              <xs:element minOccurs="0" name="result" type="xs:string" />
+              <xs:element minOccurs="0" name="service" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="emsGetDataServiceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="out" type="tns:hateEmsGetDataServiceOut" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="hateEmsGetDataServiceOut">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:serviceOut">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="barcode" type="xs:string" />
+              <xs:element minOccurs="0" name="emsMatId" type="xs:string" />
+              <xs:element minOccurs="0" name="emsOrderId" type="xs:string" />
+              <xs:element minOccurs="0" name="factory" type="xs:string" />
+              <xs:element minOccurs="0" name="LISTOFTRANS" type="tns:listOfTrans" />
+              <xs:element minOccurs="0" name="lastTranCode" type="xs:string" />
+              <xs:element minOccurs="0" name="linkBarcode" type="xs:string" />
+              <xs:element minOccurs="0" name="lotType" type="xs:string" />
+              <xs:element minOccurs="0" name="matId" type="xs:string" />
+              <xs:element minOccurs="0" name="operation" type="xs:string" />
+              <xs:element minOccurs="0" name="preOperation" type="xs:string" />
+              <xs:element minOccurs="0" name="reworkFlag" type="xs:string" />
+              <xs:element minOccurs="0" name="workOrder" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="listOfTrans">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="TRANS" nillable="true" type="tns:trans" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="trans">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="CENTERORDERID" type="xs:string" />
+              <xs:element minOccurs="0" name="EMSORDERID" type="xs:string" />
+              <xs:element minOccurs="0" name="MATID" type="xs:string" />
+              <xs:element minOccurs="0" name="PACKLIST" type="tns:packList" />
+              <xs:element minOccurs="0" name="QTY" type="xs:string" />
+              <xs:element minOccurs="0" name="SHIPPINGDATE" type="xs:string" />
+              <xs:element minOccurs="0" name="TRANSID" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="packList">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ns1:baseObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="PACKID" nillable="true" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="header" nillable="true" type="ns1:header" />
+    </xs:schema>
+    <xsd:schema xmlns:tns="http://mesplus.com/exception" xmlns:ns0="http://mesplus.com/model" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://mesplus.com/exception">
+      <xsd:import namespace="http://mesplus.com/model" />
+      <xsd:element name="ServerException" type="tns:ServerException" />
+      <xsd:complexType name="ServerException">
+        <xsd:sequence>
+          <xsd:element name="scope" nillable="true" type="xsd:unsignedShort" />
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="msg" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ErrorException" type="tns:ErrorException" />
+      <xsd:complexType name="ErrorException">
+        <xsd:sequence>
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="out" nillable="true" type="ns0:serviceOut" />
+          <xsd:element name="scope" nillable="true" type="xsd:unsignedShort" />
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="msg" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="TroubleException" type="tns:TroubleException" />
+      <xsd:complexType name="TroubleException">
+        <xsd:sequence>
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="out" nillable="true" type="ns0:serviceOut" />
+          <xsd:element name="scope" nillable="true" type="xsd:unsignedShort" />
+          <xsd:element name="msg" nillable="true" type="xsd:string" />
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="BugException" type="tns:BugException" />
+      <xsd:complexType name="BugException">
+        <xsd:sequence>
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="scope" nillable="true" type="xsd:unsignedShort" />
+          <xsd:element name="msgcode" nillable="true" type="xsd:string" />
+          <xsd:element name="msg" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="BugException">
+    <wsdl:part name="BugException" element="ns1:BugException" />
+  </wsdl:message>
+  <wsdl:message name="ErrorException">
+    <wsdl:part name="ErrorException" element="ns1:ErrorException" />
+  </wsdl:message>
+  <wsdl:message name="ServerException">
+    <wsdl:part name="ServerException" element="ns1:ServerException" />
+  </wsdl:message>
+  <wsdl:message name="emsGetDataServiceResponse">
+    <wsdl:part name="parameters" element="tns:emsGetDataServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="TroubleException">
+    <wsdl:part name="TroubleException" element="ns1:TroubleException" />
+  </wsdl:message>
+  <wsdl:message name="emsGetDataService">
+    <wsdl:part name="parameters" element="tns:emsGetDataService" />
+    <wsdl:part name="header" element="tns:header" />
+  </wsdl:message>
+  <wsdl:portType name="HateEmsGetDataService">
+    <wsdl:operation name="emsGetDataService">
+      <wsdl:input name="emsGetDataService" message="tns:emsGetDataService" />
+      <wsdl:output name="emsGetDataServiceResponse" message="tns:emsGetDataServiceResponse" />
+      <wsdl:fault name="ServerException" message="tns:ServerException" />
+      <wsdl:fault name="TroubleException" message="tns:TroubleException" />
+      <wsdl:fault name="BugException" message="tns:BugException" />
+      <wsdl:fault name="ErrorException" message="tns:ErrorException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HateEmsGetDataServiceImplServiceSoapBinding" type="tns:HateEmsGetDataService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="emsGetDataService">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="emsGetDataService">
+        <soap:header message="tns:emsGetDataService" part="header" use="literal" />
+        <soap:body use="literal" parts="parameters" />
+      </wsdl:input>
+      <wsdl:output name="emsGetDataServiceResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServerException">
+        <soap:fault use="literal" name="ServerException" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="TroubleException">
+        <soap:fault use="literal" name="TroubleException" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="BugException">
+        <soap:fault use="literal" name="BugException" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ErrorException">
+        <soap:fault use="literal" name="ErrorException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HateEmsGetDataServiceImplService">
+    <wsdl:port name="HateEmsGetDataServiceImplPort" binding="tns:HateEmsGetDataServiceImplServiceSoapBinding">
+      <soap:address location="http://172.30.44.57/mesplus-nnfsk/services/HateEmsGetDataService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

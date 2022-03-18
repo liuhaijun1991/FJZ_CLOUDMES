@@ -1,0 +1,14 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\MESNCO.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\MESNCO.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\MESNCO.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\WebSocket-Sharp.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\WebSocket-Sharp.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\WebSocket-Sharp.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\obj\Debug\MESNCO.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\obj\Debug\MESNCO.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\obj\Debug\MESNCO.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\obj\Debug\MESNCO.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESNCO\obj\Debug\MESNCO.pdb

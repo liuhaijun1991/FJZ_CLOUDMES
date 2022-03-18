@@ -1,0 +1,955 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">PoStatus</title>
+    <link href="../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+                /*width: 100%;*/
+            }
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SKUSetting">PoStatus</span></h3>
+    </div>
+
+    <div id="outputsite">
+        <div>
+            <div id="Table_Toolbar">
+
+                <div class="form-inline" role="group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Status</span>
+                        <select class="form-control" id="select_status">
+                            <!--<option value="0">Wait for the Preship</option>
+                            <option value="1">Wait for the Actualship</option>
+                            <option value="2">Preship</option>
+                            <option value="3">Actualship</option>-->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <table id="So_List_Table" class="table table-condensed"></table>
+        </div>
+    </div>
+    <div id="divAsnDetail" style="padding:0px 10px;">
+        <table id="tableAsnDetail" class="table table-hover"></table>
+    </div>
+
+    <div id="messagesite" class="container-fluid" hidden="hidden">
+    </div>
+
+    <!--PreAsn_SelectPo start-->
+    <div role="form" id="Newsite" hidden="hidden" style="font-size: 12px!important; width: 96%;font-family: serif" class="form-horizontal col-xs-12">
+        <div class="col-xs-12">
+             <table id="tableSelectSoPoDetail" class="table table-hover"></table>
+        </div>
+    </div>
+    <!--PreAsn_SelectPo end-->
+    <!-- 全局js -->
+    <script src="../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../../Scripts/global.js"></script>
+    <script src="../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../Scripts/MesClient.js"></script>
+    <script src="../../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var MESHelperObj = null;
+
+        $(document).ready(function () {
+            InitPage();
+        });
+
+        var InitPage = function () {
+            $("#select_status").on("change", function () {
+                LoadSoList();
+            });
+            LoadPoStatusList();
+            LoadSoList();
+        }
+        var ansDetailIndex;
+        var ShowAsnDetail = function (row) {
+            //$(this.parent.document.getElementById("content-main")).scrollTop(0);
+            //$("#myBody").scrollTop(0);
+            if (ansDetailIndex != undefined || ansDetailIndex != "") {
+                layer.close(ansDetailIndex);
+            }
+            ansDetailIndex = layer.open({
+                id: "AsnDetail",
+                type: 1,
+                offset: "10px",
+                shade: 0.8,
+                shadeClose: false,
+                title: row.innerText + " Detail",
+                area: ['90%', '90%'],
+                content: $('#divAsnDetail'),
+                //btn: ["Submit", "Cancel"],
+                success: function (layero, index) {
+                    $(".layui-layer-title").addClass("new-pallet-title");
+                    $("#tableAsnDetail").bootstrapTable("destroy");
+                    var columns_asn = [];
+                    var loadIndex = layer.load(1, {
+                        shade: [0.5, 'gray'],
+                        content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                            + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                            + "<span> Executing,Please wait ...</span></div></div>"
+                    });
+                    parent.client.CallFunction("MESStation.Config.WhsConfig", "GetJuniperAsnDetail", { ASNNUMBER: row.innerText }, function (e) {
+                        if (e.Status == "Pass") {
+                            columns_asn.push({ checkbox: true, align: 'center', valign: 'middle' });
+                            for (var item in e.Data[0]) {
+                                var cell = {
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: true
+                                };
+                                columns_asn.push(cell);
+                            }
+                            layer.close(loadIndex);
+                            $("#tableAsnDetail").bootstrapTable({
+                                data: e.Data,
+                                striped: false,                    //是否显示行间隔色
+                                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                sortable: false,                   //是否启用排序
+                                sortOrder: "asc",                  //排序方式
+                                pagination: true,                  //是否显示分页（*）
+                                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                pageSize: 10,                       //每页的记录行数（*）
+                                pageList: [10, 20, 30, 50, 100],        //可供选择的每页的行数（*）
+                                showColumns: false,                 //是否显示 内容列下拉框
+                                showRefresh: false,                 //是否显示刷新按钮
+                                minimumCountColumns: 2,            //最少允许的列数
+                                clickToSelect: true,               //是否启用点击选中行
+                                singleSelect: false,                //单选checkbox
+                                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                                cardView: false,                   //是否显示详细视图
+                                detailView: false,                 //是否显示父子表
+                                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                searchOnEnterKey: false,            //回车搜索
+                                searchTimeOut: 500,                //设置搜索超时时间
+                                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                                searchAlign: "left",              //查询框对齐方式
+                                //toolbar: "#tableEventsToolbar",    //指定工具栏
+                                toolbarAlign: "left",              //工具栏对齐方式
+                                buttonsAlign: "left",             //按钮对齐方式
+                                showExport: true,                  //是否显示导出按钮
+                                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                exportTypes: ['excel', 'csv'],     //导出文件类型
+                                Icons: 'glyphicon-export',
+                                exportOptions: {
+                                    ignoreColumn: [0],             //忽略某一列的索引
+                                    fileName: 'List',     //文件名称设置
+                                    worksheetName: 'sheet1',       //表格工作区名称
+                                },
+                                columns: columns_asn
+                            });
+                        } else {
+                            layer.close(loadIndex);
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                },
+                end: function () {
+                },
+                yes: function (index) {
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
+        }
+
+        var ShowSoListTable = function (data) {
+            $('#So_List_Table').bootstrapTable('destroy');
+            $('#So_List_Table').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                toolbar: "#Table_Toolbar",
+                rowStyle: function (row, index) {
+                    var strclass = "";
+                    switch (row.PO_FLAG) {
+                        case "0": strclass = 'danger'; break;
+                        case "1": strclass = 'danger'; break;
+                        case "2": strclass = 'danger'; break;
+                        case "3": strclass = 'success'; break;
+                        default: strclass = 'danger'; break;
+                    }
+                    return { classes: strclass }
+                },
+                columns: [
+                    {
+                        field: 'SerialNumber',
+                        sortable: true,
+                        align: "center",
+                        title: '序号',
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        }
+                    }, {
+                        field: 'PONO',
+                        title: 'Po#',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'POLINE',
+                        title: 'Po_Line#',
+                        align: "center"
+                    }, {
+                        field: 'PID',
+                        title: 'Pid',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'GROUPID',
+                        title: 'GroupID',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'PREWO',
+                        title: 'Wo#',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'POTYPE',
+                        title: 'PoType',
+                        align: "center",
+                        sortable: true
+                    },
+                    {
+                        field: 'QTY',
+                        title: 'Qty',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'DESCRIPTION',
+                        title: 'PoDesc',
+                        sortable: true,
+                        align: "center"
+                        //formatter: function (value, row, index, field) {
+                        //    switch (value) {
+                        //    case "0":
+                        //            return "<span style='color: red;'>Wait for the Preship</span>";
+                        //    case "1":
+                        //            return "<span style='color: red;'>Wait for the Actualship";
+                        //    case "2":
+                        //            return "<span style='color: red;'>Preship";
+                        //    case "3":
+                        //            return "<span style='color: red;'>Actualship";
+                        //    default:
+                        //        return "<span style='color: red;'>Data Err</span >";
+                        //    }
+                        //}
+                    },
+                    //{
+                    //    field: 'PREASN',
+                    //    title: 'PREASN',
+                    //    align: "center",
+                    //    sortable: true
+                    //},
+                    {
+                        field: 'CRSD',
+                        title: 'CRSD',
+                        sortable: true,
+                        align: "center"
+                    },
+                    {
+                        field: 'PODELIVERYDATE',
+                        title: 'DeliveryDate',
+                        sortable: true,
+                        align: "center"
+                    },
+                    {
+                        field: "PREASN", title: "PREASN", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            //return ['<label class="labelPreasn" style="color:blue;text-decoration:underline;cursor:pointer;">' + value + '</label >'].join('');
+                            return ['<button type="button" class="labelPreasn btn btn-default  btn-sm" style="margin-right:15px;" onclick="ShowAsnDetail(this)">' + value + '</button>'].join('');
+                        },
+                        events: "operateEvents"
+                    },
+                    {
+                        field: "FINALASN", title: "FINALASN", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            //return ['<label class="labelFinalasn" style="color:blue;text-decoration:underline;cursor:pointer;">' + value + '</label >'].join('');
+                            return ['<button type="button" class="labelFinalasn btn btn-default  btn-sm" style="margin-right:15px;" onclick="ShowAsnDetail(this)">' + value + '</button>'].join('');
+                        },
+                        events: "operateEvents"
+                    },
+                    {
+                        field: 'SALESORDERNUMBER',
+                        title: 'SO',
+                        align: "center",
+                        sortable: true
+                    },
+                    {
+                        field: 'SALESORDERLINEITEM',
+                        title: 'SO_LINE',
+                        align: "center",
+                        sortable: true
+                    },
+                    {
+                        field: 'I282STATUS',
+                        title: 'I282Status',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'EDITTIME',
+                        title: 'EditTime',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'operate',
+                        title: 'Operation',
+                        align: 'center',
+                        events: "operateEvents",
+                        formatter: operateFormatter
+                    }
+                ]
+            });
+            $('#outputsite').find("[name='refresh']").unbind("click");
+            $('#outputsite').find("[name='refresh']").bind("click", {}, function (event) {
+                LoadSoList();
+            });
+        }
+
+        var LoadPoStatusList = function () {
+            client.CallFunction("MESStation.Config.WhsConfig", "GetJuniperPoStatus", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#select_status").html("");
+                    for (var i = 0; i < e.Data.length; i++) {
+                        $("#select_status").append("<option value='" + e.Data[i].NAME + "'>" + e.Data[i].DESCRIPTION + "</option>");
+                    }
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        var LoadSoList = function () {
+            var varstatus = $("#select_status").val();
+            client.CallFunction("MESStation.Config.WhsConfig", "GetJuniperPoByStatus", { Status: varstatus }, function (e) {
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+
+        var ShowPreASN = function (obj) {
+            var titleHtml = '<b>ASN: PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + ' Sku#:' + obj.SKUNO + ' Qty:' + obj.WOQTY + '</b>';
+            layer.confirm(titleHtml, {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                client.CallFunction("MESStation.Config.WhsConfig", "JuniperSendPreAsn", { TYPE: obj.PO_FLAG, PO: obj.PONO, ITEM: obj.POLINE, WEIGHT: "1" }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(' PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + '确认OK!', { icon: 1 });
+                        LoadSoList();
+                    } else {
+                        layer.open({
+                            type: 1,
+                            shade: false,
+                            title: false, //不显示标题
+                            content: e.Message //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        });
+                        return;
+                    }
+                });
+            });
+        };
+
+        var ShowFinalAsn = function (obj) {
+            var titleHtml = '<b>ASN: PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + ' Sku#:' + obj.SKUNO + ' Qty:' + obj.WOQTY + '</b>';
+            layer.confirm(titleHtml, {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                client.CallFunction("MESStation.Config.WhsConfig", "JuniperSendFinalAsn", { TYPE: obj.PO_FLAG, PO: obj.PONO, ITEM: obj.POLINE, WEIGHT: "1" }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(' PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + '确认OK!', { icon: 1 });
+                        LoadSoList();
+                    } else {
+                        layer.open({
+                            type: 1,
+                            shade: false,
+                            title: false, //不显示标题
+                            content: e.Message //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                        });
+                        return;
+                    }
+                });
+            });
+        };
+
+        var ShowPreASNSelect = function (obj) {
+            var titleHtml =
+                '<div id="info" style="margin : 20px">' +
+                '    <table class="table" id="table_asn" border="0">' +
+                '        <tbody>' +
+                '        <tr><td align="right">PO:</td><td>' + obj.PONO + '</td></tr>' +
+                '        <tr><td align="right">POLine:</td><td>' + obj.POLINE + '</td></tr>' +
+                '        <tr><td align="right">Sku:</td><td>' + obj.PID + '</td></tr>' +
+                '        <tr><td align="right">Qty:</td><td>' + obj.QTY + '</td></tr>';
+            var titleHtmlQty = '        <tr><td align="right">Weight:</td><td><input type="text" id="asn_weight"></td></tr>';
+            titleHtml = titleHtml + titleHtmlQty +
+                '        </tbody>' +
+                '    </table>' +
+                '</div>';
+            layer.open({
+                type: 1,
+                title: '請確認 ASN 信息',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                btn: ['确认', '取消'], //按钮
+                area: ['400px', '400px'],
+                content: titleHtml,
+                yes: function (index, layero) {
+                    // 檢查輸入的重量
+                    var weight = '0';
+                    if (functionName == 'JuniperSendPreAsn') {
+                        weight = document.getElementById('asn_weight').value;
+                        if (weight == '' || isNaN(weight)) {
+                            layer.msg('請檢查輸入的重量！ Please check the weight!', { icon: 2 });
+                            return;
+                        }
+                    }
+
+                    var loadIndex = layer.load(1, {
+                        shade: [0.5, 'gray'],
+                        content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                            + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                            + "<span> PreAsn Sendding,Please wait ...</span></div></div>"
+                    });
+                    client.CallFunction("MESStation.Config.WhsConfig", "JuniperSendPreAsn", { TYPE: obj.PO_FLAG, PO: obj.PONO, ITEM: obj.POLINE, WEIGHT: weight }, function (e) {
+                        if (e.FunctionType == UIInput.Normal) {
+                            var layers = new StationLayers({
+                                ServerMessageID: e.ServerMessageID,
+                                ClientID: e.ClientID,
+                                Title: e.Data.Tittle,
+                                IInput: e.Data,
+                                OutInputs: e.Data.OutInputs,
+                                UIArea: e.Data.UIArea,
+                                Station: "STATION",
+                                Client: parent.client,
+                                InputType: e.Data.Type,
+                                MustConfirm: e.Data.MustConfirm
+                            });
+                            layers.Show();
+                            return;
+                        }
+                        if (e.Status == "Pass") {
+                            layer.msg(' PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + '确认OK!', { icon: 0 });
+                            layer.closeAll();
+                            LoadSoList();
+                        } else {
+                            layer.close(loadIndex);
+                            layer.open({
+                                type: 1,
+                                shade: false,
+                                title: false, //不显示标题
+                                content: e.Message //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                            });
+                            return;
+                        }
+                    });
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+
+            });
+        };
+
+        var ShowASN = function (obj, functionName) {
+            var titleHtml =
+                '<div id="info" style="margin : 20px">' +
+                '    <table class="table" id="table_asn" border="0">' +
+                '        <tbody>' +
+                '        <tr><td align="right">PO:</td><td>' + obj.PONO + '</td></tr>' +
+                '        <tr><td align="right">POLine:</td><td>' + obj.POLINE + '</td></tr>' +
+                '        <tr><td align="right">Sku:</td><td>' + obj.PID + '</td></tr>' +
+                '        <tr><td align="right">Qty:</td><td>' + obj.QTY + '</td></tr>';
+            if (functionName == 'JuniperSendPreAsn') {
+                var titleHtmlQty = '        <tr><td align="right">Weight:</td><td><input type="text" id="asn_weight"></td></tr>';
+            } else {
+                titleHtmlQty = '';
+            }
+            titleHtml = titleHtml + titleHtmlQty +
+                '        </tbody>' +
+                '    </table>' +
+                '</div>';
+            layer.open({
+                type: 1,
+                title: '請確認 ASN 信息',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                btn: ['确认', '取消'], //按钮
+                area: ['400px', '400px'],
+                content: titleHtml,
+                yes: function (index, layero) {
+                    // 檢查輸入的重量
+                    var weight = '0';
+                    if (functionName == 'JuniperSendPreAsn') {
+                        weight = document.getElementById('asn_weight').value;
+                        if (weight == '' || isNaN(weight)) {
+                            layer.msg('請檢查輸入的重量！ Please check the weight!', { icon: 2 });
+                            return;
+                        }
+                    }
+
+                    var loadIndex = layer.load(1, {
+                        shade: [0.5, 'gray'],
+                        content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                            + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                            + "<span> PreAsn Sendding,Please wait ...</span></div></div>"
+                    });
+                    client.CallFunction("MESStation.Config.WhsConfig", functionName, { TYPE: obj.PO_FLAG, PO: obj.PONO, ITEM: obj.POLINE, WEIGHT: weight }, function (e) {
+                        if (e.FunctionType == UIInput.Normal) {
+                            var layers = new StationLayers({
+                                ServerMessageID: e.ServerMessageID,
+                                ClientID: e.ClientID,
+                                Title: e.Data.Tittle,
+                                IInput: e.Data,
+                                OutInputs: e.Data.OutInputs,
+                                UIArea: e.Data.UIArea,
+                                Station: "STATION",
+                                Client: parent.client,
+                                InputType: e.Data.Type,
+                                MustConfirm: e.Data.MustConfirm
+                            });
+                            layers.Show();
+                            return;
+                        }
+                        if (e.Status == "Pass") {
+                            layer.msg(' PO#:' + obj.PONO + ' POLine#:' + obj.POLINE + '确认OK!', { icon: 0 });
+                            layer.close(loadIndex);
+                            LoadSoList();
+                        } else {
+                            layer.close(loadIndex);
+                            layer.open({
+                                type: 1,
+                                shade: false,
+                                title: false, //不显示标题
+                                content: e.Message //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                            });
+                            return;
+                        }
+                    });
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+
+            });
+        };
+
+        function operateFormatter(value, row, index) {
+            var cqaBtn, gtBtn;
+            var ShippingLabel, PackingList;
+            switch (row.PO_FLAG) {
+                case "11":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm " style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm hide" style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm hide" style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm hide" style="margin-right:15px;">PackingList</button>';
+                    break;
+                case "12":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm hide" style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm " style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+                case "28":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm hide" style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm " style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+                case "29":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-success  btn-sm hide" style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm hide" style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm " style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+                case "30":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm " style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm hide" style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+                case "31":
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm hide" style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm hide" style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+                default:
+                    PreAsnBtn = '<button type="button" class="RoleOfA btn btn-default  btn-sm hide" style="margin-right:15px;">PreASN</button>';
+                    CancelPreAsnBtn = '<button type="button" class="RoleOfC btn btn-default  btn-sm hide" style="margin-right:15px;">CancelPreASN</button>';
+                    ActualAsnBtn = '<button type="button" class="RoleOfB btn btn-default  btn-sm hide" style="margin-right:15px;">ActualASN</button>';
+                    ShippingLabel = '<button type="button" class="RoleOfS btn btn-default  btn-sm " style="margin-right:15px;">ShippingLabel</button>';
+                    PackingList = '<button type="button" class="RoleOfP btn btn-default  btn-sm " style="margin-right:15px;">PackingList</button>';
+                    break;
+            }
+            return [PreAsnBtn, CancelPreAsnBtn, ActualAsnBtn, ShippingLabel, PackingList].join('');
+        }
+
+        var PrintShippingLabel = function (rowObj, callback) {
+            //if (MESHelperObj.websocket.readyState != 1) {
+            //    layer.msg("Please open MESHelper!", {
+            //        icon: 2,
+            //        time: 60000,
+            //        title: 'ERROR',
+            //        btn: ['OK']
+            //    }, function () { });
+            //    return;
+            //}
+
+            if (printWS.websocket.readyState != 1) {
+                layer.msg("Please open MESHelper!", {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { callback() });
+                return;
+            }
+
+            client.CallFunction("MESStation.Config.WhsConfig", "GetJuniperPrintShippingLabel",
+                { PO: rowObj.PONO, ITEM: rowObj.POLINE, ASN: rowObj.PREASN, WO: rowObj.PREWO },
+                function (data) {
+                    if (data.FunctionType == UIInput.Normal) {
+                        var layers = new StationLayers({
+                            ServerMessageID: data.ServerMessageID,
+                            ClientID: data.ClientID,
+                            Title: data.Data.Tittle,
+                            IInput: data.Data,
+                            OutInputs: data.Data.OutInputs,
+                            UIArea: data.Data.UIArea,
+                            Station: "STATION",
+                            Client: parent.client,
+                            InputType: data.Data.Type,
+                            MustConfirm: data.Data.MustConfirm
+                        });
+                        layers.Show();
+                        return;
+                    }
+                    if (data.Status == "Pass") {
+                        try {
+                            for (var key in data.Data.LabelPrints) {
+                                //MESHelperObj.Prints(data.Data.LabelPrints[key], function (e) { });
+                                printWS.Prints(data.Data.LabelPrints[key], function (e) { });
+                            }
+                            callback(rowObj);
+                            //layer.confirm("Go To Download PREASN[" + rowObj.PREASN + "] Packing List?", {
+                            //    icon: 3, title: 'Tip', btn: ["YES", "NO"]
+                            //}, function () {
+                            //        layer.closeAll("dialog");
+                            //        PrintPackingList(rowObj);
+                            //});
+                        } catch (e) {
+                            layer.msg(e, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    }
+                    else {
+                        callback(rowObj);
+                        layer.msg(data.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                }
+            );
+        }
+        var PrintPackingList = function (rowObj) {
+            var loadIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span> PREASN[" + rowObj.PREASN + "] PackList Downloading,Please wait ...</span></div></div>"
+            });
+            client.CallFunction("MESStation.Config.WhsConfig", "GetJuniperASNPackList", { PO: rowObj.PONO, ITEM: rowObj.POLINE, ASN: rowObj.PREASN, WO: rowObj.PREWO }, function (e) {
+                if (e.FunctionType == UIInput.Normal) {
+                    var layers = new StationLayers({
+                        ServerMessageID: e.ServerMessageID,
+                        ClientID: e.ClientID,
+                        Title: e.Data.Tittle,
+                        IInput: e.Data,
+                        OutInputs: e.Data.OutInputs,
+                        UIArea: e.Data.UIArea,
+                        Station: "STATION",
+                        Client: parent.client,
+                        InputType: e.Data.Type,
+                        MustConfirm: e.Data.MustConfirm
+                    });
+                    layers.Show();
+                    return;
+                }
+                if (e.Status == "Pass") {
+                    var blob = b64toBlob(e.Data.Content);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, e.Data.FileName);
+                    } else {
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = e.Data.FileName;
+                        link.click();
+                        window.URL.revokeObjectURL(link.href);
+                    }
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+                layer.close(loadIndex);
+            });
+        }
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+
+        var printWS = {
+            ClientID: "",
+            websocket: null,
+            Prints: function (Data, CallBack) {
+                //this.CallFunction("PRINTS", Data, CallBack);
+                var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                var data = { ClientID: printWS.ClientID, MessageID: MessageID, TCode: "PRINTS", Data: Data };
+                if (printWS.websocket.readyState == 1) {
+                    var jsonStr = JSON.stringify(data);
+                    if ($.MES.DEBUG) {
+                        console.log("Send>_" + jsonStr);
+                    }
+                    printWS.websocket.send(jsonStr);
+                } else {
+                    console.log("Error>_ WebSocket not ready,State:" + printWS.websocket.readyState);
+                }
+                if (CallBack != null && CallBack != undefined) {
+                    $.subscribe(MessageID, function (e, d) {
+                        CallBack(d);
+                    });
+                }
+            }
+        };
+
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+                if (row.PO_FLAG == "11" || row.PO_FLAG == "30") { ShowASN(row, 'JuniperSendPreAsn'); }
+            },
+            'click .RoleOfC': function (e, value, row, index) {
+                if (row.PO_FLAG == "12" || row.PO_FLAG == "28") { ShowASN(row, 'JuniperCancelPreAsn'); }
+            },
+            'click .RoleOfB': function (e, value, row, index) {
+                if (row.PO_FLAG == "29") { ShowASN(row, 'JuniperSendFinalAsn'); }
+            },
+            'click .RoleOfS': function (e, value, row, index) {
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> PREASN[" + row.PREASN + "] Shipping Label Printing,Please wait ...</span></div></div>"
+                });
+                if (printWS.websocket == null) {
+                    if (printWS.ClientID == "") {
+                        printWS.ClientID = "CID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                    }
+                    printWS.websocket = new WebSocket("ws://localhost:" + $.MES.PRINTER_PORT + "/MESHelper");
+                    printWS.websocket.onopen = function (e) {
+                        PrintShippingLabel(row, function (row) {
+                            layer.close(loadIndex);
+                        });
+                    };
+                    printWS.websocket.onmessage = function (evt) {
+                        var msg = $.parseJSON(evt.data);
+                        if (msg.Status == "Fail") {
+                            layer.msg(msg.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { layer.close(loadIndex); });
+                        }
+                        else {
+                            layer.msg("Print successful", {
+                                icon: 1,
+                                time: 60000,
+                                title: 'Tip',
+                                btn: ['OK']
+                            }, function () { layer.close(loadIndex); });
+                        }
+
+                    };
+                    printWS.websocket.onclose = function (e) {
+                        layer.msg("MESHelper close,please open MESHelper and reopen this page", {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            try {
+                                layer.close(loadIndex);
+                            } catch (e) {
+
+                            }
+                        });
+                    };
+                    printWS.websocket.onerror = function (e) {
+                        layer.msg("Connet to MESHelper error,please open MESHelper and reopen this page", {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            layer.close(loadIndex);
+                        });
+                    }
+                }
+                else {
+                    PrintShippingLabel(row, function (row) {
+                        layer.close(loadIndex);
+                    });
+                }
+                //if (MESHelperObj == null) {
+                //    MESHelperObj = new Helper({
+                //        MContainer: $("#messagesite"),
+                //        OnOpen: function (e) {
+                //            PrintShippingLabel(row, function (row) {
+                //                layer.close(loadIndex);
+                //            });
+                //        }
+                //    });
+                //}
+                //else {
+                //    PrintShippingLabel(row, function () {
+                //        layer.close(loadIndex);
+                //    });
+                //}
+                //PrintPackingList(row);
+            },
+            'click .RoleOfP': function (e, value, row, index) {
+                PrintPackingList(row);
+            },
+            'click .labelPreAsn': function (e, value, row, index) {
+                ShowAsnDetail(row);
+            },
+            'click .labelFinalAsn': function (e, value, row, index) {
+                ShowAsnDetail(row);
+            }
+        };
+
+
+
+    </script>
+</body>
+</html>

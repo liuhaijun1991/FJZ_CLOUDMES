@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{33E293D4-9EFE-4FAC-AA57-865C74845C4F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MESReport</RootNamespace>
+    <AssemblyName>MESReport</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlSugar, Version=4.9.9.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlSugar.4.9.9.11\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseClass\MesAPIBase.cs" />
+    <Compile Include="BaseReport\2DXRayReport.cs" />
+    <Compile Include="BaseReport\AgileSFCMappingReport.cs" />
+    <Compile Include="BaseReport\AQLReport.cs" />
+    <Compile Include="BaseReport\ASSYReport.cs" />
+    <Compile Include="BaseReport\ActionCodeList.cs" />
+    <Compile Include="BaseReport\BomFollowWO.cs" />
+    <Compile Include="BaseReport\BonepileAgingDayDetail.cs" />
+    <Compile Include="BaseReport\BonepileAgingDayReport.cs" />
+    <Compile Include="BaseReport\DNReport.cs" />
+    <Compile Include="BaseReport\ErrorCodeList.cs" />
+    <Compile Include="BaseReport\Jnp750and711Report.cs" />
+    <Compile Include="BaseReport\MoreThanOneWoReport.cs" />
+    <Compile Include="BaseReport\QueryModel.cs" />
+    <Compile Include="BaseReport\RepairOffReport.cs" />
+    <Compile Include="BaseReport\HDataInfo.cs" />
+    <Compile Include="BaseReport\MajorRepairReport.cs" />
+    <Compile Include="BaseReport\ReverseRecord.cs" />
+    <Compile Include="BaseReport\SkuWipByStation.cs" />
+    <Compile Include="BaseReport\SnAQLReport.cs" />
+    <Compile Include="BaseReport\SNFailReport.cs" />
+    <Compile Include="BaseReport\DCNORTReport.cs" />
+    <Compile Include="BaseReport\HWDLineFailSNDetail.cs" />
+    <Compile Include="BaseReport\HWDxrayReport.cs" />
+    <Compile Include="BaseReport\JuniperWeightReport.cs" />
+    <Compile Include="BaseReport\LTTReport.cs" />
+    <Compile Include="BaseReport\NormalBonepileMonthlySummaryReport.cs" />
+    <Compile Include="BaseReport\OBATestTEReport.cs" />
+    <Compile Include="BaseReport\OBAYieldRateReport.cs" />
+    <Compile Include="BaseReport\DateWipReport.cs" />
+    <Compile Include="BaseReport\ControlRun.cs" />
+    <Compile Include="BaseReport\FPYReport.cs" />
+    <Compile Include="BaseReport\FPYReportDetail.cs" />
+    <Compile Include="BaseReport\HWDE2EReport.cs" />
+    <Compile Include="BaseReport\LotNoDetailReport.cs" />
+    <Compile Include="BaseReport\NoLinkReport.cs" />
+    <Compile Include="BaseReport\NormalBonepileSNList.cs" />
+    <Compile Include="BaseReport\NormalBonepileWeeklySummaryReport.cs" />
+    <Compile Include="BaseReport\OBAByLotReport.cs" />
+    <Compile Include="BaseReport\ORACLE\ORA_SKUSettingReport.cs" />
+    <Compile Include="BaseReport\ORACLE\ORA_SNReport.cs" />
+    <Compile Include="BaseReport\ORTReport.cs" />
+    <Compile Include="BaseReport\PackingBySNReport.cs" />
+    <Compile Include="BaseReport\PanelSNReport.cs" />
+    <Compile Include="BaseReport\QELineFailReportByDate.cs" />
+    <Compile Include="BaseReport\RepairBySkuno.cs" />
+    <Compile Include="BaseReport\RepairReportByDate.cs" />
+    <Compile Include="BaseReport\RepairReportByDayInAnddayOut.cs" />
+    <Compile Include="BaseReport\RepairTopPieBySku.cs" />
+    <Compile Include="BaseReport\RepairTransfer.cs" />
+    <Compile Include="BaseReport\ReplaceSNReport.cs" />
+    <Compile Include="BaseReport\RMABonepileMonthlySummaryReport.cs" />
+    <Compile Include="BaseReport\RMABonepileSNList.cs" />
+    <Compile Include="BaseReport\RMABonepileWeeklySummaryReport.cs" />
+    <Compile Include="BaseReport\BonepileReport.cs" />
+    <Compile Include="BaseReport\SKUWOReport.cs" />
+    <Compile Include="BaseReport\SkuWoReportNew.cs" />
+    <Compile Include="BaseReport\SNFailDetailReportBySKU.cs" />
+    <Compile Include="BaseReport\SNLinkRelationship.cs" />
+    <Compile Include="BaseReport\SNListBySKU.cs" />
+    <Compile Include="BaseReport\OBAYieldLots.cs" />
+    <Compile Include="BaseReport\ControlRunSNList.cs" />
+    <Compile Include="BaseReport\SNLogReport.cs" />
+    <Compile Include="BaseReport\SNListReport.cs" />
+    <Compile Include="BaseReport\SNPLDetailBySKU.cs" />
+    <Compile Include="BaseReport\StationScanLog.cs" />
+    <Compile Include="BaseReport\Structural_Test_Yield.cs" />
+    <Compile Include="BaseReport\Structural_Test_Yield_Detail.cs" />
+    <Compile Include="BaseReport\TestFPYReport.cs" />
+    <Compile Include="BaseReport\TestRecordFromLlt.cs" />
+    <Compile Include="BaseReport\WaitReplace.cs" />
+    <Compile Include="BaseReport\Whenshippedconfig.cs" />
+    <Compile Include="BaseReport\WHSReport.cs" />
+    <Compile Include="BaseReport\WipAgingByUnitReport.cs" />
+    <Compile Include="BaseReport\WoStationReport.cs" />
+    <Compile Include="BaseReport\WoStationReport1.cs" />
+    <Compile Include="BaseReport\WoWipStatusReportDCN.cs" />
+    <Compile Include="BaseReport\WWN_DATASHARING1.cs" />
+    <Compile Include="BaseReport\YieldReportJNPR.cs" />
+    <Compile Include="BPD\SnPassStationTimeReport.cs" />
+    <Compile Include="DCN\BrcdTestReport.cs" />
+    <Compile Include="DCN\BrcdTestReportCountDetail.cs" />
+    <Compile Include="DCN\KitPrintReport.cs" />
+    <Compile Include="DCN\OSPBoard.cs" />
+    <Compile Include="DCN\RepairCheckInOrOutReport.cs" />
+    <Compile Include="DCN\RepairDoubleCheckReport.cs" />
+    <Compile Include="DCN\RepairHistoryReport.cs" />
+    <Compile Include="DCN\RepairWipReport.cs" />
+    <Compile Include="DCN\RepairWipReportDetail.cs" />
+    <Compile Include="DCN\RepairWipStatus.cs" />
+    <Compile Include="DCN\RepairWipStatusDetail.cs" />
+    <Compile Include="BaseReport\R_EMS_TRANSMIT_RECEIVER_Report.cs" />
+    <Compile Include="BaseReport\SamplePlateFailReport.cs" />
+    <Compile Include="BaseReport\SFC_FQA_REPORT.cs" />
+    <Compile Include="BaseReport\SkuAllWipReport.cs" />
+    <Compile Include="BaseReport\SkuReport.cs" />
+    <Compile Include="BaseReport\SkuWipReport.cs" />
+    <Compile Include="BaseReport\Sku_Partno_KP.cs" />
+    <Compile Include="BaseReport\SmtFqcByLotReport.cs" />
+    <Compile Include="BaseReport\SmtFqcBySnReport.cs" />
+    <Compile Include="BaseReport\SNBeenLinkReport.cs" />
+    <Compile Include="BaseReport\SNByDNReport.cs" />
+    <Compile Include="BaseReport\SNByLineOutReport.cs" />
+    <Compile Include="BaseReport\SNKPReport.cs" />
+    <Compile Include="BaseReport\SNListByWo.cs" />
+    <Compile Include="BaseReport\StationWipReport.cs" />
+    <Compile Include="BaseReport\TableauReport.cs" />
+    <Compile Include="BaseReport\TestRecordReport.cs" />
+    <Compile Include="BaseReport\TestReportBySN.cs" />
+    <Compile Include="BaseReport\TestReportCountDetail.cs" />
+    <Compile Include="BaseReport\UPHRateReport.cs" />
+    <Compile Include="BaseReport\UPHReport.cs" />
+    <Compile Include="BaseReport\WashPcbReport.cs" />
+    <Compile Include="BaseReport\WoLinkedReport.cs" />
+    <Compile Include="BaseReport\FailureSymptomCode.cs" />
+    <Compile Include="BaseReport\HWDLineFailReport.cs" />
+    <Compile Include="BaseReport\HWDLineFailTopReport.cs" />
+    <Compile Include="BaseReport\HwdReparTopByFailCodeReport.cs" />
+    <Compile Include="BaseReport\HWDRepairReport.cs" />
+    <Compile Include="BaseReport\LineOutputReport.cs" />
+    <Compile Include="BaseReport\LockStatusSearch.cs" />
+    <Compile Include="BaseReport\MRBReport.cs" />
+    <Compile Include="BaseReport\MultipleFailRate.cs" />
+    <Compile Include="BaseReport\OBAReport.cs" />
+    <Compile Include="BaseReport\RepairFailCodeDetail.cs" />
+    <Compile Include="BaseReport\RepairReport.cs" />
+    <Compile Include="BaseReport\RepairStationErrorCode.cs" />
+    <Compile Include="BaseReport\RepairTopReport.cs" />
+    <Compile Include="BaseReport\RepairWipReport.cs" />
+    <Compile Include="BaseReport\RMAReport.cs" />
+    <Compile Include="BaseReport\R_7B5_XML_Treport.cs" />
+    <Compile Include="BaseReport\SMTReport.cs" />
+    <Compile Include="BaseReport\SNReport.cs" />
+    <Compile Include="BaseReport\SystemStatusTracking.cs" />
+    <Compile Include="BaseReport\WoReport.cs" />
+    <Compile Include="BaseReport\WoWipByBuReport.cs" />
+    <Compile Include="BaseReport\WoWipStatusReport.cs" />
+    <Compile Include="BaseReport\ZGJ_WOReport.cs" />
+    <Compile Include="BPD\BackFlushReport.cs" />
+    <Compile Include="BPD\CustomerReport.cs" />
+    <Compile Include="BPD\DailyActionReport.cs" />
+    <Compile Include="BPD\DefectiveReport.cs" />
+    <Compile Include="BPD\MrbBackFlushReport.cs" />
+    <Compile Include="BPD\QueryWoBySkuReport.cs" />
+    <Compile Include="BPD\RepairedDetailReport.cs" />
+    <Compile Include="BPD\Repairperiodsummary.cs" />
+    <Compile Include="BPD\RepairTrackingReport.cs" />
+    <Compile Include="BPD\RepairWipReport.cs" />
+    <Compile Include="BPD\RouteReport.cs" />
+    <Compile Include="BPD\ShipReport.cs" />
+    <Compile Include="BPD\SkuWipReport.cs" />
+    <Compile Include="BPD\SKUYeildReport.cs" />
+    <Compile Include="BPD\SnRepairReport.cs" />
+    <Compile Include="BPD\SNWipReport.cs" />
+    <Compile Include="BPD\StationWipReport.cs" />
+    <Compile Include="BPD\WipReport.cs" />
+    <Compile Include="BPD\WoBaseReport.cs" />
+    <Compile Include="BPD\WoWipReport.cs" />
+    <Compile Include="BPD\YieldRateReport.cs" />
+    <Compile Include="Common\ConverDate.cs" />
+    <Compile Include="Common\SNMaker.cs" />
+    <Compile Include="DCN\FAIReportAPI.cs" />
+    <Compile Include="DCN\RepairYieldRateReport.cs" />
+    <Compile Include="DCN\SchneiderPCBAMaster.cs" />
+    <Compile Include="DCN\SchneiderPCBATrace.cs" />
+    <Compile Include="DCN\SchneiderPlan.cs" />
+    <Compile Include="DCN\ShippingReport.cs" />
+    <Compile Include="DCN\SmtSNFailReport.cs" />
+    <Compile Include="DCN\WOAPTRSNKPReport.cs" />
+    <Compile Include="HWD\HWDBIPFailReport.cs" />
+    <Compile Include="HWD\HWDStockReport.cs" />
+    <Compile Include="HWD\MRBASSYReturnReport.cs" />
+    <Compile Include="HWD\R7B5PGIReport.cs" />
+    <Compile Include="HWD\R7B5PlanTaskReport.cs" />
+    <Compile Include="HWD\R7B5XMLTUpdateList.cs" />
+    <Compile Include="HWD\SN_KEYPART_DETAIL.cs" />
+    <Compile Include="HWT\AgingFinishReport.cs" />
+    <Compile Include="HWT\HWTTestlianglvReport.cs" />
+    <Compile Include="HWT\OutputReport.cs" />
+    <Compile Include="HWT\PalletStatus_Report.cs" />
+    <Compile Include="Juniper\CheckAPUnitTraceability.cs" />
+    <Compile Include="Juniper\DoubleCheckReport.cs" />
+    <Compile Include="Juniper\DPPM-Usage-Qty-Report.cs" />
+    <Compile Include="Juniper\JnpLineOutputReport.cs" />
+    <Compile Include="Juniper\JuniperBatchReport.cs" />
+    <Compile Include="Juniper\JuniperBomReport.cs" />
+    <Compile Include="Juniper\JuniperCooReport.cs" />
+    <Compile Include="Juniper\JuniperCTOWOWIP.cs" />
+    <Compile Include="Juniper\JuniperECNDetailReport.cs" />
+    <Compile Include="Juniper\JuniperI605Report.cs" />
+    <Compile Include="Juniper\JuniperJIAReport.cs" />
+    <Compile Include="Juniper\JuniperOrtReport.cs" />
+    <Compile Include="Juniper\JuniperPreAndFinalAsnReport.cs" />
+    <Compile Include="Juniper\JuniperShipFVNReport.cs" />
+    <Compile Include="Juniper\JuniperSN_MATL_Report.cs" />
+    <Compile Include="Juniper\JuniperSOWaitShip.cs" />
+    <Compile Include="Juniper\JuniperTestByTestIDReport.cs" />
+    <Compile Include="Juniper\JuniperTestReport.cs" />
+    <Compile Include="Juniper\JuniperToReport.cs" />
+    <Compile Include="Juniper\JuniperWOAutoKpDetail.cs" />
+    <Compile Include="Juniper\PendingNetPriceReport.cs" />
+    <Compile Include="Juniper\JuniperBuildReport.cs" />
+    <Compile Include="Juniper\ProductFactory.cs" />
+    <Compile Include="Juniper\R_JNP_PD_KIT_Detail_Report.cs" />
+    <Compile Include="Juniper\R_JNP_PD_KIT_MAIN_Report.cs" />
+    <Compile Include="Juniper\SilverRotationDetail.cs" />
+    <Compile Include="Juniper\SilverRotationStatusDetail.cs" />
+    <Compile Include="Juniper\SilverRotationStatusReport.cs" />
+    <Compile Include="Juniper\BGA_TE_Report.cs" />
+    <Compile Include="Juniper\SilverWipDetailReport.cs" />
+    <Compile Include="Juniper\JuniperKanBan.cs" />
+    <Compile Include="Juniper\SuperMarketDetailReport.cs" />
+    <Compile Include="Juniper\SuperMarketReport.cs" />
+    <Compile Include="Juniper\TEST_IN_OUT_Report.cs" />
+    <Compile Include="Juniper\WHSCheckoutReport.cs" />
+    <Compile Include="Juniper\SilverWipReport.cs" />
+    <Compile Include="Juniper\SilverWipReportBySku.cs" />
+    <Compile Include="Juniper\StatusPendientesJuniperReport .cs" />
+    <Compile Include="Juniper\Touch-UpReport.cs" />
+    <Compile Include="BaseReport\PanelFailReport.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReportChart.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportBase.cs" />
+    <Compile Include="ReportInput.cs" />
+    <Compile Include="ReportLayout.cs" />
+    <Compile Include="ReportLink.cs" />
+    <Compile Include="ReportOutputBase.cs" />
+    <Compile Include="ReportTable.cs" />
+    <Compile Include="Test\MESAPIListReport.cs" />
+    <Compile Include="Test\TEST1.cs" />
+    <Compile Include="Test\test2.cs" />
+    <Compile Include="Vertiv\DCBarcodeExpiredReport.cs" />
+    <Compile Include="Vertiv\ExpenseShipReport.cs" />
+    <Compile Include="Vertiv\SkuWipByDateReport.cs" />
+    <Compile Include="Vertiv\StationOnLineReport.cs" />
+    <Compile Include="Vertiv\TestYieldAlert.cs" />
+    <Compile Include="Vertiv\VTSkuWipReport.cs" />
+    <Compile Include="Vertiv\WoAgeingReport.cs" />
+    <Compile Include="Web References\HRMWebReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MESDataObject\MESDataObject.csproj">
+      <Project>{af4761e2-01c9-4d1b-a3bc-4bd7d37bb365}</Project>
+      <Name>MESDataObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESDBHelper\MESDBHelper.csproj">
+      <Project>{c8bdb8fc-44f6-4109-a779-34ee99903270}</Project>
+      <Name>MESDBHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESJuniper\MESJuniper.csproj">
+      <Project>{ed432ae3-877a-4791-bc9b-d709e635138e}</Project>
+      <Name>MESJuniper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESPubLab\MESPubLab.csproj">
+      <Project>{fa7c2f99-a446-47d3-9344-faa3fa8cc40c}</Project>
+      <Name>MESPubLab</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MES_DCN\MES_DCN.csproj">
+      <Project>{0fddacad-1187-4afc-a63c-58db038986fe}</Project>
+      <Name>MES_DCN</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\HRMWebReference\ElistQuery.wsdl" />
+    <None Include="Web References\HRMWebReference\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://10.132.37.44:8006/Personal/ElistQuery.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\HRMWebReference\</RelPath>
+      <UpdateFromURL>http://10.132.37.44:8006/Personal/ElistQuery.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>MESReport_HRMWebReference_ElistQuery</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\HRMWebReference\ElistQuery.disco" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

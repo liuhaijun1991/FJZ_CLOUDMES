@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyPart Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .fixed-table-toolbar {
+            overflow:auto;
+        }
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+
+        .tabs-container .tabs-left > .nav-tabs,
+        .tabs-container .tabs-right > .nav-tabs {
+            width: 200px;
+        }
+        
+        .file-outline {
+            padding: 4px 0 0 0;
+            margin-left: -4px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body full-height">
+        <!--KP List Toolbar-->
+        <div id="KP_List_Table_Toolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="DeleteKPList">
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+            </div>
+            <div class="btn-group hidden-xs m-l-lg">
+                <button type="button" class="btn btn-outline btn-primary" id="DownloadTemplateFile">
+                    <i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i><lan set-lan="html:Template"> Template File</lan>
+                </button>
+            </div>
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:200px">
+                <label class="btn btn-outline btn-primary input-group" for="KPFileUpload" style="z-index:1;"><lan set-lan="html:Upload"> Upload</lan></label>
+                <input id="KPFileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+                <div class="">
+                    <table id="Table_layer"></table>
+                </div>
+                <div class="hidden" id="table_box1"></div>
+                <div class="table_box hidden"></div>
+                <div class="hidden" id="excel_box"></div>
+            </div>
+        </div>
+        <!--Kp List-->
+        <table id="KP_List_Table"></table>
+    </div>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+<script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+<script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/Setting/KeyPartSetting.js"></script>
+</body>
+</html>

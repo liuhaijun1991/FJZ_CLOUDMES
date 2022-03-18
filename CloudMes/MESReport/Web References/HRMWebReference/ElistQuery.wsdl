@@ -1,0 +1,3503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ByUserID_ChangeData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DepartmentID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChangeDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_ChangeDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_ChangeDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_ExtData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_ExtDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_ExtDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_InfoData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_InfoDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_InfoDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UsersSearchResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserNameResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAgent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Agent_OU" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Agent_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAgentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByAgentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAgent4Site">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Agent_OU" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Agent_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Site" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAgent4SiteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByAgent4SiteResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExploreEmployee">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OU_CODE" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExploreEmployeeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExploreEmployeeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByDepartment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DepartID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByDepartmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByDepartmentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByNotesID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotesID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByNotesIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByNotesIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Govern">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_GovernResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_GovernResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Inferior">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OU_CODE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_InferiorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_InferiorResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Manager">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trace" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_ManagerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_ManagerResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByOUCode_Assistant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OUCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByOUCode_AssistantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByOUCode_AssistantResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByOUCode_Manager">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OUCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByOUCode_ManagerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByOUCode_ManagerResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAssistantID_OU">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AssistantID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByAssistantID_OUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByAssistantID_OUResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByManagerID_OU">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ManagerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByManagerID_OUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByManagerID_OUResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindSuperManager_byAbnormal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SystemName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindSuperManager_byAbnormalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_FindSuperManager_byAbnormalResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindAgentSite">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Site" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindAgentSiteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ByUserID_FindAgentSiteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindWorkflowAgent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FindDepartment" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Site" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindWorkflowAgentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_FindWorkflowAgentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindAgent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FindDepartment" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindAgentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_FindAgentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Agent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_AgentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_AgentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_DirectInferior">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OU_CODE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_DirectInferiorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_DirectInferiorResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_ManagerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Abnormal_ManagerResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_New">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_NewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Abnormal_Manager_NewResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_SignerLevel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_SignerLevelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Abnormal_Manager_SignerLevelResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_New1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Abnormal_Manager_New1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Abnormal_Manager_New1Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteManager">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trace" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteManagerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_SiteManagerResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Site_Manager">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Site_ManagerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Site_ManagerResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Site_Manager_New">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Level" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpStep" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JobStep" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_Site_Manager_NewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_Site_Manager_NewResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteGovern">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteGovernResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_SiteGovernResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteInferior">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OU_CODE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteInferiorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_SiteInferiorResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteDirectInferior">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OU_CODE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_SiteDirectInferiorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_SiteDirectInferiorResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindSuperManager_bySite">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SystemName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ByUserID_FindSuperManager_bySiteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ByUserID_FindSuperManager_bySiteResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearch_New1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearch_New1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UsersSearch_New1Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearch_New2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Limit_OU_Code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UsersSearch_New2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UsersSearch_New2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WriteLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="logDescription" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WriteLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WriteLogResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ByUserID_ChangeDataSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_ChangeData" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ChangeDataSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_ChangeDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_ExtData" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_ExtDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_InfoData" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_InfoDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:UsersSearch" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:UsersSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserName" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentSoapIn">
+    <wsdl:part name="parameters" element="tns:ByAgent" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentSoapOut">
+    <wsdl:part name="parameters" element="tns:ByAgentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteSoapIn">
+    <wsdl:part name="parameters" element="tns:ByAgent4Site" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteSoapOut">
+    <wsdl:part name="parameters" element="tns:ByAgent4SiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeSoapIn">
+    <wsdl:part name="parameters" element="tns:ExploreEmployee" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeSoapOut">
+    <wsdl:part name="parameters" element="tns:ExploreEmployeeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentSoapIn">
+    <wsdl:part name="parameters" element="tns:ByDepartment" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentSoapOut">
+    <wsdl:part name="parameters" element="tns:ByDepartmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ByNotesID" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ByNotesIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Govern" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_GovernResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Inferior" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_InferiorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Manager" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_ManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantSoapIn">
+    <wsdl:part name="parameters" element="tns:ByOUCode_Assistant" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantSoapOut">
+    <wsdl:part name="parameters" element="tns:ByOUCode_AssistantResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerSoapIn">
+    <wsdl:part name="parameters" element="tns:ByOUCode_Manager" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerSoapOut">
+    <wsdl:part name="parameters" element="tns:ByOUCode_ManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUSoapIn">
+    <wsdl:part name="parameters" element="tns:ByAssistantID_OU" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUSoapOut">
+    <wsdl:part name="parameters" element="tns:ByAssistantID_OUResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUSoapIn">
+    <wsdl:part name="parameters" element="tns:ByManagerID_OU" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUSoapOut">
+    <wsdl:part name="parameters" element="tns:ByManagerID_OUResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindSuperManager_byAbnormal" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindSuperManager_byAbnormalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindAgentSite" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindAgentSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindWorkflowAgent" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindWorkflowAgentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindAgent" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindAgentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Agent" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_AgentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_DirectInferior" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_DirectInferiorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_ManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_New" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_NewResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_SignerLevel" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_SignerLevelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1SoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_New1" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1SoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Abnormal_Manager_New1Response" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteManager" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Site_Manager" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Site_ManagerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_Site_Manager_New" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_Site_Manager_NewResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteGovern" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteGovernResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteInferior" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteInferiorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteDirectInferior" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_SiteDirectInferiorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteSoapIn">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindSuperManager_bySite" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteSoapOut">
+    <wsdl:part name="parameters" element="tns:ByUserID_FindSuperManager_bySiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1SoapIn">
+    <wsdl:part name="parameters" element="tns:UsersSearch_New1" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1SoapOut">
+    <wsdl:part name="parameters" element="tns:UsersSearch_New1Response" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2SoapIn">
+    <wsdl:part name="parameters" element="tns:UsersSearch_New2" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2SoapOut">
+    <wsdl:part name="parameters" element="tns:UsersSearch_New2Response" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogSoapIn">
+    <wsdl:part name="parameters" element="tns:WriteLog" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogSoapOut">
+    <wsdl:part name="parameters" element="tns:WriteLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ChangeDataHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="DepartmentID" type="s:string" />
+    <wsdl:part name="ChangeDate" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ChangeDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchHttpGetIn">
+    <wsdl:part name="Key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameHttpGetIn">
+    <wsdl:part name="UserName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentHttpGetIn">
+    <wsdl:part name="Agent_OU" type="s:string" />
+    <wsdl:part name="Agent_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteHttpGetIn">
+    <wsdl:part name="Agent_OU" type="s:string" />
+    <wsdl:part name="Agent_ID" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeHttpGetIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentHttpGetIn">
+    <wsdl:part name="DepartID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDHttpGetIn">
+    <wsdl:part name="NotesID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="Trace" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantHttpGetIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OUCode" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerHttpGetIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OUCode" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUHttpGetIn">
+    <wsdl:part name="AssistantID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUHttpGetIn">
+    <wsdl:part name="ManagerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="SystemName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="FindDepartment" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="FindDepartment" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1HttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1HttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="Trace" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorHttpGetIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteHttpGetIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="SystemName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1HttpGetIn">
+    <wsdl:part name="Key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1HttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2HttpGetIn">
+    <wsdl:part name="Key" type="s:string" />
+    <wsdl:part name="Limit_OU_Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2HttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogHttpGetIn">
+    <wsdl:part name="logDescription" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ChangeDataHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="DepartmentID" type="s:string" />
+    <wsdl:part name="ChangeDate" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ChangeDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ExtDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InfoDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchHttpPostIn">
+    <wsdl:part name="Key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearchHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameHttpPostIn">
+    <wsdl:part name="UserName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserNameHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentHttpPostIn">
+    <wsdl:part name="Agent_OU" type="s:string" />
+    <wsdl:part name="Agent_ID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAgentHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteHttpPostIn">
+    <wsdl:part name="Agent_OU" type="s:string" />
+    <wsdl:part name="Agent_ID" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAgent4SiteHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeHttpPostIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExploreEmployeeHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentHttpPostIn">
+    <wsdl:part name="DepartID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByDepartmentHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDHttpPostIn">
+    <wsdl:part name="NotesID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByNotesIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_GovernHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_InferiorHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="Trace" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_ManagerHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantHttpPostIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OUCode" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_AssistantHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerHttpPostIn">
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OUCode" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByOUCode_ManagerHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUHttpPostIn">
+    <wsdl:part name="AssistantID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByAssistantID_OUHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUHttpPostIn">
+    <wsdl:part name="ManagerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByManagerID_OUHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="SystemName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_byAbnormalHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentSiteHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="FindDepartment" type="s:string" />
+    <wsdl:part name="Site" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindWorkflowAgentHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="FindDepartment" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindAgentHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_AgentHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_DirectInferiorHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_ManagerHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_NewHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_SignerLevelHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1HttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Abnormal_Manager_New1HttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="Trace" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteManagerHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_ManagerHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="Level" type="s:string" />
+    <wsdl:part name="JobTitle" type="s:string" />
+    <wsdl:part name="UpStep" type="s:string" />
+    <wsdl:part name="JobStep" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_Site_Manager_NewHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteGovernHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteInferiorHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorHttpPostIn">
+    <wsdl:part name="EmployeeID" type="s:string" />
+    <wsdl:part name="CompanyCode" type="s:string" />
+    <wsdl:part name="OU_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_SiteDirectInferiorHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteHttpPostIn">
+    <wsdl:part name="UserID" type="s:string" />
+    <wsdl:part name="SystemName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ByUserID_FindSuperManager_bySiteHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1HttpPostIn">
+    <wsdl:part name="Key" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New1HttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2HttpPostIn">
+    <wsdl:part name="Key" type="s:string" />
+    <wsdl:part name="Limit_OU_Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UsersSearch_New2HttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogHttpPostIn">
+    <wsdl:part name="logDescription" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WriteLogHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="ElistQuerySoap">
+    <wsdl:operation name="ByUserID_ChangeData">
+      <wsdl:input message="tns:ByUserID_ChangeDataSoapIn" />
+      <wsdl:output message="tns:ByUserID_ChangeDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <wsdl:input message="tns:ByUserID_ExtDataSoapIn" />
+      <wsdl:output message="tns:ByUserID_ExtDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <wsdl:input message="tns:ByUserID_InfoDataSoapIn" />
+      <wsdl:output message="tns:ByUserID_InfoDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <wsdl:input message="tns:ByUserIDSoapIn" />
+      <wsdl:output message="tns:ByUserIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <wsdl:input message="tns:UsersSearchSoapIn" />
+      <wsdl:output message="tns:UsersSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <wsdl:input message="tns:ByUserNameSoapIn" />
+      <wsdl:output message="tns:ByUserNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <wsdl:input message="tns:ByAgentSoapIn" />
+      <wsdl:output message="tns:ByAgentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <wsdl:input message="tns:ByAgent4SiteSoapIn" />
+      <wsdl:output message="tns:ByAgent4SiteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <wsdl:input message="tns:ExploreEmployeeSoapIn" />
+      <wsdl:output message="tns:ExploreEmployeeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <wsdl:input message="tns:ByDepartmentSoapIn" />
+      <wsdl:output message="tns:ByDepartmentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <wsdl:input message="tns:ByNotesIDSoapIn" />
+      <wsdl:output message="tns:ByNotesIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <wsdl:input message="tns:ByUserID_GovernSoapIn" />
+      <wsdl:output message="tns:ByUserID_GovernSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <wsdl:input message="tns:ByUserID_InferiorSoapIn" />
+      <wsdl:output message="tns:ByUserID_InferiorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <wsdl:input message="tns:ByUserID_ManagerSoapIn" />
+      <wsdl:output message="tns:ByUserID_ManagerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <wsdl:input message="tns:ByOUCode_AssistantSoapIn" />
+      <wsdl:output message="tns:ByOUCode_AssistantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <wsdl:input message="tns:ByOUCode_ManagerSoapIn" />
+      <wsdl:output message="tns:ByOUCode_ManagerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <wsdl:input message="tns:ByAssistantID_OUSoapIn" />
+      <wsdl:output message="tns:ByAssistantID_OUSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <wsdl:input message="tns:ByManagerID_OUSoapIn" />
+      <wsdl:output message="tns:ByManagerID_OUSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_byAbnormalSoapIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_byAbnormalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <wsdl:input message="tns:ByUserID_FindAgentSiteSoapIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentSiteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <wsdl:input message="tns:ByUserID_FindWorkflowAgentSoapIn" />
+      <wsdl:output message="tns:ByUserID_FindWorkflowAgentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <wsdl:input message="tns:ByUserID_FindAgentSoapIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <wsdl:input message="tns:ByUserID_AgentSoapIn" />
+      <wsdl:output message="tns:ByUserID_AgentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <wsdl:input message="tns:ByUserID_DirectInferiorSoapIn" />
+      <wsdl:output message="tns:ByUserID_DirectInferiorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <wsdl:input message="tns:ByUserID_Abnormal_ManagerSoapIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_ManagerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_NewSoapIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_NewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_SignerLevelSoapIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_SignerLevelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_New1SoapIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_New1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <wsdl:input message="tns:ByUserID_SiteManagerSoapIn" />
+      <wsdl:output message="tns:ByUserID_SiteManagerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <wsdl:input message="tns:ByUserID_Site_ManagerSoapIn" />
+      <wsdl:output message="tns:ByUserID_Site_ManagerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <wsdl:input message="tns:ByUserID_Site_Manager_NewSoapIn" />
+      <wsdl:output message="tns:ByUserID_Site_Manager_NewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <wsdl:input message="tns:ByUserID_SiteGovernSoapIn" />
+      <wsdl:output message="tns:ByUserID_SiteGovernSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <wsdl:input message="tns:ByUserID_SiteInferiorSoapIn" />
+      <wsdl:output message="tns:ByUserID_SiteInferiorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <wsdl:input message="tns:ByUserID_SiteDirectInferiorSoapIn" />
+      <wsdl:output message="tns:ByUserID_SiteDirectInferiorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_bySiteSoapIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_bySiteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New1" message="tns:UsersSearch_New1SoapIn" />
+      <wsdl:output name="UsersSearch_New1" message="tns:UsersSearch_New1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New2" message="tns:UsersSearch_New2SoapIn" />
+      <wsdl:output name="UsersSearch_New2" message="tns:UsersSearch_New2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <wsdl:input message="tns:WriteLogSoapIn" />
+      <wsdl:output message="tns:WriteLogSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ElistQueryHttpGet">
+    <wsdl:operation name="ByUserID_ChangeData">
+      <wsdl:input message="tns:ByUserID_ChangeDataHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_ChangeDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <wsdl:input message="tns:ByUserID_ExtDataHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_ExtDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <wsdl:input message="tns:ByUserID_InfoDataHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_InfoDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <wsdl:input message="tns:ByUserIDHttpGetIn" />
+      <wsdl:output message="tns:ByUserIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <wsdl:input message="tns:UsersSearchHttpGetIn" />
+      <wsdl:output message="tns:UsersSearchHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <wsdl:input message="tns:ByUserNameHttpGetIn" />
+      <wsdl:output message="tns:ByUserNameHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <wsdl:input message="tns:ByAgentHttpGetIn" />
+      <wsdl:output message="tns:ByAgentHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <wsdl:input message="tns:ByAgent4SiteHttpGetIn" />
+      <wsdl:output message="tns:ByAgent4SiteHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <wsdl:input message="tns:ExploreEmployeeHttpGetIn" />
+      <wsdl:output message="tns:ExploreEmployeeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <wsdl:input message="tns:ByDepartmentHttpGetIn" />
+      <wsdl:output message="tns:ByDepartmentHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <wsdl:input message="tns:ByNotesIDHttpGetIn" />
+      <wsdl:output message="tns:ByNotesIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <wsdl:input message="tns:ByUserID_GovernHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_GovernHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <wsdl:input message="tns:ByUserID_InferiorHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_InferiorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <wsdl:input message="tns:ByUserID_ManagerHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_ManagerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <wsdl:input message="tns:ByOUCode_AssistantHttpGetIn" />
+      <wsdl:output message="tns:ByOUCode_AssistantHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <wsdl:input message="tns:ByOUCode_ManagerHttpGetIn" />
+      <wsdl:output message="tns:ByOUCode_ManagerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <wsdl:input message="tns:ByAssistantID_OUHttpGetIn" />
+      <wsdl:output message="tns:ByAssistantID_OUHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <wsdl:input message="tns:ByManagerID_OUHttpGetIn" />
+      <wsdl:output message="tns:ByManagerID_OUHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_byAbnormalHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_byAbnormalHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <wsdl:input message="tns:ByUserID_FindAgentSiteHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentSiteHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <wsdl:input message="tns:ByUserID_FindWorkflowAgentHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_FindWorkflowAgentHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <wsdl:input message="tns:ByUserID_FindAgentHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <wsdl:input message="tns:ByUserID_AgentHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_AgentHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <wsdl:input message="tns:ByUserID_DirectInferiorHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_DirectInferiorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <wsdl:input message="tns:ByUserID_Abnormal_ManagerHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_ManagerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_NewHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_NewHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_SignerLevelHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_SignerLevelHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_New1HttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_New1HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <wsdl:input message="tns:ByUserID_SiteManagerHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_SiteManagerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <wsdl:input message="tns:ByUserID_Site_ManagerHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Site_ManagerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <wsdl:input message="tns:ByUserID_Site_Manager_NewHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_Site_Manager_NewHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <wsdl:input message="tns:ByUserID_SiteGovernHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_SiteGovernHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <wsdl:input message="tns:ByUserID_SiteInferiorHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_SiteInferiorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <wsdl:input message="tns:ByUserID_SiteDirectInferiorHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_SiteDirectInferiorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_bySiteHttpGetIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_bySiteHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New1" message="tns:UsersSearch_New1HttpGetIn" />
+      <wsdl:output name="UsersSearch_New1" message="tns:UsersSearch_New1HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New2" message="tns:UsersSearch_New2HttpGetIn" />
+      <wsdl:output name="UsersSearch_New2" message="tns:UsersSearch_New2HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <wsdl:input message="tns:WriteLogHttpGetIn" />
+      <wsdl:output message="tns:WriteLogHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ElistQueryHttpPost">
+    <wsdl:operation name="ByUserID_ChangeData">
+      <wsdl:input message="tns:ByUserID_ChangeDataHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_ChangeDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <wsdl:input message="tns:ByUserID_ExtDataHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_ExtDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <wsdl:input message="tns:ByUserID_InfoDataHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_InfoDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <wsdl:input message="tns:ByUserIDHttpPostIn" />
+      <wsdl:output message="tns:ByUserIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <wsdl:input message="tns:UsersSearchHttpPostIn" />
+      <wsdl:output message="tns:UsersSearchHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <wsdl:input message="tns:ByUserNameHttpPostIn" />
+      <wsdl:output message="tns:ByUserNameHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <wsdl:input message="tns:ByAgentHttpPostIn" />
+      <wsdl:output message="tns:ByAgentHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <wsdl:input message="tns:ByAgent4SiteHttpPostIn" />
+      <wsdl:output message="tns:ByAgent4SiteHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <wsdl:input message="tns:ExploreEmployeeHttpPostIn" />
+      <wsdl:output message="tns:ExploreEmployeeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <wsdl:input message="tns:ByDepartmentHttpPostIn" />
+      <wsdl:output message="tns:ByDepartmentHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <wsdl:input message="tns:ByNotesIDHttpPostIn" />
+      <wsdl:output message="tns:ByNotesIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <wsdl:input message="tns:ByUserID_GovernHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_GovernHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <wsdl:input message="tns:ByUserID_InferiorHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_InferiorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <wsdl:input message="tns:ByUserID_ManagerHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_ManagerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <wsdl:input message="tns:ByOUCode_AssistantHttpPostIn" />
+      <wsdl:output message="tns:ByOUCode_AssistantHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <wsdl:input message="tns:ByOUCode_ManagerHttpPostIn" />
+      <wsdl:output message="tns:ByOUCode_ManagerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <wsdl:input message="tns:ByAssistantID_OUHttpPostIn" />
+      <wsdl:output message="tns:ByAssistantID_OUHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <wsdl:input message="tns:ByManagerID_OUHttpPostIn" />
+      <wsdl:output message="tns:ByManagerID_OUHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_byAbnormalHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_byAbnormalHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <wsdl:input message="tns:ByUserID_FindAgentSiteHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentSiteHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <wsdl:input message="tns:ByUserID_FindWorkflowAgentHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_FindWorkflowAgentHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <wsdl:input message="tns:ByUserID_FindAgentHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_FindAgentHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <wsdl:input message="tns:ByUserID_AgentHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_AgentHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <wsdl:input message="tns:ByUserID_DirectInferiorHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_DirectInferiorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <wsdl:input message="tns:ByUserID_Abnormal_ManagerHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_ManagerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_NewHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_NewHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_SignerLevelHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_SignerLevelHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <wsdl:input message="tns:ByUserID_Abnormal_Manager_New1HttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Abnormal_Manager_New1HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <wsdl:input message="tns:ByUserID_SiteManagerHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_SiteManagerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <wsdl:input message="tns:ByUserID_Site_ManagerHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Site_ManagerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <wsdl:input message="tns:ByUserID_Site_Manager_NewHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_Site_Manager_NewHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <wsdl:input message="tns:ByUserID_SiteGovernHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_SiteGovernHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <wsdl:input message="tns:ByUserID_SiteInferiorHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_SiteInferiorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <wsdl:input message="tns:ByUserID_SiteDirectInferiorHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_SiteDirectInferiorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <wsdl:input message="tns:ByUserID_FindSuperManager_bySiteHttpPostIn" />
+      <wsdl:output message="tns:ByUserID_FindSuperManager_bySiteHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New1" message="tns:UsersSearch_New1HttpPostIn" />
+      <wsdl:output name="UsersSearch_New1" message="tns:UsersSearch_New1HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <wsdl:input name="UsersSearch_New2" message="tns:UsersSearch_New2HttpPostIn" />
+      <wsdl:output name="UsersSearch_New2" message="tns:UsersSearch_New2HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <wsdl:input message="tns:WriteLogHttpPostIn" />
+      <wsdl:output message="tns:WriteLogHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ElistQuerySoap" type="tns:ElistQuerySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ByUserID_ChangeData">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_ChangeData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_ExtData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_InfoData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <soap:operation soapAction="http://tempuri.org/ByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <soap:operation soapAction="http://tempuri.org/UsersSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <soap:operation soapAction="http://tempuri.org/ByUserName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <soap:operation soapAction="http://tempuri.org/ByAgent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <soap:operation soapAction="http://tempuri.org/ByAgent4Site" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <soap:operation soapAction="http://tempuri.org/ExploreEmployee" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <soap:operation soapAction="http://tempuri.org/ByDepartment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <soap:operation soapAction="http://tempuri.org/ByNotesID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Govern" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Inferior" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Manager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <soap:operation soapAction="http://tempuri.org/ByOUCode_Assistant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <soap:operation soapAction="http://tempuri.org/ByOUCode_Manager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <soap:operation soapAction="http://tempuri.org/ByAssistantID_OU" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <soap:operation soapAction="http://tempuri.org/ByManagerID_OU" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_FindSuperManager_byAbnormal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_FindAgentSite" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_FindWorkflowAgent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_FindAgent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Agent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_DirectInferior" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_New" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_SignerLevel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_New1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_SiteManager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Site_Manager" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_Site_Manager_New" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_SiteGovern" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_SiteInferior" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_SiteDirectInferior" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <soap:operation soapAction="http://tempuri.org/ByUserID_FindSuperManager_bySite" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <soap:operation soapAction="http://tempuri.org/UsersSearch_New1" style="document" />
+      <wsdl:input name="UsersSearch_New1">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New1">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <soap:operation soapAction="http://tempuri.org/UsersSearch_New2" style="document" />
+      <wsdl:input name="UsersSearch_New2">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New2">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <soap:operation soapAction="http://tempuri.org/WriteLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ElistQuerySoap12" type="tns:ElistQuerySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ByUserID_ChangeData">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_ChangeData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_ExtData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_InfoData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <soap12:operation soapAction="http://tempuri.org/UsersSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <soap12:operation soapAction="http://tempuri.org/ByUserName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <soap12:operation soapAction="http://tempuri.org/ByAgent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <soap12:operation soapAction="http://tempuri.org/ByAgent4Site" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <soap12:operation soapAction="http://tempuri.org/ExploreEmployee" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <soap12:operation soapAction="http://tempuri.org/ByDepartment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <soap12:operation soapAction="http://tempuri.org/ByNotesID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Govern" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Inferior" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Manager" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <soap12:operation soapAction="http://tempuri.org/ByOUCode_Assistant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <soap12:operation soapAction="http://tempuri.org/ByOUCode_Manager" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <soap12:operation soapAction="http://tempuri.org/ByAssistantID_OU" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <soap12:operation soapAction="http://tempuri.org/ByManagerID_OU" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_FindSuperManager_byAbnormal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_FindAgentSite" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_FindWorkflowAgent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_FindAgent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Agent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_DirectInferior" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_New" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_SignerLevel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Abnormal_Manager_New1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_SiteManager" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Site_Manager" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_Site_Manager_New" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_SiteGovern" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_SiteInferior" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_SiteDirectInferior" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <soap12:operation soapAction="http://tempuri.org/ByUserID_FindSuperManager_bySite" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <soap12:operation soapAction="http://tempuri.org/UsersSearch_New1" style="document" />
+      <wsdl:input name="UsersSearch_New1">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New1">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <soap12:operation soapAction="http://tempuri.org/UsersSearch_New2" style="document" />
+      <wsdl:input name="UsersSearch_New2">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New2">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <soap12:operation soapAction="http://tempuri.org/WriteLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ElistQueryHttpGet" type="tns:ElistQueryHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="ByUserID_ChangeData">
+      <http:operation location="/ByUserID_ChangeData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <http:operation location="/ByUserID_ExtData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <http:operation location="/ByUserID_InfoData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <http:operation location="/ByUserID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <http:operation location="/UsersSearch" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <http:operation location="/ByUserName" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <http:operation location="/ByAgent" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <http:operation location="/ByAgent4Site" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <http:operation location="/ExploreEmployee" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <http:operation location="/ByDepartment" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <http:operation location="/ByNotesID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <http:operation location="/ByUserID_Govern" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <http:operation location="/ByUserID_Inferior" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <http:operation location="/ByUserID_Manager" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <http:operation location="/ByOUCode_Assistant" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <http:operation location="/ByOUCode_Manager" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <http:operation location="/ByAssistantID_OU" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <http:operation location="/ByManagerID_OU" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <http:operation location="/ByUserID_FindSuperManager_byAbnormal" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <http:operation location="/ByUserID_FindAgentSite" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <http:operation location="/ByUserID_FindWorkflowAgent" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <http:operation location="/ByUserID_FindAgent" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <http:operation location="/ByUserID_Agent" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <http:operation location="/ByUserID_DirectInferior" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <http:operation location="/ByUserID_Abnormal_Manager" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <http:operation location="/ByUserID_Abnormal_Manager_New" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <http:operation location="/ByUserID_Abnormal_Manager_SignerLevel" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <http:operation location="/ByUserID_Abnormal_Manager_New1" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <http:operation location="/ByUserID_SiteManager" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <http:operation location="/ByUserID_Site_Manager" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <http:operation location="/ByUserID_Site_Manager_New" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <http:operation location="/ByUserID_SiteGovern" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <http:operation location="/ByUserID_SiteInferior" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <http:operation location="/ByUserID_SiteDirectInferior" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <http:operation location="/ByUserID_FindSuperManager_bySite" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <http:operation location="/UsersSearch_New1" />
+      <wsdl:input name="UsersSearch_New1">
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New1">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <http:operation location="/UsersSearch_New2" />
+      <wsdl:input name="UsersSearch_New2">
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New2">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <http:operation location="/WriteLog" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ElistQueryHttpPost" type="tns:ElistQueryHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="ByUserID_ChangeData">
+      <http:operation location="/ByUserID_ChangeData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_ExtData">
+      <http:operation location="/ByUserID_ExtData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_InfoData">
+      <http:operation location="/ByUserID_InfoData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID">
+      <http:operation location="/ByUserID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch">
+      <http:operation location="/UsersSearch" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserName">
+      <http:operation location="/ByUserName" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent">
+      <http:operation location="/ByAgent" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAgent4Site">
+      <http:operation location="/ByAgent4Site" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExploreEmployee">
+      <http:operation location="/ExploreEmployee" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByDepartment">
+      <http:operation location="/ByDepartment" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByNotesID">
+      <http:operation location="/ByNotesID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Govern">
+      <http:operation location="/ByUserID_Govern" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Inferior">
+      <http:operation location="/ByUserID_Inferior" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Manager">
+      <http:operation location="/ByUserID_Manager" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Assistant">
+      <http:operation location="/ByOUCode_Assistant" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByOUCode_Manager">
+      <http:operation location="/ByOUCode_Manager" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByAssistantID_OU">
+      <http:operation location="/ByAssistantID_OU" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByManagerID_OU">
+      <http:operation location="/ByManagerID_OU" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_byAbnormal">
+      <http:operation location="/ByUserID_FindSuperManager_byAbnormal" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgentSite">
+      <http:operation location="/ByUserID_FindAgentSite" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindWorkflowAgent">
+      <http:operation location="/ByUserID_FindWorkflowAgent" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindAgent">
+      <http:operation location="/ByUserID_FindAgent" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Agent">
+      <http:operation location="/ByUserID_Agent" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_DirectInferior">
+      <http:operation location="/ByUserID_DirectInferior" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager">
+      <http:operation location="/ByUserID_Abnormal_Manager" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New">
+      <http:operation location="/ByUserID_Abnormal_Manager_New" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_SignerLevel">
+      <http:operation location="/ByUserID_Abnormal_Manager_SignerLevel" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Abnormal_Manager_New1">
+      <http:operation location="/ByUserID_Abnormal_Manager_New1" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteManager">
+      <http:operation location="/ByUserID_SiteManager" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager">
+      <http:operation location="/ByUserID_Site_Manager" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_Site_Manager_New">
+      <http:operation location="/ByUserID_Site_Manager_New" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteGovern">
+      <http:operation location="/ByUserID_SiteGovern" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteInferior">
+      <http:operation location="/ByUserID_SiteInferior" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_SiteDirectInferior">
+      <http:operation location="/ByUserID_SiteDirectInferior" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ByUserID_FindSuperManager_bySite">
+      <http:operation location="/ByUserID_FindSuperManager_bySite" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <http:operation location="/UsersSearch_New1" />
+      <wsdl:input name="UsersSearch_New1">
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New1">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UsersSearch_New">
+      <http:operation location="/UsersSearch_New2" />
+      <wsdl:input name="UsersSearch_New2">
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output name="UsersSearch_New2">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteLog">
+      <http:operation location="/WriteLog" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ElistQuery">
+    <wsdl:port name="ElistQuerySoap" binding="tns:ElistQuerySoap">
+      <soap:address location="http://10.132.37.44:8006/Personal/ElistQuery.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ElistQuerySoap12" binding="tns:ElistQuerySoap12">
+      <soap12:address location="http://10.132.37.44:8006/Personal/ElistQuery.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ElistQueryHttpGet" binding="tns:ElistQueryHttpGet">
+      <http:address location="http://10.132.37.44:8006/Personal/ElistQuery.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ElistQueryHttpPost" binding="tns:ElistQueryHttpPost">
+      <http:address location="http://10.132.37.44:8006/Personal/ElistQuery.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

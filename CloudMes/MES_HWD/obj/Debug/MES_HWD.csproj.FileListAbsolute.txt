@@ -1,0 +1,11 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\MES_HWD.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\MES_HWD.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\MES_HWD.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\obj\Debug\MES_HWD.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\obj\Debug\MES_HWD.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\obj\Debug\MES_HWD.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\obj\Debug\MES_HWD.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MES_HWD\obj\Debug\MES_HWD.pdb

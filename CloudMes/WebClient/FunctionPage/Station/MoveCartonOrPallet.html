@@ -1,0 +1,839 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Move Carton Or Pallet Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+        .repair-output .form-group label {
+            padding-left: 0 !important;
+            width: auto;
+        }
+
+        .repair-output .form-group div {
+            padding-top: 7px;
+            padding-left: 0 !important;
+            width: auto;
+         }
+
+        #leftTable, #rightTable {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+
+        #leftTable tbody, #rightTable tbody {
+            height: 200px;
+            overflow-y: scroll;
+            display: block;
+            white-space: pre-wrap;
+        }
+
+        #leftTable thead , #rightTable thead,#leftTable tbody tr,  #rightTable tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+         }
+         
+       
+        #leftTable tr td:first-child, #leftTable tr th:first-child,#rightTable tr td:first-child, #rightTable tr th:first-child {
+            width: 50px;
+            text-align:center;            
+        }
+
+        #leftTable thead, #rightTable thead {
+            width: calc( 100% - 0.5em );
+        }
+
+        .new-carton-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">Move Carton Or Pallet Station</span>
+                <button class="btn btn-default small" id="btnReset">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+                <button class="btn btn-default small" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>
+                <button class="btn btn-default small" id="btnNewCartonOrPallet">
+                    <i class="glyphicon glyphicon-plus"></i> <lan set-lan="html:NewCarton">New Carton/Pallet</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content padding-top-5">
+            <div class="row form-horizontal">
+                <div id="divMoveBody" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Move Action</h3>
+                        </div>
+                        <div class="panel-body ">
+                            <div>
+                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                                    <div id="divInputLocation1">
+                                        <!--<div class="form-group" view-group="SN_00001">
+                                            <label for="SN_00001" class="col-xs-2 control-label text-right">Location:</label>
+                                            <div class="col-xs-10">
+                                                <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <div>
+                                        <div id="divOutputSkuno1" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Skuno:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">VT02130969</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputVer1" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="RepairWO_00001">
+                                                <label for="RepairWO_00001" class="col-xs-6 control-label text-right">Ver:</label>
+                                                <div class="col-xs-6" style="width: auto;">
+                                                    <u id="RepairWO_00001" class="form-control-static">A2</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputType1" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Type:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">PALLET</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputCount1" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Count1:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">9</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <!--<div>
+                                        <div id="divLeftSerch" class="form-group" view-group="SN_00001">
+                                            <label for="SN_00001" class="col-xs-4 control-label text-right">Search:</label>
+                                            <div class="col-xs-8">
+                                                <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                                    <div id="divInputLocation2">
+                                        <!--<div class="form-group" view-group="SN_00001">
+                                            <label for="SN_00001" class="col-xs-2 control-label text-right">Location:</label>
+                                            <div class="col-xs-10">
+                                                <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <div>
+                                        <div id="divOutputSkuno2" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Skuno:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">VT02130969</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputVer2" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="RepairWO_00001">
+                                                <label for="RepairWO_00001" class="col-xs-6 control-label text-right">Ver:</label>
+                                                <div class="col-xs-6" style="width: auto;">
+                                                    <u id="RepairWO_00001" class="form-control-static">A2</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputType2" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Type:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">PALLET</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divOutputCount2" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 repair-output">
+                                            <!--<div class="form-group" view-group="Skuno_00001">
+                                                <label for="Skuno_00001" class="col-xs-3 control-label text-right">Count2:</label>
+                                                <div class="col-xs-9">
+                                                    <u id="Skuno_00001" class="form-control-static">9</u>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <!--<div>
+                                        <div id="divRightSerch" class="form-group" view-group="SN_00001">
+                                            <label for="SN_00001" class="col-xs-4 control-label text-right">Search:</label>
+                                            <div class="col-xs-8">
+                                                <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="">
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                                    <table class="table table-bordered scrolltable" id="leftTable">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id='checkAllLeft' class="i-checks" style="vertical-align:-2px;">All</th>
+                                                <th>
+                                                    <span style="vertical-align:-4px;">CARTON/SN</span>
+                                                    <div style="float:right;">
+                                                        <input type="text" name="inputTableSearch" placeholder="Search" />
+                                                        <button class="btn btn-default" id="btnLeftRefresh">Refresh</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div>
+                                        <span>Total Qty:</span>
+                                        <span id="leftTotalQty">0</span>
+                                        <span>&nbsp; &nbsp;Selected Qty:</span>
+                                        <span id="leftSelectedQty">0</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" id="divTools">
+                                    <div style="display:table;margin-left:auto;margin-right:auto;margin-top:40%;">
+                                        <div class="form-group" view-group="CLICKBUTTON_RightMove">
+                                            <label for="CLICKBUTTON_RightMove" class="col-xs-0 control-label text-right"></label>
+                                            <div class="col-xs-10">
+                                                <button class="btn btn-primary small" id="CLICKBUTTON_RightMove" name="RightMove" value="">
+                                                    <i class="glyphicon glyphicon-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" view-group="CLICKBUTTON_LeftMove">
+                                            <label for="CLICKBUTTON_LeftMove" class="col-xs-0 control-label text-right"></label>
+                                            <div class="col-xs-10">
+                                                <button class="btn btn-primary small" id="CLICKBUTTON_LeftMove" name="LeftMove" value="">
+                                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="divMoveValue" hidden>
+
+                                        </div>
+                                        <div id="divMoveToRight" hidden>
+                                            <!--<div class="form-group" view-group="CLICKBUTTON_RightMove">
+                                                <label for="CLICKBUTTON_RightMove" class="col-xs-0 control-label text-right"></label>
+                                                <div class="col-xs-10">
+                                                    <button class="btn btn-primary small" id="CLICKBUTTON_RightMove" name="RightMove" value="">
+                                                        <i class="glyphicon glyphicon-arrow-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divMoveToLeft" hidden>
+                                            <!--<div class="form-group" view-group="CLICKBUTTON_LeftMove">
+                                                <label for="CLICKBUTTON_LeftMove" class="col-xs-0 control-label text-right"></label>
+                                                <div class="col-xs-10">
+                                                    <button class="btn btn-primary small" id="CLICKBUTTON_LeftMove" name="LeftMove" value="">
+                                                        <i class="glyphicon glyphicon-arrow-left"></i>
+                                                    </button>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div id="divNewCarton" hidden>
+                                        </div>
+                                        <div id="divNewPallet" hidden>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5" style="max-height:300px;overflow-y: scroll;">
+                                    <table class="table table-bordered table-responsive" id="rightTable">
+                                        <thead>
+                                            <tr>
+                                                <th><div><input type="checkbox" class="i-checks" id="checkAllRight" style="vertical-align:-2px;">All</div></th>
+                                                <th>
+                                                    <span style="vertical-align:-4px;">CARTON/SN</span>                                                    
+                                                    <div style="float:right;">
+                                                        <input type="text" name="inputTableSearch" placeholder="Search" />
+                                                        <button class="btn btn-default" id="btnRightRefresh">Refresh</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div>
+                                        <span>Total Qty:</span>
+                                        <span id="rightTotalQty">0</span>
+                                        <span>&nbsp; &nbsp;Selected Qty:</span>
+                                        <span id="rightSelectedQty">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divMsg" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="panel-body no-padding" id="divMessage">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Create New Carton Or Pallet-->
+    <div id="divCreateNew" style="display:none;" class="form-horizontal">
+        <div class="col-xs-12" style="margin-top:30px;">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Type:</label>
+                    <div class="col-xs-8">
+                        <select id="selectType" class="form-control">
+                            <option value="PALLET" selected="selected">Pallet</option>
+                            <option value="CARTON"> Carton</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <label class="col-xs-12 control-label text-left" style=""><b>Please Choose The Type Carton Or Pallet.</b></label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Skuno:</label>
+                    <div class="col-xs-8">
+                        <input id="txtNewSkuno" type="text" class="form-control" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <label class="col-xs-12 control-label text-left" style=""><b>Please Input The Skuno And Press The Enter Key.</b></label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">New Pallet:</label>
+                    <label class="col-xs-8 control-label text-left" id="labelNewPallet"></label>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">New Carton:</label>
+                    <label class="col-xs-8 control-label text-left" id="labelNewCarton"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>-->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var option = null;
+        var line = "Line1";
+        var station = null;
+        var stationName = $.MES.getQueryString("StationName");
+
+        var leftChecked = [];
+        var rightChecked = [];
+        $(document).ready(function () {
+            line = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line) {
+                line = "Line1";
+            }
+            option = {
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                //IScale:"4:8",
+                //IContainer: $("#inputsite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    //StationInit(staion, d, Init);
+                    if (d.Status == "Pass") {
+                        station.ShowInput({
+                            InputName: "Location1",
+                            Scale: "2:10",
+                            Container: $("#divInputLocation1")
+                        });
+                        station.ShowInput({
+                            InputName: "Location2",
+                            Scale: "2:10",
+                            Container: $("#divInputLocation2")
+                        });
+                        station.ShowInput({
+                            InputName: "MoveValue",
+                            Container: $("#divMoveValue")
+                        });
+                        station.ShowInput({
+                            InputName: "MoveToRight",
+                            Scale: "0:10",
+                            Container: $("#divMoveToRight")
+                        });
+                        station.ShowInput({
+                            InputName: "MoveToLeft",
+                            Scale: "0:10",
+                            Container: $("#divMoveToLeft")
+                        });
+
+                        station.ShowOutput({
+                            OutputName: "Skuno1",
+                            Container: $("#divOutputSkuno1")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Ver1",
+                            Container: $("#divOutputVer1")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Type1",
+                            Container: $("#divOutputType1")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Count1",
+                            Container: $("#divOutputCount1")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Skuno2",
+                            Container: $("#divOutputSkuno2")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Ver2",
+                            Container: $("#divOutputVer2")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Type2",
+                            Container: $("#divOutputType2")
+                        });
+                        station.ShowOutput({
+                            OutputName: "Count2",
+                            Container: $("#divOutputCount2")
+                        });
+                        for (var i = 0; i < station.Outputs.length; i++) {
+                            switch (station.Outputs[i].Name) {
+                                case "ItemList1":
+                                    ShowTable(station.Outputs[i].Value, $("#leftTable"), "ckbLeft");
+                                    break;
+                                case "ItemList2":
+                                    ShowTable(station.Outputs[i].Value, $("#rightTable"), "ckbRight");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else {
+                        swal("Station initialization failed!！", d.Message, "error");
+                    }
+                }
+            }
+            station = new MesStation(option);
+
+            $("#btnReset").on("click", function (e) {
+                self.parent.Loading(true);
+                $("#divMessage").empty();
+                option.ScanType = station.ScanType;
+                station = new MesStation(option);
+            });
+            $("#btnResetLine").on("click", function (e) {
+                staion.Line = "Line1";
+                localStorage.setItem($.MES.CK_LINE_NAME, "");
+                option.ScanType = station.ScanType;
+                station = new MesStation(option);
+            });
+
+            $("#checkAllLeft").click(function () {
+                $("input[name='ckbLeft']").prop("checked", $(this).prop("checked"));
+                if ($(this).prop("checked")) {
+                    $("#leftSelectedQty").html($("#leftTable>tbody>tr").length);
+                }
+                else {
+                    $("#leftSelectedQty").html(0);
+                }
+            });
+
+            $("#checkAllRight").click(function () {
+                $("input[name='ckbRight']").prop("checked", $(this).prop("checked"));
+                if ($(this).prop("checked")) {
+                    $("#rightSelectedQty").html($("#rightTable>tbody>tr").length);
+                }
+                else {
+                    $("#rightSelectedQty").html(0);
+                }
+            });
+
+            //$("#leftTable").find("input[name='ckbLeft']").bind("click", function () {
+            //    var leftCheckAll = true;
+            //    var leftCkb = document.getElementsByName("ckbLeft");
+            //    var leftCheckQty = 0;
+            //    for (var i = 0; i < leftCkb.length; i++) {
+            //        if (leftCkb[i].checked == false) {
+            //            leftCheckAll = false;
+            //        }
+            //        else {
+            //            leftCheckQty++;
+            //        }
+            //        if (leftCheckAll) {
+            //            $("#checkAllLeft").prop("checked", true);
+            //        } else {
+            //            $("#checkAllLeft").prop("checked", false);
+            //        }
+            //    }
+            //    $("#leftSelectedQty").html(leftCheckQty);
+                
+            //});
+
+            //$("#rightTable").find("input[name='ckbRight']").bind("click", function () {
+            //    var leftCheckAll = true;
+            //    var leftCkb = document.getElementsByName("ckbRight");
+            //    for (var i = 0; i < leftCkb.length; i++) {
+            //        if (leftCkb[i].checked == false) {
+            //            leftCheckAll = false;
+            //        }
+            //        if (leftCheckAll) {
+            //            $("#checkAllRight").prop("checked", true);
+            //        } else {
+            //            $("#checkAllRight").prop("checked", false);
+            //        }
+            //    }
+            //    $("#rightSelectedQty").html(selectedQty);
+            //});
+
+            $("#divTools").find("button[name='RightMove']").bind("click", function () {
+                var leftCkb = document.getElementsByName("ckbLeft");
+                leftChecked.splice(0, leftChecked.length);
+                for (var i = 0; i < leftCkb.length; i++) {
+                    if (leftCkb[i].checked == true) {
+                        leftChecked.push(leftCkb[i].parentNode.parentNode.cells[1].innerText);
+                    }
+                }
+                if (leftChecked.length === 0) {
+                    ShowMessage("Please select one to move", 0, $("#divMessage"));
+                }
+                else {
+                    station.SetInputValue("MoveValue", leftChecked);
+                    station.SendData();
+                    $("#divMoveToRight").find("button").click();
+                }
+            });
+
+            $("#divTools").find("button[name='LeftMove']").bind("click", function () {
+                var rightCkb = document.getElementsByName("ckbRight");
+                rightChecked.splice(0, rightChecked.length);
+                for (var i = 0; i < rightCkb.length; i++) {
+                    if (rightCkb[i].checked == true) {
+                        rightChecked.push(rightCkb[i].parentNode.parentNode.cells[1].innerText);
+                    }
+                }
+                if (rightChecked.length === 0) {
+                    ShowMessage("Please select one to move", 0, $("#divMessage"));
+                }
+                else {
+                    station.SetInputValue("MoveValue", rightChecked);
+                    station.SendData();
+                    $("#divMoveToLeft").find("button").click();
+                }
+            });
+            //$("#leftTable").find("input[name='inputTableSearch']").bind("input porpertychange", function (event) {                
+            //    if ($(this).val() == "") {
+            //        //SearchTableReset("leftTable");
+            //    }
+            //});
+            $("#leftTable").find("input[name='inputTableSearch']").bind("keypress", function (event) {
+                if (event.keyCode === 13) {
+                    //SearcTable("leftTable", $("#leftTable").find("input[name='inputTableSearch']").val());
+                    AutoCheckBySearch("leftTable", $("#leftTable").find("input[name='inputTableSearch']").val());
+                    $("#leftTable").find("input[name='inputTableSearch']").focus().select();
+                }
+            });
+            $("#btnLeftRefresh").click(function () {
+                $("#leftTable").find("input[name='inputTableSearch']").val("");
+                SearchTableReset("leftTable");
+            });
+
+            //$("#rightTable").find("input[name='inputTableSearch']").bind("input porpertychange", function (event) {
+            //    if ($(this).val() == "") {
+            //        //SearchTableReset("rightTable");
+            //    }
+            //});
+            $("#rightTable").find("input[name='inputTableSearch']").bind("keypress", function (event) {
+                if (event.keyCode === 13) {
+                    //SearcTable("rightTable", $("#rightTable").find("input[name='inputTableSearch']").val());
+                    AutoCheckBySearch("rightTable", $("#rightTable").find("input[name='inputTableSearch']").val());
+                    $("#rightTable").find("input[name='inputTableSearch']").focus().select();
+                }
+            });
+            $("#btnRightRefresh").click(function () {
+                $("#rightTable").find("input[name='inputTableSearch']").val("");
+                SearchTableReset("rightTable");
+            });
+
+            $("#btnNewCartonOrPallet").click(function () {
+                layer.open({
+                    id: "CreateNewCartonOrPallet",
+                    type: 1,
+                    //type: 2,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Create A New Empty Carton Or Pallet For Moving Products To It",
+                    area: ['50%', '60%'],
+                    content: $("#divCreateNew"),//NewAging.html?StationName=NewAging
+                    //content: "../Station/PassStation.html?StationName=VI2",
+                    //btn: ["OK", "Cancel"],
+                    success: function (layero, index) {
+                        $("#txtNewSkuno").select().focus();
+                        $(".layui-layer-title").addClass("new-carton-pallet-title");
+                    },
+                    end: function () { },
+                    yes: function (index) {
+                        //layer.close(index);
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#selectType").change(function () {
+                $("#txtNewSkuno").select().focus();
+            });
+
+            $("#txtNewSkuno").bind("keypress", function (event) {
+                if (event.keyCode === 13) {
+                    if ($("#txtNewSkuno").val() == "" || $("#txtNewSkuno").val() == undefined) {
+                        layer.msg("Please Input The Skuno", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    parent.client.CallFunction("MESStation.Packing.PackConfigAPI", "GetNewPackNoBySkuno",
+                        { Type: $("#selectType").val(), Skuno: $("#txtNewSkuno").val(), Line: line, Station: stationName }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.msg("OK", {
+                                    icon: 1,
+                                    time: 3000
+                                }, function () {
+                                });
+                                $("#labelNewPallet").html(e.Data.Pallet);
+                                $("#labelNewCarton").html(e.Data.Carton);
+                            } else {
+                                $("#txtCheckValue").select().focus();
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                }
+            });
+        });
+
+        function SearcTable(tableid, value) {
+            SearchTableReset(tableid);
+            if (value != "") {
+                $("#" + tableid + ">tbody>tr").each(function () {
+                    if (this.cells[1].innerText.indexOf(value) == -1) {
+                        $(this).hide();
+                    }
+                });
+            }
+        }
+
+        function SearchTableReset(tableid) {
+            $("#" + tableid + ">tbody>tr").each(function () {
+                $(this).show();
+                $($(this.cells[0]).find("input[type='checkbox']"))[0].checked = false;
+            });
+            if (tableid == "leftTable") {
+                $("#leftSelectedQty").html(0);
+            }
+            else {
+                $("#rightSelectedQty").html(0);
+            }
+        }
+
+        function AutoCheckBySearch(tableid, value) {
+            AutoCheckBySearchNew(tableid, value)
+            return;
+            SearchTableReset(tableid);
+            if (value != "") {
+                $("#" + tableid + ">tbody>tr").each(function () {
+                    if (this.cells[1].innerText == value) {                        
+                        $($(this.cells[0]).find("input[type='checkbox']"))[0].checked = true;
+                    }
+                    else {
+                        $(this).hide();
+                    }
+                });
+            }
+        }
+        function AutoCheckBySearchNew(tableid, value) {
+            //SearchTableReset(tableid);
+            if (value != "") {
+                $("#" + tableid + ">tbody>tr").each(function () {
+                    if (this.cells[1].innerText == value) {
+                        $($(this.cells[0]).find("input[type='checkbox']"))[0].checked = true;
+                    }                    
+                });
+            }
+            var selectedQty = 0;
+            $("#" + tableid + ">tbody>tr").each(function () {
+                if ($($(this.cells[0]).find("input[type='checkbox']"))[0].checked) {
+                    $(this).show();
+                    selectedQty++;
+                }
+                else {
+                    $(this).hide();
+                }
+            });
+            if (tableid == "leftTable") {
+                $("#leftSelectedQty").html(selectedQty);
+            }
+            else {
+                $("#rightSelectedQty").html(selectedQty);
+            }
+        }
+        function ShowTable(data, table, ckb) {
+            table.find("tbody").empty();
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    table.find("tbody").append($("<tr><td><input type='checkbox' onclick='checkboxClick(\"" + ckb+"\")' class='i-checks' name='" + ckb + "'></td><td>" + data[i] + "</td></tr>"));
+                }                
+            }
+            if (ckb == "ckbLeft") {
+                $("#leftTotalQty").html(data.length);
+            }
+            else {
+                $("#rightTotalQty").html(data.length);
+            }
+        }
+        function checkboxClick(type) {
+            //console.log(type);
+            if (type == "ckbLeft") {
+                var leftCheckAll = true;
+                var leftCkb = document.getElementsByName("ckbLeft");
+                var leftCheckQty = 0;
+                for (var i = 0; i < leftCkb.length; i++) {
+                    if (leftCkb[i].checked == false) {
+                        leftCheckAll = false;
+                    }
+                    else {
+                        leftCheckQty++;
+                    }                    
+                }
+                if (leftCheckQty == leftCkb.length) {
+                    $("#checkAllLeft").prop("checked", true);
+                } else {
+                    $("#checkAllLeft").prop("checked", false);
+                }
+                $("#leftSelectedQty").html(leftCheckQty);
+            }
+            else {
+                var rightCheckAll = true;
+                var rightCkb = document.getElementsByName("ckbRight");
+                var rightCheckQty = 0;
+                for (var i = 0; i < rightCkb.length; i++) {
+                    if (rightCkb[i].checked == false) {
+                        rightCheckAll = false;
+                    }
+                    else {
+                        rightCheckQty++;
+                    }                   
+                }
+                if (rightCheckQty == rightCkb.length) {
+                    $("#checkAllRight").prop("checked", true);
+                } else {
+                    $("#checkAllRight").prop("checked", false);
+                }
+                $("#rightSelectedQty").html(rightCheckQty);
+            }
+        }
+        function ShowMessage(Message, State, Container) {
+            var DTime = new Date();
+            var time = DTime.format("yyyy-MM-dd hh:mm:ss");
+            var type = State == 0 ? "error" : (State == 1 ? "success" : (State == 2 ? "info" : (State == 3 ? "warning" : "info")));
+            if (Container.find) {
+                if (Container.find("tbody").length > 0) {
+                    Container.find("tbody>tr:gt(200)").remove();
+                    var n = Container.find("tbody>tr:first>td:first").text();
+                    var tr = $("<tr class=\"" + type + "\"><td>" + (Number(n) + 1).toString() + "</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                    Container.find("tbody").prepend(tr);
+                }
+                else {
+                    var table = $("<table class=\"table table-striped\"></table>");
+                    var th = $("<thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>");
+                    var tb = $("<tbody></tbody>");
+                    var tr = $("<tr class=\"" + type + "\"><td>1</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                    tb.append(tr);
+                    table.append(th);
+                    table.append(tb);
+                    Container.empty();
+                    Container.prepend(table);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

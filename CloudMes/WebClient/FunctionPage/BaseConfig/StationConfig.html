@@ -1,0 +1,1169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Station Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.css" rel="stylesheet">
+    <link href="../../css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/StationConfig.css" rel="stylesheet" />
+    <style type="text/css">
+        * {
+            font-size: 8px !important;
+        }
+
+        .SlistBox {
+            width: 300px;
+            float: left;
+        }
+
+        .SEditBoxFold {
+            width: calc(100% - 300px);
+        }
+
+        .SEditBoxUnFold {
+            width: 100%;
+        }
+        .ui-menu {
+            height:180px;
+            overflow-y:scroll;
+        }
+    </style>
+</head>
+<body class="color-cPage full-height">
+    <div class="SlistBox" id="SlistBox">
+        <div class="ibox full-height">
+            <div class="ibox-title">
+                <h5>Station List</h5>
+                <div class="ibox-tools">
+                    <button class="btn btn-primary btn-xs" id="CreateStation"><lan set-lan="html:New">New</lan></button>
+                    <button class="btn btn-primary btn-xs" id="flod">Flod</button>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row m-b-sm m-t-sm toolbar">
+
+                </div>
+                <div class="project-list">
+                    <table class="table table-hover StationList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none;position:absolute; left:0;top:0;z-index:999999;" id="foldBox">
+        <button class="btn btn-primary btn-xs" id="unflod">&gt;&gt;</button>
+    </div>
+    <div class="SEditBoxFold" id="SEditBox">
+        <div class="row p-m helper">
+            <div class="jumbotron full-height">
+                <div>
+                    <h1>配置说明</h1>
+                    <p>一、从左侧列表选择已有工站点击编辑按钮进行编辑，或点击列表右上角新建按钮新建一个工站;</p>
+                    <p>二、根据配置向导逐步配置工站信息，配置顺序为工站基本信息、输入、输出、工站行为;</p>
+                    <p>三、工站输入、输出、行为可从对应的配置界面左侧列表中拖出放置在对应的列表中进行添加;</p>
+                    <p>四、工站行为是配置在每个输入上，所以在工站行为配置界面需要先选择对应的工站输入，再从左侧行为列表中拖出对应的行为;</p>
+                    <p>五、工站行为需要配置行为参数，点击已添加的行为在配置界面下方的Param中进行添加;</p>
+                </div>
+                <div>
+                    <h1>Configuration instructions</h1>
+                    <p>1.Select an existing station from the list on the left and click the button to edit, or click the new button in the upper right corner of the list to create a new station;</p>
+                    <p>2.Configure station information step by step according to the configuration wizard, the configuration sequence is basic station information, input, output, station actions;</p>
+                    <p>3.Station input, output, and action can be dragged from the list on the left side of the corresponding configuration interface and placed in the corresponding list to add;</p>
+                    <p>4.Station action is configured on each input, so in the station action configuration interface, you need to select the corresponding station input first, and then drag the corresponding action from the action list on the left;</p>
+                    <p>5.Station action needs to configure action parameters, click the added action to add it in the parameters at the bottom of the configuration interface;</p>
+                </div>
+            </div>
+        </div>
+        <div id="wizard" class="full-height p-m">
+            <h1>Station</h1>
+            <div class="step-content full-height">
+                <div class="form-horizontal StationAttr">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Station Name</label>
+                        <div class="col-sm-10">
+                            <input name="STATION_NAME" type="text" class="form-control" placeholder="Station Name In Route">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Display Name</label>
+                        <div class="col-sm-10">
+                            <input name="DISPLAY_STATION_NAME" type="text" class="form-control" placeholder="Station Name Display In Menu">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Is Fail Station</label>
+                        <div class="col-sm-10">
+                            <div class="radio radio-inline">
+                                <label>
+                                    <input type="radio" value="1" id="optionsRadios1" name="FAIL_STATION_FLAG">Yes
+                                </label>
+                                <label>
+                                    <input type="radio" value="0" id="optionsRadios2" name="FAIL_STATION_FLAG">No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group" id="FailStationGroup">
+                        <label class="col-sm-2 control-label">Fail Station</label>
+                        <div class="col-sm-10">
+                            <input id="FAIL_STATION_ID" name="FAIL_STATION_ID" type="text" class="form-control" placeholder="Fail Station Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1>Input</h1>
+            <div class="step-content full-height">
+                <div class="col-xs-3 no-padding full-height">
+                    <div class="panel panel-primary m-r-sm full-height">
+                        <div class="panel-heading">Station Input</div>
+                        <div class="panel-body no-padding scroll-y InputList">
+                            <ul class="InputDragg"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-9 full-height">
+                    <div class="panel panel-primary m-r-sm full-height">
+                        <div class="panel-heading">Input Element</div>
+                        <div class="panel-body no-padding scroll-y Station">
+                            <div class="col-xs-12 m-t-sm">
+                                <ul class="Inputs m-t-lg"></ul>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="SInputBox m-t-lg InputAttr">
+                                    <div class="hidden">
+                                        <input type="text" name="ID" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Display Name</label>
+                                        <div class="col-sm-10">
+                                            <input name="DISPLAY_NAME" type="text" class="form-control" value="" placeholder="Display Name">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Only Scan</label>
+                                        <div class="col-sm-10">
+                                            <div class="radio radio-inline">
+                                                <label>
+                                                    <input id="SCAN_FLAG_1" name="SCAN_FLAG" checked="" type="radio" value="1">Yes
+                                                </label>
+                                                <label>
+                                                    <input id="SCAN_FLAG_0" name="SCAN_FLAG" checked="" type="radio" value="0">No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Remember Last Value</label>
+                                        <div class="col-sm-10">
+                                            <div class="radio radio-inline">
+                                                <label>
+                                                    <input id="REMEMBER_LAST_INPUT_1" name="REMEMBER_LAST_INPUT" type="radio" value="1">Yes
+                                                </label>
+                                                <label>
+                                                    <input id="REMEMBER_LAST_INPUT_0" name="REMEMBER_LAST_INPUT" type="radio" value="0">No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Input Name</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_INPUT_NAME" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Display Type</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_DISPLAY_TYPE" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Description</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_DESCRIPTION" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">API</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_DATA_SOURCE_API" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">API Parameter</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_DATA_SOURCE_API_PARA" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-right">Refresh Type</label>
+                                        <div class="col-sm-10">
+                                            <input name="C_Input_REFRESH_TYPE" type="text" class="form-control" value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1>Output</h1>
+            <div class="step-content full-height">
+                <div class="panel panel-primary m-r-sm full-height">
+                    <div class="panel-heading">Output</div>
+                    <div class="panel-body no-padding scroll-y OutputBox">
+                        <div class="col-xs-12 m-t-sm">
+                            <ul class="Outputs m-t-lg"></ul>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="SOutputBox m-t-lg OutputAttr">
+                                <div class="form-group">
+                                    <div class="col-xs-2"><button class="btn btn-primary addOutputButton">New</button></div>
+                                    <label class="col-xs-2 control-label text-right">Output ID</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="ID" class="form-control" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Outputs Name</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="NAME" class="form-control" value="" placeholder="Outputs Name">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Display Type</label>
+                                    <div class="col-xs-8">
+                                        <select name="DISPLAY_TYPE">
+                                            <option>TXT</option>
+                                            <option>Table</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Session Type</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="SESSION_TYPE" class="form-control" value="" placeholder="Session Type">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Session Key</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="SESSION_KEY" class="form-control" value="" placeholder="Session Key">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1>Action</h1>
+            <div class="step-content full-height scroll-y">
+                <div class="col-md-12 col-lg-3 no-padding ActionList">
+                    <ul id="ActionTab" class="nav nav-tabs">
+                        <li class="active"><a href="#LoaderTab" data-toggle="tab">Data Load</a></li>
+                        <li><a href="#CheckerTab" data-toggle="tab">Data Check</a></li>
+                        <li><a href="#RunnerTab" data-toggle="tab">Action Run</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade in active" id="LoaderTab">
+                            <ul class="LoaderDragg"></ul>
+                        </div>
+                        <div class="tab-pane fade" id="CheckerTab">
+                            <ul class="CheckerDragg"></ul>
+                        </div>
+                        <div class="tab-pane fade" id="RunnerTab">
+                            <ul class="RunnerDragg"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-9 Station scroll-y">
+                    <div class="col-xs-12 no-padding panel panel-primary m-t-xs">
+                        <div class="panel-heading">Inputs</div>
+                        <div class="panel-body no-padding">
+                            <ul class="Inputs unSortable m-t-lg"></ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 no-padding panel panel-primary m-t-xs">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body no-padding SActionBox">
+                            <div class="col-xs-3 no-padding hidden " >
+                                <ul class="IAction"></ul>
+                            </div>
+                            <div class="col-xs-12 no-padding ">
+                                <ul class="SAction"></ul>
+                            </div>
+                        </div>
+                        <div class="panel-body form-horizontal ActionAttr">
+                            <div class="hidden">
+                                <input type="text" name="ID" value="" class="hidden" />
+                                <input type="text" name="R_STATION_INPUT_ID" value="" class="hidden" />
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Class Name</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="C_STATION_ACTION_CLASS_NAME" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Function Name</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="C_STATION_ACTION_FUNCTION_NAME" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Description</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="C_STATION_ACTION_DESCRIPTION" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Config Type</label>
+                                    <div class="col-xs-8">
+                                        <select name="CONFIG_TYPE">
+                                            <option>Default</option>
+                                            <option>Line</option>
+                                            <option>Sku</option>
+                                            <option>Series</option>
+                                            <option>WorkOrder</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Config Value</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="CONFIG_VALUE" class="form-control" value="" placeholder="Config Value">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 control-label text-right">Add Flag</label>
+                                    <div class="col-xs-8">
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" checked="checked" value="1" id="AddType_1" name="ADD_FLAG">Add
+                                            </label>
+                                            <label>
+                                                <input type="radio" value="0" id="AddType_2" name="ADD_FLAG">Remove
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 no-padding panel panel-primary m-t-xs">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Action Params</h3>
+                        </div>
+                        <div class="SActionBox panel-body no-padding form-horizontal">
+                            <div class="col-xs-6 ParaSBBox">
+                                <table class="table table-bordered ParaSB">
+                                    <thead>
+                                        <tr>
+                                            <th>SEQ</th>
+                                            <th>Name</th>
+                                            <th>Desc</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-6 ParaSABox">
+                                <table class="table table-bordered ParaSA">
+                                    <thead>
+                                        <tr>
+                                            <th>SEQ</th>
+                                            <th>Session Type</th>
+                                            <th>Session Key</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-12 ParamAttr">
+                                <div class="hidden">
+                                    <!--Params不可修改的属性，隐藏-->
+                                    <input type="text" name="ID" value="" />
+                                    <input type="text" name="R_STATION_ACTION_ID" value="" />
+                                    <input type="text" name="R_INPUT_ACTION_ID" value="" />
+                                    <input type="text" name="SEQ_NO" value="" />
+                                </div>
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-6 control-label text-right">SESSION_TYPE</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" name="SESSION_TYPE" class="form-control" value="" placeholder="Session Type">
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-6 control-label text-right">SESSION_KEY</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" name="SESSION_KEY" class="form-control" value="" placeholder="Session Key">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed col-xs-12"></div>
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-6 control-label text-right">VALUE</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" name="VALUE" class="form-control" value="" placeholder="VALUE">
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-6">
+                                    <button type="button" class="btn btn-primary col-xs-offset-3 ParamNewButton">New</button>
+                                    <button type="button" class="btn btn-danger col-xs-offset-3 ParamDeleteButton">Delete</button>
+                                </div>
+                                <div class="hr-line-dashed col-xs-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!--script src="../../Scripts/plugins/steps/jquery.steps.min.js"></script-->
+    <script src="../../Scripts/plugins/steps/jquery.steps.en.min.js"></script>
+    <!--自定义js-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.Config.js"></script>
+    <script type="text/javascript">
+        var ConfigType = "Add";
+        var StationName = "";
+        var Configer = null;
+        var SetInput = function (obj, ContainerClass) {
+            var keys = Object.keys(obj);
+            for (var i = 0; i < keys.length; i++) {
+                if (typeof obj[keys[i]] == "object") {
+                    var objc = obj[keys[i]];
+                    var ks = Object.keys(objc);
+                    for (var x = 0; x < ks.length; x++) {
+                        var selector = ContainerClass + " [name=" + keys[i] + "_" + ks[x] + "]";
+                        var e = $(selector);
+                        e.val(objc[ks[x]]);
+                    }
+                } else {
+                    var selector = ContainerClass + " [name=" + keys[i] + "]";
+                    var e = $(selector);
+                    switch (e.attr("type")) {
+                        case "radio":
+                            for (var n = 0; n < e.length; n++) {
+                                if (e[n].value == (obj[keys[i]] + "")) {
+                                    $(e[n]).prop("checked", true);
+                                }
+                                else {
+                                    $(e[n]).prop("checked", false);
+                                }
+                            }
+                            break;
+                        case "text":
+                            e.val(obj[keys[i]]);
+                            break;
+                        case "select":
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        };
+        var StepOptions = {
+            onStepChanging: function (event, currentIndex, newIndex) {
+                switch (currentIndex) {
+                    case 0:
+                        if (Configer.Station.STATION_NAME == "") {
+                            swal("Warning", "Station Name can't be null", "warning");
+                            return false;
+                        }
+                        if (Configer.Station.DISPLAY_STATION_NAME == "") {
+                            swal("Warning", "Display Name can't be null", "warning");
+                            return false;
+                        }
+                        if (Configer.Station.FAIL_STATION_FLAG == "1") {
+                            Configer.Station.FAIL_STATION_ID = "";
+                        }
+                        break;
+                    case 1:
+                        for (var i = 0; i < Configer.Station.InputList.length; i++) {
+                            if (Configer.Station.InputList[i].DISPLAY_NAME == "") {
+                                swal("Warning", "Input[" + i + "] Dispaly Name can't be null", "warning");
+                                return false;
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (var i = 0; i < Configer.Station.OutputList.length; i++) {
+                            if (Configer.Station.OutputList[i].NAME == "") {
+                                swal("Warning", "Output[" + i + "] Name can't be null", "warning");
+                                return false;
+                            }
+                            if (Configer.Station.OutputList[i].SESSION_TYPE == "") {
+                                swal("Warning", "Output[" + i + "] SESSION_TYPE can't be null", "warning");
+                                return false;
+                            }
+                            if (Configer.Station.OutputList[i].SESSION_KEY == "") {
+                                swal("Warning", "Output[" + i + "] SESSION_KEY can't be null", "warning");
+                                return false;
+                            }
+                        }
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+                switch (newIndex) {
+                    case 0:
+                        /*Station*/
+                        $(".StationAttr input:text").off("keyup");
+                        $(".StationAttr input:not(:text),.StationAttr select").off("change");
+                        SetInput(Configer.Station, ".StationAttr");
+                        /*工站属性输入框改变事件*/
+                        $(".StationAttr input:text").on("keyup", function (e) {
+                            Configer.Station[this.name] = this.value;
+                        });
+                        $(".StationAttr input:not(:text),.StationAttr select").on("change", function (e) {
+                            Configer.Station[this.name] = this.value;
+                        });
+                        break;
+                    case 1:
+                        /*Inputs*/
+                        $(".Inputs:not(.unSortable)").empty();
+                        Configer.Station.ShowInputs({ Type: "modify", Container: $(".Inputs:not(.unSortable)") });
+                        self.parent.Loading(true);
+                        Configer.GetInputList(function (e) {
+                            if (e.Status == "Pass") {
+                                var c = $(".InputDragg");
+                                var El = new InputElements();
+                                for (var i = 0; i < e.Data.length; i++) {
+                                    El.readonly({
+                                        Container: c,
+                                        Input: { ID: e.Data[i].ID, DISPLAY_NAME: e.Data[i].DESCRIPTION }
+                                    });
+                                }
+                                /*Inputs拖动开始*/
+                                $(".InputDragg li").draggable({
+                                    connectToSortable: ".Inputs:not(.unSortable)",
+                                    helper: "clone",
+                                    revert: true
+                                });
+                                $(".Inputs:not(.unSortable)").sortable({
+                                    update: function (e, u) {
+                                        if (u.item.hasClass("ui-draggable")) {
+                                            /*添加输入*/
+                                            var id = u.item.attr("data-objid");
+                                            var input = new StationInput({ STATION_ID: Configer.Station.ID, INPUT_ID: id, Client: self.parent.client, U: u.item });
+                                            u.item.attr("style", "");
+                                            u.item.removeClass("ui-draggable");
+                                            u.item.removeClass("ui-draggable-handle");
+                                            u.item.addClass("ui-sortable-handle");
+                                            u.item.find(".close").remove();
+                                            u.item.append($("<span class=\"close\"></span>"));
+                                            var index = $(".Inputs:not(.unSortable) li").index(u.item);
+                                            Configer.Station.AddInput(input, index);
+                                        }
+                                        else {
+                                            /*Input排序*/
+                                            var id = u.item.attr("data-objid");
+                                            var index = $(".Inputs:not(.unSortable) li").index(u.item);
+                                            Configer.Station.SortInput(id, index);
+                                        }
+                                    },
+                                    revert: "invalid",
+                                    tolerance: 'pointer',
+                                    forcePlaceholderSize: true,
+                                    opacity: 0.8,
+                                })
+                                    .disableSelection();
+                                /*Inputs拖动结束*/
+                            }
+                            self.parent.Loading(false);
+                        });
+                        break;
+                    case 2:
+                        /*Outputs*/
+                        Configer.Station.ShowOutputs($(".Outputs:not(.unSortable)"));
+                        $(".Outputs:not(.unSortable)").sortable({
+                            update: function (e, u) {
+                                /*Input排序*/
+                                var id = u.item.attr("data-objid");
+                                var index = $(".Outputs:not(.unSortable) li").index(u.item);
+                                Configer.Station.SortOutput(id, index);
+                            },
+                            revert: "invalid",
+                            tolerance: 'pointer',
+                            forcePlaceholderSize: true,
+                            opacity: 0.8,
+                        })
+                            .disableSelection();
+                        break;
+                    case 3:
+                        /*Action*/
+                        self.parent.Loading(true);
+                        Configer.GetActionList(function (e) {
+                            if (e.Status == "Pass") {
+                                var l = $(".LoaderDragg");
+                                var c = $(".CheckerDragg");
+                                var r = $(".RunnerDragg");
+                                l.empty();
+                                c.empty();
+                                r.empty();
+                                var El = new ActionElements();
+                                for (var i = 0; i < e.Data.length; i++) {
+                                    switch (e.Data[i].ACTION_TYPE) {
+                                        case "DataLoader":
+                                            El.Loader(l, e.Data[i].ID, e.Data[i].ACTION_NAME, "readonly");
+                                            break;
+                                        case "DataChecker":
+                                            El.Checker(c, e.Data[i].ID, e.Data[i].ACTION_NAME, "readonly");
+                                            break;
+                                        case "ActionRunner":
+                                            El.Runner(r, e.Data[i].ID, e.Data[i].ACTION_NAME, "readonly");
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                            self.parent.Loading(false);
+                        });
+                        Configer.Station.ShowInputs({ Type: "readonly", Container: $(".Inputs.unSortable") });
+                        $(".SAction").empty();
+                        $(".ParaSA tbody").empty();
+                        $(".ParaSB tbody").empty();
+                        $(".ParamAttr input").each(function (index, element) {
+                            $(this).val("");
+                        });
+                        break;
+                    default:
+
+                }
+                return true;
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+
+            },
+            onFinishing: function (event, currentIndex) {
+                //验证
+                return true;
+            },
+            onFinished: function (event, currentIndex) {
+                var data = Configer.Station;
+                self.parent.Loading(true);
+                self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "SaveStation", { Station: data }, function (e) {
+                    self.parent.Loading(false);
+                    if (e.Status == "Pass") {
+                        swal("Save ok!", "Save ", "success", function () {
+                            self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryStation", {}, function (e) {
+                                if (e.Status == "Pass") {
+                                    $(".StationList").bootstrapTable("load", e.Data);
+                                }
+                                else {
+                                    swal("error", e.Message, "error");
+                                }
+                            });
+                        });
+                    }
+                    else {
+                        swal("ERROR", e.Message, "error");
+                    }
+                });
+            },
+            onCanceled: function (event) {
+                Configer = null;
+                $(".helper").show();
+            }
+        };
+        $(document).ready(function () {
+            /*加载工站列表*/
+            self.parent.Loading(true);
+            self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryStation", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $(".StationList").bootstrapTable({
+                        buttonsClass: "primary",
+                        showHeader: false,
+                        showRefresh: true,
+                        search: true,
+                        searchTimeOut: 300,
+                        searchAlign: "right",
+                        buttonsAlign: "left",
+                        data: e.Data,
+                        columns: [{
+                            field: 'STATION_NAME',
+                            title: 'Titile',
+                            searchable: true,
+                            formatter: function (value, row, index) {
+                                return '<b>' + row.DISPLAY_STATION_NAME + '</b><br><small>' + value + '</small>';
+                            },
+                            class: "project-title"
+                        }, {
+                            field: 'ID',
+                            title: 'Action',
+                            searchable: true,
+                            formatter: function (value, row, index) {
+                                var e = '<button class="btn btn-primary btn-sm editButton" data-objid="' + row.DISPLAY_STATION_NAME + '"><i class="fa fa-pencil"></i> <lan set-lan="html:Edit">Modify</lan> </button> ';
+                                var d = ' <button class="btn btn-danger btn-sm deleteButton" data-objid="' + value + '"><i class="fa fa-remove"></i> <lan set-lan="html:Delete">Delete</lan> </button>';
+                                return e + d;
+                            },
+                            class: "project-actions"
+                        }],
+                        onRefresh: function (param) {
+                            self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryStation", {}, function (e) {
+                                if (e.Status == "Pass") {
+                                    $(".StationList").bootstrapTable("load", e.Data);
+                                }
+                                else {
+                                    swal("error", e.Message, "error");
+                                }
+                            });
+                        }
+                    });
+                    self.parent.Loading(false);
+                }
+                else {
+                    self.parent.Loading(false);
+                    swal("error", e.Message, "error");
+                }
+            });
+            /*表单向导*/
+            $("#wizard").steps(StepOptions);
+
+            /*收缩工站列表*/
+            $("#flod").on("click", function (e) {
+                $("#SlistBox").toggle(200, 'swing', function () {
+                    $("#SEditBox").removeClass("SEditBoxFold");
+                    $("#SEditBox").addClass("SEditBoxUnFold");
+                });
+                $("#foldBox").toggle(200, 'swing', function () { });
+            });
+            /*伸展工站列表*/
+            $("#unflod").on("click", function (e) {
+                $("#SEditBox").addClass("SEditBoxFold");
+                $("#SEditBox").removeClass("SEditBoxUnFold");
+                $("#SlistBox").toggle(200, 'swing', function () { });
+                $("#foldBox").toggle(200, 'swing', function () { });
+            });
+
+            /*新建工站按钮触发事件*/
+            $("#CreateStation").on("click", function (e) {
+                self.parent.Loading(true);
+                Configer = new MesStationConfig({
+                    Name: "",
+                    Type: "Add",
+                    IContainer: $(".Inputs"),
+                    OContainer: $(".Outputs"),
+                    AContainer: $(".SAction"),
+                    Client: self.parent.client,
+                    Init: function (e) {
+                        if (e.Status == "Pass") {
+                            $(".StationAttr input:text").off("keyup");
+                            $(".StationAttr input:not(:text),.StationAttr select").off("change");
+                            $(".helper").hide();
+                            $("#wizard").steps("destroy");
+                            $("#wizard").steps(StepOptions);
+                            SetInput(Configer.Station, ".StationAttr");
+                            /*工站属性输入框改变事件*/
+                            $(".StationAttr input:text").on("keyup", function (e) {
+                                Configer.Station[this.name] = this.value;
+                            });
+                            $(".StationAttr input:not(:text),.StationAttr select").on("change", function (e) {
+                                Configer.Station[this.name] = this.value;
+                            });
+                            self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryFailStation", {}, function (e) {
+                                if (e.Status == "Pass") {
+                                    var data = [];
+                                    for (var i = 0; i < e.Data.length; i++) {
+                                        data.push(e.Data[i].DISPLAY_STATION_NAME);
+                                    }
+                                    $("#FAIL_STATION_ID").autocomplete({
+                                        minLength: 0,
+                                        source: data,
+                                        select: function (event, ui) {
+                                            var e = $.Event("keyup");
+                                            $(this).val(ui.item.value);
+                                            $(this).trigger(e);
+                                        },
+                                        create: function (event, ui) {
+                                            $(this).bind("click", function () {
+                                                var active = $(this).attr("autocomplete");
+                                                if (active == "off") {
+                                                    $(this).autocomplete("search", "");
+                                                }
+                                            });
+                                        },
+                                        scroll: true,
+                                        scrollHeight: 180,
+                                        position: { my: "right top", at: "right bottom" }
+                                    });
+                                }
+                            });
+                            self.parent.Loading(false);
+                        }
+                        else {
+                            self.parent.Loading(false);
+                            swal("error", e.Message, "error");
+                        }
+                    }
+                });
+            });
+            /*工站列表编辑按钮事件*/
+            $(document).on("click", ".editButton", function (e) {
+                self.parent.Loading(true);
+                Configer = null;
+                Configer = new MesStationConfig({
+                    Name: $(this).attr("data-objid"),
+                    Type: "Edit",
+                    IContainer: $(".Inputs"),
+                    OContainer: $(".Outputs"),
+                    AContainer: $(".SAction"),
+                    Client: self.parent.client,
+                    Init: function (e) {
+                        if (e.Status == "Pass") {
+                            $(".StationAttr input:text").off("keyup");
+                            $(".StationAttr input,.StationAttr select").off("change");
+                            $(".helper").hide();
+                            $("#wizard").steps("destroy");
+                            $("#wizard").steps(StepOptions);
+                            SetInput(Configer.Station, ".StationAttr");
+                            /*工站属性输入框改变事件*/
+                            $(".StationAttr input:text").on("keyup", function (e) {
+                                Configer.Station[this.name] = this.value;
+                            });
+                            $(".StationAttr input:not(:text),.StationAttr select").on("change", function (e) {
+                                Configer.Station[this.name] = this.value;
+                            });
+                            self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryFailStation", {}, function (e) {
+                                if (e.Status == "Pass") {
+                                    var data = [];
+                                    for (var i = 0; i < e.Data.length; i++) {
+                                        data.push(e.Data[i].DISPLAY_STATION_NAME);
+                                    }
+                                    $("#FAIL_STATION_ID").autocomplete({
+                                        minLength: 0,
+                                        source: data,
+                                        select: function (event, ui) {
+                                            var e = $.Event("keyup");
+                                            $(this).val(ui.item.value);
+                                            $(this).trigger(e);
+                                        },
+                                        create: function (event, ui) {
+                                            $(this).bind("click", function () {
+                                                var active = $(this).attr("autocomplete");
+                                                if (active == "off") {
+                                                    $(this).autocomplete("search", "");
+                                                }
+                                            });
+                                        },
+                                        scroll: true,
+                                        scrollHeight: 180,
+                                        position: { my: "right top", at: "right bottom" }
+                                    });
+                                }
+                            });
+                            self.parent.Loading(false);
+                        }
+                        else {
+                            self.parent.Loading(false);
+                            swal("error", e.Message, "error");
+                        }
+                    }
+                });
+            });
+            /*工站列表删除按钮事件*/
+            $(document).on("click", ".deleteButton", function (e) {
+                swal({
+                    title: "Notice!",
+                    text: "You will perform an non - recoverable operation!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm",
+                    cancelButtonText: "Cancel",
+                    inputValue: $(this).attr("data-objid"),
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        self.parent.Loading(true);
+                        self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "ByIDDeleteStation", { ID: this.inputValue }, function (e) {
+                            self.parent.Loading(false);
+                            if (e.Status == "Pass") {
+                                swal("Deleted!", "Station has been deleted.", "success", function () {
+                                    self.parent.client.CallFunction("MESStation.Stations.StationConfig.StationConfig", "QueryStation", {}, function (e) {
+                                        if (e.Status == "Pass") {
+                                            $(".StationList").bootstrapTable("load", e.Data);
+                                        }
+                                        else {
+                                            swal("error", e.Message, "error");
+                                        }
+                                    });
+                                });
+                            }
+                            else {
+                                swal("error!", e.Message, "error");
+                            }
+                        });
+                    }
+                    else {
+                        swal.close();
+                    }
+                });
+            });
+
+            /*工站属性是否是FAIL工站触发显示FAIL工站选择框*/
+            $("[name=FAIL_STATION_FLAG]").on("click", function (e) {
+                if (this.value == "1") {
+                    Configer.Station[this.name] = 1;
+                    $("#FailStationGroup").hide();
+                } else {
+                    Configer.Station[this.name] = 0;
+                    $("#FailStationGroup").show();
+                }
+            });
+
+            /*Inputs编辑 Input点击事件*/
+            $(document).on("click", ".Inputs:not(.unSortable) li em", function (e) {
+                $(".InputAttr input:text").off("keyup");
+                $(".InputAttr input:not(:text),.InputAttr select").off("change");
+                var t = $(this);
+                t.parent().siblings().removeClass("active");
+                t.parent().addClass("active");
+                var id = t.parent().attr("data-objid");
+                var Input = Configer.Station.GetInput(id);
+                /*将Input属性填充到界面输入框*/
+                SetInput(Input, ".InputAttr");
+                /*Input属性输入框改变事件*/
+                $(".InputAttr input:text").on("keyup", { Input: Input }, function (e) {
+                    e.data.Input[this.name] = this.value;
+                });
+                $(".InputAttr input:not(:text),.InputAttr select").on("change", { Input: Input }, function (e) {
+                    e.data.Input[this.name] = this.value;
+                });
+            });
+            /*Inputs编辑 Input删除按钮事件*/
+            $(document).on("click", ".Inputs:not(.unSortable) .close", function (e) {
+                var t = $(this);
+                var id = t.parent().attr("data-objid");
+                Configer.Station.RemoveInput(id);
+            });
+
+            /*Outputs编辑 Output点击事件*/
+            $(document).on("click", ".Outputs:not(.unSortable) li em", function (e) {
+                $(".OutputAttr input:text").off("keyup");
+                $(".OutputAttr input:not(:text),.OutputAttr select").off("change");
+                var t = $(this);
+                t.parent().siblings().removeClass("active");
+                t.parent().addClass("active");
+                var id = t.parent().attr("data-objid");
+                var Output = Configer.Station.GetOutput(id);
+                SetInput(Output, ".OutputAttr");
+                /*Output属性输入框改变事件*/
+                $(".OutputAttr input:text").on("keyup", { Output: Output }, function (e) {
+                    e.data.Output[this.name] = this.value;
+                    if (this.name == "NAME") {
+                        var selector = ".Outputs [data-objid=" + e.data.Output.ID + "] em";
+                        $(selector).html(this.value);
+                    }
+                });
+                $(".OutputAttr input:not(:text),.OutputAttr select").on("change", { Output: Output }, function (e) {
+                    e.data.Output[this.name] = this.value;
+                    if (this.name == "NAME") {
+                        var selector = ".Outputs [data-objid=" + e.data.Output.ID + "] em";
+                        $(selector).html(this.value);
+                    }
+                });
+            });
+            /*Outputs编辑 Output删除按钮事件*/
+            $(document).on("click", ".Outputs:not(.unSortable) .close", function (e) {
+                var t = $(this);
+                var id = t.parent().attr("data-objid");
+                Configer.Station.RemoveOutput(id);
+            });
+            /*Outputs编辑 New按钮事件*/
+            $(document).on("click", ".addOutputButton", function (e) {
+                var li = new OutputElements().modify($(".Outputs:not(.unSortable)"), "", "NewOutput");
+                var output = new StationOutput({ R_STATION_ID: Configer.Station.ID, Client: self.parent.client, U: li });
+                var index = $(".Outputs:not(.unSortable) li").index(li);
+                Configer.Station.AddOutput(output, index);
+            });
+
+            /*Action编辑 Input点击绑定事件*/
+            $(document).on("click", ".Inputs.unSortable li em", function (e) {
+                var t = $(this);
+                t.parent().siblings().removeClass("active");
+                t.parent().addClass("active");
+                var id = t.parent().attr("data-objid");
+                $(".ActionAttr [name=R_STATION_INPUT_ID]").val(id);
+                var Input = Configer.Station.GetInput(id);
+                Input.ShowActions($(".IAction"), $(".SAction"));
+                $(".ActionAttr input:not(.hidden)").each(function (index, element) {
+                    $(this).val("");
+                });
+                $(".ParaSA tbody").empty();
+                $(".ParaSB tbody").empty();
+                $(".ParamAttr input").each(function (index, element) {
+                    $(this).val("");
+                });
+                /*Action拖动开始*/
+                $(".LoaderDragg li").draggable({
+                    connectToSortable: ".SAction:not(.unSortable)",
+                    helper: "clone",
+                    revert: true
+                });
+                $(".CheckerDragg li").draggable({
+                    connectToSortable: ".SAction:not(.unSortable)",
+                    helper: "clone",
+                    revert: true
+                });
+                $(".RunnerDragg li").draggable({
+                    connectToSortable: ".SAction:not(.unSortable)",
+                    helper: "clone",
+                    revert: true
+                });
+                $(".SAction:not(.unSortable)").sortable({
+                    update: function (e, u) {
+                        var iid = $(".ActionAttr [name=R_STATION_INPUT_ID]").val();
+                        var cid = u.item.attr("data-objid");
+                        var input = Configer.Station.GetInput(iid);
+                        if (u.item.hasClass("ui-draggable")) {
+                            var action = new SAction({ C_STATION_ACTION_ID: cid, R_STATION_INPUT_ID: iid, Client: self.parent.client, U: u.item });
+                            u.item.attr("style", "");
+                            u.item.removeClass("ui-draggable");
+                            u.item.removeClass("ui-draggable-handle");
+                            u.item.addClass("ui-sortable-handle");
+                            u.item.find(".close").remove();
+                            u.item.append($("<span class=\"close\"></span>"));
+                            var index = $(".SAction:not(.unSortable) li").index(u.item);
+                            input.AddAction(action, index);
+                        }
+                        else {
+                            var index = $(".SAction:not(.unSortable) li").index(u.item);
+                            input.SortAction(cid, index);
+                        }
+                    },
+                    receive: function (e, u) {
+                        $(".SAction:not(.unSortable)").sortable();
+                    },
+                    revert: "invalid",
+                    tolerance: 'pointer',
+                    forcePlaceholderSize: true,
+                    opacity: 0.8,
+                }).disableSelection();
+                /*Action拖动结束*/
+            });
+            /*Action编辑 Action点击事件*/
+            $(document).on("click", ".SAction li em", function (ev) {
+                $(".ActionAttr input:text").off("keyup");
+                $(".ActionAttr input:not(:text),.ActionAttr select").off("change");
+                var t = $(this);
+                t.parent().siblings().removeClass("active");
+                t.parent().addClass("active");
+                var iid = $(".ActionAttr [name=R_STATION_INPUT_ID]").val();
+                var id = t.parent().attr("data-objid");
+                var input = Configer.Station.GetInput(iid);
+                var action = input.GetAction(id);
+
+                SetInput(action, ".ActionAttr");
+                $(".ActionAttr input:text").on("keyup", { Action: action }, function (e) {
+                    e.data.Action[this.name] = this.value;
+                });
+                $(".ActionAttr input:not(:text),.ActionAttr select").on("change", { Action: action }, function (e) {
+                    e.data.Action[this.name] = this.value;
+                });
+
+                $(".ParamAttr input").each(function (index, element) {
+                    $(this).val("");
+                });
+                /*加载Action Param*/
+                action.ShowParam($(".ParaSA tbody"), $(".ParaSB tbody"));
+            });
+            /*Action编辑 Action删除按钮事件*/
+            $(document).on("click", ".SAction .close", function (ev) {
+                var t = $(this);
+                var iid = $(".ActionAttr [name=R_STATION_INPUT_ID]").val();
+                var cid = t.parent().attr("data-objid");
+                var input = Configer.Station.GetInput(iid);
+                input.RemoveAction(cid);
+            });
+            /*Action编辑 Param行点击事件*/
+            $(document).on("click", ".ParaSA tbody tr", function (e) {
+                $(".ParamDeleteButton").off("click");
+                $(".ParamAttr input:text").off("keyup");
+                $(".ParamAttr input:not(:text),.ParamAttr select").off("change");
+                var t = $(this);
+                t.siblings().removeClass("active");
+                t.addClass("active");
+                var iid = $(".ActionAttr [name=R_STATION_INPUT_ID]").val();
+                var aid = $(".ActionAttr [name=ID]").val();
+                var id = t.attr("data-objid");
+                var input = Configer.Station.GetInput(iid);
+                var action = input.GetAction(aid);
+                var p = action.GetParam(id);
+                SetInput(p, ".ParamAttr");
+                $(".ParamDeleteButton").on("click", { action: action }, function (e) {
+                    var id = $(".ParamAttr [name=ID]").val();
+                    e.data.action.RemoveParam(id);
+                });
+                $(".ParamAttr input:text").on("keyup", { Para: p }, function (e) {
+                    p[this.name] = this.value;
+                    e.data.Para.Show($(".ParaSA tbody"));
+                });
+                $(".ParamAttr input:not(:text),.ParamAttr select").on("change", { Para: p }, function (e) {
+                    p[this.name] = this.value;
+                    e.data.Para.Show($(".ParaSA tbody"));
+                });
+            });
+            /*Action编辑 添加Param按钮事件*/
+            $(document).on("click", ".ParamNewButton", function (e) {
+                var id = $(".ActionAttr [name=ID]").val();
+                if (id != "") {
+                    var iid = $(".ActionAttr [name=R_STATION_INPUT_ID]").val();
+                    var input = Configer.Station.GetInput(iid);
+                    var action = input.GetAction(id);
+                    var row = $('<tr data-objid=""><td>undefined</td><td>undefined</td><td>undefined</td><td>undefined</td></tr>');
+                    $(".ParaSA tbody").append(row);
+                    var para = new ActionParaSA({ R_STATION_ACTION_ID: action.ID, Client: self.parent.client, U: row });
+                    action.AddParam(para);
+                }
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

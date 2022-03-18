@@ -1,0 +1,811 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Message Setting Config</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+        /*.title-bg-primary {
+           color: #fff;
+           background-color: #337ab7;
+        }*/
+    </style>
+</head>
+<body class="gray-bg animated fadeInRight">
+    <div class="wrapper wrapper-content">
+        <div class="ibox full-height">
+            <div class="panel-heading bg-primary">
+                <h3>
+                    <i class="glyphicon glyphicon-tags"></i>
+                    <label id="titleMappingData" set-lan="html:hMappingData">Assembly Mapping Data Setting</label>
+                    <label id="titleAddMappingData" set-lan="html:hAddMappingData" hidden>Add Mapping Data</label>
+                    <label id="titleModifyMappingData" set-lan="html:hModifyMappingData" hidden>Modify Mapping Data</label>
+                </h3>
+            </div>
+            <div class="ibox-content">
+                <div id="divBack" class="row" hidden>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="GoBack(true)"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">Back</lan></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="divMappingDataDetail" class="row form-horizontal">
+
+                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelConfigheaderID">ConfigheaderID (SKU):</label>
+                            <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                                <input type="text" id="txtSearchConfigheaderID" class="form-control" set-lan="attr:placeholder=placeholderConfigheaderID" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelCustpartno">PARTNO:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                                <input type="text" id="txtSearchCustpartno" class="form-control" set-lan="attr:placeholder=placeholderCustpartno" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelLocation">Location:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                                <input type="text" id="txtSearchLocation" class="form-control" set-lan="attr:placeholder=placeholderLocation" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-3 col-sm-offset-2 col-md-offset-0 col-lg-offset-0">
+                        <button type="button" class="btn btn-primary" onclick="SearchMappingData()"><i class="glyphicon glyphicon-search"></i> <lan set-lan="html:select">Query</lan></button>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-toolbar">
+                                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                                    <button type="button" class="btn btn-outline btn-default" onclick="ShowAddAssemblyDataTab()">
+                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-default" onclick="ShowModifyAssemblyDataTab()">
+                                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-default" onclick="DeleteMappingData()" >
+                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                    </button>
+                                </div>
+                            </div>
+                            <table id="tableAssemblyMappingList" class="table table-hover "></table>
+                        </div>
+                    </div>
+                </div>
+                <div id="divAddMappingData" class="row form-horizontal" hidden>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSKU">ConfigHeaderID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddSKU" set-lan="attr:placeholder=placeholderSKU"  />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelREV">REV:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddREV" set-lan="attr:placeholder=placeholderREV" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCUSTPARTNO">CUSTPARTNO:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddCUSTPARTNO" set-lan="attr:placeholder=placeholderCUSTPARTNO" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelEnglish">Description:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddDescription" set-lan="attr:placeholder=placeholderDescription" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelQTY">QTY:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddQTY" set-lan="attr:placeholder=placeholderQTY" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelLocation">Location:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtAddLocation" set-lan="attr:placeholder=placeholderLocation" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                        <button type="button" class="btn btn-primary" onclick="AddAssemblyData()"><i class="fa fa-save"></i><lan set-lan="html:save">Save</lan></button>
+                    </div>
+                </div>
+                <div id="divModifyMappingData" class="row form-horizontal" hidden>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelID">ID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifyID" set-lan="attr:placeholder=placeholderID" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSKU">ConfigHeaderID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifySKU" set-lan="attr:placeholder=placeholderSKU" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCUSTPARTNO">CUSTPARTNO:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifyCUSTPARTNO" set-lan="attr:placeholder=placeholderCUSTPARTNO" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelDESCRIPTION">DESCRIPTION:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifyDESCRIPTION" set-lan="attr:placeholder=placeholderDESCRIPTION" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelChinese_tw">QTY:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifyQTY" set-lan="attr:placeholder=placeholderQTY" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                        <div class="form-group row">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelEnglish">LOCATION:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" class="form-control" id="txtModifyLOCATION" set-lan="attr:placeholder=placeholderLOCATION" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                        <button type="button" class="btn btn-primary" onclick="ModifyAssemblyData()"><i class="fa fa-save"></i><lan set-lan="html:save">Save</lan></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/import_excel_2_json.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            var data = {};
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.AssemblyMappingConfig", "GetAllAssemblyMapping", data, function (e) {
+                if (e.Status == "Pass") {
+                    ShowPageLanguagList(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowPageLanguagList([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            mesUI.SetLanguage("AssemblyMappingSetting");
+        });
+
+        function ShowPageLanguagList(Data) {
+            var tableLocale = "";
+            var lan = $.cookie($.MES.CK_LAN_NAME);
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $('#tableAssemblyMappingList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 20,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "right",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'Message Language List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'CONFIGHEADERID',
+                    title: '<label set-lan="html:tableConfigHeaderID">ConfigHeaderID</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'REV',
+                    title: '<label set-lan="html:tableREV">REV</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'CUSTPARTNO',
+                    title: '<label set-lan="html:tableCUSTPARTNO">CUSTPARTNO</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'DESCRIPTION',
+                    title: '<label set-lan="html:tableDESCRIPTION">DESCRIPTION</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                 {
+                     field: 'QTY',
+                     title: '<label set-lan="html:tableQTY">QTY</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 },
+                 {
+                     field: 'LOCATION',
+                     title: '<label set-lan="html:tableLOCATION">LOCATION</label>',
+                     rowspan: 1,
+                     align: 'left',
+                     valign: 'middle',
+                     cellStyle: function (value, row, index, field) {
+                         var style = { css: { 'word-break': 'break-all', 'word-wrap': 'word-break' } };                         
+                         return style;
+                     },
+                     sortable: true,
+                     visible: true
+                     
+                     
+                 }, {
+                     field: 'LASTEDITTIME',
+                     title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 }]
+            });
+            mesUI.SetLanguage("AssemblyMappingSetting");
+        }
+
+        function SearchMappingData() {
+            var ConfigHeaderID = $("#txtSearchConfigheaderID").val().replace(/^\s+|\s+$/g, "");
+            var CustPartno = $("#txtSearchCustpartno").val().replace(/^\s+|\s+$/g, "");
+            var Location = $("#txtSearchLocation").val().replace(/^\s+|\s+$/g, "");
+            DoSearch(ConfigHeaderID, CustPartno, Location);
+        }
+
+        function DoSearch(ConfigHeaderID, CustPartno, Location) {
+            var data = { CONFIGHEADERID: ConfigHeaderID, CUSTPARTNO: CustPartno, LOCATION: Location }
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.AssemblyMappingConfig", "GetDetail", data, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableAssemblyMappingList').bootstrapTable("load", e.Data);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            mesUI.SetLanguage("AssemblyMappingSetting");
+        }
+
+        function ShowAddAssemblyDataTab() {
+            $("#titleMappingData").hide();
+            $("#divMappingDataDetail").hide();
+            $("#divBack").show();
+            $("#divAddMappingData").show();
+            $("#titleAddMappingData").show();
+            $("#divModifyMappingData").hide();
+            $("#titleModifyMappingData").hide();
+            ClearAll();
+        }
+
+        function ShowModifyAssemblyDataTab() {
+            var select = $("#tableAssemblyMappingList").bootstrapTable('getSelections');
+            if (select.length > 1) {
+                swal({
+                    title: "",
+                    text: "You can only select one line for editing!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (select.length <= 0) {
+                swal({
+                    title: "",
+                    text: "Please select the valid data!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            $("#titleMappingData").hide();
+            $("#divMappingDataDetail").hide();
+            $("#divBack").show();
+            $("#divAddMappingData").hide();
+            $("#titleAddMappingData").hide();
+            $("#divModifyMappingData").show();
+            $("#titleModifyMappingData").show();
+            //ClearAll();
+            $("#txtModifyID").val(select[0].ID);
+            $("#txtModifySKU").val(select[0].CONFIGHEADERID);
+            $("#txtModifyCUSTPARTNO").val(select[0].CUSTPARTNO);
+            $("#txtModifyDESCRIPTION").val(select[0].DESCRIPTION);
+            $("#txtModifyQTY").val(select[0].QTY);
+            $("#txtModifyLOCATION").val(select[0].LOCATION);
+        }
+
+        function GoBack(obj) {
+            $("#titleMappingData").show();
+            $("#divMappingDataDetail").show();
+            $("#divBack").hide();
+            $("#divAddMappingData").hide();
+            $("#titleAddMappingData").hide();
+            $("#divModifyMappingData").hide();
+            $("#titleModifyMappingData").hide();
+            ClearAll();
+            if (obj) {
+                DoSearch("", "", "")
+            }
+            mesUI.SetLanguage("AssemblyMappingSetting");
+        }
+
+        function AddAssemblyData() {
+            var SKU = $("#txtAddSKU").val().replace(/^\s+|\s+$/g, "");
+            var REV = $("#txtAddREV").val().replace(/^\s+|\s+$/g, "");
+            var CUSTPARTNO = $("#txtAddCUSTPARTNO").val().replace(/^\s+|\s+$/g, "");
+            var Description = $("#txtAddDescription").val().replace(/^\s+|\s+$/g, "");
+            var QTY = $("#txtAddQTY").val().replace(/^\s+|\s+$/g, "");
+            var Location = $("#txtAddLocation").val().replace(/^\s+|\s+$/g, "");            
+            if (SKU == "" || SKU == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter the ConfigHeaderID!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddSKU").focus;
+                    $("#txtAddSKU").select();
+                }, 2001);
+                return;
+            }
+            if (REV == "" || REV == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter revision!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddREV").focus;
+                    $("#txtAddREV").select();
+                }, 2001);
+                return;
+            }
+            if (CUSTPARTNO == "" || CUSTPARTNO == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter the custpartno!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddCUSTPARTNO").focus;
+                    $("#txtAddCUSTPARTNO").select();
+                }, 2001);
+                return;
+            }
+            if (Description == "" || Description == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter description!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddDescription").focus;
+                    $("#txtAddDescription").select();
+                }, 2001);
+                return;
+            }
+            if (QTY == "" || QTY == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter QTY!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddQTY").focus;
+                    $("#txtAddQTY").select();
+                }, 2001);
+                return;
+            }
+            if (Location == "" || Location == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter Location!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddLocation").focus;
+                    $("#txtAddLocation").select();
+                }, 2001);
+                return;
+            }
+            var data = { CONFIGHEADERID: SKU, REV: REV, CUSTPARTNO: CUSTPARTNO, DESCRIPTION: Description, QTY: QTY, LOCATION: Location };
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.AssemblyMappingConfig", "AddAssemblyMapping", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddREV").val("");
+                        $("#txtAddCUSTPARTNO").val("");
+                        $("#txtAddDescription").val("");
+                        $("#txtAddQTY").val("");
+                        $("#txtAddLocation").val("");
+                        $("#txtAddSKU").focus;
+                        $("#txtAddSKU").select();
+                    }, 2001);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function selectFile() {
+            //触发 文件选择的click事件
+            $("#file").trigger("click");
+
+        }
+
+        function ExcelImport(obj) {
+            var wb;//读取完成的数据
+            var rABS = false; //是否将文件读取为二进制字符串
+            if (!obj.files) {
+                return;
+            }
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                if (rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                }
+                //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                var JsonStr = JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+
+                //var JsonData = JSON.parse(JsonStr);
+
+                self.parent.client.CallFunction("MESStation.GlobalConfig.LanguagePageConfig", "ExcelImport", { jsond: JsonStr }, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 20000,
+                            showConfirmButton: true
+                        });
+                    }
+                });
+            };
+            if (rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
+            }
+            //JSON.parse(
+
+        }
+
+        function Download() {
+            window.location.href = "../../File/language import.xlsx";
+        }
+
+        function fixdata(data) { //文件流转BinaryString
+            var o = "",
+                l = 0,
+                w = 10240;
+            for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+            return o;
+        }
+
+
+
+        function ModifyAssemblyData() {
+            var modifyID = $("#txtModifyID").val().replace(/^\s+|\s+$/g, "");
+            var modifySKU = $("#txtModifySKU").val().replace(/^\s+|\s+$/g, "");
+            var modifyCUSTPARTNO = $("#txtModifyCUSTPARTNO").val().replace(/^\s+|\s+$/g, "");
+            var modifyDESCRIPTION = $("#txtModifyDESCRIPTION").val().replace(/^\s+|\s+$/g, "");
+            var modifyQTY = $("#txtModifyQTY").val().replace(/^\s+|\s+$/g, "");
+            var modifyLOCATION = $("#txtModifyLOCATION").val().replace(/^\s+|\s+$/g, "");
+           
+            if (modifyDESCRIPTION == "" || modifyDESCRIPTION == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter the description!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtModifyDESCRIPTION").focus;
+                    $("#txtModifyDESCRIPTION").select();
+                }, 2001);
+                return;
+            }
+            if (modifyQTY == "" || modifyQTY == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter QTY!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtModifyQTY").focus;
+                    $("#txtModifyQTY").select();
+                }, 2001);
+                return;
+            }
+            if (modifyLOCATION == "" || modifyLOCATION == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter location!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtModifyLOCATION").focus;
+                    $("#txtModifyLOCATION").select();
+                }, 2001);
+                return;
+            }
+            var data = { ID: modifyID, CONFIGHEADERID: modifySKU, CUSTPARTNO: modifyCUSTPARTNO, DESCRIPTION: modifyDESCRIPTION, QTY: modifyQTY, LOCATION: modifyLOCATION };
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.AssemblyMappingConfig", "UpdateAssemblyMapping", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "success",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    GoBack(false);
+                    DoSearch(modifySKU, modifyCUSTPARTNO, "");
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function DeleteMappingData() {
+            var selectPageLaguage = $("#tableAssemblyMappingList").bootstrapTable('getSelections');
+            if (selectPageLaguage.length <= 0) {
+                swal({
+                    title: "",
+                    text: "Please select a record.",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var IDArray = new Array();
+            for (var i = 0; i < selectPageLaguage.length; i++) {
+                IDArray.push(selectPageLaguage[i].ID);
+            }
+            var data = { ID: IDArray };
+            swal({
+                title: "",
+                text: "Are you sure to delete these data?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "YES",
+                confirmButtonColor: "#18a689"
+            }, function () {
+                self.parent.client.CallFunction("MESStation.Config.ORACLE.AssemblyMappingConfig", "DeleteAssemblyMappingByID", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        DoSearch("", "", "");
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            });
+        }
+
+        function ClearAll() {
+            $("#txtSearchChinese").val("");
+            $("#txtSearchChinese_tw").val("");
+            $("#txtSearchEnglish").val("");
+            $("#txtAddSKU").val("");
+            $("#txtAddREV").val("");
+            $("#txtAddCUSTPARTNO").val("");
+            $("#txtAddDescription").val("");
+            $("#txtAddQTY").val("");
+            $("#txtAddLocation").val("");
+            $("#txtModifyID").val("");
+            $("#txtModifyCONFIGHEADERID").val("");
+            $("#txtModifyCUSTPARTNO").val("");
+            $("#txtModifyDESCRIPTION").val("");
+            $("#txtModifyQTY").val("");
+            $("#txtModifyLOCATION").val("");
+        }
+    </script>
+</body>
+
+</html>

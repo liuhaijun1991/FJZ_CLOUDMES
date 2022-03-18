@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>R 7B5 SHIP</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+        .checkbox-input {
+            /*margin-left: -20px !important;*/
+            height: 25px;
+            width: 100%;
+            margin-top: -3px !important;
+        }
+        #divFilterCondition .form-group {
+            margin-bottom:5px;
+        }
+
+        .tableEventsToolbar-margin-top {
+            margin-top: 10px;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body class=" animated fadeInRight">
+    <div id="divList">
+        <div id="divFilterCondition" class="col-xs-6 form-horizontal divReportInput">
+            <div class="col-xs-6" id="divModel">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Model:</label>
+                    <div class="col-xs-8">
+                        <select class="form-control" data-bind="options:Model,optionsText:'name', optionsValue:'value',value: Selected,optionsCaption: 'All',event:{change:ModelChange}"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="divFilterText">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">TaskNo:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" id="txtTASK_NO" data-bind="value:TASK_NO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">HW PN:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" id="txtHW_PN" data-bind="value:HW_PN" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">HH PN:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" id="txtHH_PN" data-bind="value:HH_PN" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">Date From:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" id="txtDATE_FROM" data-bind="value:DATE_FROM" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right">Date To:</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" id="txtDATE_TO" data-bind="value:DATE_TO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-6 control-label text-right">Show Sub:</label>
+                            <div class="col-xs-2 checkbox">
+                                <input type="checkbox" class="checkbox-input" data-bind="checked:SHOW_SUB" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-6 control-label text-right">Have Buffer:</label>
+                            <div class="col-xs-2 checkbox">
+                                <input type="checkbox" class="checkbox-input" data-bind="checked:HAVE_BUFFER" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-7 control-label text-right">Open Task Only:</label>
+                            <div class="col-xs-2 checkbox">
+                                <input type="checkbox" class="checkbox-input" data-bind="checked:OPEN_TASK_ONLY" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label text-right"></label>
+                        <div class="col-xs-8">
+                            <button class="btn btn-primary small" id="btnSearch"><i class="fa fa-search">搜索</i></button>
+                            <button class="btn btn-primary small" id="btnNotSearch"><i class="fa fa-search">取消</i></button>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>            
+        </div>
+    </div>
+
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">搜索</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnModifyPlan">
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:editPlanQty">Modify Plan Qty</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnModifyBuffer">
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:editBufferQty">Modify Buffer Qty</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnModifyExtQty">
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:editExtQty">Modify Ext Qty</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>    
+
+    <div id="divEdit" class="form-horizontal hidden" style="padding-top:20px;">
+        <div id="divModifyBuffer" hidden>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">TASK_NO:</label>
+                    <div class="col-xs-7 ">
+                        <input type="text" class="form-control" data-bind="value:TASK_NO" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">HH_ITEM:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" data-bind="value:HH_ITEM" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">BUFFER_QTY:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" id="txtBufferQty" data-bind="value:BUFFER_QTY" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">BUFFER_REMARK:</label>
+                    <div class="col-xs-7">
+                        <!--<input type="text" class="form-control" id="txtBufferRemark" data-bind="value:BUFFER_REMARK" />-->
+                        <textarea cols="3" rows="3" class="form-control" id="txtBufferRemark" data-bind="value:BUFFER_REMARK" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divModifyPlan" hidden>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">TASK_NO:</label>
+                    <div class="col-xs-8 ">
+                        <input type="text" class="form-control" data-bind="value:TASK_NO" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">HH_ITEM:</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" data-bind="value:HH_ITEM" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">HW_ITEM:</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" data-bind="value:HW_ITEM" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">EXT_QTY:</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" data-bind="value:EXT_QTY" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">PLAN_QTY:</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="txtPlanQty" data-bind="value:PLAN_QTY" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">WITH_SUB:</label>
+                    <div class="col-xs-9">
+                        <input type="checkbox" style="height: 25px;display:block;width:25px;margin:5px;" data-bind="checked:WITH_SUB" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">REMARK:</label>
+                    <div class="col-xs-8">
+                        <!--<input type="text" class="form-control" id="txtRemark" data-bind="value:REMARK" />-->
+                        <textarea cols="3" rows="3" class="form-control" id="txtRemark" data-bind="value:REMARK"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:"></label>
+                <div class="col-xs-4">
+                    <button type="button" class="btn btn-primary" id="bteEdit"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Save</lan></button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divModifyExtQty" class="form-horizontal hidden" style="padding-top:20px;">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">TASK_NO:</label>
+                <div class="col-xs-7 ">
+                    <input type="text" class="form-control" id="ext_qty_task_no" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">HH_ITEM:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="ext_qty_hh_item" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">HW_ITEM:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="ext_qty_hw_item" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">OLD_EXT_QTY:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="ext_qty_old" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right" set-lan="html:">NEW_EXT_QTY:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="ext_qty_new" />
+                </div>
+            </div>
+        </div>       
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var tableLocale;
+        var ObjectModel = function () {
+            var self = this;
+            self.TASK_NO = ko.observable("");
+            self.HW_PN = ko.observable("");
+            self.HH_PN = ko.observable("");
+            self.MODEL = ko.observable("");
+            self.DATE_FROM = ko.observable("");
+            self.DATE_TO = ko.observable("");
+            self.SHOW_SUB = ko.observable(false);
+            self.HAVE_BUFFER = ko.observable(false);
+            self.OPEN_TASK_ONLY = ko.observable(false);
+        };
+        var viewModel = new ObjectModel();
+        var ObjectSeleteType = function () {
+            var self = this;
+            self.Model = ko.observableArray([]);
+            self.Selected = ko.observable(0); //记录已选中的值
+            self.ModelChange = function () {
+                viewModel.MODEL(self.Selected());
+            };
+        }
+        var ObjectPlan = function () {
+            var self = this;
+            self.TYPE = ko.observable("ModifyPlan");
+            self.TASK_NO = ko.observable("");
+            self.HH_ITEM = ko.observable("");
+            self.HW_ITEM = ko.observable("");
+            self.EXT_QTY = ko.observable("");
+            self.PLAN_QTY = ko.observable("");
+            self.WITH_SUB = ko.observable(true);
+            self.REMARK = ko.observable("");
+        }
+        var ObjectBuffer = function () {
+            var self = this;
+            self.TYPE = ko.observable("ModifyBuffer");
+            self.TASK_NO = ko.observable("");
+            self.HH_ITEM = ko.observable("");
+            self.EXT_QTY = ko.observable("");
+            self.OLD_BUFFER_QTY = ko.observable("");
+            self.BUFFER_QTY = ko.observable("");
+            self.BUFFER_REMARK = ko.observable("");
+        }
+        var ShowList = function (tableID, data, columns, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: columns
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+        var GetList = function () {
+            parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5ShipList", { Data: ko.toJSON(viewModel) }, function (e) {
+                var columns = [];
+                $("#divFilterCondition").hide();
+                $("#tableEventsToolbar").removeClass("tableEventsToolbar-margin-top");
+                if (e.Status == "Pass") {
+                    columns.push({ checkbox: true, align: 'center', valign: 'middle' });
+                    for (var item in e.Data[0]) {
+                        var cell = {
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: true
+                        };
+                        columns.push(cell);
+                    }
+                    ShowList("tableList", e.Data, columns);                   
+                }
+                else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+        var selectRow = [];
+        var type = "";
+        var bufferModel = new ObjectBuffer();
+        var planModel = new ObjectPlan();
+
+        var ShowEditDiv = function (title, divID, ) {
+            layer.open({
+                id: "EditDiv",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: title,
+                area: ['40%', '60%'],
+                content: $(divID),
+                offset: "30px",
+                //btn: ["上傳", "取消"],
+                success: function (layero, index) {
+                    $(divID).removeClass("hidden");                   
+                    $(".layui-layer-title").addClass("new-pallet-title");
+                    if (title == "Modify Buffer") {
+                        $("#divModifyBuffer").show();
+                        $("#divModifyPlan").hide();                       
+                        $("#txtBufferQty").focus().select();
+                    }
+                    else {                       
+                        $("#divModifyBuffer").hide();
+                        $("#divModifyPlan").show();                    
+                        $("#txtPlanQty").focus().select();                        
+                    }
+                },
+                end: function () {
+                    $(divID).addClass("hidden");
+                },
+                yes: function (index) {
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    GetList();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5ShipModel", { Data: "R_7B5_SHIP" }, function (e) {
+                if (e.Status == "Pass") {
+                    var selectModel = new ObjectSeleteType();
+                    selectModel.Model(e.Data.Model);
+                    viewModel.DATE_FROM(e.Data.DATE_FROM);
+                    viewModel.DATE_TO(e.Data.DATE_TO);
+                    ko.applyBindings(selectModel, document.getElementById("divModel"));
+                    ko.applyBindings(viewModel, document.getElementById("divFilterText"));
+                }
+            });
+            ko.applyBindings(bufferModel, document.getElementById("divModifyBuffer"));
+            ko.applyBindings(planModel, document.getElementById("divModifyPlan"));
+            $("#txtTASK_NO").focus().select();
+
+            $("#tableEventsToolbar").addClass("tableEventsToolbar-margin-top");                   
+            $("#btnToolSearch").click(function () {
+                $("#txtTASK_NO").focus().select();
+                $("#divFilterCondition").toggle();
+            });
+            $("#btnNotSearch").click(function () {
+                $("#divFilterCondition").hide();
+            });
+            $("#btnSearch").click(function () {
+                GetList();
+            });
+            $("#btnModifyBuffer").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length != 1) {
+                    swal({
+                        title: "",
+                        text: "請選擇一行數據!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }                
+                bufferModel.TASK_NO(selectRow[0].TASK_NO);
+                bufferModel.HH_ITEM(selectRow[0].HH_ITEM);
+                bufferModel.EXT_QTY(selectRow[0].EXT_QTY);
+                bufferModel.OLD_BUFFER_QTY(selectRow[0].BUFFER_QTY);                
+                type = "ModifyBuffer";
+                ShowEditDiv("Modify Buffer", "#divEdit");
+
+            });
+
+            $("#btnModifyExtQty").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length != 1) {
+                    swal({
+                        title: "",
+                        text: "請選擇一行數據!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                layer.open({
+                    id: "divModifyExtQty",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Modify Ext Qty",
+                    area: ['40%', '60%'],
+                    content: $("#divModifyExtQty"),
+                    offset: "30px",
+                    btn: ["Save", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divModifyExtQty").removeClass("hidden");   
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#ext_qty_task_no").val(selectRow[0].TASK_NO);                       
+                        $("#ext_qty_hh_item").val(selectRow[0].HH_ITEM);
+                        $("#ext_qty_hw_item").val(selectRow[0].HW_ITEM);
+                        $("#ext_qty_old").val(selectRow[0].EXT_QTY);
+                        $("#ext_qty_new").val("").select().focus();
+                    },
+                    end: function (index) { 
+                        layer.close(index);
+                        GetList();
+                        $("#divModifyExtQty").addClass("hidden");   
+                    },
+                    yes: function (index) {
+                        var ext_qty_task_no = $("#ext_qty_task_no").val();
+                        var ext_qty_hh_item = $("#ext_qty_hh_item").val();
+                        var ext_qty_hw_item = $("#ext_qty_hw_item").val();                        
+                        var ext_qty = $("#ext_qty_new").val();
+                        self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "ModifyShipExtQty",
+                            { TASK_NO: ext_qty_task_no, HH_ITEM: ext_qty_hh_item, HW_ITEM: ext_qty_hw_item, EXT_QTY: ext_qty },
+                            function (e) {
+                                if (e.Status == "Pass") {
+                                    layer.msg(e.Message, {
+                                        icon: 1,
+                                        time: 60000,
+                                        title: 'Tip',
+                                        btn: ['OK']
+                                    }, function () {
+                                        layer.close(index);
+                                        GetList();
+                                    });
+                                } else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () { });
+                                }
+                            });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                        GetList();
+                        $("#divModifyExtQty").addClass("hidden");  
+                    }
+                });
+
+            });
+
+            $("#btnModifyPlan").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length != 1) {
+                    swal({
+                        title: "",
+                        text: "請選擇一行數據!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }                
+                planModel.TASK_NO(selectRow[0].TASK_NO);
+                planModel.HH_ITEM(selectRow[0].HH_ITEM);
+                planModel.HW_ITEM(selectRow[0].HW_ITEM);
+                planModel.EXT_QTY(selectRow[0].EXT_QTY); 
+                type = "ModifyPlan";
+                ShowEditDiv("Modify Plan", "#divEdit");
+            });
+           
+            $("#txtBufferQty").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtBufferRemark").select().focus();
+                }
+            });
+            $("#txtBufferRemark").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#bteEdit").select().focus();
+                }
+            });
+            $("#txtPlanQty").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtRemark").select().focus();
+                }
+            });
+            $("#txtRemark").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#bteEdit").select().focus();
+                }
+            });
+            $("#bteEdit").click(function () {
+                var inputData;
+                if (type == "ModifyPlan") {
+                    inputData = { Data: ko.toJSON(planModel) }
+                }
+                else if (type == "ModifyBuffer") {
+                    inputData = { Data: ko.toJSON(bufferModel) }
+                }
+                else {
+                    swal({
+                        title: "",
+                        text: "Type Error!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "ModifyShipPlan", inputData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            time: 60000, icon: 1,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { GetList(); });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            });           
+        });
+    </script>
+</body>
+</html>

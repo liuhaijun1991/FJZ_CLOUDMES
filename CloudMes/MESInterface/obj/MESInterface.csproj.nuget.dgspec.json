@@ -1,0 +1,371 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj",
+        "projectName": "DcnSfcModel",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj"
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj",
+        "projectName": "MESDataObject",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj",
+        "projectName": "MESDBHelper",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj",
+        "projectName": "MESInterface",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\MESInterface.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESInterface\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net452"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[26.0.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[5.1.2, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.8, )"
+            },
+            "sqlSugar": {
+              "target": "Package",
+              "version": "[4.9.9.11, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj",
+        "projectName": "MESJuniper",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj",
+        "projectName": "MESMailCenter",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESMailCenter\\MESMailCenter.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj",
+        "projectName": "MESPubLab",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MesReportCenter\\MesReportCenter.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MesReportCenter\\MesReportCenter.csproj",
+        "projectName": "MesReportCenter",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MesReportCenter\\MesReportCenter.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj",
+        "projectName": "MESReport",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj",
+        "projectName": "MESStation",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESStation\\MESStation.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\DcnSfcModel\\DcnSfcModel.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESJuniper\\MESJuniper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MesReportCenter\\MesReportCenter.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MesReportCenter\\MesReportCenter.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESReport\\MESReport.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj",
+        "projectName": "MESWebAPI",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESWebAPI\\MESWebAPI.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj",
+        "projectName": "MES_DCN",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MES_DCN\\MES_DCN.csproj",
+        "frameworks": {
+          "net452": {
+            "projectReferences": {
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDataObject\\MESDataObject.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESDBHelper\\MESDBHelper.csproj"
+              },
+              "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\MESPubLab\\MESPubLab.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
+    "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj",
+        "projectName": "WebSocket-Sharp",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\NN_CLOUDMES\\CloudMes\\websocket-sharp\\WebSocket-Sharp.csproj"
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    }
+  }
+}

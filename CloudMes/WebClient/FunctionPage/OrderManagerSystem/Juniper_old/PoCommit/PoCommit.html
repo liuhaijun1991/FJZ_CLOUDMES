@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <style>
+        .layui-form .layui-inline {
+            margin-bottom: 15px;
+        }
+
+        .layui-form-label {
+            width: 200px !important;
+            font-weight: bold;
+        }
+
+        .layui-input-block {
+            margin-left: 130px !important;
+        }
+
+        .layui-input-en {
+            background: #aef9ae;
+        }
+
+        .blockquote-elem-quote {
+            margin-bottom: 10px;
+            padding: 10px;
+            line-height: 20px;
+            border-left: 12px solid #708090;
+            border-radius: 0 0px 0px 0;
+            background-color: #D8ECF6;
+            border-top-color: white;
+            border-bottom-color: white;
+            color: #336699;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: xx-small;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #8C8C8C !important;
+            color: white;
+        }
+    </style>
+    <div style="margin: 0 auto; padding: 20px 10px 0 10px">
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote">Wait PoCommit</blockquote>
+        <hr class="layui-bg-blue">
+        <form class="layui-form" action="" lay-filter="AddForm">
+            <input type="hidden" name="POID" value="" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">Po#</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="PO" lay-filter="PO" lay-verify="required" placeholder="请输入PO" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+                <label class="layui-form-label">PoItem#</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="POITEM" lay-filter="POITEM" lay-verify="required" placeholder="请输入PoItem" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">VendorID</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="VENDORID" lay-filter="VENDORID" lay-verify="required" placeholder="请输入VendorID" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+                <label class="layui-form-label">Sku</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="PN" lay-filter="PN" lay-verify="required" placeholder="请输入Sku" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Plant</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="PLANT" lay-filter="PLANT" lay-verify="required" placeholder="请输入Plant" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+                <label class="layui-form-label">UnitCode</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="UNITCODE" lay-filter="UNITCODE" lay-verify="required" placeholder="请输入UnitCode" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">So#</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="SO" lay-filter="SO" lay-verify="required" placeholder="请输入So" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+                <label class="layui-form-label">SoItem#</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="SOITEM" lay-filter="SOITEM" lay-verify="required" placeholder="请输入SoItem" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Qty</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="QTY" lay-filter="QTY" lay-verify="required" placeholder="请输入Qty" readonly="readonly" class="layui-input layui-input-en" value="" />
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="layui-badge">必填</span>DeliveryDate</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="DELIVERYDATE" id="DELIVERYDATE" lay-filter="DELIVERYDATE" lay-verify="required" placeholder="请输入DeliveryDate" class="layui-input" value="" />
+                </div>
+                <label class="layui-form-label"><span class="layui-badge">必填</span>ReasonCode#</label>
+                <div class="layui-input-inline">
+                    <select name="REASONCODE" lay-filter="REASONCODE" lay-verify="required" placeholder="请选择ReasonCode"></select>
+                </div>
+            </div>
+            <hr class="layui-bg-blue">
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                </div>
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block" style="margin-left: 0;" align="center">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm" lay-submit lay-filter="Add">確認</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="margin: 0 auto; padding: 20px 10px 0 10px">
+
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote">ReasonCode Description</blockquote>
+
+        <fieldset class="layui-elem-field">
+            <legend><span class="layui-badge layui-bg-blue">Description</span></legend>
+            <div class="layui-field-box">
+                <table id="ReasonCodeList" class="table table-bordered text-center"></table>
+            </div>
+        </fieldset>
+    </div>
+    <script src="../../../Scripts/plugins/layui/layui.js"></script>
+    <script src="../../../Scripts/plugins/layui/lay/modules/form.js"></script>
+    <script src="../../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../Scripts/global.js"></script>
+    <script src="../../../Scripts/MesClient.js"></script>
+    <script src="../../../Scripts/MesClient.UI.js"></script>
+    <script>
+        layui.use(['form', 'laydate'], function () {
+            var poid = $.MES.getQueryString("POID");
+            var obj = {
+                "POID": "",
+                "PO": "",
+                "POITEM": "",
+                "VENDORID": "",
+                "PN": "",
+                "PLANT": "",
+                "UNITCODE": "",
+                "SO": "",
+                "SOITEM": "",
+                "DELIVERYDATE": "",
+                "REASONCODE": "",
+                "QTY": ""
+            };
+            var form = layui.form;
+            var laydate = layui.laydate;
+            form.on('submit(Add)', function (data) {
+                try {
+                    for (var d in data.field) {
+                        if (obj.hasOwnProperty(d)) {
+                            obj[d] = data.field[d];
+                        }
+                    }
+                    self.parent.client.CallFunction("MESJuniper.Api.OrderManager",
+                        "AddI138Data", { model: obj},
+                        function (e) {
+                            if (e.Status == "Pass") {
+                                ShowReasonTable(e.Data);
+                                InitReasonCodeSelect(e.Data);
+                            } else {
+                                layer.open({
+                                    type: 1,
+                                    skin: 'layui-layer-demo', //样式类名
+                                    closeBtn: 0, //不显示关闭按钮
+                                    anim: 2,
+                                    shadeClose: true, //开启遮罩关闭
+                                    content: e.Message
+                                });
+                                return;
+                            }
+                        });
+                } catch (e) {
+                    console.log(e);
+                    return false;
+                }
+                return false;
+            });
+
+            var ShowReasonTable = function (Data) {
+                $('#ReasonCodeList').bootstrapTable('destroy');
+                var col = GetFormateTable(Data);
+                $('#ReasonCodeList').bootstrapTable({
+                    data: Data,
+                    striped: true,
+                    search: true,
+                    pagination: true,
+                    pageSize: 50,
+                    clickToSelect: true,
+                    showExport: true,
+                    exportDataType: "all",
+                    columns: col
+                });
+            }
+
+            var InitReasonCodeSelect = function (Data) {
+                var ReasonCode = $('[lay-filter=REASONCODE]');
+                ReasonCode.empty();
+                var ReasonCodeData = Data;
+                for (var i = 0; i < ReasonCodeData.length; i++) {
+                    ReasonCode.append('<option value="' + ReasonCodeData[i].REASONCODE + '" ' + (ReasonCodeData[i].REASONCODE == obj.REASONCODE ? "selected" : "") + '>' + ReasonCodeData[i].REASONCODE + '</option>');
+                }
+            }
+
+            var GetFormateTable = function (Data) {
+                var col = [];
+                for (var k in Data[0]) {//遍历Data 对象的每个key/value对,k为key
+                    var cell = {
+                        field: k,
+                        title: k,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    };
+                    col.push(cell);
+                }
+                return col;
+            }
+
+            var init = function () {
+                self.parent.client.CallFunction("MESJuniper.Api.OrderManager",
+                    "GetI138ReasonCode", {},
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            ShowReasonTable(e.Data);
+                            InitReasonCodeSelect(e.Data);
+                        } else {
+                            layer.open({
+                                type: 1,
+                                skin: 'layui-layer-demo', //样式类名
+                                closeBtn: 0, //不显示关闭按钮
+                                anim: 2,
+                                shadeClose: true, //开启遮罩关闭
+                                content: e.Message
+                            });
+                            return;
+                        }
+                    });
+            }
+
+            function GetObjData() {
+                self.parent.client.CallFunction("MESJuniper.Api.OrderManager",
+                    "GetPreI138",
+                    { POID: poid },
+                    function (e) {
+                        if (e.Status == "Pass") {
+                            obj = $.extend({}, e.Data);
+                            form.val('AddForm', obj);
+                            form.render();
+                            laydate.render({
+                                elem: '#DELIVERYDATE'
+                            });
+                        } else {
+                            layer.open({
+                                type: 1,
+                                skin: 'layui-layer-demo', //样式类名
+                                closeBtn: 0, //不显示关闭按钮
+                                anim: 2,
+                                shadeClose: true, //开启遮罩关闭
+                                content: e.Message
+                            });
+                            return;
+                        }
+                    });
+            }
+            init();
+            GetObjData();
+        });
+    </script>
+</body>
+</html>

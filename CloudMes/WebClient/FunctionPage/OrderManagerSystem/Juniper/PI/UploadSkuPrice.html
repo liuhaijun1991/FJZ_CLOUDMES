@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>UploadSkuPrice</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../../css/animate.css" rel="stylesheet">
+    <link href="../../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        .div-excel {
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <!--<div id="divMsg" style="color:blue;padding-left:30px;padding-top:10px;">
+
+    </div>-->
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnUpload">
+                        <i class="glyphicon glyphicon-upload" aria-hidden="true"></i><lan set-lan="html:Upload">Upload</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divUploadInfo" class="hidden  form-horizontal">
+        <div class="col-xs-3" style="margin:10px 0px 10px 5px;">
+            <div class="btn-group hidden-xs" style="padding-right:200px">
+                <label class="btn btn-primary " for="inputUploadFile" style="z-index:999;height: 34px;width:90px;"><lan set-lan="html:Upload"> FilePath:</lan></label>
+                <input id="inputUploadFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div class="col-xs-1 " style="margin:10px 0px 10px 0px;padding-left:0px;">
+            <button type="button" class="btn btn-outline btn-primary" id="DownloadTemplateFile">
+                <i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i><lan set-lan="html:Template"> Template</lan>
+            </button>
+        </div>
+        <div id="divExcel" class="div-excel">
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../../../Scripts/global.js"></script>
+    <script src="../../../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var tableLocale;
+        var ShowList = function (tableID, data, columns, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: columns
+            });
+        }
+        var GetList = function () {
+            parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetSkuPriceList", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    var columns = [];
+                    for (var item in e.Data[0]) {
+                        var cell = {
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: false,
+                            visible: item == "ID" ? false : true
+                        };
+                        columns.push(cell);
+                    }
+                    ShowList("tableList", e.Data, columns);
+                }
+                else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+        $(document).ready(function () {            
+            GetList();
+            $("#divMsg").html("");
+            var showExcel = document.getElementById("divExcel");
+            $("#btnUpload").click(function () {
+                layer.open({
+                    id: "UploadData",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Upload Sku Price",
+                    area: ['90%', '90%'],
+                    content: $('#divUploadInfo'),
+                    btn: ["Commit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divUploadInfo").removeClass("hidden");
+                        $("#inputUploadFile").val("");
+                        $("#excelTable").html("");
+                        $("#divMsg").html("");
+                    },
+                    end: function () {
+                        $("#divUploadInfo").addClass("hidden");
+                    },
+                    yes: function (index) {
+                        var layerIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: 30px;width: auto;'>"
+                                + "<span style='line-height: 35px;'> Executing,Please wait ...</span></div></div>"
+                        });
+                        var uploadData = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                        parent.client.CallFunction("MESJuniper.Api.R_i140Api", "UploadSkuPrice", { ExcelData: JSON.stringify(uploadData) }, function (e) {
+                            if (e.Status == "Pass") {
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    $("#inputUploadFile").val("");
+                                    //$("#divMsg").html(e.Message);
+                                    layer.close(layerIndex);
+                                    GetList();
+                                });
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () {
+                                    //$("#divMsg").html(e.Message);
+                                    layer.close(layerIndex);
+                                    GetList();
+                                    });
+                            }
+
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#inputUploadFile").val("");
+                        $("#excelTable").html("");
+                        layer.close(index);
+                        GetList();
+                    }
+                });
+            });
+            $("#inputUploadFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0)
+                    || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0)
+                    || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+            $('#DownloadTemplateFile').on('click', function () {
+                window.open("../../../../File/R_SKU_JNL_P.xlsx");
+            });
+        });
+    </script>
+</body>
+</html>

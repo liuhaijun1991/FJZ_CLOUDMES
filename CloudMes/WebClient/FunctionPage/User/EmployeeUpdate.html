@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES Employee</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--<link href="css/animate.css" rel="stylesheet">-->
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div><a href="EmployeeUpdate.html"><i class="fa fa-mail-reply"><lan set-lan="html:a_ReturnList">ReturnList</lan></i></a></div>
+    <div class="wrapper wrapper-content animated fadeInRight" id="Emp_list">
+        <div class="col-sm-12">
+            <div class="ibox  float-e-margins">
+                <div class="ibox-title">
+                    <h1 style="color:#1ab394"><lan set-lan="text:h_UserInformation">User Information</lan></h1>
+                </div>
+                <div class="ibox-content">
+                    <div role="form" class="form-horizontal">
+                        <div class="form-group" style="margin-left:10%;">
+                            <label class="col-sm-1 control-label"><lan set-lan="text:lbl_EmpNO">EMP_NO</lan></label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="S_empno">
+                            </div>
+                            <!--<label class="col-sm-1 control-label">FACTORY</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="S_factory">
+                            </div>
+                            <label class="col-sm-1 control-label">BU_NAME</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="S_buname">
+                            </div>-->
+                            <button class="btn btn-primary" id="S_info"><i class="fa fa-search"><lan set-lan="html:btn_search">Search</lan></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ibox-content">
+                    <h1 style="color:#1ab394">User List</h1>
+                    <div class="btn-group hidden-xs" id="toolbar" role="group">
+                        <button type="button" class="btn btn-outline btn-default" id="Employee_Add">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true"><lan set-lan="html:btn_add">add</lan></i>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-default" id="Employee_Update">
+                            <i class="glyphicon glyphicon-pencil" aria-hidden="true"><lan set-lan="html:btn_edit">edit</lan></i>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-default" id="Employee_Delete">
+                            <i class="glyphicon glyphicon-minus" aria-hidden="true"><lan set-lan="html:btn_delete">delete</lan></i>
+                        </button>
+                    </div>
+                    <table class="table table-hover " id="mytab"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增修改窗口-->
+    <div class="col-sm-12">
+        <div class="ibox  float-e-margins" id="Emp_Add">
+            <div class="row">
+                <div class="ibox-title">
+                    <h2 id="Header"></h2>
+                </div>
+                <div class="form-horizontal col-sm-12 ibox-content">
+                    <div id="Parameters" class="form-horizontal m-t">
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-6">
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                            <!--<div><a href="EmployeeUpdate.html" class="btn"><i class="glyphicon glyphicon-share-alt">返回列表</i></a></div>-->
+                            <button class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-tasks"><lan set-lan="html:btn_save">SAVE</lan></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增修改彈出窗口-->
+    <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="Header"></h4>
+                </div>
+                <div class="modal-body form-horizontal" id="Parameters">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitFunction()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定義 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script>
+        var client;
+        var ClassName = "MESStation.MESUserManager.UserManager";
+        var FunctionName = "CreateNewUser";
+        var Func;
+        var Infowarn;
+        var Sub_Func;
+        var isPostBack = false;
+        $(document).ready(function () {
+            $('#Emp_Add').hide();
+            $('#Emp_list').show();
+
+            loadtable(1, 4, "LoadInformation", { PageRow: 5, PageCount: 1, emp_no: "" }, isPostBack);
+
+            $('#S_info').click(function () {
+                var searchdata = { EMP_NO: $('#S_empno').val() };
+                isPostBack = true;
+                loadtable(1, 1, "SelectInformation", searchdata, isPostBack);
+            });
+
+            $('#Employee_Add').click(function () {
+                $('#Emp_Add').show();
+                $('#Emp_list').hide();
+                client = new MesClient(function () {
+                    self.parent.client.GetMesFunctionList(ClassName, function (e) {
+                        if (e.Status == "Pass") {
+                            Func = e.Data.APIS[FunctionName];
+                            $("#Header").text(Func.FunctionName);
+                            var para = $("#Parameters");
+                            //para.empty();
+                            //removeAllChild(para);
+                            para.append("<div class=\"form-group\"></div>");
+                            for (var i = 0; i < Func.Parameters.length; i++) {
+                                var group = $("<div class=\"form-group col-sm-6 \"></div>");
+                                var label = $("<label for=\"" + Func.Parameters[i].InputName + "\" class=\"col-sm-2 control-label\">" + Func.Parameters[i].InputName + "</label>");
+                                var inputDIV = $("<div class=\"col-sm-10\"></div>");
+                                var input = $("<input type=\"text\" class=\"form-control\" id=\"" + Func.Parameters[i].InputName + "\" placeholder=\"" + Func.Parameters[i].DefaultValue + "\">");
+                                inputDIV.append(input);
+                                group.append(label);
+                                group.append(inputDIV);
+                                para.append(group);
+                            }
+                        }
+                    })
+                });
+                $("#Parameters").find(".form-control").val("");
+                //$("#exampleModal").find(".form-control").val("");
+                //$('#exampleModal').modal();
+            });
+
+            $('#Employee_Update').click(function () {
+                var arrselections = $("#mytab").bootstrapTable('getSelections');
+                if (arrselections.length > 1) {
+                    swal({
+                        title: "warning",
+                        text: "Only one row of data can be selected!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (arrselections.length <= 0) {
+                    swal({
+                        title: "warning",
+                        text: "Please select valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                //$("#exampleModalLabel").text("Update");
+                client = new MesClient(function () {
+                    $('#Emp_Add').show();
+                    $('#Emp_list').hide();
+                    self.parent.client.CallFunction(ClassName, "SelectInformation", { EMP_NO: arrselections[0].EMP_NO }, function (e) {
+                        if (e.Status == "Pass") {
+                            $("#Header").text("UpdateInformation");
+                            var para = $("#Parameters");
+                            //para.empty();
+                            Func = e.Data;
+                            para.append("<div class=\"form-group\"></div>");
+                            for (var i in e.Data) {
+                                if (i == "ID" || i == "CHANGE_PASSWORD_TIME" || i == "EDIT_TIME") {
+                                    var group = $("<div class=\"form-group  col-sm-6\" hidden=\"true\"></div>");
+                                }
+                                else {
+                                    var group = $("<div class=\"form-group  col-sm-6\"></div>");
+                                }
+                                var label = $("<label for=\"" + i + "\" class=\"col-sm-2 control-label\">" + i + "</label>");
+                                if (i == "EMP_NO") {
+                                    var inputDIV = $("<div class=\"col-sm-10\"></div>");
+                                    var input = $("<input type=\"text\" class=\"form-control\" value=\"" + e.Data[i] + "\" readonly=\"readonly\" id=\"" + i + "\">");
+                                }
+                                else {
+                                    var inputDIV = $("<div class=\"col-sm-10\"></div>");
+                                    var input = $("<input type=\"text\" class=\"form-control\" value=\"" + e.Data[i] + "\" id=\"" + i + "\">");
+                                }
+                                inputDIV.append(input);
+                                group.append(label);
+                                group.append(inputDIV);
+                                para.append(group);
+                            }
+
+                            //for (var i = 0 ; i < Func.Parameters.length ; i++) {
+                            //    $("#" + Func.Parameters[i].InputName).val(arrselections[0][Func.Parameters[i].InputName]);
+                            //}
+                        }
+                    })
+                });
+
+            });
+
+            $('#Employee_Delete').click(function () {
+                var arrselections = $("#mytab").bootstrapTable('getSelections');
+                if (arrselections.length <= 0) {
+                    swal("warning", "Please select valid data!", "warning");
+                    return;
+                }
+                //if (confirm("确认要删除选择的" + arrselections.length + "條数据吗？")) {}
+                swal({
+                    title: "Trip",
+                    text: "Are you sure you want to delete the selected" + arrselections.length + "data?",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm delete！",
+                    showCancelButton: true
+                }, function () {
+                    var data = "{ \"ID\" :\"";
+                    for (var i = 0; i < arrselections.length; i++) {
+                        data += arrselections[i].ID + ",";
+                    }
+                    data = data.substr(0, data.length - 1);
+                    data += "\"}";
+
+                    client = new MesClient(function () {
+                        self.parent.client.CallFunction(ClassName, "DeleteInformation", JSON.parse(data), function (e) {
+                            if (e.Status == "Pass") {
+                                swal({
+                                    title: "Trip",
+                                    text: "delete success！",
+                                    type: "success",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }, function () {
+                                    window.location = "EmployeeUpdate.html";
+                                });
+                            }
+                        })
+                    });
+
+                });
+
+            });
+        });
+
+        function loadtable(n, s, f, d, i) {
+            client = new MesClient(function () {
+                self.parent.client.CallFunction(ClassName, f, d, function (e) {
+                    if (e.Status == "Pass") {
+                        if (i) {
+                            $('#mytab').bootstrapTable('load', [e.Data]);
+                        }
+                        else {
+                            var c = [];
+                            var checkbox = " title:'checkall',field:'select',checkbox: true, width: 30, align: 'center',valign: 'middle' ";
+                            c.push({ checkbox });
+                            for (var item in e.Data[0]) {
+                                c.push({ field: item, title: item });
+                            }
+                            $('#mytab').bootstrapTable({
+                                data: e.Data,
+                                striped: true,
+                                cache: false,
+                                pagination: true,
+                                sidePagination: "client",
+                                pageNumber: n,
+                                pageSize: s,
+                                pageList: [4, 15, 30, 70],
+                                search: true,
+                                strictSearch: true,
+                                searchOnEnterKey: false,
+                                showColumns: true,
+                                showRefresh: true,
+                                minimumCountColumns: 2,
+                                clickToSelect: true,
+                                showToggle: true,
+                                cardView: false,
+                                detailView: false,
+                                dataType: "json",
+                                method: "post",
+                                searchAlign: "left",
+                                buttonsAlign: "left",
+                                toolbar: "#toolbar",
+                                toolbarAlign: "right",
+                                columns: c,
+                                locale: "zh-CN",//中文支持,
+                                onpagechange: function (n, s) {
+                                    loadtable(n, s);
+                                }
+
+
+                            });
+                            $('#mytab').bootstrapTable('hideColumn', 'ID');
+                        }
+                    }
+                    else {
+                        swal({
+                            title: "Trip",
+                            text: e.Message,
+                            timer: 2000,
+                            type: "warning",
+                            showConfirmButton: false
+                        });
+                    }
+                })
+            });
+        }
+        function submitFunction() {
+            var data = "{";
+            if ($("#Header").text() == "UpdateInformation") {
+                Infowarn = "update";
+                Sub_Func = "UpdateInformation";
+                for (var i in Func) {
+                    data += "\"" + i + "\":\"" + $("#" + i).val() + "\",";
+                }
+            } else {
+                Infowarn = "Create";
+                Sub_Func = "CreateNewUser";
+                for (var i = 0; i < Func.Parameters.length; i++) {
+                    var InputName = Func.Parameters[i].InputName;
+                    data += "\"" + InputName + "\":\"" + $("#" + InputName).val() + "\",";
+                }
+            }
+            data = data.substr(0, data.length - 1);
+            data += "}";
+            self.parent.client.CallFunction(ClassName, Sub_Func, JSON.parse(data), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: Infowarn + "Trip",
+                        text: Infowarn + "success！",
+                        timer: 2000,
+                        type: "success",
+                        showConfirmButton: false
+                    }, function () {
+                        window.location = "EmployeeUpdate.html";
+                    });
+                }
+                else {
+                    swal({
+                        title: Infowarn + "Trip",
+                        text: Infowarn + "Fail！",
+                        type: "error",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

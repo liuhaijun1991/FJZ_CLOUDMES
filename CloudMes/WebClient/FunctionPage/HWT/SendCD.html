@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Send CD</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SendCD">傳送 CD</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divConditions" class=" row form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12" style="margin-left: 195px;">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label class="col-xs-3 control-label text-right">DN:</label>
+                        <div class="col-xs-9">
+                            <input id="txtDN" type="text" class="form-control" placeholder="DN" value="">
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label class="col-xs-3 control-label text-right">CUST PO:</label>
+                        <div class="col-xs-9">
+                            <input id="txtPO" type="text" class="form-control" placeholder="PO" value="">
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label class="col-xs-4 control-label text-right">EMS合同號:</label>
+                        <div class="col-xs-8">
+                            <input id="txtEMSNO" type="text" class="form-control" placeholder="EMS合同號" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <button id="btnRefresh" class="btn btn-primary" style="width:108px;float:right"><i class="fa fa-refresh"><span set-lan="html:refresh">刷新DN</span></i></button>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <button id="btnSendAgain" class="btn btn-primary" style="width:108px;float:right"><i class="fa fa-upload"><span set-lan="html:uploadAgain">補傳CD</span></i></button>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <button id="btnSend" class="btn btn-primary" style="width:108px;"><i class="fa fa-upload"><span set-lan="html:upload">正常傳輸</span></i></button>
+                    </div>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <button id="btnSendAll" class="btn btn-primary" style="width:108px;"><i class="fa fa-upload"><span set-lan="html:uploadAll">一鍵傳輸</span></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="div-table" style="margin-left:15px;margin-right:15px;">
+                <table id="tableList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="425"></table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script>
+        var DNList = [];
+        $(document).ready(function () {
+            InitDNList(0);
+            $('#btnRefresh').click(function () {
+                InitDNList(0);
+            });
+            $('#btnSend').click(function () {
+                var dn = $('#txtDN').val();
+                var po = $('#txtPO').val();
+                var emsNo = $('#txtEMSNO').val();
+                if (dn == "" || dn == undefined) {
+                    layer.msg("請選擇DN!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                if (po == "" || po == undefined) {
+                    layer.msg("請輸入PO!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                if (po.length < 8) {
+                    layer.msg("PO長度須>8位,請確認!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                if (emsNo == "" || emsNo == undefined) {
+                    layer.msg("請輸入EMS合同號!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                self.parent.client.CallFunction("MESStation.Config.HWT.CSendDataConfig", "SendNormal", { "DNNO": dn, "PONO": po, "EMSNO": emsNo }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowData(e.Data);
+                    }
+                    else {
+                        $('#tableList').bootstrapTable("removeAll");
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                    }
+                });
+            });
+            $('#btnSendAgain').click(function () {
+                InitDNList(2);
+            });
+            $('#btnSendAll').click(function () {
+                self.parent.client.CallFunction("MESStation.Config.HWT.CSendDataConfig", "SendAll", { "DNList": DNList }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowData(e.Data);
+                    }
+                    else {
+                        $('#tableList').bootstrapTable("removeAll");
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                    }
+                });
+            });
+            function InitDNList(dnMode) {
+                self.parent.client.CallFunction("MESStation.Config.HWT.CSendDataConfig", "InitDNList", { DNMODE: dnMode },
+                    function (e) {
+                        $("#txtDN").val("");
+                        try {
+                            $("#txtDN").autocomplete("destroy");
+                        } catch (e) {
+
+                        }
+                        if (e.Status == "Pass") {
+                            DNList.splice(0, DNList.length);
+                            for (var i = 0; i < e.Data.length; i++) {
+                                DNList.push(e.Data[i].DN_NO);
+                            }
+                            $("#txtDN").autocomplete({
+                                minLength: 0,
+                                source: DNList,
+                                select: function (event, ui) {
+                                    $(this).val(ui.item.value);
+                                },
+                                create: function (event, ui) {
+                                    $(this).bind("click", function () {
+                                        var active = $(this).attr("autocomplete");
+                                        if (active == "off") {
+                                            $(this).autocomplete("search", "");
+                                        }
+                                    });
+                                },
+                                scroll: true,
+                                scrollHeight: 50,
+                                position: { my: "left top", at: "left bottom" }
+                            });
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () { });
+                        }
+                    }
+                );
+            }
+            var ShowData = function (Data) {
+                $('#tableList').bootstrapTable("destroy");
+                $('#tableList').bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 20,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    //toolbar: "#divSettingTableTool",    //指定工具栏
+                    toolbarAlign: "right",              //工具栏对齐方式
+                    buttonsAlign: "right",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'Data List',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    //locale: tableLocale,
+                    columns: [{
+                        field: 'USERNAME',
+                        title: '<label set-lan="html:tableLotNo">USERNAME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'NUM1',
+                        title: '<label set-lan="html:tableSkuNo">NUM1</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'COMPANY_CODE',
+                        title: '<label set-lan="html:tableSN">COMPANY_CODE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'PO_NO',
+                        title: '<label set-lan="html:tableReceiveDate">PO_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'TO_NO',
+                        title: '<label set-lan="html:tableLastPackingDate">TO_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'NUM2',
+                        title: '<label set-lan="html:tableFailStation">NUM2</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'SYSSERIALNO',
+                        title: '<label set-lan="html:tableFailureSymptom">SYSSERIALNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'NUM3',
+                        title: '<label set-lan="html:tableFailureTypes">NUM3</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'KEYPART_SN',
+                        title: '<label set-lan="html:tableOwner">KEYPART_SN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'UNIT',
+                        title: '<label set-lan="html:tableRemark">UNIT</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'DN_NO',
+                        title: '<label set-lan="html:tableValuable">DN_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'P_NO',
+                        title: '<label set-lan="html:tableRMATimes">P_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'PALLET_NO',
+                        title: '<label set-lan="html:tableFunctionTimes">PALLET_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'PO',
+                        title: '<label set-lan="html:tableCosmeticTimes">PO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

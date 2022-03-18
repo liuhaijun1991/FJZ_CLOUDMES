@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">HWD SKU LINK 7B5</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+   
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body class=" animated fadeInRight">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnAdd">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnModify">
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:edit">Modify</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnDelete">
+                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divEdit" class="form-horizontal hidden" data-bind="validationOptions:{insertMessages:false}" style="padding-top:20px;">
+        <div class="col-xs-12" hidden>
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">ID:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="txtID" set-lan="attr:placeholder=placeholderID" data-bind="value:ID" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">SKUNO:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="txtSkuno" set-lan="attr:placeholder=placeholderSkuno" data-bind="value:SKUNO" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:SKUNO"></label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">SUBSKUNO:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="txtSubSkuno" set-lan="attr:placeholder=placeholderSubSkuno" data-bind="value:SUBSKUNO" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:SUBSKUNO"></label>
+            </div>
+        </div>
+        <div class="col-xs-12 ">
+            <div class="form-group">
+                <label class="col-xs-2  control-label text-right" set-lan="html:">SEQNO:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="txtSeqno" set-lan="attr:placeholder=placeholderSeqno" data-bind="value:SEQNO" />
+                </div>
+                <label class="validationMessage" data-bind="validationMessage:SEQNO"></label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:"></label>
+                <div class="col-xs-4">
+                    <button type="button" class="btn btn-primary" id="bteEdit" data-bind="enable:ClickCheck()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Save</lan></button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+
+        var columns = [];
+        var tableLocale;
+        var mesUI = new MesClientUI(self.parent.client);
+
+        var ShowList = function (tableID, data, columns, tableLocale) {
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: columns
+            });
+        }
+        var GetList = function () {
+            self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Get7B5LinkList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowList("tableList", e.Data, columns, tableLocale);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowList("tableList", [], columns, tableLocale);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        var ShowEditTab = function (labelTitle) {
+            $("#divListDetail").hide();
+            $("#divEdit").show();
+            $("#labelTitle").html(labelTitle);
+        }
+
+        var ObjectModel = function () {
+            var self = this;
+            self.ID = ko.observable("");
+            self.SKUNO = ko.observable().extend({
+                required: { params: true, message: "Please input the skuno" }
+            });
+            self.SUBSKUNO = ko.observable().extend({
+                required: { params: true, message: "Please input the sub skuno" }
+            });
+            self.SEQNO = ko.observable().extend({
+                required: { params: true, message: "Please input the seqno" },
+                number: { params: true, message: "Please input a number" }
+            });
+            self.LASTEDIT = ko.observable("");
+            self.LASTEDITBY = ko.observable("");
+            //self.NotError = ko.observable(self.ClickCheck);
+            self.ClickCheck = function () {
+                if (ko.validation.group(self)().length > 0) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            };
+            self.ShowMessages = function () {
+                ko.validation.group(self).showAllMessages();
+            };
+        };
+        var viewModel = new ObjectModel();
+        ko.applyBindings(viewModel, document.getElementById("divEdit"));
+
+        var selectRow = [];
+        var ArrayID;
+
+        var ShowEditDiv = function (title, divID, ) {
+            layer.open({
+                id: "EditDiv",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: title,
+                area: ['40%', '50%'],
+                content: $(divID),               
+                offset:"30px",
+                //btn: ["上傳", "取消"],
+                success: function (layero, index) {
+                    $(divID).removeClass("hidden");
+                    $("#txtSkuno").select().focus();
+                    $(".layui-layer-title").addClass("new-pallet-title");
+                },
+                end: function () {
+                    $(divID).addClass("hidden");
+                },
+                yes: function (index) {
+                },
+                cancel: function (index) {
+                    layer.close(index);                    
+                    GetList();
+                }
+            });
+        }
+        var editType = "";
+        $(document).ready(function () {
+            columns.push({ checkbox: true });
+            for (var item in viewModel) {
+                if ("ClickCheck" == item || item == "ShowMessages") {
+                    continue;
+                }
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                if (item == "ID") {
+                    cell.visible = false;
+                }
+                columns.push(cell);
+            }
+            tableLocale = $.cookie($.MES.CK_LAN_NAME);
+            if (tableLocale == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (tableLocale == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            }
+            GetList();
+            mesUI.SetLanguage("SKULINK7B5");
+
+            $("#btnAdd").click(function () {
+                viewModel.ID("");
+                viewModel.SKUNO("");
+                viewModel.SUBSKUNO("");
+                viewModel.SEQNO("");
+                editType = "ADD";
+                ShowEditDiv("Add A New Link", "#divEdit");
+            });
+
+            $("#btnModify").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length > 1) {
+                    swal({
+                        title: "",
+                        text: "You can only select one line for editing!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (selectRow.length <= 0) {
+                    swal({
+                        title: "",
+                        text: "Please select the valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+
+                viewModel.ID(selectRow[0].ID);
+                viewModel.SKUNO(selectRow[0].SKUNO);
+                viewModel.SUBSKUNO(selectRow[0].SUBSKUNO);
+                viewModel.SEQNO(selectRow[0].SEQNO);
+                editType = "MODIFY";
+                ShowEditDiv("Modify A Link", "#divEdit");
+            });
+
+            $("#btnDelete").click(function () {
+                selectRow = $("#tableList").bootstrapTable('getSelections');
+                if (selectRow.length <= 0) {                   
+                    swal({
+                        title: "",
+                        text: "Please select the valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                ArrayID = new Array();
+                for (var i = 0; i < selectRow.length; i++) {
+                    ArrayID.push(selectRow[i].ID);
+                }
+
+                swal({
+                    title: "",
+                    text: "Are you sure to delete " + ArrayID.length + " recording?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "YES",
+                    confirmButtonColor: "#18a689"
+                }, function () {
+                    self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "Delete7B5Link", { ArrayID: ArrayID }, function (e) {
+                        if (e.Status == "Pass") {                           
+                            //layer.msg(e.Message, { time: 2000, icon:1 });
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            GetList();
+                        } else {
+                            //layer.msg(e.Message, { time: 2000, icon: 2 });  
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                });
+            });
+
+            $("#bteEdit").click(function () {
+                self.parent.client.CallFunction("MESStation.Config.HWD.C7B5API", "EditSkunoLink7B5", { ObjectModel: ko.toJSON(viewModel) }, function (e) {
+                    if (e.Status == "Pass") {                       
+                        layer.msg(e.Message, { time: 2000, icon: 1 });
+                        if (editType == "ADD") {
+                            viewModel.ID("");
+                            viewModel.SKUNO("");
+                            viewModel.SUBSKUNO("");
+                            viewModel.SEQNO("");
+                        }
+                        $("#txtSkuno").select().focus();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });                   
+                    }
+                });               
+            });
+            $("#txtSkuno").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtSubSkuno").select().focus();
+                }
+            });
+            $("#txtSubSkuno").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#txtSeqno").select().focus();
+                }
+            });
+            $("#txtSeqno").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#bteEdit").select().focus();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

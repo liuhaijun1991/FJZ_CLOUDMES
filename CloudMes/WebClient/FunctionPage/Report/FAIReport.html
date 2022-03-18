@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:OBA FAI Report">OBA FAI Report</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <style>
+        .ui-autocomplete {
+            display: block;
+            z-index: 999999999;
+            max-height: 180px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body class="full-height">
+
+
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;"><lan set-lan="html:OBA FAI">OBA FAI</lan></span></h3>
+    </div>
+
+
+
+    <div class="container-fluid no-padding outputs">
+        <div class="panel-body">
+            <div id="Table_Toolbar">
+                <div class="btn-group hidden-xs" role="group">
+                    <button type="button" class="btn btn-outline btn-primary" id="NewFAI">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                        <lan set-lan="html:New"> New</lan>
+                    </button>
+                   <!-- <button type="button" class="btn btn-outline btn-primary" id="EditFAI" disabled>
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+                        <lan set-lan="html:Edit"> Edit</lan>
+                    </button>-->
+                    <button type="button" class="btn btn-outline btn-primary" id="DeleteFAI">
+                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                        <lan set-lan="html:Delete"> Delete</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary" id="RefreshFAI">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                        <lan set-lan="html:Refresh"> Refresh</lan>
+                    </button>
+                </div>
+            </div>
+
+
+            <!--FAI_List_Table-->
+            <table id="FAI_List_Table"></table>
+        </div>
+
+        <!--hidden panel-->
+        <div id="ModifyList" class="panel-body hidden">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#FAIList">
+                        <i class="fa fa-th-list"></i>
+                        <lan set-lan="html:New OBA First Article inspection">New OBA First Article inspection</lan>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="FAIList" class="tab-pane active row row-lg">
+                    <br />
+                    <div id="EditModelDetail" class="form-horizontal m-t-md">
+                        <div class="panel-body">
+                            <div id="FAIConfigForm" role="form" class="form-horizontal">
+
+                                <div class="form-group col-xs-6" style="display:none">
+                                    <label id="la1" class="col-xs-4 control-label"
+                                           set-lan="html:ModifyModelMsgID">ID：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control" name="ID" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right"
+                                           set-lan="html:FAIType">FAIType</label>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="SelectFAIType" AutoPostback="true">
+                                            <!--<option>WORKORDERNO</option>-->
+                                            <option>SKUNO</option>
+                                            <!--<option>ECO</option>
+                                            <option>LINE</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right"
+                                           set-lan="html:ProductType">ProductType:</label>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="SelectProductType" AutoPostback="true">
+                                            <option value="NPI">NPI</option>
+                                            <option value="量產">Mass production</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <!--<div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right" set-lan="html:FAI_Workorder">工單</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="InputTextWorkorderno"
+                                               AutoPostback="true">
+                                    </div>
+                                </div>-->
+
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right" set-lan="html:SKUNO">SKUNO</label>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="SelectSku" disabled="disabled" AutoPostback="true"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right"
+                                           set-lan="html:SKUNO VERSION">SKUNO VERSION</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" id="InputTextSkuVer" disabled="disabled"
+                                               AutoPostback="true">
+                                    </div>
+                                </div>
+
+                                <!--<div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right"
+                                           set-lan="html:SelectStation">工站:</label>
+                                    <div class="col-xs-9">
+                                        <select class="form-control" id="SelectStation" AutoPostback="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>-->
+
+
+                                <!--<div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right">附件:</label>
+                                    <div class="col-xs-9">
+                                        <label class="btn btn-outline btn-primary input-group" for="FileUpload" style="z-index:1;"><lan set-lan="html:Upload"> Upload</lan></label>
+                                        <input id="FileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".pdf,.txt,.xls,.xlsx,.doc,.docx">
+
+                                    </div>
+                                </div>-->
+
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right" set-lan="html:File Upload">File Upload</label>
+                                    <div class="col-xs-9">
+                                        <input id="FileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".DOC,.DOCX,.TXT,.XLS,.XLSX,.PDF,.LAB,.JPG,.PNG,.PPT,.PPTX,.ZIP,.ODT,.CSV">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-6">
+                                    <label class="col-xs-3 control-label text-right" set-lan="html:Remark">Remark</label>
+                                    <div class="col-xs-9">
+                                        <textarea class="form-control" id="Remark" style="resize:vertical"
+                                                  AutoPostback="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div style="margin:0 auto;text-align: center;">
+                            <div class="btn-group" role="group" style="align-items: center;">
+                                <button type="button" class="btn btn-outline btn-primary" id="Btn_Save">
+                                    <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i>
+                                    <lan set-lan="html:Save"> Save</lan>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+        <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+        <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 第三方插件 -->
+        <script src="../../Scripts/plugins/JSON/json2.js"></script>
+        <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+        <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+        <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+        <script src="../../Scripts/plugins/JSON/json2.js"></script>
+        <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+        
+
+        <script src="../../Scripts/global.js"></script>
+        <script src="../../Scripts/MesClient.UI.js"></script>
+        <script src="../../Scripts/MesClient.js"></script>
+        <script src="../../Scripts/Report/FAIReport.js"></script>
+</body>
+
+</html>

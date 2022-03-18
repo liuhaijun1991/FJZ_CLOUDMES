@@ -1,0 +1,437 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+       
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }      
+
+        #divFilterCondition .form-group {
+            margin-bottom: 5px;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding: 15px 0px;
+            border-radius: 4px;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+
+        .tableEventsToolbar-margin-top {
+            margin-top: 10px;            
+        }
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight" id="myBody">
+    <div id="divList">
+        <div id="divFilterCondition" class="col-xs-3 form-horizontal divReportInput">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Skuno:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" id="txt_skuno" placeholder="Skuno" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Pallet NO:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" id="txt_pallet_no" placeholder="Pallet NO" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Status:</label>
+                    <div class="col-xs-7">
+                        <select id="select_status" class="form-control">
+                            <option value="All">All</option>
+                            <option value="Wait To Ship" selected>Wait To Ship</option>
+                            <option value="Shipfinish">Shipfinish</option>
+                        </select>
+                    </div>
+                </div>
+            </div>            
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Date From:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" id="txt_date_from" placeholder="Date From" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right">Date To:</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control" id="txt_date_to" placeholder="Date To" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label text-right"></label>
+                    <div class="col-xs-8">
+                        <button class="btn btn-primary small" id="btnSubmit"><i class="fa fa-check">Submit</i></button>
+                        <button class="btn btn-primary small" id="btnCancel"><i class="fa fa-remove">Cancel</i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">Search</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolRefresh">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divPalletDetail" style="padding:0px 10px;">
+        <table id="tablePalletDetail" class="table table-hover"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+
+        var palletDetailIndex;
+        var bSubmit = false;
+        var ShowPalletDetail = function (row) {
+            //$(this.parent.document.getElementById("content-main")).scrollTop(0);
+            //$("#myBody").scrollTop(0);
+            if (palletDetailIndex != undefined || palletDetailIndex != "") {
+                layer.close(palletDetailIndex);
+            }
+            palletDetailIndex=layer.open({
+                id: "PalletDetail",
+                type: 1,
+                offset: "10px",
+                shade: 0.8,
+                shadeClose: false,
+                title: row.PACK_NO+" Detail",
+                area: ['90%', '90%'],
+                content: $('#divPalletDetail'),
+                //btn: ["Submit", "Cancel"],
+                success: function (layero, index) {
+                    $(".layui-layer-title").addClass("new-pallet-title");  
+                    $("#tablePalletDetail").bootstrapTable("destroy");
+                    var columns = [];
+                    var loadIndex = layer.load(2, {
+                        shade: [0.2, '#393d49'],
+                        content: "<div style='padding-top:5px;margin-left:40px;width:150px;color:blue;'><span>Executing,Please wait ...</span></div>"
+                    });
+                    parent.client.CallFunction("MESStation.Config.WhsConfig", "GetPalletDetail", { PALLET_NO: row.PACK_NO }, function (e) {
+                        if (e.Status == "Pass") {                           
+                            columns.push({ checkbox: true, align: 'center', valign: 'middle' });
+                            for (var item in e.Data[0]) {
+                                var cell = {
+                                    field: item,
+                                    title: item,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: true
+                                };
+                                columns.push(cell);
+                            }          
+                            layer.close(loadIndex);
+                            $("#tablePalletDetail").bootstrapTable({
+                                data: e.Data,
+                                striped: false,                    //是否显示行间隔色
+                                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                sortable: false,                   //是否启用排序
+                                sortOrder: "asc",                  //排序方式
+                                pagination: true,                  //是否显示分页（*）
+                                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                pageSize: 10,                       //每页的记录行数（*）
+                                pageList: [10, 20, 30,50,100],        //可供选择的每页的行数（*）
+                                showColumns: false,                 //是否显示 内容列下拉框
+                                showRefresh: false,                 //是否显示刷新按钮
+                                minimumCountColumns: 2,            //最少允许的列数
+                                clickToSelect: true,               //是否启用点击选中行
+                                singleSelect: false,                //单选checkbox
+                                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                                cardView: false,                   //是否显示详细视图
+                                detailView: false,                 //是否显示父子表
+                                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                searchOnEnterKey: false,            //回车搜索
+                                searchTimeOut: 500,                //设置搜索超时时间
+                                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                                searchAlign: "left",              //查询框对齐方式
+                                //toolbar: "#tableEventsToolbar",    //指定工具栏
+                                toolbarAlign: "left",              //工具栏对齐方式
+                                buttonsAlign: "left",             //按钮对齐方式
+                                showExport: true,                  //是否显示导出按钮
+                                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                exportTypes: ['excel', 'csv'],     //导出文件类型
+                                Icons: 'glyphicon-export',
+                                exportOptions: {
+                                    ignoreColumn: [0],             //忽略某一列的索引
+                                    fileName: 'List',     //文件名称设置
+                                    worksheetName: 'sheet1',       //表格工作区名称
+                                },                               
+                                columns: columns
+                            });                            
+                        } else {
+                            layer.close(loadIndex);
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+                },
+                end: function () {                   
+                },
+                yes: function (index) {
+                },
+                cancel: function (index) {                   
+                    layer.close(index);                   
+                }
+            });
+        }
+
+        window.ColumnLabelClick = {
+            'click #labelStatus': function (e, value, row, index) {
+                ShowPalletDetail(row);               
+            },
+            'click #labelPallet': function (e, value, row, index) {
+                ShowPalletDetail(row);
+            }
+        }
+
+        var ajaxRequest = function (params) {
+            if (bSubmit) {
+                this.options.pageNumber = 1;
+                bSubmit = false;
+            }
+            var inputData = {
+                SKUNO: params.data.SKUNO,
+                PALLET_NO: params.data.PALLET_NO,
+                STATUS: params.data.STATUS,
+                DATE_FROM: params.data.DATE_FROM,
+                DATE_TO: params.data.DATE_TO,
+                PAGE_SIZE: (this.options.pageSize == undefined || this.options.pageSize == "") ? 50 : this.options.pageSize,
+                PAGE_NUM: (this.options.pageNumber == undefined || this.options.pageNumber == "") ? 50 : this.options.pageNumber,
+            }            
+            parent.client.CallFunction("MESStation.Config.WhsConfig", "GetAllInWhsPallet", inputData,function (e) {
+                $("#divFilterCondition").hide();
+                $("#tableEventsToolbar").removeClass("tableEventsToolbar-margin-top");
+                if (e.Status == "Pass") {
+                    params.success({
+                        total: e.Data.Total,
+                        rows: e.Data.Rows
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+
+        var ShowTable = function () {
+            $("#tableList").bootstrapTable("destroy");
+            $("#tableList").bootstrapTable({
+                ajax: ajaxRequest,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "server",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 50,                       //每页的记录行数（*）
+                pageList: [50, 100, 150, 200, 300, 500, 1000],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                queryParams:function () {
+                    return {
+                        PALLET_NO: $("#txt_pallet_no").val(),
+                        SKUNO: $("#txt_skuno").val(),
+                        STATUS: $("#select_status").val(),
+                        DATE_FROM: $("#txt_date_from").val(),
+                        DATE_TO: $("#txt_date_to").val()
+                    };
+                },
+                rowStyle: function (row, index) {
+                    switch (row.STATUS) {
+                        case "SHIPOUT":
+                            return "";
+                            break;
+                        case "SHIPFINISH":
+                            return { css: { 'background-color': '#00FF00' } };
+                            break;
+                        default:
+                            return { css: { 'background-color': '#FF0000' } };                            
+                            break;
+                    }
+                },
+                columns: [
+                    { field: "NO", title: "NO", align: 'center', valign: 'middle' },
+                    {
+                        field: "PACK_NO", title: "PALLET_NO", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            return ['<label id="labelPallet" style="color:blue;text-decoration:underline;cursor:pointer;">' + value + '</label >'].join('');
+                        },
+                        events: ColumnLabelClick
+                    },
+                    { field: "SKUNO", title: "SKUNO", align: 'center', valign: 'middle' },
+                    { field: "QTY", title: "QTY", align: 'center', valign: 'middle' },
+                    {
+                        field: "STATUS", title: "STATUS", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            return ['<label id="labelStatus" style="color:blue;text-decoration:underline;cursor:pointer;">' + value + '</label >'].join('');                            
+                        },
+                        events: ColumnLabelClick
+                    },
+                    { field: "CBS_DATE", title: "MAX_CBS_DATE", align: 'center', valign: 'middle' }                   
+                ]
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+
+        $(document).ready(function () {
+            $("#divFilterCondition").hide();
+            $("#txt_date_from").datetimepicker({
+                format: 'yyyy-mm-dd',//选择年月日時分秒
+                language: 'zh-CN',
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2
+            });
+            $("#txt_date_to").datetimepicker({
+                format: 'yyyy-mm-dd',//选择年月日時分秒
+                language: 'zh-CN',
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2
+            });
+            $("#txt_skuno").val("");
+            $("#txt_date_from").val("");
+            $("#txt_date_to").val("");
+            $("#txt_pallet_no").val("");
+            
+            $("#btnToolSearch").click(function () {
+                $("#txt_skuno").focus().select();
+                $("#divFilterCondition").toggle();
+            });
+
+            $("#btnCancel").click(function () {
+                $("#divFilterCondition").hide();
+            });
+
+            $("#btnSubmit").click(function () {
+                bSubmit = true;
+                ShowTable();               
+            });
+
+            $("#btnToolRefresh").click(function () {
+                $("#txt_pallet_no").val("");
+                $("#txt_skuno").val("");
+                $("#txt_date_from").val("");
+                $("#txt_date_to").val("");
+                bSubmit = true;
+                $("#tableList").bootstrapTable("refresh");
+            })
+        });
+    </script>
+</body>
+</html>

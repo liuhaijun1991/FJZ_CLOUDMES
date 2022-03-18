@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">PanelRepairStation</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 5px !important;
+        }
+
+        .select-row {
+            background-color:blue;
+            color:white;
+        }
+
+        .select-row:hover {
+            background-color: blue !important;
+            color: white !important;
+        }
+        .fixed-table-pagination .pagination-detail, .fixed-table-pagination div.pagination {
+            margin:3px 0px 0px 0px !important;
+        }
+
+        #divBtnSave .col-xs-8 {
+        padding-left:5px !important;
+        }
+    </style>
+</head>
+<body class="form-horizontal">
+    <div id="divLeft" class="col-xs-6" style="margin-top:5px;">
+        <div class="panel panel-default" style="margin-bottom:10px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Fail Data</h3>
+            </div>
+            <div class="panel-body" id="divFailData" style="padding:5px 5px 0px;">
+                <div id="divInputPanel" class="col-xs-6">
+                    <!--<div class="form-group" view-group="Panel_00001">
+                        <label for="Panel_00001" class="col-xs-2 control-label text-right">Panel:</label>
+                        <div class="col-xs-8">
+                            <input id="Panel_00001" type="text" class="form-control" placeholder="Panel" value="">
+                        </div>
+                    </div>-->
+                </div>
+                <table id="tableFailData" class="table table-bordered">
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Action</h3>
+            </div>
+            <div class="panel-body" id="divAction" style="padding:5px;">
+                <div class="row">
+                    <div id="divInputRepairFailCode" class="col-xs-4">
+                        <!--<div class="form-group" view-group="FailID_00001">
+            <label for="FailID_00001" class="col-xs-4 control-label text-right">FailID:</label>
+            <div class="col-xs-8">
+                <input id="FailID_00001" type="text" class="form-control" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divSNNumber" class="col-xs-4">
+                        <div class="form-group" view-group="SNNumber_00001">
+                            <label for="SNNumber_00001" class="col-xs-4 control-label text-right">SNNumber:</label>
+                            <div class="col-xs-8">
+                                <input id="SNNumber_00001" type="text" class="form-control" placeholder="" value="" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divLocation" class="col-xs-4">
+                        <div class="form-group" view-group="FailLocation_00001">
+                            <label for="FailLocation_00001" class="col-xs-4 control-label text-right">Location:</label>
+                            <div class="col-xs-8">
+                                <input id="FailLocation_00001" type="text" class="form-control" placeholder="" value="" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divFailCode" class="col-xs-4">
+                        <div class="form-group" view-group="FailCode_00001">
+                            <label for="FailCode_00001" class="col-xs-4 control-label text-right">FailCode:</label>
+                            <div class="col-xs-8">
+                                <input id="FailCode_00001" type="text" class="form-control" placeholder="" value="" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div id="divFailDesc" class="col-xs-4">
+        <div class="form-group" view-group="FailDesc_00001">
+            <label for="FailDesc_00001" class="col-xs-4 control-label text-right">FailDesc:</label>
+            <div class="col-xs-8">
+                <input id="FailDesc_00001" type="text" class="form-control" placeholder="FailDesc" value="" disabled>
+            </div>
+        </div>
+    </div>-->
+                    <div id="divInputActionCode" class="col-xs-4">
+                        <!--<div class="form-group" view-group="ActionCode_00001">
+            <label for="ActionCode_00001" class="col-xs-4 control-label text-right">ActionCode:</label>
+            <div class="col-xs-8">
+                <input id="ActionCode_00001" type="text" class="form-control" placeholder="ActionCode" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputActionDesc" class="col-xs-4">
+                        <!--<div class="form-group" view-group="ActionDesc_00001">
+            <label for="ActionDesc_00001" class="col-xs-4 control-label text-right">ActionDesc:</label>
+            <div class="col-xs-8">
+                <input id="ActionDesc_00001" type="text" class="form-control" placeholder="ActionDesc" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputRootCause" class="col-xs-4">
+                        <!--<div class="form-group" view-group="RootCause_00001">
+            <label for="RootCause_00001" class="col-xs-4 control-label text-right">RootCause:</label>
+            <div class="col-xs-8">
+                <input id="RootCause_00001" type="text" class="form-control" placeholder="RootCause" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputCauseDesc" class="col-xs-4">
+                        <!--<div class="form-group" view-group="RootCause_00001">
+            <label for="RootCause_00001" class="col-xs-4 control-label text-right">RootCause:</label>
+            <div class="col-xs-8">
+                <input id="RootCause_00001" type="text" class="form-control" placeholder="RootCause" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputLoaction" class="col-xs-4">
+                        <!--<div class="form-group" view-group="Loaction_00001">
+            <label for="Loaction_00001" class="col-xs-4 control-label text-right">Loaction:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" placeholder="Loaction" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputProcess" class="col-xs-4">
+                        <!--<div class="form-group" view-group="Process_00001">
+            <label for="Process_00001" class="col-xs-4 control-label text-right">Process:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" placeholder="Process" value="">
+            </div>
+        </div>-->
+                    </div>
+                    <div id="divInputDesc" class="col-xs-8">
+                        <!--<div class="form-group" view-group="Desc_00001">
+            <label for="Desc_00001" class="col-xs-2 control-label text-right">Description:</label>
+            <div class="col-xs-10">
+                <input id="Desc_00001" type="text" class="form-control" placeholder="Description" value="">
+            </div>
+        </div>-->
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-4">
+                        <div class="form-group" view-group="Save_00001">
+                            <label for="Process_00001" class="col-xs-4 control-label text-right"></label>
+                            <div class="col-xs-8" style="padding-left:3px;">
+                                <button class="btn btn-primary small" id="btnSaveAction" value="">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divBtnSave" class="col-xs-4" hidden>
+                        <!--<div class="form-group" view-group="Save_00001">
+            <div class="col-xs-4">
+                <button class="btn btn-primary small" id="CLICKBUTTON_Action" name="Save" value="">
+                    Save
+                </button>
+            </div>
+        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divRight" class="col-xs-6" style="margin-top:5px;">
+        <div class="panel panel-default no-padding">
+            <div class="panel-heading">
+                <h3 class="panel-title">Action List</h3>
+            </div>
+            <div class="panel-body no-padding" id="divActionList">
+                <table id="tableActionList" class="table table-bordered"></table>
+            </div>
+        </div>
+
+        <div class="panel panel-default no-padding">
+            <div class="panel-heading">
+                <h3 class="panel-title">Message</h3>
+            </div>
+            <div class="panel-body no-padding" id="divMessage">
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+    <script type="text/javascript">
+       
+        var keypressEvent = jQuery.Event("keypress");//模拟一个键盘事件
+        keypressEvent.keyCode = 13;//keyCode=13是回车
+        var bSelectFailRow = false;
+        var option = null;
+        var line = "Line1";
+        var station = null;
+        var stationName = $.MES.getQueryString("StationName");
+        var ShowList = function (tableID, data) {
+            var columns = [];
+            for (var item in data[0]) {
+                var cell = {
+                    field: item,
+                    title: item,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false,
+                    visible: true
+                };
+                if (item == "ID") {
+                    cell.visible = false;
+                }
+                columns.push(cell);
+            }
+            $("#" + tableID).bootstrapTable("destroy");
+            $("#" + tableID).bootstrapTable({
+                data: data,
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5,10,20],        //可供选择的每页的行数（*）  
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox              
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端
+                onClickRow: function (row, element) {
+                    if (tableID == "tableFailData") {
+                        $(".select-row").removeClass("select-row");
+                        $(element).addClass("select-row");
+                        $("#divInputRepairFailCode").find("input[type=text]").val(row.ID).attr("disabled","disabled");
+                        $("#divSNNumber").find("input[type=text]").val(row.SNNumber);
+                        $("#divLocation").find("input[type=text]").val(row.FAIL_LOCATION);
+                        $("#divFailCode").find("input[type=text]").val(row.FAIL_CODE);
+                        //$("#divFailDesc").find("input[type=text]").val(row.FailDesc);
+                        $("#divInputActionCode").find("input[type=text]").val("").select().focus();
+                        $("#divInputRepairFailCode").find("input[type=text]").trigger(keypressEvent);//模拟輸入框按下回车
+                        bSelectFailRow = true;
+                        Clear();
+                    }
+                },
+                columns: columns
+            });
+        }
+        var Clear = function () {
+            if (!bSelectFailRow) {
+                $("#SNNumber_00001").val("");
+                $("#FailLocation_00001").val("");
+                $("#FailCode_00001").val("");
+            }
+        }
+        $(document).ready(function () {
+            //$("#divInputPanel").find("input[type=text]").val("").select().focus();
+            //ShowList("tableFailData", failData);
+            //ShowList("tableActionList", failData); 
+            line = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line) {
+                line = "Line1";
+            }
+            Clear();
+            option = {
+                Client: self.parent.client,               
+                Line: "Line1",
+                Name: stationName,
+                MContainer: $("#divMessage"),
+                Init: function (d) {
+                    if (d.Status == "Pass") {                        
+                        station.ShowInput({
+                            InputName: "Panel",
+                            Scale: "2:8",
+                            Container: $("#divInputPanel")
+                        });
+                        station.ShowInput({
+                            InputName: "RepairFailCode",
+                            Scale: "4:8",
+                            Container: $("#divInputRepairFailCode")
+                        });
+                        station.ShowInput({
+                            InputName: "ActionCode",
+                            Scale: "4:8",
+                            Container: $("#divInputActionCode")
+                        });
+                        station.ShowInput({
+                            InputName: "ActionDesc",
+                            Scale: "4:8",
+                            Container: $("#divInputActionDesc")
+                        });
+                        station.ShowInput({
+                            InputName: "RootCause",
+                            Scale: "4:8",
+                            Container: $("#divInputRootCause")
+                        });
+                        station.ShowInput({
+                            InputName: "CauseDesc",
+                            Scale: "4:8",
+                            Container: $("#divInputCauseDesc")
+                        });                        
+                        station.ShowInput({
+                            InputName: "Loaction",
+                            Scale: "4:8",
+                            Container: $("#divInputLoaction")
+                        });
+                        station.ShowInput({
+                            InputName: "Process",
+                            Scale: "4:8",
+                            Container: $("#divInputProcess")
+                        });
+                        station.ShowInput({
+                            InputName: "Description",
+                            Scale: "2:10",
+                            Container: $("#divInputDesc")
+                        });
+                        station.ShowInput({
+                            InputName: "Save",
+                            Scale: "4:8",
+                            Container: $("#divBtnSave")
+                        });
+                        for (var i = 0; i < station.Outputs.length; i++) {
+                            switch (station.Outputs[i].Name) {
+                                case "FailData":
+                                    if (!bSelectFailRow) {
+                                        ShowList("tableFailData", station.Outputs[i].Value);
+                                    }
+                                    break;
+                                case "ActionList":
+                                    ShowList("tableActionList", station.Outputs[i].Value);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else {
+                        swal("Station initialization failed!", d.Message, "error");
+                    }
+                }
+            }
+            station = new MesStation(option);
+            $("#btnSaveAction").bind("click", function (e) {
+                bSelectFailRow = false;
+                Clear();
+                $("#divBtnSave").find("button[name='Save']").trigger("click");//模拟按钮点击               
+            });
+           
+        });
+    </script>
+</body>
+</html>

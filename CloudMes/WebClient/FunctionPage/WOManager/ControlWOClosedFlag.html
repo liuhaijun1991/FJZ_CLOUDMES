@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">WO Close/Open</title>
+    <!--  FunctionPage/WOManager/ManualWORelease.html   -->
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 10px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="gray-bg animated fadeInRight">
+    <div class="wrapper wrapper-content">
+        <div class="ibox">
+            <div class="ibox-heading">
+                <div class="bg-primary">
+                    <div class="ibox-title title-bg-primary">
+                        <h3>
+                            <i class="glyphicon glyphicon-tags"></i>
+                            <label id="titleWOClose" set-lan="html:titleWOClose">WO Close / Open</label>
+
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div id="divWODetail" class="row form-horizontal">
+                <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                    <div class="form-group">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelSearchWO">WO:</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" id="txtSearchWO" class="form-control" set-lan="attr:placeholder=placeholderWO" />
+                        </div>
+                        <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelCloseFlag">WO Closed:</label>
+                        <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                            <select class="form-control" id="txtClosedFlag">
+                                <option value="0"> False</option>
+                                <option value="1"> True</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-offset-3 col-sm-offset-0 col-md-offset-0 col-md-offset-0 col-lg-offset-0">
+                    <button type="button" class="btn btn-primary" onclick="SearchWOInfo()"><i class="glyphicon glyphicon-search"></i> <lan set-lan="html:select">Query</lan></button>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar">
+                            <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+
+                                <button type="button" class="btn btn-outline btn-default" onclick="ModifyWOStatus()">
+                                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Close">Close WO</lan>
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <table id="tableWOList" class="table table-hover"></table>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            $("#txtSearchWO").val("");
+            $("#txtSearchWO").select();
+            $("#txtSearchWO").focus();
+            inittxtWO();
+        });
+
+        function ShowWOList(Data) {
+            var localeLan = $.cookie($.MES.CK_LAN_NAME);
+            if (localeLan == "CHINESE")
+            {
+                localeLan = "zh-CN"
+            }
+            else if (localeLan == "CHINESE_TW") {
+                localeLan = "zh-TW"
+            }
+            else {
+                localeLan = "en"
+            }
+
+            $('#tableWOList').bootstrapTable({
+                data: Data,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+
+                pagination: true,                   //是否显示分页（*）
+
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+
+                pageSize: 5,                       //每页的记录行数（*）
+
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: false,                  //是否显示所有的列
+
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+
+                //height: 500,             //高度调整
+                uniqueId: "RouteID",                     //每一行的唯一标识，一般为主键列
+
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+                //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    //params obj
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+
+                toolbarAlign: "right",//工具栏对齐方式
+
+                columns: [{
+                    checkbox: true
+                },
+
+                {
+                    field: 'WORKORDERNO',
+                    title: '<label set-lan="html:placeholderWO">WORKORDERNO</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },{
+                    field: 'RELEASE_DATE',
+                    title: '<label set-lan="html:placeholderREL_DATE">RELEASE_DATE</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                },
+                {
+                    field: 'PRODUCTION_TYPE',
+                    title: '<label set-lan="html:placeholderPROTYPE">PRODUCTION_TYPE</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'SKUNO',
+                    title: '<label set-lan="html:placeholderSKUNO">SKUNO</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'SKU_NAME',
+                    title: '<label set-lan="html:placeholderSKU_NAME">SKU_NAME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                } ,
+                {
+                    field: 'CLOSED_FLAG',
+                    title: '<label set-lan="html:placeholderCloseFlag">CLOSED_FLAG</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'WORKORDER_QTY',
+                    title: '<label set-lan="html:placeholderWOQTY">WORKORDER_QTY</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'INPUT_QTY',
+                    title: '<label set-lan="html:placeholderINPUT_QTY">INPUT_QTY</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'FINISHED_QTY',
+                    title: '<label set-lan="html:placeholderFINISHQTY">FINISHED_QTY</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }
+                ]
+            });
+        }
+
+        function SearchWOInfo() {
+            var Wo = $("#txtSearchWO").val().replace(/^\s+|\s+$/g, "");
+            var CloseFlag = $("#txtClosedFlag").find(":selected").text();
+            DoSearch(Wo, CloseFlag);
+            //$("#divBack").show();
+        }
+
+        function DoSearch(Wo, CloseFlag) {
+            var data = { WO: Wo, ClosedFlag: CloseFlag };
+            self.parent.client.CallFunction("MESStation.Management.ControlWOCloseFlag", "QueryWO", data, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableWOList').bootstrapTable("load", e.Data);
+                    mesUI.SetLanguage("BUManager");
+                } else {
+                    $('#tableWOList').bootstrapTable("removeAll");
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            
+        }
+     /*   function GoBack(isDoSearch) {
+           $("#divWODetail").show();
+           $("#titleWOReleaseInfo").show();
+           $("#divBack").hide();
+
+
+            $("#txtSearchWO").val("");
+            $("#txtSearchWO").select();
+            $("#txtSearchWO").focus();
+            if (isDoSearch) {
+                DoSearch("");
+            }
+        }
+        */
+
+        function inittxtWO() {
+
+            self.parent.client.CallFunction("MESStation.Management.ControlWOCloseFlag", "GetAllCWO", {}, function (e) {
+                try {
+                    $("#txtSearchWO").autocomplete("destroy");
+
+                } catch (e) { }
+                if (e.Status == "Pass") {
+                    var data = [];
+                    for (var i = 0 ; i < e.Data.length; i++) {
+                        data.push(e.Data[i].WO);
+                    }
+                    $("#txtSearchWO").autocomplete({
+                        source: data,
+                        minLength: 0
+                    });
+
+                }
+
+                    if (e.Status == "Pass") {
+                        ShowWOList(e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    } else {
+                        ShowWOList([]);
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+
+            });
+        }
+
+
+
+
+    function ModifyWORel() {
+        var selectWO = $("#tableWOList").bootstrapTable('getSelections');
+        if (selectWO.length <=0) {
+            swal({
+                title: "",
+                text: "Please select the valid data!",
+                type: "warning",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            return;
+        }
+        var RelIDList = "";
+        for (var i = 0; i < selectWO.length; i++) {
+            RelIDList += selectWO[i].WO + ",";
+        }
+        var data = { WOIDS: RelIDList };
+        swal({
+            title: "",
+            text: "Are you sure to release these Workorders?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "YES",
+            confirmButtonColor: "#18a689"
+        }, function () {
+            self.parent.client.CallFunction("MESStation.Management.ManualWOManager", "UpdateWO", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                  //  GoBack(false);
+                     DoSearch("");
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                  //  return;
+                }
+            });
+        });
+        }
+
+    </script>
+</body>
+</html>

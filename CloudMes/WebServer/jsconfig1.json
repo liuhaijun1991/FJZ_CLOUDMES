@@ -1,0 +1,1495 @@
+{
+  "Station": {
+    "ID": "VNDCN0000000000000000000000000001LK",
+    "DISPLAY_STATION_NAME": "2DX",
+    "STATION_NAME": "2DX",
+    "FAIL_STATION_ID": null,
+    "FAIL_STATION_FLAG": 0.0,
+    "EDIT_TIME": "2021-02-25 08:48:55",
+    "EDIT_EMP": "TEST",
+    "InputList": [
+      {
+        "ID": "VNDCN000000000000000000000000000587",
+        "STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "INPUT_ID": "00013",
+        "SEQ_NO": 0.0,
+        "REMEMBER_LAST_INPUT": "0",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "SCAN_FLAG": 0.0,
+        "DISPLAY_NAME": "SN",
+        "InputActionList": [],
+        "StationActionList": [
+          {
+            "ID": "VNDCN000000000000000000000000000588",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "00014",
+            "SEQ_NO": 0.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": 
+            [
+              {
+                "ID": "VNDCN0000000000000000000000000006J1",
+                "R_STATION_ACTION_ID": "VNDCN000000000000000000000000000588",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "Change",
+                "SESSION_KEY": null,
+                "VALUE": "1",
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006J2",
+                "R_STATION_ACTION_ID": "VNDCN000000000000000000000000000588",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "Trim",
+                "SESSION_KEY": null,
+                "VALUE": "3",
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006J3",
+                "R_STATION_ACTION_ID": "VNDCN000000000000000000000000000588",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006J4",
+                "R_STATION_ACTION_ID": "VNDCN000000000000000000000000000588",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 3.0,
+                "SESSION_TYPE": null,
+                "SESSION_KEY": null,
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": 
+            [
+              {
+                "ID": "HWD0000000000000000000000000000AB",
+                "C_STATION_ACTION_ID": "00014",
+                "SEQ_NO": 0.0,
+                "NAME": "Change",
+                "DESCRIPTION": "0 ToLower, 1 ToUpper",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-05 11:20:11"
+              },
+              {
+                "ID": "HWD0000000000000000000000000000AC",
+                "C_STATION_ACTION_ID": "00014",
+                "SEQ_NO": 1.0,
+                "NAME": "Trim",
+                "DESCRIPTION": "1,TrimStart;2,TrimEnd;3,Trim",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-05 11:22:28"
+              },
+              {
+                "ID": "HWD0000000000000000000000000000AD",
+                "C_STATION_ACTION_ID": "00014",
+                "SEQ_NO": 2.0,
+                "NAME": "StringName",
+                "DESCRIPTION": "?入的字符串",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-05 11:23:24"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "00014",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "加载字符串",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.DataInputLoader",
+              "FUNCTION_NAME": "StringDataloader",
+              "DESCRIPTION": "從?入加載字符串，SESSION_TYPE为Change时0轉小?,1轉大?,2保持不?，SESSION_TYPE为Trim时0不?,1 去前空,2去后空,3前後去空。",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "F1332195"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058A",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000002Y",
+            "SEQ_NO": 1.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006J9",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058A",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD00000000000000000000000000003L",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000002Y",
+                "SEQ_NO": 1.0,
+                "NAME": "SN",
+                "DESCRIPTION": "SN對象",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-12 08:25:59"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000002Y",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "從?入加載SN對象",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.SNLoader",
+              "FUNCTION_NAME": "InputSNDataloader",
+              "DESCRIPTION": "從?入加載SN對象",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-12 08:25:43",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058B",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000001D",
+            "SEQ_NO": 2.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JA",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058B",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JB",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058B",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD00000000000000000000000000000R",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001D",
+                "SEQ_NO": 1.0,
+                "NAME": "WO",
+                "DESCRIPTION": "?建工單對象",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-07 16:54:23"
+              },
+              {
+                "ID": "HWD0000000000000000000000000000B0",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001D",
+                "SEQ_NO": 2.0,
+                "NAME": "SN",
+                "DESCRIPTION": "獲取SN對象",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-07 16:54:43"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000001D",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "從SN對象加載工單",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.WoFromAnyDataLoader",
+              "FUNCTION_NAME": "WoFromSNDataloader",
+              "DESCRIPTION": "從SNLoadPoint保存的SN對象加載工單對象到指定位置",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058C",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "00022",
+            "SEQ_NO": 3.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JE",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058C",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SKU",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JF",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058C",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000089",
+                "C_STATION_ACTION_ID": "00022",
+                "SEQ_NO": 0.0,
+                "NAME": "SKU",
+                "DESCRIPTION": "SKU Object",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-27 23:32:06"
+              },
+              {
+                "ID": "HWD00000000000000000000000000008A",
+                "C_STATION_ACTION_ID": "00022",
+                "SEQ_NO": 1.0,
+                "NAME": "WO",
+                "DESCRIPTION": "Wo Object",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-27 23:32:21"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "00022",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "從工單加載SKU",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.SkunoLoader",
+              "FUNCTION_NAME": "SkuFromWODataloader",
+              "DESCRIPTION": "從工單加載SKU",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "F1328320"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058D",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "DCN0000000000000000000000000001FN",
+            "SEQ_NO": 4.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JG",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058D",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JH",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058D",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "AQL_TYPE",
+                "SESSION_KEY": null,
+                "VALUE": "AQL: 1.5",
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "DCN0000000000000000000000000001N5",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001FN",
+                "SEQ_NO": 1.0,
+                "NAME": "SN Object",
+                "DESCRIPTION": "SN Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-04-01 16:56:24"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001N6",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001FN",
+                "SEQ_NO": 2.0,
+                "NAME": "AQL_TYPE",
+                "DESCRIPTION": "AQL_TYPE",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-04-01 16:56:37"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "DCN0000000000000000000000000001FN",
+              "ACTION_TYPE": "DataChecker",
+              "ACTION_NAME": "SNInLotChecker",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataCheckers.LotCheckers",
+              "FUNCTION_NAME": "SNInLotChecker",
+              "DESCRIPTION": "檢查SN是否進LOT",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2020-04-01 16:56:07",
+              "EDIT_EMP": "G6004623"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058E",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ER",
+            "SEQ_NO": 5.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JJ",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058E",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JK",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058E",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "Lot Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JL",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058E",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "Station Name",
+                "SESSION_KEY": null,
+                "VALUE": "2DX",
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "DCN0000000000000000000000000001M6",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ER",
+                "SEQ_NO": 1.0,
+                "NAME": "SN Object",
+                "DESCRIPTION": "SN Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:20:15"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001M7",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ER",
+                "SEQ_NO": 2.0,
+                "NAME": "Lot Object",
+                "DESCRIPTION": "Lot Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:20:27"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001M8",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ER",
+                "SEQ_NO": 3.0,
+                "NAME": "Station Name",
+                "DESCRIPTION": "Please Input Station Name  Into Value",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:21:41"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "DCN0000000000000000000000000001ER",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "GetLotInfoBySNAndStationLoader",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.LotLoaders",
+              "FUNCTION_NAME": "GetLotInfoBySNAndStationLoader",
+              "DESCRIPTION": "根據SN對象及傳入的工站加載LOT對象",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2020-03-27 18:19:42",
+              "EDIT_EMP": "G6004623"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058F",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+            "SEQ_NO": 6.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JM",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "Lot Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JN",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "LOT NO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JP",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "LOT QTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JQ",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 3.0,
+                "SESSION_TYPE": "REJECT QTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JR",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 4.0,
+                "SESSION_TYPE": "SAMPLE QTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JS",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 5.0,
+                "SESSION_TYPE": "PASS QTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006JT",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058F",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 6.0,
+                "SESSION_TYPE": "FAIL QTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "DCN0000000000000000000000000001M9",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 1.0,
+                "NAME": "Lot Object",
+                "DESCRIPTION": "Lot Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:23:20"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MA",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 2.0,
+                "NAME": "LOT NO",
+                "DESCRIPTION": "LOT NO",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:23:33"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MB",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 3.0,
+                "NAME": "LOT QTY",
+                "DESCRIPTION": "LOT QTY",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:23:44"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MC",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 4.0,
+                "NAME": "REJECT QTY",
+                "DESCRIPTION": "REJECT QTY",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:24:07"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MD",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 5.0,
+                "NAME": "SAMPLE QTY",
+                "DESCRIPTION": "SAMPLE QTY",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:24:35"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001ME",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 6.0,
+                "NAME": "PASS QTY",
+                "DESCRIPTION": "PASS QTY",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:24:48"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MF",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001ES",
+                "SEQ_NO": 7.0,
+                "NAME": "FAIL QTY",
+                "DESCRIPTION": "FAIL QTY",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:24:59"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "DCN0000000000000000000000000001ES",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "LotDetailLoader",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.LotLoaders",
+              "FUNCTION_NAME": "LotDetailLoader",
+              "DESCRIPTION": "把LOT 的,LOT NO,LOT QTY,REJECT QTY,SAMPLE QTY,PASS QTY,FAIL QTY加載到StationSession中",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2020-03-27 18:22:57",
+              "EDIT_EMP": "G6004623"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058G",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000005M",
+            "SEQ_NO": 7.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JV",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058G",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "StationNextList",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD00000000000000000000000000008S",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000005M",
+                "SEQ_NO": 0.0,
+                "NAME": "StationNextList",
+                "DESCRIPTION": "掃描工站的下一站List",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-29 14:07:19"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000005M",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "加載掃描工站Pass下一站List",
+              "DLL_NAME": "Messtation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.SNLoader",
+              "FUNCTION_NAME": "StationNextDataloader",
+              "DESCRIPTION": "加載掃描工站工站Pass下一站List",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-29 14:09:00",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058H",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD000000000000000000000000000058",
+            "SEQ_NO": 8.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JW",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058H",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "NextStationList",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000085",
+                "C_STATION_ACTION_ID": "HWD000000000000000000000000000058",
+                "SEQ_NO": 0.0,
+                "NAME": "NextStationList",
+                "DESCRIPTION": "R_SN?前站的下一工站List",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-27 11:24:47"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD000000000000000000000000000058",
+              "ACTION_TYPE": "DataLoader",
+              "ACTION_NAME": "加載SN下一站List",
+              "DLL_NAME": "Messtation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataLoaders.SNLoader",
+              "FUNCTION_NAME": "SNNextStationDataloader",
+              "DESCRIPTION": "加載SN下一站List",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-27 11:23:57",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058J",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000005A",
+            "SEQ_NO": 9.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006JY",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058J",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "NextStationList",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000087",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000005A",
+                "SEQ_NO": 0.0,
+                "NAME": "NextStationList",
+                "DESCRIPTION": "下一工站清單",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-27 14:09:14"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000005A",
+              "ACTION_TYPE": "DataChecker",
+              "ACTION_NAME": "檢查?前掃描工站是否OK",
+              "DLL_NAME": "Messtation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataCheckers.CheckPanelData",
+              "FUNCTION_NAME": "NextStationDataChecker",
+              "DESCRIPTION": "檢查?前掃描工站是否OK",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-27 14:08:12",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058K",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000007K",
+            "SEQ_NO": 10.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006K0",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058K",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006K1",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058K",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD0000000000000000000000000000C4",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000007K",
+                "SEQ_NO": 0.0,
+                "NAME": "SN",
+                "DESCRIPTION": "SN對象",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-24 20:50:26"
+              },
+              {
+                "ID": "HWD0000000000000000000000000000C5",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000007K",
+                "SEQ_NO": 1.0,
+                "NAME": "WO",
+                "DESCRIPTION": "工單對象",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-02-24 20:50:39"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000007K",
+              "ACTION_TYPE": "DataChecker",
+              "ACTION_NAME": "SN狀態檢查",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataCheckers.CheckSN",
+              "FUNCTION_NAME": "SNInputStatusChecker",
+              "DESCRIPTION": "SN狀態檢查",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-02-24 20:48:57",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058L",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000004N",
+            "SEQ_NO": 11.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006K2",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058L",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000004N",
+              "ACTION_TYPE": "DataChecker",
+              "ACTION_NAME": "工單狀態檢查",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataCheckers.CheckWorkorder",
+              "FUNCTION_NAME": "WoStateDatachecker",
+              "DESCRIPTION": "工單狀態檢查",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-25 14:40:53",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058M",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "00016",
+            "SEQ_NO": 12.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006K3",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058M",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD00000000000000000000000000008F",
+                "C_STATION_ACTION_ID": "00016",
+                "SEQ_NO": 0.0,
+                "NAME": "SN",
+                "DESCRIPTION": "產品SN 對象，目前未使用",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-27 23:37:45"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "00016",
+              "ACTION_TYPE": "DataChecker",
+              "ACTION_NAME": "SN鎖定檢查",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.DataCheckers.CheckLocker",
+              "FUNCTION_NAME": "SNLockedChecker",
+              "DESCRIPTION": "SN/Panel SN鎖定檢查",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-27 23:36:29",
+              "EDIT_EMP": "TEST"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058N",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000002H",
+            "SEQ_NO": 13.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006K4",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058N",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006K5",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058N",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "STATUS",
+                "SESSION_KEY": "1",
+                "VALUE": "PASS",
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006K6",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058N",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "DEVICE",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD00000000000000000000000000002M",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000002H",
+                "SEQ_NO": 1.0,
+                "NAME": "SN",
+                "DESCRIPTION": "SN 對象",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-09 16:44:09"
+              },
+              {
+                "ID": "HWD00000000000000000000000000002N",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000002H",
+                "SEQ_NO": 2.0,
+                "NAME": "PASSFAIL",
+                "DESCRIPTION": "過站狀態，Pass 或者 Fail",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-09 16:45:00"
+              },
+              {
+                "ID": "HWD00000000000000000000000000003T",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000002H",
+                "SEQ_NO": 3.0,
+                "NAME": "DEVICE",
+                "DESCRIPTION": "機台?",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-12 11:24:59"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000002H",
+              "ACTION_TYPE": "ActionRunner",
+              "ACTION_NAME": "SN 過站",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.ActionRunners.SNActions",
+              "FUNCTION_NAME": "SNPassStationAction",
+              "DESCRIPTION": "SN 過站",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "A0225204"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058P",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000001F",
+            "SEQ_NO": 14.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006K7",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058P",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "NEWSN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006K8",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058P",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006K9",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058P",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "STATUS",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KA",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058P",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 3.0,
+                "SESSION_TYPE": "LINKQTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000013",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001F",
+                "SEQ_NO": 1.0,
+                "NAME": "NEWSN",
+                "DESCRIPTION": "序列?",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:39:44"
+              },
+              {
+                "ID": "HWD000000000000000000000000000014",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001F",
+                "SEQ_NO": 2.0,
+                "NAME": "WO",
+                "DESCRIPTION": "工單對象",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:39:59"
+              },
+              {
+                "ID": "HWD000000000000000000000000000015",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001F",
+                "SEQ_NO": 3.0,
+                "NAME": "STATUS",
+                "DESCRIPTION": "過站狀態",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:40:14"
+              },
+              {
+                "ID": "HWD000000000000000000000000000012",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001F",
+                "SEQ_NO": 4.0,
+                "NAME": "LINKQTY",
+                "DESCRIPTION": "連板數",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:39:28"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000001F",
+              "ACTION_TYPE": "ActionRunner",
+              "ACTION_NAME": "?良率",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.ActionRunners.SNActions",
+              "FUNCTION_NAME": "RecordYieldRateAction",
+              "DESCRIPTION": "?良率",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "A0225204"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058Q",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD00000000000000000000000000001G",
+            "SEQ_NO": 15.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006KB",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058Q",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KC",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058Q",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "WO",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KD",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058Q",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "STATUS",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KE",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058Q",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 3.0,
+                "SESSION_TYPE": "LINKQTY",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000017",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001G",
+                "SEQ_NO": 1.0,
+                "NAME": "Panel或SN",
+                "DESCRIPTION": "序列?",
+                "EDIT_EMP": "F1324041",
+                "EDIT_TIME": "2018-03-28 14:27:51"
+              },
+              {
+                "ID": "HWD000000000000000000000000000018",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001G",
+                "SEQ_NO": 2.0,
+                "NAME": "WO",
+                "DESCRIPTION": "工單對象",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:41:19"
+              },
+              {
+                "ID": "HWD000000000000000000000000000019",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001G",
+                "SEQ_NO": 3.0,
+                "NAME": "STATUS",
+                "DESCRIPTION": "過站狀態",
+                "EDIT_EMP": "A0225204",
+                "EDIT_TIME": "2018-01-03 11:41:29"
+              },
+              {
+                "ID": "HWD0000000000000000000000000000FD",
+                "C_STATION_ACTION_ID": "HWD00000000000000000000000000001G",
+                "SEQ_NO": 4.0,
+                "NAME": "LINKQTY",
+                "DESCRIPTION": "连板数",
+                "EDIT_EMP": "F1324041",
+                "EDIT_TIME": "2018-03-28 14:27:04"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD00000000000000000000000000001G",
+              "ACTION_TYPE": "ActionRunner",
+              "ACTION_NAME": "? UPH",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.ActionRunners.SNActions",
+              "FUNCTION_NAME": "RecordUPHAction",
+              "DESCRIPTION": "? UPH",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-10 10:42:33",
+              "EDIT_EMP": "A0225204"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058R",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "DCN0000000000000000000000000001EY",
+            "SEQ_NO": 16.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006KF",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058R",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": "SN Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KG",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058R",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 1.0,
+                "SESSION_TYPE": "\tLot Object",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              },
+              {
+                "ID": "VNDCN0000000000000000000000000006KH",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058R",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 2.0,
+                "SESSION_TYPE": "\tStatus Flag",
+                "SESSION_KEY": "1",
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:55",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "DCN0000000000000000000000000001MR",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001EY",
+                "SEQ_NO": 1.0,
+                "NAME": "SN Object",
+                "DESCRIPTION": "SN Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:36:56"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MS",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001EY",
+                "SEQ_NO": 2.0,
+                "NAME": "Lot Object",
+                "DESCRIPTION": "Lot Object",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:37:07"
+              },
+              {
+                "ID": "DCN0000000000000000000000000001MT",
+                "C_STATION_ACTION_ID": "DCN0000000000000000000000000001EY",
+                "SEQ_NO": 3.0,
+                "NAME": "Status Flag",
+                "DESCRIPTION": "Status Flag",
+                "EDIT_EMP": "G6004623",
+                "EDIT_TIME": "2020-03-27 18:37:38"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "DCN0000000000000000000000000001EY",
+              "ACTION_TYPE": "ActionRunner",
+              "ACTION_NAME": "SNSampleAction",
+              "DLL_NAME": "MESStation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.ActionRunners.LotActions",
+              "FUNCTION_NAME": "SNSampleAction",
+              "DESCRIPTION": "SN 抽測過站",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2020-03-27 18:44:51",
+              "EDIT_EMP": "G6004623"
+            }
+          },
+          {
+            "ID": "VNDCN00000000000000000000000000058S",
+            "R_STATION_INPUT_ID": "VNDCN000000000000000000000000000587",
+            "C_STATION_ACTION_ID": "HWD000000000000000000000000000056",
+            "SEQ_NO": 17.0,
+            "CONFIG_TYPE": "Default",
+            "CONFIG_VALUE": null,
+            "ADD_FLAG": 1.0,
+            "EDIT_TIME": "2021-02-25 08:48:55",
+            "EDIT_EMP": "TEST",
+            "ParaSA": [
+              {
+                "ID": "VNDCN0000000000000000000000000006KK",
+                "R_STATION_ACTION_ID": "VNDCN00000000000000000000000000058S",
+                "R_INPUT_ACTION_ID": null,
+                "SEQ_NO": 0.0,
+                "SESSION_TYPE": null,
+                "SESSION_KEY": null,
+                "VALUE": null,
+                "EDIT_TIME": "2021-02-25 08:48:56",
+                "EDIT_EMP": "TEST"
+              }
+            ],
+            "ParaSB": [
+              {
+                "ID": "HWD000000000000000000000000000083",
+                "C_STATION_ACTION_ID": "HWD000000000000000000000000000056",
+                "SEQ_NO": 0.0,
+                "NAME": "NextInput DisplayName",
+                "DESCRIPTION": "設置NextInput DisplayName,只配置一筆",
+                "EDIT_EMP": "TEST",
+                "EDIT_TIME": "2018-01-26 17:34:20"
+              }
+            ],
+            "C_STATION_ACTION": {
+              "ID": "HWD000000000000000000000000000056",
+              "ACTION_TYPE": "ActionRunner",
+              "ACTION_NAME": "設置NextInput",
+              "DLL_NAME": "Messtation.dll",
+              "CLASS_NAME": "MESStation.Stations.StationActions.ActionRunners.InputStateAction",
+              "FUNCTION_NAME": "SetNextInput",
+              "DESCRIPTION": "設置NextInput",
+              "BU": null,
+              "SORTING": null,
+              "USE_STATION": null,
+              "EDIT_TIME": "2018-01-26 17:32:30",
+              "EDIT_EMP": "TEST"
+            }
+          }
+        ]
+      }
+    ],
+    "OutputList": 
+    [
+      {
+        "ID": "VNDCN0000000000000000000000000001D2",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "SKU",
+        "SEQ_NO": 0.0,
+        "SESSION_TYPE": "SKU",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D3",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "WO",
+        "SEQ_NO": 1.0,
+        "SESSION_TYPE": "WO",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D4",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "LINE",
+        "SEQ_NO": 2.0,
+        "SESSION_TYPE": "LINE",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D5",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Lot_No",
+        "SEQ_NO": 3.0,
+        "SESSION_TYPE": "Lot_No",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D6",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Lot_Qty",
+        "SEQ_NO": 4.0,
+        "SESSION_TYPE": "Lot_Qty",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D7",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Reject_Qty",
+        "SEQ_NO": 5.0,
+        "SESSION_TYPE": "Reject_Qty",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D8",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Sample_Qty",
+        "SEQ_NO": 6.0,
+        "SESSION_TYPE": "Sample_Qty",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001D9",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Pass_Qty",
+        "SEQ_NO": 7.0,
+        "SESSION_TYPE": "Pass_Qty",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      },
+      {
+        "ID": "VNDCN0000000000000000000000000001DA",
+        "R_STATION_ID": "VNDCN0000000000000000000000000001LK",
+        "NAME": "Fail_Qty",
+        "SEQ_NO": 8.0,
+        "SESSION_TYPE": "Fail_Qty",
+        "SESSION_KEY": "1",
+        "EDIT_TIME": "2021-02-25 08:48:55",
+        "EDIT_EMP": "TEST",
+        "DISPLAY_TYPE": "TXT"
+      }
+    ]
+  }
+}
+  

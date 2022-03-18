@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Message Setting Config</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+        /*.title-bg-primary {
+           color: #fff;
+           background-color: #337ab7;
+        }*/
+    </style>
+</head>
+<body class="gray-bg animated fadeInRight">
+<div class="wrapper wrapper-content">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i>
+                <label id="titlePNExceptionData" set-lan="html:hPNException">PartNO Exception Setting</label>
+                <label id="titleAddPNExceptionData" set-lan="html:hAddPNException" hidden>Add PartNO Exception Data</label>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div id="divBack" class="row" hidden>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" onclick="GoBack(true)"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">Back</lan></button>
+                    </div>
+                </div>
+            </div>
+            <div id="divPNExceptionDetail" class="row form-horizontal">
+
+                <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelPartno">Partno:</label>
+                        <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                            <input type="text" id="txtSearchPartno" class="form-control" set-lan="attr:placeholder=placeholderPartno" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-md-4 col-lg-3 control-label text-right" set-lan="html:labelCustpartno">Exception Type:</label>
+                        <div class="col-xs-8 col-sm-9 col-md-8 col-lg-9">
+                            <input type="text" id="txtSearchExceptionType" class="form-control" set-lan="attr:placeholder=placeholderExceptionType" />
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-3 col-sm-offset-2 col-md-offset-0 col-lg-offset-0">
+                    <button type="button" class="btn btn-primary" onclick="SearchPNException()"><i class="glyphicon glyphicon-search"></i> <lan set-lan="html:select">Query</lan></button>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar">
+                            <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-default" onclick="ShowAddPNExceptionTab()">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                </button>                                
+                                <button type="button" class="btn btn-outline btn-default" onclick="DeletePNExceptionData()">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                </button>
+                            </div>
+                        </div>
+                        <table id="tablePNExceptionList" class="table table-hover "></table>
+                    </div>
+                </div>
+            </div>
+            <div id="divAddPNExceptionData" class="row form-horizontal" hidden>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelPARTNO">PARTNO:</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtAddPARTNO" set-lan="attr:placeholder=placeholderPARTNO" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelREV">Exception Type:</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <select class="form-control" id="txtAddException"> </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                    <button type="button" class="btn btn-primary" onclick="AddPNExceptionData()"><i class="fa fa-save"></i><lan set-lan="html:save">Save</lan></button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+<script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+<script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../Scripts/plugins/JSON/json2.js"></script>
+<link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+<link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<!-- 第三方插件 -->
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+<script src="../../Scripts/plugins/excel/import_excel_2_json.js"></script>
+<!--自定義插件-->
+<script src="../../Scripts/global.js"></script>
+<script src="../../Scripts/MesClient.UI.js"></script>
+<script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            var data = {};
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.PartNoExceptionConfig", "GetAllPartNoException", data, function (e) {
+                if (e.Status == "Pass") {
+                    ShowPageLanguagList(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowPageLanguagList([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            mesUI.SetLanguage("KpPartnoExceptionSetting");
+            load_exception();
+        });
+
+        function ShowPageLanguagList(Data) {
+            var tableLocale = "";
+            var lan = $.cookie($.MES.CK_LAN_NAME);
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $('#tablePNExceptionList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 20,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "right",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'Message Language List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: tableLocale,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'PARTNO',
+                    title: '<label set-lan="html:tablePARTNO">PARTNO</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'EXCEPTIONTYPE',
+                    title: '<label set-lan="html:tableExceptionType">EXCEPTION TYPE</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                     field: 'EDIT_EMP',
+                     title: '<label set-lan="html:tableEditEMP">EDIT_TEMP</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 }, {
+                     field: 'EDIT_TIME',
+                     title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                     rowspan: 1,
+                     align: 'center',
+                     valign: 'middle',
+                     sortable: true,
+                     visible: true
+                 }]
+            });
+            mesUI.SetLanguage("KpPartnoExceptionSetting");
+        }
+
+        function SearchPNException() {
+            var PARTNO = $("#txtSearchPartno").val().replace(/^\s+|\s+$/g, "");
+            var EXCEPTIONTYPE = $("#txtSearchExceptionType").val().replace(/^\s+|\s+$/g, "");
+            
+            DoSearch(PARTNO, EXCEPTIONTYPE);
+        }
+
+    function DoSearch(PARTNO, EXCEPTIONTYPE,) {
+        var data = { PARTNO: PARTNO, EXCEPTIONTYPE: EXCEPTIONTYPE }
+        self.parent.client.CallFunction("MESStation.Config.ORACLE.PartNoExceptionConfig", "GetDetail", data, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tablePNExceptionList').bootstrapTable("load", e.Data);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+             mesUI.SetLanguage("KpPartnoExceptionSetting");
+        }
+
+        function ShowAddPNExceptionTab() {
+            $("#titlePNExceptionData").hide();
+            $("#divPNExceptionDetail").hide();
+            $("#divBack").show();
+            $("#divAddPNExceptionData").show();
+            $("#titleAddPNExceptionData").show();
+            ClearAll();
+        }
+
+       
+
+        function GoBack(obj) {
+            $("#titlePNExceptionData").show();
+            $("#divPNExceptionDetail").show();
+            $("#divBack").hide();
+            $("#divAddPNExceptionData").hide();
+            $("#titleAddPNExceptionData").hide();
+            ClearAll();
+            if (obj) {
+                DoSearch("", "", "")
+            }
+            mesUI.SetLanguage("KpPartnoExceptionSetting");
+        }
+
+        function AddPNExceptionData() {
+            var PARTNO = $("#txtAddPARTNO").val().replace(/^\s+|\s+$/g, "");
+            var EXCEPTION = $("#txtAddException").val().replace(/^\s+|\s+$/g, "");
+           
+            if (PARTNO == "" || PARTNO == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter PARTNO!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddPARTNO").focus;
+                    $("#txtAddPARTNO").select();
+                }, 2001);
+                return;
+            }
+            if (EXCEPTION == "" || EXCEPTION == undefined) {
+                swal({
+                    title: "",
+                    text: "Please enter EXCEPTION!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddException").focus;
+                    $("#txtAddException").select();
+                }, 2001);
+                return;
+            }
+            
+            var data = { PARTNO: PARTNO, EXCEPTIONTYPE: EXCEPTION };
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.PartNoExceptionConfig", "AddPartNoException", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddException").val("");
+                        $("#txtAddPARTNO").focus;
+                        $("#txtAddPARTNO").select();
+                    }, 2001);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function selectFile() {
+            //触发 文件选择的click事件
+            $("#file").trigger("click");
+
+        }
+
+        function ExcelImport(obj) {
+            var wb;//读取完成的数据
+            var rABS = false; //是否将文件读取为二进制字符串
+            if (!obj.files) {
+                return;
+            }
+            var f = obj.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                if (rABS) {
+                    wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                        type: 'base64'
+                    });
+                } else {
+                    wb = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                }
+                //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                var JsonStr = JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+
+                //var JsonData = JSON.parse(JsonStr);
+
+                self.parent.client.CallFunction("MESStation.GlobalConfig.LanguagePageConfig", "ExcelImport", { jsond: JsonStr }, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 20000,
+                            showConfirmButton: true
+                        });
+                    }
+                });
+            };
+            if (rABS) {
+                reader.readAsArrayBuffer(f);
+            } else {
+                reader.readAsBinaryString(f);
+            }
+            //JSON.parse(
+
+        }
+
+        function Download() {
+            window.location.href = "../../File/language import.xlsx";
+        }
+
+        function fixdata(data) { //文件流转BinaryString
+            var o = "",
+                l = 0,
+                w = 10240;
+            for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+            return o;
+        }
+
+
+
+       
+        function DeletePNExceptionData() {
+            var selectPageLaguage = $("#tablePNExceptionList").bootstrapTable('getSelections');
+            if (selectPageLaguage.length <= 0) {
+                swal({
+                    title: "",
+                    text: "Please select a record.",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var PARTNO = selectPageLaguage[0].PARTNO;
+            var EXCEPTIONTYPE = selectPageLaguage[0].EXCEPTIONTYPE;
+            var data = { PARTNO: PARTNO, EXCEPTIONTYPE: EXCEPTIONTYPE };
+            swal({
+                title: "",
+                text: "Are you sure to delete these data?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "YES",
+                confirmButtonColor: "#18a689"
+            }, function () {
+                self.parent.client.CallFunction("MESStation.Config.ORACLE.PartNoExceptionConfig", "DeletePartNoException", data, function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        DoSearch("", "", "");
+                    } else {
+                        swal({
+                            title: "",
+                            text: e.Message,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                });
+            });
+        }
+
+        function load_exception() {
+            var data = { EXCEPTIONTYPE: "" };
+            self.parent.client.CallFunction("MESStation.Config.ORACLE.PartNoExceptionConfig", "GetAllException", data, function (e) {
+                
+                if (e.Status == "Pass") {
+                    if (e.MessageCode == "MES00000033") {
+                        var input = "";
+                        var z = e.Data;
+                        for (var i = 0; i < z.length; i++) {
+                            input += "<option>" + z[i].EXCEPTIONTYPE.toString() + "</option>";
+                        }
+                        console.log(input);
+                        $("#txtAddException").html(input);
+                    }
+                }
+                else (e.Status == "Fail")
+                {
+                    if (e.MessageCode == "MES00000034") {
+                        swal({
+                            title: "ALERT",
+                            text: "C_PARTNO_EXCEPTION Table doesn't have data",
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+
+                }
+            });
+
+        }
+
+        function ClearAll() {
+            $("#txtSearchChinese").val("");
+            $("#txtSearchChinese_tw").val("");
+            $("#txtSearchEnglish").val("");
+            $("#txtAddPARTNO").val("");
+            $("#txtAddException").val("");
+        }
+</script>
+</body>
+
+</html>

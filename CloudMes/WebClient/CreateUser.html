@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES CreateUser</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--<link href="css/animate.css" rel="stylesheet">-->
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        #Parameters .form-group {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div class="ibox  float-e-margins" id="Emp_Add">
+            <!--<div class="row">-->
+            <div class="panel-heading bg-primary">
+                <h3 id="Header"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_newuser">Create User</lan></i></h3>
+            </div>
+            <div class="form-horizontal col-xs-12 col-sm-12 col-lg-12 col-md-12 ibox-content">
+                <!--<div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location='index.html'"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>-->
+                <div id="Parameters" class="form-horizontal m-t">
+                    <div class="row">
+                        <div class="form-group col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <label for="FACTORY" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_factory">FACTORY</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <select id="FACTORY" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6 col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="BU_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_buname">BU_NAME</lan>:</label>
+                            <div class="col-xs-8  col-sm-9 col-lg-9 col-md-9">
+                                <select id="BU_NAME" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_NO" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empno">EMP_NO</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off"  class="form-control" id="EMP_NO" set-lan="attr:placeholder=placeholderEMP_NO" size="12">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_PASSWORD" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_emppassword">EMP_PASSWORD</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="password" name="show" class="form-control" id="EMP_PASSWORD" placeholder="密碼含数字,字母,特殊字符且超過6位的字符组成!">-->
+                                <input type="password" name="show" AUTOCOMPLETE="off"  class="form-control" id="EMP_PASSWORD" set-lan="attr:placeholder=placeholderEMP_PASSWORD">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="EMP_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empname">EMP_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off"  class="form-control" id="EMP_NAME" set-lan="attr:placeholder=placeholderEMP_NAME">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="DPT_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_dptname">DPT_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <select id="DPT_NAME" name="show" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="POSITION_NAME" class="col-xs-4  col-sm-3 col-lg-3 col-md-3 control-label"><span style=" color:red">*</span><lan set-lan="html:h_positionname">POSITION_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off" class="form-control" id="POSITION_NAME" set-lan="attr:placeholder=placeholderPOSITION_NAME">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="MAIL_ADDRESS" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_mailaddress">MAIL_ADDRESS</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="text" name="show" class="form-control" id="MAIL_ADDRESS" placeholder="以@mail.foxconn.com或@foxconn.com結尾">-->
+                                <input type="text" name="show" AUTOCOMPLETE="off"  class="form-control" id="MAIL_ADDRESS" set-lan="attr:placeholder=placeholderMailAddress">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="PHONE_NUMBER" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_phonenumber">PHONE_NUMBER</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <!--<input type="text" name="show" class="form-control" id="PHONE_NUMBER" placeholder="分機格式560-XXXXX 短號格式42+XXXXXX 手機11位">-->
+                                <input type="text" name="show" AUTOCOMPLETE="off"  class="form-control" id="PHONE_NUMBER" set-lan="attr:placeholder=placeholderPhoneNumber">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="LOCATION" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_location">LOCATION</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off"  class="form-control" id="LOCATION" set-lan="attr:placeholder=placeholderLOCATION">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="message-text" class="col-xs-4  col-sm-3 col-lg-3 col-md-3  control-label"><span style=" color:red">*</span><lan set-lan="html:h_empdesc">EMP_DESC</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off" class="form-control" id="EMP_DESC" set-lan="attr:placeholder=placeholderEMP_DESC">
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="AGENT_EMP_NO" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label"><lan set-lan="html:h_agentempno">AGENT_EMP_NO</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off" class="form-control" id="AGENT_EMP_NO" set-lan="attr:placeholder=placeholderAGENT_EMP_NO">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6  col-sm-6 col-lg-6 col-md-6 ">
+                            <label for="message-text" class="col-xs-4 col-sm-3 col-lg-3 col-md-3  control-label "><lan set-lan="html:h_empenname">EMP_EN_NAME</lan>:</label>
+                            <div class="col-xs-8 col-sm-9 col-lg-9 col-md-9">
+                                <input type="text" name="show" AUTOCOMPLETE="off" class="form-control" id="EMP_EN_NAME" set-lan="attr:placeholder=placeholderEMP_EN_NAME">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span style="color:red;" class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><lan set-lan="html:IsRequired">帶*為必填項</lan></span>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6  col-xs-offset-6 col-sm-offset-6 col-md-offset-6 col-lg-offset-6">
+                        <button class="btn btn-primary" onclick="submitFunction()"><i class="fa fa-save"><lan set-lan="html:save">Save</lan></i></button>
+                    </div>
+                </div>
+            </div>
+            <!--</div>-->
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定義 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var client;
+        var mesUI;
+        $(document).ready(function () {
+            client = new MesClient(function () {
+                mesUI = new MesClientUI(client);
+                //加載廠區
+                client.CallFunction("MESStation.Config.FactoryConfig", "GetAllFactory", { FACTORY_CODE: "" }, function (e) {
+                    if (e.Status == "Pass") {
+                        var dep = $('#FACTORY');
+                        for (var item = 0; item < e.Data.length; item++) {
+                            dep.append("<option>" + e.Data[item].FACTORY_CODE + "</option>");
+                        }
+                    }
+                });
+                //加載部門
+                client.CallFunction("MESStation.Config.DepartmentConfig", "GetDepartmentList", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        var dep = $('#DPT_NAME');
+                        for (var item = 0; item < e.Data.length; item++) {
+                            dep.append("<option>" + e.Data[item] + "</option>");
+                        }
+                    }
+                });
+                //加載BU
+                client.CallFunction("MESStation.GlobalConfig.GetCommonConfig", "GetBU", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        var bu = $('#BU_NAME');
+                        for (var item = 0; item < e.Data.length; item++) {
+                            bu.append("<option>" + e.Data[item] + "</option>");
+                        }
+                    }
+                });
+                //工號限制
+                $('#EMP_NO').blur(function () {
+                    if ($("#EMP_NO").val().replace(/^\s+|\s+$/g, "") == "" || $("#EMP_NO").val().replace(/^\s+|\s+$/g, "") == null) {
+                    }
+                    else if ($('#EMP_NO').val().length >= 9 || $('#EMP_NO').val().length <= 4) {
+                        swal({
+                            title: "Warning",
+                            text: "The length of the EMP_NO must be greater than 4 and less than 9 ",
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        $('#EMP_NO').val("");
+                    }
+                });
+                //密碼限制
+                $('#EMP_PASSWORD').blur(function () {
+                    //Debug 正則表達式需要加密才能加入，取出時解密。
+                    //var jiemi = decodeURI("/%5E(?!%5B0-9%5D+$)(?!%5Ba-zA-Z%5D+$)(?!(%5B%5E(0-9a-zA-Z)%5D%7C%5B()%5D)+$)(%5B%5E(0-9a-zA-Z)%5D%7C%5B()%5D%7C%5Ba-zA-Z%5D%7C%5B0-9%5D)%7B6,%7D$/");
+                    //var jiami = encodeURI("/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,}$/");
+                    //var sss = /^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,}$/;
+                    if ($("#EMP_PASSWORD").val().replace(/^\s+|\s+$/g, "") == "" || $("#EMP_PASSWORD").val().replace(/^\s+|\s+$/g, "") == null) {
+                    }
+                    else {
+                        client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "EMP_PASSWORD" }, function (e) {
+                            if (e.Status == "Pass") {
+                                if (e.Data.EMP_PASSWORD) {
+                                    var reg = eval(decodeURI(e.Data.EMP_PASSWORD));
+                                    if (!reg.test($('#EMP_PASSWORD').val())) {
+                                        swal({
+                                            title: "Warning",
+                                            text: "Invalid password length and character combination!",
+                                            type: "warning",
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        });
+                                        $('#EMP_PASSWORD').val("");
+                                    }
+                                }
+                            }
+                        })
+                    }
+                });
+                //電話號碼限制
+                $('#PHONE_NUMBER').blur(function () {
+                    //var fff = /(^5\d{2,3}-\d{5,6}$)|(^4\d{1,2}\+\d{6}$)|(^\d{11}$)/;
+                    if ($("#PHONE_NUMBER").val().replace(/^\s+|\s+$/g, "") == "" || $("#PHONE_NUMBER").val().replace(/^\s+|\s+$/g, "") == null) {
+                    }
+                    else {
+                        client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "PHONE_NUMBER" }, function (e) {
+                            if (e.Status == "Pass") {
+                                if (e.Data.PHONE_NUMBER) {
+                                    var reg = eval(decodeURI(e.Data.PHONE_NUMBER));
+                                    if (!(reg.test($('#PHONE_NUMBER').val()))) {
+                                        swal({
+                                            title: "Warning",
+                                            text: "Invalid mobile number!",
+                                            type: "warning",
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        });
+                                        $('#PHONE_NUMBER').val("");
+                                    }
+                                }
+                            }
+                        })
+                    }
+                });
+                //郵箱限制
+                $('#MAIL_ADDRESS').blur(function () {
+                    //var fff = /(^[A-Za-zd]+([-_.][A-Za-zd]+)*@foxconn.com$)|(^[A-Za-zd]+([-_.][A-Za-zd]+)*@mail.foxconn.com$)/;
+                    if ($("#MAIL_ADDRESS").val().replace(/^\s+|\s+$/g, "") == "" || $("#MAIL_ADDRESS").val().replace(/^\s+|\s+$/g, "") == null) {
+                    } else {
+                        client.CallFunction("MESStation.GlobalConfig.InputRuleConfig", "GetInputRuleList", { PageName: "UserList", InputName: "MAIL_ADDRESS" }, function (e) {
+                            if (e.Status == "Pass") {
+                                if (e.Data.MAIL_ADDRESS) {
+                                    var reg = eval(decodeURI(e.Data.MAIL_ADDRESS));
+                                    if (!reg.test($('#MAIL_ADDRESS').val().replace(/^\s+|\s+$/g, ""))) {
+                                        swal({
+                                            title: "Warning",
+                                            text: "Invalid email address!",
+                                            type: "warning",
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        });
+                                        $('#MAIL_ADDRESS').val("");
+                                    }
+                                }
+                            }
+                        })
+                    }
+                });
+                $("#Parameters").find(".form-control").val("");
+                mesUI.SetLanguage("UserList");
+            });
+        });
+
+        function submitFunction() {
+            if ($('#FACTORY option:selected').text() == "" || $('#BU_NAME option:selected').text() == "" || $('#EMP_NO').val() == "" || $('#EMP_PASSWORD').val() == "" || $('#DPT_NAME option:selected').text() == "" || $('#POSITION_NAME').val() == "" || $('#MAIL_ADDRESS').val() == "" || $('#PHONE_NUMBER').val() == "" || $('#LOCATION').val() == "" || $('#EMP_DESC').val() == "") {
+                swal({
+                    title: "Warning",
+                    text: "Required field cannot be empty!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            else {
+                var data = "{";
+                var dd = $("#Parameters").find("[name=show]");
+                for (var item = 0; item < dd.length; item++) {
+                    var inputname = dd[item].id;
+                    if (inputname == "FACTORY" || inputname == "BU_NAME" || inputname == "DPT_NAME") {
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname + " option:selected").text() + "\",";
+                    }
+                    else {
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname).val() + "\",";
+                    }
+                }
+                data = data.substr(0, data.length - 1);
+                data += "}";
+                client.CallFunction("MESStation.MESUserManager.RegisterNewUserPage", "RegisterNewUser", JSON.parse(data), function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "Success",
+                            text: e.Message,
+                            timer: 2000,
+                            type: "success",
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                            $("#Parameters").find(".form-control").val("");
+                        }, 2001);
+                    }
+                    else {
+                        swal({
+                            title: "Error",
+                            text: e.Message,
+                            type: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

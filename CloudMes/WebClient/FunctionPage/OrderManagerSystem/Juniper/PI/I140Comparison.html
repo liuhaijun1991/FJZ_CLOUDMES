@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">I140Comparison</title>
+    <link href="../../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../../css/animate.css" rel="stylesheet">
+    <link href="../../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapSelect/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        body {
+            background: #EEF4FB
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: #BFC9D5 !important;
+            font-size: xx-small;
+            background: #fff !important;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: inherit !important;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #DBE0E4 !important;
+            --background: white !important;
+            --color: white;
+        }
+        /*table, th {
+            background: #ffffff !important;
+        }*/
+        .nodatabox {
+            display: table;
+            width: 60%;
+            text-align: center;
+            color: #777;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .container {
+            margin: 0;
+            width: calc((100% - 30px));
+        }
+
+        .nodatabox img {
+            width: 50%;
+        }
+
+        .lineTd {
+            background: #d3dafa url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIxMDAlIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=) no-repeat 100% center !important;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div id="divsub" class="panel-body" style="font-size: 1em;">
+        <div class="col-xs-12">
+            <div class="col-xs-12 layui-input-inline">
+                <select class="col-xs-2" name="140HisA" id="Select_140HisA" lay-filter="140HisA"></select>
+                <p class="glyphicon glyphicon-resize-horizontal"> </p>
+                <select class="col-xs-2" name="140HisB" id="Select_140HisB" lay-filter="140HisB"></select>
+                <button type="button" class="btn btn-default btn-sm" id="Comparison">
+                    <span class="glyphicon glyphicon-transfer"></span> Comparison
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <fieldset class="layui-elem-field">
+                <legend><span class="layui-badge layui-bg-black" id="onesite"></span></legend>
+                <div class="layui-field-box">
+                    <div class="col-xs-12" style="background-color:#cfe2f3!important"><table id="140AQT" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+                    <div class="col-xs-12" style="background-color:#9fc5e8!important"><table id="140ATT" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter-Qty</span></div><hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#6fa8dc!important"><table id="140AQ" class="table table-condensed text-nowrap" style="height:200px"></table><br /></div>
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter-Amount</span></div><hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#9fc5e8!important"><table id="140AA" class="table table-condensed text-nowrap" style="height:200px"></table><br /></div><br />
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Detail</span></div> <hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#cfe2f3!important"><table id="140A" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-xs-6">
+            <fieldset class="layui-elem-field">
+                <legend><span class="layui-badge layui-bg-black" id="secsite"></span></legend>
+                <div class="layui-field-box">
+                    <div class="col-xs-12" style="background-color:#d9ead3!important"><table id="140BQT" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+                    <div class="col-xs-12" style="background-color:#b6d7a8!important"><table id="140BTT" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter-Qty</span></div><hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#93c47d!important"><table id="140BQ" class="table table-condensed text-nowrap" style="height:200px"></table><br /></div><br />
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter-Amount</span></div><hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#b6d7a8!important"><table id="140BA" class="table table-condensed text-nowrap" style="height:200px"></table><br /></div><br />
+                    <!--<div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Detail</span></div><hr class="my-4">-->
+                    <div class="col-xs-12" style="background-color:#d9ead3!important"><table id="140B" class="table table-condensed text-nowrap" style="height:200px"></table></div>
+
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="btn-group div-table-tool" id="DetailAToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Detail</span></div></div>
+        <div class="btn-group div-table-tool" id="DetailBToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Detail</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterQtyAToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter View (Quantity)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterQtyBToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter View (Quantity)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterAmountAToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter View (Amount)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterAmountBToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Quarter View (Amount)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterQtyATToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Statistics View (Quantity)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterQtyBTToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Statistics View (Quantity)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterAmountATToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Statistics View (Amount)</span></div></div>
+        <div class="btn-group div-table-tool" id="QuarterAmountBTToolbar" role="group"><div class="form-group currentlinehight col-xs-12"><span class="layui-badge layui-bg-green">Statistics View (Amount)</span></div></div>
+        
+
+    </div>
+
+        <!-- 全局js -->
+        <script src="../../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+        <script src="../../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 第三方插件 -->
+
+        <script src="../../../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+        <script src="../../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+        <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.js"></script>
+        <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+        <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.js"></script>
+        <script src="../../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+        <script src="../../../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+        <script src="../../../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+        <script src="../../../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+        <script src="../../../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+        <script src="../../../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+        <script src="../../../../Scripts/global.js"></script>
+        <script src="../../../../Scripts/MesClient.UI.js"></script>
+        <script src="../../../../Scripts/MesClient.js"></script>
+        <script>
+            var mesUI = new MesClientUI(self.parent.client);
+            var client = self.parent.client;
+            var lan = $.cookie($.MES.CK_LAN_NAME);
+            var loadindex = 0, loadcont = 0;
+            var i140Akey, i140Bkey;
+            $(document).ready(function () {
+                initpage();
+            });
+            var initpage = function () {
+                Set140Checklist();
+                $("#Select_140HisA").change(function (e) {
+                    i140Akey = $("#Select_140HisA").val();
+                    $("#onesite").html(i140Akey.substring(0, 4) + "-" + i140Akey.substring(4, 6) + "-" + i140Akey.substring(6,8));
+                    Get140DataByKey("GetR_i140_DataByTRANID", i140Akey, $('#140A'), "right","#DetailAToolbar");
+                    Get140DataByKey("GetQuarterQtyRes", i140Akey, $('#140AQ'), "right", "#QuarterQtyAToolbar");
+                    Get140DataByKey("GetQuarterAmountRes", i140Akey, $('#140AA'), "right", "#QuarterAmountAToolbar");
+                    Get140DataByKey("GetQuarterQtyByGroupRes", i140Akey, $('#140AQT'), "right", "#QuarterQtyATToolbar");
+                    Get140DataByKey("GetQuarterAmountByGroupRes", i140Akey, $('#140ATT'), "right", "#QuarterAmountATToolbar");
+                });
+                $("#Select_140HisB").change(function (e) {
+                    i140Bkey = $("#Select_140HisB").val();
+                    $("#secsite").html(i140Bkey.substring(0, 4) + "-" + i140Bkey.substring(4, 6) + "-" + i140Bkey.substring(6, 8));
+                    Get140DataByKey("GetR_i140_DataByTRANID", i140Bkey, $('#140B'), 'right', "#DetailBToolbar");
+                    Get140DataByKey("GetQuarterQtyRes", i140Bkey, $('#140BQ'), 'right', "#QuarterQtyBToolbar");
+                    Get140DataByKey("GetQuarterAmountRes", i140Bkey, $('#140BA'), 'right', "#QuarterAmountBToolbar");
+                    Get140DataByKey("GetQuarterQtyByGroupRes", i140Bkey, $('#140BQT'), 'right', "#QuarterQtyBTToolbar");
+                    Get140DataByKey("GetQuarterAmountByGroupRes", i140Bkey, $('#140BTT'), 'right', "#QuarterAmountBToolbar");
+                });
+                $('#Comparison').on('click', function () {
+                    var url = "ComparisonResDiff.html?Akey=" + i140Akey + "&Bkey=" + i140Bkey;
+               
+                    var ComparisonRes = layer.open({
+                        title: $("#Select_140HisA").find("option:selected").text() + " <p class=\"glyphicon glyphicon-resize-horizontal\"> </p> " + $("#Select_140HisB").find("option:selected").text(),
+                        type: 2,
+                        skin: 'layui-layer-demo', //样式类名
+                        anim: 2,
+                        shade: 0.8,
+                        maxmin: true,
+                        area: ['98%', 'auto'], //宽高
+                        content: [url, 'yes'],
+                        success: function (layero, index) {
+                            $('.layui-layer-shade')[0].style.height = '2600px'; 
+                        },
+                        cancel: function (index) {
+                        }
+                    });
+                    layer.full(ComparisonRes);
+                });
+
+            };
+            var Set140Checklist = function () {
+                parent.client.CallFunction("MESJuniper.Api.R_i140Api", "GetR_i140_His", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#Select_140HisA").empty();
+                        $("#Select_140HisB").empty();
+                        for (var i = 0; i < e.Data.length; i++)
+                            $("#Select_140HisA").append("<option value='" + e.Data[i].TRANID + "'><s>" + e.Data[i].TRANID + "-(" + e.Data[i].YEARNO + "-" + e.Data[i].WEEKNO + ")" + "</s></option>");
+                        for (var i = 0; i < e.Data.length; i++)
+                            $("#Select_140HisB").append("<option value='" + e.Data[i].TRANID + "'><s>" + e.Data[i].TRANID + "-(" + e.Data[i].YEARNO + "-" + e.Data[i].WEEKNO + ")" + "</s></option>");
+                        $("#Select_140HisA").selectpicker("destroy").selectpicker('val', e.Data[1].TRANID);
+                        $("#Select_140HisB").selectpicker("destroy").selectpicker('val', e.Data[0].TRANID);
+                        $("#onesite").html(e.Data[1].TRANID.substring(0, 4) + "-" + e.Data[1].TRANID.substring(4, 6) + "-" + e.Data[1].TRANID.substring(6, 8));
+                        $("#secsite").html(e.Data[0].TRANID.substring(0, 4) + "-" + e.Data[0].TRANID.substring(4, 6) + "-" + e.Data[0].TRANID.substring(6, 8));
+                        Get140Data();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            $("#divMsg").html(e.Message);
+                            layer.close(layerIndex);
+                        });
+                    }
+                });
+            };
+            var Get140Data = function () {
+                if (loadindex == 0)
+                    loadindex = layer.load(0, { shade: [0.2, '#393d49'] });
+                loadcont++;
+                i140Akey = $("#Select_140HisA").val();
+                i140Bkey = $("#Select_140HisB").val();
+                parent.client.CallFunction("MESJuniper.Api.R_i140Api", "Get140Comparison", { I140Akey: i140Akey, I140Bkey: i140Bkey }, function (e) {
+                    if (e.Status == "Pass") {
+                        e = JSON.parse(JSON.stringify(e).replaceAll("'", "").replaceAll("null", "0"));
+                        InitTable(e.Data.Detaila, $('#140A'), "right", "#DetailAToolbar");
+                        InitTable(e.Data.Detailb, $('#140B'), "right", "#DetailBToolbar");
+                        InitTable(e.Data.QuarterQtya, $('#140AQ'), "right", "#QuarterQtyAToolbar");
+                        InitTable(e.Data.QuarterQtyb, $('#140BQ'), "right", "#QuarterQtyBToolbar");
+                        InitTable(e.Data.QuarterAmounta, $('#140AA'), "right", "#QuarterAmountAToolbar");
+                        InitTable(e.Data.QuarterAmountb, $('#140BA'), "right", "#QuarterAmountBToolbar");
+                        InitTable(e.Data.QuarterQtyByGroupa, $('#140AQT'), "right", "#QuarterQtyATToolbar");
+                        InitTable(e.Data.QuarterQtyByGroupb, $('#140BQT'), "right", "#QuarterQtyBTToolbar");
+                        InitTable(e.Data.QuarterAmountByGroupa, $('#140ATT'), "right", "#QuarterAmountATToolbar");
+                        InitTable(e.Data.QuarterAmountByGroupb, $('#140BTT'), "right", "#QuarterAmountBTToolbar");
+                        loadcont--;
+                        if (loadcont == 0) {
+                            layer.close(loadindex);
+                            loadindex = 0;
+                        }
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            $("#divMsg").html(e.Message);
+                            layer.close(layerIndex);
+                        });
+                    }
+                }); 
+                //Get140DataByKey("GetR_i140_DataByTRANID", i140Akey, $('#140A'), "right", "#DetailAToolbar");
+                //Get140DataByKey_1("GetR_i140_DataByTRANID", i140Bkey, $('#140B'), 'right', "#DetailBToolbar");
+                //Get140DataByKey_2("GetQuarterQtyRes", i140Akey, $('#140AQ'), "right", "#QuarterQtyAToolbar");
+                //Get140DataByKey_3("GetQuarterQtyRes", i140Bkey, $('#140BQ'), 'right', "#QuarterQtyBToolbar");
+                //Get140DataByKey_4("GetQuarterAmountRes", i140Akey, $('#140AA'), "right", "#QuarterAmountAToolbar");
+                //Get140DataByKey_5("GetQuarterAmountRes", i140Bkey, $('#140BA'), 'right', "#QuarterAmountBToolbar");
+                //Get140DataByKey_6("GetQuarterQtyByGroupRes", i140Akey, $('#140AQT'), "right", "#QuarterQtyATToolbar");
+                //Get140DataByKey_7("GetQuarterQtyByGroupRes", i140Bkey, $('#140BQT'), 'right', "#QuarterQtyBTToolbar");
+                //Get140DataByKey_8("GetQuarterAmountByGroupRes", i140Akey, $('#140ATT'), "right", "#QuarterAmountATToolbar");
+                //Get140DataByKey_9("GetQuarterAmountByGroupRes", i140Bkey, $('#140BTT'), 'right', "#QuarterAmountBTToolbar");
+            };
+            var Get140DataByKey = function (func, i140key, tablesite, searchAlign, toolbar) {                
+                if (loadindex == 0)
+                    loadindex = layer.load(0, { shade: [0.2, '#393d49'] });
+                loadcont++;
+                parent.client.CallFunction("MESJuniper.Api.R_i140Api", func, { TRANID: i140key }, function (e) {
+                    if (e.Status == "Pass") {
+                        e = JSON.parse(JSON.stringify(e).replaceAll("'", "").replaceAll("null", "0"));
+                            InitTable(e.Data, tablesite, searchAlign, toolbar);
+                            loadcont--;
+                            if (loadcont == 0) {
+                                layer.close(loadindex);
+                                loadindex = 0;
+                        }
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            $("#divMsg").html(e.Message);
+                            layer.close(layerIndex);
+                        });
+                    }
+                });               
+            };
+            var InitTable = function (obj, tablesite, searchAlign, toolbar) {
+                var col = [];
+                if (obj.length > 0) {
+                    var row = obj[0];
+                    for (var item in row)
+                        if ("PN,TRANID".indexOf(item) > -1)
+                            col.push({
+                                field: item,
+                                title: item,
+                                width: 220,
+                                align: 'center',
+                                valign: 'middle'
+                            });
+                        else if ("GROUP".indexOf(item) > -1)
+                            col.push({
+                                field: item,
+                                title: item,
+                                width: 60,
+                                align: 'center',
+                                valign: 'middle'
+                            });
+                        else if ("FGOH,SHIPMENT".indexOf(item) > -1)
+                            col.push({
+                                field: item,
+                                title: item,
+                                width: 220,
+                                align: 'center',
+                                valign: 'middle',
+                                cellStyle: function (value, row, index, field) {
+                                    if (value != "0")
+                                        return { css: { "background-color": "#e4f5fa!important", "font-weight": "bolder" } }
+                                    else
+                                        return { css: { "background-color": "#fce5cd!important", "font-weight": "bolder" } }
+                                }
+                            });
+                        else
+                            col.push({
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                cellStyle: function (value, row, index, field) {
+                                    if (value != "0")
+                                        return { css: { "background-color": "#e4f5fa!important", "color": "#8a0303", "font-weight": "bold" } }
+                                    else
+                                        return { css: { "font-weight": "bold" } }
+                                }
+                            });
+
+                    tablesite.bootstrapTable('destroy');
+                    tablesite.bootstrapTable({
+                        data: obj,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: false,                   //是否显示分页（*）
+                        sortable: false,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        height: 400,
+                        striped: true, //是否显示行间隔色
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: searchAlign,               //查询框对齐方式
+                        search: true,
+                        buttonsAlign: "right",               //按钮对齐方式
+                        //toolbar: "#divTableToolbar",        //指定工具栏
+                        toolbarAlign: "left",               //工具栏对齐方式
+                        toolbar: toolbar,        //指定工具栏
+                        showExport: true,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        Icons: 'glyphicon-export',
+                        exportOptions: {
+                            ignoreColumn: [0],             //忽略某一列的索引
+                            fileName: 'List',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: col,
+                        onLoadSuccess: function (datas) {
+                            console.log(tablesite);
+                        }
+                    });
+                    //tablesite.bootstrapTable('hideColumn', "SITE"); //tableTest3为table的ID
+                }
+            }
+        </script>
+
+</body>
+</html>
+

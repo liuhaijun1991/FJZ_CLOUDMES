@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Close WO</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:CutWo">Close WO</span></h3>
+    </div>
+    <div class="panel-body full-height row form-horizontal">
+        <div id="divLeft" class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="padding-top:20px;">
+            <div id="divCloseWO" class="form-group">
+                <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">WO:</label>
+                <div class="col-xs-3 col-sm-4 col-md-4 col-lg-3">
+                    <input type="text" class="form-control" set-lan="attr:placeholder=placeholderCloseWo" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+
+        var client
+        var mesUI;
+        var lan;
+        var callData;
+        $(document).ready(function () {
+            client = self.parent.client;
+            mesUI = new MesClientUI(client);
+            lan = $.cookie($.MES.CK_LAN_NAME);
+           
+
+            $("#divCloseWO").find("input[type=text]").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    var WorkOrder = $("#divCloseWO").find("input[type=text]").val();
+                    if (WorkOrder.length > 0) {
+                        CloseWorkOrder($("#divCloseWO").find("input[type=text]").val());
+                    }
+                    else {
+                        layer.msg("Please enter valid data", {
+                            icon: 2,
+                            time: 2000
+                        }, function () {
+                        });
+                    }
+                }
+            });
+
+            function CloseWorkOrder(WorkOrder) {
+                client.CallFunction("MESStation.Management.WoManager", "CloseOrOpenWorkOrder", { WorkOrder: WorkOrder }, function (e) {
+                    $("#divCloseWO").find("input[type=text]").val("");
+                    $("#divCloseWO").find("input[type=text]").focus();
+                    $("#divCloseWO").find("input[type=text]").select();
+
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 2000
+                        }, function () {
+                        });
+                    }
+                   
+                });
+            }
+        });
+    </script>
+       
+</body >
+</html >

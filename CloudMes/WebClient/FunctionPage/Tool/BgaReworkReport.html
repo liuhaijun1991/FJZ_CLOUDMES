@@ -1,0 +1,676 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>BGA REWORK</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+
+<body class="color-cPage gray-bg">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this"><lan set-lan="html:"> NEW BGA</lan></li>
+            <li><lan set-lan="html:"> BGA LIST</lan></li>
+
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+            <div class="layui-tab-item layui-show">
+                <div id="divEditControl" class="ibox full-height">
+                    <br />
+                    <div class="ibox-content">
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="col-xs-12" id="IOSite">
+                                <div class="col-xs-6">
+                                    <div class="container-fluid">
+                                        <div class="panel-heading" style="font-size:small; margin-bottom:1px; font-weight:bold;">
+                                            <table class="table table-striped table-condensed">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> DATE</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inDate" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Model</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inModel" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> SN</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inSN" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Station</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inStation" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Action</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inAction" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Location</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inLocation" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Comp.type</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <select type="text" ID="inType" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                                                <option value=""></option>
+                                                                <option value="BGA">BGA</option>
+                                                                <option value="BGA">PTH</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User">  Comp.P/N</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inPN" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User"> Comp.ID</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="inID" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User">Fail Description</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <select type="text" ID="inDESC" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                                                <option selected="selected">N/A</option>
+                                                                <option>Defect Component</option>
+                                                                <option>Solder Bridge / Short</option>
+                                                                <option>Solder Splash</option>
+                                                                <option>Insufficient Solder</option>
+                                                                <option>Air bubble</option>
+                                                                <option>Component Height</option>
+                                                                <option>Damaged Component</option>
+                                                                <option>Missing Component</option>
+                                                                <option>Extra Component</option>
+                                                                <option>Reversed Component</option>
+                                                                <option>Misalignment Component</option>
+                                                                <option>Wrong Component</option>
+                                                                <option>Bent Pin</option>
+                                                                <option>Dirty</option>
+                                                                <option>Trace Open</option>
+                                                                <option>Trace Short</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User">2DX-ray result</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="in2DX" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="display:none">
+                                                        <td>
+                                                            <Label>
+                                                                <lan set-lan="html:User">5DX-ray result</lan>
+                                                            </Label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" ID="in5DX" readonly="readonly" class="form-control col-lg-12 col-md-12 col-xs-12 col-sm-12" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <Label style="margin-left:50%">
+                                                                <input type="button" id="submit" value="SUBMIT" onclick="submit();" class="btn btn-primary" />
+                                                            </Label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-success col-xs-12 no-padding">
+                                        <div class="panel-heading" style="font-size:small; font-weight:bold;"
+                                             set-lan="html:Message">Message</div>
+                                        <div class="panel-body no-padding pre-scrollable" id="messagesite">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="panel-body">
+                    <div id="Table_Toolbar">
+                        <div class="btn-group hidden-xs" role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="Refresh">
+                                <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                    <table id="bgaList"></table>
+                </div>
+            </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        // var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var postData = {};
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var inDate = "";
+        var sn = "";
+        var model = "";
+        var station = "";
+        var action = "";
+        var location1 = "";//不能使用lacation  具體看  Scripts/global.js
+        var comType = "";
+        var comPN = "";
+        var comID = "";
+        var desc = "";
+        var res2DX = "";
+        var res5DX = "";
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            var DTime = new Date();
+            inDate = DTime.format("yyyy-MM-dd hh:mm:ss");
+            $("#inDate").val(inDate);
+            $("#btnReset").click(function () {
+                var cancelMessage;
+                if (lan == "CHINESE") {
+                    cancelMessage = "取消输入";
+                }
+                else if (lan == "CHINESE_TW") {
+                    cancelMessage = "取消輸入";
+                }
+                else {
+                    cancelMessage = "Cancel Input";
+                };
+                
+                var E = new MessageElements();
+                $("#messagesite").push(E);
+                E.Default(Message = cancelMessage, State = 2, $("#messagesite"));
+            });
+            GetBgalList();
+            $("#Refresh").click(function () {
+                GetBgalList();
+            });
+            $("#inSN").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                sn = $("#inSN").val();
+                if (e.keyCode == 13) {
+                    if (sn.length != 0) {
+                        self.parent.client.CallFunction("MESStation.Config.PcbaBakeConfig", "GetBgaData", { "SN": sn }, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#inModel").removeAttr("readonly");
+                                $("#inStation").removeAttr("readonly");
+                                $("#inAction").removeAttr("readonly");
+                                $("#inLocation").removeAttr("readonly");
+                                $("#inPN").removeAttr("readonly");
+                                $("#inID").removeAttr("readonly");
+                                $("#in2DX").removeAttr("readonly");
+                                //$("#in5DX").removeAttr("readonly");
+                                $("#inModel").focus();
+                                E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                            } else {
+                                E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                            }
+                        });
+                    }
+                }
+            });
+            $("#inModel").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                model = $("#inModel").val();
+                if (e.keyCode == 13) {
+                    if (model.length != 0) {
+                        $("#inStation").focus();
+                    } else {
+                        E.Default(Message = "Model can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inStation").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                station = $("#inStation").val();
+                if (e.keyCode == 13) {
+                    if (station.length != 0) {
+                        $("#inAction").focus();
+                    } else {
+                        E.Default(Message = "Station can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inAction").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                action = $("#inAction").val();
+                if (e.keyCode == 13) {
+                    if (action.length != 0) {
+                        $("#inLocation").focus();
+                    } else {
+                        E.Default(Message = "Action can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+
+            $("#inLocation").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                location1 = $("#inLocation").val();
+                if (e.keyCode == 13) {
+                    if (location1.length != 0) {
+                        self.parent.client.CallFunction("MESStation.Config.PcbaBakeConfig", "CheckLocationNum", { "SN": sn, "LOCATION": location1 }, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#inType").focus();
+                                E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                            } else {
+                                $("#inLocation").val("");
+                                E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                            }
+                        });
+                    } else {
+                        E.Default(Message = "Location can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inType").change(function () {
+                var E = new MessageElements();
+                comType = $("#inType").val().trim();
+                if (comType.length != 0) {
+                    $("#inPN").focus();
+                } else {
+                    E.Default(Message = "Comp.type can not be null", State = 0, $("#messagesite"));
+                }
+            });
+            $("#inPN").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                comPN = $("#inPN").val();
+                if (e.keyCode == 13) {
+                    if (comPN.length != 0) {
+                        $("#inID").focus();
+                    } else {
+                        E.Default(Message = "Comp.P/N can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inID").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                comID = $("#inID").val();
+                if (e.keyCode == 13) {
+                    if (comID.length != 0) {
+                        $("#inDESC").focus();
+                    } else {
+                        E.Default(Message = "Comp.ID can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inDESC").change(function () {
+                var E = new MessageElements();
+                desc = $("#inDESC").val().trim();
+                if (desc.length != 0) {
+                    $("#in2DX").focus();
+                } else {
+                    E.Default(Message = "Description can not be null", State = 0, $("#messagesite"));
+                }
+            });
+            $("#in2DX").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                res2DX = $("#in2DX").val();
+                if (e.keyCode == 13) {
+                    if (res2DX.length != 0) {
+                        $("#submit").focus();
+                    } else {
+                        E.Default(Message = "2DX can not be null", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            //$("#in5DX").unbind("keypress").bind("keypress", function (e) {
+            //    var E = new MessageElements();
+            //    res5DX = $("#in5DX").val();
+            //    if (e.keyCode == 13) {
+            //        if (res5DX.length != 0) {
+            //            $("#submit").focus();
+            //        } else {
+            //            E.Default(Message = "5DX不能為空", State = 0, $("#messagesite"));
+            //        }
+            //    }
+            //});
+            submit = function () {
+                sn = $("#inSN").val();
+                model = $("#inModel").val();
+                station = $("#inStation").val();
+                action = $("#inAction").val();
+                location1 = $("#inLocation").val();
+                comType = $("#inType").val().trim();
+                comPN = $("#inPN").val();
+                comID = $("#inID").val();
+                desc = $("#inDESC").val().trim();
+                res2DX = $("#in2DX").val();
+                //res5DX = $("#in5DX").val();
+                postData = { "SN": sn, "MODEL": model, "STATION": station, "ACTION": action, "LOCATION1": location1, "COMTYPE": comType, "COMPN": comPN, "COMID": comID, "DESC": desc, "RES2DX": res2DX };
+                var E = new MessageElements();
+                if (sn.length != 0 && model.length != 0 && station.length != 0 && action.length != 0 && location1.length != 0 && comType.length != 0 && comPN.length != 0 && comID.length != 0 && res2DX.length != 0) {
+                    self.parent.client.CallFunction("MESStation.Config.PcbaBakeConfig", "InserData", postData, function (e) {
+                        if (e.Status == "Pass") {
+                            sn = ""; $("#inSN").val("");
+                            model = ""; $("#inModel").val("");
+                            station = ""; $("#inStation").val("");
+                            action = ""; $("#inAction").val("");
+                            location1 = ""; $("#inLocation").val("");
+                            comType = ""; $("#inType").val("");
+                            comPN = ""; $("#inPN").val("");
+                            comID = ""; $("#inID").val("");
+                            desc = ""; $("#inDESC").val("");
+                            res2DX = ""; $("#in2DX").val("");
+                            $("#inModel").attr("readonly", "readonly");
+                            $("#inStation").attr("readonly", "readonly");
+                            $("#inAction").attr("readonly", "readonly");
+                            $("#inLocation").attr("readonly", "readonly");
+                            $("#inPN").attr("readonly", "readonly");
+                            $("#inID").attr("readonly", "readonly");
+                            $("#in2DX").attr("readonly", "readonly");
+                            $("#inSN").focus();
+                            E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                        } else {
+                            E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                        }
+                    });
+                } else {
+                    E.Default(Message = "Some field values are empty,please check", State = 0, $("#messagesite"));
+                }
+            };
+            function GetBgalList() {//获取主页面报表函数
+                $("#bgaList").html("");
+                $("#bgaList").bootstrapTable('destroy');
+                self.parent.client.CallFunction("MESStation.Config.PcbaBakeConfig", "GetBGAList", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $('#bgaList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: '<label set-lan="html:ID">ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'EDIT_TIME',
+                                    title: '<label set-lan="html:">DATE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'SN',
+                                    title: '<label set-lan="html:SN">SN</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: "SKUNO",
+                                    title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "STATION",
+                                    title: '<label set-lan="html:STATION">STATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "ACTION",
+                                    title: '<label set-lan="html:ACTION">ACTION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "LOCATION",
+                                    title: '<label set-lan="html:LOCATION">LOCATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: 'COMPONENT_ID',
+                                    title: '<label set-lan="html:COMPONENT_ID">COMPONENT_ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'PARTNO',
+                                    title: '<label set-lan="html:PARTNO">PARTNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'XRAYRESULT',
+                                    title: '<label set-lan="html:XRAYRESULT">2DX RAYRESULT</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'REMARK',
+                                    title: '<label set-lan="html:REMARK">FAIL SYMPTOM</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'REPAIR_ID',
+                                    title: '<label set-lan="html:REPAIR_ID">REPAIR_ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'REWORK_NUM',
+                                    title: '<label set-lan="html:REWORK_NUM">REWORK_NUM</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }],
+                            locale: tableLocale//中文支持,
+                        });
+
+
+
+                    }
+                });
+            };
+            var MessageElements = function () {
+                MessageElements.prototype.Default = function (Message, State, Container) {
+                    var DTime = new Date();
+                    var time = DTime.format("yyyy-MM-dd hh:mm:ss");
+                    var type = State == 0 ? "error" : (State == 1 || State == 6 ? "success" : (State == 2 ? "info" : (State == 3 ? "warning" : "info")));
+                    if (Container.find) {
+                        if (Container.find("tbody").length > 0) {
+                            Container.find("tbody>tr:gt(200)").remove();
+                            var n = Container.find("tbody>tr:first>td:first").text();
+                            var tr = $("<tr class=\"" + type + "\"><td>" + (Number(n) + 1).toString() + "</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                            Container.find("tbody").prepend(tr);
+                        }
+                        else {
+                            var table = $("<table class=\"table table-striped\"></table>");
+                            var th = $("<thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>");
+                            var tb = $("<tbody></tbody>");
+                            var tr = $("<tr class=\"" + type + "\"><td>1</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                            tb.append(tr);
+                            table.append(th);
+                            table.append(tb);
+                            Container.empty();
+                            Container.prepend(table);
+                        }
+                    }
+                };
+            };
+
+        });
+
+    </script>
+
+</body>
+
+</html>

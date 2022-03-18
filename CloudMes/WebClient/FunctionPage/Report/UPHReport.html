@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Report</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/
+        #tableUPH th,#tableUPH td
+        {
+            text-align:center;
+        }
+        #tableUPH th{
+            padding:3px;
+            height:30px;
+        }        
+        
+        #tableUPH td
+         {
+            width:100px !important; 
+            height:30px !important;        
+        }
+        .blueColor
+        {
+            color:blue;
+        }       
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12 inputs">
+
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid no-padding">
+        <h4 id="uphTitle" style="padding-left:10px;"></h4>
+        <div style="overflow-y:auto">
+            <table id="tableUPH" cellpadding="0" cellspacing="0" border="1">
+                <thead>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--<div class="container-fluid no-padding outputs">
+       
+    </div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <!--<script src="../../Scripts/Mes.js"></script>-->
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script>
+    var ReportClassName = "";
+    var Data = "";
+    var RunFlag = "";
+    var _Report = null;
+    $(document).ready(function () {
+        ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+        //Data = $.MES.getQueryString("Data");//用于其他报表跳转传值
+
+        Data = $.MES.getQueryObj();
+        RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+        if (RunFlag == "1") {
+            RunFlag = "0";
+            _Report = new MesReport({
+                Client: self.parent.client,
+                IContainer: $(".inputs"),
+                OContainer: $(".outputs"),
+                ReportClassName: ReportClassName,
+                Init: function (e) {
+                    //if (_Report.Report.Inputs.length > 0) {
+                    //    _Report.SetInputValue(_Report.Report.Inputs[0].Name, Data);
+                    //    _Report.Run();
+                    //}
+                    if (_Report.Report.Inputs.length > 0) {
+                        for (var i = 1; i < Data.length; i++) {
+                            _Report.SetInputValue(Data[i][0], Data[i][1]);
+                        }
+                        _Report.Run();
+                    }
+                }
+            });
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $(document).on("click", ".submit", function (e) {
+                $(".SearchBox").toggle();
+                _Report.Run();
+            });
+            $(".SearchBox").toggle(false);
+        }
+        else {
+            _Report = new MesReport({
+                Client: self.parent.client,
+                IContainer: $(".inputs"),
+                OContainer: $(".outputs"),
+                ReportClassName: ReportClassName,
+                Init: function (e) {
+
+                }
+            });
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $(document).on("click", ".submit", function (e) {
+                $(".SearchBox").toggle();
+                //_Report.Run();
+                var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                    { ClassName: ReportClassName, Report: _Report.ReportJson }, ShowReturn, MessageID);
+            });
+            $(".SearchBox").toggle(true);
+        }
+               
+    });
+    function ShowReturn(obj) {
+        var _Mes = MesReport.prototype.ObjList[obj.MessageID];       
+        delete MesReport.prototype.ObjList[obj.MessageID];
+        if (obj.Status == "Pass") {
+            if (obj.Data.Outputs.length == 1 && obj.Data.Outputs[0].OutputType == "ReportAlart") {
+                swal({
+                    title: "",
+                    text: obj.Data.Outputs[0].Msg,
+                    type: obj.Data.Outputs[0].AlartType
+                }, function () { $(".SearchBox").toggle(); });
+                return;
+            }
+            ShowUPHReport(obj.Data.Inputs, obj.Data.Outputs);
+        }
+        self.parent.Loading(false);
+    }
+    function ShowUPHReport(inputData,outData)
+    {        
+        var showHour = outData[0];
+        var lineUPH = outData[1].LineUPH;
+        var sku = outData[1].Skuno;
+        var sfit1Total = "";
+        var sfit2Total = "";
+        var total = "";
+
+        $("#uphTitle").html("");
+        
+        $("#tableUPH thead").html("");
+        $("#tableUPH tbody").html("");
+        $("#tableUPH thead").append("<tr border='1' id='trLine'><th rowspan='2'>HOUR</th></tr><tr id='trStation'></tr>");
+        $("#uphTitle").html("SKUNO:&nbsp;" + sku + "&nbsp;&nbsp;&nbsp;&nbsp;Date:&nbsp;"
+            + inputData[0].Value + "&nbsp;&nbsp;&nbsp;&nbsp;LINE:&nbsp;"
+            + inputData[1].Value + "&nbsp;&nbsp;&nbsp;&nbsp;Shift:&nbsp;"
+            + inputData[3].Value + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' value='Export Excel' onclick='ExportTable()' />");
+
+        for (var j = 0; j < lineUPH.length; j++) {
+            $("#trLine").append(" <th colspan='" + lineUPH[j].StationUPHQTY.length + "'>" + lineUPH[j].LineName + "</th>");            
+            for (var k = 0; k < lineUPH[j].StationUPHQTY.length; k++) {                
+                $("#trStation").append("<th>" + lineUPH[j].StationUPHQTY[k].StationName + "</th>");
+            }            
+        }
+
+        for(var i=0;i<showHour.length;i++)
+        {
+            for (var j = 0; j < showHour[i].WorkTime.length; j++) {
+                var qty = "";
+                sfit1Total = "";
+                sfit2Total = "";
+                total = "";
+                for (var n = 0; n < lineUPH.length; n++) {
+                    for (var m = 0; m < lineUPH[n].StationUPHQTY.length; m++) {
+                        if (lineUPH[n].StationUPHQTY[m].UPH.length > 0) {
+                            for (var a = 0; a < lineUPH[n].StationUPHQTY[m].UPH.length; a++) {
+                                if (showHour[i].WorkTime[j] == lineUPH[n].StationUPHQTY[m].UPH[a].Time) {
+                                    if (lineUPH[n].StationUPHQTY[m].UPH[a].Qty != "0") {
+                                        qty = qty + "<td class='blueColor'>" + lineUPH[n].StationUPHQTY[m].UPH[a].Qty + "</td>";
+                                    }
+                                    else
+                                    {
+                                        qty = qty + "<td>" + lineUPH[n].StationUPHQTY[m].UPH[a].Qty + "</td>";
+                                    }
+                                }
+                            }
+                            if (lineUPH[n].StationUPHQTY[m].Shift1Total != "0") {
+                                sfit1Total = sfit1Total + "<td class='blueColor'>" + lineUPH[n].StationUPHQTY[m].Shift1Total + "</td>";
+                            }
+                            else {
+                                sfit1Total = sfit1Total + "<td>" + lineUPH[n].StationUPHQTY[m].Shift1Total + "</td>";
+                            }
+                            if (lineUPH[n].StationUPHQTY[m].Shift2Total != "0")
+                            {
+                                sfit2Total = sfit2Total + "<td class='blueColor'>" + lineUPH[n].StationUPHQTY[m].Shift2Total + "</td>";
+                            }
+                            else
+                            {
+                                sfit2Total = sfit2Total + "<td >" + lineUPH[n].StationUPHQTY[m].Shift2Total + "</td>";
+                            }
+                            if (lineUPH[n].StationUPHQTY[m].Total != "0")
+                            {
+                                total = total + "<td class='blueColor'>" + lineUPH[n].StationUPHQTY[m].Total + "</td>";
+                            }
+                            else
+                            {
+                                total = total + "<td >" + lineUPH[n].StationUPHQTY[m].Total + "</td>";
+                            }
+                        }                        
+                    }                   
+                }
+
+                $("#tableUPH tbody").append("<tr><td>" + showHour[i].WorkTime[j] + "</td>" + qty + "</tr>");
+            }
+            if (showHour[i].WorkClassType == "SHIFT1")
+            {
+                $("#tableUPH tbody").append("<tr style='background-color:rgb(52, 204, 205);'><td>" + showHour[i].WorkClassType + " Total</td>" + sfit1Total + "</tr>");
+            }
+            else
+            {
+                $("#tableUPH tbody").append("<tr  style='background-color:rgb(52, 204, 205);'><td>" + showHour[i].WorkClassType + " Total</td>" + sfit2Total + "</tr>");
+            }
+            
+        }
+        $("#tableUPH tbody").append("<tr style='background-color:rgb(73, 169, 133);'><td>Total</td>" + total + "</tr>");
+    }
+    
+    function ExportTable()
+    {
+        $("#tableUPH").tableExport(
+            {
+                type: "excel",
+                escape: "false"
+            });
+    }
+    </script>
+</body>
+</html>

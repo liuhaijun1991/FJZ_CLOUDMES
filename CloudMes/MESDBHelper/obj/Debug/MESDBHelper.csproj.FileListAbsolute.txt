@@ -1,0 +1,11 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\MESDBHelper.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\MESDBHelper.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\MESDBHelper.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\obj\Debug\MESDBHelper.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\obj\Debug\MESDBHelper.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\obj\Debug\MESDBHelper.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\obj\Debug\MESDBHelper.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESDBHelper\obj\Debug\MESDBHelper.pdb

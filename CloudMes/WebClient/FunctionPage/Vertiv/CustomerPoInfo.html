@@ -1,0 +1,1108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Vertiv Order Detail</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="fgg" />
+    <!--<link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">-->
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootStrapaddTabs/bootstrap.addtabs.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        body {
+            background: #EEF4FB
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: xx-small;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #8C8C8C !important;
+            color: white;
+        }
+
+        .bitian {
+            color: red;
+            font-weight: bolder;
+        }
+
+        .action-margin-top {
+            margin-top: 10px;
+        }
+
+        .radio-inline-text {
+            font-weight: bold;
+        }
+
+        .shipment-input {
+            padding-left: 5px;
+            padding-right: 0px;
+            margin-top: 5px;
+        }
+
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tOrderToolbar .btn:last-child, #tShpiToolbar .btn:last-child {
+            margin-right: 5px;
+        }
+
+        .fieldset {
+            border: 1px solid #d5d7da;
+            border-radius: 5px;
+        }
+
+        .legend {
+            font-size: x-small;
+            padding-left: 5px;
+            padding-right: 5px;
+            margin-bottom: 0px
+        }
+
+        .fieldset .form-group {
+            margin-bottom: 5px;
+        }
+
+        .label-color-bule {
+            color: blue;
+        }
+
+        #tableShipmentList tbody tr td {
+            white-space: nowrap !important;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+
+        #divOldSchedule fieldset div label {
+            padding-top: 0;
+            padding-bottom:5px;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="">
+        <div id="tabs">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#OrderDetail" aria-controls="OrderDetail" role="tab" data-toggle="tab">OrderDetail</a>
+                </li>
+                <li role="presentation">
+                    <a href="#ShipmentDetail" aria-controls="ShipmentDetail" role="tab" data-toggle="tab">ShipmentDetail</a>
+                </li>
+                <li role="presentation">
+                    <a href="#CommitList" aria-controls="CommitList" role="tab" data-toggle="tab">CommitList</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div hidden>
+                    <input type="text" class="form-control" id="txtOrderId" readonly="readonly" />
+                    <input type="text" class="form-control" id="txtShipmentId" readonly="readonly" />
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="OrderDetail">
+                    <div class="col-xs-6">
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-toolbar">
+                                <div class="btn-group" id="tOrderToolbar" role="group">
+                                    <button type="button" class="btn btn-outline btn-primary" id="btnOrderRefresh">
+                                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-primary hidden" id="btnOrderEdit">
+                                        <i class="glyphicon glyphicon-edit" aria-hidden="true"></i><lan set-lan="html:">Edit</lan>
+                                    </button>
+                                </div>
+                            </div>
+                            <table id="tableOrderDetail" class="table table-bordered table-hover table-striped table-condensed">
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 form-horizontal action-margin-top" id="divAction" hidden>
+                        <div>
+                            <div class="form-group">
+                                <label class="radio-inline radio-inline-text">
+                                    <input type="radio" name="action" id="rAccept" value="Accept" />Accept
+                                </label>
+                                <label class="radio-inline radio-inline-text">
+                                    <input type="radio" name="action" id="rUpdate" value="Update" />Update
+                                </label>
+                                <label class="radio-inline radio-inline-text">
+                                    <input type="radio" name="action" id="rSplitPO" value="SplitPO" />SplitPO
+                                </label>
+                                <label class="radio-inline radio-inline-text">
+                                    <input type="radio" name="action" id="rReject" value="Reject" />Reject
+                                </label>
+                            </div>
+                            <div id="divUpdateInfo">
+                                <div class="form-group action-margin-top" id="divPromiseDate">
+                                    <label class="col-xs-4 control-label text-right">Promise Date:</label>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="form-control" id="txtPromiseDate" readonly="readonly" disabled="disabled" />
+                                    </div>
+                                    <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                                </div>
+                                <div class="form-group action-margin-top" id="divPromisedShipmentDate">
+                                    <label class="col-xs-4 control-label text-right">Promised Ship Date:</label>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="form-control" id="txtPromisedShipmentDate" />
+                                    </div>
+                                    <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                                </div>
+                            </div>
+                            <div id="divSplitPOInfo">
+                                <div id="divSplitTotalSchedule" class="col-xs-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label text-right">Split Number:</label>
+                                        <div class="col-xs-4">
+                                            <select class="form-control" id="selectSplit">
+                                                <option value="1" selected="selected">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div id="divOldSchedule">
+                                    <fieldset class="fieldset">
+                                        <legend class="legend">Old Schedule</legend>
+                                        <div class="col-xs-4">
+                                            <label class="control-label">Promise Qty.:</label>
+                                            <label class="control-label label-color-bule" id="labelPromiseQty"></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <label class="control-label">Promise Date:</label>
+                                            <label class="control-label label-color-bule" id="labelPromiseDate"></label>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <label class="control-label">Promise Ship Date:</label>
+                                            <label class="control-label label-color-bule" id="labelPromiseShipDate"></label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div id="divNewSchedule">
+
+                                </div>
+                            </div>
+                            <div id="divRejectInfo">
+                                <div id="divRejectRemark" class="form-group action-margin-top">
+                                    <label class="col-xs-3 control-label text-right">Remark:</label>
+                                    <div class="col-xs-8">
+                                        <textarea class="form-control" id="txtRejectRemark"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group action-margin-top" id="divReasonForReject">
+                                    <label class="col-xs-3 control-label text-right">Reason For Reject:</label>
+                                    <div class="col-xs-8">
+                                        <select class="form-control" id="selectReasonForReject">
+                                            <option value="Wrong price">Wrong price</option>
+                                            <option value="Wrong Part Number">Wrong Part Number</option>
+                                            <option value="Qty does not meet MOQ">Qty does not meet MOQ</option>
+                                            <option value="Value does not meet MOV">Value does not meet MOV</option>
+                                            <option value="Incorrect incoterms">Incorrect incoterms</option>
+                                            <option value="Wrong supplier">Wrong supplier</option>
+                                            <option value="Product not released">Product not released</option>
+                                            <option value="Obsolete Part Number">Obsolete Part Number</option>
+                                            <option value="Capacity constraint">Capacity constraint</option>
+                                            <option value="Scarce material">Scarce material</option>
+                                            <option value="Obsolete material">Obsolete material</option>
+                                            <option value="PO QTY exceeds forecast">PO QTY exceeds forecast</option>
+                                            <option value="Incomplete PO">Incomplete PO</option>
+                                            <option value="Wrong Supplier Address">Wrong Supplier Address</option>
+                                            <option value="Wrong Currency">Wrong Currency</option>
+                                            <option value="Need by Date less than standard Lead Time">Need by Date less than standard Lead Time</option>
+                                            <option value="Incorrect taxes">Incorrect taxes</option>
+                                            <option value="Incorrect HSN / SAC">Incorrect HSN / SAC</option>
+                                            <option value="Incorrect payment terms">Incorrect payment terms</option>
+                                            <option value="Delivery date not achievable">Delivery date not achievable</option>
+                                            <option value="Wrong HTS Code">Wrong HTS Code</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                                </div>
+                            </div>
+                            <div class="form-group action-margin-top" id="divSubmit">
+                                <label class="col-xs-4 control-label text-right"></label>
+                                <div class="col-xs-7">
+                                    <button type="button" class="btn btn-outline btn-default" id="btnSubmit">
+                                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:">Submit</lan>
+                                    </button>
+                                </div>
+                                <label class="col-xs-1 control-label text-left"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane " id="ShipmentDetail">
+                    <div id="divShipmentList" class="col-xs-8">
+                        <div class="col-xs-12" style="margin-top:5px;padding: 0 !important;">
+                            <div class="bootstrap-table">
+                                <table id="tableShipmentList" class="table table-bordered table-hover table-striped table-condensed"></table>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-top:40px;padding: 0 !important;">
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-toolbar">
+                                    <div class="btn-group" id="shipmentDetailToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-primary" id="btnShipmentDetailRefresh">
+                                            <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                                        </button>
+                                        <!--<button type="button" class="btn btn-outline btn-primary" id="btnShipEdit">
+                                            <i class="glyphicon glyphicon-edit" aria-hidden="true"></i><lan set-lan="html:">Edit</lan>
+                                        </button>-->
+                                    </div>
+                                </div>
+                                <table id="tableShipmentDetail" class="table table-bordered table-hover table-striped table-condensed"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divCreatShipment" class="col-xs-4 form-horizontal">
+                        <div class="col-xs-12 shipment-input">
+                            <label class="col-xs-3 control-label text-right">Request Qty:</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="txtRequestQty" readonly disabled />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 shipment-input">
+                            <label class="col-xs-3 control-label text-right">Promise Qty:</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="txtOrderPromiseQty" readonly disabled />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 shipment-input">
+                            <label class="col-xs-3 control-label text-right">Shipped Qty:</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="txtShippedQty" readonly disabled />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 shipment-input">
+                            <label class="col-xs-3 control-label text-right">Balance Qty:</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" id="txtBalanceQty" readonly disabled />
+                            </div>
+                        </div>
+                        <div id="action-div">
+                            <div class="col-xs-12 shipment-input">
+                                <label class="col-xs-3 control-label text-right">Ship DN:</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="form-control" id="txtShipDN" />
+                                </div>
+                                <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                            </div>
+                            <div class="col-xs-12 shipment-input">
+                                <label class="col-xs-3 control-label text-right">Carrier:</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="form-control" id="txtCarrier" value="VT nominated FWD" />
+                                </div>
+                                <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                            </div>
+                            <div class="col-xs-12 shipment-input">
+                                <label class="col-xs-3 control-label text-right">ShipmentMode:</label>
+                                <div class="col-xs-6">
+                                    <input type="text" class="form-control" id="txtShipmentMode" value="VT instructed way" />
+                                </div>
+                                <label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label>
+                            </div>
+                            <div class="col-xs-12 shipment-input">
+                                <label class="col-xs-3 control-label text-right"></label>
+                                <div class="col-xs-6">
+                                    <button class="btn btn-primary" id="btnCreatShipment">Creat Shipment</button>
+                                </div>
+                                <label class="col-xs-1 control-label text-left"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane " id="CommitList" style="padding-left:10px;padding-right:10px;">
+                    <table id="tableCommitList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+    <script type="text/javascript">
+
+        var validFlag;
+        var poStatus;
+        var client = self.parent.parent.client;
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        window.ColumnBtnClick = {
+            'click #btnCancelShipment': function (e, value, row, index) {
+                layer.confirm('Are you sure to cancel this shipment?', {
+                    title: 'Notice',
+                    btn: ['Yes', 'No']
+                },
+                    function (inxex) {
+                        var loadIndex = layer.load(1, {
+                            shade: [0.5, 'gray'],
+                            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                                + "<span> Executing,Please wait ...</span></div></div>"
+                        });
+                        client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CancelShipment",
+                            {                                
+                                ID: row.ID
+                            }, function (e) {                               
+                                if (e.Status == "Pass") {
+                                   
+                                }
+                                else {
+                                   
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () { });
+                                }  
+                                layer.close(loadIndex);
+                                layer.close(inxex);
+                            });
+                    },
+                    function () {
+                        //Cancel
+                        //alert("Cancel");
+                    })
+            }
+        }
+        var GetOrderDetail = function (orderid) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetVTOrderDetail", { ID: orderid }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#divOrderDetail").html("");
+                    $("#tableOrderDetail").bootstrapTable("destroy");
+                    var itemIndex = 0;
+                    var data = [];
+                    for (var item in e.Data) {
+                        itemIndex++;
+                        data.push({ NO: itemIndex, DisplayName: item, Value: e.Data[item] });
+                    }
+                    $("#tableOrderDetail").bootstrapTable({
+                        data: data,
+                        showRefresh: false,
+                        search: true,
+                        searchAlign: "left",              //查询框对齐方式
+                        height: 450,
+                        toolbar: "#tOrderToolbar",    //指定工具栏
+                        toolbarAlign: "left",              //工具栏对齐方式
+                        buttonsAlign: "left",             //按钮对齐方式
+                        showExport: true,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        Icons: 'glyphicon-export',
+                        locale: localelan,
+                        exportOptions: {
+                            fileName: 'OrderDetail',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: [
+                            {
+                                field: "NO",
+                                title: "NO",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "DisplayName",
+                                title: "Display Name",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "Value",
+                                title: "Value",
+                                align: 'center',
+                                valign: 'middle',
+                            }
+                        ]
+                    });
+                    if (validFlag == "0") {
+                        $("#divAction").hide();
+                    }
+                    else {
+                        if (status == "WaitForCommit" || (status == "WaitForCreatShipment" && e.Data["Action"] == "Update")) {
+                            $("#divAction").show();
+                        }
+                        $("#divAction").find("input[name=action]").removeAttr("checked");
+
+                        $("#txtPromiseQty").val(e.Data["Promise Qty."]);
+                        $("#txtPromiseDate").val((new Date(e.Data["Promise Date"])).format("yyyy/MM/dd"));
+                        $("#txtPromisedShipmentDate").val((new Date(e.Data["Promised Ship Date"])).format("yyyy/MM/dd"));
+
+                        $("#labelPromiseQty").html(e.Data["Promise Qty."]);
+                        $("#labelPromiseDate").html((new Date(e.Data["Promise Date"])).format("yyyy/MM/dd"));
+                        $("#labelPromiseShipDate").html((new Date(e.Data["Promised Ship Date"])).format("yyyy/MM/dd"));                     
+
+                        $("#divUpdateInfo").hide();
+                        $("#divSplitPOInfo").hide();
+                        $("#divRejectInfo").hide();
+                    }
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+        var ShowAction = function (data) {
+            if (data["Action"] == "Reject" || data["Action"] == "Cancel" || poStatus == "Closed") {
+                $("#divAction").hide();
+            }
+            else {
+                $("#divAction").show();
+            }
+            $("#divAction").find("input[name=action]").removeAttr("checked");
+
+            $("#txtPromiseQty").val(data["Promise Qty."]);
+            $("#txtPromiseDate").val((new Date(data["Promise Date"])).format("yyyy/MM/dd"));
+            $("#txtPromisedShipmentDate").val((new Date(data["Promised Ship Date"])).format("yyyy/MM/dd"));
+
+            $("#labelPromiseQty").html(data["Promise Qty."]);
+            $("#labelPromiseDate").html((new Date(data["Promise Date"])).format("yyyy/MM/dd"));
+            $("#labelPromiseShipDate").html((new Date(data["Promised Ship Date"])).format("yyyy/MM/dd"));
+
+            $("#txtFirstPromiseQty").val(data["Promise Qty."]);
+            $("#txtFirstPromiseDate").val((new Date(data["Promise Date"])).format("yyyy/MM/dd"));
+            $("#txtFirstPromisedShipmentDate").val((new Date(data["Promised Ship Date"])).format("yyyy/MM/dd"));
+
+            $("#txtSecondPromiseQty").val("0");
+            $("#txtSecondPromiseDate").val((new Date(data["Promise Date"])).format("yyyy/MM/dd"));
+            $("#txtSecondPromisedShipmentDate").val((new Date(data["Promised Ship Date"])).format("yyyy/MM/dd"));
+
+            //$("#divPromiseQty").hide();
+            //$("#divPromiseDate").hide();
+            //$("#divPromisedShipmentDate").hide();
+            //$("#divRejectRemark").hide();
+            //$("#divReasonForReject").hide();
+
+            $("#divUpdateInfo").hide();
+            $("#divSplitPOInfo").hide();
+            $("#divRejectInfo").hide();
+
+        }
+
+        var ShowOrderAction = function (valid, status, action) {
+            if (valid == "0") {
+                $("#divAction").hide();
+                $("#action-div").hide();
+            }
+            else {
+                if (status == "WaitForCommit" || (status == "WaitForCreatShipment" && action == "Update")) {
+                    $("#divAction").show();
+                }
+                else {
+                    $("#divAction").hide();
+                }
+            }
+        }
+
+        var GetDate = function (strDate) {
+            return eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/, function (a) {
+                return parseInt(a, 10) - 1;
+            }).match(/\d+/g) + ')');
+        }
+        var GetShipmentList = function (oid) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetShipmentListByOrderId", { OrderId: oid }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#tableShipmentList").html("");
+                    $("#tableShipmentList").bootstrapTable("destroy");
+                    var data = e.Data.ShipmentList;
+                    $("#txtRequestQty").val(e.Data.RequestQty);
+                    $("#txtOrderPromiseQty").val(e.Data.PromiseQty);
+                    $("#txtShippedQty").val(e.Data.ShippedQty);
+                    $("#txtBalanceQty").val(e.Data.BalanceQty);
+                    if (validFlag == "0") {
+                        $("#action-div").hide();
+                    }
+                    else {
+                        if (poStatus == "WaitForCreatShipment") {
+                            if (parseInt(e.Data.BalanceQty) > 0) {
+                                $("#action-div").show();
+                                $("#txtShipDN").val("").focus().select();
+                            }
+                            else {
+                                $("#action-div").hide();
+                            }
+                        }
+                        else if (poStatus == "Closed") {
+                            $("#action-div").hide();
+                        }
+                        else {
+                            $("#action-div").hide();
+                        }
+                    }
+                    var columns = [];
+                    for (var item in data[0]) {
+                        if (item == "ID" || item =="Cancel") {
+                            columns.push({
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false,
+                                visible: false
+                            });
+                        }
+                        else {
+                            columns.push({
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false,
+                                visible: true
+                            });
+                        }
+                    }
+                    columns.push({
+                        field: 'ToDo',
+                        title: 'ToDo',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        visible: true,
+                        formatter: function (value, row, index) {
+                            if (row.Cancel == true) {
+                                return ['<button id="btnCancelShipment" type="button" style="padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px" class="btn btn-default" >Cancel</button >'].join('');
+                            }
+                            else {
+                                return "";
+                            }
+                        },
+                        events: ColumnBtnClick
+                    });
+                    $("#tableShipmentList").bootstrapTable({
+                        data: data,
+                        height: 100,
+                        columns: columns,
+                        onDblClickRow: function (row, $element) {
+                            $("#txtShipmentId").val(row.ID);
+                            GetShipmentDetail()
+                        }
+                    });
+                }
+                else {
+                    console.log(e.Message);
+                }
+            });
+        }
+        var GetShipmentDetail = function () {
+            var id = $("#txtShipmentId").val();
+            //client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetShipmentByOrderId", { OrderId: oid }, function (e) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetShipmentById", { ID: id }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#tableShipmentDetail").html("");
+                    $("#tableShipmentDetail").bootstrapTable("destroy");
+                    var itemIndex = 0;
+                    var data = [];
+                    for (var item in e.Data) {
+                        itemIndex++;
+                        data.push({ NO: itemIndex, DisplayName: item, Value: e.Data[item] });
+                    }
+                    $("#tableShipmentDetail").bootstrapTable({
+                        data: data,
+                        showRefresh: false,
+                        search: true,
+                        searchAlign: "left",              //查询框对齐方式
+                        height: 350,
+                        toolbar: "#shipmentDetailToolbar",    //指定工具栏
+                        toolbarAlign: "left",              //工具栏对齐方式
+                        buttonsAlign: "left",             //按钮对齐方式
+                        showExport: true,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        Icons: 'glyphicon-export',
+                        locale: localelan,
+                        exportOptions: {
+                            fileName: 'ShipmentDetail',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: [
+                            {
+                                field: "NO",
+                                title: "NO",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "DisplayName",
+                                title: "Display Name",
+                                align: 'center',
+                                valign: 'middle',
+                            },
+                            {
+                                field: "Value",
+                                title: "Value",
+                                align: 'center',
+                                valign: 'middle',
+                            }
+                        ],
+                        onClickCell: function (field, value, row, $element) {
+                            $element.attr('contenteditable', true);
+                            $element.blur(function () {
+                                let index = $element.parent().data('index');
+                                let tdValue = $element.html();
+                                $("#tableShipment").bootstrapTable('updateCell',
+                                    {
+                                        index: index, //行索引
+                                        field: field, //列名
+                                        value: tdValue //cell值
+                                    });
+                            });
+                        }
+                    });
+                }
+                else {
+                    console.log(e.Message);
+                }
+            });
+        }
+        var getSecondQty = function () {
+            var firstQty = parseInt($("#txtFirstPromiseQty").val());
+            var totalQty = parseInt($("#labelPromiseQty").html());
+            var secondQty = 0;
+
+            if (!isNaN(firstQty)) {
+                secondQty = totalQty - firstQty;
+                if (secondQty <= 0) {
+                    layer.msg("First promise qty more than or equal to total qty", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+                else {
+                    $("#txtSecondPromiseQty").val(secondQty);
+                }
+
+            }
+            else {
+                layer.msg("Please input a number", {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { });
+            }
+        }
+        var GetCommitList = function (oid) {
+            client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "GetCommitListByOrderId", { OrderId: oid }, function (e) {
+                if (e.Status == "Pass") {
+                    $("#tableCommitList").html("");
+                    $("#tableCommitList").bootstrapTable("destroy");
+                    var columns = [];
+                    if (e.Data.length > 0) {
+                        columns.push({
+                            field: "NO",
+                            title: "NO",
+                            align: 'center',
+                            valign: 'middle',
+                            formatter: function (value, row, index) {
+                                return row.NO = index + 1;
+                            }
+                        });
+                    }
+                    for (var item in e.Data[0]) {
+                        if (item == "COMMIT_DETAIL") {
+                            columns.push({
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false,
+                                visible: true,
+                                formatter: function (value, row, indx) {
+                                    var dValue = value.split(";");
+                                    var vv = "";
+                                    for (var i = 0; i < dValue.length; i++) {
+                                        if (i == dValue.length - 1) {
+                                            vv += "<p>" + dValue[i] + "</p>";
+                                        }
+                                        else {
+                                            vv += "<p>" + dValue[i] + ";</p>";
+                                        }
+                                    }
+                                    return [vv].join('');
+                                }
+                            });
+                        }
+                        else {
+                            columns.push({
+                                field: item,
+                                title: item,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: false,
+                                visible: true
+                            });
+                        }
+                    }
+                    $("#tableCommitList").bootstrapTable({
+                        data: e.Data,
+                        striped: true,
+                        search: true,
+                        searchOnEnterKey: true,
+                        searchTimeOut: 500,
+                        searchAlign: "left",
+                        pagination: true,
+                        sidePagination: "client",
+                        pageNumber: 1,
+                        pageSize: 10,
+                        pageList: [5, 10, 20, 30, 50],
+                        buttonsAlign: "left",             //按钮对齐方式
+                        showExport: true,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        exportOptions: {
+                            ignoreColumn: [0],             //忽略某一列的索引
+                            fileName: 'CommitList',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: columns
+                    });
+                }
+                else {
+                    console.log(e.Message);
+                }
+            });
+        }
+
+        var AddSplitInfo = function (totalNumber) {
+            $("#divNewSchedule").html("");
+            for (var i = 0; i <= totalNumber; i++) {
+                var splitNo = i + 1;
+                var splitDiv = $("#divNewSchedule");
+                var fieldset = $('<fieldset class="fieldset"><legend class="legend">' + splitNo + 'th Schedule</legend></fieldset>');
+
+                var divPromiseQty = $('<div class="form-group col-xs-5"><label class= "col-xs-6 control-label text-right" > Promise Qty.:</label >'
+                    + '<div class="col-xs-4"><input type="text" class="form-control" name="PromiseQty" /></div>'
+                    + '<label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label></div >');
+
+                var divPromiseDate = $('<div class="form-group col-xs-7"><label class="col-xs-6 control-label text-right">Promised Ship Date:</label>'
+                    + '<div class="col-xs-5"><input type="text" class="form-control" name="PromisedShipDate"  /></div>'
+                    + '<label class="col-xs-1 control-label text-left"><span class="bitian">* </span></label></div>');
+                fieldset.append(divPromiseQty);
+                fieldset.append(divPromiseDate);
+                splitDiv.append(fieldset);
+
+                var inputDate = divPromiseDate.find("input[type='text']")[0];
+                $(inputDate).val($("#labelPromiseShipDate").html());
+                $(inputDate).datetimepicker({
+                    format: 'yyyy/mm/dd',//选择年月日時分秒
+                    language: 'en-US',
+                    autoclose: true,
+                    todayHighlight: true,
+                    startView: 2,
+                    minView: 2
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            $("#divAction").hide();
+            $("#action-div").hide();
+            $("#txtPromiseDate").datetimepicker({
+                format: 'yyyy/mm/dd',//选择年月日時分秒
+                language: 'en-US',
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2
+            });
+            $("#txtPromisedShipmentDate").datetimepicker({
+                format: 'yyyy/mm/dd',//选择年月日時分秒
+                language: 'en-US',
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2
+            });
+
+            validFlag = $.MES.getQueryString("VALID_FLAG");
+            poStatus = $.MES.getQueryString("PO_STATUS");
+            var poAction = $.MES.getQueryString("Action");
+            ShowOrderAction(validFlag, poStatus, poAction);
+            $("#txtOrderId").val($.MES.getQueryString("POID"));
+            GetOrderDetail($("#txtOrderId").val());
+            GetShipmentList($("#txtOrderId").val());
+            GetCommitList($("#txtOrderId").val());
+            client.CallFunction("MESStation.Config.CUserControl", "GetUserLevel", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data == "9") {
+                        $("#btnOrderEdit").removeClass("hidden");
+                        $("#btnShipEdit").removeClass("hidden");
+
+                    }
+                    else {
+                        $("#btnOrderEdit").addClass("hidden");
+                        $("#btnShipEdit").addClass("hidden");
+                    }
+                }
+            });
+            AddSplitInfo(1);
+            $("#divAction").find("input[name=action]").click(function () {
+                if ($(this).val() == "Accept") {                   
+                    $("#divUpdateInfo").hide();
+                    $("#divSplitPOInfo").hide();
+                    $("#divRejectInfo").hide();
+                }
+                else if ($(this).val() == "Update") {                   
+                    $("#divUpdateInfo").show();
+                    $("#divSplitPOInfo").hide();
+                    $("#divRejectInfo").hide();
+                }
+                else if ($(this).val() == "SplitPO") {                   
+                    $("#selectSplit").val("1");
+                    AddSplitInfo(1);
+                    var fieldsetItem = $("#divNewSchedule").find("fieldset");                   
+                    $(fieldsetItem).each(function (i) {                        
+                        //$($(this).find("input[name='PromiseQty']")[0]).val(0);
+                        $($(this).find("input[name='PromisedShipDate']")[0]).val($("#labelPromiseShipDate").html());
+                    })
+
+                    $("#divUpdateInfo").hide();
+                    $("#divSplitPOInfo").show();
+                    $("#divRejectInfo").hide();
+                }
+                else if ($(this).val() == "Reject") {                   
+                    $("#txtRejectRemark").val("");
+                    $("#divUpdateInfo").hide();
+                    $("#divSplitPOInfo").hide();
+                    $("#divRejectInfo").show();
+                }
+            });
+          
+            $("#selectSplit").change(function () {                   
+                AddSplitInfo($("#selectSplit").val());
+            });
+            $("#btnSubmit").click(function () {
+                var todo = $("#divAction").find("input[name=action]:checked").val();
+                var functionName = "";
+                var inputObj = {};
+                switch (todo) {
+                    case "Accept":
+                        functionName = "AcceptOrder";
+                        inputObj = { ID: $("#txtOrderId").val() };
+                        break;
+                    case "Update":
+                        if (!$("#txtPromiseDate").val()) {
+                            layer.msg("Please input PromiseDate", {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                            return;
+                        }
+                        if (!$("#txtPromisedShipmentDate").val()) {
+                            layer.msg("Please input PromisedShipmentDate", {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                            return;
+                        }
+                        functionName = "UpdatePromiseData";
+                        inputObj = {
+                            ID: $("#txtOrderId").val(),
+                            PromiseDate: $("#txtPromiseDate").val(),
+                            PromisedShipmentDate: $("#txtPromisedShipmentDate").val()
+                        };
+                        break;
+                    case "SplitPO":
+                        var fieldsetItem = $("#divNewSchedule").find("fieldset");                        
+                        var splitList = [];
+                        $(fieldsetItem).each(function (i) {
+                            //console.log(i, this);
+                            var qtyObj = $(this).find("input[name='PromiseQty']")[0];                           
+                            var dateObj = $(this).find("input[name='PromisedShipDate']")[0];                           
+                            splitList.push({
+                                NO: i+1,
+                                PromiseQty: $(qtyObj).val(),
+                                PromisedShipDate: $(dateObj).val()
+                            });
+                        })
+                        for (var i = 0; i < splitList.length; i++) {
+                            if (splitList[i].PromiseQty == "" || splitList[i].PromiseQty == "0" || splitList[i].PromiseQty == undefined) {
+                                layer.msg("Please input PromiseQty", {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                                return;
+                            }
+                            if (splitList[i].PromisedShipDate == "" || splitList[i].PromisedShipDate == undefined) {
+                                layer.msg("Please input PromisedShipmentDate", {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                                return;
+                            }
+                        }
+                        functionName = "SplitPOByList";
+                        inputObj = {
+                            ID: $("#txtOrderId").val(),
+                            SplitList: splitList
+                        };
+                        break;
+                    case "Reject":
+                        functionName = "RejectOrder";
+                        inputObj = { ID: $("#txtOrderId").val(), Remark: $("#txtRejectRemark").val(), ReasonForReject: $("#selectReasonForReject").val() };
+                        break;
+                    default:
+                        layer.msg("action error", {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                        return;
+                        break;
+                }                
+                client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", functionName, inputObj, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'OK',
+                            btn: ['OK']
+                        }, function () {
+                            self.parent.CloseAll();
+                        });
+                        GetOrderDetail(poid);
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            });
+
+            $("#btnOrderRefresh").click(function () {
+                GetOrderDetail($("#txtOrderId").val());
+            });
+
+            $("#btnOrderEdit").click(function () {
+                var titlehtml = '<label class="layer-title-field">ID:</label><label class="layer-title-value">'
+                    + $("#txtOrderId").val() + '</label>'
+                layer.open({
+                    title: titlehtml,
+                    type: 2,
+                    skin: 'layui-layer-demo', //样式类名
+                    anim: 2,
+                    maxmin: true,
+                    area: ['95%', '90%'], //宽高
+                    content: "EditVTOrder.html?POID=" + $("#txtOrderId").val(),
+                    cancel: function (index) {
+                        GetOrderDetail($("#txtOrderId").val());
+                    }
+                });
+            });
+
+            $("#btnCreatShipment").click(function () {
+                client.CallFunction("MESStation.Config.Vertiv.VertivPOApi", "CreatShipment",
+                    {
+                        OrderId: $("#txtOrderId").val(),
+                        DN: $("#txtShipDN").val(),
+                        Carrier: $("#txtCarrier").val(),
+                        ShipmentMode: $("#txtShipmentMode").val(),
+                    }, function (e) {
+                        if (e.Status == "Pass") {
+                            GetShipmentList($("#txtOrderId").val());
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 60000,
+                                title: 'ERROR',
+                                btn: ['OK']
+                            }, function () { });
+                        }
+                    });
+            });
+            $("#btnShipmentDetailRefresh").click(function () {
+                GetShipmentDetail();
+            });
+
+            $("#btnShipEdit").click(function () {
+                var titlehtml = '<label class="layer-title-field">ID:</label><label class="layer-title-value">'
+                    + $("#txtOrderId").val() + '</label>'
+                layer.open({
+                    title: titlehtml,
+                    type: 2,
+                    skin: 'layui-layer-demo', //样式类名
+                    anim: 2,
+                    maxmin: true,
+                    area: ['95%', '90%'], //宽高
+                    content: "EditShipment.html?SHIPMENTID=" + $("#txtShipmentId").val(),
+                    cancel: function (index) {
+                        GetShipmentDetail();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

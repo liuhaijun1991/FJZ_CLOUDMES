@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Wo Link Setting</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:mappingList">工單Link配置</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAddMapping">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEditMapping" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteMapping" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableMappingList"></table>
+    </div>
+    <div id="divModify" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div id="divMappingID" class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div id="divSMTLink" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:SMTWO">SMT_WORKORDERNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtSMT" class="form-control" set-lan="attr:placeholder=placeholderFOX_SKUNO" />
+                </div>
+            </div>
+            <div id="divSiLink" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:SIWO">SI_WORKORDERNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="" class="form-control" set-lan="attr:placeholder=placeholderCUSTOMER_SKUNO" />
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <lan set-lan="html:btnSubmit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var skuList = [];
+        var submitType = "";
+        var postData = {};
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            mesUI.SetLanguage("WoLinkMapping");
+            GetMappingList("");
+            $("#btnAddMapping").click(function () {
+                var addTitle = 'Add New Mapping';
+                if (lan == "CHINESE") {
+                    addTitle = "添加新的对应关系"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "添加新的對應關係"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+                        $("#divSMTLink").find("input").removeAttr("readonly");
+                        $("#divSMTLink").find("input").val("");
+                        $("#divSiLink").find("input").val("");;
+                        $("#divSMTLink").find("input").focus();
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnEditMapping").click(function () {
+                var selectRows = $('#tableMappingList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit Mapping';
+                if (lan == "CHINESE") {
+                    addTitle = "编辑对应关系"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "編輯對應關係"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+
+                        $("#divMappingID").find("input").val(selectRows[0].ID);
+                        $("#divSMTLink").find("input").val("");
+                        $("#divSMTLink").find("input").val(selectRows[0].SMTWO);
+                        $("#divSMTLink").find("input").attr("readonly", "readonly");
+
+                        $("#divSiLink").find("input").val(selectRows[0].SIWO);
+                        $("#divSiLink").find("input").focus();
+                        $("#divSiLink").find("input").select();
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnDeleteMapping").click(function () {
+                var selectRows = $('#tableMappingList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                postData = { "ID": selectRows[0].ID };
+                self.parent.client.CallFunction("MESStation.Config.VN.CWOLinkConfig", "DeleteMapping", postData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            GetMappingList("");
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                });
+            });
+            $("#btnRefreshMapping").click(function () {
+                GetMappingList("");
+            });
+            $("#divSMTLink").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divSiLink").find("input").focus();
+                }
+            });
+            $("#divSiLink").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divDoSubmit").find("input").focus();
+                }
+            });
+            $("#btnSubmit").click(function () {
+                if (submitType == "MODIFY") {
+                    ModifyMapping();
+                }
+                else if (submitType == "NEW") {
+                    AddNewMapping();
+                }
+                else {
+                    layer.msg("Type error", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        });
+
+        function AddNewMapping() {
+            var wo = $("#divSMTLink").find("input").val();
+            var linkWo = $("#divSiLink").find("input").val();
+            if (wo.length == 0 || linkWo.length==0) {
+                layer.msg("Please fill in the content", {
+                    icon: 2,
+                    time: 3000
+                }, function () { });
+                return;
+            }
+            postData = { "SMTWO": wo, "SIWO": linkWo };
+            self.parent.client.CallFunction("MESStation.Config.VN.CWOLinkConfig", "AddNewMapping", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetMappingList("");
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyMapping() {
+            var id = $("#divMappingID").find("input").val();
+            var wo = $("#divSMTLink").find("input").val();
+            var linkWo = $("#divSiLink").find("input").val();
+            if (linkWo.length == 0) {
+                layer.msg("Please fill in the LinkWo", {
+                    icon: 2,
+                    time: 3000
+                }, function () { });
+                return;
+            }
+            postData = { "ID": id, "SMTWO": wo, "SIWO": linkWo };
+            self.parent.client.CallFunction("MESStation.Config.VN.CWOLinkConfig", "ModifyMapping", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetMappingList(wo);
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function GetMappingList(wo) {
+            var data = { "SMTWO": wo };
+            $("#btnEditMapping").attr("disabled", "disabled");
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#tableMappingList").html("");
+            $("#tableMappingList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.VN.CWOLinkConfig", "GetMappingList", data, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        $('#tableMappingList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 5,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            onCheck: function (row) {
+                                var rows = $('#tableMappingList').bootstrapTable('getSelections');
+                                if (rows.length == 1) {
+                                    //$("#btnEditMapping").attr("disabled", "disabled");
+                                    $("#btnEditMapping").removeAttr("disabled");
+                                } else {
+                                    //$("#btnEditMapping").removeAttr("disabled");
+                                    $("#btnEditMapping").attr("disabled", "disabled");
+                                }
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#tableMappingList').bootstrapTable('getSelections');
+                                $("#btnEditMapping").attr("disabled", "disabled");
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            columns: [{
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: 'ID',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'SMTWO',
+                                title: '<label set-lan="html:SMT_WORKORDERNO">SMT_WORKORDERNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'SIWO',
+                                title: '<label set-lan="html:SI_WORKORDERNO">SI_WORKORDERNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            },
+                            {
+                                field: 'LINKTYPE',
+                                title: '<label set-lan="html:LINKTYPE">LINK_TYPE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            },
+                            {
+                                field: 'CREATEBY',
+                                title: '<label set-lan="html:CREATEBY">CREATEBY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            },
+                            {
+                                field: 'CREATETIME',
+                                title: '<label set-lan="html:CREATETIME">CREATETIME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }],
+                            locale: tableLocale//中文支持,
+                        });
+                        mesUI.SetLanguage("WoLinkMapping");
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

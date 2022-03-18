@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/Win8style.css?v=4.1.0" rel="stylesheet">
+    <link href="css/StationConfig.css" rel="stylesheet" />
+    <link href="css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body>
+    <input id="xxx" type="button" value="xxx" />
+    <script src="Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="Scripts/plugins/layer/layer.min.js"></script>
+    <script src="Scripts/global.js"></script>
+    <script src="Scripts/MesClient.js"></script>
+    <script>
+        var client = null;
+        var StationKeyParts = function (obj) {
+            this.ObjectName = obj.ObjectName;
+            this.KeyName = obj.KeyName;
+            this.Data = obj.Data;
+            this.StationName = obj.StationName;
+            StationKeyParts.prototype.constructor = StationKeyParts;
+            StationKeyParts.prototype.List = {};
+            StationKeyParts.prototype.MyName = function () {
+                for (var name in this.global) {
+                    if (this.global[name] === this) {
+                        return name;
+                    }
+                }
+            };
+            StationKeyParts.prototype.CallReScan = function () {
+                eval(this.ObjectName + "()");
+            };
+            StationKeyParts.prototype.Show = function () {
+                var ObjectKey = "OBJ" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                var URL = 'FunctionPage/Station/KeyPart.html?KeyName=' + this.KeyName + '&Data=' + this.Data + '&StationName=' + this.StationName + '&ObjectKey=' + ObjectKey;
+                StationKeyParts.prototype.List = {};
+                StationKeyParts.prototype.List[ObjectKey] = this;
+                layer.open({
+                    id: this.Serialno,
+                    type: 2,
+                    title: "Key Part Scan",
+                    skin: "demo-class",
+                    closeBtn: 1,
+                    shadeClose: false,
+                    shade: 0.5,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['90%', '90%'],
+                    content: [URL, 'no'], //iframe的url，no代表不显示滚动条
+                    end: function () {
+                    },
+                    cancel: function (index) {
+                        var Key = layer.getChildFrame("#ObjectKey", index).val();
+                        var isCancel = layer.getChildFrame("#Flag_IsCancel", index).val();
+                        if (isCancel == "1") {
+                            if (confirm('确定要关闭么')) {
+                                layer.close(index);
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        else {
+                            var obj = StationKeyParts.prototype.List[Key];
+                            obj.CallReScan();
+                        }
+                    }
+                });
+            };
+        };
+        var a = function () {
+            alert("xxxxxxxxxxxxxxx");
+        };
+        $(document).ready(function () {
+            client = new MesClient(function (e) {
+                client.Login("TEST", "TEST", function (e) {
+                    var kk = new StationKeyParts({ Data: "DW03024QFA000101", KeyName: "SN", ObjectName: "a", StationName: "LINK" });
+                    kk.Show();
+                });
+            });  
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="renderer" content="webkit" />
+    <title>HWD3 SMT</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link rel="shortcut" href="../../favicon.ico" />
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        html {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            /*background-color: rgba(71, 148, 211, 0.98);*/
+            background-color: rgb(51, 51, 51);
+            font-size: 67.5% !important; /* 10÷16=62.5% */
+            overflow: hidden;
+        }
+
+        .container-fluid {
+            height: 100%;
+        }
+
+        @media only screen and (min-width: 481px) {
+            html {
+                font-size: 94% !important; /* 15.04÷16=94% */
+            }
+        }
+
+        @media only screen and (min-width: 561px) {
+            html {
+                font-size: 109% !important; /* 17.44÷16=109% */
+            }
+        }
+
+        @media only screen and (min-width: 641px) {
+            html {
+                font-size: 125% !important; /* 20÷16=125% */
+            }
+        }
+
+        .time {
+            float: right;
+            text-align: right;
+            font-size: 200%;
+            color: #ffffff;
+            padding: 0 2vw 0 0;
+            margin: 0;
+        }
+
+        .title {
+            float: left;
+            color: #fff;
+            font-size: 200%;
+        }
+
+        .content-box {
+            height: 90%;
+        }
+
+        .charts {
+            height: 50%;
+        }
+
+        .tables {
+            height: 50%;
+            color: #fff;
+        }
+        .table-hover > tbody > tr:hover {
+            background-color: rgb(115, 95, 95);
+        }
+    </style>
+</head>
+<body>
+    <div class="title">AOI Bad information</div>
+    <div class="time" id="current-time">&nbsp;</div>
+    <div class="row content-box">
+        <div class="col-xs-12 charts" id="charts">
+        </div>
+        <div class="col-xs-12 tables">
+            <div class="title">Auxiliary analysis information</div>
+            <table id="dataTable"></table>
+        </div>
+    </div>
+    <!--主程序窗口結束-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+        var timer = $.MES.getQueryString("timer");
+        timer = Number(timer) ? Number(timer) : 60;
+        var hours = $.MES.getQueryString("hours");
+        hours = Number(hours) ? Number(hours) : 4;
+        var line = $.MES.getQueryString("line");
+        line = line ? line : 'ALL';
+        var ClassName = "MESStation.Report.CallKanBan";
+        var FunctionName = "GetHWDAOIStatus";
+        var ClinetReady = 0;
+        var client = null;
+        var ChartOption = {
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['product', '缺陷数']
+                ]
+            },
+            xAxis: [
+                { type: 'category', gridIndex: 0 },
+                { type: 'category', gridIndex: 1 }
+            ],
+            yAxis: [
+                { gridIndex: 0 },
+                { gridIndex: 1 }
+            ],
+            title: [
+                {
+                    text: line + '爐前',
+                    left: '5%',
+                    top: '2%',
+                    textAlign: 'center'
+                },
+                {
+                    text: line + '爐后',
+                    left: '4%',
+                    top: '50%',
+                    textAlign: 'center'
+                },
+                {
+                    text: line + '爐前',
+                    left: '60%',
+                    top: '5%',
+                    textAlign: 'center'
+                },
+                {
+                    text: line + '爐后',
+                    left: '85%',
+                    top: '5%',
+                    textAlign: 'center'
+                }
+            ],
+            grid: [
+                { bottom: '55%', right: '55%', left: '3%' },
+                { top: '60%', right: '55%', left: '3%' }
+            ],
+            series: [
+                {
+                    type: 'bar', seriesLayoutBy: 'row', data: [
+                        ['LC1', 41.1],
+                        ['LC2', 86.5],
+                        ['LC3', 24.1],
+                        ['LC4', 55.2]
+                    ]
+                },
+                {
+                    type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: [
+                        ['D3', 40],
+                        ['GC2', 86],
+                        ['EF3', 77],
+                        ['WW4', 67]
+                    ]
+                },
+                {
+                    type: 'pie',
+                    radius: '60%',
+                    label: { show: true, position: 'inside', formatter: '{b}:{c}' },
+                    center: ['60%', '50%'],
+                    data: [
+                        { value: 335, name: '直接访问' },
+                        { value: 310, name: '邮件营销' },
+                        { value: 234, name: '联盟广告' },
+                        { value: 135, name: '视频广告' },
+                        { value: 1548, name: '搜索引擎' }
+                    ]
+                },
+                {
+                    type: 'pie',
+                    radius: '60%',
+                    label: { show: true, position: 'inside', formatter: '{b}:{c}' },
+                    center: ['85%', '50%'],
+                    data: [
+                        { value: 535, name: '荆州' },
+                        { value: 510, name: '兖州' },
+                        { value: 634, name: '益州' },
+                        { value: 735, name: '西凉' }
+                    ]
+                }
+            ]
+        };
+        var TableOption = {
+            data: [],
+            striped: false,
+            cache: false,
+            pagination: false,
+            columns: [{
+                field: 'TOPNO',
+                title: 'Top项',
+                formatter: function (value, row, index, field) {
+                    return 'TOP' + (index + 1);
+                }
+            }, {
+                field: 'ERROR_POSITION',
+                title: '不良位置',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'ERROR_CODE',
+                title: '不良類型',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'FAILCOUNT',
+                title: '不良數量',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'TOPBUTTON',
+                title: '面別',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'LINE_ID',
+                title: '線別',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'WORKSTATION',
+                title: '工站',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'WO',
+                title: '工單',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'SKU_NAME',
+                title: '機種',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'P_NO',
+                title: '機種料號',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'STATION',
+                title: '機台',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'SLOT_NO',
+                title: '軌道',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'KP_NO',
+                title: '料號',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'FEEDER_SN',
+                title: '飛達SN',
+                align: 'center',
+                valign: 'middle'
+            }
+            ]
+        };
+        var myChart = echarts.init(document.getElementById('charts'), 'dark', { renderer: 'canvas', width: 'auto', height: 'auto' });
+        $('#dataTable').bootstrapTable(TableOption);
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                GetData();
+            });
+        };
+
+        var GetData = function () {
+            var Now = new Date();
+            var STime = new Date(Now.getFullYear(), Now.getMonth(), Now.getDate(), Now.getHours() - hours, Now.getMinutes());
+            client.CallFunction(ClassName, FunctionName, { LINE: line, START_TIME: STime.format('yyyy-MM-dd hh:mm:ss'), END_TIME: Now.format('yyyy-MM-dd hh:mm:ss') }, function (e) {
+                if (e.Status == "Pass") {
+                    show(e.Data);
+                } else {
+                    alert(e.Message);
+                }
+            });
+        };
+
+        var show = function (json) {
+            ChartOption.series[0].data = json.bar1;
+            ChartOption.series[1].data = json.bar2;
+            ChartOption.series[2].data = json.pie1;
+            ChartOption.series[3].data = json.pie2;
+            TableOption.data = json.table;
+            myChart.setOption(ChartOption, true);
+            $('#dataTable').bootstrapTable('load', json.table);
+        };
+
+        var j = 0
+
+        setInterval(function () {
+            var now = new Date().format("yyyy-MM-dd hh:mm:ss");
+            $('#current-time').text(now);
+            if (ClinetReady == 0 || ClinetReady == 3) {
+                ClinetReady = 2;
+                ClientInit();
+            }
+            if (j == 0 && ClinetReady == 1) {
+                GetData();
+            }
+            j = j + 1;
+            if (j % timer == 0 && ClinetReady == 1) {
+                GetData();
+            }
+        }, 1000);
+        window.onresize = myChart.resize;
+        $(document).ready(function () {
+            $.MES.DEBUG = false;
+            ClientInit();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" standalone="yes"?>
+<ConnData>
+  <TConnString>
+    <ConnName>APDB</ConnName>    
+    <ConnString>Data Source = 10.120.176.102:1903 / HWDNEWDB; User ID = AP2; Password = mbdap2session</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>TESTDB</ConnName>
+    <ConnString>Data Source = 10.120.198.166:1521 / MOTOMES; User ID = SYSTEM; Password = foxconn168!!</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+
+  <TConnString>
+    <ConnName>SFCTestDB</ConnName>
+    <ConnString>
+      Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.120.147.250)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=SFCTEST)));" +
+      Persist Security Info=True;
+      User ID=TEST;
+      Password=SFCTEST;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+   <TConnString>
+    <ConnName>ORACLEODB</ConnName>
+    <ConnString>
+      Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.18.136.73)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=JNPODB)));" +
+      Persist Security Info=True;
+      User ID=TEST;
+      Password=SFCTEST;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>VERTIV SFC DB</ConnName>
+    <ConnString>Data Source = 10.120.246.140:1521 / VERTIVODB; User ID = TEST; Password = SFCTEST</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>VERTIV AP DB</ConnName>
+    <ConnString>Data Source = 10.120.246.130:1527 / VERTIVAP; User ID = AP2; Password = mbdap2session</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>HWD_APDB</ConnName>
+    <ConnString>Data Source = 10.120.176.102:1903 / HWDNEWDB; User ID = AP2; Password = mbdap2session</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+   <TConnString>
+    <ConnName>HWD SFC DB</ConnName>
+    <ConnString>Data Source = 10.120.176.75:1527 / MESDB; User ID = TEST; Password = SFCTEST</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>HWT_APDB</ConnName>
+    <ConnString>Data Source = 10.120.232.131:1527 / HWDNEWDB; User ID = AP2; Password = mbdap2session</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+   <TConnString>
+    <ConnName>HWTMES</ConnName>
+    <ConnString>Data Source = 10.120.232.210:1527 / HWTMES; User ID = TEST; Password = SFCTEST</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+</ConnData>

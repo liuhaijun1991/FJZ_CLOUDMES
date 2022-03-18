@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Over Pack Config</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .datetimepicker {
+            z-index: 99999999 !important;
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body">
+        <div id="toolbar">
+            <button type="button" class="btn btn-outline btn-primary" id="New">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+            </button>
+            <!--<button type="button" class="btn btn-outline btn-primary" id="Edit" disabled>
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+            </button>-->
+            <button type="button" class="btn btn-outline btn-primary" id="Delete" disabled>
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+            </button>
+        </div>
+        <table id="DataTable" class="table table-condensed"></table>
+    </div>
+    <div class="panel-body hidden" id="INFO">
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label" id="fac">FACTORY：</label>
+            <div class="col-xs-8">
+                <select class="form-control" name="FACTORY" id="factory_list" disabled></select>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">WH_NAME：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="WH_NAME" id="WH_NAME" disabled />
+            </div>
+        </div>
+       
+        <div id="divDoSubmit" class="form-group">
+            <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label text-right"></label>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                    <lan set-lan="html:btnSubmit">Submit</lan>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var submitType = "";
+     
+        var GetData = function () {
+            client.CallFunction("MESStation.Config.WareHouseConfig", "GetWarehouseConfig", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowTable(e.Data);
+                } else {
+                    ShowTable([]);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        timer: 5000
+                    });
+                    return;
+                }
+            });
+        }
+
+        var ShowTable = function (data) {
+            $('#DataTable').bootstrapTable('destroy');
+            $('#DataTable').bootstrapTable({
+                data: data,
+                toolbar: "#toolbar",
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                onRefresh: function (param) {
+                    GetData();
+                },
+                onCheck: function (row) {
+                    var rows = $('#DataTable').bootstrapTable('getSelections');
+                    if (rows.length > 1 || rows.length <= 0) {
+                        $("#Edit").attr("disabled", "disabled");
+                        $("#Delete").attr("disabled", "disabled");
+                    } else {
+                        $("#Edit").removeAttr("disabled");
+                        $("#Delete").removeAttr("disabled");
+                    }
+                },
+                onUncheck: function (row) {
+                    var rows = $('#DataTable').bootstrapTable('getSelections');
+                    if (rows.length > 1 || rows.length <= 0) {
+                        $("#Edit").attr("disabled", "disabled");
+                        $("#Delete").attr("disabled", "disabled");
+                    } else {
+                        $("#Edit").removeAttr("disabled")
+                        $("#Delete").removeAttr("disabled")
+                    }
+                },
+                onCheckAll: function (rowsAfter, rowsBefore) {
+                    $("#Edit").attr("disabled", "disabled");
+                    $("#Delete").attr("disabled", "disabled");
+                },
+                onUncheckAll: function (rowsAfter, rowsBefore) {
+                    $("#Edit").attr("disabled", "disabled");
+                    $("#Delete").attr("disabled", "disabled");
+                },
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        field: 'WH_NAME',
+                        title: 'WH_NAME',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'EMP',
+                        title: 'EMP',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'DATE_CREATE',
+                        title: 'DATE_CREATE',
+                        align: "center",
+                        sortable: true,
+                    }
+                ]
+            });
+        };
+
+        function initSelectBoxFactory() {
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "GetAllWarehouse", {}, function (e) {
+                if (e.Status == "Pass") {
+                    var $select = $('#factory_list');
+                    options = [];
+                    e.Data.forEach(function (value) {
+                        options.push('<option value="' + value.ID + '">' + value.VALUE + '</option>');
+                    });
+                    $select.html(options.join(""));
+                }
+                else {
+                    self.parent.Loading(false);
+                    swal("error", e.Message, "error");
+                }
+            });
+        }
+
+        function AddNewControl() {
+            
+            var WH_NAME = $("#WH_NAME").val();
+            //var ROW_SIZE = $("#ROW_SIZE").val();
+            //var COL_SIZE = $("#COL_SIZE").val();
+            var ID_FACT = $("#factory_list").val();
+            if (WH_NAME.length == 0 || ID_FACT.length == 0  ) {
+                layer.msg("Please fill in the content", {
+                    icon: 2,
+                    time: 3000
+                }, function () { });
+                return;
+            }
+
+            postData = { WH_NAME: WH_NAME,  ID_FACT: ID_FACT };
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "InsertData", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        // GetControlList("");
+                    });
+                    GetData();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyControl() {
+
+            var WH_NAME = $("#WH_NAME").val();
+            //var ROW_SIZE = $("#ROW_SIZE").val();
+            //var COL_SIZE = $("#COL_SIZE").val();
+            if (WH_NAME.length == 0 ) {
+                layer.msg("Please fill in the content", {
+                    icon: 2,
+                    time: 3000
+                }, function () { });
+                return;
+            }
+
+            postData = { WH_NAME: WH_NAME };
+            self.parent.client.CallFunction("MESStation.Config.WareHouseConfig", "ModifyConfigWh", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        // GetControlList("");
+                    });
+                    GetData();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        $("#Delete").click(function () {
+          
+            var rows = $('#DataTable').bootstrapTable("getSelections");
+            if (rows.length == 0) {
+                layer.msg("Please select a record!", {
+                    icon: 2,
+                    timer: 5000
+                });
+            } else if (rows.length > 1) {
+                layer.msg("Only a record can !", {
+                    icon: 2,
+                    timer: 5000
+                });
+            } else {
+                $("#WH_NAME").val(rows[0].WH_NAME);
+                //$("#ROW_SIZE").val(rows[0].ROW_SIZE);
+                //$("#COL_SIZE").val(rows[0].COL_SIZE);
+            };
+
+            var WH_NAME = $("#WH_NAME").val();
+            //var ROW_SIZE = $("#ROW_SIZE").val();
+            //var COL_SIZE = $("#COL_SIZE").val();
+            if (WH_NAME == "" ) {
+                layer.msg("ccc!", {
+                    icon: 2,
+                    timer: 5000
+                });
+            }
+            console.log(WH_NAME);
+            postData = { WH_NAME: WH_NAME };
+            var r = confirm("are you sure");
+            if (r == true) {
+                client.CallFunction("MESStation.Config.WareHouseConfig", "DeleteConfig", postData, function (e) {
+                    layer.closeAll("loading");
+                    if (e.Status == "Pass") {
+                        layer.msg('OK!', { icon: 1, timer: 5000 });
+                        GetData();
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            timer: 5000
+                        });
+                    }
+                });
+            } else {
+                alert("You not OK!");
+            }
+        });
+
+        $(document).ready(function () {
+            //Init();
+            
+            GetData();
+            $("#New").on("click", function (e) {
+                $("#factory_list").removeAttr("disabled");
+                $("#WH_NAME").removeAttr("disabled")
+                $("#WH_NAME").val('');
+                //$("#ROW_SIZE").val('');
+                //$("#COL_SIZE").val('');
+                initSelectBoxFactory();
+                var addTitle = 'Add New';
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ['400px', '300px'],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#INFO"),
+                    success: function (layero, index) {
+                        $("#INFO").removeClass("hidden");
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#INFO").addClass("hidden");
+                    }
+                });
+            });
+            $("#Edit").on("click", function (e) {
+                $("#WH_NAME").attr("disabled", "disabled");
+                var rows = $('#DataTable').bootstrapTable("getSelections");
+                if (rows.length == 0) {
+                    layer.msg("Please select a record!", {
+                        icon: 2,
+                        timer: 5000
+                    });
+                } else if (rows.length > 1) {
+                    layer.msg("Only a record can !", {
+                        icon: 2,
+                        timer: 5000
+                    });
+                } else {
+                    var addTitle = 'EDIT';
+                    layer.open({
+                        type: 1,
+                        title: addTitle,
+                        area: ['400px', '300px'],
+                        offset: ["10px"],
+                        skin: 'mes-layer-title',
+                        scrollbar: false,
+                        content: $("#INFO"),
+                        success: function (layero, index) {
+                            $("#INFO").removeClass("hidden");
+                            $("#factory_list").hide();
+                            $("#fac").hide();
+                            $("#WH_NAME").val(rows[0].WH_NAME);
+                            //$("#ROW_SIZE").val(rows[0].ROW_SIZE);
+                            //$("#COL_SIZE").val(rows[0].COL_SIZE);
+                            submitType = "EDIT";
+                        },
+                        end: function () {
+                            $("#INFO").addClass("hidden");
+                        }
+                    });
+                }
+            });
+           
+            $("#btnSubmit").click(function () {
+                if (submitType == "EDIT") {
+                    ModifyControl();
+                    Modyfyflag = 0;
+                }
+                else if (submitType == "NEW") {
+                    AddNewControl();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

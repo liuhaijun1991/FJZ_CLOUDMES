@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Dashboard</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+
+        .panel-heading {
+            padding: 12px 15px;
+        }
+
+        .panel-body.tablebox {
+            padding: 0;
+        }
+
+        .pull-left.search.input-group, .pull-right.search.input-group {
+            width: auto;
+        }
+
+        .bootstrap-table .fixed-table-pagination > .pagination, .bootstrap-table .fixed-table-pagination > .pagination-detail {
+            margin-bottom: 0;
+        }
+
+        /*change bg color style*/
+        .bg-primary {
+            background-color: #2C3E50 !important;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            color: #F9F8FC;
+            background-color: #2C3E50 !important;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs hidden">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <button class="btn btn-default DownloadBtn"><span class="glyphicon glyphicon-download">Download</span></button>
+    </div>
+    <div class="container-fluid no-padding outputs">
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <!--<script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.debug.js"></script>-->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/jspdf.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/jspdf.plugin.autotable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/EChart/echarts.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script>
+        var j = 0;
+        var timer = $.MES.getQueryString("timer");
+        timer = Number(timer) ? Number(timer) : 60;
+        var speed = $.MES.getQueryString("speed");
+        speed = Number(speed) ? Number(speed) : 80;
+        var ReportClassName = $.MES.getQueryString("ClassName");
+        if (ReportClassName == null || ReportClassName == "") {
+            swal({
+                title: "Login Fail",
+                text: e.Message,
+                type: "error"
+            }, function () {
+            });
+        }
+        var Data = $.MES.getQueryObj();
+
+        var _Client = null;
+        var _Report = null;
+        var ClinetReady = 0;
+        var loading = false;
+        var scrollUp = 0;
+        var h = $(".outputs").height();
+        var p = null;
+        var w = null;
+        var th = 0;
+        var x = 0;
+        var i = 0;
+        var m = 1;
+        var d = "U";
+
+        var ClientInit = function () {
+            _Client = new MesClient(function () {
+                $.cookie($.MES.CK_LAN_NAME, "ENGLISH");
+                $.cookie($.MES.CK_BU_NAME, "FJZ");
+                _Client.Login("PRINT", "PRINT", function (e) {
+                    if (e.Status == "Pass") {
+                        _Report = new MesReport({
+                            Client: _Client,
+                            OContainer: $(".outputs"),
+                            TitleHeight: -150,
+                            ShowToolbar: false,
+                            ReportClassName: ReportClassName,
+                            Init: function (e) {
+                                if (_Report.Report.Inputs.length > 0) {
+                                    for (var i = 1; i < Data.length; i++) {
+                                        _Report.SetInputValue(Data[i][0], Data[i][1]);
+                                    }
+                                }
+                                _Report.Run();
+                                ClinetReady = 1;
+                            }
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Login Fail",
+                            text: e.Message,
+                            type: "error"
+                        }, function () {
+                        });
+                    }
+                });
+            },
+                null,
+                function (e) {
+                    layer.msg("Server disconnection! Reconnected after ", {
+                        time: 5000,
+                        shade: [0.2, "#00F"],
+                        success: function (layero, index) {
+                            var msg = layero.text();
+                            var i = 5;
+                            var timer = null;
+                            var fn = function () {
+                                layero.find(".layui-layer-content").text(msg + '(' + i + ') seconds!');
+                                if (!i) {
+                                    layer.close(index);
+                                    clearInterval(timer);
+                                }
+                                i--;
+                            };
+                            timer = setInterval(fn, 1000);
+                            fn();
+                        }
+                    }, function () {
+                        window.location.reload();
+                    });
+                },
+                function (e) {
+
+                });
+        };
+
+        var ReScroll = function () {
+            clearInterval(scrollUp);
+            p = null;
+            scrollUp = setInterval(function () {
+                if (p == null || p.length == 0 || loading) {
+                    p = $(".outputs>.panel");
+                    if (p.length == 0) {
+                        return;
+                    }
+                    return;
+                }
+                if (p.length > 1) {
+                    th = 0;
+                    w = $(".outputs");
+                } else {
+                    w = $('.outputs .fixed-table-body');
+                    h = w.height();
+                    th = $('.outputs .fixed-table-body')[0].scrollHeight;
+                }
+                if (th == 0) {
+                    p.each((e, i) => {
+                        th += i.offsetHeight + 20;
+                    });
+                }
+                if (d == "U") {
+                    x += m;
+                    w.scrollTop(x);
+
+                } else {
+                    x -= m;
+                    w.scrollTop(x);
+                }
+                if (x >= w[0].scrollTop + 200) {
+                    d = "D";
+                }
+                if (x <= -200) {
+                    d = "U";
+                }
+            }, speed);
+        };
+
+        var Refulush = setInterval(function () {
+            var now = new Date().format("yyyy-MM-dd hh:mm:ss");
+            $('#current-time').text(now);
+            if (ClinetReady == 0 || ClinetReady == 3) {
+                ClinetReady = 2;
+                ClientInit();
+                ReScroll();
+            }
+            if (j == 0 && ClinetReady == 1) {
+                _Report.Run();
+                ReScroll();
+            }
+            j = j + 1;
+            if (j % timer == 0 && ClinetReady == 1) {
+                _Report.Run();
+                ReScroll();
+            }
+        }, 1000);
+
+        $(document).ready(function () {
+            ClientInit();
+        });
+    </script>
+</body>
+</html>

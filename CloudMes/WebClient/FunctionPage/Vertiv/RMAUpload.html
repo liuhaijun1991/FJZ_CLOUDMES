@@ -1,0 +1,566 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">RMA Upload</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body class="color-cPage gray-bg">
+    <div class="panel-heading bg-primary">
+        <!--<h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SendCD">RMA Bonepile 信息</span></h3>-->
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SendCD">RMA Bonepile Data</span></h3>
+    </div>
+    <div class="panel blank-panel">
+        <div class="panel-body panel-body-0">
+            <div class="tab-content form-horizontal">
+                <div id="tab-Info" class="tab-pane active ">
+                    <div class="form-group">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label class="col-xs-3 control-label text-right">批 次:</label>
+                            <div class="col-xs-9">
+                                <input id="txtLotNo" type="text" class="form-control" placeholder="LotNO" value="">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label class="col-xs-3 control-label text-right">機 種:</label>
+                            <div class="col-xs-9">
+                                <input id="txtSKU" type="text" class="form-control" placeholder="SKUNO" value="">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label class="col-xs-3 control-label text-right">序列號:</label>
+                            <div class="col-xs-9">
+                                <input id="txtSN" type="text" class="form-control" placeholder="SN" value="">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <!--<button id="btnSearch" class="btn btn-primary"><i class="fa fa-search"><span set-lan="html:">搜索</span></i></button>-->
+                            <button id="btnSearch" class="btn btn-primary"><i class="fa fa-search"><span set-lan="html:">Search</span></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-left: 98px;">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <!--<button id="btnUpload" class="btn btn-primary" style="margin-left:10px;"><i class="fa fa-upload"><span set-lan="html:">上傳RMA信息</span></i></button>-->
+                            <button id="btnUpload" class="btn btn-primary" style="margin-left:10px;"><i class="fa fa-upload"><span set-lan="html:">Upload RMA Data</span></i></button>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <!--<button id="btnFailRecord" class="btn btn-primary" style="margin-left:33px;"><i class="fa fa-search"><span set-lan="html:">上傳失敗記錄</span></i></button>-->
+                            <button id="btnFailRecord" class="btn btn-primary" style="margin-left:33px;"><i class="fa fa-search"><span set-lan="html:">Upload Fail Log</span></i></button>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <button class="btn btn-primary" onclick="javascript: window.location = '../../File/Upload RMA Excel.xls'" style="margin-left:58px;width: 128px;"><i class="fa fa-save"><span set-lan="html:"> <!--RMA模板下載--></span></i></button>
+                            <button class="btn btn-primary" onclick="javascript: window.location = '../../File/Upload RMA Excel.xls'" style="margin-left:58px;width: 128px;"><i class="fa fa-save"><span set-lan="html:"> Download RMA Template</span></i></button>
+                        </div>
+                    </div>
+                    <div class="div-table">
+                        <table id="tableRMAList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="418"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divUploadInfo" class="hidden">
+        <div class="form-group" style="margin-top:15px;">
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:200px">
+                <!--<label class="btn btn-primary " for="inputUploadFile" style="z-index:999;height: 38px;"><lan set-lan="html:Upload"> 文件路徑:</lan></label>-->
+                <label class="btn btn-primary " for="inputUploadFile" style="z-index:999;height: 38px;"><lan set-lan="html:Upload"> File Path:</lan></label>
+                <input id="inputUploadFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div class="">
+            <div id="divExcel" style="padding:0 20px;">
+            </div>
+        </div>
+    </div>
+
+    <div id="divUploadFailRecord" class="hidden" style="margin:5px;">
+        <div class="div-table">
+            <table id="divRecordList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="380"></table>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+
+    <script>
+        var DataList = [];
+        $(document).ready(function () {
+            var ShowData = function (Data) {
+                $('#tableRMAList').bootstrapTable("destroy");
+                $('#tableRMAList').bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 5,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    //toolbar: "#divSettingTableTool",    //指定工具栏
+                    toolbarAlign: "right",              //工具栏对齐方式
+                    buttonsAlign: "right",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'RMAData List',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    //locale: tableLocale,
+                    columns: [{
+                        field: 'LOT_NO',
+                        title: '<label set-lan="html:tableLotNo">LOT_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'SKUNO',
+                        title: '<label set-lan="html:tableSkuNo">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'SN',
+                        title: '<label set-lan="html:tableSN">SN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'RECEIVED_DATE',
+                        title: '<label set-lan="html:tableReceiveDate">RECEIVED_DATE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'LASTPACK_DATE',
+                        title: '<label set-lan="html:tableLastPackingDate">LASTPACK_DATE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FAIL_STATION',
+                        title: '<label set-lan="html:tableFailStation">FAIL_STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'FAILURE_SYMPTOM',
+                        title: '<label set-lan="html:tableFailureSymptom">FAILURE_SYMPTOM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FAILURE_TYPES',
+                        title: '<label set-lan="html:tableFailureTypes">FAILURE_TYPES</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'OWNER',
+                        title: '<label set-lan="html:tableOwner">OWNER</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'REMARK',
+                        title: '<label set-lan="html:tableRemark">REMARK</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'VALUABLE',
+                        title: '<label set-lan="html:tableValuable">VALUABLE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'RMA_TIMES',
+                        title: '<label set-lan="html:tableRMATimes">RMA_TIMES</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FUNCTION_TIMES',
+                        title: '<label set-lan="html:tableFunctionTimes">FUNCTION_TIMES</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'COSMETIC_TIMES',
+                        title: '<label set-lan="html:tableCosmeticTimes">COSMETIC_TIMES</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'CLOSED_FLAG',
+                        title: '<label set-lan="html:tableClosedFlag">CLOSED_FLAG</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'CLOSED_DATE',
+                        title: '<label set-lan="html:tableClosedDate">CLOSED_DATE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: '<label set-lan="html:tableEditEmp">EDIT_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }]
+                });
+            }
+            var DoSearch = function (lot_no, skuno, sn) {
+                parent.client.CallFunction("MESStation.Config.Vertiv.CRMAConfig", "Search", { LOTNO: lot_no, SKUNO: skuno, SN: sn }, function (e) {
+                    $('#tableRMAList').bootstrapTable("destroy");
+                    if (e.Status == "Pass") {
+                        ShowData(e.Data);
+                    } else {
+                        $('#tableRMAList').bootstrapTable("removeAll");
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            }
+            $("#btnSearch").click(function (e) {
+                var lot_no = $.trim($("#txtLotNo").val());
+                var skuno = $.trim($("#txtSKU").val());
+                var sn = $.trim($("#txtSN").val());
+                DoSearch(lot_no, skuno, sn);
+            });
+            $("#btnUpload").click(function (e) {
+                $("#divExcel").html("");
+                parent.client.CallFunction("MESStation.Config.Vertiv.CRMAConfig", "CheckUploadPermissions", { DataList: JSON.stringify(DataList) }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.open({
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: "上傳RMA信息",
+                            area: ['80%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: ["上傳", "取消"],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                            },
+                            yes: function (index) {
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                parent.client.CallFunction("MESStation.Config.Vertiv.CRMAConfig", "UploadExcel", { DataList: JSON.stringify(DataList) }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 3000
+                                        }, function () {
+                                            $("#inputUploadFile").val("");
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                $("#inputUploadFile").val("");
+                                layer.close(index);
+                            }
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+            $('#btnFailRecord').click(function (e) {
+                layer.open({
+                    id: "FailRecord",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    //title: "上傳RMA失敗信息",
+                    title: "Upload RMA Fail Log",
+                    area: ['80%', '80%'],
+                    content: $('#divUploadFailRecord'),
+                    //btn: ["查詢", "取消"],
+                    btn: ["Search", "Cancel"],
+                    success: function () {
+                        $("#divUploadFailRecord").removeClass("hidden");
+                    },
+                    end: function () {
+                        $("#divUploadFailRecord").addClass("hidden");
+                    },
+                    yes: function (index) {
+                        parent.client.CallFunction("MESStation.Config.Vertiv.CRMAConfig", "GetFailRecord", {}, function (e) {
+                            $('#divRecordList').bootstrapTable("destroy");
+                            if (e.Status == "Pass") {
+                                ShowFailRecord(e.Data);
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#divUploadFailRecord").val("");
+                        $('#divRecordList').bootstrapTable("removeAll");
+                        layer.close(index);
+                    }
+                });
+            });
+            var ShowFailRecord = function (Data) {
+                $('#divRecordList').bootstrapTable("destroy");
+                $('#divRecordList').bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "desc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 5,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    toolbarAlign: "right",              //工具栏对齐方式
+                    buttonsAlign: "right",             //按钮对齐方式
+                    showExport: false,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'FailRecord List',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    columns: [{
+                        field: 'CLASS_NAME',
+                        title: '<label set-lan="html:tableClassName">CLASS_NAME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'FUNCTION_NAME',
+                        title: '<label set-lan="html:tableFunctionName">FUNCTION_NAME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'LOG_MESSAGE',
+                        title: '<label set-lan="html:tableLogMessage">LOG_MESSAGE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'DATA1',
+                        title: '<label set-lan="html:tableLotNo">SN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: '<label set-lan="html:tableEditEmp">EDIT_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }]
+                });
+            }
+        });
+    </script>
+</body>
+</html >

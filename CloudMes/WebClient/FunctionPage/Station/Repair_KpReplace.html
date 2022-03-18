@@ -1,0 +1,615 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>Kp Replace</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+</head>
+<body class="full-height">
+    <div class="panel-body row form-horizontal">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="divRepairSN" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group" view-group="">
+                    <label for="" class="col-xs-1 control-label text-left">SN:</label>
+                    <div class="col-xs-7">
+                        <input id="uRepairSN" type="text" class="form-control" placeholder="SN" value="">
+                    </div>
+                </div>
+            </div>
+            <div id="divFailStation" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group" view-group="">
+                    <label for="" class="col-xs-2 control-label text-left">FailStation:</label>
+                    <div class="col-xs-7">
+                        <input id="uFailStation" type="text" class="form-control" placeholder="Fail Station" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divReplaceMain" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default no-padding">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kp List</h3>
+                </div>
+                <div class="panel-body  no-padding padding-top-5">
+                    <div class="div-table">
+                        <table id="tableKPList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default no-padding">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kp Info</h3>
+                </div>
+                <div class="panel-body  no-padding padding-top-5">
+                    <div id="divKpInfo" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="divKpNo" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">KeypartNo:</label>
+                                <div class="col-xs-7">
+                                    <input id="uKpNo" type="text" class="form-control" placeholder="Keypart No" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divOldVenderCode" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">OldVenderCode:</label>
+                                <div class="col-xs-7">
+                                    <input id="uOldVenderCode" type="text" class="form-control" placeholder="Vender Code" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divOldDateCode" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">OldDateCode:</label>
+                                <div class="col-xs-7">
+                                    <input id="uOldDateCode" type="text" class="form-control" placeholder="Date Code" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divOldLotCode" class="col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">OldLotCode:</label>
+                                <div class="col-xs-7">
+                                    <input id="uOldLotCode" type="text" class="form-control" placeholder="Lot Code" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divKpModify" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:1px solid #ddd;padding-top:5px;">
+                        <div id="divMfrPN" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">MfrPN:</label>
+                                <div class="col-xs-7">
+                                    <!--<input id="uMfrPN" type="text" class="form-control" placeholder="Mfr PN" value="">-->
+                                    <select id="uMfrPN" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divNewTRSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">NewTRSN:</label>
+                                <div class="col-xs-7">
+                                    <input id="uNewTRSN" type="text" class="form-control" placeholder="New TRSN" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divNewVenderCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">NewVenderCode:</label>
+                                <div class="col-xs-7">
+                                    <!--<input id="uNewVenderCode" type="text" class="form-control" placeholder="New Vender Code" value="">-->
+                                    <select id="uNewVenderCode" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divNewVenderName" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">NewVenderName:</label>
+                                <div class="col-xs-7">
+                                    <input id="uNewVenderName" type="text" class="form-control" placeholder="New Vender Name" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divNewDateCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">NewDateCode:</label>
+                                <div class="col-xs-7">
+                                    <input id="uNewDateCode" type="text" class="form-control" placeholder="New Date Code" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divNewLotCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                            <div class="form-group" view-group="">
+                                <label for="" class="col-xs-3 control-label text-left">NewLotCode:</label>
+                                <div class="col-xs-7">
+                                    <input id="uNewLotCode" type="text" class="form-control" placeholder="New Lot Code" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:1px solid #ddd;padding:5px;padding-left:33.33%;padding-right:33.33%;">
+                        <div id="divFinished" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button id="btnFinished" class="btn btn-default small" style="font-size:2rem; width:100%;">
+                                <i class="glyphicon glyphicon-ok"></i> <lan set-lan="html:Finished">Finished</lan>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Station/MesClient.Helper.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var option = null;
+        var station = null;
+        var oldMPN, newMPN;
+        var keypressEvent = jQuery.Event("keypress");//模拟一个键盘事件
+        keypressEvent.keyCode = 13;//keyCode=13是回车
+        
+        $(document).ready(function () {
+            $("#uRepairSN").trigger(keypressEvent);
+            $("#uFailStation").attr("disabled", true);
+            $("#uKpNo").attr("disabled", true);
+            $("#uOldVenderCode").attr("disabled", true);
+            $("#uOldDateCode").attr("disabled", true);
+            $("#uOldLotCode").attr("disabled", true);
+            $("#uMfrPN").attr("disabled", true);
+            $("#uNewVenderCode").attr("disabled", true);
+            $("#uNewVenderName").attr("disabled", true);
+            
+            $("#uRepairSN").keypress(function (event) {
+                if (event.which == 13) {
+                    var sn = $("#uRepairSN").val();
+                    var kpNo = parent.$("#divKpNo").find("option[selected]").val();
+                    if (kpNo == undefined) {
+                        kpNo = parent.$("#divKpNo select").val();
+                    }
+                    var location = parent.$("#divLocation").find("input[type=text]").val();
+                    GetRepairSNKpList(sn, kpNo, location);
+                }
+            });
+            var GetRepairSNKpList = function (sn, kpNo, location) {
+                parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "GetRepairSNKP", { SN: sn, KpNo: kpNo, Location: location }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowData(e.Data);
+                        $("#uRepairSN").attr("disabled", true);
+                    } else {
+                        $('#tableKPList').bootstrapTable("destroy");
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                    }
+                });
+            }
+            var ShowData = function (Data) {
+                $('#tableKPList').bootstrapTable("destroy");
+                $('#tableKPList').bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    columns: [{
+                        title: '<label set-lan="html:SELECT">SELECT</label>',
+                        align: 'center',
+                        checkbox: true
+                    },
+                    {
+                        field: 'PARTNO',
+                        title: '<label set-lan="html:tablePartNo">PARTNO</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'DATE_CODE',
+                        title: '<label set-lan="html:tableDateCode">DATE_CODE</label>',
+                        align: 'center',
+                    },
+                    {
+                        field: 'LOT_CODE',
+                        title: '<label set-lan="html:tableLotCode">LOT_CODE</label>',
+                        align: 'center',
+                    },
+                    {
+                        field: 'MPN',
+                        title: '<label set-lan="html:tableMpn">MPN</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'VENDER',
+                        title: '<label set-lan="html:tableVender">VENDER</label>',
+                        align: 'center',
+                    },
+                    {
+                        field: 'STATION',
+                        title: '<label set-lan="html:tableStation">STATION</label>',
+                        align: 'center',
+                    },
+                    {
+                        field: 'SCANTYPE',
+                        title: '<label set-lan="html:tablePartNo">SCANTYPE</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'EXKEY1',
+                        title: '<label set-lan="html:tableExKey">EXKEY</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'EXVALUE1',
+                        title: '<label set-lan="html:tableExValue">EXVALUE</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'LOCATION',
+                        title: '<label set-lan="html:tableExValue">LOCATION</label>',
+                        align: 'center'
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: '<label set-lan="html:tableExValue">SCANDT</label>',
+                        align: 'center'
+                    }],
+                    onClickRow: function (row) {
+                        $("#uKpNo").val(row.PARTNO);
+                        $("#uOldVenderCode").val(row.MPN);
+                        if (row.VALUE.indexOf('/')>-1) {
+                            var dc = row.VALUE.substr(0, 3) == "N/A" ? "N/A" : row.VALUE.substr(0, row.VALUE.indexOf('/'));
+                            var lc = row.VALUE.substr(0, 3) == "N/A" ? "N/A" : row.VALUE.substr(row.VALUE.indexOf('/') + 1);
+                            $("#uOldDateCode").val(dc);
+                            $("#uOldLotCode").val(lc);
+                        }
+                        else {
+                            $("#uOldDateCode").val(row.VALUE);
+                            $("#uOldLotCode").val("N/A");
+                        }
+                        $("#uNewVenderCode").val("");
+                        $("#uNewVenderName").val("");
+                        $("#uMfrPN").attr("disabled", false);
+                        $("#uNewVenderCode").attr("disabled", true);
+                        $("#uMfrPN").empty();
+                        $("#uNewVenderCode").empty();
+                        GetRepairMfrPN(row.PARTNO);
+                    }
+                });
+            }
+            var GetRepairMfrPN = function (kpNo) {
+                parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "GetRepairMfrInfo", { KPNO: kpNo }, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#uMfrPN").append($("<option value=''></option>"));
+                        $("#uNewVenderCode").append($("<option value=''></option>"));
+                        for (var a = 0; a < e.Data.length; a++) {
+                            $("#uMfrPN").append($("<option value='" + e.Data[a].MPN + "'>" + e.Data[a].MPN + "</option>"));
+                            $("#uNewVenderCode").append($("<option value='" + e.Data[a].VENDER + "'>" + e.Data[a].VENDER + "</option>"));
+                        }
+                        $("#uMfrPN").focus();
+                    } else {
+                        $("#uMfrPN").attr("disabled", true);
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                    }
+                });
+            }
+            $("#uMfrPN").change(function (event) {
+                $("#uNewVenderCode").attr("disabled", false);
+                if ($("#uMfrPN").val() == "") {
+                    $("#uNewVenderCode").attr("disabled", true);
+                    $("#uNewVenderCode").val("");
+                    $("#uNewVenderName").val("");
+                }
+                $("#uNewTRSN").focus();
+            });
+            $("#uNewVenderCode").change(function (event) {
+                $("#uNewVenderName").val($("#uNewVenderCode").val());
+                $("#uNewDateCode").focus();
+            });
+            $("#uNewDateCode").keypress(function (event) {
+                if (event.which == 13) {
+                    var row = $("#tableKPList").bootstrapTable("getSelections")[0];
+                    if (row.SCANTYPE != null && row.SCANTYPE.indexOf("S/N") > -1) {
+                        parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "CheckExistsDC", { TRSN: $("#uNewDateCode").val() }, function (e) {
+                            if (e.Status == "Pass") {
+                                ;
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () { });
+                                return;
+                            }
+                        });
+                    }
+                    $("#uNewLotCode").focus();
+                }
+            });
+            $("#uNewLotCode").keypress(function (event) {
+                if (event.which == 13) {
+                    if ($("#uNewLotCode").val() == $("#uOldDateCode").val()) {
+                        layer.msg("The New LotCode Is Same With The Old DateCode!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        $("#uNewLotCode").focus();
+                        return;
+                    }
+                    $("#btnFinished").focus();
+                }
+            });
+            $("#btnFinished").on("click", function () {
+                //1.檢查是否有選擇行數據
+                if ($("#uKpNo").val() == "") {
+                    layer.msg("Please Select KeyPart!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                //2.取得所選擇的行數據
+                var row = $("#tableKPList").bootstrapTable("getSelections")[0];
+                if (row == undefined) {
+                    layer.msg("Please Select One Row!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                //3.檢查當前行數據的KP類型:如果類型為Virtual POWER/FAN S/N(電源/風扇/組合測試),不需要check vender
+                if (row.SCANTYPE != null && row.SCANTYPE.indexOf("VIRTUAL") < 0 && row.SCANTYPE.indexOf("S/N") > -1) {
+                    if ($("#uNewVenderCode").val() == "") {
+                        layer.msg("Please Select The NewVenderCode!", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                }
+                //4.檢查DateCode/LotCode是否都未輸入:至少輸入一項
+                if ($("#uNewDateCode").val() == "" && $("#uNewLotCode").val() == "") {
+                    layer.msg("You Must Replace One Code At Least!", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                //5.檢查新DateCode/LotCode是否與舊DateCode/LotCode值相等:設定是否更新DateCode/LotCode標誌
+                var newDL = 0;
+                if ($("#uNewDateCode").val() != $("#uOldDateCode").val() || $("#uNewLotCode").val() != $("#uOldLotCode").val()) {
+                    newDL = 1;
+                }
+                else {
+                    layer.msg("New date code and new lot code are same as older", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                //6.檢查當前行數據的KP類型:如果類型屬於S/N或P/N或D/C或其他                
+                if (row.SCANTYPE != null && row.SCANTYPE.indexOf("S/N") < 0 && row.SCANTYPE.indexOf("P/N") < 0 && row.SCANTYPE.indexOf("D/C") < 0) {
+                    if ($("#uNewTRSN").val() == "") {
+                        if (confirm("The operation is successful. If E206 (effect component) is defective, you need to enter allparts barcode (TR SN). Please confirm whether to enter it?")) {
+                            $("#uNewTRSN").focus();
+                            return;
+                        }
+                    }
+                }
+                //7.執行sp r_product_kp_mds_save
+                //UpdateKPReplace(newDL, row.MPN, row.EXVALUE1);
+                if ($("#uMfrPN").val().trim().indexOf('#') > -1) {
+                    oldMPN = $("#uMfrPN").val().substr(0, $("#uMfrPN").val().indexOf('#'));
+                    newMPN = $("#uMfrPN").val().substr($("#uMfrPN").val().indexOf('#') + 1, length($("#uMfrPN").val()));
+                }
+                else {
+                    oldMPN = row.MPN;
+                    newMPN = $("#uMfrPN").val();
+                }
+                var newDateCode = $("#uNewDateCode").val();
+                var newLotCode = $("#uNewLotCode").val();
+                var old_date_code = $("#uOldDateCode").val();
+                var old_lot_code = $("#uOldLotCode").val();
+                var oldCode = "";
+
+                var newCode = "";
+                if (newLotCode != "" && newLotCode != "N/A") {
+                    newCode = newDateCode + "/" + newLotCode;
+                }
+                else {
+                    newCode = newDateCode;
+                }
+                if (old_lot_code != "" && old_lot_code != "N/A") {
+                    oldCode = old_date_code + "/" + old_lot_code;
+                }
+                else {
+                    oldCode = old_date_code;
+                }
+                parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "UpdateKPReplaceInfo", {
+                    //SN: $("#uRepairSN").val(),
+                    //KpNo: $("#uKpNo").val(),
+                    SN: row.SN,
+                    KpNo: row.PARTNO,
+                    Location: row.EXVALUE1,
+                    OldCode: oldCode,
+                    NewCode: newCode,
+                    //OldMPN: oldMPN,
+                    NewMPN: newMPN
+                }, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                //icon: 2,
+                                //time: 60000,
+                                //title: 'ERROR',
+                                //btn: ['OK']
+
+                                icon: 1,
+                                time: 1000
+                            }, function () {
+                                    //8.加載父層控件值
+                        ParentInputInit(row.SCANTYPE == undefined ? "" : row.SCANTYPE, oldMPN, newMPN, row.LOCATION == undefined ? "" : row.LOCATION);
+
+                        //9.檢查機種料號:執行sp sfcrepairCheck_sp @transno='Prompt_by_Location'(一堆有無鉛焊接提示,待定?)
+
+                        //10.最後將此頁面關閉
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                            });
+                        
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                        return;
+                    }
+                });
+
+            });
+            $("#uNewTRSN").keypress(function (e) {
+                if (e.which == 13) {
+                    parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "GetRepairTRSNInfo", { TRSN: $("#uNewTRSN").val().toUpperCase() }, function (e) {
+                        if (e.Status == "Pass") {
+                            for (var a = 0; a < e.Data.length; a++) {
+                                $("#uNewVenderName").val(e.Data[a].MFR_KP_NO);
+                                $("#uNewDateCode").val(e.Data[a].DATE_CODE);
+                                $("#uNewLotCode").val(e.Data[a].LOT_CODE);
+                                parent.$("#divMfrCode").find("input[type=text]").val(e.Data[a].MFR_CODE);
+                                parent.$("#divMfrName").find("input[type=text]").val(e.Data[a].MFR_NAME);
+                            }
+                            $("#uNewVenderName").focus();
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () { });
+                            $("#uNewTRSN").val("");
+                            return;
+                        }
+                    });
+                }
+            });
+            var ParentInputInit = function (scanType, oldMpn, newMpn,location) {
+                if (scanType.indexOf("S/N") > -1 || scanType.indexOf("P/N") > -1) {
+                    parent.$("#divOriginalCSN").find("input[type=text]").val($("#uOldDateCode").val());
+                    parent.$("#divReplaceCSN").find("input[type=text]").val($("#uNewDateCode").val());
+                }
+                else {
+                    parent.$("#divOriginalCSN").find("input[type=text]").val($("#uOldDateCode").val() + "/" + $("#uOldLotCode").val());
+                    parent.$("#divReplaceCSN").find("input[type=text]").val($("#uNewDateCode").val() + "/" + $("#uNewLotCode").val());
+                }
+                if (scanType.indexOf("S/N") > -1 || scanType.indexOf("P/N") > -1 || scanType.indexOf("D/C") > -1) {
+                    parent.$("#divIsPCBA").find("input[type=text]").val("NO");
+                }
+                else {
+                    parent.$("#divIsPCBA").find("input[type=text]").val("YES");
+                }
+                //parent.$("#divDC").find("input[type=text]").val($("#uNewDateCode").val());
+                //parent.$("#divLC").find("input[type=text]").val($("#uNewLotCode").val());
+                //parent.$("#divCateGory").find("input[type=text]").val(scanType);
+                //parent.$("#divTRSN").find("input[type=text]").val($("#uNewTRSN").val());
+                //parent.$("#divOldMPN").find("input[type=text]").val(oldMpn);
+                //parent.$("#divNewMPN").find("input[type=text]").val(newMpn);
+
+                parent.$("#divLocation").find("input[type=text]").val(location);
+                parent.$("#divLocation").find("input[type=text]").attr("disabled", "disabled");
+                parent.$("#divCateGory").find("input[type=text]").val(scanType);
+
+                parent.$("#divNewTRSN").find("input[type=text]").val($("#uNewTRSN").val());
+                parent.$("#divNewKPNO").find("input[type=text]").val($("#uKpNo").val());
+                parent.$("#divNewDC").find("input[type=text]").val($("#uNewDateCode").val());
+                parent.$("#divNewLC").find("input[type=text]").val($("#uNewLotCode").val());               
+                parent.$("#divNewMfrCode").find("input[type=text]").val($("#uNewVenderCode").val());
+                parent.$("#divNewMfrName").find("input[type=text]").val($("#uNewVenderCode").val());
+                parent.$("#divNewMPN").find("input[type=text]").val($("#uNewVenderName").val());               
+
+                parent.$("#divOldTRSN").find("input[type=text]").val("");
+                parent.$("#divOldKPNO").find("input[type=text]").val($("#uKpNo").val());
+                parent.$("#divOldDC").find("input[type=text]").val($("#uOldDateCode").val());
+                parent.$("#divOldLC").find("input[type=text]").val($("#uOldLotCode").val());
+                parent.$("#divOldMfrCode").find("input[type=text]").val($("#uOldVenderCode").val());
+                parent.$("#divOldMfrName").find("input[type=text]").val("");
+                parent.$("#divOldMPN").find("input[type=text]").val(oldMpn);
+            }
+            var UpdateKPReplace = function (newDL, mpn, location) {                
+                if ($("#uMfrPN").val().trim().indexOf('#') > -1) {
+                    oldMPN = $("#uMfrPN").val().substr(0, $("#uMfrPN").val().indexOf('#'));
+                    newMPN = $("#uMfrPN").val().substr($("#uMfrPN").val().indexOf('#') + 1, length($("#uMfrPN").val()));
+                }
+                else {
+                    oldMPN = mpn;
+                    newMPN = $("#uMfrPN").val();
+                }
+                if (newDL == 1) {
+                    var newDateCode = $("#uNewDateCode").val() == "" ? "N/A" : $("#uNewDateCode").val();
+                    var newLotCode = $("#uNewLotCode").val() == "" ? "N/A" : $("#uNewLotCode").val();
+                    var oldCode = $("#uOldDateCode").val() + "/" + $("#uOldLotCode").val();
+                    var newCode = newDateCode + "/" + newLotCode;
+
+                    parent.parent.client.CallFunction("MESStation.Config.RepairKPReplace", "UpdateKPReplaceInfo", {
+                        SN: $("#uRepairSN").val(),
+                        KpNo: $("#uKpNo").val(),
+                        Location: location,
+                        OldCode: oldCode,
+                        NewCode: newCode,
+                        //OldMPN: oldMPN,
+                        NewMPN: newMPN
+                    }, function (e) {
+                        if (e.Status == "Pass") {
+                            ;
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () { });
+                            return;
+                        }
+                    });
+                }
+                else if (newDL==0) {
+                   
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MESPubLab.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MESPubLab_LotusNotesService_LotusNotesService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.120.246.110/lotusNotesService/LotusNotesService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

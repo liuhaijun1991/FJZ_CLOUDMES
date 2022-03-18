@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Collect Bonepile Data</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+  
+</head>
+<body class="animated fadeInRight">
+    <div class="bg-primary" style="padding-left:10px;">
+        <button class="btn btn-default small" id="btnClose">
+            <i class="glyphicon glyphicon-edit"></i> <lan set-lan="html:Reset">Closed Bonepile</lan>
+        </button>
+        <button class="btn btn-default small" id="btnCollect">
+            <i class="glyphicon glyphicon-pencil"></i> <lan set-lan="html:ReSetLine">Collect Bonepile Data</lan>
+        </button>
+    </div>
+    <div id="divClosedData" class="form-horizontal" style="padding-top:10px;">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">Bonepile Type:</label>
+                <div class="col-xs-3">
+                    <select class="form-control" id="selectBonepileType">
+                        <option value="" selected>Please Select Bonepile Type</option>
+                        <option value="Normal">Normal</option>
+                        <option value="RMA">RMA</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">SN:</label>
+                <div class="col-xs-3">
+                    <textarea class="form-control" rows="5" cols="1" id="textarea_sn"></textarea>
+                </div>
+                <div class="col-xs-3">
+                    <label style="height: 34px;line-height:34px;color:red;">One sn row </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">Remark:</label>
+                <div class="col-xs-3">
+                    <textarea class="form-control" rows="3" cols="1" id="textarea_remark"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:"></label>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-outline btn-default" id="btnClosedBonepile">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Search">Closed</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divCollectData" class="form-horizontal" style="padding-top:10px;" hidden>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">Data Class</label>
+                <div class="col-xs-2">
+                    <select class="form-control" id="selectDataClass">
+                        <option value="Normal">Normal</option>
+                        <option value="RMA">RMA</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">Type</label>
+                <div class="col-xs-2">
+                    <select class="form-control" id="selectType">
+                        <option value="WK">WK</option>
+                        <option value="MO">MO</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:">Input Value</label>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="input_value" />
+                </div>
+                <div class="col-xs-8">
+                    <label style="height: 34px;line-height:34px;color:blue;">Date format:<label style="color:red;">2020/07/07 12:33:12</label></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label text-right" set-lan="html:"></label>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-outline btn-default" id="btnSubmit">
+                        <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:Search">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#textarea_sn").val("").select().focus();
+            $("#btnClose").click(function () {
+                $("#divClosedData").show();
+                $("#divCollectData").hide();
+                $("#textarea_sn").val("").select().focus();
+            });
+            $("#btnCollect").click(function () {
+                parent.client.CallFunction("MESStation.Config.BonepileConfig", "CheckCollectPrivilege", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#divCollectData").show();
+                        $("#divClosedData").hide();
+                        $("#input_value").val("").select().focus();
+                    }
+                    else {                       
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+                
+            });
+            $("#selectBonepileType").change(function () {
+                $("#textarea_sn").select().focus();
+            });
+            $("#btnClosedBonepile").click(function () {
+                var bonepile_type = $("#selectBonepileType").val();
+                var sn = $("#textarea_sn").val();
+                sn.split("\n");
+                var remark = $("#textarea_remark").val();
+                if (bonepile_type == "" || bonepile_type == undefined) {
+                    layer.msg("Please Select Bonepile Type!", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Submitting,Please wait ...</span></div></div>"
+                });
+                parent.client.CallFunction("MESStation.Config.BonepileConfig", "ClosedBonepileData", { Type: bonepile_type, SN: sn, Remark: remark }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.close(loadIndex);
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    else {
+                        layer.close(loadIndex);
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            });
+            $("#selectType").change(function () {
+                $("#input_value").select().focus();
+            });
+            $("#btnSubmit").click(function () {
+                var type = $("#selectType").val();
+                var dataClass = $("#selectDataClass").val();
+                var inputValue = $("#input_value").val();
+                if (type == "" || type == undefined) {
+                    layer.msg("Please Input Type!", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                if (inputValue == "" || inputValue == undefined) {
+                    layer.msg("Please Input Value", {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                    return;
+                }
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Submitting,Please wait ...</span></div></div>"
+                });
+                parent.client.CallFunction("MESStation.Config.BonepileConfig", "GetBonepileSummaryReportData", { DataClass: dataClass, Type: type, Date: inputValue }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.close(loadIndex);
+                        layer.msg("OK", {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    else {
+                        layer.close(loadIndex);
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+
+            });
+        });
+    </script>
+</body>
+</html>

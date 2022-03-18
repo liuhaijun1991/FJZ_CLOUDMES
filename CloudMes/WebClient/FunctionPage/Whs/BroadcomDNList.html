@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcom DN List</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight ">
+    <div class="col-xs-12">
+        <table id="tbDNList" class="table table-bordered"></table>
+    </div>
+  
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var isPostBack = false;
+        var btnCancel, uploadtitle, swaltitle, warningTitle, warningText;
+        window.operateEvents = {
+            'click .btnGetExcel': function (e, value, row, index) {
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> " + row.DN_NO + " PackingList Downloading,Please wait ...</span></div></div>"
+                });
+                self.parent.client.CallFunction("MESStation.Config.DCN.BroadcomDNManager", "GetDNPackingList", { DN_NO: row.DN_NO }, function (e) {                    
+                    if (e.Status == "Pass") {
+                        var blob = b64toBlob(e.Data.Content);
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            navigator.msSaveBlob(blob, e.Data.FileName);
+                        } else {
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = e.Data.FileName;
+                            link.click();
+                            window.URL.revokeObjectURL(link.href);
+                        }
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    layer.close(loadIndex);
+                });
+            }
+        };
+
+        $(document).ready(function () {
+            ShowTableList();
+        });
+
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+
+        function ShowTableList() {
+            $("#tbDNList").bootstrapTable("destroy");
+            self.parent.client.CallFunction("MESStation.Config.DCN.BroadcomDNManager", "GetBroadcomDNList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    var c = [];
+                    for (var item in e.Data[0]) {
+                        c.push({ field: item, title: "<label set-lan=\"html:table" + item + "\">" + item + "</label>" });
+                    }
+                    c.push({
+                        field: 'operate',
+                        title: '<label set-lan=html:tableoperate">OPERATE</label>',
+                        width: '80px',
+                        events: operateEvents,
+                        formatter: function operateFormatter(value, row, index) {
+                            return [
+                                '<button type="button" set-lan="value:operate" class="btnGetExcel btn btn-success" style="display:inline">GetExcel</button>',
+                            ].join('');
+                        }
+                    });
+                    $('#tbDNList').bootstrapTable({
+                        data: e.Data,
+                        striped: true,
+                        cache: false,
+                        pagination: true,
+                        sortable: true,
+                        sortOrder: "asc",
+                        sidePagination: "client",
+                        pageNumber: 1,
+                        pageSize: 10,
+                        pageList: [10, 15, 30, 70],
+                        search: true,
+                        strictSearch: false,
+                        searchOnEnterKey: false,
+                        showColumns: false,
+                        showRefresh: false,
+                        minimumCountColumns: 2,
+                        clickToSelect: true,
+                        showToggle: false,
+                        cardView: false,
+                        detailView: false,
+                        dataType: "json",
+                        method: "post",
+                        searchAlign: "left",
+                        buttonsAlign: "left",
+                        toolbar: "#toolbar",
+                        toolbarAlign: "left",
+                        locale: localelan,
+                        showExport: false,                  //是否显示导出按钮
+                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                        Icons: 'glyphicon-export',
+                        exportOptions: {
+                            ignoreColumn: [0],             //忽略某一列的索引
+                            fileName: 'DNList',     //文件名称设置
+                            worksheetName: 'sheet1',       //表格工作区名称
+                        },
+                        columns: c,
+
+                    });
+                    $('#tbDNList').bootstrapTable('hideColumn', 'ID');
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

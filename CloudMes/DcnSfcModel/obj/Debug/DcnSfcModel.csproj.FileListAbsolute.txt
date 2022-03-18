@@ -1,0 +1,10 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\DcnSfcModel.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\DcnSfcModel.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\DcnSfcModel.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\obj\Debug\DcnSfcModel.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\obj\Debug\DcnSfcModel.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\obj\Debug\DcnSfcModel.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\DcnSfcModel\obj\Debug\DcnSfcModel.pdb

@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES Shipout Confirm</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="panel-body">
+        <table id="datatable"></table>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        var localelan = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var isPostBack = false;
+        var btnCancel, uploadtitle, swaltitle, warningTitle, warningText;
+        window.operateEvents = {
+            "click .FinalASN": function (e, value, row, index) {
+                layer.confirm('Did You Confirm To Send The FinalASN!', {
+                    title: 'Notice',
+                    btn: ['Confirm', 'Cancel']
+                }, function (index) {
+                    layer.close(index);
+                    var loadindex = layer.load(0, { shade: [0.2, '#393d49'] });
+                    self.parent.client.CallFunction("MESJuniper.Api.ShipoutConfirm", "ConfirmFinalASN", { ID: row.ID }, function (e) {
+                        layer.close(loadindex);
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "Shipout Confirm",
+                                text: e.Message,
+                                timer: 2000,
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Shipout Confirm",
+                                text: e.Message,
+                                timer: 2000,
+                                type: "warning",
+                                showConfirmButton: false
+                            });
+                        }
+                        GetData();
+                    })
+                }, function () {
+                    GetData();
+                });
+            },
+            "click .GT": function (e, value, row, index) {
+                layer.confirm('Did You Confirm To Call 311 RFC In SAP!', {
+                    title: 'Notice',
+                    btn: ['Confirm', 'Cancel']
+                }, function (index) {
+                    layer.close(index);
+                    var loadindex = layer.load(0, { shade: [0.2, '#393d49'] });
+                    self.parent.client.CallFunction("MESJuniper.Api.ShipoutConfirm", "ConfirmGT", { ID: row.ID }, function (e) {
+                        layer.close(loadindex);
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "Shipout Confirm",
+                                text: e.Message,
+                                timer: 2000,
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Shipout Confirm",
+                                text: e.Message,
+                                timer: 2000,
+                                type: "warning",
+                                showConfirmButton: false
+                            });
+                        }
+                        GetData();
+                    })
+                }, function () {
+                    GetData();
+                });
+            }
+        };
+
+        function operateFormatter(value, row, index) {//載具機種信息子表格添加刪除按鈕
+            var Btn_FinalASN, Btn_Gt;
+            if (row.ASNSTATUS == 'N') {
+                Btn_FinalASN = '<button type="button" class="FinalASN btn btn-primary btn-sm" style="margin-right:15px;"> Final ASN</button>';
+            } else {
+                Btn_FinalASN = '<button type="button" class="btn btn-default btn-sm disabled" style="margin-right:15px;" disabled> Final ASN</button>';
+            }
+            if (row.GTSTATUS == 'N') {
+                Btn_Gt = '<button type="button" class="GT btn btn-primary btn-sm" style="margin-right:15px;">SAP GT</button>';
+            } else {
+                Btn_Gt = '<button type="button" class="btn btn-default btn-sm disabled" style="margin-right:15px;" disabled>SAP GT</button>';
+            }
+            return [Btn_FinalASN, Btn_Gt].join('');
+        }
+
+        function InitTabel() {
+            $('#datatable').bootstrapTable({
+                data: [],
+                striped: true,
+                cache: false,
+                pagination: true,
+                sortable: true,
+                sortOrder: "asc",
+                sidePagination: "client",
+                pageNumber: 1,
+                pageSize: 10,
+                pageList: [10, 15, 30, 70],
+                search: true,
+                showRefresh: true,
+                clickToSelect: true,
+                searchAlign: "right",
+                buttonsAlign: "left",
+                toolbarAlign: "left",
+                detailView: true,
+                onRefresh: function () {
+                    GetData();
+                },
+                onExpandRow: function (index, row, $Subdetail) {
+                    self.parent.Loading(true);
+                    self.parent.client.CallFunction("MESJuniper.Api.ShipoutConfirm", "GetDataDetail", { TO_NO: row.TO_NO }, function (e) {
+                        self.parent.Loading(false);
+                        if (e.Status == "Pass") {
+                            var d = [];
+                            var c = [];
+                            for (var item in e.Data[0]) {
+                                c.push({ field: item, title: item });
+                            }
+                            InitSubTable(index, row, $Subdetail, c, e.Data);
+                        }
+                    });
+                },
+                columns: [
+                    {
+                        field: "TO_NO",
+                        title: "TO#"
+                    }, {
+                        field: "PLANT",
+                        title: "Plant"
+                    }, {
+                        field: "QTY",
+                        title: "Pallet Qty"
+                    }, {
+                        field: "BU",
+                        title: "BU"
+                    }, {
+                        field: "EDIT_EMP",
+                        title: "Edit By"
+                    }, {
+                        field: "EDIT_TIME",
+                        title: "Edit Time"
+                    }, {
+                        field: 'operate',
+                        title: '<label set-lan=html:tableoperate">OPERATE</label>',
+                        width: '190',
+                        events: operateEvents,
+                        formatter: operateFormatter
+                    }
+
+                ],
+
+            });
+        }
+
+        function InitSubTable(index, row, $detail, c, d) {
+            var cur_table = $detail.html('<table></table>').find('table');
+            $(cur_table).bootstrapTable({
+                clickToSelect: false,
+                detailView: false,
+                pagination: false,
+                columns: c,
+                data: d
+            });
+        };
+
+        function GetData() {
+            self.parent.Loading(true);
+            self.parent.client.CallFunction("MESJuniper.Api.ShipoutConfirm", "GetDataList", {}, function (e) {
+                self.parent.Loading(false);
+                if (e.Status == "Pass") {
+                    $('#datatable').bootstrapTable('load', e.Data)
+                }
+                else {
+                    swal({
+                        title: swaltitle,
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            InitTabel();
+            GetData();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        /*.tableEventsToolbar-margin-top {
+            margin-top: 10px;
+        }*/
+
+        .new-pallet-title {
+            background-color: #007bff !important;
+            color: white !important;
+            font-size: larger;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="animated fadeInRight">
+    <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+        <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                <div class="btn-group" id="tableEventsToolbar" role="group" >
+                    <select class="btn btn-outline btn-default" style="height:34px;" id="toolSelect"></select>
+                    <select class="btn btn-outline btn-default" style="height:34px;" id="toolStatus">
+                        <option value="0" selected>WAIT_TEST</option>
+                        <option value="1">PASS</option>
+                        <option value="2">FAIL</option>
+                        <option value="ALL">ALL</option>
+                    </select>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolNew">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:">New</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolDownload">
+                        <i class="glyphicon glyphicon-download" aria-hidden="true"></i><lan set-lan="html:">Download</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-default" id="btnToolRefresh">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:">Refresh</lan>
+                    </button>
+                </div>
+            </div>
+            <table id="tableList" class="table table-hover"></table>
+        </div>
+    </div>
+
+    <div id="divNewRecord" class="form-horizontal" style="padding-top:10px;">
+        <div class="col-xs-10">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">Type:</label>
+                <div class="col-xl-7">
+                    <select class="btn btn-outline btn-default" id="newTypeSelect"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">Line:</label>
+                <div class="col-xl-7">
+                    <select class="btn btn-outline btn-default" id="newLineSelect"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">Station:</label>
+                <div class="col-xl-7">
+                    <select class="btn btn-outline btn-default" id="newStationSelect"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-right">SN:</label>
+                <div class="col-xs-7" style="padding-left:0px;">
+                    <input type="text" class="form-control" id="txt_sn" placeholder="SN" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divRecordAction" class="form-horizontal" style="padding-top:10px;">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">TYPE:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_type" placeholder="TYPE" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">SN:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_sn" placeholder="SN" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">WO:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_wo" placeholder="WORKORDERNO" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">SKUNO:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_sku" placeholder="SKUNO" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">LINE:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_line" placeholder="LINE" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">STATION:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_station" placeholder="STATION" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">STATUS:</label>
+                <div class="col-xs-7">
+                    <div class="radio">
+                        <label style="line-height: 12px;">
+                            <input type="radio" checked="checked" value="PASS" id="radio_pass" name="optionsRadios">PASS
+                        </label>
+                        <label style="margin-left:30px;line-height: 12px;">
+                            <input type="radio" value="FAIL" id="radio_pail" name="optionsRadios">FAIL
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6" id="divFailDesc">
+            <div class="form-group">
+                <label class="col-xs-4 control-label text-right">FAIL_DESC:</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="txt_action_desc" placeholder="FAIL_DESC" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script type="text/javascript">
+
+        var newRecordIndex;
+        var newActionIndex;
+        var bSubmit = false;      
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+        
+        window.ColumnBtnClick = {
+            'click #btnAction': function (e, value, row, index) {
+                if (newActionIndex != undefined || newActionIndex != "") {
+                    layer.close(newActionIndex);
+                }
+                newActionIndex = layer.open({
+                    id: "NewRecord",
+                    type: 1,
+                    offset: "10px",
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Test Result",
+                    area: ['50%', '50%'],
+                    content: $('#divRecordAction'),
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divRecordAction").show();
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#txt_action_type").val(row["DATA_TYPE"]);
+                        $("#txt_action_sn").val(row["SN"]);
+                        $("#txt_action_wo").val(row["WORKORDERNO"]);
+                        $("#txt_action_sku").val(row["SKUNO"]);
+                        $("#txt_action_station").val(row["STATION"]);
+                        $("#txt_action_line").val(row["LINE"]);
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var status = $('input:radio[name="optionsRadios"]:checked').val();
+                        var fail_desc = $("#txt_action_desc").val();
+                        parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "Action", { DATA_ROW: row, STATUS: status, FAIL_DESC: fail_desc }, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#txt_sn").val("").focus();
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () {
+                                    layer.close(index);
+                                    ShowTable();
+                                    });
+                            } else {
+                                $("#txt_sn").select().focus();
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        $("#divRecordAction").hide();
+                        layer.close(index);
+                        ShowTable();
+                    }
+                });
+            },
+            'click #btnDelete': function (e, value, row, index) {
+                parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "Delete", row, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () { });
+                        ShowTable();
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                });
+            }
+        }
+
+        var ajaxRequest = function (params) {
+            var inputData = {
+                TYPE: params.data.Type,
+                STATUS: params.data.Status,
+                SEARCH_TEXT: params.data.SearchText,
+                PAGE_SIZE: (this.options.pageSize == undefined || this.options.pageSize == "") ? 10 : this.options.pageSize,
+                PAGE_NUM: (this.options.pageNumber == undefined || this.options.pageNumber == "") ? 1 : this.options.pageNumber,
+            }
+            var loadIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span> Executing,Please wait ...</span></div></div>"
+            });
+            parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "Search", inputData, function (e) {
+                if (e.Status == "Pass") {
+                    params.success({
+                        total: e.Data.Total,
+                        rows: e.Data.Rows
+                    });
+                }
+                else {
+                    params.success({
+                        total: 0,
+                        rows: []
+                    });
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+                layer.close(loadIndex);
+            });
+        }
+
+        var ShowTable = function () {
+            $("#tableList").bootstrapTable("destroy");
+            $("#tableList").bootstrapTable({
+                ajax: ajaxRequest,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "server",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 30, 50, 100, 300, 500],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                locale: localelan,
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                queryParams: function (params) {
+                    return {
+                        Type: $("#toolSelect").val(),
+                        Status: $("#toolStatus").val(),
+                        SearchText: params.search
+                    };
+                },
+                rowStyle: function (row, index) {
+                    switch (row.STATUS) {
+                        case "PASS":
+                            return { css: { 'color': '#00FF00' } };
+                            break;
+                        case "FAIL":
+                            return { css: { 'color': '#ff0000' } };
+                            break;
+                        default:
+                            return "";
+                            break;
+                    }
+                },
+                columns: [
+                    {
+                        field: "ACTION", title: "ACTION", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            return ['<button id="btnAction" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:"></lan></button >'].join('');
+                        },
+                        events: ColumnBtnClick
+                    },
+                    { field: "ID", title: "ID", align: 'center', valign: 'middle', visible: false },
+                    { field: "DATA_TYPE", title: "DATA_TYPE", align: 'center', valign: 'middle' },
+                    { field: "SN", title: "SN", align: 'center', valign: 'middle' },
+                    { field: "WORKORDERNO", title: "WO", align: 'center', valign: 'middle' },
+                    { field: "SKUNO", title: "PN", align: 'center', valign: 'middle' },
+                    { field: "STATION", title: "STATION", align: 'center', valign: 'middle' },
+                    { field: "LINE", title: "LINE", align: 'center', valign: 'middle' },
+                    { field: "STATUS", title: "STATUS", align: 'center', valign: 'middle' },
+                    { field: "FAIL_DESC", title: "FAIL_DESC", align: 'center', valign: 'middle' },
+                    { field: "CREAT_DATE", title: "CREAT_DATE", align: 'center', valign: 'middle' },
+                    { field: "CREAT_EMP", title: "CREAT_EMP", align: 'center', valign: 'middle' },
+                    { field: "LASTEDIT_DATE", title: "TEST_DATE", align: 'center', valign: 'middle' },
+                    { field: "LASTEDIT_BY", title: "TEST_EMP", align: 'center', valign: 'middle' },
+                    {
+                        field: "DELETE", title: "DELETE", align: 'center', valign: 'middle',
+                        formatter: function (value, row, index) {
+                            return ['<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:"></lan></button >'].join('');
+                        },
+                        events: ColumnBtnClick
+                    }
+                ]
+            });
+            $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+        }
+
+        $(document).ready(function () {
+            $("#divNewRecord").hide();
+            $("#divRecordAction").hide();
+            $("#divFailDesc").hide();
+            parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "GetSeleteValue", {}, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.Type.length > 0) {
+                        for (var i = 0; i < e.Data.Type.length; i++) {
+                            $("#toolSelect").append(' <option value="' + e.Data.Type[i] + '">' + e.Data.Type[i] + '</option>');
+                            $("#newTypeSelect").append(' <option value="' + e.Data.Type[i] + '">' + e.Data.Type[i] + '</option>');
+                        }
+                        $("#newTypeSelect option:first").attr("selected", "selected");
+                        $("#toolSelect option:first").attr("selected", "selected");
+                    }
+                    if (e.Data.Line.length > 0) {
+                        for (var i = 0; i < e.Data.Line.length; i++) {
+                            $("#newLineSelect").append(' <option value="' + e.Data.Line[i] + '">' + e.Data.Line[i] + '</option>');
+                        }
+                        $("#newLineSelect option:first").attr("selected", "selected");
+                    }
+                    if (e.Data.Station.length > 0) {
+                        for (var i = 0; i < e.Data.Station.length; i++) {
+                            $("#newStationSelect").append(' <option value="' + e.Data.Station[i] + '">' + e.Data.Station[i] + '</option>');
+                        }
+                        $("#newStationSelect option:first").attr("selected", "selected");
+                    }
+                    ShowTable();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 60000,
+                        title: 'ERROR',
+                        btn: ['OK']
+                    }, function () { });
+                }
+            });
+
+            $("#btnToolNew").click(function () {
+                if (newRecordIndex != undefined || newRecordIndex != "") {
+                    layer.close(newRecordIndex);
+                }
+                newRecordIndex = layer.open({
+                    id: "NewRecord",
+                    type: 1,
+                    offset: "10px",
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Add New Record",
+                    area: ['40%', '60%'],
+                    content: $('#divNewRecord'),
+                    btn: ["Submit", "Cancel"],
+                    success: function (layero, index) {
+                        $("#divNewRecord").show();
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#txt_sn").val("").focus();
+                    },
+                    end: function () {
+                    },
+                    yes: function (index) {
+                        var inputData = {
+                            TYPE: $("#newTypeSelect").val(),
+                            LINE: $("#newLineSelect").val(),
+                            STATION: $("#newStationSelect").val(),
+                            SN: $("#txt_sn").val()
+                        }
+                        parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "AddNewRecord", inputData, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#txt_sn").val("").focus();
+                                layer.msg(e.Message, {
+                                    icon: 1,
+                                    time: 60000,
+                                    title: 'Tip',
+                                    btn: ['OK']
+                                }, function () { });
+                            } else {
+                                $("#txt_sn").select().focus();
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 60000,
+                                    title: 'ERROR',
+                                    btn: ['OK']
+                                }, function () { });
+                            }
+                        });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                        $("#divNewRecord").hide();
+                        ShowTable();
+                    }
+                });
+            });
+
+            $("#btnToolDownload").click(function () {
+                var table_option = $("#tableList").bootstrapTable("getOptions");
+                //var t = table_option.pageNumber;//table_option.pageSize,table_option.searchText
+                var inputData = {
+                    TYPE: $("#toolSelect").val(),
+                    STATUS: $("#toolStatus").val(),
+                    SEARCH_TEXT: table_option.searchText
+                }
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Executing,Please wait ...</span></div></div>"
+                });
+                
+                parent.client.CallFunction("MESStation.Config.OutLineTestConfig", "Download", inputData, function (e) {
+                    if (e.Status == "Pass") {
+                        var output = new OutputElements();
+                        output.File(e.Data.FileName, e.Data.FileContent);
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }
+                    layer.close(loadIndex);
+                });
+            });
+            $("#btnToolRefresh").click(function () {                
+                $("#tableList").bootstrapTable("refresh");
+            })
+            $('input:radio[name="optionsRadios"]').click(function (e) {
+                var _this = this;
+                if (_this.value == "FAIL") {
+                    $("#divFailDesc").show();
+                    $("#divFailDesc").find('input [type="text"]').val("").focus();
+                }
+                else {
+                    $("#divFailDesc").hide();
+                }
+            });
+            $("#toolSelect").change(function (e) {
+                ShowTable();
+            });
+            $("#toolStatus").change(function (e) {
+                ShowTable();
+            });
+        });
+    </script>
+</body>
+</html>

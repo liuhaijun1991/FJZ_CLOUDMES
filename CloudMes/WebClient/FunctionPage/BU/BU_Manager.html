@@ -1,0 +1,747 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Skuno Control</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ">
+        <div>
+           
+            <div class="row row-lg rr">
+                <div class="col-sm-2 col-lg-1">
+                    <nav class="navbar navbar-fixed-side menu_trai" style="margin-left:-20px;">
+                        
+                        <ul class="nav nav-stacked ul1 " id="ul1">
+                           
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-sm-10 col-lg-11">
+                   
+                   <div id="content" style="display:none;">
+                        <h1 id="bu_name" style="display:none;">   </h1>
+                        <div class="bootstrap-table" style="margin-top:50px;">
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                     <!--toolbar_in_up_del-->
+                                    <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-default"  onclick="Add()">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> <lan set-lan="html:add">添加</lan>
+                                        </button>
+                                         <button type="button" class="btn btn-outline btn-default" onclick="Edit()">
+                                            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i><lan set-lan="html:edit">修改</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default"  onclick="Delete()">
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">刪除</lan>
+                                        </button>
+                                    </div>
+                                    <!--end-toolbar_in_up_del-->
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover table-responsive" id="ViewTable2">   </table>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+     <!--Modal_edit---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel" set-lan="html:EditThrowPoint">Modify</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group" style="display:none;">
+                            <label for="recipient-name" class="control-label" style="">ID:</label>
+                            <input type="text" class="form-control" name="ID_EDIT" id="ID_EDIT" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">NAME:</label>   <!--//combobox-->
+                          <select class="form-control" name="NAME_EDIT" id="NAME_EDIT">
+                                
+                          </select>
+                        </div>
+                        <div class="form-group"  style="display:none;">
+                            <label for="message-text" class="control-label">SUBSITE:</label>
+                            <input type="text" class="form-control" name="SUBSITE_EDIT" id="SUBSITE_EDIT" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">VALUE:</label> <!--//combobox-->
+                            <select class="form-control" name="VALUE_EDIT" id="VALUE_EDIT">
+                                <option>  BPD </option>
+                                <option>  BTSE </option>
+                                <option>  BTSN </option>
+                                <option>  CPD </option>
+                            </select>
+                           
+                        </div>
+                        <div class="form-group"  style="display:none;">
+                            <label for="message-text" class="control-label">SEQ_NO:</label>
+                            <input type="text" class="form-control" name="SEQ_NO_EDIT" id="SEQ_NO_EDIT" readonly>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="press_edit_popup();"><i class="fa fa-save"></i><lan set-lan="html:save"> &nbsp;Submit</lan></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"   ><i class="fa fa-close"></i><lan set-lan="html:close"> &nbsp; Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end________Modal_edit---------------------------------------------------------------------------------------->
+    <!--Modal_delete---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1" >Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group"  style="display:none;">
+                            <label for="recipient-name" class="control-label"  style="">ID:</label>
+                            <input type="text" class="form-control" name="ID_DEL" id="ID_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">NAME:</label>
+                            <input type="text" class="form-control" name="NAME_DEL" id="NAME_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" >SUBSITE:</label>
+                            <input type="text" class="form-control" name="SUBSITE_DEL" id="SUBSITE_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">VALUE:</label>
+                            <input type="text" class="form-control" name="VALUE_DEL" id="VALUE_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" >SEQ_NO:</label>
+                            <input type="text" class="form-control" name="SEQ_NO_DEL" id="SEQ_NO_DEL" readonly>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="press_delete_popup();"><i class="fa fa-save"></i><lan > &nbsp; Submit</lan></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i><lan > &nbsp;Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end________Modal_delete---------------------------------------------------------------------------------------->
+
+    <!--Modal_insert---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_insert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel" set-lan="html:EditThrowPoint">添加</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                       
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">NAME:</label>   <!--//combobox-->
+                            <input type="text" class="form-control" name="NAME_INSERT" id="NAME_INSERT" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">VALUE:</label> <!--//combobox-->
+                            <select class="form-control" name="VALUE_INSERT" id="VALUE_INSERT">
+                                <option>  BPD </option>
+                                <option>  BTSE </option>
+                                <option>  BTSN </option>
+                                <option>  CPD </option>
+                            </select>
+                        </div>
+                       
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="press_insert_popup();"><i class="fa fa-save"></i><lan set-lan="html:save"> &nbsp;Submit</lan></button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal"><i class="fa fa-close"></i><lan set-lan="html:close"> &nbsp; Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end__Modal_insert---------------------------------------------------------------------------------------->
+    <!--Modal_addbu---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_addBU" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1">Add BU</h4>
+                </div>
+                <div class="modal-body" >
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label" style="">BU NAME:</label>
+                            <input type="text" class="form-control" name="BU_add" id="BU_add">
+                        </div>
+                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="press_addbu_popup();"><i class="fa fa-save"></i><lan> &nbsp; Submit</lan></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i><lan> &nbsp;Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!--end________Modal_addBU---------------------------------------------------------------------------------------->
+
+
+    
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+   
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript" lang="javascript">
+       
+        var data_old_edit;
+        var data_new_edit;
+       
+        function addBu()   //add bu at left menu
+        {
+            $("#Modal_addBU").modal();
+            
+        }
+       function press_addbu_popup()
+        {
+            if($("#BU_add").val().trim()!="")
+            {
+                var BU = $("#BU_add").val().trim();
+                var p = "{\"BU\":\""+BU+"\"}";
+                self.parent.client.CallFunction("MESStation.Config.BUConfig", "AddNewBU", JSON.parse(p), function (e) {
+                    if (e.Status == "Pass")
+                    {
+                      
+                        if (e.MessageCode == "MES00000002")  //ADD OK
+                        {
+                            $("#Modal_addBU").modal('hide');
+                            swal({
+                                title: "Success",
+                                text: "Add success",
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            load_all_buname();
+                        }
+                      
+                    }
+                    else 
+                    {
+                        if (e.MessageCode == "MES00000005")
+                        {
+                            swal({
+                                title: "ALERT",
+                                text: "Fail",
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                        else
+                        {
+                            swal({
+                                title: "ALERT",
+                                text: e.MessageCode,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                  
+                    }
+                });
+            }
+        }
+       function press_insert_popup()
+        {
+            var NAME = $("#NAME_INSERT").val().trim();
+            var VALUE = $("#VALUE_INSERT").val();
+            var p = "{\"NAME\":\"" + NAME + "\",\"VALUE\":\"" + VALUE + "\"}";
+            self.parent.client.CallFunction("MESStation.Config.BUExConfig", "Insert", JSON.parse(p), function (e) {
+                if (e.Status == "Pass") {
+                    if (e.MessageCode == "Insert Fail") {
+                        console.log(e);
+                        swal({
+                            title: "ALERT",
+                            text: e.MessageCode,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }  
+                    else if (e.MessageCode == "Insert success")
+                    {   // Delete success
+                        $("#Modal_insert").modal('hide');
+                        swal({
+                            title: "Success",
+                            text: e.MessageCode,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                       
+                        load_data($("#bu_name").text());
+                    }
+                    else  if (e.MessageCode == "Error name and value existed") 
+                    {
+                        swal({
+                            title: "ALERT",
+                            text: e.MessageCode,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+
+                   
+                }
+                else {
+                    swal({
+                        title: "ALERT",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+       function press_delete_popup()  // when press submit button on delete popup ,event delete
+       {
+           var ID = $("#ID_DEL").val();
+           var SEQ_NO = $("#SEQ_NO_DEL").val();
+           var NAME = $("#NAME_DEL").val();
+           var p = "{\"ID\":\"" + ID + "\",\"SEQ_NO\":\"" + SEQ_NO + "\"}";
+           self.parent.client.CallFunction("MESStation.Config.BUExConfig", "DeleteBuExByIDSEQNO", JSON.parse(p), function (e) {
+               if (e.Status == "Pass") {
+                   if (e.MessageCode == "Delete Fail") 
+                   {
+                       console.log(e);
+                       swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                   }
+                   else  if (e.MessageCode == "Delete success")
+                   {   // Delete success
+                       $("#Modal_delete").modal('hide');
+                       swal({
+                           title: "Success",
+                           text: e.MessageCode,
+                           type: "success",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                       // reload data follow NAME
+                       load_data($("#bu_name").text());
+                      // load_table(NAME);
+                   }
+                
+               }
+               else {
+                   swal({
+                       title: "ALERT",
+                       text: e.MessageCode,
+                       type: "warning",
+                       timer: 2000,
+                       showConfirmButton: false
+                   });
+               }
+           });
+       }
+         
+       function press_edit_popup()   // when press submit button on edit popup ,event edit
+       {
+           data_new_edit = { ID: $("#ID_EDIT").val(), SEQ_NO: parseInt($("#SEQ_NO_EDIT").val(), 10), NAME: $("#NAME_EDIT").val(), VALUE: $("#VALUE_EDIT").val(), SUBSITE: $("#SUBSITE_EDIT").val() };  //CHU Y
+           console.log(data_old_edit);
+           console.log(data_new_edit);
+
+           var old_data_obj = JSON.stringify(JSON.stringify(data_old_edit));
+           var new_data_obj = JSON.stringify(JSON.stringify(data_new_edit));
+           param = "{\"old_data_obj\":" + old_data_obj + ",\"new_data_obj\":" + new_data_obj + "}";
+           console.log(param);
+           self.parent.client.CallFunction("MESStation.Config.BUExConfig", "Update", JSON.parse(param), function (e) {
+               if (e.Status == "Pass") {
+                   if (e.MessageCode == "Update success")
+                   {   
+                       console.log(e);
+                       $("#Modal_edit").modal('hide');
+                       swal({
+                           title: "Success",
+                           text: e.MessageCode,
+                           type: "success",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                       load_data($("#bu_name").text());
+
+                   }
+                   else if (e.MessageCode == "Update Fail")
+                   {
+
+                       console.log(e);
+                       swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                   }   
+                   else if (e.MessageCode == "Update fail new name and value existed")
+                    {
+                        swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+
+                   }        
+                 
+               }
+               else
+               {
+                   swal({
+                       title: "ALERT",
+                       text: e.MessageCode,
+                       type: "warning",
+                       timer: 2000,
+                       showConfirmButton: false
+                   });
+               }
+               
+           });
+       }
+       function check_select_one()
+       {   
+           var arrselections = $("#ViewTable2").bootstrapTable('getSelections');
+           if (arrselections.length > 1) {
+              
+               swal({
+                   title: "ALERT",
+                   text: "Only one row can be selected for editing",
+                   type: "warning",
+                   timer: 2000,
+                   showConfirmButton: false
+               });
+               return false;
+           }
+           else
+           if (arrselections.length <= 0) {
+                
+               swal({
+                   title: "ALERT",
+                   text: "Please select valid data",
+                   type: "warning",
+                   timer: 2000,
+                   showConfirmButton: false
+               });
+               return false;
+           }
+           var rowobject = { ID: arrselections[0].ID, SEQ_NO: arrselections[0].SEQ_NO , NAME: arrselections[0].NAME, VALUE: arrselections[0].VALUE, SUBSITE: arrselections[0].SUBSITE };
+            return rowobject;
+            
+        }
+
+        function Edit()   // when press edit button
+        {
+           
+            if (check_select_one() == false) { }
+            else
+            {
+                    data_old_edit = check_select_one();
+                    $("#ID_EDIT").val(data_old_edit.ID);
+                    $("#NAME_EDIT").val(data_old_edit.NAME);  //combobox drop from db
+                    $("#SUBSITE_EDIT").val(data_old_edit.SUBSITE);
+                    $("#VALUE_EDIT").val(data_old_edit.VALUE);  //combobox local
+                    $("#SEQ_NO_EDIT").val(data_old_edit.SEQ_NO);
+                    $("#Modal_edit").modal();
+                    console.log(data_old_edit);
+               
+            }
+          
+        }
+        function Delete()     // when press delete button
+        {
+            if (check_select_one() == false) { }
+            else
+            {
+                var data = check_select_one();
+                //drop data to popup
+                $("#ID_DEL").val(data.ID);
+                $("#NAME_DEL").val(data.NAME);
+                $("#SUBSITE_DEL").val(data.SUBSITE);
+                $("#VALUE_DEL").val(data.VALUE);
+                $("#SEQ_NO_DEL").val(data.SEQ_NO);
+                $("#Modal_delete").modal();
+            }
+            
+        }
+        function Add()
+        {
+        
+            var NAME = $("#bu_name").text();
+            $("#NAME_INSERT").val(NAME);
+            if (NAME.trim() != "")
+            {
+                $("#Modal_insert").modal();
+            }
+
+       
+        }
+
+        function load_data(buname) 
+        {
+            var datareset = [];
+            $("#ViewTable2").bootstrapTable("load", datareset);
+            param = "{\"BUNAME\":\""+buname+"\"}";
+            self.parent.client.CallFunction("MESStation.Config.BUExConfig", "GetBuExByName", JSON.parse(param), function (e) {
+                if (e.Status == "Pass")
+                {
+                    if (e.MessageCode == "MES00000034")
+                    {
+                         $("#content").show('slide', 500);
+                    }
+                    else if (e.MessageCode == "MES00000033")
+                        // have data about BUName
+                    {
+                        console.log(e.Data);  
+                        $("#ViewTable2").bootstrapTable("load", e.Data);
+                       
+                    }
+                         
+                }
+                else
+                {
+                    swal({
+                        title: "ALERT",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                }
+                $("#content").show('slide', 500);
+            });
+        }
+        function load_table(bu)   // when press an item at left menu
+        {
+           
+            var z = $("#" + bu.id).parent().parent().children("li");
+            for (var i = 0; i < z.length; i++) {
+
+                if ($(z[i].innerHTML).hasClass("press"))
+                {
+                    var id1 = $(z[i].innerHTML).attr("id");
+                    $("#" + id1).removeClass("press");
+                    $("#" + id1).css({'background-color':'#e5e6e5','color':'#756b6b'});
+                    console.log("co");
+                    console.log(id1);  
+                }
+                else {
+                    console.log("ko");
+                }
+            }
+            $("#" + bu.id).addClass("press");
+            $("#" + bu.id).css({ 'background-color': 'black', 'color': 'white' });
+            
+            $("#content").hide();
+            $("#bu_name").text(bu.innerText);
+            load_data(bu.innerText);
+         
+        }
+        function load_all_buname()
+        {   
+            var p = "{\"BU\":\"\"}";
+            self.parent.client.CallFunction("MESStation.Config.BUConfig", "QueryBU", JSON.parse(p), function (e) {
+                if (e.Status == "Pass")
+                {
+                    if (e.MessageCode == "MES00000033")
+                        // have data about BUName
+                    {
+
+                        var bu = "";
+                        var buname = '';
+                        console.log(e);
+                        for (var i = 0; i < e.Data.length; i++) {
+                            buname = e.Data[i].toString();
+                            bu += '<li> <a href="#" onclick="load_table(this);" id="mntitem' + i.toString() + '"> ' + buname + ' </a></li>';
+
+                        }
+                        bu += '<li> <a href="#" id="AddNew" onclick="addBu();" title="Add new BU"  > + </a></li>';
+                        $(".ul1").html(bu); console.log(bu);
+                        load_all_buname_edit();
+
+                    }
+
+                }
+                else {
+                     // console.log(e);
+                        swal({
+                            title: "ALERT",
+                            text: e.MessageCode,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                     }
+               
+            });
+           
+        }
+
+
+        function load_all_buname_edit()
+        {   
+             var p = "{\"BU\":\"\"}";
+            self.parent.client.CallFunction("MESStation.Config.BUConfig", "QueryBU", JSON.parse(p), function (e) {
+                if (e.Status == "Pass")
+                {
+                    if (e.MessageCode == "MES00000033")
+                        // have data about BUName
+                    {
+                         var bunames ='';
+                        var buname = '';
+                        console.log(e);
+                        for (var i = 0; i < e.Data.length; i++) {
+                            buname = e.Data[i].toString();
+                            bunames += '<option>' + buname + '</option>';
+                        }
+                        $("#NAME_EDIT").html(bunames); console.log(bunames);
+                      
+                    }
+                  
+                }
+                else
+                {   console.log(e);
+                    swal({
+                        title: "ALERT",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                 }
+                
+            });
+         
+        }
+
+      
+        $(document).ready(function () {
+
+          
+            // load menu BU NAME
+            load_all_buname();
+          
+                //////////////datatable
+            $("#ViewTable2").bootstrapTable({
+                    showColumns:false,
+                    showRefresh:false,
+                    striped: true,
+                    cache: false,
+                    pagination: true,
+                    sidePagination: "client",
+                    pageNumber: 1,
+                    pageSize: 5,
+                    pageList: [5, 15, 30, 70],
+                    search: true,
+                    strictSearch: true,
+                    searchOnEnterKey: false,
+                    clickToSelect: true,
+                    minimumCountColumns: 3,
+                    showToggle: true,
+                    cardView: false,
+                    detailView: false,
+                    dataType: "json",
+                    method: "post",
+                    searchAlign: "right",
+                    buttonsAlign: "right",
+                    toolbarAlign: "right",
+                    columns: [
+                        {
+                            field: 'select',
+                            title: 'select',
+                            checkbox: true
+                        },
+                        { 
+                            field: 'ID',
+                            title: 'ID',
+                            align: 'center',
+                            visible: false
+                        }, {
+                            field: 'NAME',
+                            title: 'NAME',
+                            align: 'center'
+                        },
+                     {
+                         field: 'SUBSITE',
+                         title: 'SUB SITE',
+                         align: 'center'
+                     },
+                    {
+                        field: 'VALUE',
+                        title: 'VALUE',
+                        align: 'center'
+                    },
+                    {
+                        field: 'SEQ_NO',
+                        title: 'SEQ_NO',
+                        align: 'center'
+                    }],
+                    locale: "zh-CN"
+                });
+            
+            /////// 
+        
+
+           });
+    </script>
+</body>
+</html>

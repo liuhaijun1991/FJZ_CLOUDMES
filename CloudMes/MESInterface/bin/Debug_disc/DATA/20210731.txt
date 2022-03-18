@@ -1,0 +1,55 @@
+{
+  "Inputs": [
+    {
+      "InputType": "TXT",
+      "Name": "SKU",
+      "Value": "",
+      "ValueForUse": null,
+      "API": "",
+      "APIPara": "",
+      "RefershType": "",
+      "Enable": true,
+      "SendChangeEvent": false,
+      "EnterSubmit": false
+    },
+    {
+      "InputType": "Select",
+      "Name": "TYPE",
+      "Value": "PCBA",
+      "ValueForUse": [
+        "PCBA",
+        "MODEL",
+        "CTO",
+        "OPTICS"
+      ],
+      "API": "",
+      "APIPara": "",
+      "RefershType": "",
+      "Enable": true,
+      "SendChangeEvent": false,
+      "EnterSubmit": false
+    }
+  ],
+  "Outputs": [
+    {
+      "AlartType": "warning",
+      "ColCount": 12,
+      "ColNum": 0,
+      "RowNun": 0,
+      "Msg": "SqlSugar.SqlSugarException: English Message : Connection open error . Connection request timed out\r\nChinese Message :  连接数据库过程中发生错误，检查服务器是否正常连接字符串是否正确，实在找不到原因请先Google错误信息：Connection request timed out.\r\n   at SqlSugar.AdoProvider.GetDataSetAll(String sql, SugarParameter[] parameters)\r\n   at MESDBHelper.OleExec.RunSelect(String strSQL)\r\n   at MESReport.BaseReport.SKUWOReport.Run()",
+      "OutputType": "ReportAlart"
+    }
+  ],
+  "Sqls": {},
+  "RunSqls": [
+    "SELECT SKUNO, WORKORDERNO ,CLOSED_FLAG,WORKORDER_QTY,START_STATION, trunc ( sysdate - DOWNLOAD_DATE) DAYS,SKU_VER,INPUT_QTY,FINISHED_QTY,ROUTE_ID FROM R_WO_BASE w WHERE 1=1   AND EXISTS (SELECT *\r\n                                  FROM C_SKU S\r\n                                 WHERE W.SKUNO = S.SKUNO\r\n                                   AND S.SKU_TYPE = 'PCBA')",
+    "SELECT *\r\n                                  FROM (SELECT a.*,\r\n                                               ROW_NUMBER() OVER(PARTITION BY STATION_NAME, SKU_TYPE ORDER BY SEQ_NO DESC) numbs\r\n                                          FROM (SELECT DISTINCT CASE\r\n                                                                  WHEN R.STATION_NAME LIKE '%LOADING%' THEN\r\n                                                                   'LOADING'\r\n                                                                  ELSE R.STATION_NAME\r\n                                                                END STATION_NAME,\r\n                                                                R.SEQ_NO,\r\n                                                                S.SKU_TYPE\r\n                                                  FROM C_SKU S, C_ROUTE_DETAIL R, R_SKU_ROUTE SR\r\n                                                 WHERE S.ID = SR.SKU_ID\r\n                                                   \r\n                                                   AND R.ROUTE_ID = SR.ROUTE_ID\r\n                                                   AND S.SKU_TYPE = 'PCBA'\r\n                                                ) a)\r\n                                 WHERE numbs = 1\r\n                                 ORDER BY SKU_TYPE, SEQ_NO"
+  ],
+  "AutoRun": false,
+  "LayoutRows": 1,
+  "LayoutCols": 1,
+  "PaginationServer": false,
+  "PageNumber": 0,
+  "PageSize": 0,
+  "isCallBack": false
+}

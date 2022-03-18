@@ -1,0 +1,863 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+        }
+
+        .repair-nav-tabs > li > a {
+            padding: 5px 15px 0 15px !important;
+            margin-left: 0px !important;
+        }
+
+        .repair-nav-tabs > li.active {
+            border-left: 0px solid #f9f7f7;
+            background-color: #f5f5f5;
+        }
+
+        .repair-nav-tabs {
+            background-color: #f5f5f5;
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+            .repair-nav-tabs li h3 {
+                font-size: inherit;
+            }
+
+            .repair-nav-tabs > li.active > a,
+            .repair-nav-tabs > li.active > a:hover,
+            .repair-nav-tabs > li.active > a:focus {
+                color: #fff;
+                background-color: #007bff !important;
+                border: 1px solid #337ab7;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                font-size: inherit;
+                font-weight: 600;
+            }
+        /*.repair-nav-tabs > li.active {
+            border-left:0;
+            border-right:0;
+            background-color: #f8ac59;
+        }
+        .repair-nav-tabs > li {
+            margin-bottom: 0;
+        }*/
+
+        .fieldset-border {
+            /*margin: 0;*/
+            padding-top: -10px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            /*padding-right: 30px;*/
+            border: 1px solid silver;
+            border-radius: 4px;
+            border-color: #e7eaec;
+            margin-bottom: 5px;
+            border-color: #f8ac59;
+        }
+
+        .legend-border {
+            padding: 0 5px;
+            width: auto;
+            border: 0;
+            font-size: inherit;
+            font-weight: 600;
+            margin-bottom: 0px;
+            /*color:#337ab7;*/
+        }
+
+        .border-primary {
+            border-color: #337ab7;
+        }
+
+        .list-inline li {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .tab-pane table, .panel table {
+            margin-bottom: 0;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .no-border {
+            border: 0;
+        }
+
+        h3 label, h3 span {
+            padding-left: 10px;
+        }
+
+        button lan {
+            padding-left: 5px;
+        }
+
+        .padding-top-5 {
+            padding-top: 5px !important;
+        }
+
+        .padding-right-15 {
+            padding-right: 15px !important;
+        }
+
+        .form-group input, .form-group select {
+            /*box-shadow: inset 0px 0px 1px #bcbcbc;*/
+            border-radius: 5px;
+        }
+
+        .tab-pane table {
+            border-radius: 0px;
+        }
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+            .repair-output .form-group label {
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+            .repair-output .form-group div {
+                padding-top: 7px;
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+        .table-tr-background-color {
+            background-color: #f8ac59 !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-horizontal .control-label {
+                padding-top: 7px;
+                margin-bottom: 0;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3 class="no-padding no-margins">
+                <i class="glyphicon glyphicon-tags"></i>
+                <span style="padding-left:10px;" set-lan="html:PassStation">Repair Station</span>
+                <button class="btn btn-default small" id="btnReset">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:Reset">Reset</lan>
+                </button>
+                <button class="btn btn-default small" id="btnResetLine">
+                    <i class="glyphicon glyphicon-refresh"></i> <lan set-lan="html:ReSetLine">Reset Line</lan>
+                </button>
+                <button class="btn btn-default small" id="btnNewFailCode">
+                    <i class="glyphicon glyphicon-file"></i> <lan set-lan="html:NewFailCode">NewFailCode</lan>
+                </button>
+                <button class="btn btn-default small" id="btnCheckOut">
+                    <i class="glyphicon glyphicon-log-out"></i> <lan set-lan="html:NewFailCode">CheckOut</lan>
+                </button>
+            </h3>
+        </div>
+        <div class="ibox-content padding-top-5">
+            <div id="divRepair" class="row form-horizontal">
+                <div id="divRepairInputSn" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" id="divRepairSN">
+                        <!--<div class="form-group" view-group="SN_00001">
+                            <label for="SN_00001" class="col-xs-2 control-label text-right">SN:</label>
+                            <div class="col-xs-10">
+                                <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="">
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="col-xs-10 col-sm-6 col-md-8 col-lg-8" id="divRepairOut">
+                        <div id="divRepairSkuno" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 repair-output">
+                            <!--<div class="form-group" view-group="Skuno_00001">
+                                <label for="Skuno_00001" class="col-xs-4 control-label text-right">Skuno:</label>
+                                <div class="col-xs-8">
+                                    <u id="Skuno_00001" class="form-control-static">VT02130969</u>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div id="divRepairWO" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 repair-output">
+                            <!--<div class="form-group" view-group="RepairWO_00001">
+                                <label for="RepairWO_00001" class="col-xs-4 control-label text-right">WO:</label>
+                                <div class="col-xs-8" style="width: auto;">
+                                    <u id="RepairWO_00001" class="form-control-static">002332000001</u>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div id="divRepairCount" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 repair-output">
+                            <!--<div class="form-group" view-group="RepairCount_00001">
+                                <label for="RepairCount_00001" class="col-xs-8 control-label text-right">RepairedCount:</label>
+                                <div class="col-xs-4">
+                                    <u id="RepairCount_00001" class="form-control-static">3</u>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepairList" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div div class="panel panel-default">
+                        <div class="tab-">
+                            <ul class="nav nav-tabs repair-nav-tabs">
+                                <li class="active" style="padding-left:0px;margin-left:0px;">
+                                    <a href="#divFailCodeList" data-toggle="tab">
+                                        <h3>Fail Code List</h3>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#divRepairActionList" data-toggle="tab">
+                                        <h3>Repair Action List</h3>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="divFailCodeList">
+                            </div>
+                            <div class="tab-pane fade" id="divRepairActionList">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepairAction" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Repair Action</h3>
+                        </div>
+                        <div class="panel-body  no-padding padding-top-5">
+                            <div id="divRepairBase" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div id="divFailCodeID" class="col-xs-10 col-sm-6 col-md-4 col-lg-4 " hidden>
+
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="form-group" view-group="">
+                                        <label for="" class="col-xs-5 control-label text-right">Fail Code:</label>
+                                        <div class="col-xs-7">
+                                            <input id="uFialCode" type="text" class="form-control" placeholder="Fail Code" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divActionCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="ActionCode_00001">
+                                        <label for="ActionCode_00001" class="col-xs-5 control-label text-right">Action Code:</label>
+                                        <div class="col-xs-7">
+                                            <input id="ActionCode_00001" type="text" class="form-control" placeholder="Action Code" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divPCBASN" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="LotCode_00001">
+                                        <label for="PCBASN_00001" class="col-xs-5 control-label text-right">PCBASN:</label>
+                                        <div class="col-xs-7">
+                                            <input id="PCBASN_00001" type="text" class="form-control" placeholder="PCBA SN" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divRootCause" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="RootCause_00001">
+                                        <label for="RootCause_00001" class="col-xs-5 control-label text-right">RootCause :</label>
+                                        <div class="col-xs-7">
+                                            <input id="RootCause_00001" type="text" class="form-control" placeholder="Root Cause" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divProcess" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="Process_00001">
+                                        <label for="Process_00001" class="col-xs-5 control-label text-right">Process :</label>
+                                        <div class="col-xs-7">
+                                            <input id="Process_00001" type="text" class="form-control" placeholder="Process" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divLocation" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="Location_00001">
+                                        <label for="Location_00001" class="col-xs-5 control-label text-right">Location :</label>
+                                        <div class="col-xs-7">
+                                            <input id="Location_00001" type="text" class="form-control" placeholder="Location" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divSection" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="Section_00001">
+                                        <label for="Section_00001" class="col-xs-5 control-label text-right">Section :</label>
+                                        <div class="col-xs-7">
+                                            <input id="Duty_00001" type="text" class="form-control" placeholder="Section" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divReturnStation" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="ReturnStation_00001">
+                                        <label for="ReturnStation_00001" class="col-xs-5 control-label text-right">ReturnStation:</label>
+                                        <div class="col-xs-7">
+                                            <input id="ReturnStation_00001" type="text" class="form-control" placeholder="Return Station" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" id="divItems">
+                                    <!--<div class="form-group" view-group="Process_00001">
+                                        <label for="Items_00001" class="col-xs-5 control-label text-right">Items:</label>
+                                        <div class="col-xs-7">
+                                            <select id="Items_00001" class="form-control" placeholder="placeholder" aria-describedby="basic-addon1">
+                                                <option value="Item1" selected>Item1</option>
+                                                <option value="Item2">Item2</option>
+                                                <option value="Item3">Item3</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divSonItems" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="SmallItem_00001">
+                                        <label for="SmallItem_00001" class="col-xs-5 control-label text-right">Son Items:</label>
+                                        <div class="col-xs-7">
+                                            <select id="SmallItem_00001" class="form-control" placeholder="placeholder" aria-describedby="basic-addon1">
+                                                <option value="SonItem1" selected>SonItem1</option>
+                                                <option value="SonItem2">SonItem2</option>
+                                                <option value="SonItem3">SonItem3</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divKeypartSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="LotCode_00001">
+                                        <label for="KeypartSN_00001" class="col-xs-5 control-label text-right">KeypartSN:</label>
+                                        <div class="col-xs-7">
+                                            <input id="KeypartSN_00001" type="text" class="form-control" placeholder="Keypart SN" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <!--<div id="divReturnStation" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="form-group" view-group="ReturnStation_00001">
+                                        <label for="ReturnStation_00001" class="col-xs-5 control-label text-right">ReturnStation:</label>
+                                        <div class="col-xs-7">
+                                            <input id="ReturnStation_00001" type="text" class="form-control" placeholder="Return Station" value="">
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:1px solid #ddd;padding-top:5px;">
+                                <div id="divTRSN" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="TRSN_00001">
+                                        <label for="TRSN_00001" class="col-xs-5 control-label text-right">TR_SN:</label>
+                                        <div class="col-xs-7">
+                                            <input id="TRSN_00001" type="text" class="form-control" placeholder="TR_SN" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divKPNO" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="KPNO_00001">
+                                        <label for="KPNO_00001" class="col-xs-5 control-label text-right">KP_NO:</label>
+                                        <div class="col-xs-7">
+                                            <input id="KPNO_00001" type="text" class="form-control" placeholder="KP NO" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divMFRName" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="MFRName_00001">
+                                        <label for="MFRName_00001" class="col-xs-5 control-label text-right">MFR Name:</label>
+                                        <div class="col-xs-7">
+                                            <input id="MFRName_00001" type="text" class="form-control" placeholder="MFR Name" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divDateCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="DateCode_00001">
+                                        <label for="DateCode_00001" class="col-xs-5 control-label text-right">Date Code:</label>
+                                        <div class="col-xs-7">
+                                            <input id="DateCode_00001" type="text" class="form-control" placeholder="Date Code" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divLotCode" class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                    <!--<div class="form-group" view-group="LotCode_00001">
+                                        <label for="LotCode_00001" class="col-xs-5 control-label text-right">Lot Code:</label>
+                                        <div class="col-xs-7">
+                                            <input id="LotCode_00001" type="text" class="form-control" placeholder="Lot Code" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:1px solid #ddd;padding-top:5px;">
+                                <div id="divDescription" class="col-xs-10 col-sm-10 col-md-6 col-lg-6">
+                                    <!--<div class="form-group" view-group="Description_00001">
+                                        <label for="Description_00001" class="col-xs-3 control-label text-right">Description:</label>
+                                        <div class="col-xs-9">
+                                            <input id="Description_00001" type="text" class="form-control" placeholder="Description" value="">
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div id="divRepairButton" class="col-xs-10 col-sm-10 col-md-6 col-lg-6">
+                                    <div id="divRepairSaveOne" class="col-xs-3 col-xs-offset-3 col-sm-3 col-sm-offset-3 col-md-4 col-md-offset-0 col-lg-3 col-lg-offset-0">
+                                        <!--<div class="form-group" view-group="CLICKBUTTON_RepairSaveOne">
+                                            <label for="CLICKBUTTON_RepairSaveOne" class="col-xs-0 control-label text-right"></label>
+                                            <div class="col-xs-10">
+                                                <button class="btn btn-primary small" id="CLICKBUTTON_RepairSaveOne" name="SaveAction" value="">
+                                                    Save Action
+                                                </button>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <div id="divRepairSaveAll" class="col-xs-3 col-xs-offset-3 col-sm-3 col-sm-offset-3 col-md-4 col-md-offset-0 col-lg-3 col-lg-offset-0">
+                                        <!--<div class="form-group" view-group="CLICKBUTTON_Save">
+                                            <label for="CLICKBUTTON_Save" class="col-xs-0 control-label text-right"></label>
+                                            <div class="col-xs-10">
+                                                <button class="btn btn-primary small" id="CLICKBUTTON_Save" name="Save" value="">
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepariMsg" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="panel-body no-padding" id="divMessage">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="check-out-div" class="hidden" style="padding-top:10px;">
+        <div class="form-horizontal">
+            <div class="form-group col-xs-12">
+                <label class="col-xs-2 control-label text-right">SN:</label>
+                <div class="col-xs-9">
+                    <input id="checkout_sn" type="text" class="form-control" placeholder="SN" value="">
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-xs-2 control-label text-right"></label>
+                <div class="col-xs-9">
+                    <button type="button" class="btn btn-success" id="doCheckOut">CheckOut</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var option = null;
+        var line = "Line1";
+        var repairStaion = null;
+        var stationName = $.MES.getQueryString("StationName");
+        var keypressEvent = jQuery.Event("keypress");//模拟一个键盘事件
+        keypressEvent.keyCode = 13;//keyCode=13是回车
+
+        var reset = function (e) {
+            self.parent.Loading(true);
+            $("#divMessage").empty();
+            option.ScanType = repairStaion.ScanType;
+            repairStaion = new MesStation(option);
+        }
+        $(document).ready(function () {
+            line = localStorage.getItem($.MES.CK_LINE_NAME);
+            if (!line) {
+                line = "Line1";
+            }
+            option = {
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                //IScale:"4:8",
+                //IContainer: $("#inputsite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    StationInit(repairStaion, d, RepairInit);
+                }
+            }
+
+            repairStaion = new MesStation(option);
+
+            $("#btnReset").on("click", function (e) {
+                reset();
+            });
+            $("#btnResetLine").on("click", function (e) {
+                repairStaion.Line = "Line1";
+                localStorage.setItem($.MES.CK_LINE_NAME, "");
+                option.ScanType = repairStaion.ScanType;
+                repairStaion = new MesStation(option);
+            });
+
+            $("#uFialCode").attr("disabled", true);
+
+            $("#btnNewFailCode").on("click", function () {
+                layer.open({
+                    id: this.Serialno,
+                    type: 2,
+                    title: ['New Fail Code', 'background-color: #007bff;font-size: 1.75rem;color:White;'],
+                    skin: 'demo-class',
+                    closeBtn: 1,
+                    shadeClose: false,
+                    shade: 0.5,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['50%', '75%'],
+                    content: ['NewFailCode.html'], //iframe的url，no代表不显示滚动条
+                    cancel: function (index) {                        
+                        reset();
+                    }
+                });
+            })
+
+            $("#btnCheckOut").on("click", function (e) {
+                layer.open({
+                    id: "check-out-div",
+                    type: 1,
+                    title: ['Repair Check Out', 'background-color: #007bff;font-size: 1.75rem;color:White;'],
+                    skin: 'demo-class',
+                    closeBtn: 1,
+                    shadeClose: false,
+                    shade: 0.5,
+                    maxmin: false, //开启最大化最小化按钮
+                    area: ['30%', '30%'],
+                    content: $("#check-out-div"),
+                    offset: "30px",                    
+                    success: function (layero, index) {
+                        $("#check-out-div").removeClass("hidden");
+                        $(".layui-layer-title").addClass("new-pallet-title");
+                        $("#checkout_sn").focus().select();
+                    },
+                    end: function () {
+                        $("#check-out-div").addClass("hidden");
+                    },
+                    yes: function (index) {
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                        $("#check-out-div").addClass("hidden");
+                        reset();
+                    }
+                });
+            });            
+            $("#check-out-div").bind("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    DoCheckOut();                    
+                }
+            });
+            $("#doCheckOut").on("click", function (e) {
+                DoCheckOut();                
+            });
+        });
+
+        function StationInit(station, d, callback) {
+            if (d.Status == "Pass") {
+                station.ShowInput({
+                    InputName: "SN",
+                    Container: $("#divRepairSN")
+                });
+                station.ShowInput({
+                    InputName: "FailCodeID",
+                    Scale: "5:7",
+                    Enable: false,
+                    Container: $("#divFailCodeID")
+                });
+                station.ShowInput({
+                    InputName: "ActionCode",
+                    Scale: "5:7",
+                    Container: $("#divActionCode")
+                });
+                station.ShowInput({
+                    InputName: "PCBASN",
+                    Scale: "5:7",
+                    Container: $("#divPCBASN")
+                });
+                station.ShowInput({
+                    InputName: "RootCause",
+                    Scale: "5:7",
+                    Container: $("#divRootCause")
+                });
+                station.ShowInput({
+                    InputName: "Process",
+                    Scale: "5:7",
+                    Container: $("#divProcess")
+                });
+                station.ShowInput({
+                    InputName: "Location",
+                    Scale: "5:7",
+                    Container: $("#divLocation")
+                });
+                station.ShowInput({
+                    InputName: "Section",
+                    Scale: "5:7",
+                    Container: $("#divSection")
+                });
+                station.ShowInput({
+                    InputName: "Items",
+                    Scale: "5:7",
+                    Container: $("#divItems")
+                });
+                station.ShowInput({
+                    InputName: "Son_Items",
+                    Scale: "5:7",
+                    Container: $("#divSonItems")
+                });
+                station.ShowInput({
+                    InputName: "KeypartSN",
+                    Scale: "5:7",
+                    Container: $("#divKeypartSN")
+                });
+                station.ShowInput({
+                    InputName: "ReturnStation",
+                    Scale: "5:7",
+                    Container: $("#divReturnStation")
+                });
+                station.ShowInput({
+                    InputName: "TR_SN",
+                    Scale: "5:7",
+                    Container: $("#divTRSN")
+                });
+                station.ShowInput({
+                    InputName: "KP_NO",
+                    Scale: "5:7",
+                    Container: $("#divKPNO")
+                });
+                station.ShowInput({
+                    InputName: "MFR_Name",
+                    Scale: "5:7",
+                    Container: $("#divMFRName")
+                });
+                station.ShowInput({
+                    InputName: "Date_Code",
+                    Scale: "5:7",
+                    Container: $("#divDateCode")
+                });
+                station.ShowInput({
+                    InputName: "Lot_Code",
+                    Scale: "5:7",
+                    Container: $("#divLotCode")
+                });
+                station.ShowInput({
+                    InputName: "Description",
+                    Scale: "3:9",
+                    Container: $("#divDescription")
+                });
+                station.ShowInput({
+                    InputName: "SaveAction",
+                    Scale: "0:10",
+                    Container: $("#divRepairSaveOne")
+                });
+                station.ShowInput({
+                    InputName: "Save",
+                    Scale: "0:10",
+                    Container: $("#divRepairSaveAll")
+                });
+                station.ShowOutput({
+                    OutputName: "Skuno",
+                    Container: $("#divRepairSkuno")
+                });
+                station.ShowOutput({
+                    OutputName: "WO",
+                    Container: $("#divRepairWO")
+                });
+                station.ShowOutput({
+                    OutputName: "RepairedCount",
+                    Container: $("#divRepairCount")
+                });
+                station.ShowOutput({
+                    OutputName: "FAILCODE",
+                    Container: $("#divFailCodeList")
+                });
+                station.ShowOutput({
+                    OutputName: "REPAIRACTION",
+                    Container: $("#divRepairActionList")
+                });
+
+                if (typeof callback === "function") {
+                    callback(station, RepairInitCallback);
+                }
+            }
+            else {
+                swal("Station initialization failed!", d.Message, "error");
+            }
+        }
+
+        function RepairInit(station, callback) {
+            var failCodeID = $("#divFailCodeID").find("input[type=text]").val();
+            $("#FailHistory,#RepairHistory,#RepairInfo,#FailCodeList").find("table").css({ 'margin-bottom': '0' });
+            $("#divRepairSN").find("input[type=text]").select();
+            $("#divRepairSN").find("input[type=text]").focus();
+            if (failCodeID != "" && failCodeID != undefined) {
+                $("#FAILCODE tr").each(function (i) {
+                    if ($("#FAILCODE tr").eq(i).find("td:first").html() == failCodeID) {
+                        $("#FAILCODE tr").eq(i).addClass("table-tr-background-color");
+                    }
+                });
+            }
+            $("#FAILCODE").on("click-row.bs.table", function (e, row, ele) {
+                //給uFialCode賦值，并模擬輸入FailCodeID輸入
+                $("#divFailCodeID").find("input[type=text]").val(row.ID);
+                $("#uFialCode").val(row.FAIL_CODE);
+                $("#divFailCodeID").find("input[type=text]"
+                ).trigger(keypressEvent);//模拟輸入框按下回车
+                $("#divFailCodeID").find("input[type=text]").attr("disabled", true);
+
+                //自動帶出FAIL_CODE，并模擬輸入FAIL_CODE輸入
+                //$("#divReseaon").find("input[type=text]").val(row.FAIL_CODE);
+                //$("#divReseaon").find("input[type=text]").trigger(keypressEvent);//模拟輸入框按下回车
+
+                //自動帶出Location，并模擬輸入Location輸入
+                //$("#divLocation").find("input[type=text]").val(row.FAIL_LOCATION);
+                //$("#divLocation").find("input[type=text]").trigger(keypressEvent);//模拟輸入框按下回车
+
+                //$("#divProcess").find("select option[value='" + row.FAIL_PROCESS + "']").attr("selected", true);
+                //$("#divProcess").find("select").trigger("change");//模拟change事件
+
+                $('.table-tr-background-color').removeClass('table-tr-background-color');
+                $(ele).addClass('table-tr-background-color');
+            });
+            $.each($("#divFailCodeList").find(".bootstrap-table"), function () {
+                if ($(this).find(".fixed-table-body table").length == 0) {
+                    $(this).remove();
+                }
+            });
+            $.each($("#divRepairActionList").find(".bootstrap-table"), function () {
+                if ($(this).find(".fixed-table-body table").length == 0) {
+                    $(this).remove();
+                }
+            });
+
+            $("#FAILCODE tr").each(function (i, value) {
+                $($(value).find("th")[0]).hide();
+                $($(value).find("th")[1]).hide();
+                $($(value).find("td")[0]).hide();
+                $($(value).find("td")[1]).hide()
+            });
+            $("#divRepairSN").find("input[type=text]").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    StationReset();
+                }
+            });
+
+
+            if (typeof callback === "function") {
+                callback(station);
+            }
+        }
+
+        function RepairInitCallback(station) {
+            $("#divTRSN").find("input[type=text]").bind("change", function () {
+                $("#divKPNO").find("input[type=text]").attr("disabled", false);
+                $("#divKPNO").find("input[type=text]").val("");
+                $("#divMFRName").find("input[type=text]").attr("disabled", false);
+                $("#divMFRName").find("input[type=text]").val("");
+                $("#divDateCode").find("input[type=text]").attr("disabled", false);
+                $("#divDateCode").find("input[type=text]").val("");
+                $("#divLotCode").find("input[type=text]").attr("disabled", false);
+                $("#divLotCode").find("input[type=text]").val("");
+            });
+        }
+
+        function StationReset() {
+            //$("#divKPNO").find("input[type=text]").attr("disabled", false);
+            //$("#divMFRName").find("input[type=text]").attr("disabled", false);
+            //$("#divDateCode").find("input[type=text]").attr("disabled", false);
+            //$("#divLotCode").find("input[type=text]").attr("disabled", false);
+            $("#divRepairSkuno").find("u").html("");
+            $("#divRepairWO").find("u").html("");
+            $("#divRepairOut").find("u").html("");
+            $("#divFailCodeList").html("");
+            $("#divRepairActionList").html("");
+            $("#divFailCodeID").find("input[type=text]").val("");
+            $("#uFialCode").val("");
+            $("#divActionCode").find("input[type=text]").val("");
+            $("#divRootCause").find("input[type=text]").val("");
+            $("#divProcess").find("input[type=text]").val("");
+            $("#divLocation").find("input[type=text]").val("");
+            $("#divSection").find("input[type=text]").val("");
+            $("#divItems").find("input[type=text]").val("");
+            $("#divSonItems").find("input[type=text]").val("");
+            $("#divPCBASN").find("input[type=text]").val("");
+            $("#divTRSN").find("input[type=text]").val("");
+            $("#divKPNO").find("input[type=text]").val("");
+            $("#divMFRName").find("input[type=text]").val("");
+            $("#divDateCode").find("input[type=text]").val("");
+            $("#divLotCode").find("input[type=text]").val("");
+            $("#divDescription").find("input[type=text]").val("");
+        }
+
+        function DoCheckOut() {            
+            self.parent.client.CallFunction("MESStation.Config.DCN.DCNRepair", "RepairCheckOut", {
+                SN: $("#checkout_sn").val()
+            },function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 30000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () { });
+                        
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () { });
+                    }                    
+                });
+        }
+    </script>
+</body>
+</html>

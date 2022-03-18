@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .blockquote-elem-quote {
+            margin-bottom: -50px;
+            padding: 10px;
+            line-height: 20px;
+            border-left: 12px solid #708090;
+            background-color: #D8ECF6;
+            border-top-color: white;
+            border-bottom-color: white;
+            color: #336699;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        .total, total a {
+            background-color: aqua;
+            color: darkslategrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <blockquote class="layui-elem-quote layui-quote-nm blockquote-elem-quote"><i class="layui-icon layui-icon-auz" style="font-size: 20px; color: white;"></i>Aging Detail</blockquote>
+        <div id="TabelToolBar" style="margin-left:5px;margin-top:-1px;">
+            <button id="btnBonepileDetail" class="btn btn-default">Detail</button>
+        </div>
+        <table id="BonePileTable" class="table table-bordered text-center">
+        </table>
+    </div>
+    <!--</div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/contabs.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var ClassName = "MESJuniper.Api.MetricsDashboardApi";
+        var ClinetReady = 0;
+        var client = null;
+
+        var BonePileType;
+        var MODEL = {};
+        var skutxt = "";
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+
+        $(document).ready(function () {
+            $.MES.DEBUG = false;
+            BonePileType = getQueryString("BonePileType");
+            ClientInit();
+            $("#btnBonepileDetail").on("click", function (e) {
+                window.location.href = "MetricsBonePileDetailData.html?BonePileType=" + BonePileType;
+            });
+        });
+
+        var ClientInit = function () {
+            client = new MesClient(function () {
+                ClinetReady = 1;
+                ShowTable();
+                LoadList();
+            });
+        };
+
+        var ShowTable = function (cHead) {
+            $('#BonePileTable').bootstrapTable('destroy');
+            $('#BonePileTable').bootstrapTable({
+                data: [],
+                width: window.width,
+                height: window.height,
+                striped: true,
+                pagination: false,
+                showExport: true,
+                exportDataType: "all",
+                showFooter: true,
+                toolbar: "#TabelToolBar",
+                toolbarAlign: "right",
+                footerStyle: function (column) {
+                    return {
+                        classes: 'total'
+                    }
+                },
+                exportOptions: {
+                    fileName: 'BonePile',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'BonePileTable',
+                    excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                //fixedColumns: true,
+                //fixedNumber: 1,
+                columns: [
+                    {
+                        field: "BONEPILE_TYPE",
+                        title: "BONEPILE_TYPE",
+                        align: 'center',
+                        valign: 'middle',
+                        footerFormatter: function priceFormatter(data) {
+                            return ""
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "STATUS",
+                        title: "STATUS",
+                        align: 'center',
+                        valign: 'middle',
+                        footerFormatter: function priceFormatter(data) {
+                            return ""
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "STATION",
+                        title: "STATION",
+                        align: 'center',
+                        valign: 'middle',
+                        footerFormatter: function priceFormatter(data) {
+                            return "Total:"
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "H8",
+                        title: "<8H",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day30',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return value;
+                                //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + row.SKUNO + '&DAYS=30">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + skutxt + '&DAYS=30">' + value + '</a>';
+                            return value;
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "H24",
+                        title: "8-24 Hours",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day60',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return value;
+                                //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + row.SKUNO + '&DAYS=60">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + skutxt + '&DAYS=60">' + value + '</a>';
+                            return value;
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "H48",
+                        title: "24-48 Hours",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day90',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return value;
+                                //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + row.SKUNO + '&DAYS=90">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + skutxt + '&DAYS=90">' + value + '</a>';
+                            return value;
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "HM48",
+                        title: ">48 Hours",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'day120',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return value;
+                                //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + row.SKUNO + '&DAYS=120">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + skutxt + '&DAYS=120">' + value + '</a>';
+                            return value;
+                        },
+                        sortable: false
+                    },
+                    {
+                        field: "TOTAL",
+                        title: "Total",
+                        align: 'center',
+                        valign: 'middle',
+                        class: 'total',
+                        formatter: function (value, row, index, field) {
+                            if (Number(value) > 0) {
+                                return value;
+                                //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + row.SKUNO + '&DAYS=ALL">' + value + '</a>';
+                            } else {
+                                return value;
+                            }
+                        },
+                        footerFormatter: function priceFormatter(data) {
+                            var field = this.field
+                            var value = data.map(function (row) {
+                                return +row[field]
+                            }).reduce(function (sum, i) {
+                                return sum + i
+                            }, 0);
+                            //return '<a href="SKUAgingDaysReportDetail.html?SKUNO=' + skutxt + '&DAYS=ALL">' + value + '</a>';
+                            return value;
+                        },
+                        sortable: true
+                    }
+                ]
+            });
+        }
+
+        var LoadList = function () {
+            layer.load(3, { area: ['30px', '30px'], shade: [0.5, '#393D49'] });
+            client.CallFunction(ClassName, "GetBonePile", { BonePileType}, function (e) {
+                if (e.Status == "Pass") {
+                    var data = [];
+                    for (var i = 0; i < e.Data.length; i++) {
+                        var index = data.findIndex(item =>
+                            item.STATION == e.Data[i].FAIL_STATION
+                            && ((item.BONEPILE_TYPE == e.Data[i].FAILTYPE && item.STATUS == "CHECKIN" && e.Data[i].STATUS == "REPAIR")
+                                || (item.BONEPILE_TYPE == "Fail WIP" && item.STATUS == "FAIL" && e.Data[i].STATUS == "FAIL")
+                                || (item.BONEPILE_TYPE == "Checkout WIP" && item.STATUS == "CHECKOUT" && e.Data[i].STATUS == "WIP")));
+                        if (index >= 0) {
+                            data[index][e.Data[i].BONEPILEAGINGTYPE] = data[index][e.Data[i].BONEPILEAGINGTYPE] + e.Data[i].QTY;
+                            data[index].TOTAL = data[index].TOTAL + e.Data[i].QTY;
+                        } else {
+                            skutxt += "," + e.Data[i]["FAILTYPE"];
+                            var obj = {
+                                BONEPILE_TYPE: '',
+                                STATUS: '-',
+                                STATION: '-',
+                                H8: 0,
+                                H24: 0,
+                                H48: 0,
+                                HM48: 0,
+                                TOTAL: 0
+                            };
+                            if (e.Data[i].STATUS == "REPAIR") {
+                                obj.BONEPILE_TYPE = e.Data[i].FAILTYPE;
+                                obj.STATION = e.Data[i].FAIL_STATION;
+                                obj.STATUS = "CHECKIN"
+                            } else if (e.Data[i].STATUS == "FAIL") {
+                                obj.BONEPILE_TYPE = "Fail WIP";
+                                obj.STATION = e.Data[i].FAIL_STATION;
+                                obj.STATUS = "FAIL"
+                            } else if (e.Data[i].STATUS == "WIP") {
+                                obj.BONEPILE_TYPE = "Checkout WIP";
+                                obj.STATION = e.Data[i].FAIL_STATION;
+                                obj.STATUS = "CHECKOUT"
+                            }
+                            obj[e.Data[i].BONEPILEAGINGTYPE] = e.Data[i].QTY;
+                            obj.TOTAL = obj.TOTAL + e.Data[i].QTY;
+                            data.push(obj);
+                        }
+                    }
+                    skutxt = skutxt.substr(1);
+                    data = data.sort((a, b) => {
+                        if (a.BONEPILE_TYPE == b.BONEPILE_TYPE) {
+                            return b.TOTAL - a.TOTAL;
+                        } else if (a.BONEPILE_TYPE == 'SMT') {
+                            return -1;
+                        } else if (a.BONEPILE_TYPE == 'BGA') {
+                            return -1;
+                        } else if (a.BONEPILE_TYPE == 'FUNCTIONAL') {
+                            return -1;
+                        } else if (a.BONEPILE_TYPE == 'Fail WIP') {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    });
+                    $('#BonePileTable').bootstrapTable('append', data);
+                } else {
+                    alert(e.Message);
+                }
+                layer.closeAll('loading');
+                //去掉導出數據按鈕的左上左下圓角
+                $("lan:contains('Export Data')").parent()
+                    .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+            });            
+        }
+    </script>
+</body>
+</html>

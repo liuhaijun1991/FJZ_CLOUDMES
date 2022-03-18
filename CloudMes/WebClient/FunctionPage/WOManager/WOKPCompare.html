@@ -1,0 +1,658 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:WOKPCompare">WOKPCompare</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }      
+         </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:WOKPCompare">WOKPCompare</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+        </div>
+        <table id="tableMenuList"></table>
+    </div>
+ 
+
+    <div id="DivShowDetail" class="panel-body hidden">
+            <div class="form-horizontal" id="divNewTypeLayerSan">
+                <label set-lan="html:QE SET KP InFo & BOM From Sap">QE SET KP InFo & BOM From Sap</label>
+                <table id="tableKpQeSetAndSapBom"></table>
+                <!--<label set-lan="html:BOM From Sap">BOM From Sap</label>
+                <table id="tableSapKpBom"></table>
+                <br/>
+                <label set-lan="html:Skuno Kp set">Skuno Kp set</label>
+                <table id="tableGetKpSetBom"></table>-->
+                <br/>
+                <label set-lan="html:Last Loading Sn Kp">Last Loading Sn Kp</label>
+                <table id="tableLastSnKp"></table>
+                <br/><br/><br/>
+                <div class="form-group col-xs-12">
+                        <label class="col-xs-4 control-label text-right" set-lan="html:Abnormal Cause">Abnormal Cause</label>
+                        <div class="col-xs-4">
+                            <select type="text" id="selectReason" class="form-control">
+                                <!--<option value="機種第一次生產確認">機種第一次生產確認</option>
+    <option value="修改KP後設置OK">修改KP後設置OK</option>
+    <option value="QE KP設置無問題，需先用完舊料">QE KP設置無問題，需先用完舊料</option>
+    <option value="QE KP設置無問題，重工工單不需帶料">QE KP設置無問題，重工工單不需帶料</option>
+    <option value="QE KP設置無問題，與最近SN有改動">QE KP設置無問題，與最近SN相比有改動</option>-->
+                                <option value="First production confirmation of model">First production confirmation of model</option>
+                                <option value="Set OK after modifying KP">Set OK after modifying KP</option>
+                                <option value="There is no problem with QE KP setting. You need to use up the old materials first">There is no problem with QE KP setting. You need to use up the old materials first</option>
+                                <option value="There is no problem with QE KP setting, and the rework order does not need to be loaded">There is no problem with QE KP setting, and the rework order does not need to be loaded</option>
+                                <option value="There is no problem with QE KP setting, which is changed with the recent SN">There is no problem with QE KP setting, which is changed with the recent SN</option>
+
+                            </select>
+                        </div>
+                </div>
+         
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale,successLan,submitLan,cancelLan,layertitleLan;
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var submitType = "";
+        var postData = {};
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN";
+                successLan="操作成功";
+                submitLan="确认";
+                cancelLan="取消";
+                layertitleLan="KP详细信息";
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+                successLan="操作成功";
+                submitLan="確認";
+                cancelLan="取消";
+                layertitleLan="KP詳細信息";
+            }
+            else {
+                tableLocale = "en";
+                successLan="Operation successful";
+                submitLan="Submit";
+                cancelLan="Cancel";
+                layertitleLan="KP detailed information";
+            };
+            
+            mesUI.SetLanguage("WOKPCompare");
+            GetMenuList("");
+
+            
+        });
+   
+        function GetMenuList() {//获取主页面报表函数
+            $("#tableMenuList").html("");
+            $("#tableMenuList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "GetMenuList", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableMenuList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,//中文支持,
+                            onSearch:function () {
+                                mesUI.SetLanguage("WOKPCompare");
+                            },
+                            onSort:function () {
+                                mesUI.SetLanguage("WOKPCompare");
+                            },
+                            columns: [
+                                {
+                                    field: 'WORKORDERNO',
+                                    title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: 'SKUNO',
+                                    title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                },  {
+                                    field: 'VERSION',
+                                    title: '<label set-lan="html:VERSION">VERSION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                },  {
+                                    field: "WORKORDERQTY",
+                                    title: '<label set-lan="html:WORKORDERQTY">WORKORDERQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "STARTDATE",
+                                    title: '<label set-lan="html:STARTDATE">STARTDATE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },{
+                                    field: "OPERATE",
+                                    title: '<label set-lan="html:OPERATE">OPERATE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    events: operateEvents,
+                                    formatter: function operateFormatter(value, row, index) {
+                                        return [
+                                        '<button type="button" id="' + row.ID + '" class="RoleOfedit btn btn-info" style="display:inline"><i class="glyphicon glyphicon-search"></i><lan set-lan="html:Detail"> Detail</lan></button>',
+                                        ].join('');
+                                    }
+                                }
+                                ],
+                            
+                        });
+                        mesUI.SetLanguage("WOKPCompare");
+                } 
+            });
+        }
+        function GetSapKpBom(workorderno) {
+            $("#tableSapKpBom").html("");
+            $("#tableSapKpBom").bootstrapTable('destroy');
+            postData={workorderno:workorderno};
+            self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "GetSapKpBom", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableSapKpBom').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: false,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: false,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,//中文支持,
+                            columns: [
+                                {
+                                    field: 'AUFNR',
+                                    title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                              
+                                }, {
+                                    field: 'BAUGR',
+                                    title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                               
+                                },  {
+                                    field: 'REVLV',
+                                    title: '<label set-lan="html:VERSION">VERSION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    
+                                },  {
+                                    field: "REPNO",
+                                    title: '<label set-lan="html:REPNO">REPNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                 
+                                }, {
+                                    field: "MATNR",
+                                    title: '<label set-lan="html:MATNR">MATNR</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }
+                                ],
+                        });
+                        mesUI.SetLanguage("WOKPCompare");
+                } 
+            });
+        }
+        function GetKpSetBom(workorderno) {
+            $("#tableGetKpSetBom").html("");
+            $("#tableGetKpSetBom").bootstrapTable('destroy');
+            postData={workorderno:workorderno};
+            self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "GetKpSetBom", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableGetKpSetBom').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: false,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: false,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,//中文支持,
+                            columns: [
+                                {
+                                    field: 'SEQ',
+                                    title: '<label set-lan="html:SEQ">SEQ</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                },{
+                                    field: 'KP_NAME',
+                                    title: '<label set-lan="html:KP_NAME">KP_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: 'KP_PARTNO',
+                                    title: '<label set-lan="html:KP_PARTNO">KP_PARTNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                },  {
+                                    field: 'STATION',
+                                    title: '<label set-lan="html:STATION">STATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                },  {
+                                    field: "QTY",
+                                    title: '<label set-lan="html:QTY">QTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }, {
+                                    field: "EDIT_TIME",
+                                    title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }
+                                , {
+                                    field: "EDIT_EMP",
+                                    title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }
+                                ],
+                        });
+                        mesUI.SetLanguage("WOKPCompare");
+                } 
+            });
+        }
+        function GetLastSnKp(workorderno) {
+            $("#tableLastSnKp").html("");
+            $("#tableLastSnKp").bootstrapTable('destroy');
+            postData={workorderno:workorderno};
+            self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "GetLastSnKp", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#tableLastSnKp').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: false,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: false,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,//中文支持,
+                            columns: [
+                                {
+                                    field: 'ITEMSEQ',
+                                    title: '<label set-lan="html:ITEMSEQ">ITEMSEQ</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                }, {
+                                    field: 'SN',
+                                    title: '<label set-lan="html:SN">SN</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                        
+                                },{
+                                    field: 'PARTNO',
+                                    title: '<label set-lan="html:PARTNO">PARTNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+
+                                },{
+                                    field: "KP_NAME",
+                                    title: '<label set-lan="html:KP_NAME">KP_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+   
+                                  
+                                }, {
+                                    field: "MPN",
+                                    title: '<label set-lan="html:MPN">MPN</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+
+                                }, {
+                                    field: "SCANTYPE",
+                                    title: '<label set-lan="html:SCANTYPE">SCANTYPE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+ 
+                                },{
+                                    field: "STATION",
+                                    title: '<label set-lan="html:STATION">STATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+ 
+                                }
+                                ],
+                        });
+                        mesUI.SetLanguage("WOKPCompare");
+                } 
+            });
+        }
+        function GetKpQeSetAndSapBom(workorderno) {
+            $("#tableKpQeSetAndSapBom").html("");
+            $("#tableKpQeSetAndSapBom").bootstrapTable('destroy');
+            postData = { workorderno: workorderno };
+            self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "GetKpQeSetAndSapBom", postData, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableKpQeSetAndSapBom').bootstrapTable({
+                        data: e.Data,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: false,                   //是否显示分页（*）
+                        sortable: true,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 20,                        //每页的记录行数（*）
+                        pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                        strictSearch: false,
+                        singleSelect: true,                 //单选checkbox
+                        searchOnEnterKey: false,            //回车搜索
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: "right",               //查询框对齐方式
+                        search: false,
+                        buttonsAlign: "right",               //按钮对齐方式
+                        toolbar: "#divTableToolbar",        //指定工具栏
+                        toolbarAlign: "left",               //工具栏对齐方式
+                        locale: tableLocale,//中文支持,
+                        columns: [
+                            {
+                                field: 'QESETKP',
+                                title: '<label set-lan="html:QESETKP">QESETKP</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+
+                            }, {
+                                field: 'SKUNO',
+                                title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+
+                            }, {
+                                field: 'VERSION',
+                                title: '<label set-lan="html:VERSION">VERSION</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+
+                            }, {
+                                field: "QE_KPPN",
+                                title: '<label set-lan="html:QE_KPPN">QE_KPPN</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+
+                            }, {
+                                field: "QTY",
+                                title: '<label set-lan="html:QTY">QTY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }, {
+                                field: "STATION",
+                                title: '<label set-lan="html:STATION">STATION</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }, {
+                                field: "SAPBOM",
+                                title: '<label set-lan="html:SAPBOM">SAPBOM</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }, {
+                                field: "WORKORDERNO",
+                                title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }, {
+                                field: "BOMSKU",
+                                title: '<label set-lan="html:BOMSKU">BOMSKU</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }, {
+                                field: "SAP_KPPN",
+                                title: '<label set-lan="html:SAP_KPPN">SAP_KPPN</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                            }
+                        ],
+                    });
+                    mesUI.SetLanguage("WOKPCompare");
+                }
+            });
+        }
+        
+         window.operateEvents={
+        'click .RoleOfedit': function (e, value, row, index) {
+            layer.open({
+                    id: "layerShowDetail",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: layertitleLan,
+                    area: ['96%', '96%'],
+                    content: $('#DivShowDetail'),
+                    btn: [submitLan, cancelLan],
+                    success: function (layero, index) {
+                        $("#DivShowDetail").removeClass("hidden");
+                        //GetSapKpBom(row.WORKORDERNO);
+                        //GetKpSetBom(row.WORKORDERNO);
+                        GetKpQeSetAndSapBom(row.WORKORDERNO);
+                        GetLastSnKp(row.WORKORDERNO);
+                    },
+                    end: function () {
+                        $("#DivShowDetail").addClass("hidden");
+                        GetMenuList();
+                    },
+                    yes: function (layero,index) {
+                        postData={WORKORDERNO:row.WORKORDERNO,SKUNO:row.SKUNO,VERSION:row.VERSION,REASON:$("#selectReason").val()};
+                        self.parent.client.CallFunction("MESStation.WOManager.WOKPCompare", "ConfirmKp", postData, function (e){
+                            if (e.Status == "Pass") {
+                                layer.msg(successLan, {
+                                    icon: 1,
+                                    time: 1000
+                                }, function () {
+                                    layer.closeAll("page");
+                                    GetMenuList();
+                                });
+                                }
+                            else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 2000
+                                }, function () {
+                                });
+                                return;
+                            }
+                         });
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            } 
+        } 
+        
+        
+    </script>
+
+</body>
+</html>
+

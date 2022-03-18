@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Station Config</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight" id="divStationDetail">
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+            <div class="ibox  float-e-margins">
+                <div class="panel-heading bg-primary">
+                    <h3><i class="glyphicon glyphicon-tags"></i><lan style="padding-left:10px;" set-lan="html:ViewStation">Station Setting</lan></h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-horizontal row">
+                        <div class="form-group col-xs-8 col-md-8 col-sm-8 col-lg-8 col-xs-offset-1 col-sm-offset-1 col-lg-offset-1  col-md-offset-1">
+                            <label class="col-xs-3 col-md-3 col-sm-3 col-lg-2 control-label"><lan set-lan="html:txtStation">Station</lan></label>
+                            <div class="col-xs-5 col-md-5 col-sm-5 col-lg-5">
+                                <input type="text" class="form-control" id="txtSearchStationName" placeholder="Station Value">
+                            </div>
+                            <div class="col-xs-2 col-md-1 col-sm-2 col-lg-2">
+                                <button class="btn btn-primary" onclick="SearchStation()"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <!--<h1>User List</h1>-->
+                    <div class="fixed-table-toolbar">
+                        <div class="btn-group" id="toolbar" role="group">
+                            <button type="button" class="btn btn-outline btn-default" onclick="ShowAddStationTab()">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"><lan set-lan="html:add">Add</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" name="btnEdit" onclick="ShowModifyStationTab()">
+                                <i class="glyphicon glyphicon-pencil" aria-hidden="true"><lan set-lan="html:edit">Modify</lan></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" onclick="DelStation()">
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"><lan set-lan="html:delete">Delete</lan></i>
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-hover" id="tableStationList"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divStationEdit" class="row row-lg wrapper wrapper-content animated fadeInRight" style="display:none;">
+        <div class="panel-heading bg-primary">
+            <!--<div><a href="LineManager.html"><i class="fa fa-mail-reply"><lan set-lan="html:a_ReturnList">Reload</lan></i></a></div>-->
+            <h3 id="Header_A" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_newstation">New Station</lan></i></h3>
+            <h3 id="Header_U" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan set-lan="text:h_updatestation">Modify Station</lan></i></h3>
+        </div>
+
+        <div id="divStationAdd" class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="display:none;">
+            <!--<h3 set-lan="html:EditAddStation">添加Station信息</h3>-->
+            <div class="ibox-content">
+                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="GoBack('')"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditStationName">Station Name：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtAddStationName" set-lan="attr:placeholder=placeholderStationName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditStationType">Station Description：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtAddStationDescription" set-lan="attr:placeholder=placeholderStationTYPE" />
+                            <!--<textarea class="form-control" rows="3" id="txtAddStationDescription" placeholder="Station Description"></textarea>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                        <button type="button" class="btn btn-primary" onclick="AddStation()"><i class="fa fa-pencil"></i> <lan set-lan="html:add">添加信息</lan></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="divStationModify" class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="display:none;">
+            <!--<h3 set-lan="html:EditModifyStation">修改Station信息</h3>-->
+            <div class="ibox-content">
+                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="GoBack('')"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row" style="display:none;">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditStationID">Station ID：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtModifyStationID" set-lan="attr:placeholder=placeholderStationID" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditStationValue">Station Value：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtModifyStationValue" set-lan="attr:placeholder=placeholderStationValue" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditNewStationValue">New Station Value：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtNewStationValue" set-lan="attr:placeholder=placeholderNewStationValue" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:EditStationType">Station Type：</label>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <input type="text" class="form-control" id="txtModifyStationType" set-lan="attr:placeholder=placeholderStationType" />
+                            <!--<textarea class="form-control" rows="3" id="txtModifyStationType" placeholder="Station Type"></textarea>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                        <button type="button" class="btn btn-primary" onclick="ModifyStation()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">保存信息</lan></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+
+    <script type="text/javascript">
+        var localelan = $.cookie($.MES.CK_LAN_NAME);
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            $('#divStationDetail').show();
+            $('#divStationEdit').hide();
+            if (localelan == "CHINESE") {
+                localelan = "zh-CN"
+            }
+            else if (localelan == "CHINESE_TW") {
+                localelan = "zh-TW"
+            }
+            else {
+                localelan = "en"
+            }
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "ShowAllData", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowTable(e.Data);
+                } else {
+                    ShowTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            mesUI.SetLanguage("StationConfigSetting");
+        });
+
+        function SearchStation() {
+            var StationName = $("#txtSearchStationName").val().replace(/^\s+|\s+$/g, "");
+            if (StationName.length == 0) {
+                DoAllSearchStation();
+            } else {
+                DoSearchStation(StationName);
+            }
+        }
+
+        function DoSearchStation(StationName) {
+            var param = { ColumnName: "Station_Name", ColumnValue: StationName };
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "SelectByColumnName", param, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableStationList').bootstrapTable("load", e.Data);
+                } else {
+                    $('#tableStationList').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function DoAllSearchStation() {
+            var param = {};
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "ShowAllData", param, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableStationList').bootstrapTable("load", e.Data);
+                } else {
+                    $('#tableStationList').bootstrapTable("load", []);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ShowTable(Data) {
+            $('#tableStationList').bootstrapTable({
+                data: Data,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+
+
+                pagination: true,                   //是否显示分页（*）
+
+
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+
+
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+
+
+                pageSize: 5,                       //每页的记录行数（*）
+
+
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+
+
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: false,
+                searchOnEnterKey: false,            //回车搜索
+                showColumns: false,                  //是否显示所有的列
+
+
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+
+                singleSelect: true,                     // 单选checkbox
+                //height: 500,             //高度调整
+                //uniqueId: "RouteID",                     //每一行的唯一标识，一般为主键列
+
+
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+
+                //contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+
+
+                dataType: "json",//期待返回数据类型
+                method: "post",//请求方式
+                searchAlign: "left",//查询框对齐方式
+
+
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    //params obj
+                    params.other = "otherInfo";
+                    return params;
+                },
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+
+
+                toolbarAlign: "left",//工具栏对齐方式
+
+
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'ID',
+                    title: 'ID',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: false
+                }, {
+                    field: 'Station_Name',
+                    title: '<lan set-lan="html:h_station">Station</lan>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'Type',
+                    title: '<lan set-lan="html:h_type">TYPE</lan>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }],
+                locale: localelan//中文支持,
+            });
+            mesUI.SetLanguage("StationConfigSetting");
+        }
+
+        function ShowAddStationTab() {
+            $("#divStationDetail").hide();
+            $("#divStationEdit").show();
+            $("#divStationAdd").show();
+            $("#divStationModify").hide();
+            $("#Header_A").removeAttr('hidden', 'hidden');
+            $("#Header_U").attr('hidden', 'hidden');
+            ClearAll();
+            $("#txtAddStationName").select();
+            $("#txtAddStationName").focus;
+            //mesUI.SetLanguage("StationConfigSetting");
+        }
+
+        function ShowModifyStationTab() {
+            var selectStation = $("#tableStationList").bootstrapTable('getSelections');
+            if (selectStation.length > 1) {
+                swal({
+                    title: "",
+                    text: "只能选择一行进行编辑",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (selectStation.length <= 0) {
+                swal({
+                    title: "",
+                    text: "请选择有效数据",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            $("#divStationDetail").hide();
+            $("#divStationEdit").show();
+            $("#divStationAdd").hide();
+            $("#divStationModify").show();
+            $("#Header_A").attr('hidden', 'hidden');
+            $("#Header_U").removeAttr('hidden', 'hidden');
+            ClearAll();
+            $("#txtModifyStationID").val(selectStation[0].ID);
+            $("#txtModifyStationValue").val(selectStation[0].Station_Name);
+            $("#txtModifyStationType").val(selectStation[0].Description);
+            $("#txtNewStationValue").select();
+            $("#txtNewStationValue").focus;
+            //mesUI.SetLanguage("StationConfigSetting");
+        }
+
+        function GoBack(value) {
+            ClearAll();
+            $("#divStationDetail").show();
+            $("#divStationEdit").hide();
+            $("#divStationAdd").hide();
+            $("#divStationModify").hide();
+            DoAllSearchStation();
+        }
+
+        function ClearAll() {
+            $("#txtSearchStationName").val("");
+            $("#txtAddStationName").val("");
+            $("#txtAddStationDescription").val("");
+            $("#txtModifyStationID").val("");
+            $("#txtModifyStationValue").val("");
+            $("#txtNewStationValue").val("");
+            $("#txtModifyStationType").val("");
+        }
+
+        function AddStation() {
+            var StationName = $("#txtAddStationName").val().replace(/^\s+|\s+$/g, "");
+            var StationDescription = $("#txtAddStationDescription").val().replace(/^\s+|\s+$/g, "");
+            if (StationName == "" || StationName == undefined) {
+                swal({
+                    title: "",
+                    text: "請輸入Station名稱",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddStationName").focus;
+                    $("#txtAddStationName").select();
+                }, 2001);
+                return;
+            }
+            if (StationDescription == "" || StationDescription == undefined) {
+                swal({
+                    title: "",
+                    text: "請輸入Station簡介",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtAddStationDescription").focus;
+                    $("#txtAddStationDescription").select();
+                }, 2001);
+                return;
+            }
+            var data = { StationName: StationName, TYPE: StationDescription };
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "StationInsert", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "",
+                        text: "保存成功！",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddStationName").val("");
+                        $("#txtAddStationDescription").val("");
+                        $("#txtAddStationName").focus;
+                        $("#txtAddStationName").select();
+                    }, 2001);
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtAddStationName").focus;
+                        $("#txtAddStationName").select();
+                    }, 2001);
+                    return;
+                }
+            });
+        }
+
+        function ModifyStation() {
+            var StationID = $("#txtModifyStationID").val().replace(/^\s+|\s+$/g, "");
+            var StationName = $("#txtModifyStationValue").val().replace(/^\s+|\s+$/g, "");
+            var newStationName = $("#txtNewStationValue").val().replace(/^\s+|\s+$/g, "");
+            var StationDescription = $("#txtModifyStationType").val().replace(/^\s+|\s+$/g, "");
+            if (StationDescription == "" || StationDescription == undefined) {
+                swal({
+                    title: "",
+                    text: "請輸入Station簡介",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $("#txtModifyStationType").focus;
+                    $("#txtModifyStationType").select();
+                }, 2001);
+                return;
+            }
+            var data = { ID: StationID, StationName: newStationName, TYPE: StationDescription };
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "UpdateStationByID", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "修改成功！",
+                        text: "",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    if (newStationName == "" || newStationName == undefined) {
+                        GoBack(StationName);
+                    }
+                    else {
+                        GoBack(newStationName);
+                    }
+                } else {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function () {
+                        $("#txtModifyStationType").focus;
+                        $("#txtModifyStationType").select();
+                    }, 2001);
+                    return;
+                }
+            });
+        }
+
+        function DelStation() {
+            var selectStation = $("#tableStationList").bootstrapTable('getSelections');
+            if (selectStation.length > 1) {
+                swal({
+                    title: "",
+                    text: "一次只能刪除一行數據",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            if (selectStation.length <= 0) {
+                swal({
+                    title: "",
+                    text: "请选择有效数据",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+            var data = { ID: selectStation[0].ID };
+            self.parent.client.CallFunction("MESStation.Config.CStationConfig", "DeleteStationByID", data, function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "刪除成功！",
+                        text: "",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    DoAllSearchStation();
+                } else {
+                    swal({
+                        title: "",
+                        text: e.MessageCode,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" standalone="yes"?>
+<ConnData>
+  <TConnString>
+    <ConnName>APDB</ConnName>    
+    <ConnString>Data Source = 10.120.246.130:1527 / VERTIVAP; User ID = AP2; Password = mbdap2session</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>SFCDB</ConnName>    
+    <ConnString>Data Source = 10.120.246.160:1527 / VNMESODB; User ID = TEST; Password = SFCTEST</ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+
+  <TConnString>
+    <ConnName>SFCTestDB</ConnName>
+    <ConnString>
+      Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.120.147.250)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=SFCTEST)));" +
+      Persist Security Info=True;
+      User ID=TEST;
+      Password=SFCTEST;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+
+  <TConnString>
+    <ConnName>VERTIV SFC DB</ConnName>
+    <ConnString>
+      Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.120.246.140)(PORT=1527)))(CONNECT_DATA=(SERVICE_NAME=VERTIVODB)));
+      Persist Security Info=True;
+      User ID=TEST;
+      Password=SFCTEST;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  <TConnString>
+    <ConnName>HWD_APDB</ConnName>
+    <ConnString>
+      Data Source=(DESCRIPTION =(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.120.176.102)(PORT = 1903)))(CONNECT_DATA =(SERVICE_NAME = HWDNEWDB)));
+      Persist Security Info=True;
+      User ID=AP2;
+      Password=mbdap2session;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+   <TConnString>
+    <ConnName>HWD_TESTDB</ConnName>    
+    <ConnString>
+      Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.120.176.75)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=MESDB)));
+      Persist Security Info=True;
+      User ID=TEST;
+      Password=SFCTEST;
+      Unicode=True;Provider=OraOLEDB.Oracle.1
+    </ConnString>
+    <IsCrypt>False</IsCrypt>
+  </TConnString>
+  
+  
+
+</ConnData>

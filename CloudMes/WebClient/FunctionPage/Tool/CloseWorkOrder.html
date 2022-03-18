@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Close WO</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight" id="WorkMain">
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:CutWo">Close/Open WO</span></h3>
+        </div>
+        <div class="panel-body row form-horizontal">
+            <div class="row">
+                <div class="col-xs-4 col-sm-12 col-md-4 col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col col-sm-7">
+                                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right">SKU</label>
+                                    <div class="col-xs-9 col-sm-10 col-md-9 col-lg-9">
+                                        <input type="text" class="form-control radio-inline" style="margin-bottom:10px" id="txtSku" name="txtSku" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary col-sm-2" id="btnSearch" onclick="SearchWo()"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                            </div>
+                            <div class="row">
+                                <div class="col col-sm-7">
+                                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right">WO</label>
+                                    <div class="col-xs-9 col-sm-10 col-md-9 col-lg-9">
+                                        <input type="text" class="form-control" id="txtWo" name="txtWo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divLeft" class="col-xs-3 col-sm-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div id="divCloseWO" class="form-group">
+                                <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">WO:</label>
+                                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                                    <input type="text" class="form-control" set-lan="attr:placeholder=placeholderCloseWo" />
+                                </div>
+                            </div>
+                            <button class="btn btn-primary center-block" id="btnAction"><i class="fa fa-save"><lan set-lan="html:Search">Close/Open</lan></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="bootstrap-table">
+                    <table class="table table-hover" id="tblData"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>-->
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+
+        var client
+        var mesUI;
+        var lan;
+        var callData;
+        $(document).ready(function () {
+            client = self.parent.client;
+            mesUI = new MesClientUI(client);
+            lan = $.cookie($.MES.CK_LAN_NAME);
+
+            $("#btnAction").click(function () {
+                var WorkOrder = $("#divCloseWO").find("input[type=text]").val();
+                if (WorkOrder.length > 0) {
+                    CloseWorkOrder($("#divCloseWO").find("input[type=text]").val());
+                }
+                else {
+                    layer.msg("Please enter valid data!", {
+                        icon: 2,
+                        time: 2000
+                    }, function () {
+                    });
+                }
+            });
+
+            function CloseWorkOrder(WorkOrder) {
+                client.CallFunction("MESStation.Management.WoManager", "CloseOrOpenWorkOrder", { WorkOrder: WorkOrder }, function (e) {
+                    $("#divCloseWO").find("input[type=text]").val("");
+                    $("#divCloseWO").find("input[type=text]").focus();
+                    $("#divCloseWO").find("input[type=text]").select();
+
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 2000
+                        }, function () {
+                        });
+                    }
+
+                });
+            }
+
+        });
+
+        function SearchWo() {
+            var Sku = $('#txtSku').val();
+            var Wo = $('#txtWo').val();
+
+            if (Sku.length == 0 && Wo.length == 0) {
+                return;
+            }
+
+            self.parent.Loading(true);
+            $("#tblData").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Management.WoManager", "GetAllWo", { "SKU": Sku, "WorkOrder": Wo }, function (e) {
+                if (e.Status == "Pass") {
+                    self.parent.Loading(false);
+                    LoadTable("#tblData", e.Data);
+                }
+                else {
+                    self.parent.Loading(false);
+                    //swal({
+                    //    title: "Error",
+                    //    text: e.Message,
+                    //    type: "error",
+                    //    showConfirmButton: true
+                    //});
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            });
+        }
+
+        function LoadTable(table, Data) {
+
+            $(table).bootstrapTable({
+                data: Data,
+                striped: false,
+                cache: false,
+                sorttable: true,
+                sortOrder: "asc",
+                sidePagination: "client",
+                pageNumber: 1,
+                pagination: false,
+                strictSearch: false,
+                searchOnEnterKey: false,
+                showColumns: false,
+                showRefresh: false,
+                maintainSelected: true,
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                singleSelect: false,
+                height: 350,
+                Icons: 'glyphicon-export',
+                dataType: "json",
+                buttonsAlign: "left",
+                toolbar: "#toolbar",
+                toolbarAlign: "left",
+                //locale: localelan,
+                columns: [
+                    {
+                        field: 'SKUNO',
+                        title: 'SKUNO'
+                    }, {
+                        field: 'WORKORDERNO',
+                        title: 'WORKORDERNO'
+                    }, {
+                        field: 'PLANT',
+                        title: 'PLANT'
+                    }, {
+                        field: 'SKU_VER',
+                        title: 'SKU VER'
+                    }, {
+                        field: 'SKU_NAME',
+                        title: 'SKU NAME'
+                    }, {
+                        field: 'CLOSED_FLAG',
+                        title: 'CLOSED FLAG',
+                        formatter: function (value, row, index) {
+                            var output = "";
+                            if (value == "1") {
+                                output = "CLOSE";
+                            } else if (value == "0") {
+                                output = "OPEN";
+                            } else {
+                                output = value;
+                            }
+                            return output;
+                        }
+                    }, {
+                        field: 'WORKORDER_QTY',
+                        title: 'WORKORDER QTY'
+                    }, {
+                        field: 'INPUT_QTY',
+                        title: 'INPUT QTY'
+                    }, {
+                        field: 'FINISHED_QTY',
+                        title: 'FINISHED QTY'
+                    }, {
+                        field: 'EDIT_EMP',
+                        title: 'EMP MODIFY'
+                    }, {
+                        field: 'EDIT_TIME',
+                        title: 'DATE MODIFY'
+                    }],
+                onpagechange: function (n, s) {
+                    LoadTable(n, s);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

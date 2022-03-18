@@ -1,0 +1,6 @@
+﻿ .table th, .table td { 
+            text-align: center;
+            vertical-align: middle!important;
+            font-size:xx-small;
+            }
+.table th, .table td { border:3px solid #000000;font-size: 5px;color: #000000;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}  

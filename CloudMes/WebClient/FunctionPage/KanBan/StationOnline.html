@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="renderer" content="webkit" />
+    <title>StationOnline</title>
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link rel="shortcut" href="../../favicon.ico" />
+    <link rel="shortcut icon" href="../../favicon.ico" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .auto-style1 {
+            width: 15%;
+            height: 20px;
+            background-color: white;
+            word-wrap: break-word;
+        }
+        
+        .auto-style2 {
+            width: 10%;
+            height: 20px;
+            background-color: Highlight;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form1">
+        <div class="container-fluid">
+            <table style="background-color:yellow;" class="table">
+                <caption style="background-color:yellowgreen;text-align:center;font-size: 35px; font-weight: bold; font-family: 標楷體;  ">
+                    人員上線模塊-Defect看板
+                </caption>
+                <thead>
+                    <tr>
+                        <th> startDate</th>
+                        <th>
+                            <div class="input-group date" id="datetimepicker">
+                                <input id="DateFrom" type="text" class="from-control" />
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th> endtDate</th>
+                        <th>
+                            <div id="current-time"></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            Search:
+                        </th>
+                        <th>
+                            <button class="btn btn-primary" type="button" onclick="submitSearch()" id="Btn_Search"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+                        </th>
+                    </tr>
+                    <tr valign="top">
+                        <td colspan="4" style="text-align:center">
+                            <table id="tableList" class="table table-hover"></table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--主程序窗口結束-->
+        <!-- 全局js -->
+        <script src="../../Scripts/plugins/jquery/jquery.min.js "></script>
+        <script src="../../Scripts/plugins/jquery/jquery.cookie.js "></script>
+        <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6 "></script>
+        <!-- 第三方插件 -->
+        <script src="../../Scripts/plugins/JSON/json2.js "></script>
+        <script src="../../Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js "></script>
+        <script src="../../Scripts/plugins/layer/layer.min.js "></script>
+        <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js "></script>
+        <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js "></script>
+        <script src="../../Scripts/plugins/EChart/echarts.js "></script>
+        <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.js"></script>
+        <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+        <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+        <!-- 自定义js -->
+        <script src="../../Scripts/global.js "></script>
+        <script src="../../Scripts/MesClient.js "></script>
+        <script src="../../Scripts/MesClient.UI.js "></script>
+        <script type="text/javascript ">
+            var ClassName = "MESStation.Report.CallKanBan";
+            var FunctionName = "GetDefectData";
+            var client = null;
+            $(document).ready(function() {
+                client = new MesClient(function() {});
+            });
+            var TableOption = {
+                data: [],
+                striped: false,
+                cache: false,
+                pagination: false,
+                columns: [{
+                    field: 'LINE',
+                    title: 'LINE',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'STATION',
+                    title: 'STATION',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'WORKUSER',
+                    title: 'WORKUSER',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'WORKUSERNAME',
+                    title: 'WORKUSERNAME',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'DEFECT1',
+                    title: 'DEFECT1',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'DEFECT2',
+                    title: 'DEFECT2',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'ONTIME',
+                    title: 'ONTIME',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'OFFTIME',
+                    title: 'OFFTIME',
+                    align: 'center',
+                    valign: 'middle'
+                }]
+            };
+            $(function() {
+                $('#datetimepicker').datetimepicker({
+                    format: 'yyyy-mm-dd hh:ii:ss',
+                    language: 'zh-CN',
+                    defaultdate: '2022-01-01',
+                    showClose: true,
+                    showClear: true
+                })
+            });
+
+
+            var ShowTable = function(Data) {
+                $("#tableList").bootstrapTable("destroy");
+                TableOption.data = Data;
+                $("#tableList").bootstrapTable(TableOption);
+
+            };
+
+            function submitSearch() {
+                var inputData = {
+                    DateFrom: $("#DateFrom").val()
+                };
+                self.parent.client.CallFunction(ClassName, FunctionName, inputData, function(e) {
+                    if (e.Status == "Pass") {
+
+                        ShowTable(e.Data);
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function() {});
+                        ShowTable();
+                    }
+                });
+            };
+
+            function time() {
+                var vWeek, vWeek_s, vDay;
+                vWeek = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+                var date = new Date();
+                year = date.getFullYear();
+                month = date.getMonth() + 1;
+                day = date.getDate();
+                hours = date.getHours();
+                minutes = date.getMinutes();
+                seconds = date.getSeconds();
+                vWeek_s = date.getDay();
+                document.getElementById("current-time").innerHTML = year + "年" + month + "月" + day + "日" + "\t" + hours + ":" + minutes + ":" + seconds + "\t" + vWeek[vWeek_s];
+            };
+            setInterval("time()", 1000);
+            setInterval("submitSearch()", 1800000);
+        </script>
+    </form>
+</body>
+
+</html>

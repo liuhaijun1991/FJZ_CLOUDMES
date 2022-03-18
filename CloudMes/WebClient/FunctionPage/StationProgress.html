@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        html {
+            height: 100%;
+        }
+
+        .full-height {
+            height: 100%;
+        }
+
+        dl {
+            overflow-y:auto;
+        }
+
+            dl dt {
+                background: #5f9be3;
+                color: #fff;
+                float: left;
+                font-weight: bold;
+                margin-right: 10px;
+                padding: 5px;
+                width: 150px;
+                text-align:right;
+            }
+
+            dl dd {
+                margin: 2px 0;
+                padding: 5px 0;
+            }
+    </style>
+</head>
+<body class="container full-height">
+    <div class="full-height">
+        <dl id="OutputContainer" style="height:calc(100% - 130px)">
+        </dl>
+        <hr class="layui-bg-gray" />
+        <div style="height:100px;text-align:center">
+            <div class="progress progress-striped active">
+                <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%"></div>
+            </div>
+            <hr class="layui-bg-gray" />
+            <button id="btn_finish" class="btn btn-primary" disabled>Finish</button>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../Scripts/plugins/layui/layui.js"></script>
+    <script src="../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../Scripts/global.js"></script>
+    <script src="../Scripts/MesClient.js"></script>
+    <script src="../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../Scripts/Station/MesClient.StationProgress.js"></script>
+    <script>
+        var Layer = null;
+        var ServerMessageID = null;
+        var ObjectKey = null;
+        var Update = function (_ServerMessageID) {
+            ServerMessageID = _ServerMessageID;
+            var params = JSON.parse(sessionStorage.getItem(ObjectKey));
+            sessionStorage.removeItem(ObjectKey);
+            var OutInputs = params.OutInputs;
+            var Layer = new StationProgress({
+                ID: ObjectKey,
+                ServerMessageID: ServerMessageID,
+                Client: self.parent.Client || self.parent.client || self.parent.parent.Client || self.parent.parent.client,
+                Station: self.parent.station,
+                OutputContainer: $("#OutputContainer"),
+                OutputObj: OutInputs
+            });
+            Layer.Init();
+            $("#progressBar").css("width", params.Data.Percent);
+            if (params.Data.IsFinish) {
+                $("#btn_finish").attr('disabled', false);
+            }
+        };
+        $(document).ready(function () {
+            var _ServerMessageID = $.MES.getQueryString("ServerMessageID");
+            ObjectKey = $.MES.getQueryString("ObjectKey");
+            Update(_ServerMessageID);
+            $("#btn_finish").on("click", function () {
+                var index = self.parent.layer.getFrameIndex(window.name);
+                self.parent.layer.close(index);
+            });
+        });
+    </script>
+</body>
+</html>

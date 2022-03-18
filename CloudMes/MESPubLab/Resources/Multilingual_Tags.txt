@@ -1,0 +1,5688 @@
+﻿{
+  "MES00000222": {
+    "en": "Panel:{0},BIP station has been finished!",
+    "chs": "Panel:{0},BIP 工站作业完成！",
+    "ch-tw": "Panel:{0},BIP 工站作業完成！"
+  },
+  "MES00000224": {
+    "en": "Skuno:{0},sap station can't setting",
+    "chs": "机种：{0},抛账点没有配置!",
+    "ch-tw": "機種：{0},拋賬點沒有配置！"
+  },
+  "MES00000226": {
+    "en": "Mes system can't support more than 99 link for per panel",
+    "chs": "系统暂不支持超过99连板的情况",
+    "ch-tw": "系統不支援99連板的情況"
+  },
+  "MES00000118": {
+    "en": "The EndSN: {1} can not small than EndSN: {0}!",
+    "chs": "StartSN: {0} 不能比 EndSN: {1} 大!",
+    "ch-tw": "StartSN: {0} 不能比 EndSN: {1} 大!"
+  },
+  "MES00000119": {
+    "en": "The StartSN: {0} and EndSN: {1} are not in range of workorder :{2} !",
+    "chs": "StartSN: {0} 與 EndSN: {1} 不在工單:{2} 區間管控內!",
+    "ch-tw": "StartSN: {0} 與 EndSN: {1} 不在工單: {2} 區間管控內!"
+  },
+  "MES00000120": {
+    "en": "There are some SNs which in the range of StartSN: {0} and EndSN: {1} are used!",
+    "chs": "StartSN: {0} 至 EndSN: {1} 有序號已經投入!",
+    "ch-tw": "StartSN: {0} 至 EndSN: {1} 有序號已經投入!"
+  },
+  "MES00000121": {
+    "en": "The SN: {0} is not match 34 hexadecimal:{1}!",
+    "chs": "SN: {0} 后4位流水碼不符合34進制編碼規則:{1}!",
+    "ch-tw": "SN: {0} 后4位流水碼不符合34進制編碼規則:{1}!"
+  },
+  "MES00000122": {
+    "en": "The SN: {0} is not match decimal:{1}!",
+    "chs": "SN: {0} 后4位流水碼不符合10進制編碼規則:{1}!",
+    "ch-tw": "SN: {0} 后4位流水碼不符合10進制編碼規則:{1}!"
+  },
+  "MES00000123": {
+    "en": "The range {0}-{1} can not small than 0!;",
+    "chs": "區間{0}-{1}數量不能小于0!",
+    "ch-tw": "區間{0}-{1}數量不能小于0!"
+  },
+  "MSGCODE20200717084550": {
+    "en": "This  {0} >> Please contact PE/QE to confirm the TA version",
+    "chs": "此 {0} >> P-BOX LABEL更新日期超过三天,请联系PE/QE确认处理",
+    "ch-tw": "此 {0} >> P-BOX LABEL更新日期超過三天,請聯繫PE/QE確認處理"
+  },
+  "MES00000124": {
+    "en": "The input qty:{0} will be more than the quantity of WO:{1}!",
+    "chs": "本次投入數量:{0} 大于工單未投數量:{1}!",
+    "ch-tw": "本次投入數量:{0}大于工單未投數量:{1}!"
+  },
+  "MES00000126": {
+    "en": "The prefix of StartSN:{0} is not match with EndSN:{1}!",
+    "chs": "StartSN:{0} 與EndSN:{1} 前綴不一樣!",
+    "ch-tw": "StartSN:{0}與EndSN:{1}前綴不一樣!"
+  },
+  "MES00000127": {
+    "en": "Decimal type:{0} do not load!",
+    "chs": "流水碼進制類型:{0} 未加載成功!",
+    "ch-tw": "流水碼進制類型:{0}未加載成功!"
+  },
+  "MES00000128": {
+    "en": "The quantity of lot serial number:{0} do not load!",
+    "chs": "批量Loading的序號數量:{0} 未加載成功!",
+    "ch-tw": "批量Loading的序號數量:{0}未加載成功!"
+  },
+  "MES00000129": {
+    "en": "DecimalType load Error:{0}!",
+    "chs": "流水碼編碼規則:{0} 加載錯誤,目前只支持10和34進制;",
+    "ch-tw": "流水碼編碼規則:{0}加載錯誤,目前只支持10和34進制!"
+  },
+  "MES00000130": {
+    "en": "Input quantity:{0}!",
+    "chs": "完成批量投入數:{0}!",
+    "ch-tw": "完成批量投入數:{0}!"
+  },
+  "MES00000131": {
+    "en": "InputQty cannot be greater than the linkqty that setting in Allpars!",
+    "chs": "输入连板数{0} 大于Allparts连板数量{1}!",
+    "ch-tw": "輸入連板數量{0} 大於Allparts連板數量{1}!"
+  },
+  "MES00000132": {
+    "en": "Please input linkqty.",
+    "chs": "请输入连板数.",
+    "ch-tw": "請輸入連板數."
+  },
+  "MES00000133": {
+    "en": "Get Allparts linkqty fail.",
+    "chs": "Allparts连板数加载失败.",
+    "ch-tw": "Allparts連板數加載失敗."
+  },
+  "MES00000026": {
+    "en": "Get data success",
+    "chs": "获取成功",
+    "ch-tw": "獲取成功"
+  },
+  "MES00000028": {
+    "en": "The user has no authority to manage the role",
+    "chs": "该用户无权限管理角色",
+    "ch-tw": "該用戶無權限管理角色"
+  },
+  "MES00000058": {
+    "en": "SN:{0} does not match the rule [SKU.SNRULE:{1}]!",
+    "chs": "SN:{0}规则不满足SKU.SNRULE:{1}!",
+    "ch-tw": "SN:{0}規則不滿足SKU.SNRULE:{1}!"
+  },
+  "MES00000059": {
+    "en": "SN rules check PASS!",
+    "chs": "SN:{0}規則檢查PASS！",
+    "ch-tw": "SN:{0}規則檢查PASS！"
+  },
+  "MES00000060": {
+    "en": "WO: {0} ,QTY: {1} is less than or equal to input QTY: {2}",
+    "chs": "工单:{0}工单量:{1}小于或等於于投入量:{2}",
+    "ch-tw": "工單:{0}工單量:{1}小於或等於投入量:{2}"
+  },
+  "MES00000061": {
+    "en": "All checks passed for {0}!",
+    "chs": "工单{0}相关检查OK！",
+    "ch-tw": "工單{0}相關檢查OK！"
+  },
+  "MES00000063": {
+    "en": "SN {0} station pass!",
+    "chs": "SN:{0} 过站成功！",
+    "ch-tw": "SN:{0} 過站成功！"
+  },
+  "MES00000051": {
+    "en": "Count of this function in the configuration table need {0} parameters,but there are only {1}.",
+    "chs": "配置表中参数不够，应该为 {0} 个，实际只有 {1} 个！",
+    "ch-tw": "配置表中參數不夠，應該為 {0} 個，實際只有 {1} 個！"
+  },
+  "MES00000052": {
+    "en": "Can not get the data of {0},please confirm the configuration of this station!",
+    "chs": "无法获取到 {0} 的数据，请检查工站配置！",
+    "ch-tw": "無法獲取到 {0} 的數據，請檢查工站配置！"
+  },
+  "MES00000048": {
+    "en": "SN {0} does not exist!",
+    "es": "¡SN {0} no existe!",
+    "chs": "SN:{0} 不存在！",
+    "ch-tw": "SN:{0} 不存在！"
+  },
+  "MES00000049": {
+    "en": "This SN:{0} doesn't have responding Panel SN!",
+    "chs": "SN:{0} 没有对应的 Panel SN！",
+    "ch-tw": "SN:{0} 沒有對應的 Panel SN！"
+  },
+  "MES00000053": {
+    "en": "Add AP records OK!",
+    "chs": "补 Allpart 资料成功！",
+    "ch-tw": "補 Allpart 資料成功！"
+  },
+  "MES00000064": {
+    "en": "Panel {0} pass station successfully!Next Station:{1}.",
+    "chs": "Panel:{0} 过站成功！下一站:{1}.",
+    "ch-tw": "Panel:{0} 過站成功！下一站:{1}."
+  },
+  "MES00000066": {
+    "en": "SN:{0}STATUS IS  :{1}！",
+    "chs": "SN :{0}状态 :{1}！",
+    "ch-tw": "SN :{0}状态 :{1}！"
+  },
+  "MES00000067": {
+    "en": "SN :{0}STATUS CHECK IS  OK！",
+    "chs": "SN: {0}状态 检查OK!",
+    "ch-tw": "SN :{0}狀態檢查OK!"
+  },
+  "MES00000071": {
+    "en": "SN ：{0} is in repair!",
+    "es": "¡SN ：{0} está en reparación!",
+    "chs": "SN ：{0}处于维修状态！",
+    "ch-tw": "SN:{0} 處於維修狀態！"
+  },
+  "MES00000080": {
+    "en": "SN:{0} has entered the batch: {1} and the batch is not closed!",
+    "chs": "SN:{0}已进批次:{1}且该批次未关闭！",
+    "ch-tw": "SN:{0}已進批次:{1}且該批次未關閉！"
+  },
+  "MES00000081": {
+    "en": "The batch number of SN:{0} is lock-in!",
+    "chs": "SN:{0}所处批次号处于锁定状态！",
+    "ch-tw": "SN:{0}所處批次號處於鎖定狀態！"
+  },
+  "MES00000095": {
+    "en": "The SKUNO of {0} is not {1}!",
+    "es": "¡El SKU de {0} no es {1}!",
+    "chs": "{0}的料号与{1}的料号不一样！",
+    "ch-tw": "{0}的料號與{1}的料號不一樣！"
+  },
+  "MES00000096": {
+    "en": "The skuno of {0} and skuno of {1} are the same !",
+    "chs": "{0}的料号与{1}的料号一样！",
+    "ch-tw": "{0}的料號與{1}的料號一樣！"
+  },
+  "MES00000098": {
+    "en": "Workorder type is not {0}!",
+    "chs": "工单类型不为{0}！",
+    "ch-tw": "工單類型不為{0}！"
+  },
+  "MES00000099": {
+    "en": "The number of inputs is greater than or equal to the number of workorders!",
+    "chs": "投入数量大于或等于工单数量！",
+    "ch-tw": "投入數量大於或者等於工單數量！"
+  },
+  "MES00000100": {
+    "en": "Workorder is closed!",
+    "chs": "工单已关结！",
+    "ch-tw": "工單已關結！"
+  },
+  "MES00000101": {
+    "en": "Check Pass!",
+    "chs": "检查通过！",
+    "ch-tw": "檢查通過！"
+  },
+  "MES00000104": {
+    "en": "{0}:{1},{2}:{3},{4}:{5},{6}:{7}Load successful.",
+    "chs": "{0}:{1},{2}:{3},{4}:{5},{6}:{7}加载成功.",
+    "ch-tw": "{0}:{1},{2}:{3},{4}:{5},{6}:{7}加載成功."
+  },
+  "MES00000105": {
+    "en": "SN:{0}FailCode:{1}Repair Action Success!",
+    "chs": "SN:{0}FailCode:{1}维修动作执行成功！",
+    "ch-tw": "SN:{0}FailCode:{1}維修動作執行成功！"
+  },
+  "MES00000106": {
+    "en": "SN:{0}FailCode:{1}Repair Action  i's not finish！",
+    "chs": "SN:{0}FailCode:{1}维修动作未进行！",
+    "ch-tw": "SN:{0}FailCode:{1}維修動作未進行！"
+  },
+  "MES00000125": {
+    "en": "The Workorder No of SN:{0} is null !",
+    "chs": "SN：{0} 的工单号为空！",
+    "ch-tw": "SN：{0} 的工單為空！"
+  },
+  "MES00000134": {
+    "en": "WO{0},InputQty{1}+Linkqty{2} is bigger than workorder qty{3}.",
+    "chs": "工单{0} InputQty{1}+连板数量{2} 超过工单数量{3}",
+    "ch-tw": "工單{0},InputQty{1}+連板數量{2} 超過工單數量{3}."
+  },
+  "MES00000138": {
+    "en": "SN {0} already exists!",
+    "chs": "SN{0}已经存在 ,请检查!",
+    "ch-tw": "SN{0} 已經存在,請檢查!"
+  },
+  "MES00000139": {
+    "en": "Panel has no SN ID to use,please check!",
+    "chs": "Panel{0} 没有可分配的SN ID,请检查!",
+    "ch-tw": "Panel{0}沒有可分配的SN ID,請檢查!"
+  },
+  "MES00000140": {
+    "en": "The production line state of TRSN:{0} is {1}",
+    "chs": "TRSN:{0} 的发出产线状态为{1}!",
+    "ch-tw": "TRSN:{0}的發出產線狀態為{1}!"
+  },
+  "MES00000141": {
+    "en": "Pleace enter the query condition !",
+    "chs": "请输入查询条件！",
+    "ch-tw": "請輸入查詢條件!"
+  },
+  "MES00000143": {
+    "en": "SN:{0} not exists in theFQC Lot;",
+    "chs": "SN:{0}不存在LOT中.",
+    "ch-tw": "SN:{0}不存在LOT中."
+  },
+  "MES00000144": {
+    "en": "SN: {0} has not been completed!",
+    "es": "¡SN: {0} no se ha completado!",
+    "chs": "SN:{0} 產品未完工！",
+    "ch-tw": "SN:{0} 产品未完工！"
+  },
+  "MES00000145": {
+    "en": "SN:{0} has stockin.",
+    "chs": "SN:{0} 產品已經入庫！",
+    "ch-tw": "SN:{0} 产品已经入库！"
+  },
+  "MES00000146": {
+    "en": "Route error,Panel {0} has no next station.",
+    "chs": "流程错误，Panel:{0}  没有下一站！",
+    "ch-tw": "流程錯誤，Panel：{0} 沒有下一站！"
+  },
+  "MES00000147": {
+    "en": "The input panel can not be null!",
+    "es": "¡El panel de busqueda no puede estar nulo!",
+    "chs": "输入的 Panel 不能为空！",
+    "ch-tw": "輸入的 Panel 不能為空！"
+  },
+  "MES00000149": {
+    "en": "There are no other SerialNo of Panel {0} for split and pass station!",
+    "chs": "Panel：{0} 无可用的 SN 进行分板！",
+    "ch-tw": "Panel：{0} 無可用的 SN 進行分板！"
+  },
+  "MES00000150": {
+    "en": "Record the {1} of {0} success!",
+    "chs": "记录 {0} 的 {1} 成功！",
+    "ch-tw": "記錄 {0} 的 {1} 成功！"
+  },
+  "MSGCODE20180526185618": {
+    "en": "{0} already exists in LOT {1}, please check!",
+    "chs": "{0}已存在LOT{1}中,请检查!",
+    "ch-tw": "{0}已存在LOT{1}中,請檢查!"
+  },
+  "MSGCODE20180528095410": {
+    "en": "{0} the SNs in the Pallet are not all in the {1} station.",
+    "es": "{0} los seriales en el Pallet no están todos para la estación {1}.",
+    "chs": "{0}包装内SN没有全部处于{1}工站",
+    "ch-tw": "{0}包裝內SN沒有全部處於{1}工站"
+  },
+  "MSGCODE20180528103627": {
+    "en": "Lot {0} state is not Close",
+    "chs": "Lot{0}未处于待关闭状态",
+    "ch-tw": "Lot{0}未處於待關閉狀態"
+  },
+  "MSGCODE20180528105826": {
+    "en": "Lot{0} failed to close, exception: {1}",
+    "chs": "Lot{0}关闭失败,异常:{1}",
+    "ch-tw": "Lot{0}關閉失敗,異常:{1}"
+  },
+  "MSGCODE20180529105040": {
+    "en": "The {0} status is abnormal. There are multiple batches to be sampled. Contact the MES administrator.",
+    "chs": "{0}状态异常,存在多个待抽检批次中,请联系MES管理员",
+    "ch-tw": "{0}狀態異常,存在多個待抽檢批次中,請聯繫MES管理員"
+  },
+  "MSGCODE20180529111019": {
+    "en": "{0} Lot {1} is not closed",
+    "chs": "{0}所在Lot{1}未关闭",
+    "ch-tw": "{0}所在Lot{1}未關閉"
+  },
+  "MSGCODE20180529111245": {
+    "en": "{0} did not enter any lot, please check!",
+    "chs": "{0}没有进入任何批次中,请检查!",
+    "ch-tw": "{0}沒有進入任何批次中,請檢查!"
+  },
+  "MSGCODE20180529165023": {
+    "en": "{0} Sn:{1} NextStation is {2}",
+    "chs": "{0}内Sn{1}下一站为{2}",
+    "ch-tw": "{0}內Sn{1}下一站為{2};"
+  },
+  "MSGCODE20180529165225": {
+    "en": "SN:{0} Not Exists LOT:{1}",
+    "chs": "SN:{0}不在LOT:{1}內",
+    "ch-tw": "SN:{0}不在LOT:{1}內"
+  },
+  "MSGCODE20180529172003": {
+    "en": "Sn{0} has been sampled and the status is {1}, please check",
+    "chs": "Sn{0}已经抽检过,状态为{1},请检查",
+    "ch-tw": "Sn{0}已經抽檢過,狀態為{1},請檢查!"
+  },
+  "MSGCODE20180530114417": {
+    "en": "Lot {0} is not waiting for spot check. Please check!",
+    "chs": "Lot{0}不处于待抽检状态,请检查!",
+    "ch-tw": "Lot{0}不處於待抽檢狀態,請檢查!"
+  },
+  "MSGCODE20180531114237": {
+    "en": "{1} products locked in pallet {0}, locked list: {2}",
+    "chs": "栈板{0}中有{1}个产品被锁定,锁定列表:{2}",
+    "ch-tw": "棧板{0}中有{1}個產品被鎖定,鎖定列表:(2)"
+  },
+  "MES00000083": {
+    "en": "{0} execute {1} false !",
+    "chs": "{0} 执行{1} 失败！",
+    "ch-tw": "{0} 執行 {1} 失敗！"
+  },
+  "MES00000135": {
+    "en": "Lack of   NextStation  List.",
+    "chs": "获取下一站Fail.",
+    "ch-tw": "獲取下一站Fail."
+  },
+  "MES00000136": {
+    "en": "Need send to {0} station.",
+    "chs": "需送到{0}工站.",
+    "ch-tw": "需送到{0}工站."
+  },
+  "MES00000148": {
+    "en": "Panel {0} and SerialNo {1} split and pass station ok!",
+    "chs": "Panel：{0}，SN：{1} 分板过站成功！",
+    "ch-tw": "Panel：{0}，SN：{1} 分板過站成功！"
+  },
+  "MES00000158": {
+    "en": "Recording the failure of BIP distribute successfully,SN {0} has been into repair and failures are {1}.",
+    "chs": "BIP 分板不良：SN {0} / 不良原因：{1}  记录成功，进入维修状态！",
+    "ch-tw": "BIP 分板不良：SN {0} / 不良原因 {1} 記錄成功，進入維修狀態！"
+  },
+  "MES00000160": {
+    "en": "SN:{0} has entered the batch: {1} and the batch status is waiting sampling!",
+    "chs": "SN:{0}已进批次:{1}且该批次处于待抽验状态！",
+    "ch-tw": "SN:{0}已進批次:{1}且該批次處於待抽驗狀態！"
+  },
+  "MES00000162": {
+    "en": "Please continue to input the fail information of Serial Number {0},total {1} and current is the {2}st.",
+    "chs": "请继续输入 SN：{0} 的不良信息，总共 {1}，当前为第 {2} 个！",
+    "ch-tw": "請繼續輸入 SN：{0} 的不良信息，總共 {1}，當前為第 {2} 個！"
+  },
+  "MES00000163": {
+    "en": "Process {0} and Location {1} and FailCode {2} are already exsiting in pre-inputs,please confirm!",
+    "chs": "面别 {0} / 不良位置 {1} / 不良原因 {2} 已经存在于已输入中，请确认！",
+    "ch-tw": "面別 {0} / 不良位置 {1} / 不良原因 {2} 已經存在於已輸入中，請確認！"
+  },
+  "MES00000164": {
+    "en": "No infomation about the workorder {0}！",
+    "chs": "没有查询到工单 {0}！",
+    "ch-tw": "沒有查詢到工單 {0}！"
+  },
+  "MES00000167": {
+    "en": "SN:{} ROUTE NOT ONLY ONE!",
+    "chs": "{0} :RouteID不唯一!",
+    "ch-tw": "{0} :RouteID不唯一!"
+  },
+  "MES00000168": {
+    "en": "WO:{0} ClosedFlag=1!",
+    "chs": "WO:{0} ClosedFlag=1!",
+    "ch-tw": "WO:{0} ClosedFlag=1!"
+  },
+  "MES00000169": {
+    "en": "WO:{0}  FinishQty>WorkOrderQty!",
+    "chs": "WO:{0}  FinishQty>WorkOrderQty!",
+    "ch-tw": "WO:{0}  FinishQty>WorkOrderQty!"
+  },
+  "MES00000171": {
+    "en": "Please input the SerialNumber first!",
+    "chs": "请先输入 {0} ！",
+    "ch-tw": "請先輸入 SN ！"
+  },
+  "MES00000172": {
+    "en": "There is no information about Sku {0} with version  {1}!",
+    "chs": "机种 {0} / 版本 {1} 信息不存在！",
+    "ch-tw": "機種 {0} / 版本 {1} 信息不存在！"
+  },
+  "MES00000173": {
+    "en": "SN/LOT:{0} unlock successfully!",
+    "chs": "SN/LOT:{0} 解锁成功!",
+    "ch-tw": "SN/LOT:{0} 解鎖成功!"
+  },
+  "MES00000174": {
+    "en": "SN {0} is in MRB!",
+    "es": "¡SN {0} esta en MRB!",
+    "chs": "产品 SN {0} 已入 MRB！",
+    "ch-tw": "產品 SN {0} 已入 MRB！"
+  },
+  "MES00000176": {
+    "en": "This route already has a default SKU and it can't be setted to other SKU!",
+    "chs": "该路由已经有默认的机种，不可以设置到其他机种！",
+    "ch-tw": "該路由已經有默認的機種，不可以設置到其他機種！"
+  },
+  "MES00000177": {
+    "en": "This SKU and Route mapping is already exists!",
+    "chs": "该机种-路由关系已经存在！",
+    "ch-tw": "該機種-路由關係已經存在！"
+  },
+  "MES00000178": {
+    "en": "There is already other default route setted with this SKU!",
+    "chs": "该机种已经设置默认路由！",
+    "ch-tw": "該機種已經設置默認路由！"
+  },
+  "MES00000231": {
+    "en": "insert into station detail fail",
+    "chs": "写入过站记录失败",
+    "ch-tw": "寫入過站記錄失敗"
+  },
+  "MES00000233": {
+    "en": "SerialNumber {0} pass station fail!",
+    "chs": "SN:{0} 过站失败！",
+    "ch-tw": "SN:{0} 過站失敗！"
+  },
+  "MES00000235": {
+    "en": "SN: {0}'s' Skuno :{1} is different from the current Lot: {2}!",
+    "chs": "SN:{0}的机种{1}与当前批次机种:{2}不一致!",
+    "ch-tw": "SN:{0}的機種{1}與當前批次機種:{2}不一致!"
+  },
+  "MES00000237": {
+    "en": "Serial Number {0} had got into RMA!",
+    "chs": "产品 {0} 已经入 RMA！",
+    "ch-tw": "產品 {0} 已經入 RMA！"
+  },
+  "MES00000239": {
+    "en": "InputQty is big than the qty of tr_sn",
+    "chs": "输入的连板数量大于ALLPART条码的数量",
+    "ch-tw": "輸入的连板数量大於ALLPART條碼的數量"
+  },
+  "MES00000241": {
+    "en": "Allpart Linkqty config error{0}.or tr_sn qty error{0}",
+    "chs": "Allpart连板数量配置错误{0},或Allpart条码数量错误{0}",
+    "ch-tw": "Allpart 連板數量配置錯誤{0},或Allpart條碼數量錯誤{0}"
+  },
+  "MES00000244": {
+    "en": "{0} can't  pass in the last time on {1}!",
+    "chs": "{0}在{1}工站的最后一次测试没有PASS！",
+    "ch-tw": "{0}在{1}工站的最後一次測試沒有PASS！"
+  },
+  "MES00000245": {
+    "en": "SKU{0} IS NOT EXISTS",
+    "chs": "机种{0}不存在",
+    "ch-tw": "機種{0}不存在"
+  },
+  "MES00000246": {
+    "en": "The current station{0} is inconsistent with the start station of workorder {1}",
+    "chs": "当前工站{0}，与工单投入工站{1}不一致！",
+    "ch-tw": "當前工站{0}，與工單投入工站{1}不一致！"
+  },
+  "MES00000247": {
+    "en": "{0} the wo is already full",
+    "chs": "{0}工单已投满！",
+    "ch-tw": "{0}工單已投滿！"
+  },
+  "MES00000249": {
+    "en": "{0}this wordorder type is {1}",
+    "chs": "{0}工单类型为{1}",
+    "ch-tw": "{0}工單類型{1}"
+  },
+  "MES00000019": {
+    "en": "DataBase Type {0} not surpport.",
+    "chs": "数据库类型{0}不支持",
+    "ch-tw": "數據庫類型{0}不支持"
+  },
+  "MES00000040": {
+    "en": "{0} has been used !",
+    "chs": "{0} 已经投入使用！",
+    "ch-tw": "{0}已經投入使用！"
+  },
+  "MES0000156": {
+    "en": "The SN: {0} and WO Version do not Match, please check with PE that the LinkControl mapping are correct!",
+    "es": "La version del SN: {0} y WO no son iguales, ¡favor de revisar con el Ingeniero de Procesos que los mapeos de LinkControl sean correctos!",
+    "chs": "{0} SN与WO版本不匹配！",
+    "ch-tw": "{0} SN與WO版本不匹配！"
+  },
+  "MES00000055": {
+    "en": "Panel:{0} has been inputed successfully.Next Station:{1}.",
+    "chs": "Panel:{0} 投入成功,下一站:{1}",
+    "ch-tw": "Panel:{0} 投入成功,下一站:{1}"
+  },
+  "MES00000072": {
+    "en": "{0} Not In The ALLPART System's {1}",
+    "chs": "{0}不存在ALLPART系统{1}中",
+    "ch-tw": "{0}不存在ALLPART系統{1}中"
+  },
+  "MES00000074": {
+    "en": "The WORKFLAG Of TRSN:{0} Is Not Equal To 0",
+    "chs": "TRSN:{0}的WORKFLAG 不等于0",
+    "ch-tw": "TRSN:{0}的WORKFLAG不等於0"
+  },
+  "MES00000073": {
+    "en": "The Remaining Quantity Of TRSN:{0} Is Less Than 0",
+    "chs": "TRSN:{0}的剩余数量小于0",
+    "ch-tw": "TRSN:{0}剩餘數量小於0"
+  },
+  "MES00000075": {
+    "en": "TRSN:{0}'s SKU {1} Is Not Equal To PCBA's SKU{2}",
+    "chs": "TRSN:{0}的料号{1} 不等于PCBA的料号{2}",
+    "ch-tw": "TRSN:{0}的料號{1}不等於PCBA的料號{2}"
+  },
+  "MES00000076": {
+    "en": "The current status of SN({0}) is not MRB",
+    "chs": "SN({0})当前状态不为MRB",
+    "ch-tw": "SN({0})當前狀態不為MRB"
+  },
+  "MES00000077": {
+    "en": "The workorder of SN({0}) is consistent with the current rework workorder",
+    "chs": "SN({0})工单与当前重工工单一致",
+    "ch-tw": "SN({0})工單與當前重工工單一致"
+  },
+  "MES00000079": {
+    "en": "{0}:'{1}' has no repairable main information!",
+    "chs": "{0}:'{1}'无维修主档信息！",
+    "ch-tw": "{0}:'{1}'無維修主檔信息！"
+  },
+  "MES00000084": {
+    "en": "The sku version of {0} is different from the sku version of {1} !",
+    "chs": "{0}的料号版本与{1}的料号版本不一样！",
+    "ch-tw": "{0}的料號版本與{1}的料號版本不一樣！"
+  },
+  "MES00000085": {
+    "en": "The sku version of {0} and sku version of {1} are the same !",
+    "chs": "{0}的料号版本与{1}的料号版本一样！",
+    "ch-tw": "{0}的料號版本與{1}的料號版本一樣！"
+  },
+  "MES00000086": {
+    "en": "find out more datas!",
+    "chs": "存在多笔管控数据！请检查！",
+    "ch-tw": "存在多筆管控數據！請檢查！"
+  },
+  "MES00000087": {
+    "en": "This product fail in {},{}!",
+    "chs": "该产品第{0}次Fail,{1}！",
+    "ch-tw": "該產品第{0}次Fail,{1}！"
+  },
+  "MES00000038": {
+    "en": "Panel {0} is not exists!",
+    "chs": "Panel：{0} 不存在！",
+    "ch-tw": "Panel：{0} 不存在！"
+  },
+  "MES00000088": {
+    "en": "There is no virtual SN could be replaced on this Panel {0}!",
+    "chs": "这个 Panel：{0} 已经没有可替换的 SN！",
+    "ch-tw": "這個 Panel：{0} 已經沒有可替換的 SN！"
+  },
+  "MES00000089": {
+    "en": "The Panel {0} is not exists or there are no Serial Number binding with it !",
+    "chs": "Panel：{0} 不存在或者该 Panel 没有对应的 SN！",
+    "ch-tw": "Panel：{0} 不存在或者該 Panel 沒有對應的 SN！"
+  },
+  "MES00000090": {
+    "en": "The Current Station {0} is the last station in the route!",
+    "chs": "当前站位：{0} 已经是流程中的最后一站！",
+    "ch-tw": "當前站位：{0} 已經是流程中的最後一站！"
+  },
+  "MES00000091": {
+    "en": "This Lot Number {0} is not exists!",
+    "chs": "该 Lot：{0} 不存在！",
+    "ch-tw": "該 Lot：{0} 不存在！"
+  },
+  "MES00000092": {
+    "en": "This Lot {0} had been closed already!",
+    "chs": "该 Lot：{0} 已经关闭！",
+    "ch-tw": "該 Lot：{0} 已經關閉！"
+  },
+  "MES00000093": {
+    "en": "This Serial Number {0} had been checked already!",
+    "chs": "该 SN：{0} 已经被抽检过！",
+    "ch-tw": "該 SN：{0} 已經被抽檢過！"
+  },
+  "MES00000094": {
+    "en": "Please confirm that the Serial Number {0} is exists and belongs to this Lot Number {1}!",
+    "chs": "请确认 SN：{0} 存在并且属于该 Lot：{1}！",
+    "ch-tw": "請確認 SN：{0} 存在並且屬於該 Lot：{1}！"
+  },
+  "MES00000097": {
+    "en": "{0}:{1} is not completed!",
+    "chs": "{0}：{1}未完成！",
+    "ch-tw": "{0}：{1}未完成！"
+  },
+  "MES00000102": {
+    "en": "Download Wo OK,Auto Convert OK.",
+    "chs": "Down工单OK,AutoConvert 工单OK!",
+    "ch-tw": "Down工單OK,AutoConvert OK!"
+  },
+  "MES00000103": {
+    "en": "IP NOT MATCH.",
+    "chs": "IP 不匹配！",
+    "ch-tw": "IP 不匹配！"
+  },
+  "MES00000107": {
+    "en": "Can not obtains the data of {0} from Ems WebService!",
+    "chs": "无法从 Ems 接口获取到对应的 SN：{0} 信息！",
+    "ch-tw": "無法從 Ems 接口獲取到對應的 SN：{0} 信息！"
+  },
+  "MES00000108": {
+    "en": "Please confirm the work order and workflow are right or not! current Station is {0} and checking station is {1},EmsSnWo is {2}.",
+    "chs": "请确认工单或工序是否正确！当前工站为：{0}，校验工站为：{1}，EmsSnWo 为 {2}！",
+    "ch-tw": "請確認工單或工序是否正確！當前工站為 {0} ，校驗工站為 {1}，EmsSnWo 為 {2}！"
+  },
+  "MSGCODE20200623085741": {
+    "en": "KP's License data (SOFTWARE) is missing. Please contact quality control for processing",
+    "chs": "KP的License资料缺失(SOFTWARE),请联系品管处理",
+    "ch-tw": "KP的License資料缺失(SOFTWARE), 請聯繫品管處理"
+  },
+  "MSGCODE20200623093757": {
+    "en": "{0} FAI report has not been uploaded, please upload it first!",
+    "es": "{0} no se ha subido el reporte FAI, ¡porfavor subalo primero!",
+    "chs": "{0} FAI报表没有上传，请先上传FAI报表",
+    "ch-tw": "{0} FAI報表沒有上傳，請先上傳FAI報表"
+  },
+  "MSGCODE20200624162658": {
+    "en": "The quantity of KP in this workorderno is inconsistent with that of SAP BOM or that of Sn Kp in recent production. Please contact QE for confirmation.",
+    "es": "La cantidad de KP en esta Workorder no coincide con la del BOM de SAP o con los escaneos en seriales recientes de producción. Porfavor contacte a Calidad para confirmar.",
+    "chs": "该工单KP数量与SAP BOM不一致或与最近生产SnKp数量不一致，请联系QE确认。",
+    "ch-tw": "該工單KP數量與SAP BOM不一致或與最近生產SnKp數量不一致，請聯繫QE确认。"
+  },
+    "MSGCODE20200624162659": {
+    "en": "Click reset or check Kp list setting.",
+    "chs": "点击RESET 或者 请检查KP LIST是否配置。",
+    "ch-tw": "點擊RESET 或者 請檢查KP LIST是否配置。"
+  },
+  "MSGCODE20200624162660": {
+    "en": "The Scantype of the 7xx material number is a PN type and has configured a YN regex. Please contact PE to check.",
+    "es": "El Scantype de el material 7xx es un PN y tiene configurada un regex de YN. Porfavor contacte a Procesos para revisar.",
+    "chs": "7XX料号的ScanType等于PN类型的，不能设置rule为Y，请联系PE确认。",
+    "ch-tw": "7XX料號的ScanType等於PN類型的，不能設置rule為Y，请联系PE确认。"
+  },
+    "MSGCODE20200624162661": {
+    "en": "Skuno is equal to partno, cannot set scantype as sn. contact PE to confirm.",
+    "chs": "SKUNO与PARTNO一致，不能设置ScanType为SN，请联系PE确认。",
+    "ch-tw": "SKUNO與PARTNO一致，不能設置ScanType為SN，请联系PE确认。"
+  },
+    "MSGCODE20200624162662": {
+    "en": "PARTNO:{0}  Not in bom, please contact PE to set up the correct partno.",
+    "chs": "PARTNO:{0}不在BOM内，请联系PE設置正確的PARTNO。",
+    "ch-tw": "PARTNO:{0}不在BOM內，請聯繫PE設置正確的PARTNO。"
+  },
+  "MSGCODE20200703165013": {
+    "en": "Mis CustomerCode!",
+    "chs": "客户代码缺失!",
+    "ch-tw": "客戶代碼缺失!"
+  },
+  "MSGCODE20200706140440": {
+    "en": "Please confirm the user and password is match or is not QE",
+    "chs": "请确认输入的账号与密码是否匹配,或者无权限",
+    "ch-tw": "請確認輸入的賬號與密碼是否匹配,或者無權限"
+  },
+  "MSGCODE20200709234829": {
+    "en": "KP:{0}  is in use, cannot be deleted!",
+    "chs": "KP:{0} 在使用中，不能删除!",
+    "ch-tw": "KP:{0} 在使用中，不能刪除!"
+  },
+  "MES00000156": {
+    "en": "The currentstation {1} of SN:{0} is not in the route.",
+    "chs": "SN:{0} 当前工站:{1} 不在路由中!",
+    "ch-tw": "SN:{0},當前工站:{1} 不在路由中!"
+  },
+  "MSGCODE20200623085605": {
+    "en": "KP's License data(FIRMWARE) is missing. Please contact quality control for processing",
+    "chs": "KP的License资料缺失(FIRMWARE),请联系品管处理",
+    "ch-tw": "KP的License資料缺失(FIRMWARE), 請聯繫品管處理"
+  },
+  "MSGCODE20200622140355": {
+    "en": "Some boards in the pallet did not scan DOUBLECHECK, please confirm",
+    "chs": "该栈板中某些板子没有扫描DOUBLECHECK,请确认",
+    "ch-tw": "該棧板中某些板子沒有掃描DOUBELCHECK,請確認"
+  },
+  "MES00000189": {
+    "en": "Skuno:{0} not config the Station:{1} sample information.",
+    "chs": "料号:{0} 在工站:{1} 未配置抽测！",
+    "ch-tw": "料號:{0} 在工站:{1} 未配置抽測"
+  },
+  "MES00000190": {
+    "en": "PE did not set keyparts!",
+    "chs": "PE 未设置KP!",
+    "ch-tw": "PE未設置KP!"
+  },
+  "MES00000029": {
+    "en": "{0}:'{1}'Load successful.",
+    "chs": "{0}:'{1}'加载成功.",
+    "ch-tw": "{0}:'{1}'加載成功."
+  },
+  "MES00000030": {
+    "en": "Workorder: {0}'s target quantity is {1},alreay input {2},it's full now.",
+    "chs": "工单 {0} 套数为 {1}，已投入 {2}，已投满。",
+    "ch-tw": "工單 {0} 套數為 {1}，已投入 {2}，已投滿。"
+  },
+  "MES00000041": {
+    "en": "Wo:{0} workorder not open，please comfirm!",
+    "chs": "Wo:{0} 工单未开启,请确认！",
+    "ch-tw": "Wo:{0} 工單未開啟，請確認!"
+  },
+  "MES00000042": {
+    "en": "Wo:{0} workorder not Release，please comfirm!",
+    "chs": "Wo:{0} 工单未Release,请确认！",
+    "ch-tw": "Wo:{0} 工單未Release，請確認!"
+  },
+  "MES00000056": {
+    "en": "SN:{0} is not in the range of the WO:{1} list!",
+    "chs": "SN:{0} 不在工单:{1}的区间！",
+    "ch-tw": "SN:{0} 不在工單:{1} 的區間！"
+  },
+  "MES00000054": {
+    "en": "SN:{0} has been inputed successfully.",
+    "chs": "SN:{0} 投入成功！",
+    "ch-tw": "SN:{0} 投入成功！"
+  },
+  "MES00000045": {
+    "en": "{0} loading fail !",
+    "chs": "{0}加载异常！",
+    "ch-tw": "{0}加載異常！"
+  },
+  "MES00000046": {
+    "en": "check finished:{0}",
+    "chs": "检查完成：{0}",
+    "ch-tw": "檢查完畢：{0}"
+  },
+  "MES00000047": {
+    "en": "workorder:{0} has finished all product !",
+    "chs": "工单：{0} 已上料齐全！",
+    "ch-tw": "工單：{0} 已上料齊套"
+  },
+  "MES00000065": {
+    "en": "Lot Number {0} and Serial Number {1} checked successfully!",
+    "chs": "Lot：{0}，SN：{1} 抽检成功！",
+    "ch-tw": "Lot：{0}，SN：{1} 抽檢成功！"
+  },
+  "MES00000078": {
+    "en": "SN:'{0}' is the normal product!",
+    "chs": "SN:'{0}'是正常品！",
+    "ch-tw": "SN:'{0}'是正常品！"
+  },
+  "MES00000112": {
+    "en": "工單{0}的起始站位不是{1}！",
+    "chs": "工單{0}的起始站位不是{1}！",
+    "ch-tw": "工單{0}的起始站位不是{1}！"
+  },
+  "MES00000137": {
+    "en": "Allpart Linkqty config error{0}.",
+    "chs": "Allpart连板数量配置错误{0},",
+    "ch-tw": "Allpart 連板數量配置錯誤{0},"
+  },
+  "MES00000142": {
+    "en": "ErrorCode:{0} not exists.",
+    "chs": "ErrorCode:{0}不存在.",
+    "ch-tw": "ErrorCode:{0}不存在."
+  },
+  "MES00000155": {
+    "en": "LOTNO:{0} closed successfully!",
+    "chs": "LOTNO:{0} 关闭成功！",
+    "ch-tw": "LOTNO:{0} 關閉成功！"
+  },
+  "MES00000170": {
+    "en": "Can't get the SerialNumber object,so can't load SKU object from SerialNumber object!",
+    "chs": "无法获取到 SN 对象，因此无法从 SN 对象加载 SKU 对象！",
+    "ch-tw": "無法獲取到 SN 對象，因此無法從 SN 對象加載 SKU 對象！"
+  },
+  "MES00000180": {
+    "en": "{0}:'{1}' link success!",
+    "chs": "{0}:'{1}'绑定成功！",
+    "ch-tw": "{0}:'{1}'綁定成功！"
+  },
+  "MES00000193": {
+    "en": "KP SN:{0} has scanned.",
+    "chs": "KP SN:{0} 已经扫描。",
+    "ch-tw": "KP SN:{0} 已經掃描。"
+  },
+  "MES00000198": {
+    "en": "Successfully to replace the old label {1} with new label {0}!",
+    "chs": "新条码 {0} 替换旧条码 {1} 成功！",
+    "ch-tw": "新條碼 {0} 替換舊條碼 {1} 成功！"
+  },
+  "MES00000001": {
+    "en": "Execute Success",
+    "chs": "执行成功",
+    "ch-tw": "執行成功"
+  },
+  "MES00000002": {
+    "en": "Add Success",
+    "chs": "添加成功",
+    "ch-tw": "添加成功"
+  },
+  "MES00000003": {
+    "en": "Modify Success",
+    "chs": "修改成功",
+    "ch-tw": "修改成功"
+  },
+  "MES00000004": {
+    "en": "Delete Success",
+    "chs": "删除成功",
+    "ch-tw": "刪除成功"
+  },
+  "MES00000007": {
+    "en": "{0} not exists!",
+    "chs": "{0} 不存在！ ",
+    "ch-tw": "{0} 不存在！"
+  },
+  "MES00000008": {
+    "en": "The {0} has already existed",
+    "chs": "{0}已經存在",
+    "ch-tw": "{0}已經存在"
+  },
+  "MES00000032": {
+    "en": "Current data had been changed,please reload!",
+    "chs": "当前数据已发生变化，请重新加载！",
+    "ch-tw": "當前數據已發生變化，請重新加載！"
+  },
+  "MES00000005": {
+    "en": "The data has already existed",
+    "chs": "數據已經存在",
+    "ch-tw": "數據已經存在"
+  },
+  "MES00000006": {
+    "en": "{0} can not be empty",
+    "chs": "{0}不能为空",
+    "ch-tw": "{0}不能為空"
+  },
+  "MES00000033": {
+    "en": "Find out {0} rows data.",
+    "chs": "查询到 {0} 行数据。",
+    "ch-tw": "查詢到 {0} 行數據。"
+  },
+  "MES00000034": {
+    "en": "No data has been found!",
+    "chs": "没有查询到任何数据！",
+    "ch-tw": "沒有查詢到任何數據！"
+  },
+  "MES00000035": {
+    "en": "Successfully update {0} rows data.",
+    "chs": "成功更新 {0} 行数据 。",
+    "ch-tw": "成功更新 {0} 行數據。"
+  },
+  "MES00000036": {
+    "en": "No data has been modified!",
+    "chs": "沒有更新任何数据！",
+    "ch-tw": "沒有更新任何數據！"
+  },
+  "MES00000037": {
+    "en": "Exceptions occured when executing:{0}!",
+    "chs": "执行出现异常：{0}！",
+    "ch-tw": "執行出現異常：{0}！"
+  },
+  "MES00000009": {
+    "en": "Login  Success",
+    "chs": "登录成功",
+    "ch-tw": "登錄成功"
+  },
+  "MES00000010": {
+    "en": "LoginUser is not exist or password is wrong!",
+    "chs": "登录失败,用户不存在或者密码错误",
+    "ch-tw": "登錄失敗,用戶不存在或者密碼錯誤"
+  },
+  "MES00000011": {
+    "en": "Token is invalid",
+    "chs": "Token 无效",
+    "ch-tw": "Token無效"
+  },
+  "MES00000012": {
+    "en": "Registration failed, the user already existed",
+    "chs": "注册失败,已存在该用户",
+    "ch-tw": "註冊失敗,已存在該用戶"
+  },
+  "MES00000013": {
+    "en": "Successful registration",
+    "chs": "注册成功",
+    "ch-tw": "註冊成功"
+  },
+  "MES00000014": {
+    "en": "Registration failure",
+    "chs": "注册失败",
+    "ch-tw": "註冊失敗"
+  },
+  "MES00000015": {
+    "en": "The password was retrieved successfully and sent to the mailbox!",
+    "chs": "密码取回成功,已发送到邮箱！",
+    "ch-tw": "密碼取回成功,已發送至郵箱！"
+  },
+  "MES00000016": {
+    "en": "Successful user information!",
+    "chs": "成功取到用户信息！",
+    "ch-tw": "成功取到用戶信息！"
+  },
+  "MES00000017": {
+    "en": "Loading user information successfully",
+    "chs": "加载用户信息成功",
+    "ch-tw": "加載用戶信息成功"
+  },
+  "MES00000018": {
+    "en": "所需分頁數{0}大於最大分頁{1}The required page number {0} is larger than the maximum pagination {1}",
+    "chs": "所需分页数{0}大于最大分页{1}",
+    "ch-tw": "所需分頁數{0}大於最大分頁{1}"
+  },
+  "MES00000020": {
+    "en": "{0}Data can only be {1}",
+    "chs": "{0} 数据只能是 {1}",
+    "ch-tw": "{0} 數據只能是 {1}"
+  },
+  "MES00000021": {
+    "en": "{0} Add failed",
+    "chs": "{0} 添加失败",
+    "ch-tw": "{0} 添加失敗"
+  },
+  "MES00000022": {
+    "en": "{0} incorrect data format",
+    "chs": "{0} 数据格式不正确",
+    "ch-tw": "{0} 數據格式不正確"
+  },
+  "MES00000023": {
+    "en": "{0} Delete failed",
+    "chs": "{0} 删除失败",
+    "ch-tw": "{0} 刪除失敗"
+  },
+  "MES00000024": {
+    "en": "{0} Data must be unique",
+    "chs": "{0} 数据要唯一",
+    "ch-tw": "{0} 數據要唯一"
+  },
+  "MES00000025": {
+    "en": "{0} Update failed",
+    "chs": "{0} 更新失败",
+    "ch-tw": "{0}更新失敗"
+  },
+  "MES00000027": {
+    "en": "{0} Can't be the same as{1}",
+    "chs": "{0} 不能与{1}相同",
+    "ch-tw": "{0} 不能與{1}相同"
+  },
+  "MES00000154": {
+    "en": "Current station is the last station in this route!",
+    "chs": "当前站位 {0} 是该流程中最后一站！",
+    "ch-tw": "當前站位 {0} 是該流程中的最後一站！"
+  },
+  "MES00000044": {
+    "en": "{0}:'{1}' has been locked by {2}!",
+    "chs": "{0}：'{1}' 已被{2}锁定！",
+    "ch-tw": "{0}:'{1}' 已被{2}鎖定！"
+  },
+  "MES00000043": {
+    "en": "Work order is not availble, please download first!",
+    "chs": "工作单不可用，请先下载！",
+    "ch-tw": "工單不可用，請先下載！"
+  },
+  "MES00000057": {
+    "en": "Incorrect number of parameters !",
+    "chs": "参数个数不正确！",
+    "ch-tw": "參數個數不正確！"
+  },
+  "MES00000115": {
+    "en": "Start SN:{0} is not exist!",
+    "chs": "StartSN:{0} 不存在！",
+    "ch-tw": "Start SN:{0} 不存在！"
+  },
+  "MES00000116": {
+    "en": "End SN:{0} is not exist!",
+    "chs": "EndSN:{0} 不存在！",
+    "ch-tw": "End SN:{0} 不存在！"
+  },
+  "MES00000117": {
+    "en": "The length of StartSN: {0} is not match with EndSN: {1}!",
+    "chs": "StartSN: {0} 与EndSN: {1} 長度不一致",
+    "ch-tw": "StartSN: {0} 與EndSN: {1} 長度不一致"
+  },
+  "MES00000179": {
+    "en": "The current skuno and route mapping is not the latest,please upload again!",
+    "chs": "当前的机种路由映射不是最新的，请重新加载！",
+    "ch-tw": "當前的機種路由映射不是最新的，請重新加載！"
+  },
+  "MES00000181": {
+    "en": "There is no record about the test of Serial Number {0} in HW test system!",
+    "chs": "在 HW 测试记录中没有找到 SN：{0} 的记录！",
+    "ch-tw": "在 HW 測試記錄中沒有找到 SN：{0} 的記錄！"
+  },
+  "MES00000182": {
+    "en": "Serial Number {0} had got into MRB!",
+    "chs": "产品 {0} 已经入 MRB！",
+    "ch-tw": "產品 {0} 已經入 MRB！"
+  },
+  "MES00000188": {
+    "en": "CurrentStation has scanned Pass!",
+    "chs": "当前工站已经扫描Pass！",
+    "ch-tw": "當前工站已經掃描Pass！"
+  },
+  "MES00000191": {
+    "en": "SN:{0} Choose this record ID:{1}Fail  Info Have repair OK!",
+    "chs": "SN:{0} 选中的该条{1}Fail记录已维修OK!",
+    "ch-tw": "SN:{0} 选中的该条{1}Fail记录已维修OK!"
+  },
+  "MES00000192": {
+    "en": "Choose this record Fail  Info Have repair OK!",
+    "chs": "该条记录已经在R_REPAIR_FAILCODE中已维修OK !",
+    "ch-tw": "该条记录已经在R_REPAIR_FAILCODE中已维修OK !"
+  },
+  "MES00000194": {
+    "en": "The route of workorderno:{0} is not exists!",
+    "chs": "工单:{0}路由不存在！",
+    "ch-tw": "工單:{0}路由不存在！"
+  },
+  "MES00000195": {
+    "en": "SN:{0} pass station successfully!Next Station:{1}.",
+    "chs": "SN:{0} 过站成功,下一站:{1}.",
+    "ch-tw": "SN:{0} 過站成功,下一站:{1}."
+  },
+  "MES00000196": {
+    "en": "Current WorkOrder has no request for {1}.",
+    "chs": "当前工单 {0} 没有 {1} 物料需求!",
+    "ch-tw": "當前工單 {0} 沒有 {1} 物料需求! "
+  },
+  "MES00000197": {
+    "en": "Failed to update the {1} data of Serial Number {0}!",
+    "chs": "更新 SN {0} 的 {1} 数据失败！",
+    "ch-tw": "更新 SN {0} 的 {1} 數據失敗！"
+  },
+  "MES00000199": {
+    "en": "You shouldn't add a null route to Sku!",
+    "chs": "不能给料号添加空白路由！",
+    "ch-tw": "不能給料號添加空白路由！"
+  },
+  "MES00000200": {
+    "en": "Ths SN:{0} has been scanned the last station,current status is {1}.",
+    "chs": "产品SN:{0}已扫路由最后一个工站,状态为:{1}.",
+    "ch-tw": "產品SN:{0}已掃路由最後一個工站,状态为:{1}."
+  },
+  "MES00000201": {
+    "en": "This Lot {0} had not been closed!",
+    "chs": "该 Lot：{0} 未关闭！",
+    "ch-tw": "該Lot：{0} 未關閉！"
+  },
+  "MES00000202": {
+    "en": "Some products status of the Lot:{0} are not in SMT_FQC.",
+    "chs": "该Lot:{0} 的产品有的下一站不在SMT_FQC.",
+    "ch-tw": "該Lot:{0} 的產品有的下一站不在SMT_FQC."
+  },
+  "MES00000203": {
+    "en": "This Workorder:{0} type is rework, start_station not allow null!",
+    "chs": "該工單：{0} 為REWORK工單，START_STATION不能為空！",
+    "ch-tw": "該工單：{0} 為REWORK工單，START_STATION不能為空！"
+  },
+  "MES00000204": {
+    "en": "This Workorder:{0} type is rework, start_station is not  in routeID!",
+    "chs": "該工單：{0} 為REWORK工單，START_STATION:{1}不存在該工單流程中！",
+    "ch-tw": "該工單：{0} 為REWORK工單，START_STATION:{1}不存在該工單流程中！"
+  },
+  "MES00000205": {
+    "en": "SN:{0} NEXT_STATION NOT EXISTS REWORK WORKORDER: {1}  ROUTE!",
+    "chs": "SN:{0}在R_MRB的NEXT_STATION不存在重工工單：{1}流程中！",
+    "ch-tw": "SN:{0}在R_MRB的NEXT_STATION不存在重工工單：{1}流程中！"
+  },
+  "MES00000206": {
+    "en": "Panel {0} is not in the {1} station!",
+    "chs": "Panel {0} 不在 {1} 站位！",
+    "ch-tw": "Panel {0} 不在 {1} 站位！"
+  },
+  "MES00000207": {
+    "en": "Successfully delete the Panel {0}!",
+    "chs": "删除条码 {0} 成功！",
+    "ch-tw": "刪除條碼 {0} 成功！"
+  },
+  "MES00000208": {
+    "en": "WO:{0},CutWo Qty:{1} is bigger than Wo last qty:{2}.",
+    "chs": "工单:{0},砍工单数量:{1}大于工单的未生产数量:{2}.",
+    "ch-tw": "工單:{0},砍工單數量:{1}大於工單的未生產數量:{2}."
+  },
+  "MES00000209": {
+    "en": "WO:{0} Cut WO qty:{1} fail!",
+    "chs": "工单:{0} 砍工单数量:{1} 失败！",
+    "ch-tw": "工單:{0}砍工單數量:{1}失敗！"
+  },
+  "MES00000210": {
+    "en": "WO:{0} Cut WO qty:{1} pass!",
+    "chs": "工单:{0} 砍工单数量:{1} 成功！",
+    "ch-tw": "工單:{0}砍工單數量:{1}成功！"
+  },
+  "MES00000211": {
+    "en": "REWORK STATION JUST BE FOR BEFORE!",
+    "chs": "REWORK工站只能往前打，不能往後打！",
+    "ch-tw": "REWORK工站只能往前打，不能往後打！"
+  },
+  "MES00000217": {
+    "en": "test",
+    "chs": "test",
+    "ch-tw": "test"
+  },
+  "MES00000218": {
+    "en": "test2",
+    "chs": "test2",
+    "ch-tw": "test2"
+  },
+  "MES00000216": {
+    "en": "test",
+    "chs": "test",
+    "ch-tw": "測試"
+  },
+  "MES00000219": {
+    "en": "測試",
+    "chs": "測試",
+    "ch-tw": "測試"
+  },
+  "MES00000109": {
+    "en": "The workflow of {0} has been checked successfully!",
+    "chs": "SN：{0} 检查工序成功！",
+    "ch-tw": "SN：{0} 檢查工序成功！"
+  },
+  "MES00000110": {
+    "en": "The input SkuNo {0} is different from the SkuNo of the workorder {1}!",
+    "chs": "输入料号 {0} 与工单 {1} 料号不相同！",
+    "ch-tw": "輸入料號 {0} 與工單 {1} 料號不相同！"
+  },
+  "MES00000111": {
+    "en": "The input SkuNo {0} is correct!",
+    "chs": "输入料号 {0} 正确！",
+    "ch-tw": "輸入料號 {0} 正確！"
+  },
+  "MES00000113": {
+    "en": "This function has a working station in use，Can not be deleted！",
+    "chs": "此函數有工站在用，不可以刪除！",
+    "ch-tw": "此函數有工站在用，不可以刪除！"
+  },
+  "MES00000114": {
+    "en": "The batch number of SN OR LOTNO:{0} is not lock-in!",
+    "chs": "SN OR LOTNO:{0}未处于锁定状态！",
+    "ch-tw": "SN OR LOTNO:{0}未處於鎖定狀態！"
+  },
+  "MES00000161": {
+    "en": "LotNo not exists!",
+    "chs": "LOT 不存在!",
+    "ch-tw": "LOT 不存在！"
+  },
+  "MES00000165": {
+    "en": "KP SN :{0} has been binding",
+    "chs": "KP SN：{0} 已被绑定",
+    "ch-tw": "KP SN：{0} 已被綁定"
+  },
+  "MES00000166": {
+    "en": "{0}:'{1}' has loaded in current workorder",
+    "chs": "{0}：'{1}' 已入当前工单",
+    "ch-tw": "{0}：'{1}' 已入黨前工單"
+  },
+  "MES00000175": {
+    "en": "SN Skuno:{0} not exists in the config KP Skunos!",
+    "chs": "SN料号: {0}在配置的KP 料号中不存在！",
+    "ch-tw": "SN料號:{0}在配置的KP 料號中不不存！"
+  },
+  "MES00000183": {
+    "en": "The length of barcode is invalid,congfig length is {0},actual length is {1}.",
+    "chs": "条码长度不符合规则,配置长度为:{0},实际长度为:{1}.",
+    "ch-tw": "條碼長度不符規則,配置長度為:{0},實際長度為:{1}."
+  },
+  "MES00000184": {
+    "en": "The char {1} is invalid in position {0},not in the range 0~9!",
+    "chs": "序列号第{0}位[ {1} ]不在0~9的范围内!",
+    "ch-tw": "序列號第{0}位[ {1} ]不在0~9的範圍內！"
+  },
+  "MES00000185": {
+    "en": "The char {1} is invalid in position {0},not in the range A~Z!",
+    "chs": "序列号第{0}位[ {1} ] 不在A~Z的范围内!",
+    "ch-tw": "序列號第{0}位[ {1} ]不在A~Z的範圍內！"
+  },
+  "MSGCODE20200304102250": {
+    "en": "Serial Number {0} had got into RMA, Please Choose RMA-Repair Model!",
+    "chs": "产品 {0} 已经入 RMA，请使用RMA-Repair模块！",
+    "ch-tw": "產品 {0} 已經入RMA，請使用RMA-Repair模塊！"
+  },
+  "MSGCODE20200304162231": {
+    "en": "SN:{0} is in the state to be packed, please check!",
+    "chs": "开箱抽检需要SN:{0}处于待包装状态,请检查!",
+    "ch-tw": "開箱抽檢需要SN:{0}處於待包裝狀態,請檢查!"
+  },
+  "MSGCODE20200305093313": {
+    "en": "SN:{0} Is Repaired {2} Times On {1} Station, Please Scan MRB!",
+    "chs": "{0} 在 {1} 工站被维修过{2} 次，请送MRB！",
+    "ch-tw": "{0} 在 {1} 工站被維修過 {2} 次，請送MRB！"
+  },
+  "MSGCODE20200305094711": {
+    "en": "The Repaied TImes Control of This SN:{0} On Station [1] is {2}, Please Call QE!",
+    "chs": "SN:{0} 在 {1} 工站的维修管控次数为:{2}次，请联系QE！",
+    "ch-tw": "SN:{0} 在 {1} 工站的維修管控次數為:{2}次，請聯繫QE！"
+  },
+  "MSGCODE20200309162330": {
+    "en": "SN:{0} sampling was {1}!",
+    "chs": "SN:{0}抽检{1}!",
+    "ch-tw": "SN:{0}抽檢{1}!"
+  },
+  "MES00000151": {
+    "en": "The version {1} of  skuno {0} is already exists!",
+    "chs": "机种：{0}，版本： {1} 已存在！",
+    "ch-tw": "機種：{0}，版本：{1} 已存在！"
+  },
+  "MES00000152": {
+    "en": "The current skuno information is not the latest,please upload again!",
+    "chs": "当前的机种信息不是最新的，请重新加载！",
+    "ch-tw": "當前的機種信息不是最新的，請重新加載！"
+  },
+  "MES00000153": {
+    "en": "There are more than one same station {0} in this route,please confirm!",
+    "chs": "同一个流程中出现多个相同站位 {0}，请确认！",
+    "ch-tw": "同一個流程中出現多個相同站位 {0}，請確認！"
+  },
+  "MSGCODE20180607163531": {
+    "en": "{0} Type error!",
+    "chs": "{0}类型错误！",
+    "ch-tw": "{0}類型錯誤！"
+  },
+  "MSGCODE20180612114250": {
+    "en": "the type of packing {0} and {1} are inconsistent",
+    "chs": "{0}与{1}包装类型不一致",
+    "ch-tw": "{0}與{1}包裝類型不一致"
+  },
+  "MSGCODE20180612141356": {
+    "en": "the skuno version of {0} and {1} are inconsistent",
+    "chs": "{0}与{1}机种版本不一致",
+    "ch-tw": "{0}與{1}機種版本不一致"
+  },
+  "MSGCODE20180612141600": {
+    "en": "{0} can not in {1}",
+    "chs": "{0}已经不在{1}中",
+    "ch-tw": "{0}已經不在{1}中"
+  },
+  "MSGCODE20180612141824": {
+    "en": "{0} have been move to {1}",
+    "chs": "{0}已经移到{1}中",
+    "ch-tw": "{0}已經移到{1}中"
+  },
+  "MSGCODE20180612142034": {
+    "en": "Move OK,from {0} to {2} ,qty{1}",
+    "chs": "移动成功，从{0}移动{1}个到{2}",
+    "ch-tw": "移動成功，從{0}移動{1}個到{2}"
+  },
+  "MSGCODE20180612154414": {
+    "en": "open {0} fail",
+    "chs": "打开{0}失败！",
+    "ch-tw": "打開{0}失敗！"
+  },
+  "MSGCODE20180612154506": {
+    "en": "close {0} fail!",
+    "chs": "关闭{0}失败！",
+    "ch-tw": "關閉{0}失敗"
+  },
+  "MSGCODE20180620114012": {
+    "en": "get {0} packing info fail",
+    "chs": "获取{0}包装信息失败",
+    "ch-tw": "獲取{0}包裝信息失敗"
+  },
+  "MSGCODE20180813114004": {
+    "en": "SN: {0}  the current station {1} has no station record",
+    "chs": "SN:{0}当前工站{1}没有过站记录",
+    "ch-tw": "SN:{0}當前工站{1}沒有過站記錄"
+  },
+  "MSGCODE20180903163443": {
+    "en": "SN:{0} Locked By:{1} Reason:{2},UnLock Call QE",
+    "chs": "序列号:{0} 被:{1}锁定 原因:{2}解锁请找 QE",
+    "ch-tw": "序列號:{0} 被:{1}鎖定 原因:{2},解鎖請找 QE"
+  },
+  "MSGCODE20180925082506": {
+    "en": "{0} is not a test SN, please sweep into the test",
+    "chs": "{0}不是陪测SN，请先扫入陪测",
+    "ch-tw": "{0}不是陪測SN，請先掃入陪測"
+  },
+  "MSGCODE20181026095501": {
+    "en": "Shipping address {0} is not configured",
+    "chs": "出货地址{0}没有配置",
+    "ch-tw": "出貨地址{0}沒有配置"
+  },
+  "MSGCODE20181026153659": {
+    "en": "PALLET:{0} corresponding old chemical bill {1} long-term aging ratio is not up to standard; the number set is {3}, the number of aging is {2}",
+    "chs": "栈板:{0}对应的老化工单{1}长时间老化比例不达标;设定的数量为{3},已老化数量为{2}",
+    "ch-tw": "棧板:{0}對應的老化工單{1}長時間老化比例不達標;設定的數量為{3},已老化數量為{2}"
+  },
+  "MSGCODE20181029141139": {
+    "en": "the wo of {0} is not configured with the ageing info",
+    "chs": "{0}对应的工单没有配置老化信息",
+    "ch-tw": "{0}對應的工單沒有配置老化信息"
+  },
+  "MSGCODE20181128201930": {
+    "en": "The current station is REWORK. Please return after heavy work.",
+    "chs": "当前工站为REWORK,请重工之后再退站",
+    "ch-tw": "當前工站為REWORK,請重工之後再退站"
+  },
+  "MSGCODE20181220111025": {
+    "en": "{0} is a replacement work order, {1} has no replacement record",
+    "chs": "{0}为替换工单，{1}没有替换记录",
+    "ch-tw": "{0}為替換工單，{1}沒有替換記錄"
+  },
+  "MSGCODE20190102153958": {
+    "en": "{0} work order version is empty",
+    "chs": "{0}工单版本为空",
+    "ch-tw": "{0}工單版本為空"
+  },
+  "MSGCODE20190610104854": {
+    "en": "This SN has been chosen  to ORT witout test records,please check!",
+    "chs": "该SN被抽进ORT但未见ORT测试记录，请确认！",
+    "ch-tw": "該SN被抽進ORT但未見ORT測試記錄，請確認！"
+  },
+  "MSGCODE20180526185434": {
+    "en": "{0} is inconsistent with the current operating LOT",
+    "chs": "{0}与当前操作LOT的机种不一致",
+    "ch-tw": "{0}與當前操作LOT的機種不一致"
+  },
+  "MSGCODE20180526181007": {
+    "en": "The Pallet {0} is already close for sampling, please scan in OBASAMPLE.",
+    "es": "El Pallet {0} ya se cerró para muestreo, porfavor escanee en OBASAMPLE.",
+    "chs": "{0}所在批次已关闭,待抽检!",
+    "ch-tw": "{0}所在批次已經關閉,待抽檢!"
+  },
+  "MSGCODE20180525094255": {
+    "en": "Inconsistent state of SN in station {1} in current packet {0}",
+    "chs": "當前包装{0}内SN在工站{1}状态不一致",
+    "ch-tw": "當前包裝{0}內SN在工站{1}狀態不一致"
+  },
+  "MSGCODE20180612141141": {
+    "en": "the skuno of {0} and {1} are inconsistent",
+    "chs": "{0}与{1}机种不一致",
+    "ch-tw": "{0}與{1}機種不一致"
+  },
+  "MSGCODE20180801085546": {
+    "en": "Pallet: {0} belongs to {1} and Dn:{2} Line:{3}: {4} is not consistent.",
+    "chs": "栈板:{0}所属机种为:{1} 与Dn:{2} Line:{3}的机种:{4}不一致",
+    "ch-tw": "棧板:{0}所屬機種為:{1} 與Dn:{2} Line:{3}的機種:{4}不一致"
+  },
+  "MSGCODE20180801113040": {
+    "en": "Please choose the DN that needs to be shipped.",
+    "chs": "请选择需要出货的DN",
+    "ch-tw": "請選擇需要出貨的DN"
+  },
+  "MSGCODE20180802105858": {
+    "en": "pallet :{0} in the product has been shipped!",
+    "chs": "栈板:{0}中有产品已经出货!",
+    "ch-tw": "棧板:{0}中有產品已經出貨!"
+  },
+  "MSGCODE20180802154903": {
+    "en": "{0}:{1} To complete delivery!",
+    "chs": "{0}:{1}出货完成！",
+    "ch-tw": "{0}:{1}出貨完成！"
+  },
+  "MSGCODE20180804171505": {
+    "en": "Current operation DN state cannot execute the account deduction!",
+    "chs": "当前操作DN状态不能执行扣帐!",
+    "ch-tw": "當前操作DN狀態不能執行扣帳！"
+  },
+  "MSGCODE20180927133856": {
+    "en": "{0} The Repair has been cleared, Please check",
+    "chs": "{0} 已扫入维修,请检查!",
+    "ch-tw": "{0} 已掃入維修,請檢查"
+  },
+  "MSGCODE20190102154155": {
+    "en": "{0} is inconsistent with {1} version",
+    "chs": "{0}与{1}版本不一致",
+    "ch-tw": "{0}與{1}版本不一致"
+  },
+  "MSGCODE20190111084817": {
+    "en": "The virtual work order must be generated for machines that start with \"XN \"",
+    "chs": "虚拟工单必须以“XN”开头的机种生成",
+    "ch-tw": "虛擬工單必須以“XN”開頭的機種生成"
+  },
+  "MSGCODE20190604140336": {
+    "en": "Don't need to scan here",
+    "chs": "不需要扫此工站",
+    "ch-tw": "不需要掃此工站"
+  },
+  "MES00000254": {
+    "en": "{0} have more keypart list",
+    "chs": "{0}配置有多个KEYPART LIST",
+    "ch-tw": "{0}配置有多個KEYPART LIST"
+  },
+  "MES00000255": {
+    "en": "{0} can't setting keypart detail",
+    "chs": "{0}没有配置KEYPART详细信息",
+    "ch-tw": "{0}沒有配置KEYPART詳細信息"
+  },
+  "MES00000256": {
+    "en": "{0},{1},{2}, can't setting keypart rule",
+    "chs": "{0},{1},{2},没有配置KEYPART 规则",
+    "ch-tw": "{0},{1},{2},沒有配置KEYPART規則"
+  },
+  "MES00000259": {
+    "en": " the input sn can't incompatible the setting rule ",
+    "chs": "输入的SN与机种设定的规则不符",
+    "ch-tw": "輸入的SN與機種設定的規則不符"
+  },
+  "MES00000258": {
+    "en": "the input string must be English alphabet or number",
+    "chs": "所输入的字符必须是字母或数字",
+    "ch-tw": "所輸入的字符必須是字母或數字"
+  },
+  "MSGCODE20180616081316": {
+    "en": "{0} and {1} no link",
+    "chs": "{0}与{1}没有绑定关系",
+    "ch-tw": "{0}與{1}沒有綁定關係"
+  },
+  "MSGCODE20180619155133": {
+    "en": "{0} no privilege to repair check out",
+    "chs": "{0}没有权限扫REPAIR_CHECK_OUT",
+    "ch-tw": "{0}沒有權限掃REPAIR_CHECK_OUT"
+  },
+  "MSGCODE20180813154717": {
+    "en": "{0} incorrect password",
+    "chs": "{0}密码不正确",
+    "ch-tw": "{0}密碼不正確"
+  },
+  "MSGCODE20181219085857": {
+    "en": "SN: {0} has multiple unrepaired records at station {1}",
+    "chs": "SN:{0}在工站{1}有多笔未维修记录",
+    "ch-tw": "SN:{0}在工站{1}有多筆未維修記錄"
+  },
+  "MSGCODE20181219090050": {
+    "en": "SN: {0} has entered the error code {2} at the station {1}, please do not repeat the entry.",
+    "chs": "SN:{0}在工站{1}已经录入不良代码{2},请不要重复录入",
+    "ch-tw": "SN:{0}在工站{1}已經錄入不良代碼{2},請不要重複錄入"
+  },
+  "MSGCODE20180602102010": {
+    "en": "Palette {0} is empty,Please enter the correct pallet number",
+    "chs": "栈板{0}为空,请输入正确栈板号",
+    "ch-tw": "棧板{0}為空,請輸入正確棧板號!"
+  },
+  "MSGCODE20180602102159": {
+    "en": "Skuno: {0}, Pallet: {1}, Quantity: {2}, {3} PASS!",
+    "chs": "机种:{0},栈板:{1},数量:{2},入{3}成功!",
+    "ch-tw": "機種:{0},棧板{1},數量:{2},入{3}成功!"
+  },
+  "MSGCODE20180611104338": {
+    "en": "{0}this PALLET or CARTON is not closed",
+    "chs": "{0}该栈板或卡通未关闭",
+    "ch-tw": "{0}該棧板或卡通未關閉"
+  },
+  "MSGCODE20180622104731": {
+    "en": "{0} is in OBA Samping",
+    "chs": "{0}正在OBA抽检状态",
+    "ch-tw": "{0}正在OBA抽檢狀態"
+  },
+  "MSGCODE20180803114047": {
+    "en": "{0} the stock location is null",
+    "chs": "{0}工单仓码为空",
+    "ch-tw": "{0}工單倉碼為空"
+  },
+  "MSGCODE20180808141643": {
+    "en": "{1} products locked in carton {0}, locked list: {2}",
+    "chs": "卡通{0}中有{1}个产品被锁定,锁定列表:{2}",
+    "ch-tw": "卡通{0}中有{1}個產品被鎖定,鎖定列表:(2)"
+  },
+  "MSGCODE20180808141806": {
+    "en": "{1} products shipped in carton {0}, shipped list: {2}",
+    "chs": "卡通{0}中有{1}个产品已经出货,出货列表:{2}",
+    "ch-tw": "卡通{0}中有{1}個產品已經出貨,出貨列表:{2}"
+  },
+  "MSGCODE20180808142945": {
+    "en": "{1} products shipped in pallet {0}, shipped list: {2}",
+    "chs": "栈板{0}中有{1}个产品已经出货,出货列表:{2}",
+    "ch-tw": "棧板{0}中有{1}個產品已經出貨,出貨列表:{2}"
+  },
+  "MSGCODE20180810135622": {
+    "en": "SN: {0} The last station of the current station {1} has no station record",
+    "chs": "SN:{0}当前工站{1}的上一个工站没有过站记录",
+    "ch-tw": "SN:{0}當前工站{1}的上一個工站沒有過站記錄"
+  },
+  "MSGCODE20180824092545": {
+    "en": "The product is to be repaired!",
+    "chs": "该产品待维修!",
+    "ch-tw": "該產品待維修!"
+  },
+  "MSGCODE20180903091835": {
+    "en": "{0} is start station",
+    "chs": "{0}为起始工站",
+    "ch-tw": "{0}為起始工站"
+  },
+  "MSGCODE20180904134304": {
+    "en": "Please Input WO",
+    "chs": "请输入工单",
+    "ch-tw": "請輸入工單"
+  },
+  "MSGCODE20181005155848": {
+    "en": "{0} is packed",
+    "chs": "{0} 已经包装",
+    "ch-tw": "{0} 已經包裝"
+  },
+  "MSGCODE20181005160344": {
+    "en": "{0} is completed",
+    "chs": "{0} 已经完工",
+    "ch-tw": "{0} 已經完工"
+  },
+  "MSGCODE20181005160504": {
+    "en": "{0} is shipped",
+    "chs": "{0} 已经出货",
+    "ch-tw": "{0} 已經出貨"
+  },
+  "MSGCODE20181005161120": {
+    "en": "{0} is in stocked",
+    "chs": "{0} 已经入库",
+    "ch-tw": "{0} 已經入庫"
+  },
+  "MSGCODE20181025091108": {
+    "en": "SN:{0}, divided board, not allowed to return BIP or previous station",
+    "chs": "SN:{0},已分板,不允许退回BIP或之前的工站",
+    "ch-tw": "SN:{0},已分板,不允許退回BIP或之前的工站"
+  },
+  "MES00000261": {
+    "en": "The current station needs to be SMTLOADING for NUDO",
+    "chs": "当前工站需为SMTLOADING才能NUDO",
+    "ch-tw": "當前工站需為SMTLOADING才能UNDO"
+  },
+  "MSGCODE20180604155322": {
+    "en": "{0} can't fail in the last time on {1}!",
+    "chs": "{0}在{1}工站的最后一次测试不是FAIL！",
+    "ch-tw": "{0}在{1}工站的最後一次測試不是FAIL！"
+  },
+  "MSGCODE20180619102029": {
+    "en": "get {0} lot infos fail",
+    "chs": "获取{0}的Lot信息失败",
+    "ch-tw": "獲取{0}的Lot信息失敗"
+  },
+  "MSGCODE20180621172210": {
+    "en": "the station {0} can't in the route of {1}",
+    "chs": "当前工站{0}没有在{1}的路由中",
+    "ch-tw": "當前工站{0}沒有在{1}的路由中"
+  },
+  "MSGCODE20180724154541": {
+    "en": "The current routing does not include the {0}",
+    "chs": "当前机种路由不包含工站{0}",
+    "ch-tw": "當前機種路由不包含工站{0}"
+  },
+  "MSGCODE20180808103413": {
+    "en": "The  {0}  SN Shipped, cannot be returned to the station",
+    "chs": "该{0} SN 已出货,不能退站！！！",
+    "ch-tw": "該{0} SN 已出貨,不能退站！！！"
+  },
+  "MSGCODE20181029140651": {
+    "en": "the wo of {0} is not configured with the shipping area.",
+    "chs": "{0}对应的工单没有配置出货地区",
+    "ch-tw": "{0}對應的工單沒有配置出貨地區"
+  },
+  "MSGCODE20181029140941": {
+    "en": "the wo of {0} is not configured with the ageing type.",
+    "chs": "{0}对应的工单没有配置老化类型",
+    "ch-tw": "{0}對應的工單沒有配置老化類型"
+  },
+  "MSGCODE20180629092630": {
+    "en": "{0}No JOBFinish station",
+    "chs": "{0}沒有JOBFinish工站！",
+    "ch-tw": "{0}沒有JOBFinish工站！"
+  },
+  "MSGCODE20180808113358": {
+    "en": "The route{0} is not exists!",
+    "chs": "{0}路由不存在！",
+    "ch-tw": "{0}路由不存在！"
+  },
+  "MSGCODE20181114162339": {
+    "en": "{0} is already in the interval of {1}",
+    "chs": "{0}已经在{1}的区间中",
+    "ch-tw": "{0}已經在{1}的區間中"
+  },
+  "MSGCODE20180810151143": {
+    "en": "Cannot call back to the station before BIP or BIP",
+    "chs": "不能打回BIP或BIP之前的工站",
+    "ch-tw": "不能打回BIP或BIP之前的工站"
+  },
+  "MSGCODE20181115093730": {
+    "en": "The MAX SN {0} is less than the MIN SN {1}",
+    "chs": "最大SN {0} 小于最小SN {1}",
+    "ch-tw": "最大SN {0} 小於最小SN {1}"
+  },
+  "MSGCODE20181101141954": {
+    "en": "{0} has no configured LABEL for {1}",
+    "chs": "{0}没有配置{1}的LABEL",
+    "ch-tw": "{0}沒有配置{1}的LABEL"
+  },
+  "MSGCODE20190412091215": {
+    "en": "This type of WO is not allowed here loading",
+    "chs": "该类型的WO不允许在此处LOADING",
+    "ch-tw": "該類型的WO不允許在此處LOADING"
+  },
+  "MES00000031": {
+    "en": "Route: {0} Already Referenced By SKU:{1},Cannot Set To Default SKU:{2}.",
+    "chs": "路由:{0}已被机种:{1}引用,不能设置默认机种:{2}",
+    "ch-tw": "路由:{0}已被機種:{1}引用,不能設置默認路由:{2}"
+  },
+  "MES00000251": {
+    "en": "SnRule Is Null or Empty!",
+    "chs": "PE没有配置SN规则",
+    "ch-tw": "PE沒有配置SN規則"
+  },
+  "MES00000252": {
+    "en": "The input length is not match setting {0} length!",
+    "chs": "输入SN的长度与设定的SN规则{0}长度不符！",
+    "ch-tw": "輸入SN的長度與設定的SN規則{0}長度不符！"
+  },
+  "MSGCODE20180616102950": {
+    "en": "{0}no fail code info!",
+    "chs": "{0}没有不良信息！",
+    "ch-tw": "{0}沒有不良信息！"
+  },
+  "MSGCODE20180616103112": {
+    "en": "Can not get the data of {0},please input {0}!",
+    "chs": "无法获取到 {0} 的数据，请输入 {0}！",
+    "ch-tw": "無法獲取到 {0} 的數據，請輸入{0}！"
+  },
+  "MSGCODE20180727141418": {
+    "en": "{0} have more route",
+    "chs": "{0}有多个路由",
+    "ch-tw": "{0}有多個路由"
+  },
+  "MSGCODE20180906104037": {
+    "en": "SkuNo already existed!",
+    "chs": "机种已存在!",
+    "ch-tw": "機種已存在!"
+  },
+  "MSGCODE20180808104007": {
+    "en": "The SN:{0} is in maintenance condition and cannot be returned to the station !!!",
+    "chs": "该SN: {0}处于维修状态,不能退站！！！",
+    "ch-tw": "該SN:{0} 處於維修狀態,不能退站！！！"
+  },
+  "MSGCODE20180808104922": {
+    "en": "The {0} :SN is completed or pack and cannot be returned!!!",
+    "chs": "该{0}: SN已经完工或者已经包装,不能退站！！！",
+    "ch-tw": "該{0} :SN已經完工或者已經包裝,不能退站！！！"
+  },
+  "MSGCODE20180919142802": {
+    "en": "{0} can only be bound to {1}",
+    "chs": "{0}只能与{1}绑定",
+    "ch-tw": "{0}只能與{1}綁定"
+  },
+  "MSGCODE20180808112641": {
+    "en": "Can only call back to the station ahead of the current station",
+    "chs": "只能打回比当前工站往前的工站",
+    "ch-tw": "只能打回比當前工站往前的工站"
+  },
+  "MSGCODE20180925082833": {
+    "en": "{0} is still in the test",
+    "chs": "{0}还在陪测中",
+    "ch-tw": "{0}還在陪測中"
+  },
+  "MSGCODE20180927150610": {
+    "en": "{0} the next station is rework",
+    "chs": "{0} 在待重工状态",
+    "ch-tw": "{0} 在待重工狀態"
+  },
+  "MSGCODE20180926075538": {
+    "en": "{0} has been swiped out, please do not repeat the scan",
+    "chs": "{0}已经扫出，请不要重复扫描",
+    "ch-tw": "{0}已經掃出，請不要重複掃描"
+  },
+  "MSGCODE20181005160551": {
+    "en": "{0} is in repaired",
+    "chs": "{0} 在维修中",
+    "ch-tw": "{0} 在維修中"
+  },
+  "MSGCODE20181026095637": {
+    "en": "{1} type with shipping location of {0} is not configured",
+    "chs": "出货地为{0}的{1}类型没有配置",
+    "ch-tw": "出貨地為{0}的{1}類型没有配置"
+  },
+  "MSGCODE20181101091946": {
+    "en": "{0} has KEYPART, but {1} is not available, please check with QE Have Done UpdateKeypart Or Not",
+    "chs": "{0}有KEYPART,但{1}没有，请找QE确认是否做UpdateKeypart",
+    "ch-tw": "{0}有KEYPART，但{1}沒有，請找QE確認是否做UpdateKeypart"
+  },
+  "MSGCODE20190610144611": {
+    "en": "ORT-FT2 NOT PASS",
+    "chs": "该SN被抽ORT但未过ORT-FT2，请确认！",
+    "ch-tw": "該SN被抽ORT但未過ORT-FT2，請確認！"
+  },
+  "MSGCODE20190612113333": {
+    "en": "The test was not enough for 24 hours and was not allowed to cross the station",
+    "chs": "测试未够24H，不允许过站",
+    "ch-tw": "測試未夠24H，不允許過站"
+  },
+  "MSGCODE20180529094259": {
+    "en": "the input type is fail",
+    "chs": "输入类型错误",
+    "ch-tw": "輸入類型錯誤"
+  },
+  "MSGCODE20180529094344": {
+    "en": "{0} have linked keypart",
+    "chs": "{0}已绑定KEYPART",
+    "ch-tw": "{0}已綁定KEYPART"
+  },
+  "MSGCODE20180615143705": {
+    "en": "Lot:{0} ALL SN HAS BEEN LOCK!",
+    "chs": "批次:{0}内SN已被锁定",
+    "ch-tw": "批次:{0}內SN已被鎖定!"
+  },
+  "MSGCODE20180615144008": {
+    "en": "LOT{0} OBA PASS!",
+    "chs": "批次{0}已经成功过站!",
+    "ch-tw": "批次{0}已經成功過站!"
+  },
+  "MSGCODE20180625165842": {
+    "en": "samping type  or samping level  no seting",
+    "chs": "抽测类型或抽测等级未配置",
+    "ch-tw": "抽測類型或抽測等級未配置"
+  },
+  "MSGCODE20180920162543": {
+    "en": "Inconsistent SN status in {0}",
+    "chs": "{0}內的SN状态不一致",
+    "ch-tw": "{0}內的SN狀態不一致"
+  },
+  "MSGCODE20180730134109": {
+    "en": "{0} the last is locked，please unlock first",
+    "chs": "{0}上一次的锁定还未解锁，请先解锁",
+    "ch-tw": "{0}上一次的鎖定還未解鎖，請先解鎖"
+  },
+   "MSGCODE20220318153506": {
+    "en": "{0} The last bypass still works.Please cancel it first",
+    "chs": "{0} 上一次的bypass还生效，请先取消",
+    "ch-tw": "{0} 上一次的bypass还生效，请先取消"
+  },
+  "MSGCODE20180825153500": {
+    "en": "DnLine In progress, please wait!",
+    "chs": "DnLine:正在进行扣帐中，请等待!",
+    "ch-tw": "DnLine:正在進行扣帳中，請等待!"
+  },
+  "MSGCODE20181005154006": {
+    "en": "{0} is already in {1} state",
+    "chs": "{0} 已经在{1}状态",
+    "ch-tw": "{0} 已經在{1}狀態"
+  },
+  "MSGCODE20181005154143": {
+    "en": "{0} is invalid",
+    "chs": "{0} 无效",
+    "ch-tw": "{0} 無效"
+  },
+  "MSGCODE20181005160653": {
+    "en": "{0} is in scraped",
+    "chs": "{0} 已经报废",
+    "ch-tw": "{0} 已經報廢"
+  },
+  "MSGCODE20181220143330": {
+    "en": "{0} is the replacement SN, but the first reworked workorder {1} is not a workorder for replacement",
+    "chs": "{0}为替换SN，但首次重工的工单{1}不是用于替换的工单",
+    "ch-tw": "{0}為替換SN，但首次重工的工單{1}不是用於替換的工單"
+  },
+  "MSGCODE20190604110249": {
+    "en": "NO TEST RECORD",
+    "chs": "没有测试记录",
+    "ch-tw": "沒有測試記錄"
+  },
+  "MSGCODE20180613090152": {
+    "en": "{0}this PALLET or CARTON is not closed",
+    "chs": "{0}该栈板或卡通未关闭",
+    "ch-tw": "{0}該棧板或卡通未關閉"
+  },
+  "MSGCODE20180613092900": {
+    "en": "Move qty {0} is more,{1} MAX qty is {2},qty is {3}",
+    "chs": "移动数量{0}已超出，{1}最大数量为{2}，已装有{3}",
+    "ch-tw": "移動數量{0}已超出，{1}最大數量為{2}，已裝有{3}"
+  },
+  "MSGCODE20180613093329": {
+    "en": "carton or pallet {0} not exist",
+    "chs": "卡通或栈板{0}不存在",
+    "ch-tw": "卡通或棧板{0}不存在"
+  },
+  "MSGCODE20180619154230": {
+    "en": "{0} have check in",
+    "chs": "{0}已经扫入",
+    "ch-tw": "{0}已經掃入"
+  },
+  "FJZMJR000000001": {
+    "en": "SN {0} reversed. Please bring PCBA back to ICT.",
+    "chs": "SN {0} reversed. Please bring PCBA back to ICT.",
+    "ch-tw": "SN {0} reversed. Please bring PCBA back to ICT."
+  },
+  "FJZMJR000000002": {
+    "en": "SN {0} SUCCESSFULLY CHECKOUT",
+    "chs": "SN {0} SUCCESSFULLY CHECKOUT",
+    "ch-tw": "SN {0} SUCCESSFULLY CHECKOUT"
+  },
+  "MSGCODE20180619154342": {
+    "en": "{0}don't do Repair check in",
+    "chs": "{0}没有扫Repair check in",
+    "ch-tw": "{0}沒有掃Repair check in"
+  },
+  "MSGCODE20180619154648": {
+    "en": "{0} no privilege to repair check in",
+    "chs": "{0}没有权限扫REPAIR_CHECK_IN",
+    "ch-tw": "{0}沒有權限掃REPAIR_CHECK_IN"
+  },
+  "MSGCODE20180619154947": {
+    "en": "{0} no privilege to receive",
+    "chs": "{0}没有权限接收",
+    "ch-tw": "{0}沒有權限接收"
+  },
+  "MSGCODE20180620163103": {
+    "en": "{0} the emp doesn't exists",
+    "chs": "{0}员工号不存在",
+    "ch-tw": "{0}員工號不存在"
+  },
+  "MSGCODE20180621185023": {
+    "en": "{0} have more no repaired",
+    "chs": "{0}在维修主表中有多笔未维修的记录",
+    "ch-tw": "{0}在維修主表中有多筆未維修的記錄"
+  },
+  "MSGCODE20180731133647": {
+    "en": "DN:{0},ITEM:{1} does not exist or is shipped. Please reset the station.",
+    "chs": "DN:{0},ITEM:{1}不存在或者已经出货，请重置工站",
+    "ch-tw": "DN:{0},ITEM:{1}不存在或者已經出貨，請重置工站"
+  },
+  "MSGCODE20180731133844": {
+    "en": "{0} No SN that can be cut",
+    "chs": "{0}中没有可砍掉的SN",
+    "ch-tw": "{0}中沒有可砍掉的SN"
+  },
+  "MSGCODE20180731151259": {
+    "en": "{0} Please input a positive integer greater than 0",
+    "chs": "{0}请输入大于0的正整数",
+    "ch-tw": "{0}請輸入大於0的正整數"
+  },
+  "MSGCODE20180801091520": {
+    "en": "The number of pallets {0}  {1} is greater than DnItem {2}, please adjust the pallet!",
+    "chs": "栈板{0}数量{1}大于DnItem数量{2}，请调整栈板!",
+    "ch-tw": "棧板{0}數量{1}大於DnItem數量{2}，請調整棧板!"
+  },
+  "MSGCODE20180803152122": {
+    "en": "This time is monthly,can't BackFlush",
+    "chs": "月结期间，不能抛账",
+    "ch-tw": "月結期間，不能拋賬"
+  },
+  "MSGCODE20180803152222": {
+    "en": "BackFlush is runing on {0},please try again later",
+    "chs": "正在{0}上进行抛账，请稍后再试",
+    "ch-tw": "正在{0}上進行拋賬，請稍後再試"
+  },
+  "MSGCODE20180804105812": {
+    "en": "{0} Haven't had a JOBSTOCK type station yet",
+    "chs": "{0} 还没有过JOBSTOCK类型的工站",
+    "ch-tw": "{0}還沒有過JOBSTOCK類型的工站"
+  },
+  "MSGCODE20180904135032": {
+    "en": "Please Input SN",
+    "chs": "请输入SN",
+    "ch-tw": "請輸入SN"
+  },
+  "MSGCODE20180906104529": {
+    "en": "SkuNo cannot be changed!",
+    "chs": "机种名不能修改!",
+    "ch-tw": "機種名不能修改!"
+  },
+  "MSGCODE20180911154309": {
+    "en": "LotNo:{0} Status Err!",
+    "chs": "LotNo:{0}状态异常!",
+    "ch-tw": "LotNo:{0}狀態異常!"
+  },
+  "MSGCODE20180911154419": {
+    "en": "The number of this batch {0} does not exist for the sampling number grade of AQL type configuration, please check!",
+    "chs": "本批次数量{0}不存在AQL类型配置的抽测数量等级，请检查!",
+    "ch-tw": "本批次數量{0}不存在AQL類型配置的抽測數量等級,請檢查!"
+  },
+  "MSGCODE20180920162739": {
+    "en": "The SN in {0} is inconsistent with the SN status in {1}",
+    "chs": "{0}內的SN与{1}內的SN状态不一致",
+    "ch-tw": "{0}內的SN與{1}內的SN狀態不一致"
+  },
+  "MSGCODE20180917114539": {
+    "en": "{0} can only be replaced up to {1} times, now replaced {2} times",
+    "chs": "{0}最多只能替换{1}次，现已经替换了{2}次",
+    "ch-tw": "{0}最多只能替換{1}次，現已經替換了{2}次"
+  },
+  "MSGCODE20180921065105": {
+    "en": "SN Status error Please Check！",
+    "chs": "SN状态错误，请检查！",
+    "ch-tw": "SN狀態錯誤，請檢查！"
+  },
+  "MSGCODE20180929183305": {
+    "en": "The {0} has been swiped in, please do not repeat the scan",
+    "chs": "该{0}已经扫入，请不要重复扫描",
+    "ch-tw": "該{0}已經掃入，請不要重複掃描"
+  },
+  "MSGCODE20190806095436": {
+    "en": "{0}The pallet has been put into storage or the pallet has passed the working {1}station",
+    "chs": "{0}该栈板已入库或者改栈板已过{1}工站",
+    "ch-tw": "{0}該棧板已入庫或者該棧板已過{1}工站"
+  },
+  "MES00000068": {
+    "en": "SN :{0}Status is Repair!!",
+    "chs": "SN:{0}状态在维修！",
+    "ch-tw": "SN:{0}狀態在維修！"
+  },
+  "MSGCODE20191202175100": {
+    "en": "The SN in the panel is not all at the same station",
+    "chs": "该Panel内的SN沒有全部处以同一个工站",
+    "ch-tw": "该Panel内的SN沒有全部处以同一个工站"
+  },
+  "MES00000050": {
+    "en": "Parameters Setting Error!",
+    "chs": "参数配置错误！",
+    "ch-tw": "參數配置錯誤！"
+  },
+  "MSGCODE20200318042004": {
+    "en": "{0} Station is not exist!",
+    "chs": "{0}工站不存在!",
+    "ch-tw": "{0}工站不存在!"
+  },
+  "MSGCODE20200318154141": {
+    "en": "No {0} permissions",
+    "chs": "用户没有{0}权限",
+    "ch-tw": "用戶沒有{0}權限"
+  },
+  "MSGCODE20200323082356": {
+    "en": "Please Input ReplaceCSN Or TRSN First!",
+    "chs": "请先输入换料信息[ReplaceCSN/TRSN]!",
+    "ch-tw": "請先輸入換料信息[ReplaceCSN/TRSN]!"
+  },
+  "MSGCODE20200327095600": {
+    "en": "SN:{0} has not bound PCBASN which PN is {1},Pls Confirm with PE!",
+    "chs": "该SN：{0} 未绑定料号：{1}的PCBA阶SN，请与PE确认!",
+    "ch-tw": "該SN：{0} 未綁定料號：{1}的PCBA階SN，請與PE確認!"
+  },
+  "MSGCODE20211230131634": {
+    "en": "TagLabel Sn {0} and Pcba Sn {1} did not link,Pls Confirm actually with PE or QE!",
+    "chs": "扫描的挂卡Label SN {0} 与主板SN {1} 没有Link关系,请与PE or QE确认!",
+    "ch-tw": "掃描的掛卡Label SN {0} 與主板SN {1} 沒有Link關係,請與PE or QE確認!"
+  },
+  "MSGCODE20180904013101": {
+    "en": "Input Sku can not be null !",
+    "chs": "输入机种不能为空！",
+    "ch-tw": "輸入機種不能為空！"
+  },
+  "MSGCODE20180904013207": {
+    "en": "The Skuno is not Exist in the system！",
+    "chs": "机种不存在于系统！",
+    "ch-tw": "機種不存在於系統！"
+  },
+  "MSGCODE20200402142100": {
+    "en": "Scaned SN：{0}  is not the same as PCBA S/N ：{1} ，pls check！",
+    "chs": "扫描的SN：{0}  与PCBA S/N ：{1} 不一致，请确认！",
+    "ch-tw": "掃描的SN：{0}  與PCBA S/N ：{1} 不一致，請確認！"
+  },
+  "MSGCODE20200402172100": {
+    "en": "Scaned FixtureNo:{0} is different from config value:{1} ,pls check!",
+    "chs": "扫描治具号：{0} 与配置的：{1} 不一致，请确认！",
+    "ch-tw": "掃描治具號：{0} 與配置的：{1} 不一致，請確認！"
+  },
+  "MSGCODE20200408083238": {
+    "en": "The QTY {0} of unprinted is insufficient {1}, please reenter the number of prints!",
+    "chs": "工单剩余未打印数量{0}不足{1}，请重新输入打印数量！",
+    "ch-tw": "工單剩餘未打印數量{0}不足{1}，請重新輸入打印數量！"
+  },
+  "MSGCODE20200418113716": {
+    "en": "{0} product needs QE to confirm the Wo:{1} before pass station!",
+    "chs": "{0} 产品需要QE对工单{1}确认才可过站!",
+    "ch-tw": "{0} 產品需要QE對工單{1}確認才可過站!"
+  },
+  "MSGCODE20200421095359": {
+    "en": "The prefix {1} of this skuno {0} can not pass station,pls contact with QE to confrim!",
+    "chs": "该机种{0}的{1}前缀不允许过站，请与QE确认！",
+    "ch-tw": "該機種的{0}的{1}前綴不允許過站，請與QE確認！"
+  },
+  "MSGCODE20200424140818": {
+    "en": "Please confirm that the {1} ALLPART bar code of the material no. {0} is the glue bar code",
+    "chs": "请确认该料号{0} 的{1} ALLPART条码是胶水条码",
+    "ch-tw": "請確認該料號{0} 的{1} ALLPART條碼是膠水條碼"
+  },
+  "MSGCODE20200305142808": {
+    "en": "Serial Number {0} had got into {1}!",
+    "chs": "产品 {0} 已经入 {1}！",
+    "ch-tw": "產品 {0} 已經入 {1}！"
+  },
+  "MSGCODE20200413150100": {
+    "en": "Can not use the extension value that previous value is empty!",
+    "chs": "前面的扩展值为空不能使用后面扩展值！",
+    "ch-tw": "前面擴展值為空不能使用後面擴展值！"
+  },
+  "MSGCODE20200414091000": {
+    "en": "No permissions",
+    "chs": "用户没有权限",
+    "ch-tw": "用戶沒有權限"
+  },
+  "MSGCODE20200415171500": {
+    "en": "The Last test station of CM product can not be:{0}",
+    "chs": "CM产品最后一个测试工站不允许为：{0}",
+    "ch-tw": "CM產品最後一個測試工站不允許為：{0}"
+  },
+  "MSGCODE20200416112300": {
+    "en": "Special Control,the prexid of SN can not pass,pls contact with QE!Pexid:{0},SKU:{1}",
+    "chs": "特殊管控，此前缀的SN不允许过站，请联系QE，前缀：{0},机种：{1}",
+    "ch-tw": "特殊管控，此前綴的SN不允許過站，請聯繫QE！前綴：{0}，機種：{1}"
+  },
+  "MSGCODE20200416153000": {
+    "en": "This SN has no valid RC pass-test data,pls test RC!",
+    "chs": "该SN无有效RC测试PASS数据，请测RC！",
+    "ch-tw": "該SN無有效RC測試PASS數據，請測RC！"
+  },
+  "MSGCODE20200417172400": {
+    "en": "Function OLD_CARRIER_CHECK configuration error,pls contact with PE!",
+    "chs": "OLD_CARRIER_CHECK功能配置错误，请联系PE！",
+    "ch-tw": "OLD_CARRIER_CHECK功能配置錯誤，請聯繫PE！"
+  },
+  "MSGCODE20200417172700": {
+    "en": "The number of carrier used for this procduct has reached the maximum,pls contact with PE to confirm!",
+    "chs": "此产品载具使用次数已达上限，联系PE确认！",
+    "ch-tw": "此產品載具使用次數已達上限，請聯繫PE確認！"
+  },
+  "MSGCODE20200505153601": {
+    "en": "SKU:{0} , VER:{1} Has Not Config PCB MaterialNo In Allpart System!",
+    "chs": "机种:{0} , 版本:{1} 未在Allpart配置PCB料号！",
+    "ch-tw": "機種:{0} , 版本:{1} 未在Allpart配置PCB料號！"
+  },
+  "MSGCODE20200506142949": {
+    "en": "TRSN:{0} Has Not Buff In WO:{1}!",
+    "chs": "条码:{0}未备入工单:{1}！",
+    "ch-tw": "條碼:{0}未備入工單:{1}！"
+  },
+  "MSGCODE20200506161757": {
+    "en": "There is sn scrapped in the pallet",
+    "chs": "栈板中有SN报废",
+    "ch-tw": "棧板中有SN報廢"
+  },
+  "MSGCODE20200506182200": {
+    "en": "Scan appearance is poor,QErequires control,please retest",
+    "chs": "有扫描外观不良,QE要求管控，请重新测试",
+    "ch-tw": "有掃描外觀不良,QE要求管控,請重新測試"
+  },
+  "MSGCODE20200507092635": {
+    "en": "CarrierNo:{0} does not exist in the system,please confirm!",
+    "chs": "载具：{0} 不存在于系統中，请确认！",
+    "ch-tw": "載具：{0} 不存在於系統中，請確認！"
+  },
+  "MSGCODE20200507093423": {
+    "en": "The usage times of {0} has reached the number of times to be cleaned.Please use it after cleaning.",
+    "chs": "载具{0}使用已达到需要清洗的次数，请清洗后再使用。",
+    "ch-tw": "載具{0}使用已達到需清洗的次數，請清洗後再使用。"
+  },
+  "MSGCODE20200507093904": {
+    "en": "CarrierNo:{0} has used for {1} day(s),please use it after cleaning.",
+    "chs": "载具{0}使用时间超{1}天，请清洗后使用。",
+    "ch-tw": "載具{0}使用時間超{1}天，請清洗後使用。"
+  },
+  "MSGCODE20200507152955": {
+    "en": "Link Skuno of CarrierNo is different from SN Skuno {0}.",
+    "chs": "载具所对应的机种与产品机种{0}不一致。",
+    "ch-tw": "载具所對應的機種與產品機種{0}不一致。"
+  },
+  "MSGCODE20200507155100": {
+    "en": "Link Successfully!",
+    "chs": "绑定成功！",
+    "ch-tw": "綁定成功！"
+  },
+  "MSGCODE20200508104036": {
+    "en": "This SN: {0} has no link record within the validity period {1}.",
+    "chs": "该SN: {0} 在有效时间{1}内，无载具绑定记录。",
+    "ch-tw": "該SN: {0} 在有效時間{1}內，無載具綁定記錄。"
+  },
+  "MSGCODE20200513161845": {
+    "en": "Configuration already exists for this version of this skuno!",
+    "chs": "该机种的此版本已存在配置！",
+    "ch-tw": "該機種的此版本已存在配置！"
+  },
+  "MSGCODE20201SKULOCKEDALREADY": {
+    "en": "A lock already exists for this SKU. Please unlock first and then try to upload MRR File again!",
+    "chs": "该机种的此版本已存在配置！",
+    "ch-tw": "該機種的此版本已存在配置！"
+  },
+  "MSGCODE20200522104611": {
+    "en": "Wrong selection date!",
+    "chs": "选择日期错误！",
+    "ch-tw": "選擇日期錯誤！"
+  },
+  "MSGCODE20200522172636": {
+    "en": "This Carton Have been Scan",
+    "chs": "扫描的CARTON已经扫描过",
+    "ch-tw": "掃描的CARTON已經掃描過"
+  },
+  "MSGCODE20200526101125": {
+    "en": "There Is No Bing IN This Pallet Or No Print OverPack Label,Please Connect PD",
+    "chs": "该栈板中有板子与出货号码没有绑定关系(可能是没有打印 OverPack Label), 请和产线确认",
+    "ch-tw": "該棧板中有板子與出貨號碼沒有綁定關系(可能是沒有打印 OverPack Label), 請和產線確認"
+  },
+  "MSGCODE20200526101842": {
+    "en": "There are different version of earlier products in the warehouse",
+    "chs": "目前仓库库存中存在版本不同更早的产品",
+    "ch-tw": "目前倉庫庫存中存在版本不同更早的產品"
+  },
+  "MSGCODE20200526102531": {
+    "en": "There are multipe versions od the product in the pallet,shipmentt is not allowed",
+    "chs": "该栈板中存在多个版本的产品,不允许出货",
+    "ch-tw": "該棧板中存在多個版本的產品,不允許出貨"
+  },
+  "MSGCODE20200526142239": {
+    "en": "Special control, Sn with this prefix is not allowed to cross the station, please contact QE!",
+    "chs": "特殊管控,此前缀的SN不允许过站,请联系QE!",
+    "ch-tw": "特殊管控,此前綴的SN不允許過站,請聯繫QE!"
+  },
+  "MSGCODE20200526142536": {
+    "en": "Please find PM / PE to confirm whether the wrong package specification is selected in packout station!",
+    "chs": "该DN所用运输方式对应的包规与栈板的包规不符,请找PM/PE确认是否在PACKOUT工站选错包规!",
+    "ch-tw": "該DN所用運輸方式對應的包規與棧板的包規不符,請找PM/PE確認是否在PACKOUT工站選錯包規!"
+  },
+  "MSGCODE20200526142643": {
+    "en": "RMA products and non RMA products cannot be scanned at the same time within the same DN. Please distinguish and scan again",
+    "chs": "同一个DN内不能同时扫出货RMA产品与非RMA产品, 请区分后再扫描",
+    "ch-tw": "同一個DN內不能同時掃出貨RMA產品與非RMA產品, 請區分后再掃描"
+  },
+  "MSGCODE20200318045439": {
+    "en": "Material information cannot be empty",
+    "chs": "带料信息资料不能为空",
+    "ch-tw": "帶料信息資料不能為空"
+  },
+  "MSGCODE20200511174534": {
+    "en": "SN:{0} weight :{1} ,out of weight range {2}~{3}",
+    "chs": "SN:{0} 重量為:{1} ,超出重量範圍 {2}~{3}",
+    "ch-tw": "SN:{0} 重量為:{1} ,超出重量範圍 {2}~{3}"
+  },
+  "MSGCODE20200324084605": {
+    "en": "SN:{0} Repair SaveReplace Action Success, Please Click SaveFinish Button!",
+    "chs": "SN:{0} 维修SaveReplace动作执行成功,请点击SaveFinish按钮!",
+    "ch-tw": "SN:{0} 維修SaveReplace動作執行成功,請點擊SaveFinish按鈕!"
+  },
+  "MSGCODE20200423085051": {
+    "en": "The glue {0} ALLPART bar code has no delivery record",
+    "chs": "该胶水{0}  ALLPART 条码没有发料记录",
+    "ch-tw": "該膠水{0}ALLPART條碼沒有發料記錄"
+  },
+  "MSGCODE20200423085626": {
+    "en": "The glue {0} has been sent out for more than 7 days,ALLPART bar code cannot be scanned",
+    "chs": "该胶水{0} 发出已超7天,ALLPART条码不能扫描",
+    "ch-tw": "該膠水{0} 發出已超7天,ALLPART條碼不能掃描"
+  },
+  "MSGCODE20200506141212": {
+    "en": "Allpart TRSN:{0} CustKpNo Not Same With PCB Material!",
+    "chs": "Allpart条码:{0} 的料号与配置的PCB料号不一致！",
+    "ch-tw": "Allpart條碼:{0} 的料號與配置的PCB料號不一致！"
+  },
+  "MSGCODE20200507094226": {
+    "en": "The total usage times of CarrierNo {0}  exceed the set value of PE,it is not allowed to use anymore.",
+    "chs": "载具 {0} 的总使用次数超PE设定值，不允许再使用。",
+    "ch-tw": "載具 {0} 的总使用次數超PE設定值，不允許再使用。"
+  },
+  "MSGCODE20200507095102": {
+    "en": "Get CarrierNo {0} successfully,use times {1}/{2} ,Last cleaning time {3}.",
+    "chs": "载具 {0} 获取成功，使用次数 {1} / {2}，上次清洗时间 {3}。",
+    "ch-tw": "載具 {0} 獲取成功，使用次數 {1} / {2} ，上次清洗時間 {3}。"
+  },
+  "MSGCODE20200320212916": {
+    "en": "Signed and approved, if you need to modify please contact QE rejected!",
+    "chs": "已完成签核，如需修改请联系QE驳回!",
+    "ch-tw": "已完成簽核，如需修改請聯係QE駁回！"
+  },
+  "MSGCODE20200616184157": {
+    "en": "QE has set Allpart with material, PartNo :{0}, Location{1} no Allpart data, please check!",
+    "chs": "QE设置了Allpart带料，料号:{0},位置{1}没有Allpart资料，请检查!",
+    "ch-tw": "QE設置了Allpart帶料，料號:{0},位置{1}沒有Allpart資料，請檢查!"
+  },
+  "MSGCODE20200323030907": {
+    "en": "Skuno: {0} does not set material, do not need to upload material File!",
+    "chs": "机种{0}未设置带料，无需上传料表！",
+    "ch-tw": "機種{0}未設置帶料，無需上傳料表！"
+  },
+  "MSGCODE20200323062927": {
+    "en": "No material File Or Not finish sign!",
+    "chs": "没有料表或者未完成簽核！",
+    "ch-tw": "没有料表或者未完成簽核！"
+  },
+  "MSGCODE20201002141256": {
+    "en": "{0}NETGEAR SKU NO CONFIG TA ,PLEASE PE CONFIRM!",
+    "chs": "{0}NETGEAR機種沒有配置TA，請PE確認！",
+    "ch-tw": "{0}NETGEAR機種沒有配置TA，請PE確認!"
+  },
+  "MSGCODE20201002141627": {
+    "en": "{0}NETGEAR SKUNO TA Config For More Than 5 Days,Please PE Confirm!",
+    "chs": "{0}NETGEAR機種TA配置超過5天,請PE確認!",
+    "ch-tw": "{0}NETGEAR機種TA配置超過5天,請PE確認!"
+  },
+  "MSGCODE20190327103914": {
+    "en": "This unit need to scan {0}",
+    "chs": "当前产品需要扫描{0}",
+    "ch-tw": "當前產品需要掃描{0}"
+  },
+  "MSGCODE20210327144725": {
+    "en": "Have a no closed TONO,Please closed!",
+    "chs": "存在未關閉的TONO,請關閉!!",
+    "ch-tw": "存在未關閉的TONO,請關閉!!"
+  },
+  "MSGCODE20210329145221": {
+    "en": "The PalletNO:{0} WORKORDERNO Is Null!",
+    "chs": "这个PACKNO的工单是空的,请确认!",
+    "ch-tw": "这个PACKNO的工单是空的,请确认!"
+  },
+  "MSGCODE20210329151356": {
+    "en": "The PalletNO:{0} SKUNO Is Null!",
+    "chs": "这个PACKNO的机种是空的,请确认!",
+    "ch-tw": "这个PACKNO的机种是空的,请确认!"
+  },
+  "MSGCODE20210329151805": {
+    "en": "The PalletNO:{0} shiptopartycountry Is Null!",
+    "chs": "这个PACKNO:{0}的出货地是空的,请确认!",
+    "ch-tw": "这个PACKNO:{0}的出货地是空的,请确认!"
+  },
+  "MSGCODE20210329152209": {
+    "en": "The PACKNO:{0} Have Different ShiptoCountry,Shipout to US and no US!",
+    "chs": "这个PACKNO:{0}的出货地是不一致,存在出美国和非美国的,请确认!",
+    "ch-tw": "这个PACKNO:{0}的出货地是不一致,存在出美国和非美国的,请确认!"
+  },
+  "MSGCODE20210329152646": {
+    "en": "The PACKNO:{0} is null,not have units!",
+    "chs": "这个PACKNO:{0}是空的,请确认!",
+    "ch-tw": "这个PACKNO:{0}是空的,请确认!"
+  },
+  "MSGCODE20210329153055": {
+    "en": "Insert JNPB2B data Fail!",
+    "chs": "写入JNP的B2B数据失败,请确认!",
+    "ch-tw": "写入JNP的B2B数据失败,请确认!"
+  },
+  "MSGCODE20210329153753": {
+    "en": "Generate Truck Load TONO Fail!",
+    "chs": "生成TruckLoad批次号失败,请确认!",
+    "ch-tw": "生成TruckLoad批次号失败,请确认!"
+  },
+  "MSGCODE20210329154030": {
+    "en": "Open Truck Load TONO Fail!",
+    "chs": "打开TruckLoad批次号失败,请确认!",
+    "ch-tw": "打开TruckLoad批次号失败,请确认!"
+  },
+  "MSGCODE20210329154311": {
+    "en": "NO Have Truck Load TONO Need Closed!",
+    "chs": "没有TruckLoad批次号需要关闭,请确认!",
+    "ch-tw": "没有TruckLoad批次号需要关闭,请确认!"
+  },
+  "MSGCODE20210329154548": {
+    "en": "Closed Truck Load TONO Fail!",
+    "chs": "关闭TruckLoad批次号失败,请确认!",
+    "ch-tw": "关闭TruckLoad批次号失败,请确认!"
+  },
+  "MSGCODE20210329162018": {
+    "en": "Insert Truck Load Detail Data Fail!",
+    "chs": "插入Truck Load TONO详细栈板关联失败,请确认!",
+    "ch-tw": "插入Truck Load TONO详细栈板关联失败,请确认!"
+  },
+  "MSGCODE20210329162253": {
+    "en": "Update Truck Load TOQTY Fail!",
+    "chs": "修改Truck Load TOQTY数量失败,请确认!",
+    "ch-tw": "修改Truck Load TOQTY数量失败,请确认!"
+  },
+  "MSGCODE20210329162443": {
+    "en": "Update Truck Load Data Fail!",
+    "chs": "修改Truck Load数据失败,请确认!",
+    "ch-tw": "修改Truck Load数据失败,请确认!"
+  },
+  "MSGCODE20210329162803": {
+    "en": "The PalletNO:{0} Not Have DELIVERYNUMBER!",
+    "chs": "这个PalletNO:{0}没有DNNO,请确认!",
+    "ch-tw": "这个PalletNO:{0}没有DNNO,请确认!"
+  },
+  "MSGCODE20210405153302": {
+    "en": "This DNNO must scan all PalletID in order to scan the next DNNO",
+    "chs": "这个DNNO:{0}必须扫描完成才能扫描下一个,请确认!",
+    "ch-tw": "这个DNNO:{0}必须扫描完成才能扫描下一个,请确认!"
+  },
+  "MSGCODE_TRUCK_TOSTATUS": {
+    "en": "This TO_NO:{0} has {1},Please confirm!",
+    "chs": "这个TO_NO:{0}是{1}状态,请确认!",
+    "ch-tw": "這個TO_NO:{0}是{1}狀態,請確認!"
+  },
+  "MSGCODE20210406172820": {
+    "en": "This Pallet is Null,Please Confirm!",
+    "chs": "这个PalletID:{0}是空的,请确认!",
+    "ch-tw": "这个PalletID:{0}是空的,请确认!"
+  },
+  "MSGCODE20210413164841": {
+    "en": "This PalletID:{0} has been scanned for TruckLoad, please confirm!",
+    "chs": "这个PalletID:{0}已经扫描过TruckLoad,请确认!",
+    "ch-tw": "这个PalletID:{0}已经扫描过TruckLoad,请确认!"
+  },
+  "MSGCODE20210118093153": {
+    "en": "SN Has Not {0} Data,Please Wait.",
+    "chs": "SN还没有{0}数据，请等待.",
+    "ch-tw": "SN還沒有{0}數據，請等待."
+  },
+  "MSGCODE20210118093511": {
+    "en": "Receive {0} Exception 【{1}】,Please Go To {2} To Handle.",
+    "chs": "收到{0}异常【{1}】，请到{2}处理.",
+    "ch-tw": "收到{0}異常【{1}】，請到{2}處理."
+  },
+  "MSGCODE20210420102214": {
+    "en": "This Actual Pallet:{0} Already exists,Please close first!",
+    "chs": "这个实际栈板：{0}已存在,请先关闭!",
+    "ch-tw": "这个实际栈板：{0}已存在,请先关闭!"
+  },
+  "MSGCODE20210420102943": {
+    "en": "This PalletID:{0} Does not comply with the Rules,Please Scans again!",
+    "chs": "输入的栈板：{0}不符合规则,请重新输入!",
+    "ch-tw": "输入的栈板：{0}不符合规则,请重新输入!"
+  },
+  "MSGCODE20210426175831": {
+    "en": "This TONO:{0} is Open,You can not to open it again!",
+    "chs": "TONO:{0}已经是开启状态,无需重复打开,请确认!",
+    "ch-tw": "TONO:{0}已经是开启状态,无需重复打开,请确认!"
+  },
+  "MSGCODE_TONOCLOSED": {
+    "en": "This TONO:{0} has been closed,Please reflush Truck-Load function page!",
+    "chs": "TONO:{0}已经关闭,请刷新Truck-Load工站页面!",
+    "ch-tw": "TONO:{0}已經關閉,請刷新Truck-Load工站頁面!"
+  },
+  "MSGCODE20210426180535": {
+    "en": "Truck Load Data Loading Fail!",
+    "chs": "Truck Load信息加载失败",
+    "ch-tw": "Truck Load信息加载失败"
+  },
+  "MSGCODE20210426180931": {
+    "en": "This TONO:{0} is Empty,Please close first!",
+    "chs": "这个TONO:{0}是空的,请先关闭!",
+    "ch-tw": "这个TONO:{0}是空的,请先关闭!"
+  },
+  "MSGCODE20210429182736": {
+    "en": "This TONO also has these pallets unscanned and cannot be closed,Please confirm",
+    "chs": "该TO还有{0}这些栈板号未扫描,无法关闭,请确认!",
+    "ch-tw": "该TO还有{0}这些栈板号未扫描,无法关闭,请确认!"
+  },
+  "MSGCODE20210513100143": {
+    "en": "The PallertID has not yet scanned CBS2,Can not scan The TruckLoad,Please scan CBS2 first!",
+    "chs": "该栈板号还未扫描CBS2,无法TruckLoad,请先扫描CBS2!",
+    "ch-tw": "该栈板号还未扫描CBS2,无法TruckLoad,请先扫描CBS2!"
+  },
+  "MSGCODE20210513101010": {
+    "en": "The PallertID is empty!",
+    "chs": "该栈板号为空!",
+    "ch-tw": "该栈板号为空!"
+  },
+  "MSGCODE20210513112355": {
+    "en": "DNNO in the TONO also has the remaining PallertID:{0} unscanned!",
+    "chs": "该TONO内的DNNO还有剩余的栈板号:{0}未扫描!",
+    "ch-tw": "该TONO内的DNNO还有剩余的栈板号:{0}未扫描!"
+  },
+  "MSGCODE20210628172337": {
+    "en": "{0}:'{1}' has been locked by {2}! LockReason: {3}",
+    "es": "{0}:'{1}' esta bloqueado por {2}! Motivo: {3}",
+    "chs": "{0}：'{1}' 已被{2}锁定！锁定原因:{3}",
+    "ch-tw": "{0}:'{1}' 已被{2}鎖定！鎖定原因:{3}"
+  },
+  "MSGCODE20211106150144": {
+    "en": "{0} has been locked by {1}! LockReason: {2}",
+    "es": "{0} esta bloqueado por {1}! Motivo: {2}",
+    "chs": "{0} 已被{1}锁定！锁定原因:{2}",
+    "ch-tw": "{0} 已被{1}鎖定！鎖定原因:{2}"
+  },
+  "MSGCODE20210803125239": {
+    "en": "The SN: {0} is not a Silver WIP unit or check your parameters!",
+    "es": "¡El SN: {0} no es una unidad Silver WIP o verifique sus parametros!",
+    "chs": "SN：{0} 不是 Silver WIP 單元或檢查您的參數!",
+    "ch-tw": "SN：{0} 不是 Silver WIP 單元或檢查您的參數！"
+  },
+  "MSGCODEAPNOTEX01": {
+    "en": "SKU: {0} does not exist, please check with PE.",
+    "ch-tw": "El SKU: {0} no Existe, favor de verificarlo con Ingeniería de Procesos.",
+    "chs": "SKU：{0} 不存在，请与 PE 确认。",
+    "ch-tw": "SKU：{0} 不存在，請與 PE 確認。"
+  },
+  "MSGRA00000001": {
+    "en": "1",
+    "chs": "1",
+    "ch-tw": "1"
+  },
+  "MSGRA00000002": {
+    "en": "0",
+    "chs": "0",
+    "ch-tw": "0"
+  },
+  "MSGCODELOCKAPI0001": {
+    "en": "Error: SN {0} is already Locked.",
+    "es": "Error: El SN {0} ya se encuentra bloqueado.",
+    "chs": "错误：SN {0} 已锁定。",
+    "ch-tw": "錯誤：SN {0} 已鎖定。"
+  },
+  "MSGCODE20210803130433": {
+    "en": "The total Test_Hour of this SN: {0} Silver Wip is less than or equal to the last Test_Hour ({1} <= {2})",
+    "es": "El Test_Hour total de este SN: {0} Silver Wip es menor o igual que el último Test_Hour ({1} <= {2})",
+    "chs": "此 SN 的总 Test_Hour：{0} Silver Wip 小于或等于最后一个 Test_Hour ({1} <= {2})",
+    "ch-tw": "此 SN 的總 Test_Hour：{0} Silver Wip 小於或等於最後一個 Test_Hour ({1} <= {2})"
+  },
+  "MSGCODE20210812162201": {
+    "en": "PE configuration work order {0} can only be bound to child work order {1}, please check with PE",
+    "es": "La orden de trabajo de configuración de PE {0} solo se puede vincular a la orden de trabajo infantil {1}, consulte con PE",
+    "chs": "PE配置工单{0}只能绑定子工单{1}，请咨询PE",
+    "ch-tw": "PE配置工單{0}只能綁定子工單{1},請找PE確認"
+  },
+  "MSGCODE20210812162358": {
+    "en": "CONTROL RUN cartoon {0}&pallet {1} cannot be loaded into non-CONTROL RUN products",
+    "es": "El dibujo animado de CONTROL RUN {0} y la paleta {1} no se pueden cargar en productos que no son de CONTROL RUN",
+    "chs": "CONTROL RUN 卡通 {0} 和托盘 {1} 不能加载到非 CONTROL RUN 产品中",
+    "ch-tw": "CONTROL RUN 卡通{0}&棧板{1}不能裝入非CONTROL RUN產品"
+  },
+  "MSGCODE20210609091614": {
+    "en": "Because unit scan fail with {0},WO:{1} has been locked, please contact QE to unlock！",
+    "chs": "因为产品{0}不良，工单{1}已被锁定！请聯係QE解锁！",
+    "ch-tw": "因爲產品{0}不良，工單{1}已被鎖定！請聯係QE解鎖！"
+  },
+  "MSGCODE2021BINFAM00001": {
+    "en": "{0} was not programmed in V1 as {1}. This unit will be send back to MA1. Please program it again.",
+    "es": "{0} no fue programado en V1 como {1}. Se regresará la unidad a MA1. Por favor programela de nuevo.",
+    "chs": "{0} 未在 V1 中编程为 {1}。 该单元将被送回 MA1。 请重新编程。",
+    "ch-tw": "{0} 未在 V1 中編程為 {1}。 該單元將被送回 MA1。 請重新編程。"
+  },
+  "MSGCODE20210812143603": {
+    "en": "WO → {0}, Without FAI",
+    "es": "Orden de trabajo → {0}, sin FAI",
+    "chs": "WO → {0}，無 FAI",
+    "ch-tw": "工單→{0},未做工單首件確認"
+  },
+  "MSGCODE20210812161642": {
+    "en": "{0},CONTROL RUN work order requires separate packaging",
+    "es": "{0},La orden de trabajo de CONTROL RUN requiere un embalaje separado",
+    "chs": "{0},CONTROL RUN 工单需要单独包装",
+    "ch-tw": "{0},CONTROL RUN工單要求單獨包裝"
+  },
+  "MSGCODENEXTSTATION01": {
+    "en": "SN {0} NOT EXISTS.",
+    "es": "SN {0} NO EXISTE.",
+    "chs": "SN {0} 不存在。",
+    "ch-tw": "SN {0} 不存在。"
+  },
+  "MSGCODE20210812161846": {
+    "en": "PE configuration work order {0} can only be bound to work order {1}, please check with PE",
+    "es": "La orden de trabajo de configuración de PE {0} solo puede estar sujeta a la orden de trabajo {1}, consulte con PE",
+    "chs": "PE配置工单{0}只能绑定工单{1}，请与PE核对",
+    "ch-tw": "PE配置工单{0}只能被工单{1}绑定，请找PE确认"
+  },
+  "MSGCODE20210813092819": {
+    "en": "{0},There is no RMA repair record for this SN, please contact RMA staff!",
+    "es": "{0},No existe un registro de reparación de RMA para este SN, ¡póngase en contacto con el personal de RMA!",
+    "chs": "{0},此SN无RMA维修记录，请联系RMA人员！",
+    "ch-tw": "{0},此SN沒有RMA維修記錄,請聯繫RMA人員！"
+  },
+  "MES00000186": {
+    "en": "The char {1} is invalid in position {0},not in the range 0~Z!",
+    "chs": "序列号第{0}位[ {1} ]不在0~Z的范围内!",
+    "ch-tw": "序列號第{0}位[ {1} ]不在0~Z的範圍內！"
+  },
+  "MES00000187": {
+    "en": "The char {1} is invalid in position {0},not match the config char:{2}!",
+    "chs": "序列号第{0}位[ {1} ]与配置的字符{2}不匹配！",
+    "ch-tw": "序列號第{0}位[ {1} ]與配置的字符{2}不匹配！"
+  },
+  "MSGCODE20210814102108": {
+    "en": "Commit Qty Cannot be 0!",
+    "chs": "Commit数量不能为0！",
+    "ch-tw": "Commit數量不能為0！"
+  },
+  "MSGCODE20210814102615": {
+    "en": "The tool board is waiting to start aging",
+    "chs": "工具板正在等待开始老化状态",
+    "ch-tw": "工具板正在等待開始老化狀態"
+  },
+  "MSGCODE20210814102505": {
+    "en": "User Cancel",
+    "chs": "用户取消",
+    "ch-tw": "用戶取消"
+  },
+  "MSGCODE20210814102719": {
+    "en": "The tool board is aging",
+    "chs": "工具板正在老化中",
+    "ch-tw": "工具板正在老化中"
+  },
+  "MSGCODE20210814102626": {
+    "en": "Commit Qty Must not exceed PoLineQty!",
+    "chs": "Commit數量不能超過PoLineQty!",
+    "ch-tw": "Commit數量不能超過PoLineQty!"
+  },
+  "MSGCODE20210814102404": {
+    "en": "The product family does not exist,Pls configure it",
+    "chs": "产品的系列不存在,请配置",
+    "ch-tw": "產品的系列不存在,請配置"
+  },
+  "MSGCODE20210814102810": {
+    "en": "The current computer is not full of tool board {0}. Do you want to change the tool board and clear the tool board data collected by the current computer?",
+    "chs": "当前计算机还没有放满的工具板{0}，是否要更改工具板，并清除当前计算机收集的工具板数据？",
+    "ch-tw": "當前電腦還沒有放滿的工具板{0}，是否要更改工具板，並清除當前電腦收集的工具板資料？"
+  },
+  "MSGCODE20210814102919": {
+    "en": "The length of the field serial number of the tool board entered is incorrect",
+    "chs": "输入的工具板的字段序号长度错误",
+    "ch-tw": "輸入的工具板的欄位序號長度錯誤"
+  },
+  "MSGCODE20210814103006": {
+    "en": "The aging cabinet does not match the item number",
+    "chs": "老化柜与料号不匹配",
+    "ch-tw": "老化櫃與料號不匹配"
+  },
+  "MSGCODE20210814102733": {
+    "en": "SN {0} hasn't been scanned in MATL_LINK.",
+    "es": "SN {0} no se ha escaneado en MATL_LINK.",
+    "chs": "SN {0} 尚未在 MATL_LINK 中扫描。",
+    "ch-tw": "SN {0} 尚未在 MATL_LINK 中掃描。"
+  },
+  "MSGCODE20210814102526": {
+    "en": "The input tool plate does not match the code ,Please confirm",
+    "chs": "输入的工具板与编码不匹配，请确认！",
+    "ch-tw": "輸入的工具板與編碼不匹配，請確認！"
+  },
+  "MSGCODE20210814102823": {
+    "en": "Eat should not be earlier than eta",
+    "chs": "預計到達時間不能比預計出貨時間早!",
+    "ch-tw": "預計到達時間不能比預計出貨時間早!"
+  },
+  "MSGCODE20210814103149": {
+    "en": "The aging box does not have this field",
+    "chs": "该老化框没有这个字段",
+    "ch-tw": "該老化框沒有這個欄位"
+  },
+  "MSGCODE20210814103234": {
+    "en": "Please enter a tool board",
+    "chs": "请输入工具板",
+    "ch-tw": "請輸入工具板"
+  },
+  "MSGCODE20210814103301": {
+    "en": "The serial number entered is not a tool board field",
+    "chs": "输入的不是工具板字段序号",
+    "ch-tw": "輸入的不是工具板欄位序號"
+  },
+  "MSGCODE20210814103211": {
+    "en": "The order does not exists!",
+    "es": "¡La orden no existe!",
+    "chs": "Order不存在！",
+    "ch-tw": "Order不存在！"
+  },
+  "MSGCODE20210814103331": {
+    "en": "This field of the tool board already has a serial number",
+    "chs": "该工具板的这个字段已经有序号存在",
+    "ch-tw": "該工具板的這個欄位已經有序號存在"
+  },
+  "MSGCODE20210814103206": {
+    "en": "{0} MATL_LINK PN {1} != AutoKP 7xxPN {2}",
+    "chs": "{0} MATL_LINK PN {1} != AutoKP 7xxPN {2}",
+    "ch-tw": "{0} MATL_LINK PN {1} != AutoKP 7xxPN {2}"
+  },
+  "MSGCODE20210814103436": {
+    "en": "This field of the aging box already has a serial number",
+    "chs": "该老化框的这个字段已经有序号存在",
+    "ch-tw": "該老化框的這個欄位已經有序號存在"
+  },
+  "MSGCODE20210814103438": {
+    "en": "Scan Error, The first SN must be PID SN",
+    "chs": "扫描错误，第一个SN必须是PID的SN",
+    "ch-tw": "掃描錯誤，第一個SN必須是PID的SN"
+  },
+  "MSGCODE20210814103439": {
+    "en": "Scan Error, Sn Not Checkout Supermaket",
+    "chs": "扫描错误，SN 没有CheckOut Supermaket",
+    "ch-tw": "掃描錯誤，SN 沒有CheckOut Supermaket"
+  },
+  "MSGCODE20210814103440": {
+    "en": "Scan Error, Sn Not Checkout Silverwip",
+    "chs": "扫描错误，SN 没有CheckOut Silverwip",
+    "ch-tw": "掃描錯誤，SN 沒有CheckOut Silverwip"
+  },
+  "MSGCODE20210814103505": {
+    "en": "This Sn has been scanned on this computer",
+    "chs": "此SN已经在本计算机扫描过",
+    "ch-tw": "此SN已經在本電腦掃描過"
+  },
+  "MSGCODE20210814103752": {
+    "en": "SN {0} is duplicated",
+    "chs": "SN {0} is duplicated",
+    "ch-tw": "SN {0} is duplicated"
+  },  
+  "MSGCODE20211125165252": {
+    "en": "SN {0} and CLEI SN {1} are not match",
+    "chs": "SN {0} 与CLEI SN {1} 不匹配",
+    "ch-tw": "SN {0} 與CLEI SN {1} 不匹配"
+  },
+  "MSGCODE20210814103815": {
+    "en": "This Sn has been scanned at {0}",
+    "chs": "此SN已经在{0}扫描过",
+    "ch-tw": "此SN已經在{0}掃描過"
+  },
+  "MSGCODE20210814103210": {
+    "en": "Input the tool board of the field number length error!",
+    "chs": "输入的工具板的字段序号长度错误!",
+    "ch-tw": "輸入的工具板的欄位序號長度錯誤!"
+  },
+  "MSGCODE20210814103859": {
+    "en": "The model of the entered serial number does not match the entered itemcode",
+    "chs": "输入的序号的机种与输入的ITEMCODE不匹配",
+    "ch-tw": "輸入的序號的機種與輸入的ITEMCODE不匹配"
+  },
+  "MSGCODE20210814103943": {
+    "en": "The curing time of 315 adhesive is not enough and it cannot be aged",
+    "chs": "315胶固化时间不够不能上老化",
+    "ch-tw": "315膠固化時間不夠不能上老化"
+  },
+  "MSGCODE20210814104030": {
+    "en": "This computer also has an aging frame or the tool board is not collecting full data",
+    "chs": "此计算机还有老化框或者工具板未收集满数据",
+    "ch-tw": "此電腦還有老化框或者工具板未收集滿資料"
+  },
+  "MSGCODE20210814103835": {
+    "en": "SN rule not match, please check!",
+    "chs": "SN规则不匹配，请检查",
+    "ch-tw": "SN規則不匹配，請檢查"
+  },
+  "MSGCODE20210814104221": {
+    "en": "SN rule not match:",
+    "chs": "SN rule not match:",
+    "ch-tw": "SN rule not match:"
+  },
+  "MSGCODE20200831111728": {
+    "en": "SN is not Sampled ORT,Please Confirm!",
+    "chs": "SN未被抽中ORT，请确认！",
+    "ch-tw": "SN未被抽中ORT，請確認！"
+  },
+  "MSGCODE20210306182843": {
+    "en": "TGMES PalletNo:{0}, CartonNo:{1}, Quantity:{2}, {3} Pass!",
+    "chs": "TGMES 栈板号:{0}, 卡通号:{1}, 数量:{2}, {3} 成功!",
+    "ch-tw": "TGMES 棧板號:{0}, 卡通號:{1}, 數量:{2}, {3} 成功!"
+  },
+  "MSGCODE20210524151333": {
+    "en": "{0}: {1} expense complete delivery!",
+    "chs": "{0}: {1} 费领出货完成！",
+    "ch-tw": "{0}: {1} 費領出貨完成！"
+  },
+  "MSGCODE20181008115525": {
+    "en": " {0} not exists in the Pallet!",
+    "chs": " {0} 不存在于栈板中!",
+    "ch-tw": " {0} 不存在於棧板中!"
+  },
+  "MSGCODE20210814092754": {
+    "en": "Generate LotNo. fail",
+    "chs": "生成老化批次号失败",
+    "ch-tw": "生成老化批次號失敗"
+  },
+  "MSGCODE20210814092726": {
+    "en": "Please input product stock location!",
+    "chs": "请输入产品放置位置！",
+    "ch-tw": "請輸入產品放置位置！"
+  },
+  "MSGCODE20210814092608": {
+    "en": "ORT {0} is selected by lottery, please scan ORTIN!",
+    "chs": "{0}被抽中ORT，請掃描ORTIN!",
+    "ch-tw": "{0}被抽中ORT，請掃描ORTIN!"
+  },
+  "MSGCODE20210814093648": {
+    "en": "Aging cabinets cannot have commas!",
+    "chs": "老化柜序号不能有逗号！",
+    "ch-tw": "老化櫃序號不能有逗號！"
+  },
+  "MSGCODE20210814094104": {
+    "en": "Please input Aging cabinets!",
+    "chs": "请输入老化柜！",
+    "ch-tw": "請輸入老化櫃！"
+  },
+  "MSGCODE20210814094234": {
+    "en": "Aging cabinets not exists!",
+    "chs": "老化柜序号不存在！",
+    "ch-tw": "老化櫃序號不存在！"
+  },
+  "MSGCODE20210814093518": {
+    "en": "{0} this location had full",
+    "chs": "{0} 该老化柜已经放满！",
+    "ch-tw": "{0} 該老化柜已經放滿！"
+  },
+  "MSGCODE20210814094436": {
+    "en": "The aging cabinet is in the state to be aged!",
+    "chs": "该老化柜正处在待开始老化状态！",
+    "ch-tw": "該老化櫃正處在待開始老化狀態！"
+  },
+  "MSGCODE20210814095051": {
+    "en": "The aging cabinet is in aging state !",
+    "chs": "该老化柜正处在老化中状态",
+    "ch-tw": "該老化櫃正處在老化中狀態"
+  },
+  "MSGCODE20210814094631": {
+    "en": "Please input tools board",
+    "chs": "请输入工具板",
+    "ch-tw": "請輸入工具板"
+  },
+  "MSGCODE20210814095325": {
+    "en": "Tools board QTY is null",
+    "chs": "工具板数量为空",
+    "ch-tw": "工具板數量為空！"
+  },
+  "MSGCODE20210814095443": {
+    "en": "{0} this tools board had full,Please change tools board!",
+    "chs": "{0} 该工具板已经放满，请更换工具板！",
+    "ch-tw": "{0} 該工具板已經放滿,請更換工具板！"
+  },
+  "MSGCODE20210814095213": {
+    "en": "{0} used on {1} ! { 2}",
+    "chs": "{0}在{1}个IP上使用！{2}",
+    "ch-tw": "{0}在{1}個IP上使用！{2}"
+  },
+  "MSGCODE20210814095641": {
+    "en": "{0} this aging box had full,Please change aging box!",
+    "chs": "{0} 该老化框已经放满，请更换老化框！",
+    "ch-tw": "{0} 該老化框已經放滿,請更換老化框！"
+  },
+  "MSGCODE20210814095642": {
+    "en": "{0} is used on IP {1}. Please use this IP!",
+    "chs": "{0}在IP{1}上使用，请到该IP使用！",
+    "ch-tw": "{0}在IP{1}上使用，請到該IP使用！"
+  },
+  "MSGCODE20210814100202": {
+    "en": "The current computer {0} has {1} aging cabinets data has not been submitted",
+    "chs": "当前计算机{0} 有{1}个老化柜的资料没有提交",
+    "ch-tw": "當前電腦{0} 有{1}個老化櫃的資料沒有提交"
+  },
+  "MSGCODE20210814095017": {
+    "en": "Input SN Error",
+    "chs": "输入SN错误",
+    "ch-tw": "輸入SN錯誤"
+  },
+  "MSGCODE20210814100146": {
+    "en": "WO Object not exists, please check!",
+    "chs": "工单对象不存在，请检查",
+    "ch-tw": "工單對象不存在，請檢查"
+  },
+  "MSGCODE20210814100639": {
+    "en": "SN Object not exists, please check!",
+    "chs": "SN对象不存在，请检查",
+    "ch-tw": "SN對象不存在，請檢查"
+  },
+  "MSGCODE20210814100415": {
+    "en": "The current computer {0} still has uncommitted data aging cabinet {1}. Do you want to change the aging cabinet and clear the aging cabinet data collected by the current computer?",
+    "chs": "当前计算机{0}还有未提交的数据老化柜{1}，是否要更改老化柜，并清除当前计算机收集的老化柜数据？",
+    "ch-tw": "當前電腦{0}還有未提交的資料老化櫃{1}，是否要更改老化櫃，並清除當前電腦收集的老化櫃資料？"
+  },
+  "MSGCODE20210814100753": {
+    "en": "Can't find AutoKP, Please check!",
+    "chs": "找不到AUTOKP，请检查",
+    "ch-tw": "找不到AUTOKP，請檢查"
+  },
+  "MSGCODE20210814100448": {
+    "en": "Please Input skuno or SN",
+    "chs": "请输入机种或序列号！",
+    "ch-tw": "請輸入機種或序列號！"
+  },
+  "MSGCODE20210814100821": {
+    "en": "The aging box must start with A",
+    "chs": "老化框首字母必须为A",
+    "ch-tw": "老化框首字母必須為A"
+  },
+  "MSGCODE20210814100909": {
+    "en": "SAP_HB:{0} ITEMSEQ:{1} no CLEI",
+    "chs": "SAP_HB:{0} ITEMSEQ:{1} 没有 CLEI",
+    "ch-tw": "SAP_HB:{0} ITEMSEQ:{1} 沒有 CLEI"
+  },
+  "MSGCODE20210814101037": {
+    "en": "The aging box does not match the aging cabinet",
+    "chs": "老化框与老化柜不匹配",
+    "ch-tw": "老化框與老化櫃不匹配"
+  },
+  "MSGCODE20210814101245": {
+    "en": "The aging cabinet is full, please submit the aging cabinet to the aging state to be started!",
+    "chs": "老化柜已放满，请提交该老化柜到待开始老化状态！",
+    "ch-tw": "老化櫃已放滿，請提交該老化櫃到待開始老化狀態！"
+  },
+  "MSGCODE20210814100936": {
+    "en": "The Skuno is not match with the Aging Cabinet, Please Confirm !",
+    "chs": "机种料号与老化柜不匹配，请确认！",
+    "ch-tw": "機種料號與老化櫃不匹配，請確認！"
+  },
+  "MSGCODE20210814101341": {
+    "en": "The aging box is full!",
+    "chs": "该老化框已经放满",
+    "ch-tw": "該老化框已經放滿"
+  },
+  "MSGCODE20210814101123": {
+    "en": "SAP_HB:{0} ITEMSEQ:{1} CLEI:{2} not match {3}",
+    "chs": "SAP_HB:{0} ITEMSEQ:{1} CLEI:{2} not match {3}",
+    "ch-tw": "SAP_HB:{0} ITEMSEQ:{1} CLEI:{2} not match {3}"
+  },
+  "MSGCODE20210814196325": {
+    "en": "WO:{0} HAD BEEN USED TAG:{1}  ",
+    "chs": "WO:{0} HAD BEEN USED TAG:{1} ",
+    "ch-tw": "WO:{0} HAD BEEN USED TAG:{1} "
+  },
+  "MSGCODE20210814101610": {
+    "en": "The aging box is waiting to start aging",
+    "chs": "老化框在等待开始老化状态",
+    "ch-tw": "老化框在等待開始老化狀態"
+  },
+  "MSGCODE20210814101739": {
+    "en": "Aging frame is aging",
+    "chs": "老化框正在老化中",
+    "ch-tw": "老化框正在老化中"
+  },
+  "MSGCODE20210814101701": {
+    "en": "SAP_HB:{0} ITEMSEQ:{1} no COO",
+    "chs": "SAP_HB:{0} ITEMSEQ:{1} no COO",
+    "ch-tw": "SAP_HB:{0} ITEMSEQ:{1} no COO"
+  },
+  "MSGCODE20210814101841": {
+    "en": "The current aging cabinet is not full of aging frame {0}. Do you want to change the aging frame and clear the aging frame data not collected by the current computer?",
+    "chs": "当前老化柜还没有放满的老化框{0}，是否要更改老化框，并清除当前计算机未收集的老化框数据？",
+    "ch-tw": "當前老化櫃還沒有放滿的老化框{0}，是否要更改老化框，並清除當前電腦未收集的老化框資料？"
+  },
+  "MSGCODE20210814102021": {
+    "en": "PoId is not exists!",
+    "chs": "POID不存在！",
+    "ch-tw": "POID不存在！"
+  },
+  "MSGCODE20210814101940": {
+    "en": "SAP_HB:{0} ITEMSEQ:{1} no REV",
+    "chs": "SAP_HB:{0} ITEMSEQ:{1} no REV",
+    "ch-tw": "SAP_HB:{0} ITEMSEQ:{1} no REV"
+  },
+  "MSGCODE20210814102025": {
+    "en": "Please enter a non-zero integer",
+    "chs": "请输入非零整数",
+    "ch-tw": "請輸入非零整數"
+  },
+  "MSGCODE20210814102135": {
+    "en": "The quantity entered is greater than the configured quantity",
+    "chs": "输入的数量大于配置的数量",
+    "ch-tw": "輸入的數量大於配置的數量"
+  },
+  "MSGCODE20210814102110": {
+    "en": "SAP_HB:{0} ITEMSEQ:{1} REV:{2} not match {3}",
+    "chs": "SAP_HB:{0} ITEMSEQ:{1} REV:{2} not match {3}",
+    "ch-tw": "SAP_HB:{0} ITEMSEQ:{1} REV:{2} not match {3}"
+  },
+  "MSGCODE20210814102225": {
+    "en": "The number entered is less than the number scanned",
+    "chs": "输入的数量小于扫描的数量",
+    "ch-tw": "輸入的數量小於掃描的數量"
+  },
+  "MSGCODE20210814102302": {
+    "en": "SAP_HB:{0} Qty:{1} but old KP count is {2}",
+    "chs": "SAP_HB:{0} Qty:{1} but old KP count is {2}",
+    "ch-tw": "SAP_HB:{0} Qty:{1} but old KP count is {2}"
+  },
+  "MSGCODE20210814102325": {
+    "en": "The tool board does not match the coding rule",
+    "chs": "工具板与编码规则不匹配",
+    "ch-tw": "工具板與編碼規則不匹配"
+  },
+  "MSGCODE20210814101545": {
+    "en": "The Aging Enclosure does not match the Aging Cabinet.Please confirm !",
+    "chs": "老化框与老化柜不匹配，请确认！",
+    "ch-tw": "老化框與老化櫃不匹配，請確認！"
+  },
+  "MSGCODE20210814102510": {
+    "en": "The tool board is full",
+    "chs": "工具板已放满",
+    "ch-tw": "工具板已放滿"
+  },
+  "MSGCODE20210814153645": {
+    "en": "LLT SN Passes CARTON and is locked at SHIPOUT",
+    "chs": "LLT SN過CARTON鎖定在SHIPOUT",
+    "ch-tw": "LLT SN過CARTON鎖定在SHIPOUT"
+  },
+  "MSGCODE20210814153744": {
+    "en": "{0} has been scanned, please do not repeat the scan!",
+    "chs": "{0} 已經掃描，請不要重複掃描!",
+    "ch-tw": "{0} 已經掃描，請不要重複掃描!"
+  },
+  "MSGCODE20210814153446": {
+    "en": "Unable To Get Label: {0} ，Please Contact PE to Check Label Set",
+    "chs": "查找模板失敗： {0} ,请联系PE确认模板配置",
+    "ch-tw": "查找模板失敗： {0}  ，請聯繫PE確認模板配置"
+  },
+  "MSGCODE20210814153928": {
+    "en": "Please weigh!",
+    "chs": "請稱重",
+    "ch-tw": "請稱重"
+  },
+  "MSGCODE20210814154119": {
+    "en": "Please set weight! (Please open MESHelper and close this dialog and try again.)",
+    "chs": "請稱重! (請打開MESHelper之後關掉本對話框重試.)",
+    "ch-tw": "請稱重! (請打開MESHelper之後關掉本對話框重試.)"
+  },
+  "MSGCODE20210814154147": {
+    "en": "Work order {0} has been locked. You need to scan XRAY to unlock it before crossing the station",
+    "chs": "工單 {0} 已被鎖定，需掃 XRAY 解鎖才能過站",
+    "ch-tw": "工單 {0} 已被鎖定，需掃 XRAY 解鎖才能過站"
+  },
+  "MSGCODE20210814154352": {
+    "en": "confirm",
+    "chs": "確認",
+    "ch-tw": "確認"
+  },
+  "MSGCODE20210814154415": {
+    "en": "The charge and discharge test has not been completed",
+    "chs": "未完成充放電抽測確認",
+    "ch-tw": "未完成充放電抽測確認"
+  },
+  "MSGCODE20210814154433": {
+    "en": "Tips:",
+    "chs": "溫馨提示:",
+    "ch-tw": "溫馨提示:"
+  },
+  "MSGCODE20210814154529": {
+    "en": "The product needs to be charged and discharged spot test!",
+    "chs": "該產品需要進行充放電抽測!",
+    "ch-tw": "該產品需要進行充放電抽測!"
+  },
+  "MSGCODE20210814154537": {
+    "en": "Class names cannot be empty",
+    "chs": "班別的名字不能為空",
+    "ch-tw": "班別的名字不能為空"
+  },
+  "MSGCODE20210814154821": {
+    "en": "No classes are configured",
+    "chs": "沒有配置班別",
+    "ch-tw": "沒有配置班別"
+  },
+  "MSGCODE20210814153902": {
+    "en": "The SN Bonepile Station is  before the current SFC station!",
+    "chs": "該SN的Bonepile Station在SFC當前工站之前!",
+    "ch-tw": "該SN的Bonepile Station在SFC當前工站之前!"
+  },
+  "MSGCODE20210814155113": {
+    "en": "Without this user",
+    "chs": "無此用戶",
+    "ch-tw": "無此用戶"
+  },
+  "MSGCODE20210814152959": {
+    "en": "Panel loading exception",
+    "chs": "Panel加载异常",
+    "ch-tw": "Panel載入異常"
+  },
+  "MSGCODE20210814155253": {
+    "en": "The panel corresponding to {0} has not been split. Please go back to BIP station for splitting",
+    "chs": "{0} 对应的PANEL没有分板完,请回BIP工站进行分板",
+    "ch-tw": "{0} 對應的PANEL沒有分板完,請回BIP工站進行分板"
+  },
+  "MSGCODE20210814155121": {
+    "en": "DEFECT_CLASSIFICATION can be NTF!,Only when DEFECT_TYPE is NDF",
+    "chs": "只有當DEFECT_TYPE為NDF時，DEFECT_CLASSIFICATION才能為NTF!",
+    "ch-tw": "只有當DEFECT_TYPE為NDF時，DEFECT_CLASSIFICATION才能為NTF!"
+  },
+  "MSGCODE20210814155451": {
+    "en": "Number of pages required ({0}) greater than maximum pages ({1})",
+    "chs": "所需分頁數({0})大於最大分頁({1})",
+    "ch-tw": "所需分頁數({0})大於最大分頁({1})"
+  },
+  "MSGCODE20210814155340": {
+    "en": "Save Sn Log Fail![ [initial write]",
+    "chs": "Save Sn Log Fail![初始写入]",
+    "ch-tw": "Save Sn Log Fail![初始寫入]"
+  },
+  "MSGCODE20210814155515": {
+    "en": "Insert R_ SN_ LOCK Fail![ [5pcs fail for 20 consecutive PCS]",
+    "chs": "Insert R_SN_LOCK Fail![连续20PCS有5PCS FAIL]",
+    "ch-tw": "Insert R_SN_LOCK Fail![連續20PCS有5PCS FAIL]"
+  },
+  "MSGCODE20210814155521": {
+    "en": "The role already exists",
+    "chs": "已存在該角色",
+    "ch-tw": "已存在該角色"
+  },
+  "MSGCODE20210814155537": {
+    "en": "This work order has 20 consecutive PCS. there are 5 PCS. fail. Please contact QE for confirmation!",
+    "chs": "该工单已连续20PCS就有5PCS FAIL,请找QE确认!",
+    "ch-tw": "該工單已連續20PCS就有5PCS FAIL,請找QE確認!"
+  },
+  "MSGCODE20210814155549": {
+    "en": "Creating a role Succeeded",
+    "chs": "創建角色成功",
+    "ch-tw": "創建角色成功"
+  },
+  "MSGCODE20210814145459": {
+    "en": "DN:{0} corresponding TO TO does not exist!",
+    "chs": "DN:{0}对应的TO不存在！",
+    "ch-tw": "DN:{0}對應的TO不存在！"
+  },
+  "MSGCODE20210814155553": {
+    "en": "Insert R_SN_LOCK Fail![ Continuous 3pcs [same failcode & location fail]",
+    "chs": "Insert R_SN_LOCK Fail![连续3PCS同一FAILCODE&LOCATION FAIL]",
+    "ch-tw": "Insert R_SN_LOCK Fail![連續3PCS同一FAILCODE&LOCATION FAIL]"
+  },
+  "MSGCODE20210814155611": {
+    "en": "This work order has been failed for 3pcs continuously and has the same failcode and location. Please contact QE for confirmation!",
+    "chs": "该工单已连续3PCS FAIL且同一FAILCODE和位置, 请找QE确认!",
+    "ch-tw": "該工單已連續3PCS FAIL且同一FAILCODE和位置, 請找QE確認!"
+  },
+  "MSGCODE20210814155613": {
+    "en": "Failed to create a role",
+    "chs": "創建角色失敗",
+    "ch-tw": "創建角色失敗"
+  },
+  "MSGCODE20210814155643": {
+    "en": "The role of information",
+    "chs": "角色信息",
+    "ch-tw": "角色信息"
+  },
+  "MSGCODE20210814155658": {
+    "en": "There is no role information",
+    "chs": "無任何角色信息",
+    "ch-tw": "無任何角色信息"
+  },
+  "MSGCODE20210814155744": {
+    "en": "No information about the role is available",
+    "chs": "無此角色信息",
+    "ch-tw": "無此角色信息"
+  },
+  "MSGCODE20210814155758": {
+    "en": "Failed to create the permission ID. Procedure",
+    "chs": "創建權限ID失敗",
+    "ch-tw": "創建權限ID失敗"
+  },
+  "MSGCODE20210814155629": {
+    "en": "The system does not configure whether to generate ASN!",
+    "chs": "系统没有配置是否需要生产ASN！",
+    "ch-tw": "系統沒有配置是否需要生產ASN！"
+  },
+  "MSGCODE20210814155931": {
+    "en": "Description Succeeded in creating the permission ID",
+    "chs": "創建權限ID成功",
+    "ch-tw": "創建權限ID成功"
+  },
+  "MSGCODE20210814155946": {
+    "en": "The permission ID already exists. Procedure",
+    "chs": "權限ID已存在",
+    "ch-tw": "權限ID已存在"
+  },
+  "MSGCODE20210814155941": {
+    "en": "The TO {0} and the SO_NO {1} and the SO_ITEM_NO {2} have more DN,Need to open unique DN,Please contact traffic control to reopen DN & TO!",
+    "chs": "同TO {0} 同SO_NO {1} 同SO_ITEM_NO {2} 存在多个DN,需开立唯一DN,请联系交管重开DN&TO!",
+    "ch-tw": "同TO {0} 同SO_NO {1} 同SO_ITEM_NO {2} 存在多個DN,需開立唯一DN,請聯繫交管重開DN&TO!"
+  },
+  "MSGCODE20210814160039": {
+    "en": "Sn entered to: {0} has different environmental protection attributes!",
+    "chs": "已入TO:{0}的SN有不同的环保属性！",
+    "ch-tw": "已入TO:{0}的SN有不同的環保屬性！"
+  },
+  "MSGCODE20210814160108": {
+    "en": "Pallet: {0} Sn has different environmental protection attributes!",
+    "chs": "栈板:{0}的SN有不同的环保属性！",
+    "ch-tw": "棧板:{0}的SN有不同的環保屬性！"
+  },
+  "MSGCODE20210814160129": {
+    "en": "The corresponding work order {0} attribute of this pallet is inconsistent with the entered to work order {1}!",
+    "chs": "该栈板对应工单{0}属性与已入TO工单{1}属性不一致！",
+    "ch-tw": "該棧板對應工單{0}屬性與已入TO工單{1}屬性不一致！"
+  },
+  "MSGCODE20210814160241": {
+    "en": "The shipping address of the corresponding SKUNO {0} is not configured, please find the traffic control for processing!",
+    "chs": "{0}对应的机种送货地址没有配置,请找交管处理!",
+    "ch-tw": "{0}對應的機種送貨位址沒有配置,請找交管處理!"
+  },
+  "MSGCODE20210814160306": {
+    "en": "The corresponding SKUNO of {0} has multiple delivery addresses, please find the traffic control for processing!",
+    "chs": "{0}对应的机种有多个送货地址,请找交管处理!",
+    "ch-tw": "{0}對應的機種有多個送貨位址,請找交管處理!"
+  },
+  "MSGCODE20210814160338": {
+    "en": "{0} has no shipping address configured, please find the traffic control configuration!",
+    "chs": "{0}没有配置出货地址,请找交管配置!",
+    "ch-tw": "{0}沒有配置出貨位址,請找交管配置!"
+  },
+  "MSGCODE20210814160417": {
+    "en": "{0} shipping address is empty, please find traffic control configuration!",
+    "chs": "{0}出货地址为空,请找交管配置!",
+    "ch-tw": "{0}出貨地址為空,請找交管配置!"
+  },
+  "MSGCODE20210814160358": {
+    "en": "Not Set : {0}",
+    "chs": "未设置: {0}",
+    "ch-tw": "未設置: {0}"
+  },
+  "MSGCODE20210814160443": {
+    "en": "In {0} {1} serial number (pallet, cartoon, outer box), the buckle on Sn has been locked in HW system! Please contact PQE to unlock!",
+    "chs": "{0}  {1} 序列号(栈板,卡通,外箱)中有SN上的扣板已经在HW系统被锁定!请联系PQE解锁!",
+    "ch-tw": "{0}  {1} 序號(棧板,卡通,外箱)中有SN上的扣板已經在HW系統被鎖定!請聯繫PQE解鎖!"
+  },
+  "MSGCODE20210814160531": {
+    "en": "In the {0} serial number (pallet, cartoon, outer box), the buckle on Sn has been shipped",
+    "chs": "{0} 序列号(栈板,卡通,外箱)中有SN上的扣板已经出货",
+    "ch-tw": "{0} 序號(棧板,卡通,外箱)中有SN上的扣板已經出貨"
+  },
+  "MSGCODE20210814160555": {
+    "en": "DN:{0} does not exist!",
+    "chs": "DN:{0}不存在！",
+    "ch-tw": "DN:{0}不存在！"
+  },
+  "MSGCODE20210814160849": {
+    "en": "There is no content in the Excel upload",
+    "chs": "上傳的Excel中沒有內容",
+    "ch-tw": "上傳的Excel中沒有內容"
+  },
+  "MSGCODE20210814160936": {
+    "en": "The modified configuration already exists",
+    "chs": "修改後的配置已存在",
+    "ch-tw": "修改後的配置已存在"
+  },
+  "MSGCODE20210814161014": {
+    "en": "Execution exception, ID not found!",
+    "chs": "執行異常，找不到ID!",
+    "ch-tw": "執行異常，找不到ID!"
+  },
+  "MSGCODE20210814161037": {
+    "en": "The new configuration already exists",
+    "chs": "新增配置已存在",
+    "ch-tw": "新增配置已存在"
+  },
+  "MSGCODE20210814155124": {
+    "en": "The SN is  not already in the Open state of CriticalBonepile in the system!",
+    "chs": "該SN在系統中不是CriticalBonepile的Open狀態",
+    "ch-tw": "該SN在系統中不是CriticalBonepile的Open狀態"
+  },
+  "MSGCODE20210814161629": {
+    "en": "Success!!",
+    "chs": "获取成功!!",
+    "ch-tw": "获取成功!!"
+  },
+  "MSGCODE20210814161342": {
+    "en": "Failed to find the uploaded FILENAME{0}",
+    "chs": "找不到上傳的FILENAME{0}",
+    "ch-tw": "找不到上傳的FILENAME{0}"
+  },
+  "MSGCODE20210814161941": {
+    "en": "Failed to get new LOT_NO :{0}",
+    "chs": "獲取新LOT_NO失敗:{0}",
+    "ch-tw": "獲取新LOT_NO失敗:{0}"
+  },
+  "MSGCODE20210814160601": {
+    "en": "This serial number does not meet the conditions for entering 027M. It must be RMA product!!",
+    "chs": "此序列号不符合入027M的条件,必须是RMA产品!!",
+    "ch-tw": "此序號不符合入027M的條件,必須是RMA產品!!"
+  },
+  "MSGCODE20210814162038": {
+    "en": "The file you upload is null or uncorrect format",
+    "chs": "上传的文件没有内容或格式不符",
+    "ch-tw": "上傳的文件沒有內容或格式不符"
+  },
+  "MSGCODE20210814162000": {
+    "en": "The work order '{0}' is locked. Reason: '{1}', please notify PE / PQE for confirmation!",
+    "chs": "该工单‘{0}’被锁原因:'{1}',请通知PE/PQE确认处理!",
+    "ch-tw": "該工單‘{0}’被鎖原因:'{1}',請通知PE/PQE確認處理!"
+  },
+  "MSGCODE20210814162102": {
+    "en": "The uploaded file must contain {0} columns!",
+    "chs": "上傳的文件內容有誤,必須包含{0}列!",
+    "ch-tw": "上傳的文件內容有誤,必須包含{0}列!"
+  },
+  "MSGCODE20210814162130": {
+    "en": "Rework must be warehoused with the highest parent!!",
+    "chs": "重工须以最高父项入库!!",
+    "ch-tw": "重工須以最高父項入庫!!"
+  },
+  "MSGCODE20210814162148": {
+    "en": "The product has been swept shipping, and it is not allowed to enter MRB!!",
+    "chs": "该产品已经扫SHIPPING,不允许进入MRB!!",
+    "ch-tw": "該產品已經掃SHIPPING,不允許進入MRB!!"
+  },
+  "MSGCODE20210814162153": {
+    "en": "SN RMABoneplie has been scanned but has not been Closed[r_rma_bonepile]!",
+    "chs": "SN已掃RMABoneplie但未Closed[r_rma_bonepile]!",
+    "ch-tw": "SN已掃RMABoneplie但未Closed[r_rma_bonepile]!"
+  },
+  "MSGCODE20210814162203": {
+    "en": "This pallet is already in MRB warehouse!",
+    "chs": "该栈板已经在MRB仓!",
+    "ch-tw": "該棧板已經在MRB倉!"
+  },
+  "MSGCODE20210814160913": {
+    "en": "Because the product needs to be loaded, please go to the LIKE_PTH station to scan!",
+    "chs": "因产品需要上料，请去LIKE_PTH工站扫描!",
+    "ch-tw": "因產品需要上料，请去LIKE_PTH工站扫描!"
+  },
+  "MSGCODE20210814162222": {
+    "en": "This pallet has no products!",
+    "chs": "该栈板没有产品!",
+    "ch-tw": "該棧板沒有產品!"
+  },
+  "MSGCODE20210814162248": {
+    "en": "Error getting work station!",
+    "chs": "获取工站错误!",
+    "ch-tw": "獲取工站錯誤!"
+  },
+  "MSGCODE20210814162335": {
+    "en": "Please enter Sn!",
+    "chs": "请输入SN!",
+    "ch-tw": "請輸入SN!"
+  },
+  "MSGCODE20210814161550": {
+    "en": "FLHRemark cannot be empty",
+    "chs": "FLHRemark不能為空",
+    "ch-tw": "FLHRemark不能為空"
+  },
+  "MSGCODE20210814162423": {
+    "en": "Err: SN did not scan the ORTIN!",
+    "chs": "ERR: SN未扫描 ORTIN !",
+    "ch-tw": "ERR: SN未掃描 ORTIN !"
+  },
+  "MSGCODE20210814162514": {
+    "en": "Err: SN has been measured in ORT station for 10 days, please scan ORTOUT!",
+    "chs": "ERR: SN已在 ORT 工站测满10天, 请扫描ORTOUT! !",
+    "ch-tw": "ERR: SN已在 ORT 工站測滿10天, 請掃描ORTOUT! !"
+  },
+  "MSGCODE20210814162533": {
+    "en": "Err: if Sn has not been measured for 10 days in ORT station, it is not allowed to scan ORTOUT!",
+    "chs": "ERR: SN在 ORT 工站未测满10天, 不允许扫描ORTOUT! !",
+    "ch-tw": "ERR: SN在 ORT 工站未測滿10天, 不允許掃描ORTOUT! !"
+  },
+  "MSGCODE20210814162512": {
+    "en": "FLHRemark The character length cannot exceed 100",
+    "chs": "FLHRemark字符長度不能超過100",
+    "ch-tw": "FLHRemark字符長度不能超過100"
+  },
+  "MSGCODE20210814162551": {
+    "en": "Err: SN has scanned ORTOUT, cannot test ORT repeatedly!",
+    "chs": "ERR: SN已经扫描ORTOUT,不能重复测试ORT! !",
+    "ch-tw": "ERR: SN已經掃描ORTOUT,不能重複測試ORT! !"
+  },
+  "MSGCODE20210814162557": {
+    "en": "Owner  cannot be empty",
+    "chs": "Owner不能為空!",
+    "ch-tw": "Owner不能為空!"
+  },
+  "MSGCODE20210814162609": {
+    "en": "Err: the SN has not been swept into the ORT or has been cleared out!",
+    "chs": "ERR: 该SN未扫入ORT或已被清出!",
+    "ch-tw": "ERR: 該SN未掃入ORT或已被清出!"
+  },
+  "MSGCODE20210814162626": {
+    "en": "Err: the SN current order or upper order entered has been held, please contact QE for confirmation!",
+    "chs": "ERR: 输入的SN当阶或上阶已经被HOLD,请联系QE确认!",
+    "ch-tw": "ERR: 輸入的SN當階或上階已經被HOLD,請聯繫QE確認!"
+  },
+  "MSGCODE20210814162646": {
+    "en": "Err: the scanning appearance is poor, and QE requires control. Please retest FQA1!",
+    "chs": "ERR: 有扫描外观不良,QE要求管控,请重新测试FQA1!",
+    "ch-tw": "ERR: 有掃描外觀不良,QE要求管控,請重新測試FQA1!"
+  },
+  "MSGCODE20210814162709": {
+    "en": "Confirmation failed, please reconfirm!",
+    "chs": "确认失败，请重新确认！",
+    "ch-tw": "確認失敗，請重新確認！"
+  },
+  "MSGCODE20210814162727": {
+    "en": "Scan content error, please confirm again!",
+    "chs": "扫描内容错误，请重新确认！",
+    "ch-tw": "掃描內容錯誤，請重新確認！"
+  },
+  "MSGCODE20210814162746": {
+    "en": "NPI products cannot be mixed with GA products!",
+    "chs": "NPI产品不能与GA产品混包!",
+    "ch-tw": "NPI產品不能與GA產品混包!"
+  },
+  "MSGCODE20210814162839": {
+    "en": "Netgear products have different prefixes. You can't mix packages!",
+    "chs": "NETGEAR产品前缀不一样不能混包!",
+    "ch-tw": "NETGEAR產品首碼不一樣不能混包!"
+  },
+  "MSGCODE20210814162915": {
+    "en": "There is no KP with KP type 'pack'",
+    "chs": "不存在 KP类型是 ‘PACK’ 的KP",
+    "ch-tw": "不存在 KP類型是 ‘PACK’ 的KP"
+  },
+  "MSGCODE20210814162947": {
+    "en": "There is no KP with KP type 'Ericsson'",
+    "chs": "不存在 KP类型是 ‘ERICSSON’ 的KP",
+    "ch-tw": "不存在 KP類型是 ‘ERICSSON’ 的KP"
+  },
+  "MSGCODE20210814163016": {
+    "en": "The Owner of the SN already exists in the system!",
+    "chs": "該SN在系統中已經存在該Owner!",
+    "ch-tw": "該SN在系統中已經存在該Owner!"
+  },
+  "MSGCODE20210814163005": {
+    "en": "{0} was selected as ORT, please scan ortin!",
+    "chs": "{0}被抽中ORT，请扫描ORTIN!",
+    "ch-tw": "{0}被抽中ORT，請掃描ORTIN!"
+  },
+  "MSGCODE20210814163025": {
+    "en": "The last FLH StartDate of the SN in the system is greater than the import time!",
+    "chs": "該SN在系統中最後一筆FLH StartDate時間大於導入時間!",
+    "ch-tw": "該SN在系統中最後一筆FLH StartDate時間大於導入時間!"
+  },
+  "MSGCODE20210814163042": {
+    "en": "{0} is swept into the ORT, please maintain the ORT!",
+    "chs": "{0}被扫入ORT，请维护ORT!",
+    "ch-tw": "{0}被掃入ORT，請維護ORT!"
+  },
+  "MSGCODE20210814163108": {
+    "en": "The interval between the last pass of '{0}' test and the last pass is less than 10 hours, please confirm!",
+    "chs": "最后一笔'{0}'测试PASS时间与上次PASS时间间隔未超10小时，请确认！",
+    "ch-tw": "最後一筆'{0}'測試PASS時間與上次PASS時間間隔未超10小時，請確認！"
+  },
+  "MSGCODE20210814163133": {
+    "en": "PreASN: {0} Not Exists in O_I137_HEAD",
+    "chs": "PreASN: {0} 不存在 O_I137_HEAD",
+    "ch-tw": "PreASN: {0} 不存在 O_I137_HEAD"
+  },
+  "MSGCODE20210814163215": {
+    "en": "'{1}' pass times of this SN: '{0}' exceed 6, please confirm! 0",
+    "chs": "该SN:'{0}'的 '{1}'PASS次数超6次，请确认！0",
+    "ch-tw": "該SN:'{0}'的 '{1}'PASS次數超6次，請確認！0"
+  },
+  "MSGCODE20210814163259": {
+    "en": "This SSN {0} has restored the OS and has not retested FINAL-TEST. Please confirm!",
+    "chs": "This SSN {0}有还原过OS,没有重测FINAL-TEST,请确认!",
+    "ch-tw": "This SSN {0}有還原過OS,沒有重測FINAL-TEST,請確認!"
+  },
+  "MSGCODE20210814163328": {
+    "en": "The {0} status is to be replaced, please contact QE / PE for confirmation!",
+    "chs": "该{0}状态为待替换,请联系QE/PE确认!",
+    "ch-tw": "該{0}狀態為待替換,請聯繫QE/PE確認!"
+  },
+  "MSGCODE20210814163355": {
+    "en": "The {0} is sampled for Dis-charge, but the last test record is not pass, please retest!",
+    "chs": "该{0}被抽测Dis-charge,但最后一笔测试记录非PASS，请重新测试!",
+    "ch-tw": "該{0}被抽測Dis-charge,但最後一筆測試記錄非PASS，請重新測試!"
+  },
+  "MSGCODE20210814163415": {
+    "en": "Contact the PE to check the ALLPART configuration information",
+    "chs": "請聯繫PE檢查ALLPART機種配置資料",
+    "ch-tw": "請聯繫PE檢查ALLPART機種配置資料"
+  },
+  "MSGCODE20210814163422": {
+    "en": "The {0} is sampled for Dis-charge, but there is no test record, please test!",
+    "chs": "该{0}被抽测Dis-charge,但无测试记录，请测试!",
+    "ch-tw": "該{0}被抽測Dis-charge,但無測試記錄，請測試!"
+  },
+  "MSGCODE20210814163443": {
+    "en": "The {0} is sampled for Re-charge, but the last test record is not pass, please retest!",
+    "chs": "该{0}被抽测Re-charge,但最后一笔测试记录非PASS，请重新测试!",
+    "ch-tw": "該{0}被抽測Re-charge,但最後一筆測試記錄非PASS，請重新測試!"
+  },
+  "MSGCODE20210814163514": {
+    "en": "The {0} is sampled for Re-charge, but there is no test record, please test!",
+    "chs": "该{0}被抽测Re-charge,但无测试记录，请测试!",
+    "ch-tw": "該{0}被抽測Re-charge,但無測試記錄，請測試!"
+  },
+  "MSGCODE20210814163416": {
+    "en": "PreASN: {0} DN is Null",
+    "chs": "PreASN: {0} 无DN，请确认",
+    "ch-tw": "PreASN: {0} 無DN，請確認"
+  },
+  "MSGCODE20210814163527": {
+    "en": "Failed to check the SN information {0}",
+    "chs": "檢查SN信息失敗{0}",
+    "ch-tw": "檢查SN信息失敗{0}"
+  },
+  "MSGCODE20210814163539": {
+    "en": "Err: it has been 12 hours since MC was last assembled. Please retest {0} Station - 01!",
+    "chs": "Err: 距离上次组装 MC已经过了12小时, 请重测{0}工站 - 01!",
+    "ch-tw": "Err: 距離上次組裝 MC已經過了12小時, 請重測{0}工站 - 01!"
+  },
+  "MSGCODE20210814163608": {
+    "en": "D-Link SKUNO, please scan the minimum SN: {0}",
+    "chs": "D-LINK 机种，请扫最小SN:{0}",
+    "ch-tw": "D-LINK 機種，請掃最小SN:{0}"
+  },
+  "MSGCODE20210814163643": {
+    "en": "Err: the scanning appearance is poor, and QE requires control. Please retest FQA1",
+    "chs": "ERR: 有扫描外观不良,QE要求管控,请重新测试FQA1",
+    "ch-tw": "ERR: 有掃描外觀不良,QE要求管控,請重新測試FQA1"
+  },
+  "MSGCODE20210814163546": {
+    "en": "Failed to get SN packaging Information {0}",
+    "chs": "獲取SN包裝信息失敗{0}",
+    "ch-tw": "獲取SN包裝信息失敗{0}"
+  },
+  "MSGCODE20210814163703": {
+    "en": "The sampling proportion of SKUNO {0} is 100%. There is no ORT test pass record for this SN. Please retest the ORT",
+    "chs": "机种{0}抽测比例为百分之百,此SN没有ORT测试PASS记录,请重测ORT",
+    "ch-tw": "機種{0}抽測比例為百分之百,此SN沒有ORT測試PASS記錄,請重測ORT"
+  },
+  "MSGCODE20210814163739": {
+    "en": "Sn in R_SN_KPL table, There is a keypart with * in the table. Please return it to ASSY for reassembly",
+    "chs": "SN 在R_SN_KPL表中有包含*号的Keypart,请退回到ASSY,重新过组装",
+    "ch-tw": "SN 在R_SN_KPL表中有包含*號的Keypart,請退回到ASSY,重新過組裝"
+  },
+  "MSGCODE20210814163727": {
+    "en": "Failed to get the NUMBER of times to upload the SN to the RMA system {0}",
+    "chs": "獲取SN上傳RMA系統次數失敗{0}",
+    "ch-tw": "獲取SN上傳RMA系統次數失敗{0}"
+  },
+  "MSGCODE20210814163701": {
+    "en": "PreASN: {0} GrossWeight is Null",
+    "chs": "PreASN: {0} 毛重为空，请确认",
+    "ch-tw": "PreASN: {0} 毛重為空，請確認"
+  },
+  "MSGCODE20210814163803": {
+    "en": "This SN is in FT2_01 failed the second test, please retest FT2_01！",
+    "chs": "此SN在FT2_01未通过第二道测试，请重测FT2_01！",
+    "ch-tw": "此SN在FT2_01未通過第二道測試，請重測FT2_01！"
+  },
+  "MSGCODE20210814163828": {
+    "en": "The SKUNO {0} you entered is different from Sn SKUNO {1}, please re-enter!",
+    "chs": "您输入的机种{0}和SN机种{1}不一样，请重新输入！",
+    "ch-tw": "您輸入的機種{0}和SN機種{1}不一樣，請重新輸入！"
+  },
+  "MSGCODE20210814163930": {
+    "en": "Verification failed, {0} does not exist = > {1} Ericsson barcode, please try again!",
+    "chs": "验证失败，{0} 不存在=>{1} ERICSSON条形码,请重试!",
+    "ch-tw": "驗證失敗，{0} 不存在=>{1} ERICSSON條碼,請重試!"
+  },
+  "MSGCODE20210814163910": {
+    "en": "PreASN: {0} SO Date Error【O_I137_HEAD】",
+    "chs": "PreASN: {0} SO 日期异常【O_I137_HEAD】",
+    "ch-tw": "PreASN: {0} SO 日期異常【O_I137_HEAD】"
+  },
+  "MSGCODE20210814163810": {
+    "en": "Failed to update SN information {0}",
+    "chs": "更新SN信息失敗{0}",
+    "ch-tw": "更新SN信息失敗{0}"
+  },
+  "MSGCODE20210814164010": {
+    "en": "Verification failed. The last 11 bits of Ericsson barcode {0} are inconsistent with = > {1}. Please try again!",
+    "chs": "验证失败，ERICSSON条形码{0} 后11位与=>{1} 不一致,请重试!",
+    "ch-tw": "驗證失敗，ERICSSON條碼{0} 後11位與=>{1} 不一致,請重試!"
+  },
+  "MSGCODE20210814164053": {
+    "en": "No KP exists for this {0}",
+    "chs": "此 {0} 不存在KP",
+    "ch-tw": "此 {0} 不存在KP"
+  },
+  "MSGCODE20210814164119": {
+    "en": "SN: {0} is sampled for charge and discharge, but there is no discharge test record, please confirm!",
+    "chs": "SN:{0} 被抽测充放电但没有放电测试记录,请确认!",
+    "ch-tw": "SN:{0} 被抽測充放電但沒有放電測試記錄,請確認!"
+  },
+  "MSGCODE20210814164234": {
+    "en": "SN: {0} is not the barcode printed by Kit (or the work order is incorrect), please confirm!",
+    "chs": "SN:{0} 不是KIT打印的条形码(或工单不正确),请确认!",
+    "ch-tw": "SN:{0} 不是KIT列印的條碼(或工單不正確),請確認!"
+  },
+  "MSGCODE20210814164059": {
+    "en": "PO: {0} ,Line: {1} , Was BNDL，But Material ID is Null",
+    "chs": "PO: {0} ,Line: {1} ,已经BNDL，但物料ID為空",
+    "ch-tw": "PO: {0} ,Line: {1} ,已經BNDL，但物料ID為空"
+  },
+  "MSGCODE20210814164341": {
+    "en": "Interval format error{ 0}",
+    "chs": "间隔时间格式错误!{0}",
+    "ch-tw": "間隔時間格式錯誤!{0}"
+  },
+  "MSGCODE20210814164412": {
+    "en": "The time from bound {0} to {1} station is less than {2} hours!",
+    "chs": "距离绑定的 {0} 过 {1} 工站时间不足 {2} 小时!",
+    "ch-tw": "距離綁定的 {0} 過 {1} 工站時間不足 {2} 小時!"
+  },
+  "MSGCODE20210814164455": {
+    "en": "{0} does not exist, please confirm!",
+    "chs": "{0} 不存在，请确认！",
+    "ch-tw": "{0} 不存在，請確認！"
+  },
+  "MSGCODE20210814164738": {
+    "en": "{0} does not exist MAC: [{1}], please confirm!",
+    "chs": "{0} 不存在MAC:[{1}]，请确认！",
+    "ch-tw": "{0} 不存在MAC:[{1}]，請確認！"
+  },
+  "MSGCODE20210814164810": {
+    "en": "SN: {0} - > juniper wo {1} is not allowed to enter MRB!",
+    "chs": "SN : {0}->Juniper WO {1} 不允许入MRB！",
+    "ch-tw": "SN : {0}->Juniper WO {1} 不允許入MRB！"
+  },
+  "MSGCODE20210814164854": {
+    "en": "{0} station label is not configured[ SKU setting - > label configuration]",
+    "chs": "{0} 未配置工站Label![SKU Setting -> Label配置]",
+    "ch-tw": "{0} 未配置工站Label![SKU Setting -> Label配置]"
+  },
+  "MSGCODE20210814164041": {
+    "en": "Scan store {0} invalid!",
+    "chs": "掃描儲位 {0} 無效!",
+    "ch-tw": "掃描儲位 {0} 無效!"
+  },
+  "MSGCODE20210814164515": {
+    "en": "SN: {0}  Not in I054",
+    "chs": "SN: {0} 不在I054中",
+    "ch-tw": "SN: {0} 不在I054中"
+  },
+  "MSGCODE20210814165555": {
+    "en": "Upload OK!",
+    "chs": "上傳成功！",
+    "ch-tw": "上傳成功！"
+  },
+  "MSGCODE20210814162227": {
+    "en": "Pallet :{0} has been scanned, please do not scan again",
+    "chs": "栈板:{0}已经扫描，请不要重复扫描",
+    "ch-tw": "棧板:{0}已經掃描，請不要重複掃描"
+  },
+  "MSGCODE20210814165854": {
+    "en": "No encoding rule is configured",
+    "chs": "未配置編碼規則",
+    "ch-tw": "未配置編碼規則"
+  },
+  "MSGCODE20210814165905": {
+    "en": "Minimum/maximum interval configuration already exists!",
+    "chs": "最小/最大區間配置已存在！",
+    "ch-tw": "最小/最大區間配置已存在！"
+  },
+  "MSGCODE20210814170115": {
+    "en": "SN: {0} ,TRANID: {1} ,Exists More Than One Parent in I054",
+    "chs": "SN: {0} ,TRANID: {1} ,在I054 有多个父项",
+    "ch-tw": "SN: {0} ,TRANID: {1} ,在I054 有多個父項"
+  },
+  "MSGCODE20210816163058": {
+    "en": "The start time cannot be longer than the current time. Please confirm!",
+    "chs": "起始時間不能大於當前時間,請確認!",
+    "ch-tw": "起始時間不能大於當前時間,請確認!"
+  },
+  "MSGCODE20210816163046": {
+    "en": "The query time cannot be less than 2020-01-01. Please confirm!",
+    "chs": "查詢時間不能小於時間:2020-01-01,請確認!",
+    "ch-tw": "查詢時間不能小於時間:2020-01-01,請確認!"
+  },
+  "MSGCODE20210816163032": {
+    "en": "The query time cannot be longer than the current time, please confirm!",
+    "chs": "查詢時間不能大於當前時間,請確認!",
+    "ch-tw": "查詢時間不能大於當前時間,請確認!"
+  },
+  "MSGCODE20210816163017": {
+    "en": "The inquiry time must be within 10 days, please confirm!",
+    "chs": "查詢時間必須在10天以內,請確認!",
+    "ch-tw": "查詢時間必須在10天以內,請確認!"
+  },
+  "MSGCODE20210816162751": {
+    "en": "The start time cannot be longer than the end time, please confirm!",
+    "chs": "起始時間不能大於截止時間,請確認!",
+    "ch-tw": "起始時間不能大於截止時間,請確認!"
+  },
+  "MSGCODE20210816162631": {
+    "en": "The SKUNO of {0} does not exist, please confirm!",
+    "chs": "{0} 对应机种不存在,请确认!",
+    "ch-tw": "{0} 對應機種不存在,請確認!"
+  },
+  "MSGCODE20210816162450": {
+    "en": "BU parameter error",
+    "chs": "BU参数错误",
+    "ch-tw": "BU參數錯誤"
+  },
+  "MSGCODE20210816162422": {
+    "en": "The generated SN exceeds the maximum value",
+    "chs": "生成的SN超过最大值",
+    "ch-tw": "生成的SN超過最大值"
+  },
+  "MSGCODE20210816154813": {
+    "en": "The date format is incorrect",
+    "chs": "日期格式不正确",
+    "ch-tw": "日期格式不正確"
+  },
+  "MSGCODE20210816154645": {
+    "en": "Date From cannot be empty when the status is not Open",
+    "chs": "查询非Open状态时Date From不能空",
+    "ch-tw": "查詢非Open狀態時Date From不能空"
+  },
+  "MSGCODE20210816154521": {
+    "en": "Date From must be null when querying the Open state!",
+    "chs": "查询Open状态时Date From必须为空!",
+    "ch-tw": "查詢Open狀態時Date From必須為空!"
+  },
+  "MSGCODE20210816152948": {
+    "en": "Date From cannot be greater than Date To!",
+    "chs": "Date From不能大于Date To!",
+    "ch-tw": "Date From不能大於Date To!"
+  },
+  "MSGCODE20210816153946": {
+    "en": "The generated SN exceeds the maximum value",
+    "chs": "生成的SN超过最大值",
+    "ch-tw": "生成的SN超過最大值"
+  },
+  "MSGCODE20210816153844": {
+    "en": "Error updating sequence value",
+    "chs": "更新序列值出錯",
+    "ch-tw": "更新序列值出錯"
+  },
+  "MSGCODE20210816152119": {
+    "en": "The year of the query start time cannot be longer than the year of the end time. Please confirm!",
+    "chs": "查询起始时间的年份不能大于 截止时间的年份,请确认!",
+    "ch-tw": "查詢起始時間的年份不能大於截止時間的年份,請確認!"
+  },
+  "MSGCODE20210816151954": {
+    "en": "SkuNo cannot be empty",
+    "chs": "SkuNo不能为空",
+    "ch-tw": "SkuNo不能為空"
+  },
+  "MSGCODE20210816151844": {
+    "en": "Week must be a number",
+    "chs": "Week 必须是数字",
+    "ch-tw": "Week 必須是數字"
+  },
+  "MSGCODE20210816151725": {
+    "en": "Week must be a number greater than 0",
+    "chs": "Week 必须是大于0数字",
+    "ch-tw": "Week 必須是大於0數字"
+  },
+  "MSGCODE20210816151527": {
+    "en": "Week cannot be empty",
+    "chs": "Week 不能为空",
+    "ch-tw": "Week 不能為空"
+  },
+  "MSGCODE20210814170527": {
+    "en": "Rule ID: {0} Existing Mac print record cannot be deleted!",
+    "chs": "Rule ID：{0}已有Mac打印記錄，不能刪除！",
+    "ch-tw": "Rule ID：{0}已有Mac打印記錄，不能刪除！"
+  },
+  "MSGCODE20210814170558": {
+    "en": "WO: {0} ，Had Hide BOM，But SN: {1}  ,TranID: {2}  No Parent in I054",
+    "chs": "工单： {0} ，已隐藏BOM，但SN: {1}  ,TranID: {2} 在I054中无父项",
+    "ch-tw": "工单： {0} ，已隐藏BOM，但SN: {1}  ,TranID: {2} 在I054中无父项"
+  },
+  "MSGCODE20210814171135": {
+    "en": "No Mac address range is configured",
+    "chs": "未配置Mac區間",
+    "ch-tw": "未配置Mac區間"
+  },
+  "MSGCODE20210814171308": {
+    "en": "The configuration information already exists",
+    "chs": "已存在配置信息",
+    "ch-tw": "已存在配置信息"
+  },
+  "MSGCODE20210814163301": {
+    "en": "Update Successfully",
+    "chs": "更新成功",
+    "ch-tw": "更新成功"
+  },
+  "MSGCODE20210814171816": {
+    "en": "FunctionControl : Not Set {0}，Please Check",
+    "chs": "FunctionControl :未设置 {0} ，请确认",
+    "ch-tw": "FunctionControl :未設置 {0} ，請確認"
+  },
+  "MSGCODE20210814171317": {
+    "en": "The total number of DisplayNames passed in does not match the total number of fields set",
+    "chs": "傳入的DisplayName總數與設置的欄位總數不一致",
+    "ch-tw": "傳入的DisplayName總數與設置的欄位總數不一致"
+  },
+  "MSGCODE20210814171820": {
+    "en": "Data configuration succeeded in {0} pen, failed in {1} pen",
+    "chs": "配置數據成功 {0} 笔,失败 {1} 笔",
+    "ch-tw": "配置數據成功 {0} 笔,失败 {1} 笔"
+  },
+  "MSGCODE20210814172244": {
+    "en": "Configuration data successfully {0} pen, failed {1} pen! Data binding succeeded {2}, failed {3} pen!",
+    "chs": "配置數據成功{0}笔,失敗{1}筆!綁定數據成功{2},失敗{3}笔！",
+    "ch-tw": "配置數據成功{0}笔,失敗{1}筆!綁定數據成功{2},失敗{3}笔！"
+  },
+  "MSGCODE20210814165650": {
+    "en": "Packaging type error!",
+    "chs": "包装类型错误！",
+    "ch-tw": "包裝類型錯誤！"
+  },
+  "MSGCODE20210814175622": {
+    "en": "{0} has not passed the packing stop",
+    "chs": "{0}还没有过包装过站",
+    "ch-tw": "{0}還沒有過包裝過站"
+  },
+  "MSGCODE20210814180112": {
+    "en": "Only single package SN can be shipped by moving pallet directly!",
+    "chs": "只有单包的SN才能通过直接移栈板的 方式出货！",
+    "ch-tw": "只有單包的SN才能通過直接移棧板的方式出貨！"
+  },
+  "MSGCODE20210814181159": {
+    "en": "SN: {0} No KP",
+    "chs": "SN: {0} 无KP信息",
+    "ch-tw": "SN: {0} 無KP信息"
+  },
+  "MSGCODE20210814182042": {
+    "en": "{0}  already exists",
+    "chs": "{0} 已存在",
+    "ch-tw": "{0} 已存在"
+  },
+  "MSGCODE20210814182419": {
+    "en": "No data , please check the input correctly or not",
+    "chs": "无数据，请确认输入是否正确",
+    "ch-tw": "無數據，請確認輸入是否正確"
+  },
+  "MSGCODE20210816151328": {
+    "en": "Please fill in the correct Year",
+    "chs": "请填写正确的Year",
+    "ch-tw": "請填寫正確的Year"
+  },
+  "MSGCODE20210816150051": {
+    "en": "Failed to get SkuNo or no data",
+    "chs": "获取SkuNo失败或者没有数据",
+    "ch-tw": "獲取SkuNo失敗或者沒有數據"
+  },
+  "MSGCODE20210816145954": {
+    "en": "Failed to get store code or no data",
+    "chs": "获取仓码失败或者没有数据",
+    "ch-tw": "獲取倉碼失敗或者沒有數據"
+  },
+  "MSGCODE20210816113119": {
+    "en": "The generated SN exceeds the maximum value!",
+    "chs": "生成的SN超過最大值!",
+    "ch-tw": "生成的SN超過最大值!"
+  },
+  "MSGCODE20210816113045": {
+    "en": "Error updating sequence value! {0}",
+    "chs": "更新序列值出錯!{0}",
+    "ch-tw": "更新序列值出錯!{0}"
+  },
+  "MSGCODE20210816113020": {
+    "en": "SN flow code beyond maximum threshold: 6FFFF!",
+    "chs": "SN流水碼超出最大界限：6FFFF!",
+    "ch-tw": "SN流水碼超出最大界限：6FFFF!"
+  },
+  "MSGCODE20210816113008": {
+    "en": "The generated SN exceeds the maximum value",
+    "chs": "生成的SN超過最大值",
+    "ch-tw": "生成的SN超過最大值"
+  },
+  "MSGCODE20210816100333": {
+    "en": "Exists the same sn rule {0} , will update when you submit",
+    "chs": "存在相同的编码规则 {0} ，确认后将覆盖",
+    "ch-tw": "存在相同的編碼規則 {0} ，確認後將覆蓋"
+  },
+  "MSGCODE20210816095130": {
+    "en": "The start time cannot be greater than or equal to the end time",
+    "chs": "開始時間不能大於等於結束時間",
+    "ch-tw": "開始時間不能大於等於結束時間"
+  },
+  "MSGCODE20210814103925": {
+    "en": "The aging cabinet  does not match the material number !",
+    "chs": "老化柜与料号不匹配!",
+    "ch-tw": "老化柜與料號不匹配!"
+  },
+  "MSGCODE20210814104318": {
+    "en": "[AllParts Fail]:Check TR_SN Fail",
+    "chs": "[AllParts Fail]:Check TR_SN Fail",
+    "ch-tw": "[AllParts Fail]:Check TR_SN Fail"
+  },
+  "MSGCODE20210814104640": {
+    "en": "{0} No Fail Info!R_REPAIR_FAILCODE",
+    "chs": "SN{0}沒有FAIL信息",
+    "ch-tw": "SN{0}沒有FAIL信息"
+  },
+  "MSGCODE20210814104614": {
+    "en": "TR_SN:{0} can't get mfr_name",
+    "chs": "TR_SN:{0} 取不到厂商名",
+    "ch-tw": "TR_SN:{0} 取不到廠商名"
+  },
+  "MSGCODE20210814104911": {
+    "en": "Not Data Record!",
+    "chs": "沒有查找到數據!",
+    "ch-tw": "没有查找到数据!"
+  },
+  "MSGCODE20210814104109": {
+    "en": "The PCB PNO{0} is diffident from config {1} C_STATION_KP",
+    "chs": "该PCB料号{0}与配置{1}的不一样，C_STATION_KP",
+    "ch-tw": "該PCB料號{0}與配置{1}的不一樣，C_STATION_KP"
+  },
+  "MSGCODE20210814104804": {
+    "en": "Scan Error TR_SN PNO must {0}",
+    "chs": "扫描错误，TRSN PNO应该是{0}",
+    "ch-tw": "掃描錯誤，TRSN PNO應該是{0}"
+  },
+  "MSGCODE20210814104349": {
+    "en": "The aging box does not have this off position !",
+    "chs": "该老化框没有这个字段!",
+    "ch-tw": "該老化框沒有這個欄位!"
+  },
+  "MSGCODE20210814105115": {
+    "en": "Incorrect number of parameters",
+    "chs": "参数数量不正确",
+    "ch-tw": "參數數量不正確"
+  },
+  "MSGCODE20210814105228": {
+    "en": "The quantity of configured glue material number is wrong, please contact PE for confirmation",
+    "chs": "配置胶水料号数量错误，请找PE确认",
+    "ch-tw": "配置膠水料號數量錯誤，請找PE確認"
+  },
+  "MSGCODE20210814105325": {
+    "en": "No glue material number is configured, please contact PE for confirmation",
+    "chs": "没有配置胶水料号，请找PE确认",
+    "ch-tw": "沒有配置膠水料號，請找PE確認"
+  },
+  "MSGCODE20210814105119": {
+    "en": "Hidden BoM, the System Serial Number must be same as Parent SN, Please Check!",
+    "chs": "Hidden BoM, the System Serial Number must be same as Parent SN, Please Check!",
+    "ch-tw": "Hidden BoM, the System Serial Number must be same as Parent SN, Please Check!"
+  },
+  "MSGCODE20210814105220": {
+    "en": "The input is not the toolboard policy number !",
+    "chs": "输入的不是工具板字段序号!",
+    "ch-tw": "輸入的不是工具板欄位序號!"
+  },
+  "MSGCODE20210814105407": {
+    "en": "{0} - > materials have not been issued to {2} station of {1} / or have been used up / or have exceeded 46h (twice temperature return cannot exceed 8h), please confirm",
+    "chs": "{0}->没有发料到{1} 的 {2} 工站/或已用完/或已超46H(2次回温不能超8H),请确认",
+    "ch-tw": "{0}->沒有發料到{1} 的 {2} 工站/或已用完/或已超46H(2次回溫不能超8H),請確認"
+  },
+  "MSGCODE20210814105529": {
+    "en": "I137 Item, the System Serial Number must be NOT the same as Parent SN, Please Check!",
+    "chs": "I137 Item, the System Serial Number must be NOT the same as Parent SN, Please Check!",
+    "ch-tw": "I137 Item, the System Serial Number must be NOT the same as Parent SN, Please Check!"
+  },
+  "MSGCODE20210814105539": {
+    "en": "The Input of System Serial Number doesn't match with the SN rule of JN@@@@@@@***",
+    "chs": "The Input of System Serial Number doesn't match with the SN rule of JN@@@@@@@***",
+    "ch-tw": "The Input of System Serial Number doesn't match with the SN rule of JN@@@@@@@***"
+  },
+  "MSGCODE20210814105608": {
+    "en": "SN can't null",
+    "chs": "SN不能为空",
+    "ch-tw": "SN不能為空"
+  },
+  "MSGCODE20210814105657": {
+    "en": "{0} or / {1} - > the {3} work station that has not issued materials to {2} / or has been used up / or has exceeded 46h (the second temperature return cannot exceed 8h), please confirm",
+    "chs": "{0}或/ {1}->没有发料到{2} 的 {3} 工站/或已用完/或已超46H(2次回温不能超8H),请确认",
+    "ch-tw": "{0}或/ {1}->沒有發料到{2} 的 {3} 工站/或已用完/或已超46H(2次回溫不能超8H),請確認"
+  },
+  "MSGCODE20210814110125": {
+    "en": "The configured glue material No. data is abnormal, please contact PE for analysis",
+    "chs": "配置胶水料号数据异常,请联系PE分析",
+    "ch-tw": "配置膠水料號數據異常,請聯繫PE分析"
+  },
+  "MSGCODE20210814105838": {
+    "en": "SN Length not match",
+    "chs": "SN长度不匹配",
+    "ch-tw": "SN長度不匹配"
+  },
+  "MSGCODE20210814110208": {
+    "en": "Get the menu successfully!",
+    "chs": "获取菜單成功!",
+    "ch-tw": "获取菜單成功!"
+  },
+  "MSGCODE20210814105536": {
+    "en": "Input the Wo and press Enter,otherwise the line data cannot be correctly added !",
+    "chs": "输入工单后请回车，否则无法正确 加载数据！",
+    "ch-tw": "輸入工單後請回車，否則無法正確加載數據！"
+  },
+  "MSGCODE20210814110253": {
+    "en": "Failed to get menu!",
+    "chs": "获取菜單失敗!",
+    "ch-tw": "获取菜單失敗!"
+  },
+  "MSGCODE20210814110201": {
+    "en": "{0},MPN MAPPING NOT SETTING!",
+    "chs": "{0},厂商料号未配置！",
+    "ch-tw": "{0},廠商料號未配置！"
+  },
+  "MSGCODE20210814110215": {
+    "en": "Cannot find associated PO, WO may have changed. Please check with Planning Team!",
+    "es": "No se encuentra la PO asociada, pudo haber cambiado la WO. ¡Por favor verifique con Planeación!",
+    "chs": "找不到关联的 PO，WO 可能已更改。 请与规划组确认！",
+    "ch-tw": "找不到關聯的 PO，WO 可能已更改。 請與規劃組確認！"
+  },
+  "MSGCODE20210814110511": {
+    "en": "Menu added successfully!",
+    "chs": "添加菜單成功!",
+    "ch-tw": "添加菜單成功!"
+  },
+  "MSGCODE20210814110659": {
+    "en": "The{0} field must be left blank for NA!",
+    "chs": "{0}欄位必填,為空可填NA!",
+    "ch-tw": "{0}欄位必填,為空可填NA!"
+  },
+  "MSGCODE20210814110603": {
+    "en": "KP error. Please check with PE! -> PNO: {0} / MPN: {1} / SCANTYPE: {2}",
+    "es": "Error de KP. ¡Por favor verifique con Ingeniería de Procesos! -> PNO: {0} / MPN: {1} / SCANTYPE: {2}",
+    "chs": "KP 错误。 请与PE核对！ -> 机种料号: {0} / 厂商料号: {1} / 扫描类型: {2}",
+    "ch-tw": "KP 錯誤。 請與PE核對！ -> 機種料號: {0} / 廠商料號: {1} / 掃描類型: {2}"
+  },
+  "MSGCODE20210814110919": {
+    "en": "Delete the menu and its permissions successfully!",
+    "chs": "刪除菜單及其權限成功!",
+    "ch-tw": "刪除菜單及其權限成功!"
+  },
+  "MSGCODE20210814110857": {
+    "en": "KP rule is null. Please check with PE! -> PNO: {0} / MPN: {1} / SCANTYPE: {2}",
+    "es": "La regla de KP está nula. ¡Por favor verifique con Ingeniería de Procesos! -> PNO: {0} / MPN: {1} / SCANTYPE: {2}",
+    "chs": "KP 规则为空。 请与PE核对！ -> 机种料号: {0} / 厂商料号: {1} / 扫描类型: {2}",
+    "ch-tw": "KP 規則為空。 請與PE核對！ -> 機種料號: {0} / 廠商料號: {1} / 掃描類型: {2}"
+  },
+  "MSGCODE20210814111007": {
+    "en": "The menu to be deleted has sub-menus and cannot be deleted!",
+    "chs": "要刪除的菜單存在子菜單！！不可刪除！",
+    "ch-tw": "要刪除的菜單存在子菜單！！不可刪除！"
+  },
+  "MSGCODE20210814111135": {
+    "en": "Failed to delete menu!",
+    "chs": "刪除菜單失敗!",
+    "ch-tw": "刪除菜單失敗!"
+  },
+  "MSGCODE20210814111251": {
+    "en": "Edit successfully!",
+    "chs": "編輯成功!",
+    "ch-tw": "編輯成功!"
+  },
+  "MSGCODE20210814111325": {
+    "en": "Edit failed!",
+    "chs": "编辑失敗!",
+    "ch-tw": "编辑失敗!"
+  },
+  "MSGCODE20210814110826": {
+    "en": "Open time,WO,Task order,and all items that are not pengding orders can be set to CLOSED",
+    "chs": "上線時間、工單、任務令， 内容全都不是待订单才可設為CLOSED",
+    "ch-tw": "上線時間、工單、任務令， 内容全都不是待订单才可設為CLOSED"
+  },
+  "MSGCODE20210814111028": {
+    "en": "no privilege",
+    "chs": "没有权限",
+    "ch-tw": "沒有許可權"
+  },
+  "MSGCODE20210814111504": {
+    "en": "Sorted successfully!",
+    "chs": "排序信息成功!",
+    "ch-tw": "排序信息成功!"
+  },
+  "MSGCODE20210814111625": {
+    "en": "Sorting failed",
+    "chs": "排序失敗!",
+    "ch-tw": "排序失敗!"
+  },
+  "MSGCODE20210814111518": {
+    "en": "This parameter can be set to CLOSED if the current time is long than 60 days",
+    "chs": "當前時間大於生效時間60天才可設為CLOSED",
+    "ch-tw": "當前時間大於生效時間60天才可設為CLOSED"
+  },
+  "MSGCODE20210814111552": {
+    "en": "Please Input Privilege Name",
+    "chs": "请输入权限名称",
+    "ch-tw": "請輸入許可權名稱"
+  },
+  "MSGCODE20210814111744": {
+    "en": "There is no content in excel!",
+    "chs": "上傳的Excel中沒有內容!",
+    "ch-tw": "上傳的Excel中沒有內容!"
+  },
+  "MSGCODE20210814111902": {
+    "en": "Execution failed!",
+    "chs": "执行失敗!",
+    "ch-tw": "执行失敗!"
+  },
+  "MSGCODE20210814111756": {
+    "en": "no privilege:{0}",
+    "chs": "没有特权：{0}",
+    "ch-tw": "沒有特權：{0}"
+  },
+  "MSGCODE20210814110332": {
+    "en": "The allpart bar code access fail,please call IT processing!",
+    "chs": "ALLPART条形码获取失败，请联系IT处理！",
+    "ch-tw": "ALLPART條碼獲取失敗，請聯繫IT處理！"
+  },
+  "MSGCODE20210814112057": {
+    "en": "Delete failed",
+    "chs": "刪除失敗!",
+    "ch-tw": "刪除失敗!"
+  },
+  "MSGCODE20210814111929": {
+    "en": "The content of the uploaded file is incorrect. The W column must be Bucket!",
+    "chs": "上傳的文件內容有誤,W 列必須為: Bucket type !",
+    "ch-tw": "上傳的文件內容有誤,W 列必須為: Bucket type !"
+  },
+  "MSGCODE20210814112009": {
+    "en": "The station name :{0} already exists",
+    "chs": "工站名称 :{0} 已存在",
+    "ch-tw": "工站名稱 :{0} 已存在"
+  },
+  "MSGCODE20210814112132": {
+    "en": "The content of the uploaded file is incorrect .Please check whether the number is in text format",
+    "chs": "上傳的文件內容有誤,請檢查數字是否為文本格式 !",
+    "ch-tw": "上傳的文件內容有誤,請檢查數字是否為文本格式 !"
+  },
+  "MSGCODE20210814112332": {
+    "en": "The input buffer qty was invalid!",
+    "chs": "輸入的BUFFER QTY無效!",
+    "ch-tw": "輸入的BUFFER QTY無效!"
+  },
+  "MSGCODE20210814112503": {
+    "en": "The input BUFFER QTY is greater than the unloanable amount!",
+    "chs": "輸入的BUFFER QTY大於未出貨數量!",
+    "ch-tw": "輸入的BUFFER QTY大於未出貨數量!"
+  },
+  "MSGCODE20210814112458": {
+    "en": "get route detail fail by{0}",
+    "chs": "获取路由信息失败{0}",
+    "ch-tw": "獲取路由信息失敗{0}"
+  },
+  "MSGCODE20210814112950": {
+    "en": "UPDATE FAIL",
+    "chs": "修改失敗",
+    "ch-tw": "修改失敗"
+  },
+  "MSGCODE20210814112110": {
+    "en": "The workorderno  access fail,please call IT processing !",
+    "chs": "工单获取失败，请联系IT处理！",
+    "ch-tw": "工單獲取失敗，請聯繫IT處理！"
+  },
+  "MSGCODE20210814112748": {
+    "en": "skuno: {0} have more keypart id",
+    "chs": "机种 {0} 有多个keypart id",
+    "ch-tw": "機種 {0} 有多个keypart id"
+  },
+  "MSGCODE20210814113212": {
+    "en": "TRCODE get failed, please contact IT!",
+    "chs": "TRCODE获取失败，请联系IT处理！",
+    "ch-tw": "TRCODE獲取失敗，請聯繫IT處理！"
+  },
+  "MSGCODE20210814113407": {
+    "en": "LockDNGt: {0} =>DN: {1} ,Line: {2} Status Error",
+    "chs": "DNGT锁定: {0} =>DN: {1} ,Line: {2} 状态异常",
+    "ch-tw": "DNGT鎖定: {0} =>DN: {1} ,Line: {2} 狀態異常"
+  },
+  "MSGCODE20210814113514": {
+    "en": "The input PLAN QTY can be less than 0 or greater than the number of EXT_QTY",
+    "chs": "輸入的PLAN QTY能小於0或大於EXT_QTY數量!",
+    "ch-tw": "輸入的PLAN QTY能小於0或大於EXT_QTY數量!"
+  },
+  "MSGCODE20210814113345": {
+    "en": "Failed to generate stream code TR_CODE, please contact IT!",
+    "chs": "流水码TR_CODE生成失败，请联系IT！",
+    "ch-tw": "流水碼TR_CODE生成失敗，請聯繫IT！"
+  },
+  "MSGCODE20210814113501": {
+    "en": "Please Input Excel Data",
+    "chs": "请导入Excel 数据",
+    "ch-tw": "請导入Excel 數據"
+  },
+  "MSGCODE20210814113641": {
+    "en": "{0}This shipment schedule has been deleted",
+    "chs": "{0}此出貨預排已經刪除",
+    "ch-tw": "{0}此出貨預排已經刪除"
+  },
+  "MSGCODE20210814113918": {
+    "en": "Please Input FileName",
+    "chs": "请输入文件名字",
+    "ch-tw": "請輸入文件名字"
+  },
+  "MSGCODE20210814113927": {
+    "en": "{0},{1}The shipment schedule of PGI already made cannot be deleted!",
+    "chs": "{0},{1}已做PGI的出貨預排不能刪除!!",
+    "ch-tw": "{0},{1}已做PGI的出貨預排不能刪除!!"
+  },
+  "MSGCODE20210814111940": {
+    "en": "Can Not Find {0} {1} !",
+    "chs": "找不到 {0} {1} !",
+    "ch-tw": "找不到 {0} {1} !"
+  },
+  "MSGCODE20210814114056": {
+    "en": "There is no content in the Excel upload!",
+    "chs": "上传的Excel中沒有內容!",
+    "ch-tw": "上傳的Excel中沒有內容!"
+  },
+  "MSGCODE20210814114357": {
+    "en": "Can Not Find {0} {1} {2} !",
+    "chs": "找不到 {0} {1} {2} !",
+    "ch-tw": "找不到 {0} {1} {2} !"
+  },
+  "MSGCODE20210814114509": {
+    "en": "SnRule Is Null or Empty!",
+    "chs": "SN规则为空或NULL",
+    "ch-tw": "SN規則為空或NULL"
+  },
+  "MSGCODE20210814110609": {
+    "en": "{0} Fail",
+    "chs": "{0} 失败",
+    "ch-tw": "{0} 失敗"
+  },
+  "MSGCODE20210814114415": {
+    "en": "Must Contain Columns {0}!",
+    "chs": "必须包含列 {0}!",
+    "ch-tw": "必須包含列 {0}!"
+  },
+  "MSGCODE20210814115039": {
+    "en": "Import all failed",
+    "chs": "批量导入全部失败",
+    "ch-tw": "批量導入全部失敗"
+  },
+  "MSGCODE20210814114703": {
+    "en": "DN: {0} Execute GT: {1} Error,SAP Return: {2},Please Contact SAPIT",
+    "chs": "DN: {0} 执行扣账流程: {1} 异常,SAP返回: {2},请联系SAPIT",
+    "ch-tw": "DN: {0} 執行扣賬流程: {1} 異常,SAP返回: {2},請联系SAPIT"
+  },
+  "MSGCODE20210814115020": {
+    "en": "Update R_SN_KP failed!KeyPartScanQty:{0}<>KeyPartQty:{1} ERROR!",
+    "chs": "更新 R_SN_KP 失败!KeyPartScanQty:{0}<>KeyPartQty:{1} 错误!",
+    "ch-tw": "更新 R_SN_KP 失敗!KeyPartScanQty:{0}<>KeyPartQty:{1} 錯誤!"
+  },
+  "MSGCODE20210814115159": {
+    "en": "All HH material number data matching the task command have been deleted successfully.Please deleted ZPN195 information in SAP!",
+    "chs": "任務令匹配的HH料號資料已全部刪除成功,請到SAP中刪除ZPN195信息!",
+    "ch-tw": "任務令匹配的HH料號資料已全部刪除成功,請到SAP中刪除ZPN195信息!"
+  },
+  "MSGCODE20210814115000": {
+    "en": "{0} Contain Error String {1}",
+    "chs": "{0}包含错误字符串{1}",
+    "ch-tw": "{0}包含錯誤字串{1}"
+  },
+  "MSGCODE20210814115625": {
+    "en": "{0} Input SN Contain Error Letter",
+    "chs": "{0}输入序列号包含错误字母",
+    "ch-tw": "{0}輸入序號包含錯誤字母"
+  },
+  "MSGCODE20210814115713": {
+    "en": "{0} Not Equal {1} Last Pass Line {2}!",
+    "chs": "{0}不等于{1}最后一行{2}！",
+    "ch-tw": "{0}不等於{1}最後一行{2}！"
+  },
+  "MSGCODE20210814115744": {
+    "en": "This account is not authorized to do DELETE!",
+    "chs": "此賬號無權做DELETE動作!",
+    "ch-tw": "此賬號無權做DELETE動作!"
+  },
+  "MSGCODE20210814115358": {
+    "en": "KeyPart scan fail ! Reason:TrSn KP not match KeyPart,Please Undo and re-scan!",
+    "chs": "KeyPart扫描失败!原因：发现条码与KeyPart记录不符,请扫Undo重新扫描!",
+    "ch-tw": "KeyPart掃描失敗!原因:發現條碼與KeyPart記錄不符,請掃Undo重新掃描!"
+  },
+  "MSGCODE20210814115815": {
+    "en": "Cannot get Gross weight",
+    "chs": "不能得到毛重",
+    "ch-tw": "不能得到毛重"
+  },
+  "MSGCODE20210814115248": {
+    "en": "All  imported successfully!",
+    "chs": "批量導入全部成功！",
+    "ch-tw": "批量導入全部成功！"
+  },
+  "MSGCODE20210814115837": {
+    "en": "A WO has been issued in this task,Please delete the WO and then do delete action!",
+    "chs": "此任務令存在已經開立的工單,請將已開立的工單刪除再做delete動作!",
+    "ch-tw": "此任務令存在已經開立的工單,請將已開立的工單刪除再做delete動作!"
+  },
+  "MSGCODE20210814115950": {
+    "en": "SN: {0}  Hasn't Been Shipped Yet,Please Check",
+    "chs": "SN: {0} 非出货状态，请确认",
+    "ch-tw": "SN: {0} 非出貨狀態，請確認"
+  },
+  "MSGCODE20210814120033": {
+    "en": "Import error,only part of the material number successfully imported!Successfully {0} ,failed {1}",
+    "chs": "導入出現錯誤,只有部份料號成功導入！成功{0}筆，失敗{1}筆！",
+    "ch-tw": "導入出現錯誤,只有部份料號成功導入！成功{0}筆，失敗{1}筆！"
+  },
+  "MSGCODE20210814120009": {
+    "en": "{0} not config net weight. Please check with PE!",
+    "es": "{0} no tiene configurado su peso neto. ¡Por favor verifique con Ingeniería de Procesos!",
+    "chs": "{0}未配置净重。 请与PE核对！",
+    "ch-tw": "{0}未配置淨重。 請與PE核對！"
+  },
+    "MSGCODE20210814120010": {
+    "en": "{0} CTO sku not config net weight. Please check with PE!",
+    "es": "{0} no tiene configurado su peso neto de CTO. ¡Por favor verifique con Ingeniería de Procesos!",
+    "chs": "{0} CTO料號未配置净重。 请与PE核对！",
+    "ch-tw": "{0} CTO料号未配置淨重。 請與PE核對！"
+  },
+  "MSGCODE20210814134045": {
+    "en": "Gross weight ({0}) must be greater then net weight ({1}). Please check with PE!",
+    "chs": "毛重（{0}）必须大于净重（{1}）。 请与PE核对！",
+    "ch-tw": "毛重（{0}）必須大於淨重（{1}）。 請與PE核對！"
+  },
+  "MSGCODE20210814134139": {
+    "en": "Can't load ctnno {0}",
+    "chs": "无法加载卡通号{0}",
+    "ch-tw": "無法載入卡通號{0}"
+  },
+  "MSGCODE20210814134307": {
+    "en": "{0} no link data,please call PE upload",
+    "chs": "{0}没有关联到数据，请联系PE上传",
+    "ch-tw": "{0}沒有關聯到資料，請聯繫PE上傳"
+  },
+  "MSGCODE20210814134342": {
+    "en": "{0} not match link data.",
+    "chs": "{0} 不匹配关联数据.",
+    "ch-tw": "{0} 不匹配關聯資料."
+  },
+  "MSGCODE20210814134306": {
+    "en": "{0} invalid: the input does not match the KP rule (the left digit of 'PPID S/N' for {1} must be CN8, and the length must be 10)",
+    "chs": "{0} 無效: 輸入內容與KP規則不匹配({1}的 'PPID S/N' 的左邊三位必須是 CN8,而且長度必須是10)",
+    "ch-tw": "{0} 無效: 輸入內容與KP規則不匹配({1}的 'PPID S/N' 的左邊三位必須是 CN8,而且長度必須是10)"
+  },
+  "MSGCODE20210814134727": {
+    "en": "{0} invalid: input does not match KP rule ({1} 'PPID S/N' must be {2})",
+    "chs": "{0} 無效: 輸入內容與KP規則不匹配({1} 的 'PPID S/N' 的倒數第四位必須是 {2})",
+    "ch-tw": "{0} 無效: 輸入內容與KP規則不匹配({1} 的 'PPID S/N' 的倒數第四位必須是 {2})"
+  },
+  "MSGCODE20210814135308": {
+    "en": "The input of {0} does not match that of -->{1}",
+    "chs": "{0} 輸入的內容與-->{1} 不匹配",
+    "ch-tw": "{0} 輸入的內容與-->{1} 不匹配"
+  },
+  "MSGCODE20210814134408": {
+    "en": "Cannot Find PacknoSession: Type: {0} , Key: {1}",
+    "chs": "找不到PacknoSession:类型：{0}，键：{1}",
+    "ch-tw": "找不到PacknoSession:類型：{0}，鍵：{1}"
+  },
+  "MSGCODE20210814135421": {
+    "en": "PACKNO:{0} not exist",
+    "chs": "PACKNO:{0} 不存在",
+    "ch-tw": "PACKNO:{0} 不存在"
+  },
+  "MSGCODE20210814135453": {
+    "en": "Cannot find o_i137_item PO:{0},item:{1}",
+    "chs": "找不到o_i137_项目PO:{0}，项目：{1}",
+    "ch-tw": "找不到o_i137_項目PO:{0}，項目：{1}"
+  },
+  "MSGCODE20210814135539": {
+    "en": "Pls fix the  {0} Label on Carton",
+    "chs": "请将{0}标签固定在纸箱上",
+    "ch-tw": "請將{0}標籤固定在紙箱上"
+  },
+  "MSGCODE20210814135418": {
+    "en": "{0} The input does not match the KP rule. ->{1} The SFP1 and SFP2 manufacturers must be the same",
+    "chs": "{0} 輸入的內容與KP規則不匹配-->{1}  SFP1 與 SFP2廠商需一致",
+    "ch-tw": "{0} 輸入的內容與KP規則不匹配-->{1}  SFP1 與 SFP2廠商需一致"
+  },
+  "MSGCODE20210814135700": {
+    "en": "{0} Invalid: This machine is not set to require Service Tag Code!",
+    "chs": "{0} 無效: 此機種未設置為需要Service Tag Code!",
+    "ch-tw": "{0} 無效: 此機種未設置為需要Service Tag Code!"
+  },
+  "MSGCODE20210814135918": {
+    "en": "{0} Invalid: This product is not bound with Service Tag Code!",
+    "chs": "{0} 無效: 此產品未綁定Service Tag Code!",
+    "ch-tw": "{0} 無效: 此產品未綁定Service Tag Code!"
+  },
+  "MSGCODE20210814135950": {
+    "en": "{0} Invalid: Service Tag Code[{1}] bound to this product does not match what was entered!",
+    "chs": "{0} 無效: 此產品綁定的Service Tag Code[{1}]與所輸入的不一致!",
+    "ch-tw": "{0} 無效: 此產品綁定的Service Tag Code[{1}]與所輸入的不一致!"
+  },
+  "MSGCODE20210814140042": {
+    "en": "{0} TAG does not exist, please confirm!",
+    "chs": "{0} TAG不存在，請確認!",
+    "ch-tw": "{0} TAG不存在，請確認!"
+  },
+  "MSGCODE20210814135714": {
+    "en": "SN Can't be scan in diff pc",
+    "chs": "SN不允许在不同的计算机中扫描",
+    "ch-tw": "SN不允許在不同的電腦中掃描"
+  },
+  "MSGCODE20210814140121": {
+    "en": "Please confirm with PE/QE that the length of {0} of this machine is not more than 8 bits, but the KP type is set to 'FUJITSU P/N'.",
+    "chs": "請PE/QE確認此機種 {0} 長度不超8位,卻設置了KP類型為 'FUJITSU P/N'",
+    "ch-tw": "請PE/QE確認此機種 {0} 長度不超8位,卻設置了KP類型為 'FUJITSU P/N'"
+  },
+  "MSGCODE20210814140154": {
+    "en": "{0} @{1} Keypart scan has not completed!",
+    "chs": "{0} {1}键部件扫描尚未完成！",
+    "ch-tw": "{0} {1}鍵部件掃描尚未完成！"
+  },
+  "MSGCODE20210814140220": {
+    "en": "{0} invalid :FUJITSU LABEL content should be :CF00 {1}",
+    "chs": "{0} 無效:FUJITSU LABEL內容應是:CF00 {1}",
+    "ch-tw": "{0} 無效:FUJITSU LABEL內容應是:CF00 {1}"
+  },
+  "MSGCODE20210814140304": {
+    "en": "{0} invalid: the KP type of {1} is not set to SW KIT P/N. Please check with the PQE responsible for this machine to see if the KP type has been changed",
+    "chs": "{0} 無效: 該 {1} 沒有設置  KP 類型為 SW KIT P/N, 請找負責該機種的PQE確認是否更改過KP類型",
+    "ch-tw": "{0} 無效: 該 {1} 沒有設置  KP 類型為 SW KIT P/N, 請找負責該機種的PQE確認是否更改過KP類型"
+  },
+  "MSGCODE20210814140411": {
+    "en": "{0} invalid: The License FIRMWARE of KP part number {1} is missing. Please contact PQE. Thank you!",
+    "chs": "{0} 無效: KP料號  {1} 的License資料缺失(FIRMWARE), 請聯繫PQE處理, 謝謝!",
+    "ch-tw": "{0} 無效: KP料號  {1} 的License資料缺失(FIRMWARE), 請聯繫PQE處理, 謝謝!"
+  },
+  "MSGCODE20210814140405": {
+    "en": "LINE loading exception",
+    "chs": "LINE线体加载异常",
+    "ch-tw": "LINE線體載入異常"
+  },
+  "MSGCODE20210814140452": {
+    "en": "{0} invalid: License information of KP part number {1} is missing (SOFTWARE), please contact PQE to deal with it, thank you!",
+    "chs": "{0} 無效: KP料號 {1} 的License資料缺失(SOFTWARE), 請聯繫PQE處理, 謝謝!",
+    "ch-tw": "{0} 無效: KP料號 {1} 的License資料缺失(SOFTWARE), 請聯繫PQE處理, 謝謝!"
+  },
+  "MSGCODE20210814140523": {
+    "en": "LINE locked!",
+    "chs": "线体被锁定",
+    "ch-tw": "線體被鎖定"
+  },
+  "MSGCODE20210814140545": {
+    "en": "{0} ->{1} Locked!,Please contact QE for handling!",
+    "chs": "{0} ->{1} 锁定,请联系QE处理！",
+    "ch-tw": "{0} ->{1} 鎖定,請聯繫QE處理！"
+  },
+  "MSGCODE20210814140529": {
+    "en": "The KP bound by SN: {0} is inconsistent with the scanned KP: {1}. Please confirm!",
+    "chs": "SN: {0} 綁定的KP與掃描的：{1} 不一致，請確認!",
+    "ch-tw": "SN: {0} 綁定的KP與掃描的：{1} 不一致，請確認!"
+  },
+  "MSGCODE20210814140612": {
+    "en": "{0} -- > bad locking greater than or equal to 2pcs in the test, please contact QE for handling!",
+    "chs": "{0}-->测试中出现不良大于等于2PCS锁定,请联系QE处理！",
+    "ch-tw": "{0}-->測試中出現不良大於等於2PCS鎖定,請聯繫QE處理！"
+  },
+  "MSGCODE20210814140749": {
+    "en": "The SN of fan 80 is different from that of fan 60. Please confirm.",
+    "chs": "80的風扇SN與60的風扇SN不一致，請確認!",
+    "ch-tw": "80的風扇SN與60的風扇SN不一致，請確認!"
+  },
+  "MSGCODE20210814140856": {
+    "en": "KP error: suffix not consistent with SSN!",
+    "chs": "KP錯誤: 后綴與SSN不一致!",
+    "ch-tw": "KP錯誤: 后綴與SSN不一致!"
+  },
+  "MSGCODE20210814140915": {
+    "en": "CUS S/N1 type KP, length 13 starting with S3A, or length 12 starting with 3A, or length 10 starting with CN!",
+    "chs": "CUS S/N1類型KP,以S3A開頭長度13,或以3A開頭長度12,或以CN開頭長度10!",
+    "ch-tw": "CUS S/N1類型KP,以S3A開頭長度13,或以3A開頭長度12,或以CN開頭長度10!"
+  },
+  "MSGCODE20210814141112": {
+    "en": "Invalid: The input does not match the KP rule.(Category: 'CON D/C', must start with 0 and be 5.)",
+    "chs": "無效: 輸入內容與KP規則不匹配.(category: 'CON D/C',必須以0開頭,且長度為5.)",
+    "ch-tw": "無效: 輸入內容與KP規則不匹配.(category: 'CON D/C',必須以0開頭,且長度為5.)"
+  },
+  "MSGCODE20210814141121": {
+    "en": "The length of the input MAC SN should be 12 digits 7!",
+    "chs": "輸入的MAC SN的長度應該為12位7!",
+    "ch-tw": "輸入的MAC SN的長度應該為12位7!"
+  },
+  "MSGCODE20210814141140": {
+    "en": "Invalid: The input does not match KP rules.(Category: CUS S/N, cannot be 4 or 13 bits long and cannot be its own part number.)",
+    "chs": "無效: 輸入內容與KP規則不匹配.(category: CUS S/N,長度不能為4或13位﹐且不能為本身料號.)",
+    "ch-tw": "無效: 輸入內容與KP規則不匹配.(category: CUS S/N,長度不能為4或13位﹐且不能為本身料號.)"
+  },
+  "MSGCODE20210814141158": {
+    "en": "Invalid: this product part number [{0}] is not consistent with wwn_DATASharing table [{1}].",
+    "chs": "無效: 該產品料號[{0}]與wwn_datasharing表[{1}]不一致. [wwn_datasharing]",
+    "ch-tw": "無效: 該產品料號[{0}]與wwn_datasharing表[{1}]不一致. [wwn_datasharing]"
+  },
+  "MSGCODE20210814141343": {
+    "en": "The KP_LIST whose ID is {0} cannot be queried. Procedure",
+    "chs": "查詢不到ID為：{0} 的KP_LIST",
+    "ch-tw": "查詢不到ID為：{0} 的KP_LIST"
+  },
+  "MSGCODE20210814141500": {
+    "en": "Description Failed to query the KP_List_Item with ID: {0}",
+    "chs": "查詢不到ID為：{0} KP_List_Item",
+    "ch-tw": "查詢不到ID為：{0} KP_List_Item"
+  },
+  "MSGCODE20210814141536": {
+    "en": "Description Failed to query {0} KP_List_Item_Detail",
+    "chs": "查詢不到ID為：{0} KP_List_Item_Detail",
+    "ch-tw": "查詢不到ID為：{0} KP_List_Item_Detail"
+  },
+  "MSGCODE20210814141412": {
+    "en": "SN: {0}  No Shipped Record，Please Contact IT",
+    "chs": "SN: {0} 未检测到出货记录，請联系IT确认",
+    "ch-tw": "SN: {0} 未檢測到出貨記錄，請聯繫IT確認"
+  },
+  "MSGCODE20210814120044": {
+    "en": "{0},Failed to get price potential!",
+    "chs": "{0},獲取價格勢失敗！",
+    "ch-tw": "{0},獲取價格勢失敗！"
+  },
+  "MSGCODE20210814141601": {
+    "en": "{0} replacement material {1},{2} not configured rules!",
+    "chs": "{0} 的替代料{1},{2}未配置規則!",
+    "ch-tw": "{0} 的替代料{1},{2}未配置規則!"
+  },
+  "MSGCODE20210814141720": {
+    "en": "DN: {0} ,Line: {1} Had Finished GT,Unable to Return Shipout",
+    "chs": "DN: {0} ,Line: {1} 已完成GT，不能退出货",
+    "ch-tw": "DN: {0} ,Line: {1} 已完成GT，不能退出貨"
+  },
+  "MSGCODE20210814142218": {
+    "en": "Type Is Null!",
+    "chs": "类型为空！",
+    "ch-tw": "類型為空！"
+  },
+  "MSGCODE20210814140847": {
+    "en": "Sau khi thực hiện tách gộp Pallet. Chưa thực hiện RECHECK lại ở chức năng CHECKOUTCHECK",
+    "chs": "工作完托盘杯后。不要在CKOUTCHECK功能中执行重新检查",
+    "ch-tw": "工作完託盤杯後。不要在CKOUTCHECK功能中執行重新檢查"
+  },
+  "MSGCODE20210816165936": {
+    "en": "The year of the query start time cannot be longer than the year of the end time. Please confirm!",
+    "chs": "查詢起始時間的年份不能大於截止時間的年份,請確認!",
+    "ch-tw": "查詢起始時間的年份不能大於截止時間的年份,請確認!"
+  },
+  "MSGCODE20210816170036": {
+    "en": "The start month of the query cannot be longer than the end month, please confirm!",
+    "chs": "查詢起始時間的月份不能大於截止時間的月份,請確認!",
+    "ch-tw": "查詢起始時間的月份不能大於截止時間的月份,請確認!"
+  },
+  "MSGCODE20210816165925": {
+    "en": "Date From cannot be empty when the status is not Open.",
+    "chs": "查詢非Open狀態時Date From不能空!",
+    "ch-tw": "查詢非Open狀態時Date From不能空!"
+  },
+  "MSGCODE20210816165518": {
+    "en": "Date From must be null when querying the Open state!",
+    "chs": "查詢Open狀態時Date From必須為空!",
+    "ch-tw": "查詢Open狀態時Date From必須為空!"
+  },
+  "MSGCODE20210814142342": {
+    "en": "Type Error!",
+    "chs": "类型错误！",
+    "ch-tw": "類型錯誤！"
+  },
+  "MSGCODE20210814142442": {
+    "en": "sessionSN miss",
+    "chs": "sessionSN 丢失",
+    "ch-tw": "sessionSN 丟失"
+  },
+  "MSGCODE20210814142559": {
+    "en": "sessionSKU miss",
+    "chs": "sessionSKU 丢失",
+    "ch-tw": "sessionSKU 丟失"
+  },
+  "MSGCODE20210814141816": {
+    "en": "{0},{1} no rules configured!",
+    "chs": "{0},{1}未配置規則!",
+    "ch-tw": "{0},{1}未配置規則!"
+  },
+  "MSGCODE20210814142613": {
+    "en": "SKUNO BUSINESS mode is not set [C_SKU_DETAIL]",
+    "chs": "机种BUSINESS模式没有设定[C_SKU_DETAIL]",
+    "ch-tw": "機種BUSINESS模式沒有設定[C_SKU_DETAIL]"
+  },
+  "MSGCODE20210814142707": {
+    "en": "Each pallet shall be spot checked",
+    "chs": "每个栈板都要抽检",
+    "ch-tw": "每個棧板都要抽檢"
+  },
+  "MSGCODE20210814142814": {
+    "en": "The last few boxes must be spot checked",
+    "chs": "尾数箱必须抽检",
+    "ch-tw": "尾數箱必須抽檢"
+  },
+  "MSGCODE20210814142826": {
+    "en": "Please choose DN",
+    "chs": "请选择 DN",
+    "ch-tw": "請選擇 DN"
+  },
+  "MSGCODE20210814142843": {
+    "en": "Donot get Packing Info {0}",
+    "chs": "未获取到包装信息 {0}",
+    "ch-tw": "未獲取到包裝資訊 {0}"
+  },
+  "MSGCODE20210814142931": {
+    "en": "Convert Qty Error",
+    "chs": "转换数量错误",
+    "ch-tw": "轉換數量錯誤"
+  },
+  "MSGCODE20210814142951": {
+    "en": "Dont get Carton Info {0}",
+    "chs": "未获取卡通信息 {0}",
+    "ch-tw": "未獲取卡通資訊 {0}"
+  },
+  "MSGCODE20210814143020": {
+    "en": "{0} Not Closed, Please Check!",
+    "chs": "{0} 未关闭，请检查!",
+    "ch-tw": "{0} 未關閉，請檢查!"
+  },
+  "MSGCODE20210814143054": {
+    "en": "Get SkuNo Fail, Please Check!",
+    "chs": "获取机种料号失败，请检查",
+    "ch-tw": "獲取機種料號失敗，請檢查"
+  },
+  "MSGCODE20210814143117": {
+    "en": "Units COO within a pallet must be the same!",
+    "chs": "托盘内的单位COO必须相同！",
+    "ch-tw": "託盤內的單位COO必須相同！"
+  },  
+  "MSGCODE20210814143118": {
+    "en": "KPSN：{0} not in i244,pls check!",
+    "chs": "KPSN：{0}  不在I244内，请检查！",
+    "ch-tw": "KPSN：{0}  不在I244内，請檢查！"
+  },
+    "MSGCODE20210814143119": {
+    "en": "Pls take sn:{0} to do Unix packout!",
+    "chs": "请拿SN:{0}去做Unix packout！",
+    "ch-tw": "請拿SN:{0}去做Unix packout！"
+  },
+    "MSGCODE20210814143120": {
+    "en": "Pls check the revision of PCBA!",
+    "chs": "请检查PCBA版本！",
+    "ch-tw": "请檢查PCBA版本！"
+  },
+  "MSGCODE20210814141821": {
+    "en": "Pls check the PN if matched with link control ",
+    "chs": "请检查是否与LINK CONTROL一致",
+    "ch-tw": "請檢查是否與LINK CONTROL一致"
+  },
+  "MSGCODE20210814141822": {
+    "en": "Pls check the PN if matched with BOM ",
+    "chs": "請檢查PN是否與BOM一致",
+    "ch-tw": "请检查PN是否与BOM一致"
+  },
+  "MSGCODE20210814141814": {
+    "en": "{0},The batch of product has not yet reached the aging completion time",
+    "chs": "該批次產品還未到老化完成時間",
+    "ch-tw": "該批次產品還未到老化完成時間"
+  },
+  "MSGCODE20210814143245": {
+    "en": "{0} cannot print GeneralSN, please check with PE!",
+    "chs": "{0} 不能打印 GeneralSN，請找PE確認！",
+    "ch-tw": "{0} 不能打印 GeneralSN，請找PE確認！"
+  },
+  "MSGCODE20210814143140": {
+    "en": "sessionCartion miss",
+    "chs": "sessionCartion 丢失",
+    "ch-tw": "sessionCartion 丟失"
+  },
+  "MSGCODE20210814143429": {
+    "en": "Please Input {0}",
+    "chs": "请输入 {0}",
+    "ch-tw": "請輸入 {0}"
+  },
+  "MSGCODE20210814143306": {
+    "en": "The number of swept lots {0} is greater than the maximum number {1} set by QE, please check with QE!",
+    "chs": "掃入LOT數量 {0} 大於QE設置的最大數量 {1} ,請找QE確認!",
+    "ch-tw": "掃入LOT數量 {0} 大於QE設置的最大數量 {1} ,請找QE確認!"
+  },
+  "MSGCODE20210814143534": {
+    "en": "SKUNO:{0} Version:{1}, OBA severity type is incorrect!",
+    "chs": "SKUNO:{0} Version:{1} ,配置的OBA加嚴類型錯誤！",
+    "ch-tw": "SKUNO:{0} Version:{1} ,配置的OBA加嚴類型錯誤！"
+  },
+  "MSGCODE20210814143516": {
+    "en": "This trial production SKUNO has been locked, and only one Sn can pass the CARTON. Please use this SN: '{0}', or find PE / PQE to sign and unlock other SN.",
+    "chs": "此试制机种已锁定,仅有一个SN可以过卡通,请用此SN:'{0}',或者找PE/PQE去签核解锁其他SN过站",
+    "ch-tw": "此試製機種已鎖定,僅有一個SN可以過卡通,請用此SN:'{0}',或者找PE/PQE去簽核解鎖其他SN過站"
+  },
+  "MSGCODE20210814143709": {
+    "en": "{0} The palletno is invalid!",
+    "chs": "{0} 这个栈板号是无效的",
+    "ch-tw": "{0} 這個棧板號是無效的"
+  },
+  "MSGCODE20210814143739": {
+    "en": "{0} The palletno is not closed",
+    "chs": "{0} 这个栈板还没有关闭",
+    "ch-tw": "{0} 這個棧板還沒有關閉"
+  },
+  "MSGCODE20210814143806": {
+    "en": "Please input the station!",
+    "chs": "请输入该工站",
+    "ch-tw": "請輸入該工站"
+  },
+  "MSGCODE20210814143216": {
+    "en": "The serial number has not been scanned and does not need to be replaced !",
+    "chs": "該序列號沒有被掃描過,不需要替換！",
+    "ch-tw": "該序列號沒有被掃描過,不需要替換！"
+  },
+  "MSGCODE20210814113708": {
+    "en": "Can't find Input{0}",
+    "chs": "找不到输入{0}",
+    "ch-tw": "找不到輸入{0}"
+  },
+  "MSGCODE20210814143834": {
+    "en": "{0} not in sampling in {1}",
+    "chs": "{0}不在{1}中的采样中",
+    "ch-tw": "{0}不在{1}中的採樣中"
+  },
+  "MSGCODE20210814143916": {
+    "en": "The lot of {0} not pass in {1}",
+    "chs": "这个批次{0}在{1} 未通过",
+    "ch-tw": "這個批次{0}在{1} 未通過"
+  },
+  "MSGCODE20210816165504": {
+    "en": "The week of the query start time cannot be greater than the week of the end time, please confirm!",
+    "chs": "查詢起始時間的周別不能大於截止時間的周別,請確認!",
+    "ch-tw": "查詢起始時間的周別不能大於截止時間的周別,請確認!"
+  },
+  "MSGCODE20210816163124": {
+    "en": "The year of the query start time cannot be longer than the year of the end time. Please confirm!",
+    "chs": "查詢起始時間的年份不能大於截止時間的年份,請確認!",
+    "ch-tw": "查詢起始時間的年份不能大於截止時間的年份,請確認!"
+  },
+  "MSGCODE20210816163110": {
+    "en": "The deadline cannot be longer than the current time, please confirm!",
+    "chs": "截止時間不能大於當前時間,請確認!",
+    "ch-tw": "截止時間不能大於當前時間,請確認!"
+  },
+  "MSGCODE20210814144004": {
+    "en": "The value of check qty is inconsistent with the value of total qty!",
+    "chs": "Check Qty的值与Total Qty的值不一致！",
+    "ch-tw": "Check Qty的值與Total Qty的值不一致！"
+  },
+  "MSGCODE20210814143629": {
+    "en": "ERROR, machine type :{0} Cust PN is not set, please contact PE! [C_SKU_DETAIL.VALUE]",
+    "chs": "ERROR,機種:{0}未設置客戶料號(Cust PN),請聯繫PE![C_SKU_DETAIL.VALUE]",
+    "ch-tw": "ERROR,機種:{0}未設置客戶料號(Cust PN),請聯繫PE![C_SKU_DETAIL.VALUE]"
+  },
+  "MSGCODE20210814144026": {
+    "en": "The pallet No: {0} has not passed OBA!",
+    "chs": "该栈板:{0}未过OBA！",
+    "ch-tw": "該棧板:{0}未過OBA！"
+  },
+  "MSGCODE20210814144051": {
+    "en": "The pallet No: {0} OBA is not passed!",
+    "chs": "该栈板:{0} OBA未PASSED！",
+    "ch-tw": "該棧板:{0} OBA未PASSED！"
+  },
+  "MSGCODE20210814143839": {
+    "en": "The serial number of the product is not scanned in this computer can not be changed in this computer!Please go to the cpmputer with IP {0} to scan!",
+    "chs": "該序列號產品不是在此電腦掃描的,不能在此電腦替換！請去IP為{0}的電腦掃描",
+    "ch-tw": "該序列號產品不是在此電腦掃描的,不能在此電腦替換！請去IP為{0}的電腦掃描"
+  },
+  "MSGCODE20210814144041": {
+    "en": "ERROR, model :{0} set the common name :{1} no corresponding data, please contact PE to find IT to add! [C_SN_RULE]",
+    "chs": "ERROR,機種:{0}設置的共用名稱:{1}無對應數據,請聯繫PE找IT新增![C_SN_RULE]",
+    "ch-tw": "ERROR,機種:{0}設置的共用名稱:{1}無對應數據,請聯繫PE找IT新增![C_SN_RULE]"
+  },
+  "MSGCODE20210814144125": {
+    "en": "The pallet No: {0} has been inspected at OBA by {1}! OBA can't be the same person to check the station and confirm the pass chapter!",
+    "chs": "该栈板:{0} 由{1}在OBA检验过站！OBA检验过站和确认PASS章不能同为一个人！",
+    "ch-tw": "該棧板:{0} 由{1}在OBA檢驗過站！OBA檢驗過站和確認PASS章不能同為一個人！"
+  },
+  "MSGCODE20210814143825": {
+    "en": "PreASN {0} Not Created or Cancelled,Please Check",
+    "chs": "PreASN {0} 未创建或取消，请确认",
+    "ch-tw": "PreASN  {0} 未創建或取消，請確認"
+  },
+  "MSGCODE20210814144201": {
+    "en": "ERROR, model :{0} set the common name :{1} no corresponding data, please contact PE to find IT to add! [C_SN_RULE_DETAIL]",
+    "chs": "ERROR,機種:{0}設置的共用名稱:{1}無對應數據,請聯繫PE找IT新增![C_SN_RULE_DETAIL]",
+    "ch-tw": "ERROR,機種:{0}設置的共用名稱:{1}無對應數據,請聯繫PE找IT新增![C_SN_RULE_DETAIL]"
+  },
+  "MSGCODE20210814144214": {
+    "en": "{0} This palletno requires OBA check pass. Please contact OBA for processing!",
+    "chs": "{0}该PalletNO需要OBA Check  PASS请联系OBA处理！",
+    "ch-tw": "{0}該PalletNO需要OBA Check  PASS請聯繫OBA處理！"
+  },
+  "MSGCODE20210814144233": {
+    "en": "ERROR, model :{0} MC Label rule is not set, please contact PE! [C_SKU_DETAIL.VALUE]",
+    "chs": "ERROR,機種:{0}未設置MC Label規則,請聯繫PE![C_SKU_DETAIL.VALUE]",
+    "ch-tw": "ERROR,機種:{0}未設置MC Label規則,請聯繫PE![C_SKU_DETAIL.VALUE]"
+  },
+  "MSGCODE20210814144247": {
+    "en": "{0} had more route!",
+    "chs": "{0} 存在多个路由！",
+    "ch-tw": "{0} 存在多個路由！"
+  },
+  "MSGCODE20210814144302": {
+    "en": "ERROR, model :{0} set common name :{1} rule does not match!",
+    "chs": "ERROR,機種:{0}設置的共用名稱:{1} 規則不匹配！",
+    "ch-tw": "ERROR,機種:{0}設置的共用名稱:{1} 規則不匹配！"
+  },
+  "MSGCODE20210814144328": {
+    "en": "{0} not in the {1}",
+    "chs": "{0} 不存在 {1}",
+    "ch-tw": "{0} 不存在 {1}"
+  },
+  "MSGCODE20210814144345": {
+    "en": "ERROR: The PPID coding rule is incorrect. The generated new number {0} does not match the customer material number {1}. Please contact PE for confirmation",
+    "chs": "ERROR,PPID編碼規則錯誤，生成的新號碼:{0}與客戶料號:{1}不匹配，請聯繫PE確認",
+    "ch-tw": "ERROR,PPID編碼規則錯誤，生成的新號碼:{0}與客戶料號:{1}不匹配，請聯繫PE確認"
+  },
+  "MSGCODE20210814144405": {
+    "en": "{0} the serial number has been scanned, please do not scan again!",
+    "chs": "{0}该序列号已经扫描，请不要重复扫描！",
+    "ch-tw": "{0}該序號已經掃描，請不要重複掃描！"
+  },
+  "MSGCODE20210814144431": {
+    "en": "ERROR, the generated new number {0} already exists in the system, please contact IT! [R_SN_KP]",
+    "chs": "ERROR,生成的新號碼:{0}已經存在系統中,請聯繫IT![R_SN_KP]",
+    "ch-tw": "ERROR,生成的新號碼:{0}已經存在系統中,請聯繫IT![R_SN_KP]"
+  },
+  "MSGCODE20210814144434": {
+    "en": "Pls Input DN First!",
+    "chs": "请优先输入DN！",
+    "ch-tw": "請優先輸入DN！"
+  },
+  "MSGCODE20210814144504": {
+    "en": "DN cann't be use!",
+    "chs": "DN不能使用！",
+    "ch-tw": "DN不能使用！"
+  },
+  "MSGCODE20210814144500": {
+    "en": "ERROR, this machine has PPID type KP but MC Label rule is not set, please contact PE! [C_SKU_DETAIL.CATEGORY=CUSTPN_MAPPING && C_SKU_DETAIL.CATEGORY_NAME=CUSTPN_SHARE]",
+    "chs": "ERROR,該機種存在PPID類型KP但未設置MC Label規則,請聯繫PE![C_SKU_DETAIL.CATEGORY=CUSTPN_MAPPING && C_SKU_DETAIL.CATEGORY_NAME=CUSTPN_SHARE]",
+    "ch-tw": "ERROR,該機種存在PPID類型KP但未設置MC Label規則,請聯繫PE![C_SKU_DETAIL.CATEGORY=CUSTPN_MAPPING && C_SKU_DETAIL.CATEGORY_NAME=CUSTPN_SHARE]"
+  },
+  "MSGCODE20210814143915": {
+    "en": "Incorrect number of parameters!",
+    "chs": "参数数量不正确!",
+    "ch-tw": "參數數量不正確!"
+  },
+  "MSGCODE20210814144544": {
+    "en": "ERROR, the SERVICE_NO configured in the system has been used up, please contact PE! [R_BRCD_EXSN]",
+    "chs": "ERROR,系統中配置的SERVICE_NO已經用完,請聯繫PE![R_BRCD_EXSN]",
+    "ch-tw": "ERROR,系統中配置的SERVICE_NO已經用完,請聯繫PE![R_BRCD_EXSN]"
+  },
+  "MSGCODE20210814144614": {
+    "en": "ERROR, the system does not have SERVICE_NO, please contact PE! Then return Station!",
+    "chs": "ERROR,系統不存在SERVICE_NO，請聯繫PE！再進行退站",
+    "ch-tw": "ERROR,系統不存在SERVICE_NO，請聯繫PE！再進行退站"
+  },
+  "MSGCODE20210814144646": {
+    "en": "ERROR, the SERVICE_NO configured in the system has been used up, please contact PE! [R_BRCD_EXSN], and then exit",
+    "chs": "ERROR,系統中配置的SERVICE_NO已經用完,請聯繫PE![R_BRCD_EXSN]，再進行退站",
+    "ch-tw": "ERROR,系統中配置的SERVICE_NO已經用完,請聯繫PE![R_BRCD_EXSN]，再進行退站"
+  },
+  "MSGCODE20210814144822": {
+    "en": "Convert Qty Carton Error {0}",
+    "chs": "转换卡通数量错误 {0}",
+    "ch-tw": "轉換卡通數量錯誤 {0}"
+  },
+  "MSGCODE20210814144918": {
+    "en": "Pallet: {0} physical object is empty",
+    "chs": "栈板:{0} 实物为空",
+    "ch-tw": "棧板:{0} 實物為空"
+  },
+  "MSGCODE20210814144709": {
+    "en": "Pwd Change Success!",
+    "chs": "Pwd Change Success!",
+    "ch-tw": "Pwd Change Success!"
+  },
+  "MSGCODE20210814145025": {
+    "en": "{0} This code has been checked. Please enter the new code!",
+    "chs": "{0} 此代码已被检查。请输入新代码！",
+    "ch-tw": "{0} 此代碼已被檢查。請輸入新代碼！"
+  },
+  "MSGCODE20210814145106": {
+    "en": "The two entered passwords are inconsistent!",
+    "chs": "前後兩次輸入密碼不一致!",
+    "ch-tw": "前後兩次輸入密碼不一致!"
+  },
+  "MSGCODE20210814145119": {
+    "en": "{0} It worked. You enter the SN/Cartton code!",
+    "chs": "{0} 成功了。您输入序列号/卡顿代码！",
+    "ch-tw": "{0} 成功了。您輸入序號/卡頓代碼！"
+  },
+  "MSGCODE20210814145131": {
+    "en": "The old password is incorrect",
+    "chs": "舊密碼不正確",
+    "ch-tw": "舊密碼不正確"
+  },
+  "MSGCODE20210814145156": {
+    "en": "The format of the phone number is incorrect",
+    "chs": "电话号码填寫格式不正確",
+    "ch-tw": "电话号码填寫格式不正確"
+  },
+  "MSGCODE20210814145216": {
+    "en": "SN/Cartton: {0} Not exactly the Palletno: {1} !",
+    "chs": "SN/Cartton: {0} 这不适合Palletno代码！",
+    "ch-tw": "SN/Cartton: {0} 這不適合Palletno代碼！"
+  },
+  "MSGCODE20210814145225": {
+    "en": "Page number obtained successfully",
+    "chs": "获取页数成功",
+    "ch-tw": "获取页数成功"
+  },
+  "MSGCODE20210814144604": {
+    "en": "No first step test! Please cast the first step first!",
+    "chs": "没有进行第一步测试！请先抛第一步！",
+    "ch-tw": "沒有進行第一步測試！請先拋第一步！"
+  },
+  "MSGCODE20210814145253": {
+    "en": "The Email format is incorrect",
+    "chs": "Email填寫格式不正確",
+    "ch-tw": "Email填寫格式不正確"
+  },
+  "MSGCODE20210814145249": {
+    "en": "The physical object of {0} does not match the pallet {1}. Shipment is not allowed!",
+    "chs": "{0} 实物与栈板{1} 不匹配不允许出货!",
+    "ch-tw": "{0} 實物與棧板{1} 不匹配不允許出貨!"
+  },
+  "MSGCODE20210814145317": {
+    "en": "The format of the phone number is incorrect",
+    "chs": "电话号码填寫格式不正確",
+    "ch-tw": "电话号码填寫格式不正確"
+  },
+  "MSGCODE20210814144146": {
+    "en": "The serial number product is aging and cannot be replaced !",
+    "chs": "該序列號產品正在老化不能替換！",
+    "ch-tw": "該序列號產品正在老化不能替換！"
+  },
+  "MSGCODE20210814145330": {
+    "en": "The user level cannot have permissions outside the department",
+    "chs": "该用户等级不能创建本部门之外的权限",
+    "ch-tw": "该用户等级不能创建本部门之外的权限"
+  },
+  "MSGCODE20210814145428": {
+    "en": "The role already exists",
+    "chs": "角色已存在",
+    "ch-tw": "角色已存在"
+  },
+  "MSGCODE20210814145307": {
+    "en": "Test data parsing failed! An unknown error has occurred! Please check whether the brick throwing material is wrong! Or not doing the first test! Please cast the first step first!",
+    "chs": "测试数据解析失败！发生未知错误！ 请检查抛砖质料是否有误！或者没有进行 第一步测试！请先抛第一步！",
+    "ch-tw": "測試數據解析失敗！發生未知錯誤！請檢查拋磚質料是否有誤！或者沒有進行第一步測試！請先拋第一步！"
+  },
+  "MSGCODE20210814145454": {
+    "en": "The role has been assigned to a user and cannot be deleted",
+    "chs": "該角色已被賦予用戶使用,不能刪除",
+    "ch-tw": "該角色已被賦予用戶使用,不能刪除"
+  },
+  "MSGCODE20210814145335": {
+    "en": "The product should go to{0} for scanning!",
+    "chs": "該產品應該去{0} 進行掃描！",
+    "ch-tw": "該產品應該去{0} 進行掃描！"
+  },
+  "MSGCODE20210814145519": {
+    "en": "No role can be managed",
+    "chs": "無角色能管理",
+    "ch-tw": "無角色能管理"
+  },
+  "MSGCODE20210814145907": {
+    "en": "An error occurred in class generation",
+    "chs": "類生成發生錯誤",
+    "ch-tw": "類生成發生錯誤"
+  },
+  "MSGCODE20210814145914": {
+    "en": "Data type :{0} has a problem, cannot be converted!",
+    "chs": "數據類型:{0}存在問題，不能轉換！",
+    "ch-tw": "數據類型:{0}存在問題，不能轉換！"
+  },
+  "MSGCODE20210814145917": {
+    "en": "{0} Thành công {1}. Bạn nhập thêm mã SN/Cartton!", 
+    "chs": "{0} Thành công {1}. Bạn nhập thêm mã SN/Cartton!",
+    "ch-tw": "{0} 成功 {1}. 您输入更多代码 SN/Cartton!"
+  },
+  "MSGCODE20210814145803": {
+    "en": "The aging information is not configured for the new barcode .",
+    "chs": "新條碼的料號沒有配置老化信息！",
+    "ch-tw": "新條碼的料號沒有配置老化信息！"
+  },
+  "MSGCODE20210814145531": {
+    "en": "The sn information cannot be in Chinese",
+    "chs": "此SN信息不能為中文",
+    "ch-tw": "此SN信息不能為中文"
+  },
+  "MSGCODE20210814150555": {
+    "en": "Template fetching error",
+    "chs": "取模板錯誤",
+    "ch-tw": "取模板錯誤"
+  },
+  "MSGCODE20210814150216": {
+    "en": "The bar code with different material numbers cannot replace aging information!",
+    "chs": "不同料號的條碼不能替換老化信息！",
+    "ch-tw": "不同料號的條碼不能替換老化信息！"
+  },
+  "MSGCODE20210814150601": {
+    "en": "The number of parameters is incorrect",
+    "chs": "參數數量不正確",
+    "ch-tw": "參數數量不正確"
+  },
+  "MSGCODE20210814150651": {
+    "en": "The material number is inconsistent with the configured material number",
+    "chs": "料號與配置的料號不一致",
+    "ch-tw": "料號與配置的料號不一致"
+  },
+  "MSGCODE20210814150436": {
+    "en": "FailureSymptom contains a maximum of 150 char!",
+    "chs": "FailureSymptom字符長度不能超過150!",
+    "ch-tw": "FailureSymptom字符長度不能超過150!"
+  },
+  "MSGCODE20210814150733": {
+    "en": "Incorrect number of parameters!",
+    "chs": "參數數量不正確!",
+    "ch-tw": "參數數量不正確!"
+  },
+  "MSGCODE20210814150010": {
+    "en": "{0} not in Pallet",
+    "chs": "{0} 不在栈板里",
+    "ch-tw": "{0} 不在棧板裡"
+  },
+  "MSGCODE20210814150841": {
+    "en": "{0} Alreay Link To {1},One Pallet Only Link To One DN!",
+    "chs": "{0}已经关联到{1}，一个托盘只能关联到一个DN！",
+    "ch-tw": "{0}已經關聯到{1}，一個託盤只能關聯到一個DN！"
+  },
+  "MSGCODE20210814150929": {
+    "en": "{0} is invalid!",
+    "chs": "{0} 无效!",
+    "ch-tw": "{0} 無效!"
+  },
+  "MSGCODE20210814150741": {
+    "en": "BonepileDescription contains a maximum of 300 char!",
+    "chs": "BonepileDescription字符長度不能超過300!",
+    "ch-tw": "BonepileDescription字符長度不能超過300!"
+  },
+  "MSGCODE20210814150956": {
+    "en": "{0} does not exist in pallet number: {1}!",
+    "chs": "{0}不存在于栈板号:{1}内!",
+    "ch-tw": "{0}不存在於棧板號:{1}內!"
+  },
+  "MSGCODE20210814151040": {
+    "en": "Sn in {0} completed!",
+    "chs": "{0}中SN已完工!",
+    "ch-tw": "{0}中SN已完工!"
+  },
+  "MSGCODE20210814150803": {
+    "en": "confirm",
+    "chs": "确认",
+    "ch-tw": "确认"
+  },
+  "MSGCODE20210814151006": {
+    "en": "BRCRemark cannot be  null !",
+    "chs": "BRCRemark不能為空!",
+    "ch-tw": "BRCRemark不能為空!"
+  },
+  "MSGCODE20210814151106": {
+    "en": "Sn in {0} has been shipped!",
+    "chs": "{0} 中SN已出货!",
+    "ch-tw": "{0} 中SN已出貨!"
+  },
+  "MSGCODE20210814151112": {
+    "en": "User cancelled",
+    "chs": "用户取消",
+    "ch-tw": "用户取消"
+  },
+  "MSGCODE20210814150618": {
+    "en": "One with the tool board,one without the tool board,can not store aging information!",
+    "chs": "一個使用工具板，一個不使用工具板，不能替換老化信息！",
+    "ch-tw": "一個使用工具板，一個不使用工具板，不能替換老化信息！"
+  },
+  "MSGCODE20210814151128": {
+    "en": "Sn next station error in {0}!",
+    "chs": "{0} 中SN下一站错误!",
+    "ch-tw": "{0} 中SN下一站錯誤!"
+  },
+  "MSGCODE20210814151117": {
+    "en": "BRCRemark contains a maximum of 100 char!",
+    "chs": "BRCRemark字符長度不能超過100!",
+    "ch-tw": "BRCRemark字符長度不能超過100!"
+  },
+  "MSGCODE20210814151132": {
+    "en": "warning",
+    "chs": "警告",
+    "ch-tw": "警告"
+  },
+  "MSGCODE20210814151149": {
+    "en": "The SKUNO corresponding to DN is empty. Please double-click to select DN!",
+    "chs": "DN对应机种为空, 请双击选择DN!",
+    "ch-tw": "DN對應機種為空, 請按兩下選擇DN!"
+  },
+  "MSGCODE20210814151243": {
+    "en": "The {0} SKUNO does not match the SKUNO corresponding to DN!",
+    "chs": "{0} 机种与DN对应机种不符!",
+    "ch-tw": "{0} 機種與DN對應機種不符!"
+  },
+  "MSGCODE20210814151205": {
+    "en": "Confirm to remove {2} from {0}:{1}?",
+    "chs": "确认移除{0}:{1} 中的 {2} ?",
+    "ch-tw": "确认移除{0}:{1} 中的 {2} ?"
+  },
+  "MSGCODE20210814151201": {
+    "en": "SN: {0} doesn't exists! Verify it in SN Report.",
+    "es": "¡SN: {0} no existe! Verifiquelo en el SN Report.",
+    "chs": "SN: {0} 不存在！",
+    "ch-tw": "SN: {0} 不存在！"
+  },
+  "MSGCODE20210814151349": {
+    "en": "{0} is invalid!",
+    "chs": "{0}無效!",
+    "ch-tw": "{0}無效!"
+  },
+  "MSGCODE20210814151455": {
+    "en": "Please scan the storage!",
+    "chs": "請掃描儲位",
+    "ch-tw": "請掃描儲位"
+  },
+  "MSGCODE20210814151536": {
+    "en": "Unscanned storage location!",
+    "chs": "未掃描儲位",
+    "ch-tw": "未掃描儲位"
+  },
+  "MSGCODE20210814151309": {
+    "en": "Sn not completed in {0}!",
+    "chs": "{0} 中SN未完工!",
+    "ch-tw": "{0} 中SN未完工!"
+  },
+  "MSGCODE20210814151527": {
+    "en": "PreASN: {0} Error",
+    "chs": "PreASN: {0} 异常",
+    "ch-tw": "PreASN: {0} 異常"
+  },
+  "MSGCODE20210814151554": {
+    "en": "Scan store {0} invalid!",
+    "chs": "掃描儲位 {0}  無效!",
+    "ch-tw": "掃描儲位 {0}  無效!"
+  },
+  "MSGCODE20210814151355": {
+    "en": "{0} Has Been Scraped!",
+    "chs": "{0} 已报废!",
+    "ch-tw": "{0} 已报废!"
+  },
+  "MSGCODE20210814151604": {
+    "en": "PO must start with 'B'!",
+    "chs": "PO必须以'B'开头!",
+    "ch-tw": "PO必須以'B'開頭!"
+  },
+  "MSGCODE20210814151645": {
+    "en": "PO input is incorrect, please confirm!",
+    "chs": "PO输入不正确,请确认!",
+    "ch-tw": "PO輸入不正確,請確認!"
+  },
+  "MSGCODE20210814151705": {
+    "en": "Sn WO in Pallet is not the same as over station SN WO!",
+    "chs": "栈板中SN对应的工单与工站SN对应工单不一致",
+    "ch-tw": "棧板中SN對應的工單與工站SN對應工單不一致"
+  },
+  "MSGCODE20210814151731": {
+    "en": "The WO in the pallet is inconsistent,Please confirm!",
+    "chs": "栈板上的工单不一致，请确认！",
+    "ch-tw": "棧板上的工單不一致，請確認！"
+  },
+  "MSGCODE20210814151624": {
+    "en": "There are also {0}PCS not divided",
+    "chs": "还有{0}PCS未分版",
+    "ch-tw": "还有{0}PCS未分版"
+  },
+  "MSGCODE20210814151746": {
+    "en": "Pallet FIFO Alart: packno {0} sn: {1} completedtime is {2} > packno {3} sn {4} completedtime {5}",
+    "chs": "栈板先进先出报警: 栈板号 {0} SN号: {1} 完成时间为 {2} > 栈板号 {3} SN号 {4} 完成时间为 {5}",
+    "ch-tw": "棧板先進先出報警: 棧板號 {0} SN號: {1} 完成時間為 {2} > 棧板號 {3} SN號 {4} 完成時間為 {5}"
+  },
+  "MSGCODE20210814151913": {
+    "en": "PreASN: {0} No Data To Print",
+    "chs": "PreASN: {0} 无资料可打印",
+    "ch-tw": "PreASN: {0} 無資料可打印"
+  },
+  "MSGCODE20210814151946": {
+    "en": "Input pack type error!",
+    "chs": "Input pack type error!",
+    "ch-tw": "Input pack type error!"
+  },
+  "MSGCODE20210814151804": {
+    "en": "Error :{0} when executing Allpart SP",
+    "chs": "執行Allpart SP報錯:{0}",
+    "ch-tw": "執行Allpart SP報錯:{0}"
+  },
+  "MSGCODE20210814152058": {
+    "en": "{0},No I282 Data!",
+    "chs": "{0},No I282 Data!",
+    "ch-tw": "{0},No I282 Data!"
+  },
+  "MSGCODE_NOTSHIPMENTREPLY": {
+    "en": "{0},No Shipment Reply Data!",
+    "chs": "{0},还没有上传Shipment File客人回复的数据!",
+    "ch-tw": "{0},還沒有上傳Shipment File客人回復的數據!"
+  },
+  "MSGCODE20210814151640": {
+    "en": "The SN has shiped record but RMA has not come back or loading RMA Receiving!",
+    "chs": "該SN有出貨記錄但未RMA回來或未重新Loading RMA Receiving!",
+    "ch-tw": "該SN有出貨記錄但未RMA回來或未重新Loading RMA Receiving!"
+  },
+  "MSGCODE20210814152142": {
+    "en": "{0},HAS {1} LINEs BUT I282 RETURNED {2} LINEs!",
+    "chs": "{0},HAS {1} LINEs BUT I282 RETURNED {2} LINEs!",
+    "ch-tw": "{0},HAS {1} LINEs BUT I282 RETURNED {2} LINEs!"
+  },
+  "MSGCODE_LESSSHIPMENTREPLY": {
+    "en": "{0},HAS {1} LINEs BUT SHIPMENT DN {2} LINEs!",
+    "chs": "{0},HAS {1} LINEs BUT SHIPMENT DN {2} LINEs!",
+    "ch-tw": "{0},HAS {1} LINEs BUT SHIPMENT DN {2} LINEs!"
+  },
+  "MSGCODE20210814152116": {
+    "en": "The TRAFFIC management does not maintain the HPE_SHIP_DATA information of the DN. Please contact the traffic management",
+    "chs": "交管未維護該DN的HPE_SHIP_DATA信息，請聯繫交管維護",
+    "ch-tw": "交管未維護該DN的HPE_SHIP_DATA信息，請聯繫交管維護"
+  },
+  "MSGCODE20210814152054": {
+    "en": "No Juniper Shipping Label Set [R_F_CONTROL]",
+    "chs": "未设置Juniper Shipping Label模板 [R_F_CONTROL]",
+    "ch-tw": "未設置Juniper Shipping Label模板 [R_F_CONTROL]"
+  },
+  "MSGCODE_MARST_LABEL": {
+    "en": "No Juniper Master Pallet Label Set [R_F_CONTROL]",
+    "chs": "未设置Juniper Master Pallet Label模板 [R_F_CONTROL]",
+    "ch-tw": "未設置Juniper Master Pallet Label模板 [R_F_CONTROL]"
+  },
+  "MSGCODE20210814152238": {
+    "en": "{0},multiple DN!",
+    "chs": "{0},多个 DN!",
+    "ch-tw": "{0},多個 DN!"
+  },
+  "MSGCODE20210814152316": {
+    "en": "po: {0} is cancel,pls check!",
+    "chs": "po: {0} is cancel,pls check!",
+    "ch-tw": "po: {0} is cancel,pls check!"
+  },
+  "MSGCODE20210814152422": {
+    "en": "Sku {0} package weight data is not maintained in SAP or Mes system is not downloaded, PLS check!",
+    "chs": "機種{0} 在sap 未維護包規重量數據或Mes系統未下載,pls check!",
+    "ch-tw": "機種{0} 在sap 未維護包規重量數據或Mes系統未下載,pls check!"
+  },
+  "MSGCODE20210814152405": {
+    "en": "The DN[{0}] of {1} not equals scan DN {2} !",
+    "chs": "{1}的DN[{0}]不等于扫描DN{2}！",
+    "ch-tw": "{1}的DN[{0}]不等於掃描DN{2}！"
+  },
+  "MSGCODE20210814152219": {
+    "en": "BonepileStation is not in the SFC  system!",
+    "chs": "BonepileStation不在SFC系統中!",
+    "ch-tw": "BonepileStation不在SFC系統中!"
+  },
+  "MSGCODE20210814152458": {
+    "en": "No CARTON in {0}",
+    "chs": "没有开通在 {0}",
+    "ch-tw": "沒有開通在 {0}"
+  },
+  "MSGCODE20210814152541": {
+    "en": "User Cancel",
+    "chs": "用户取消",
+    "ch-tw": "用戶取消"
+  },
+  "MSGCODE20210814152446": {
+    "en": "No Juniper Shipping Label Nmae Set [R_F_CONTROL]",
+    "chs": "未设置Juniper Shipping Label 模板名称 [R_F_CONTROL]",
+    "ch-tw": "未設置Juniper Shipping Label 模板名稱 [R_F_CONTROL]"
+  },
+  "MSGCODE20210814152456": {
+    "en": "This product has been identified as ORTIN to be scanned",
+    "chs": "該產品已經標識為待掃描ORTIN",
+    "ch-tw": "該產品已經標識為待掃描ORTIN"
+  },
+  "MSGCODE20210814152624": {
+    "en": "ORT scan exception: missed scan last day has been filled, but today's scan interval is more than 30 hours!",
+    "chs": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔超過30個小時!",
+    "ch-tw": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔超過30個小時!"
+  },
+  "MSGCODE20210814152613": {
+    "en": "{0} QTY is 0!",
+    "chs": "{0} 数量是 0!",
+    "ch-tw": "{0} 數量是 0!"
+  },
+  "MSGCODE20210814152655": {
+    "en": "ORT scan exception: the missed scan was filled the previous day, but today's scan interval is less than 18 hours. Please scan later.",
+    "chs": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔未過18個小時,請稍后掃描.",
+    "ch-tw": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔未過18個小時,請稍后掃描."
+  },
+  "MSGCODE20210814152719": {
+    "en": "ORT scan exception: missed scan last day has been filled, but today's scan interval is more than 30 hours!",
+    "chs": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔超過30個小時!",
+    "ch-tw": "ORT掃描異常﹕前一天漏掃已補,但今天掃描間隔超過30個小時!"
+  },
+  "MSGCODE20210814152702": {
+    "en": "The next station of [{0}] in the {1} is not equals {2}",
+    "chs": "{1}中[{0}]的下一站不等于{2}",
+    "ch-tw": "{1}中[{0}]的下一站不等於{2}"
+  },
+  "MSGCODE20210814152721": {
+    "en": "No Juniper Shipping Label LabelType Set [R_F_CONTROL]",
+    "chs": "未设置Juniper Shipping Label 的LabelType [R_F_CONTROL]",
+    "ch-tw": "未設置Juniper Shipping Label 的LabelType [R_F_CONTROL]"
+  },
+  "MSGCODE20210814152821": {
+    "en": "BonepileCategory is not in the specified parren!",
+    "chs": "BonepileCategory不在規定範圍內!",
+    "ch-tw": "BonepileCategory不在規定範圍內!"
+  },
+  "MSGCODE20210814152749": {
+    "en": "there SN's [{0}] in the {1}  are locked!",
+    "chs": "{1}中的[{0}]已锁定！",
+    "ch-tw": "{1}中的[{0}]已鎖定！"
+  },
+  "MSGCODE20210814152709": {
+    "en": "Please enter an non-zero integer aging time!",
+    "chs": "請輸入非零整數的老化時間！",
+    "ch-tw": "請輸入非零整數的老化時間！"
+  },
+  "MSGCODE20210814152922": {
+    "en": "ORT scan exception: the missed scan two days ago has been filled, but today's scan interval is more than 30 hours!",
+    "chs": "ORT掃描異常﹕前兩天漏掃已補掃,但今天掃描間隔超過30個小時!",
+    "ch-tw": "ORT掃描異常﹕前兩天漏掃已補掃,但今天掃描間隔超過30個小時!"
+  },
+  "MSGCODE20210814152929": {
+    "en": "ORT scan exception: The missed scan two days ago has been filled, but today's scan interval is less than 18 hours. Please scan later",
+    "chs": "ORT掃描異常﹕前兩天漏掃已補掃,但今天掃描間隔未過18個小時,請稍后掃描",
+    "ch-tw": "ORT掃描異常﹕前兩天漏掃已補掃,但今天掃描間隔未過18個小時,請稍后掃描"
+  },
+  "MSGCODE20210814152848": {
+    "en": "{0} already pass weight station,please don't move anything in {1}.please return to packout station.",
+    "chs": "{0} already pass weight station,please don't move anything in {1}.please return to packout station.",
+    "ch-tw": "{0} already pass weight station,please don't move anything in {1}.please return to packout station."
+  },
+  "MSGCODE20210814152942": {
+    "en": "PO is Null (O_ORDER_MAIN)",
+    "chs": "PO is Null (O_ORDER_MAIN)",
+    "ch-tw": "PO is Null (O_ORDER_MAIN)"
+  },
+  "MSGCODE20210629185217": {
+    "en": "The PO: {0} of pallet SN is inconsistent with the PO: {1} of DN ,please confirm",
+    "chs": "栈板SN的PO: {0} 与 DN的PO: {1} 不一致,请确认",
+    "ch-tw": "棧板SN的PO: {0}與DN的PO: {1} 不一致,請確認"
+  },
+  "MSGCODE20210814152850": {
+    "en": "{0}This aging cabinet is not in use,there is no aging information!",
+    "chs": "{0}此老化櫃沒有在使用，沒有老化資訊！",
+    "ch-tw": "{0}此老化櫃沒有在使用，沒有老化資訊！"
+  },
+  "MSGCODE20210814152943": {
+    "en": "ORT scan exception :ORT maintenance scan interval is less than 18 hours. Please scan later",
+    "chs": "ORT掃描異常﹕ORT維護掃描間隔未過18個小時,請稍后掃描",
+    "ch-tw": "ORT掃描異常﹕ORT維護掃描間隔未過18個小時,請稍后掃描"
+  },
+  "MSGCODE20210814152839": {
+    "en": "The SN is already in the Open state of CriticalBonepile in the system!",
+    "chs": "該SN在系統中已是CriticalBonepile的Open狀態!",
+    "ch-tw": "該SN在系統中已是CriticalBonepile的Open狀態!"
+  },
+  "MSGCODE20210814153036": {
+    "en": "ORT scan exception :ORT maintenance scan interval exceeds 30 hours. Please scan later.",
+    "chs": "ORT掃描異常﹕ORT維護掃描間隔超過30個小時,請稍后掃描.",
+    "ch-tw": "ORT掃描異常﹕ORT維護掃描間隔超過30個小時,請稍后掃描."
+  },
+    "MSGCODE20210928160151": {
+    "en": "{0} Please test {1}",
+    "chs": "{0} 请拿去测试 {1}",
+    "ch-tw": "{0} 請拿去測試 {1}"
+  },
+  "MSGCODE20210928161259": {
+    "en": "{0} 该TAG已经被使用在 {1},请换TAG扫描",
+    "chs": "{0} This Tag had been used in {1} ,Pls Scan another Tag",
+    "ch-tw": "{0} 該TAG已經被使用在 {1},請換TAG掃描"
+  },
+  "MSGCODE2021092869875": {
+    "en": " 该TAG:{0}未扫描MATL_LINK",
+    "chs": "This TAG: {0} has not Scan MATL_LINK",
+    "ch-tw": "該TAG:{0}未掃描MATL_LINK"
+  },
+  "MSGCODE20210814153058": {
+    "en": "The time format you entered is incorrect. Please fill in the format 2020-01-01 00:00:00 below",
+    "chs": "你输入的时间格式错误，请按照以下2020-01-01 00:00:00格式填写",
+    "ch-tw": "你输入的时间格式错误，请按照以下2020-01-01 00:00:00格式填写"
+  },
+  "MSGCODE20210814153054": {
+    "en": "The SN BRCStartDate in the system is greater than the import time!",
+    "chs": "該SN在系統中BRCStartDate時間大於導入時間!",
+    "ch-tw": "該SN在系統中BRCStartDate時間大於導入時間!"
+  },
+  "MSGCODE20210814153301": {
+    "en": "This SN has been scanned for MRB,and Bonepile Station has been scanned before MRB!",
+    "chs": "該SN已掃描MRB, Bonepile Station在掃描MRB之前的工站之前!",
+    "ch-tw": "該SN已掃描MRB, Bonepile Station在掃描MRB之前的工站之前!"
+  },
+  "MSGCODE20210814153255": {
+    "en": "{0} exists in the task command relationship table. Scan other barcodes",
+    "chs": "{0}已經存在任務令關係表中，請掃描其他條碼",
+    "ch-tw": "{0}已經存在任務令關係表中，請掃描其他條碼"
+  },  
+  "MSGCODE20210925181247": {
+    "en": "Over time PRE-ASSY is less than 1 hour",
+    "chs": "随着时间的推移 PRE-ASSY 少于 1 小时",
+    "ch-tw": "隨著時間的推移 PRE-ASSY 少於 1 小時"
+  },
+  "MSGCODE20210814153610": {
+    "en": "The task command corresponding to the work order has been loaded",
+    "chs": "該工單對應的任務令已load滿",
+    "ch-tw": "該工單對應的任務令已load滿",
+    "es":""
+  },
+  "MSGCODE20210815160720": {
+    "en": "The data was not saved!",
+    "chs": "數據沒有保存!",
+    "ch-tw": "數據沒有保存!",
+    "es": "Los datos no se guardaron!"
+  },
+  "MSGCODE20210815131350": {
+    "en": "[DCAF Fail] The TR_SN: {0} is not valid or does not exist!",
+    "es": "[DCAF Fail] El TR_SN: {0} no es valido o no existe!",
+    "chs": "已經結帳了!",
+    "ch-tw": "已經結帳了!"    
+  },
+  "MSGCODE20210815130448": {
+    "en": "SN: {0} has already been Check-out! ",
+	"es": "¡Al SN: {0} ya se le hizo Check-out!",
+    "chs": "SN: {0} 已經結帳了!",
+    "ch-tw": "SN: {0} 已經結帳了!"
+  },
+  "MSGCODE20210815110654": {
+    "es": "Por favor ingrese una QTY: {0} valido!",
+	"en": "Please enter a valid QTY: {0}",
+    "chs": "請輸入有效的 QTY：{0}",
+    "ch-tw": "請輸入有效的 QTY：{0}"  
+  },
+  "MSGCODE20210815104739": {
+    "en": "The Scanned QTY: {0} is greater than Original_Qty: {1}!",
+	"es": "La Cantidad Escaneado: {0} es mayor a la Cantidad Original: {1} !",
+    "chs": "掃描的 QTY：{0} 大於 Original_Qty：{1}！",
+    "ch-tw": "掃描的 QTY：{0} 大於 Original_Qty：{1}！"  
+  },
+  "MSGCODE20210803130433": {
+    "en": "The total Test_Hour of this SN: {0} Silver Wip is less than or equal to the last Test_Hour ({1} <= {2})",
+	"es": "El Test_Hour total de este SN: {0} Silver Wip es menor o igual que el último Test_Hour ({1} <= {2})",
+    "chs": "此 SN 的總 Test_Hour：{0} Silver Wip 小於或等於最後一個 Test_Hour ({1} <= {2})",
+    "ch-tw": "此 SN 的總 Test_Hour：{0} Silver Wip 小於或等於最後一個 Test_Hour ({1} <= {2})"  
+  },
+  "MSGCODE20210803125239": {
+    "en": "The SN: {0} is not a Silver WIP unit or check your parameters!",
+	"es": "El SN: {0} no es una unidad Silver WIP o verifique sus parametros!",
+    "chs": "SN：{0} 不是 Silver WIP 單元或檢查您的參數!",
+    "ch-tw": "SN：{0} 不是 Silver WIP 單元或檢查您的參數!"  
+  },
+  "MSGCODE_REJECT_LINE_DEFAULT": {
+    "en": "This Station Can't Use The Default Line: {0}! Please Reset Line!",
+	"es": "¡Esta estación no puede usar la linea predeterminada: {0}! ¡Por favor haga Reset Line!",
+    "chs": "这个攻站不能使用默认线体名称{0}！请重新设置！",
+    "ch-tw": "這個共站不能使用默認綫別名稱{0}！請重新設置！"  
+  },
+  "MSGCODE_NEED_SCAN_AT_THE_SAME_LINE": {
+    "en": "This product needs to be produced on the same production line. It started in line {0}, and the current line is {1}! Please check!",
+	"es": "Este producto debe ser producido en la misma línea de producción. ¡Inició en la línea {0}, y la línea actual es {1}! ¡Por favor revíselo!",
+    "chs": "这个产品需要在同一条生产线生产，已投入生产线{0}，当前生成线{1}！请确认！",
+    "ch-tw": "這個產品需要在同一條生產綫生產，已投入生產綫{0}，當前生產綫{1}！請確認！"  
+  },
+  "MSGCODE_REJECT_NOT_THE_SAME_WO": {
+    "en": "Can't Scan in {0} before the WO: {1} finish scanning in {2}!",
+	"es": "¡No se puede escanear en {0} antes que la WO: {1} termine de escanearse en {2}!",
+    "chs": "在另一个工单{1}完成{2}之前不能扫描{0}工站！",
+    "ch-tw": "在另一個工單{1}完成{2}之前不能掃描{0}工站！"
+  },
+  "MSGCODE_COO_NOT_MATCH": {
+    "en": "The COO entered does not match the COO of MATL_LINK {0}!",
+	"es": "¡El COO ingresado no coincide con el COO de MATL_LINK {0}!",
+    "chs": "输入的COO和MATL_LINK的COO {0}不一致！",
+    "ch-tw": "輸入的COO和MATL_LINK的COO {0}不一致！"
+  },
+  "MSGCODE_COO_NOT_MATCH_CONFIG": {
+    "en": "The COO entered does not match the configured COO!",
+	"es": "¡El COO ingresado no coincide con el COO configurado!",
+    "chs": "输入的COO和配置的COO 不一致！",
+    "ch-tw": "輸入的COO和配置的COO 不一致！"
+  },
+  "MSGCODE20211004123053": {
+    "en": "The SKU: {0} is not configured for SilverWIP, please contact the Process Engineer!",
+	"es": "El SKU: {0} no esta configurado para SilverWIP, favor de contactar al Ingeniero de Procesos!",
+    "chs": "SKU：{0} 沒有為 SilverWIP 配置，請聯繫工藝工程師！",
+    "ch-tw": "SKU：{0} 沒有為 SilverWIP 配置，請聯繫工藝工程師！"
+  },
+  "MSGCODE20211004123054": {
+    "en": "MES1.CHECK_LOCK :{0}",
+	"es": "MES1.CHECK_LOCK :{0}",
+    "chs": "MES1.CHECK_LOCK :{0}",
+    "ch-tw": "MES1.CHECK_LOCK :{0}"
+  },
+  "MSGCODE_BNDL_SNNOTEXISTS": {
+    "en": "SN: {0} Is Not In This SO!",
+	"es": "¡SN: {0} no está en esta SO!",
+    "chs": "SN：{0} 不属于这个SO！",
+    "ch-tw": "SN：{0} 不屬於這個SO！"
+  },
+  "MSGCODE_BNDL_SNSTATUS": {
+    "en": "SN:{0} Current Status [{1}] Can't Scan Bundle!",
+	"es": "SN:{0} Current Status [{1}] Can't Scan Bundle!!",
+    "chs": "SN：{0} 当前状态{1}不能扫描Bundle！",
+    "ch-tw": "SN：{0} 當前狀態{1}不能掃描Bundle！"
+  },
+  "MSGCODE_BNDL_NOTSCAN": {
+    "en": "SN:{0}  [{1}] Can't Scan Bundle!",
+	"es": "SN:{0} Current Status [{1}] Can't Scan Bundle!!",
+    "chs": "SN：{0} 当前状态{1}不能扫描Bundle！",
+    "ch-tw": "SN：{0} 當前狀態{1}不能掃描Bundle！"
+  },
+  "MSGCODE_BNDL_SNQTYMEET": {
+    "en": "SKUNO:{0} Scanned qty does not meet the required qty!",
+	"es": "SKUNO:{0} Scanned qty does not meet the required qty!",
+    "chs": "SKUNO：{0} 扫描数量没有达到Bundle需求数量！",
+    "ch-tw": "SKUNO：{0} 掃描數量沒有達到Bundle需求數量！"
+  },
+  "MSGCODE_BNDL_SNQTYMORE": {
+    "en": "SKUNO:{0} Only required {1},Please sacn other sku!",
+	"es": "SKUNO:{0} Only required {1},Please sacn other sku!",
+    "chs": "SKUNO：{0} 需求数量是{1}，请扫描其他机种！",
+    "ch-tw": "SKUNO：{0} 需求數量是{1}，請掃描其他幾種！"
+  },
+  "MSGCODE_BNDL_FINISH": {
+    "en": "SO:{0},SOID:{1} bundle finish!",
+	"es": "SO:{0},SOID:{1} bundle finish!",
+    "chs": "SO:{0},SOID:{1} Bundle扫描已完成！",
+    "ch-tw": "SO:{0},SOID:{1} Bundle掃描已完成！"
+  },
+  "MSGCODE_BNDL_NOTFINISH": {
+    "en": "SN {0} Haven't scaned bundle station!",
+	"es": "SN {0} Haven't scaned bundle station!",
+    "chs": "SN {0}还未扫描bundle！",
+    "ch-tw": "SN {0} 还未扫描bundle！"
+  },
+  "MSGCODE20211012153641": {
+    "en": "SKU: {0} , The Max Qty of SilverWIP units allowed has been reached. IN_WIP_UNITS: {1} / MAX_IN_WIP_UNITS: {2}. Pls Contact PE and TE!",
+	"es": "SKU: {0} , Se ha llegado a la Cantidad Maxima de unidades permitidas para SilverWIP. IN_WIP_UNITS: {1} / MAX_IN_WIP_UNITS: {2}. Favor de contactar al Ingeniero de Procesos y Pruebas!",
+    "chs": "SKU：{0} 已達到所允許的 SilverWIP 單元的最大數量。 IN_WIP_UNITS：{1} / MAX_IN_WIP_UNITS：{2}。 請聯繫 PE 和 TE！",
+    "ch-tw": "SKU：{0} 已達到所允許的 SilverWIP 單元的最大數量。 IN_WIP_UNITS：{1} / MAX_IN_WIP_UNITS：{2}。 請聯繫 PE 和 TE！"
+  }
+  ,
+  "MSGCODE20210831132408": {
+    "en": "This is {0} not privilege",
+	"es": "This is {0} not privilege",
+    "chs": "这不是 {0} 特权",
+    "ch-tw": "这不是 {0} 特权"
+  },
+  "MSGCODE20211016095011": {
+    "en": "PE don't config CSERIESID in SKU SETTING!",
+	"es": "PE don't config CSERIESID in SKU SETTING!",
+    "chs": "PE 未在 SKU SETUP 中配置 CSERIESID",
+    "ch-tw": "PE 未在 SKU SETUP 中配置 CSERIESID"
+  },
+  "MSGCODE20210702105107": {
+    "en": "Line is not exist!",
+	"es": "Line is not exist!",
+    "chs": "扫描的线体不存在!",
+    "ch-tw": "掃描的線體不存在!"
+  },
+  "MSGCODE20210702172050": {
+    "en": "Line corresponding Station is invalid!",
+	"es": "Line corresponding Station is invalid!",
+    "chs": "线体对应的工站无效!",
+    "ch-tw": "線體對應的工站無效!"
+  },
+  "MSGCODE20210706165740": {
+    "en": "This User is Online!",
+	"es": "This User is Online!",
+    "chs": "该用户已经上线!",
+    "ch-tw": "該用戶已經上線!"
+  },
+  "MSGCODE20210707105106": {
+    "en": "Just only Login oneself  and go online!",
+	"es": "Just only Login oneself  and go online!",
+    "chs": "只能登录本人账号上线!",
+    "ch-tw": "只能登錄本人賬號上線!"
+  },
+  "MSGCODE20210706171235": {
+    "en": "The user is not registered!",
+	"es": "The user is not registered!",
+    "chs": "该用户尚未注册!",
+    "ch-tw": "該用戶尚未註冊!"
+  },
+  "MSGCODE20210706170038": {
+    "en": "There are already people on the station!",
+	"es": "There are already people on the station!",
+    "chs": "该工站已经有人员上线!",
+    "ch-tw": "該工站已經有人員上線!"
+  },
+  "MSGCODE20210706171140": {
+    "en": "Please scan station!",
+	"es": "Please scan station!",
+    "chs": "请扫描工站!",
+    "ch-tw": "請掃描工站!"
+  },
+  "MSGCODE20211102103846": {
+    "en": "KpNo: {0} Can not find MPN Info in Allpart [c_mfr_kp_relation , c_mfr_config]!",
+	"es": "KpNo: {0} Can not find MPN Info in Allpart [c_mfr_kp_relation , c_mfr_config]!",
+    "chs": "料号: {0} 在 Allpart 找不到 MPN 资料[c_mfr_kp_relation , c_mfr_config]!",
+    "ch-tw": "料號: {0} 在 Allpart 找不到 MPN 資料[c_mfr_kp_relation , c_mfr_config]!"
+  },
+  "MSGCODE20211105151002": {
+    "en": "SN: {0} is in SilverWIP, please check.",
+	"es": "SN: {0} está en SilverWIP, porfavor reviselo.",
+    "chs": "Unit SN: {0} 在 SilverWIP，請聯繫 PE！",
+    "ch-tw": "Unit SN: {0} 在 SilverWIP，請聯繫 PE！"
+  }
+  ,
+  "MSGCODE20211104021359": {
+    "en": "This {0} error code is not the same as the QE setting",
+	"es": "This {0} error code is not the same as the QE setting",
+    "chs": "This {0} error code is not the same as the QE setting",
+    "ch-tw": "This {0} error code is not the same as the QE setting"
+  }
+  ,
+  "MSGCODE20211104021448": {
+    "en": "this {0} error code has not been set by QE",
+	"es": "this {0} error code has not been set by QE",
+    "chs": "this {0} error code has not been set by QE",
+    "ch-tw": "this {0} error code has not been set by QE"
+  }
+  ,
+  "MSGCODE20211105072040": {
+    "en": "This is {0} not CUSTOMER_NAME NETGEAR",
+	"es": "This is {0} not CUSTOMER_NAME NETGEAR",
+    "chs": "This is {0} not CUSTOMER_NAME NETGEAR",
+    "ch-tw": "This is {0} not CUSTOMER_NAME NETGEAR"
+  },
+  "MSGCODE20211111165830": {
+    "en": "The Input of System Serial Number doesn't match with the SN rule of ^[a-z,A-Z]{2}[0-9]{3}$",
+    "chs": "输入 SN 与 ^[a-z,A-Z]{2}[0-9]{3}$ 规则不匹配",
+    "ch-tw": "輸入 SN 與 ^[a-z,A-Z]{2}[0-9]{3}$ 規則不匹配"
+  }
+  ,
+  "MSGCODE20211110155122": {
+    "en": "RMA product must be loaded in RMA workorder",
+	"es": "RMA product must be loaded in RMA workorder",
+    "chs": "RMA品需投入RMA工单",
+    "ch-tw": "RMA品需投入RMA工單"
+  }
+  ,
+  "MSGCODE20211116122256": {
+    "en": "SilverWIP Unit SN: {0} , The last Test Record is not PASS or the Unit doesn't have record, pls validate with PE and TE!",
+	"es": "SilverWIP Unit SN: {0} , El ultimo Registro de Pruebas no es PASS y no hay records, favor de contactar al PE y TE!",
+    "chs": "SilverWIP Unit SN: {0} , 最後一個測試記錄不通過或該單元沒有記錄，請與PE和TE驗證",
+    "ch-tw": "SilverWIP Unit SN: {0} , 最後一個測試記錄不通過或該單元沒有記錄，請與PE和TE驗證"
+  }
+  ,
+  "MSGCODE20211118115948": {
+    "en": "Serial Number {0} is still in production!",
+	"es": "¡El Serial {0} sigue en producción!",
+    "chs": "SN {0} 仍在生产中!",
+    "ch-tw": "SN {0} 仍在生產中！"
+  }
+  ,
+  "MSGCODE20211124122733": {
+    "en": "Unit is already in Supermarket!",
+	"es": "¡La unidad ya está en Supermercado!",
+    "chs": "单位已经在超市！",
+    "ch-tw": "單位已經在超市！"
+  }
+  ,
+  "MSGCODE20211124144628": {
+    "en": "{0} is not {1}",
+	"es": "{0} no es {1}",
+    "chs": "{0} 不是 {1}",
+    "ch-tw": "{0} 不是 {1}"
+  }
+  ,
+  "MSGCODE20211124144715": {
+    "en": "{0} is already out of Silver WIP!",
+	"es": "¡{0} ya salió de Silver WIP!",
+    "chs": "{0} 已用完 Silver WIP!",
+    "ch-tw": "{0} 已用完 Silver WIP!"
+  },
+  "MSGCODE2021REPCOUNTLOC001": {
+    "en": "SN:{0} Is Repaired {2} Times On {1} Same Location, Please find QE to see next steps!",
+    "chs": "SN:{0} Is Repaired {2} Times On {1} Same Location, Please find QE to see next steps!",
+    "ch-tw": "SN:{0} Is Repaired {2} Times On {1} Same Location, Please find QE to see next steps!"
+  },
+  "MSGCODE2021NOTUSEPACKTYPE": {
+    "en": "Wo PackType is '{0}'.Can not use '{1}' type carton",
+    "chs": "工单包装类型为'{0}'。不能使用'{1}'类型的卡通。",
+    "ch-tw": "工單包裝類型為'{0}'。不能使用'{1}'類型的卡通"
+  }
+  ,
+  "MSGCODE20181122163642": {
+    "en": "{0}No sweep out Washpcb_in",
+    "chs": "{0}未扫出洗板",
+    "ch-tw": "{0}未掃出洗板"
+  }
+  ,
+  "MSGCODE20211202094353": {
+    "en": "The BOM Compare Result is not OK Of NewBS Task, Please Confirm and ShipOut !",
+    "chs": "新BS任务令BOM比对结果未通过,请与工程部门确认后再发货",
+    "ch-tw": "新BS任務令BOM比對結果未通過,請與工程部門確認後再發貨"
+  },
+  "MSGCODE20211126112355": {
+    "en": " {0} OK!",
+	"es": " {0} OK!",
+    "chs": " {0} OK!",
+    "ch-tw": "{0} OK!"
+  },
+  "MSGCODENOTRSNINFO001": {
+    "en": "For action code {0} you must select Defect Type as Component",
+	"es": "For action code {0} you must select Defect Type as Component",
+    "chs": "For action code {0} you must select Defect Type as Component",
+    "ch-tw": "For action code {0} you must select Defect Type as Component"
+  },
+  "MSGCODENOTRSNINFO002": {
+    "en": "For action code {0} you must select different Defect Type",
+	"es": "For action code {0} you must select different Defect Type",
+    "chs": "For action code {0} you must select different Defect Type",
+    "ch-tw": "For action code {0} you must select different Defect Type"
+  }
+  ,
+  "MSGCODE20211203161554": {
+    "en": "{0},{1} PASS",
+    "chs": "{0},{1} PASS",
+    "ch-tw": "{0},{1} PASS"
+  }
+  ,
+  "MSGCODE20211203153757": {
+    "en": "{0}is not in{1}",
+    "chs": "{0}不属于{1}",
+    "ch-tw": "{0}不屬於{1}"
+  }
+  ,
+  "MSGCODE20211207163205": {
+    "en": "{0}Already pass{1},do not scan twice",
+    "chs": "{0}已过站{1},请不要重复扫描",
+    "ch-tw": "{0}已過站{1},請不要重複掃描"
+  }
+  ,
+  "MSGCODE20211215152436": {
+    "en": "The following data {0} is repeated in Execl. Please check it and import it again",
+    "chs": "以下数据{0},Excel中存在重复,请检查后重新导入",
+    "ch-tw": "以下数据{0}, Excel中存在重复,请检查后重新导入"
+  }
+  ,
+  "MSGCODE20211215161228": {
+    "en": "The following data exists in location ‘ , ’please use ‘ | ’",
+    "chs": "以下数据{0},Excel中Location存在‘ , ’请使用‘ | ’ ",
+    "ch-tw": "以下数据{0},Excel中Location存在‘ , ’请使用‘ | ’ "
+  },
+  "MSGCODE20211216172028": {
+    "en": "If the password has not been changed for more than 90 days,change the password before login",
+    "chs": "账号超过90天未修改密码,请修改密码再登录",
+    "ch-tw": "账号超过90天未修改密码,请修改密码再登录"
+  },
+  "MSGCODE20220103152630": {
+    "en": "The number of pallets {0}  {1} is greater than quantity awaiting shipment, please adjust the pallet!",
+    "chs": "栈板{0}数量{1}大于TO待出货数量，请调整栈板!",
+    "ch-tw": "棧板{0}數量{1}大於TO待出貨數量，請調整棧板!"
+  },
+  "MSGCODEREVERSEJNP00001": {
+    "en": "{0}",
+    "chs": "{0}",
+    "ch-tw": "{0}"
+  },
+  "MSGCODE20220107170331": {
+    "en": "WO already exist",
+    "chs": "WO already exist!",
+    "ch-tw": "WO already exist!"
+  },
+  "MSGCODE20220121152825": {
+    "en": "System hasn't received i244 signal from Juniper. Please wait or check with Test Engineer.",
+	"es": "El sistema no ha recibido la señal i244 de Juniper. Porfavor espere o revise con el Ingeniero de Prueba.",
+    "chs": "系统未收到来自 Juniper 的 i244 信号。 请稍候或与测试工程师核实。",
+    "ch-tw": "系統未收到來自 Juniper 的 i244 信號。 請稍候或與測試工程師核實。"
+  },
+  "MSGCODE20220129093920": {
+    "en": "Input Sn {0} not match the Sku/Ver of Wo {1}, Pls call PE to check!",
+    "chs": "Sn {0} 与 Wo {1} 对应的Sku/Ver不匹配, 请联系PE检查!",
+    "ch-tw": "Sn {0} 與 Wo {1} 對應的Sku/Ver不匹配, 請聯繫PE檢查!"
+  },
+  "MSGCODE20220201160325": {
+    "en": "The SN: {0} is in Supermarket, please contact to ME!",
+	"es": "El SN: {0} está en Supermarket, ¡porfavor contacte al Ingeniero de Materiales!",
+    "chs": "Unit SN: {0} 在 Supermarket，請聯繫 ME！",
+    "ch-tw": "Unit SN: {0} 在 Supermarket，請聯繫 ME！"
+  },
+  "MSGCODE20220212085815": {
+    "en": "SN: {0} is in SuperMarket, please check.",
+	"es": "SN: {0} está en SuperMarket, porfavor reviselo.",
+    "chs": "Unit SN: {0} 在 SuperMarket，请联系 PE!",
+    "ch-tw": "Unit SN: {0} 在 SuperMarket，請聯繫 PE!"
+  },
+  "MSGCODE20220214152139": {
+    "en": "CARTON is not closed, Please check again!",
+	"es": "CARTON is not closed, Please check again!",
+    "chs": "纸箱没有关闭，请再次检查!",
+    "ch-tw": "纸箱没有关闭，请再次检查!"
+  },
+  "MSGCODE20220216092040": {
+    "en": "{0} can't  pass in the last time on {1}!Please go to {1} scan fail.",
+    "chs": "{0}在{1}工站的最后一次测试没有PASS！",
+    "ch-tw": "{0}在{1}工站的最後一次測試沒有PASS！請到{1}工站掃Fail"
+  },
+  "REV_OF_PARTNO_ERROR": {
+    "en": "This version is unavailable(sku:{0},Rev:{1}) it is below the latest mandatory revision (or it cannot be found from ECN data)",
+    "chs": "该版本不可用(sku:{0},Rev:{1})该版本小于最新的 mandatory 版本 (或者找不到 ECN 数据)",
+    "ch-tw": "該版本不可用(sku:{0},Rev:{1})該版本小於最新的 mandatory 版本 (或者找不到 ECN 數據)"
+  },
+  "CLEI_OF_PARTNO_ERROR": {
+    "en": "This CLEI is unavailable(sku:{0},CLEI:{1}) this CLEI cannot be used and it is below the latest mandatory revision (or it cannot be found from ECN data)",
+    "chs": "该CLEI不可用(sku:{0},CLEI:{1})this CLEI cannot be used and it is below the latest mandatory revision (or it cannot be found from ECN data)",
+    "ch-tw": "該CLEI不可用(sku:{0},CLEI:{1})this CLEI cannot be used and it is below the latest mandatory revision (or it cannot be found from ECN data)"
+  },
+  "MSGCODE20220308080240": {
+    "en": "{0} The serial number is ready for Super Market.",
+    "chs": "{0} 序列號已準備好超市",
+    "ch-tw": "{0} 序列號已準備好超市"
+  },
+  "MSGCODE20220308080241": {
+    "en": "{0} The serial number does not exists.",
+    "chs": "{0} 序列號不存在",
+    "ch-tw": "{0} 序列號不存在"
+  },
+  "MSGCODE20220308080242": {
+    "en": "The serial number input can not be empty.",
+    "chs": "序列號輸入不能為空",
+    "ch-tw": "序列號輸入不能為空"
+  },
+  "MSGCODE20220308080243": {
+    "en": "{0} The serial number is in silver wip.",
+    "chs": "{0} 序列號為銀色 wip",
+    "ch-tw": "{0} 序列號為銀色 wip"
+  },
+  "MSGCODE20220308080244": {
+    "en": "711 not allow in Super Market.",
+    "chs": "711不允許進入超市",
+    "ch-tw": "711不允許進入超市"
+  },
+}

@@ -1,0 +1,598 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:WHS_PACKAGE">WHS_PACKAGE</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .sweet-alert {
+            background-color: #e4e5e7;
+            font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            width: 478px;
+            padding: 17px;
+            border-radius: 5px;
+            text-align: center;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin-left: -256px;
+            margin-top: -200px;
+            overflow: hidden;
+            display: none;
+            z-index: 99999999999;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:WHS_PACKAGE">WHS_PACKAGE</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAddMapping">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEditMapping" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteMapping" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+                <label class="btn btn-outline btn-primary input-group" for="uploadExcel"
+                       style="z-index:1;padding-left: 8px;border-top-right-radius:0px;border-bottom-right-radius:0px;background-color:#2e6da4;color:#fff">select file</label>
+                <input id="uploadExcel" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx" style="padding:5px 0px;border-top-right-radius:4px;border-bottom-right-radius:4px;">
+                <button type="button" class="btn btn-outline btn-primary" id="btnUploadSubmit">
+                    <i class="glyphicon glyphicon-upload" aria-hidden="true"></i><lan set-lan="html:Upload">Upload</lan>
+                </button>
+
+                <button type="button" class="btn btn-outline btn-primary" id="btnDownloadTemplateFile">
+                    <i class="glyphicon glyphicon-download" aria-hidden="true"></i><lan set-lan="html:Download">Download Template File</lan>
+                </button>
+
+            </div>
+            <!--<div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                <div class="btn-group hidden-xs" style="padding-right:210px;">
+                    <label class="btn btn-outline btn-primary input-group" for="uploadExcel"
+                           style="z-index:1;padding-left: 8px;border-top-right-radius:0px;border-bottom-right-radius:0px;background-color:#2e6da4;color:#fff">選擇文件</label>
+                    <input id="uploadExcel" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx" style="padding:5px 0px;border-top-right-radius:4px;border-bottom-right-radius:4px;">
+                </div>
+                <div class="btn-group hidden-xs">
+                    <button type="button" class="btn btn-outline btn-default" id="btnUploadSubmit">
+                        <i class="glyphicon glyphicon-upload" aria-hidden="true"></i><lan set-lan="html:Upload">Upload</lan>
+                    </button>
+                </div>
+                <div class="btn-group hidden-xs">
+                    <button type="button" class="btn btn-outline btn-default" id="btnDownloadTemplateFile">
+                        <i class="glyphicon glyphicon-download" aria-hidden="true"></i><lan set-lan="html:Download">Download Template File</lan>
+                    </button>
+                </div>
+            </div>-->
+        </div>
+        <table id="tableControlList"></table>
+    </div>
+
+
+    <div id="divEditControl" class="panel-body hidden">
+        <div class="form-horizontal" id="divNewTypeLayerSan">
+            <div class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:ID">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" id="inputID" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:SKUNO">SKUNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" id="InputSKUNO" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:SCENARIO">SCENARIO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <select class="form-control" id="InputSCENARIO">
+                        <option value="WHSpack">WHSpack</option>
+                    </select>
+                    <!--<input type="text" class="form-control" id="InputSCENARIO" />-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:TYPE">TYPE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <select class="form-control" id="InputTYPE">
+                        <option value="Compulsory">Compulsory</option>
+                        <option value="Deletion">Deletion</option>
+                        <option value="Optional">Optional</option>
+                    </select>
+                    <!--<input type="text" class="form-control" id="InputTYPE" />-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:USAGE">USAGE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" id="InputUSAGE" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:PARTNO">PARTNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" id="InputPARTNO" />
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group" style="text-align: center;">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" class="btn btn-primary" id="btnSubmit"><i class="fa fa-pencil"></i> <lan set-lan="html:Submit">Submit</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var submitType = "";
+        var postData = {};
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+
+            //mesUI.SetLanguage("SKU_PACKAGE");
+            GetControlList();
+
+
+            $("#btnAddMapping").click(function () {//新增按钮按钮点击动作
+                var addTitle = 'New';
+                if (lan == "CHINESE") {
+                    addTitle = "新增配置"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "新增配置"
+                }
+                else if (lan == "ENGLISH") {
+                    addTitle = "New configuration"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["40%", "60%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        $("#InputSKUNO").val("");
+                        $("#InputSCENARIO").val("");
+                        $("#InputTYPE").val("");
+                        $("#InputUSAGE").val("");
+                        $("#InputPARTNO").val("");
+
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnEditMapping").click(function () {//编辑按钮点击动作
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit Mapping';
+                if (lan == "CHINESE") {
+                    addTitle = "修改配置"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "修改配置"
+                }
+                else if (lan == "ENGLISH") {
+                    addTitle = "Update configuration"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["40%", "60%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        $("#inputID").val(selectRows[0].ID);
+                        $("#InputSKUNO").val(selectRows[0].SKUNO);
+                        $("#InputSCENARIO").val(selectRows[0].SCENARIO);
+                        $("#InputTYPE").val(selectRows[0].TYPE);
+                        $("#InputUSAGE").val(selectRows[0].USAGE);
+                        $("#InputPARTNO").val(selectRows[0].PARTNO);
+
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnDeleteMapping").click(function () {//删除按钮点击动作
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var delTitle = "Sure to Delete?";
+                var delbtnSubmit = "Submit";
+                var delbtnCancel = "Cancel";
+                if (lan == "CHINESE") {
+                    delTitle = "确认删除？";
+                    delbtnSubmit = "确认";
+                    delbtnCancel = "取消";
+                }
+                else if (lan == "CHINESE_TW") {
+                    delTitle = "確認刪除？";
+                    delbtnSubmit = "確認";
+                    delbtnCancel = "取消";
+                }
+                else if (lan == "ENGLISH") {
+                    delTitle = "Confirm deletion？";
+                    delbtnSubmit = "Confirm";
+                    delbtnCancel = "Cancel";
+                }
+                swal({
+                    title: delTitle,
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: delbtnSubmit,
+                    cancelButtonText: delbtnCancel,
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            postData = { ID: selectRows[0].ID };
+                            self.parent.client.CallFunction("MESJuniper.Api.O_137Api", "DeleteWHSPackage", postData, function (e) {
+                                if (e.Status == "Pass") {
+                                    layer.msg(e.Message, {
+                                        icon: 1,
+                                        time: 1000
+                                    }, function () {
+                                        GetControlList("");
+                                    });
+                                }
+                                else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 3000
+                                    }, function () { });
+                                    return;
+                                }
+                            })
+                        }
+                    });
+
+            });
+            $("#btnRefreshMapping").click(function () {//刷新按钮点击动作
+                GetControlList();
+            });
+            $("#btnSubmit").click(function () {//点击保存的动作
+                if (submitType == "MODIFY") {
+                    ModifyControl();
+                }
+                else if (submitType == "NEW") {
+                    AddNewControl();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+            $("#uploadExcel").change(function (e) {
+                if ($("#uploadExcel").val() != "" && $("#uploadExcel") != undefined) {
+                    var w = new Worker("../../Scripts/Setting/BigFileReader.js");
+                    w.onmessage = function (e) {
+                        layer.closeAll("loading");
+                        if (e.data.Status == "Pass") {
+                            Bas64File = e.data.Bas64File;
+                        } else {
+                            $('#uploadExcel').val("");
+                            layer.alert(e.data.Message, { icon: 2 });
+                        }
+                    };
+                    w.onerror = function () {
+                        $('#uploadExcel').val("");
+                        layer.alert("Worker Error!", { icon: 2 });
+                    }
+                    layer.load(3);
+                    filename = $(this).val();
+                    filename = filename.substring(filename.lastIndexOf("\\") + 1);
+                    UseType = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+                    w.postMessage({ file: e.target.files[0], filename: filename, UseType: UseType, ExtName: ".XLSX" });
+                }
+            });
+            $("#btnUploadSubmit").click(function () {
+                if (filename == "" || filename == null || filename == undefined || Bas64File == "" || Bas64File == null || Bas64File == undefined) {
+                    layer.alert("Please select the file to upload first!", { icon: 2 })
+                    return;
+                }
+                var loadIndex = layer.load({ icon: 1 });
+                parent.client.CallFunction("MESJuniper.Api.O_137Api", "UploadWHSPackageData", { ExcelData: Bas64File, FileName: filename }, function (e) {
+                    layer.close(loadIndex);
+                    if (e.Status == "Pass") {
+                        layer.alert(e.Message, { icon: 1 })
+                    } else {
+                        layer.alert(e.Message, { icon: 2 })
+                    }
+                });
+            });
+
+            $('#btnDownloadTemplateFile').on('click', function () {
+                window.open("../../File/UploadWHSPackage.xlsx");
+            });
+
+        });
+
+        function AddNewControl() {//新增页面点击保存做的CHECK和INSERT等动作
+            var SKUNO = $("#InputSKUNO").val();
+            var SCENARIO = $("#InputSCENARIO").val();
+            var TYPE = $("#InputTYPE").val();
+            var USAGE = $("#InputUSAGE").val();
+            var PARTNO = $("#InputPARTNO").val();
+
+            postData = { "SKUNO": SKUNO, "SCENARIO": SCENARIO, "TYPE": TYPE, "USAGE": USAGE, "PARTNO": PARTNO };
+
+
+            self.parent.client.CallFunction("MESJuniper.Api.O_137Api", "NewWHSPackage", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetControlList();
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+        function ModifyControl() {//编辑页面点击保存做的CHECK和INSERT等动作
+            var ID = $("#inputID").val();
+            var SKUNO = $("#InputSKUNO").val();
+            var SCENARIO = $("#InputSCENARIO").val();
+            var TYPE = $("#InputTYPE").val();
+            var USAGE = $("#InputUSAGE").val();
+            var PARTNO = $("#InputPARTNO").val();
+
+            postData = { "ID": ID, "SKUNO": SKUNO, "SCENARIO": SCENARIO, "TYPE": TYPE, "USAGE": USAGE, "PARTNO": PARTNO };
+
+            self.parent.client.CallFunction("MESJuniper.Api.O_137Api", "EditWHSPackage", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetControlList();
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+        function GetControlList() {//获取主页面报表函数
+            $("#btnEditMapping").attr("disabled", "disabled");
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#tableControlList").html("");
+            $("#tableControlList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESJuniper.Api.O_137Api", "GetWHSPackageMenuList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableControlList').bootstrapTable({
+                        data: e.Data,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: true,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 20,                        //每页的记录行数（*）
+                        pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                        search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，意义不大
+                        strictSearch: false,
+                        singleSelect: true,                 //单选checkbox
+                        searchOnEnterKey: false,            //回车搜索
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: "right",               //查询框对齐方式
+                        search: true,
+                        buttonsAlign: "right",               //按钮对齐方式
+                        toolbar: "#divTableToolbar",        //指定工具栏
+                        toolbarAlign: "left",               //工具栏对齐方式
+                        onCheck: function (row) {
+                            var rows = $('#tableControlList').bootstrapTable('getSelections');
+                            if (rows.length == 1) {
+                                $("#btnEditMapping").removeAttr("disabled");
+                            } else {
+                                $("#btnEditMapping").attr("disabled", "disabled");
+                            }
+                            if (rows.length <= 0) {
+                                $("#btnDeleteMapping").attr("disabled", "disabled");
+                            } else {
+                                $("#btnDeleteMapping").removeAttr("disabled")
+                            }
+                        },
+                        onUncheck: function (row) {
+                            var rows = $('#tableControlList').bootstrapTable('getSelections');
+                            $("#btnEditMapping").attr("disabled", "disabled");
+                            if (rows.length <= 0) {
+                                $("#btnDeleteMapping").attr("disabled", "disabled");
+                            } else {
+                                $("#btnDeleteMapping").removeAttr("disabled")
+                            }
+                        },
+                        columns: [
+                            {
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: '<label set-lan="html:ID">ID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'SKUNO',
+                                title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'SCENARIO',
+                                title: '<label set-lan="html:SCENARIO">SCENARIO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'TYPE',
+                                title: '<label set-lan="html:TYPE">TYPE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: "USAGE",
+                                title: '<label set-lan="html:USAGE">USAGE</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: "PARTNO",
+                                title: '<label set-lan="html:PARTNO">PARTNO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: "CREATEEMP",
+                                title: '<label set-lan="html:CREATEEMP">CREATEEMP</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: "CREATETIME",
+                                title: '<label set-lan="html:CREATETIME">CREATETIME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }],
+                        locale: tableLocale//中文支持,
+                    });
+
+                    //mesUI.SetLanguage("SKU_PACKAGE");
+
+                }
+            });
+        }
+
+
+    </script>
+
+</body>
+</html>
+

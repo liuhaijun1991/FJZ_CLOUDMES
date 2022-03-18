@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MES API</title>
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <!--test111-->>
+</head> 
+<body class="gray-bg"> 
+    <div id="debugSite" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-5">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">FunctionName</label>
+            <div class="col-sm-5">
+                <label class="form-control" id="FunctionName">FunctionName</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-5">
+                <label class="form-control" id="Description">FunctionName</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Permissions</label>
+            <div class="col-sm-5">
+                <ul id="Permissions" class="list-group"></ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Parameters</label>
+            <div class="col-sm-5">
+                <ul id="Parameters" class="list-group"></ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Return</label>
+            <div class="col-sm-5">
+                <textarea id="ServiceRetrun" style=" height:200px; width:600px;" readonly="readonly"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-2">
+            <button class="btn btn-primary" onclick="submitFunction()">Debug</button>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script src="Scripts/global.js"></script>
+    <script>
+        var ClassName = "";
+        var JsonFunction;
+        $(document).ready(function () {            
+            ClassName = localStorage.getItem("DEBUGCLASS");
+            var DebugFunctionStr = localStorage.getItem("DEBUGFUNCTION");
+            JsonFunction = JSON.parse(DebugFunctionStr);
+            $("#FunctionName").text(JsonFunction.FunctionName);
+            $("#Description").text(JsonFunction.Description);
+            var para = $("#Parameters");
+            for (var i = 0; i < JsonFunction.Parameters.length; i++) {
+                var li = $("<li class=\"list-group-item node-treeview5\"></li>");
+                var div = $("<div class=\"form-group\"></div>");
+                var lab = $("<label class=\"col-sm-2 control-label\">" + JsonFunction.Parameters[i].InputName + "</label>");
+                var div1 = $("<div class=\"col-sm-5\"></div>");
+                var input = $("<input type=\"text\" class=\"form-control\" id=\"" + JsonFunction.Parameters[i].InputName + "\" value=\"" + JsonFunction.Parameters[i].DefaultValue + "\">");
+                switch (JsonFunction.Parameters[i].InputType) {
+                    case "SELECT":
+                        input = $("<select class=\"form-control\" id=\"" + JsonFunction.Parameters[i].InputName + "\"</select>");
+                        var op = "";
+                        var valueArr = JsonFunction.Parameters[i].DefaultValue.split(',');
+                        for (var j = 0; j < valueArr.length; j++) {
+                            op += "<option value=\"" + valueArr[j] + "\">" + valueArr[j] + "</option>";
+                        }
+                        input.append(op);
+                        break;
+                    default:
+                        break;
+                }
+                div1.append(input);
+                div.append(lab);
+                div.append(div1);
+                li.append(div);
+                para.append(li);
+            }
+            var per = $("#Permissions");
+            for (var i = 0; i < JsonFunction.Permissions.length; i++) {
+                var li = $("<li class=\"list-group-item node-treeview5\">ID:" + JsonFunction.Permissions[i].ID + " , Name:" + JsonFunction.Permissions[i].Name + " , Desc:" + JsonFunction.Permissions[i].Desc + "</li>");
+                per.append(li);
+            }
+        });
+
+        function submitFunction() {
+            var data = "{ ";
+            for (var i = 0; i < JsonFunction.Parameters.length; i++) {
+                var InputName = JsonFunction.Parameters[i].InputName;
+                data += "\"" + InputName + "\":\"" + $("#" + InputName).val() + "\",";
+            }
+            data = data.substr(0, data.length - 1);
+            data += "}";
+            self.parent.client.CallFunction(ClassName, JsonFunction.FunctionName, JSON.parse(data), CallBack);
+
+        }
+        function CallBack(e) {
+            var result = JSON.stringify(e, null, 4);
+            $("#ServiceRetrun").text(result);
+        }
+    </script>
+</body>
+</html>

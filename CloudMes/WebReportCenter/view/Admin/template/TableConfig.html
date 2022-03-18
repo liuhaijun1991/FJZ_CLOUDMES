@@ -1,0 +1,116 @@
+﻿<script src="../../../lib/layui/layui.js"></script>
+<script>
+    layui.link('../../../lib/layui/css/layui.css');
+</script>
+<style>
+    .layui-form-label {
+        padding: 9px 0px;
+    }
+
+    legend {
+        width: auto;
+        padding: 0;
+        margin-bottom: unset;
+        border-bottom: unset;
+    }
+</style>
+<div class="layui-row" style="margin:20px">
+    <div class="layui-form" lay-filter="TableConfig">
+        <input class="layui-hide" lay-filter="ConfigObjectID" name="ConfigObjectID" value="" />
+        <input class="layui-hide" lay-filter="ConfigObjectType" name="ConfigObjectType" value="" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">表格边框</label>
+            <div class="layui-input-block">
+                <input type="radio" name="bordered" value="table-bordered" title="是" lay-filter="bordered">
+                <input type="radio" name="bordered" value="" title="否" lay-filter="bordered" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行間隔</label>
+            <div class="layui-input-block">
+                <input type="radio" name="striped" value="table-striped" title="是" lay-filter="striped">
+                <input type="radio" name="striped" value="" title="否" lay-filter="striped" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">鼠標懸停</label>
+            <div class="layui-input-block">
+                <input type="radio" name="hover" value="table-hover" title="是" lay-filter="hover">
+                <input type="radio" name="hover" value="" title="否" lay-filter="hover" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">內容縮緊</label>
+            <div class="layui-input-block">
+                <input type="radio" name="condensed" value="table-condensed" lay-filter="condensed" title="是">
+                <input type="radio" name="condensed" value="" title="否" lay-filter="condensed" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">數據源</label>
+            <div class="layui-input-block">
+                <select name="DataSource" lay-filter="DataSource">
+                    <option value="0">Data1</option>
+                    <option value="1">Data2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.config({
+        base: '../../../lib/'
+    }).extend({
+        common: 'common',
+        ChartDefaultOption: 'echarts/ChartDefaultOption'
+    }).use(['common', 'jquery', 'form', 'element', 'ChartDefaultOption'], function () {
+        var elid = layui.common.getQueryString('elid');
+        var type = layui.common.getQueryString('type');
+        var form = layui.form;
+        var element = layui.element;
+        var $ = layui.$;
+        element.render();
+        form.render();
+
+        var tb = $(parent.document).find('#' + elid);
+        var striped = tb.hasClass('table-striped') ? 'table-striped' : '';
+        var bordered = tb.hasClass('table-bordered') ? 'table-bordered' : '';
+        var hover = tb.hasClass('table-hover') ? 'table-hover' : '';
+        var condensed = tb.hasClass('table-condensed') ? 'table-condensed' : '';
+
+        form.val("TableConfig", {
+            "ConfigObjectID": elid,
+            "ConfigObjectType": type,
+            "striped": striped,
+            "bordered": bordered,
+            "hover": hover,
+            "condensed": condensed
+        });
+
+        form.on('radio(striped)', function (data) {
+            var objID = document.getElementsByName('ConfigObjectID')[0].value;
+            $('#' + objID).removeClass('table-striped');
+            $('#' + objID).addClass(data.value);
+        });
+        form.on('radio(bordered)', function (data) {
+            var objID = document.getElementsByName('ConfigObjectID')[0].value;
+            $('#' + objID).removeClass('table-bordered');
+            $('#' + objID).addClass(data.value);
+        });
+        form.on('radio(hover)', function (data) {
+            var objID = document.getElementsByName('ConfigObjectID')[0].value;
+            $('#' + objID).removeClass('table-hover');
+            $('#' + objID).addClass(data.value);
+        });
+        form.on('radio(condensed)', function (data) {
+            var objID = document.getElementsByName('ConfigObjectID')[0].value;
+            $('#' + objID).removeClass('table-condensed');
+            $('#' + objID).addClass(data.value);
+        });
+        form.on('select(*)', function (data) {
+            console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+        });
+        //各种基于事件的操作，下面会有进一步介绍
+    });
+</script>

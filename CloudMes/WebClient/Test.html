@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div id="tabContainer">
+        <button id="btn" type="button">test</button>
+    </div>
+    <script>
+        var xxx = "TEST"
+        $("#btn").click(function () {
+            var ws = new WebSocket("wss://mis-g6001953.nn.cloudnsbg.efoxconn.com:2130/ReportService");
+            ws.onopen = function () {
+                ws.send({ "id": 1111 });
+            }
+            ws.onmessage = function (evt) {
+                var data = evt.data;
+                alart(data);
+            }
+        });
+    //$("#tabContainer").tabs({
+    //    data: [{
+    //        id: 'home',
+    //        text: '百度一下',
+    //        url: "tab_first.html",
+    //        closeable: true
+    //    }, {
+    //        id: 'admineap',
+    //        text: 'AdminEAP',
+    //        url: "tab_second.html"
+    //    }, {
+    //        id: 'edit',
+    //        text: '编辑人员',
+    //        url: "tab_content.html",
+    //        closeable: true
+    //    }],
+    //    showIndex: 1,
+    //    loadAll: false
+    //})
+
+    //    $("#tabContainer").data("tabs").addTab({ id: 'test', text: 'addTab', closeable: true, url: 'tab_content.html' })
+    </script>
+</body>
+</html>

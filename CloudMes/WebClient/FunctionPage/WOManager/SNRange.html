@@ -1,0 +1,878 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">SNRange Manager</title>
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/contextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight" id="WorkMain">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="panel-heading bg-primary">
+                    <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SNRange">SN Range</span></h3>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                    <h3 set-lan="html:WorkOrderInformation">工單主檔信息</h3><!--WO range information vr0.1-->
+                    <div class="ibox-content">
+                        <div role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control radio-inline" style="margin-bottom:10px" id="S_WO" set-lan="attr:placeholder=tableWORKORDERNO" placeholder="工單">
+                                </div>
+                                <label class="radio-inline">
+                                     <input type="radio" value="WO" name="searchType" checked="checked">WO
+                                 </label>
+                                 <label class="radio-inline">
+                                     <input type="radio" value="SN" name="searchType">SN
+                                 </label>      
+                               
+                                <button class="btn btn-primary" id="S_info" onclick="SearchWo()"><i class="fa fa-search"><lan set-lan="html:Search">查询</lan></i></button>
+                                <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                    <input class="btn btn-primary input_excel" type="file" id="filePath" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla" style="display:inline-block;">
+                                    <div class="jumbotron div_js" style="color:red; display:none;"></div>
+                                    <div id="table_box1" style="display:none"></div>
+                                    <div class="table_box" style="overflow:scroll; display:none;"></div>
+
+                                    <div id="excel_box" style="display:none;"></div>
+
+                                    <button class="btn btn-primary" type="button" onclick="r_upload()">
+                                        <i class="fa fa-upload"></i> <lan set-lan="html:upload">上传</lan>
+                                    </button>
+
+
+                                    <button type="button" class="btn btn-primary" onclick="javascript: window.location = '../../File/SN Range.xlsx'"><i class="fa fa-save"></i><lan set-lan="html:DownloadTemplate">Download</lan></button>
+
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="example">
+                            <div class="bootstrap-table">
+                                <h2 id="Header_C" hidden="hidden"><lan set-lan="text:h_upload">List WO import failed</lan></h2>
+                                <div class="fixed-table-toolbar table-responsive">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                            <button type="button" class="btn btn-outline btn-default" id="r_WoAdd">
+                                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default" id="r_fWoEdit">
+                                                <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i><lan set-lan="html:edit">Edit</lan>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default" id="r_fWoDel">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-hover boostraptable_dvt" id="r_tblWoList"></table>
+                                    <div class="fixed-table-pagination">
+                                        <div class="pull-left pagination-detail">
+                                            <span class="pagination-info" set-lan="html:show">每頁顯示</span>
+                                            <span class="page-list">
+                                                <span class="btn-group dropup">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="page-size" id="page-size">10</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" id="dropdown-ul">
+                                                        <li role="menuitem" class="active">
+                                                            <a href="#">10</a>
+                                                        </li>
+                                                        <li role="menuitem" class="">
+                                                            <a href="#">20</a>
+                                                        </li>
+                                                    </ul>
+                                                </span><lan set-lan="html:row">條數據</lan>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="pull-right" id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div class="ibox  float-e-margins" id="r_ModifyWoList">
+            <div class="row">
+                <div class="panel-heading bg-primary">
+                    <!--<div><a href="EmployeeView.html"><i class="fa fa-mail-reply"><lan set-lan="html:a_ReturnList">返回列表</lan></i></a></div>-->
+                    <h3 id="Header_A" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan style="padding-left:10px;" set-lan="text:h_newline">New SNRange</lan></i></h3>
+                    <h3 id="Header_U" hidden="hidden"><i class="glyphicon glyphicon-tags"><lan style="padding-left:10px;" set-lan="text:Header_U">Modify SNRange</lan></i></h3>
+                </div>
+                <div class="form-horizontal ibox-content">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <button type="button" class="btn btn-primary" onclick="javascript: window.location = 'SNRange.html'"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">返回</lan></button>
+                    </div>
+                    <div id="Parameters" class="form-horizontal m-t">
+                        <!--<div class="row">-->
+                        <div class="form-group col-xs-12 col-sm-10 col-md-8 col-lg-7 col-sm-offset-1 col-md-offset-1 col-lg-offset-2" hidden="hidden">
+                            <label for="ID" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">ID:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" name="show" class="form-control" id="ID" set-lan="attr:placeholder=placeholderID">
+                            </div>
+                        </div>
+                        <!--<div class="form-group col-xs-12 col-sm-10 col-md-8 col-lg-7 col-sm-offset-1 col-md-offset-1 col-lg-offset-2" id="WorkOrderNoKeyUp">
+                            <label for="WORKORDERNO" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label" set-lan="html:WORKORDERNO">WORKORDERNO:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="show" id="WORKORDERNO" oninput="KeyUp()" autocomplete="off" data-id="" alt="" style="background: rgb(255, 255, 255);">
+                                    <div class="input-group-btn">
+                                        <button type="button" id="WorkOrdernoBtn" class="btn dropdown-toggle" data-toggle="">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" id="WorkOrdernoTab" role="menu" style="padding-top: 0px; max-height: 375px; max-width: 800px; overflow: auto; width: auto; transition: 0.3s; left: -375px; right: auto; min-width: 408px; padding-right: 0px;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-9">
+                                <select id="WORKORDERNO" name="show" class="form-control" onchange="loadBase()"></select>
+                                <input type="text" name="show" class="form-control" id="WORKORDERNO" >
+                            </div>
+                        </div>-->
+                        <div class="form-group col-xs-12 col-sm-10 col-md-8 col-lg-7 col-sm-offset-1 col-md-offset-1 col-lg-offset-2" id="WorkOrderNo">
+                            <label for="WORKORDERNO" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label" set-lan="html:WORKORDERNO">WORKORDERNO:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" name="show" class="form-control" id="WORKORDERNO">
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group  col-xs-6 ">
+                            <label for="SKUNO" class="col-xs-3 control-label">
+                                <span style="color:red">*</span><lan set-lan="html:SKUNO">SKUNO:</lan>
+                            </label>
+                            <div class="col-xs-9">
+                                <input type="text" name="show" class="form-control" id="SKUNO" placeholder="SKUNO" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group  col-xs-6 ">
+                            <label for="QTY" class="col-xs-3 control-label">
+                                <span style="color:red">*</span><lan set-lan="html:QTY">QTY:</lan>
+                            </label>
+                            <div class="col-xs-9">
+                                <input type="text" name="show" class="form-control" id="QTY" placeholder="QTY" readonly>
+                            </div>
+                        </div>-->
+                        <div class="form-group col-xs-12 col-sm-10 col-md-8 col-lg-7 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                            <label for="MIN_SN" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">
+                                <span style="color:red">*</span><lan set-lan="html:MIN_SN">MIN_SN:</lan>
+                            </label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" name="show" class="form-control" id="MIN_SN" set-lan="attr:placeholder=placeholderMIN_SN" autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-10 col-md-8 col-lg-7 col-sm-offset-1 col-md-offset-1 col-lg-offset-2">
+                            <label for="MAX_SN" class="col-xs-3 control-label">
+                                <span style="color:red">*</span><lan set-lan="html:MAX_SN">MAX_SN:</lan>
+                            </label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <!--<input type="text" name="show" class="form-control" id="MAX_SN" placeholder="MAX_SN" onclick="checkZone()" readonly>-->
+                                <input type="text" name="show" class="form-control" id="MAX_SN" set-lan="attr:placeholder=placeholderMAX_SN">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-4 col-sm-offset-4 col-md-offset-3 col-lg-offset-4">
+                        <button class="btn btn-primary" onclick="r_btnSubmit()">
+                            <i class="fa fa-tasks"> </i><lan set-lan="html:save">SAVE</lan>
+                        </button>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/import_excel_2_json.js"></script>
+    <script src="../../Scripts/plugins/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/plugins/pagination/bootstrap-paginator.js"></script>
+    <script>
+        var client;
+        var ClassName = "MESStation.WOManager.SNRangeConfig";
+        var FunctionName = "AddWO";
+        var Func;
+        var Caveat;
+        var Func_Des;
+        var isPostBack = false;
+        var tableLocale = "";
+        var mesUI = new MesClientUI(self.parent.client);
+        var SearchName = '';
+        var searchType = "";
+        $(document).ready(function () {
+            //$('#Work').hide();
+            //$('#r_WoList').show();
+            $('#WorkMain').show();
+            $('#r_ModifyWoList').hide();
+            if ($.cookie($.MES.CK_LAN_NAME) == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if ($.cookie($.MES.CK_LAN_NAME) == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            searchType = $("input[name='searchType']:checked").val();
+            loadtable(1,SearchName, searchType, isPostBack);
+
+            //self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetWoNo", { WORKORDERNO: "" }, function (e) {
+            //    if (e.Status == "Pass") {
+            //        var dep = $('#WORKORDERNO');
+            //        for (var item = 0; item < e.Data.length; item++) {
+            //            dep.append("<option>" + e.Data[item].WORKORDERNO + "</option>");
+            //        }
+            //    }
+            //});
+
+
+            //$('#WORKORDERNO').on('input', function (event) {
+            //        var WOData = [];
+            //        self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetWoNo", { WORKORDERNO: $('#WORKORDERNO').val() }, function (s) {
+            //            if (s.Status == "Pass") {
+
+
+            //                for (var i in s.Data) {
+            //                    if (s.Data.hasOwnProperty(i)) {
+            //                        //$("#DEFAULT_SKUNO").append("<option value='" + e.Data[i].SKUNO + "'>" + e.Data[i].SKUNO + "</option>");
+            //                        WOData.push({ WORKORDERNO: s.Data[i].WORKORDERNO });
+            //                    }
+            //                }
+            //                $('#WORKORDERNO').bsSuggest('destroy');
+            //                $('#WORKORDERNO').bsSuggest('init', {
+            //                    indexId: 0,  //data.value 的第几个数据，作为input输入框的内容
+            //                    indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
+            //                    ignorecase: true,
+            //                    clearable: true,
+            //                    data: {
+            //                        "value": WOData
+            //                    }
+            //                }).on('onDataRequestSuccess', function (e, result) {
+            //                    console.log('从 json参数中获取，不会触发 onDataRequestSuccess 事件', result);
+            //                }).on('onSetSelectValue', function (e, keyword, data) {
+            //                    console.log('onSetSelectValue: ', keyword, data);
+            //                }).on('onUnsetSelectValue', function () {
+            //                    console.log("onUnsetSelectValue");
+            //                });
+            //                $('#WorkOrdernoBtn').trigger('click');
+            //            }
+            //        });
+            //});
+            $("#r_WoAdd").on('click', function () {
+                //Check list WO available in r_wo_base
+                //self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetWoNo", { WORKORDERNO: "" }, function (e) {
+                //    if (e.Status == "Pass" && e.MessageCode == "MES00000043") {
+                //        swal({
+                //            title: "警告",
+                //            text: "Work Order is not availble, please download first!!",
+                //            type: "warning",
+                //            timer: 2000,
+                //            showConfirmButton: false
+                //        });
+                //    }
+                //    else {
+                //        $('#r_ModifyWoList').show();
+                //        $('#r_WoList').hide();
+                //        $("#Header_A").removeAttr('hidden', 'hidden');
+                //        $("#Header_U").attr('hidden', 'hidden');
+                //        $("#Header_A").text("New Wo");
+                //        $("#Parameters").find(".form-control").val("");
+                //    }
+                //});
+                $('#WorkMain').hide();
+                //$('#Work').show();
+                $('#r_ModifyWoList').show();
+                //$('#r_WoList').hide();
+                $("#Header_A").removeAttr('hidden', 'hidden');
+                $("#Header_U").attr('hidden', 'hidden');
+                $("#WorkOrderNoKeyUp").removeAttr('hidden', 'hidden');
+                //$("#WorkOrderNo").attr('hidden', 'hidden');
+                mesUI.SetLanguage("SNRange");
+                $("#Parameters").find(".form-control").val("");
+                //KeyUp();
+
+            });
+
+            $('#r_fWoEdit').click(function () {
+                $('#WorkMain').hide();
+                //$('#Work').show();
+                var arrselections = $("#r_tblWoList").bootstrapTable('getSelections');
+                if (arrselections.length > 1) {
+                    swal({
+                        title: "Warning",
+                        text: "Only one row of data can be selected!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (arrselections.length <= 0) {
+                    swal({
+                        title: "Warning",
+                        text: "Please select valid data!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                $('#WORKORDERNO').attr("readonly", "readonly");
+                $('#r_ModifyWoList').show();
+                //$('#r_WoList').hide();
+                $("#Header_A").attr('hidden', 'hidden');
+                $("#Header_U").removeAttr('hidden', 'hidden');
+                $("#WorkOrderNoKeyUp").attr('hidden', 'hidden');
+                 //$("#WorkOrderNo").removeAttr('hidden', 'hidden');
+                //KeyUp();
+                self.parent.client.CallFunction(ClassName, "QueryWoRangebyWONO", { WORKORDERNO: arrselections[0].WORKORDERNO }, function (e) {
+                    if (e.Status == "Pass") {
+                        var dd = $("#Parameters").find("[name=show]");
+                        for (var item = 0 ; item < dd.length; item++) {
+                            var inputname = dd[item].id;
+                            $("#" + inputname).val(e.Data[0][inputname]);
+                        }
+                    }
+                })
+                //Check condition to edit, need input_qty>0
+                //self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "CheckFlag", { WORKORDERNO: arrselections[0].WORKORDERNO }, function (e) {
+                //    if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+                //        swal({
+                //            title: "警告",
+                //            text: "Work Order is online, cant modify!",
+                //            type: "warning",
+                //            timer: 2000,
+                //            showConfirmButton: false
+                //        });
+                //        return;
+                //    }
+                //    else {
+                //        $('#r_ModifyWoList').show();
+                //        //$('#r_WoList').hide();
+                //        $("#Header_A").attr('hidden', 'hidden');
+                //        $("#Header_U").removeAttr('hidden', 'hidden');
+                //        mesUI.SetLanguage("SNRange");
+                //        KeyUp();
+                //        self.parent.client.CallFunction(ClassName, "GetWObyWONO", { WORKORDERNO: arrselections[0].WORKORDERNO }, function (e) {
+                //            if (e.Status == "Pass") {
+                //                var dd = $("#Parameters").find("[name=show]");
+                //                for (var item = 0 ; item < dd.length; item++) {
+                //                    var inputname = dd[item].id;
+                //                    $("#" + inputname).val(e.Data[0][inputname]);
+                //                    //if (inputname == "WORKORDERNO") {
+                //                    //    $("#" + inputname).append("<option>" + e.Data[0][inputname] + "</option>");
+                //                    //}
+                //                    //else {
+                //                    //    $("#" + inputname).val(e.Data[0][inputname]);
+                //                    //}
+                //                }
+                //            }
+                //        })
+                //    }
+                //});
+
+            });
+
+            $('#r_fWoDel').click(function () {
+                var arrselections = $("#r_tblWoList").bootstrapTable('getSelections');
+                if (arrselections.length <= 0) {
+                    swal("Warning", "Please select valid data!", "warning");
+                    return;
+                }
+                //if (arrselections.length > 1) {
+                //    swal({
+                //        title: "警告",
+                //        text: "Need delete one by one!",
+                //        type: "warning",
+                //        timer: 2000,
+                //        showConfirmButton: false
+                //    });
+                //    return;
+                //}
+                //var skuno_t = arrselections[0].WORKORDERNO;
+                swal({
+                    title: "Tips",
+                    text: "Are you sure you want to delete the selected " + arrselections.length + " data ！",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm Delete！",
+                    showCancelButton: true
+                }, function () {
+                    var IDArray = new Array();
+                    for (var i = 0; i < arrselections.length; i++) {
+                        IDArray.push(arrselections[i].ID);
+                    }
+                    var data = { ID: IDArray };
+                    self.parent.client.CallFunction(ClassName, "DeleteWoRange", data, function (e) {
+                        if (e.Status == "Pass") {
+                            swal({
+                                title: "Tips",
+                                text: "Delete success！",
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            }, function () {
+                                window.location = "SNRange.html";
+                            });
+                        }
+                    })
+
+                });
+                //Check condition to edit, need input_qty>0
+                //self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "CheckFlag", { WO: skuno_t }, function (e) {
+                //    if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+                //        swal({
+                //            title: "警告",
+                //            text: "Work Order is online, cant delete!",
+                //            type: "warning",
+                //            timer: 2000,
+                //            showConfirmButton: false
+                //        });
+                //    }
+                //    else {
+                //        swal({
+                //            title: "提示",
+                //            text: "確認要刪除選擇的" + arrselections.length + "條數據嗎！",
+                //            type: "warning",
+                //            confirmButtonColor: "#DD6B55",
+                //            confirmButtonText: "确定删除！",
+                //            showCancelButton: true
+                //        },
+                //        function () {
+                //            var data = "{ \"ID\" :\"";
+                //            for (var i = 0; i < arrselections.length; i++) {
+                //                data += arrselections[i].ID + ",";
+                //            }
+                //            data = data.substr(0, data.length - 1);
+                //            data += "\"}";
+                //            self.parent.client.CallFunction(ClassName, "MarkWO", JSON.parse(data), function (e) {
+                //                if (e.Status == "Pass") {
+                //                    swal({
+                //                        title: "刪除成功！",
+                //                        type: "success",
+                //                        timer: 2000,
+                //                        showConfirmButton: false
+                //                    }, function () {
+                //                        window.location = "SNRange.html";
+                //                    });
+                //                }
+                //            })
+                //        });
+                //    }
+                //});
+            });
+            searchType = $("input[name='searchType']:checked").val();
+            $("#dropdown-ul").on("click", "li", function () {
+                $("#dropdown-ul li").removeClass("active");
+                $(this).addClass("active");
+                $("#page-size").text($(this).text());
+                loadtable(1, SearchName, searchType, true);
+            });
+            mesUI.SetLanguage("SNRange");
+        });
+        function GoBack() {
+            location.reload(true);
+            mesUI.SetLanguage("SNRange");
+        };
+        function KeyUp() {
+            var WOData = [];
+            self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetWoNo", { WORKORDERNO: $('#WORKORDERNOADD').val() }, function (s) {
+                if (s.Status == "Pass") {
+                    for (var i in s.Data) {
+                        if (s.Data.hasOwnProperty(i)) {
+                            //$("#DEFAULT_SKUNO").append("<option value='" + e.Data[i].SKUNO + "'>" + e.Data[i].SKUNO + "</option>");
+                            WOData.push({ WORKORDERNO: s.Data[i].WORKORDERNO });
+                        }
+                    }
+                    $('#WORKORDERNOADD').bsSuggest('destroy');
+                    $('#WORKORDERNOADD').bsSuggest('init', {
+                        indexId: 0,  //data.value 的第几个数据，作为input输入框的内容
+                        indexKey: 0, //data.value 的第几个数据，作为input输入框的内容
+                        ignorecase: true,
+                        autoDropup: true,
+                        data: {
+                            "value": WOData
+                        }
+                    }).on('onDataRequestSuccess', function (e, result) {
+                    }).on('onSetSelectValue', function (e, keyword, data) {
+                        console.log('onSetSelectValue: ', keyword, data);
+                        //loadBase(data['WORKORDERNO']);
+                    }).on('onUnsetSelectValue', function () {
+                    });
+                    $('#WorkOrdernoBtn').trigger('click');
+                }
+            });
+
+        }
+
+        function loadtable(PageNum, WO, SearchType, isPostBack) {
+            if ($("#page-size").text() != "") {
+                PageSize = $("#page-size").text();
+            }
+            self.parent.client.CallFunction(ClassName, "QueryAllWoRange", { WorkorderNo: WO,SearchType:SearchType, PageNumber: PageNum, PageSize: PageSize }, function (e) {
+                if (e.Status == "Pass") {
+                   
+                    if (isPostBack) {
+                        $('#r_tblWoList').bootstrapTable('load', e.Data['WoRangeData']);
+                    }
+                    else {
+                        var c = [];
+                        var checkbox = " title:'checkall',field:'select',checkbox: true, width: 30, align: 'center',valign: 'middle' ";
+                        c.push({ checkbox });
+                        for (var item in e.Data['WoRangeData'][0]) {
+                            c.push({ field: item, title: "<label set-lan=\"html:table" +item + "\">" +item + "</label>" });
+                        }
+                        $('#r_tblWoList').bootstrapTable({
+                            data: e.Data['WoRangeData'],
+                            striped: true,
+                            cache: false,
+                            //pagination: true,
+                            showToggle: true,
+                            cardView: false,
+                            detailView: false,
+                           // sidePagination: "client",
+                           // pageNumber: PageNum,
+                           // pageSize: 4,
+                            //pageList: [5, 20, 60, 100],
+                            //search: true,
+                            strictSearch: true,
+                            searchOnEnterKey: false,
+                            showColumns: true,
+                            showRefresh: true,
+                            minimumCountColumns: 2,
+                            clickToSelect: true,
+                            dataType: "json",
+                            method: "post",
+                            searchAlign: "right",
+                            buttonsAlign: "right",
+                            toolbar: "#toolbar",
+                            toolbarAlign: "right",
+                            columns: c,
+                            locale: tableLocale
+                        });
+                        $('#r_tblWoList').bootstrapTable('hideColumn', 'ID');
+                    }
+                }
+                else {
+                    swal({
+                        title: "Tips",
+                        text: e.Message,
+                        timer: 2000,
+                        type: "warning",
+                        showConfirmButton: false
+                    });
+                }
+                mesUI.SetLanguage("SNRange");
+                PageMax = Math.ceil(Number(e.Data['CountPage']) / Number(PageSize));
+               
+                Pagination(PageMax, PageNum);
+            })
+        }
+
+        //only with MIN_SN is number
+        //function loadBase(wo_no) {
+        //    var sku_no;
+        //    self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetSkunoByWo", { WORKORDERNO: wo_no }, function (e) {
+        //        if (e.Status == "Pass") {
+        //            var dep = $('#SKUNO');
+        //            var item = 0;
+        //            for (var item = 0; item < e.Data.length; item++) {
+        //                sku_no = e.Data[0].SKUNO;
+        //                dep.val(sku_no);
+        //            }
+        //            self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "GetQty", { WORKORDERNO: wo_no, SKUNO: sku_no }, function (e) {
+        //                if (e.Status == "Pass") {
+        //                    var dep = $('#QTY');
+        //                    for (var item = 0; item < e.Data.length; item++) {
+        //                        qty = e.Data[0].WORKORDER_QTY;
+        //                        dep.val(qty);
+        //                    }
+        //                }
+        //            });
+        //        }
+        //    });
+        //}
+
+        function r_btnSubmit() {
+            var WORKORDERNOID='';
+            //if ($('#WORKORDERNO').val() == "" || $('#SKUNO').val() == "" || $('#QTY').val() == "" || $('#MIN_SN').val() == "" || $('#MAX_SN').val() == "") {
+            //if ($("#Header_U").is(":visible") == true) {
+            //    WORKORDERNOID = 'WORKORDERNO'
+            //} else {
+            //    WORKORDERNOID = 'WORKORDERNOADD'
+            //}
+            if ($('#WORKORDERNO').val() == "" || $('#MIN_SN').val() == "" || $('#MAX_SN').val() == "") {
+                swal({
+                    title: "Warning",
+                    text: "Please complete the required information!",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            else {
+                var data = "{";
+                var dd = $("#Parameters").find("[name=show]");
+                for (var item = 0; item < dd.length; item++) {
+                    var inputname = dd[item].id;
+                    data += "\"" + inputname + "\":\"" + $("#" + inputname).val() + "\",";
+                    //if (inputname == "WORKORDERNO") {
+                    //    data += "\"" + inputname + "\":\"" + $("#" + inputname + " option:selected").text() + "\",";
+                    //}
+                    //else {
+                    //    data += "\"" + inputname + "\":\"" + $("#" + inputname).val() + "\",";
+                    //}
+                }
+                data = data.substr(0, data.length - 1);
+                data += "}";
+                if ($("#Header_U").is(":visible") == true) {
+                    Infowarn = "Modify";
+                    Sub_Func = "ModifyWORange";
+                } else {
+                    Infowarn = "ADD";
+                    Sub_Func = "AddWORange";
+                }
+                self.parent.client.CallFunction(ClassName, Sub_Func, JSON.parse(data), function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: Infowarn + "success！",
+                            timer: 2000,
+                            type: "success",
+                            showConfirmButton: false
+                        }, function () {
+                            window.location = "SNRange.html";
+                        });
+                    }
+                    else {
+                        swal({
+                            title: Infowarn + "Tips",
+                            text: e.Message,
+                            type: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        }
+
+        //function checkZone() {
+        //    var min = $('#MIN_SN').val();
+        //    self.parent.client.CallFunction("MESStation.WOManager.SNRangeConfig", "CheckOverlapZone", { MIN_SN: min }, function (e) {
+        //        if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+        //            swal({
+        //                title: "警告",
+        //                text: "This MIN_SN is overlapped, please input other!!",
+        //                type: "warning",
+        //                timer: 2000,
+        //                showConfirmButton: false
+        //            });
+        //            return;
+        //        }
+        //        else {
+        //            var min = $('#MIN_SN').val();
+        //            var qty = $('#QTY').val();
+        //            $("#MAX_SN").val(Number.parseFloat(min) + Number.parseFloat(qty) - 1);
+        //        }
+        //    });
+        //}
+
+        function r_upload() {
+            var output_array = [];
+            //var obj_mau = { WORKORDERNO: '', SKUNO: '', QTY: '', MIN_SN: '', MAX_SN: '' }
+            var obj_mau = { WORKORDERNO: '', MIN_SN: '', MAX_SN: '' }
+            for (var i = 0; i < JS_array.length; i++) {
+                obj_mau.WORKORDERNO = JS_array[i].WORKORDERNO;
+                //obj_mau.SKUNO = JS_array[i].SKUNO;
+                //obj_mau.QTY = JS_array[i].QTY;
+                obj_mau.MIN_SN = JS_array[i].MIN_SN;
+                obj_mau.MAX_SN = JS_array[i].MAX_SN;
+                output_array.push(obj_mau);
+            }
+            //var result_arr = [];
+            for (var i = 0; i < output_array.length; i++) {
+                var obja = {};
+                var r_wo = output_array[i].WORKORDERNO;
+                //var r_skuno = output_array[i].SKUNO;
+                //var r_qty = Number.parseFloat(output_array[i].QTY);
+                var r_min = output_array[i].MIN_SN;
+                var r_max = output_array[i].MAX_SN;
+                var sum = Number.parseFloat(r_min) + Number.parseFloat(r_qty);
+                obja = output_array[i];
+                self.parent.client.CallFunction("MESStation.WOManager.SNRangeConfig", "CheckOverlapZone", { WORKORDERNO: r_wo, MIN_SN: r_min, MAX_SN: r_max }, function (e) {
+                    if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+                        swal({
+                            title: "Warning",
+                            text: "The WO " + r_wo + " has MIN_SN: " + r_min + " is overlapped, Please check and upload again!",
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: true
+                        });
+                        return;
+                    }
+                    else {
+                        //     var obj_mau1 = { WORKORDERNO: output_array[i].WORKORDERNO, SKUNO: output_array[i].SKUNO, QTY: output_array[i].QTY, MIN_SN: output_array[i].MIN_SN, MAX_SN: output_array[i].MAX_SN }
+                        self.parent.client.CallFunction(ClassName, "AddWORange", obja, function (e) {
+                            if (e.Status == "Pass") {
+                                swal({
+                                    title: "Upload success",
+                                    type: "success",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                }, function () {
+                                    window.location = "SNRange.html";
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: "Warning",
+                                    text: "Add new WO failed!",
+                                    type: "warning",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        });
+                    }
+                });
+                //self.parent.client.CallFunction("MESStation.WOManager.WOBaseConfig", "CheckToUpload", { WORKORDERNO: r_wo, QTY: r_qty }, function (e) {
+                //    if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+                //        swal({
+                //            title: "警告",
+                //            text: "The WO " + r_wo + " not avialable, Please check and upload again!",
+                //            type: "warning",
+                //            timer: 2000,
+                //            showConfirmButton: true
+                //        });
+                //    }
+                //    else {
+                //        self.parent.client.CallFunction("MESStation.WOManager.SNRangeConfig", "CheckOverlapZone", { WORKORDERNO: r_wo, MIN_SN: r_min, MAX_SN: r_max }, function (e) {
+                //            if (e.Status == "Pass" && e.MessageCode == "MES00000033") {
+                //                swal({
+                //                    title: "警告",
+                //                    text: "The WO " + r_wo + " has MIN_SN: " + r_min + " is overlapped, Please check and upload again!",
+                //                    type: "warning",
+                //                    timer: 2000,
+                //                    showConfirmButton: true
+                //                });
+                //                return;
+                //            }
+                //            else {
+                //                if ((sum - 1) == r_max) {
+                //                    //     var obj_mau1 = { WORKORDERNO: output_array[i].WORKORDERNO, SKUNO: output_array[i].SKUNO, QTY: output_array[i].QTY, MIN_SN: output_array[i].MIN_SN, MAX_SN: output_array[i].MAX_SN }
+                //                    self.parent.client.CallFunction(ClassName, "AddWO", obja, function (e) {
+                //                        if (e.Status == "Pass") {
+                //                            swal({
+                //                                title: "上传成功",
+                //                                type: "success",
+                //                                timer: 1500,
+                //                                showConfirmButton: false
+                //                            }, function () {
+                //                                window.location = "SNRange.html";
+                //                            });
+                //                        }
+                //                        else {
+                //                            swal({
+                //                                title: "警告",
+                //                                text: "Add new WO failed!",
+                //                                type: "warning",
+                //                                timer: 2000,
+                //                                showConfirmButton: false
+                //                            });
+                //                        }
+                //                    });
+                //                }
+                //                else {
+                //                    swal({
+                //                        title: "警告",
+                //                        text: "The WO " + r_wo + " has MAX_SN: " + r_max + " is overlapped, Please check and upload again!",
+                //                        type: "warning",
+                //                        timer: 2000,
+                //                        showConfirmButton: true
+                //                    });
+                //                    return;
+                //                }
+                //            }
+                //        });
+                //    }
+                //});
+            }
+            //if (result_arr.length > 0) {
+            //    swal({
+            //        title: "警告",
+            //        text: "Have " + result_arr.length + " WO import failed!",
+            //        type: "warning",
+            //        timer: 2000,
+            //        showConfirmButton: false
+            //    });
+            //    $("#Header_C").removeAttr('hidden', 'hidden');
+            //    $('#r_tblWoList').bootstrapTable('load', result_arr);
+
+            //}
+        }
+
+        function Pagination(PageMax, PageNum) {
+            searchType = $("input[name='searchType']:checked").val();
+            $('#pageLimit').bootstrapPaginator({
+                currentPage: PageNum,//当前的请求页面。
+                totalPages: PageMax,//一共多少页。
+                size: "normal",//应该是页眉的大小。
+                bootstrapMajorVersion: 3,//bootstrap的版本要求。
+                alignment: "right",
+                numberOfPages: 4,//一页列出多少数据。
+                itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+                    switch (type) {
+                        case "first": return "<<";
+                        case "prev": return "<";
+                        case "next": return ">";
+                        case "last": return ">>";
+                        case "page": return page;
+                    }
+                }, onPageClicked: function (event, originalEvent, type, page) {//给每个页眉绑定一个事件，其实就是ajax请求，其中page变量为当前点击的页上的数字。
+                    loadtable(page, SearchName, searchType, true);
+                }
+            });
+        }
+
+        function SearchWo()
+        {
+            SearchName = $('#S_WO').val();
+            searchType = $("input[name='searchType']:checked").val();
+            loadtable(1, SearchName,searchType, true)
+        }
+    </script>
+</body>
+<!--RuRun-->
+</html>

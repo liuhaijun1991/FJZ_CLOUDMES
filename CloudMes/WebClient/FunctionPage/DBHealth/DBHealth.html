@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--<link href="../../css/KeyPart.css" rel="stylesheet" />-->
+</head>
+<body class="full-height">
+    <div id="KPPanel" class="panel panel-primary">
+        <div class="panel-body">
+            <div class="row" id="ScanSize">
+                <div class="form-group col-xs-12 col-sm-6 col-md-4">
+                    <!--<label class="col-xs-3 control-label text-right">WO : </label>-->
+                    <!--<div class="col-xs-6">
+                        <input id="wo_no" class="form-control" value="" />
+                    </div>-->
+                    <!--<div class="col-xs-3">
+                    <input id="btn_search" class="form-control btn btn-primary" type="button" value="Search" />
+
+                    </div>-->
+                    <!--<div class="col-xs-3   col-sm-2 col-md-2  col-lg-1"><button class="btn btn-primary" id="btn_search"><i class="glyphicon glyphicon-search"></i><lan set-lan="html:Search"> Search</lan></button></div>-->
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="divTableToolbar">
+                <div class="btn-group hidden-xs" role="group">
+                    <button type="button" class="btn btn-outline btn-primary" id="btnAddControl">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary" id="btnEditControl" disabled>
+                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary" id="btnDeleteControl" disabled>
+                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary" id="btnRefreshControl">
+                        <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                    </button>
+                </div>
+            </div>
+            <table class="table bootstrap-table" id="tableControlList"></table>
+        </div>
+        <!--<div id="TableConten" class="col-xs-12">
+            <table class=" table bootstrap-table" id="wo_list"></table>
+        </div>-->
+    </div>
+
+    <div id="divModify" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div id="divControlaptype" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">AP_TYPE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtaptype" class="form-control" />
+                </div>
+            </div>
+            <div id="divControltablename" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">TABLE_NAME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txttablename" class="form-control" />
+                </div>
+            </div>
+            <div id="divControltableattribute" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:WO">TABLE_ATTRIBUTE:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txttableattribute" class="form-control" />
+                </div>
+            </div>
+            <div id="divControltablekpi" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:WOLINK">TABLE_KPI:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txttablekpi" class="form-control" onkeypress="return isNumber(event)" />
+                </div>
+            </div>
+
+
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <lan set-lan="html:btnSubmit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <!--<script src="../../Scripts/Station/MesClient.KeyPartScan.js"></script>-->
+    <script>
+        //var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+       // var lan = $.cookie($.MES.CK_LAN_NAME);
+        var client = self.parent.client;
+        var wo_list = [];
+        var submitType = "";
+        var postData = {};
+    
+
+        function LoadDataTable() {
+
+            client.CallFunction("MESStation.DBHealth.DBHealth", "LoadData", {}, function (e) {
+                if (e.Status == "Pass") {
+
+                    $('#tableControlList').bootstrapTable({
+                        data: e.Data,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: true,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 20,                        //每页的记录行数（*）
+                        pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                        search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，意义不大
+                        strictSearch: false,
+                        singleSelect: true,                 //单选checkbox
+                        searchOnEnterKey: false,            //回车搜索
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: "right",               //查询框对齐方式
+                        search: true,
+                        buttonsAlign: "right",               //按钮对齐方式
+                        toolbar: "#divTableToolbar",        //指定工具栏
+                        toolbarAlign: "left",               //工具栏对齐方式
+                        onCheck: function (row) {
+                            var rows = $('#tableControlList').bootstrapTable('getSelections');
+                            if (rows.length == 1) {
+                                $("#btnEditControl").removeAttr("disabled");
+                            } else {
+                                $("#btnEditControl").attr("disabled", "disabled");
+                            }
+                            if (rows.length <= 0) {
+                                $("#btnDeleteControl").attr("disabled", "disabled");
+                            } else {
+                                $("#btnDeleteControl").removeAttr("disabled")
+                            }
+                        },
+                        onUncheck: function (row) {
+                            var rows = $('#tableControlList').bootstrapTable('getSelections');
+                            $("#btnEditControl").attr("disabled", "disabled");
+                            if (rows.length <= 0) {
+                                $("#btnDeleteControl").attr("disabled", "disabled");
+                            } else {
+                                $("#btnDeleteControl").removeAttr("disabled")
+                            }
+                        },
+                        columns: [
+                            {
+                                checkbox: true
+                            }, {
+                                field: 'ID',
+                                title: '<label set-lan="html:ID">ID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'AP_TYPE',
+                                title: 'AP_TYPE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'TABLE_NAME',
+                                title: 'TABLE_NAME',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'TABLE_ATTRIBUTE',
+                                title: 'TABLE_ATTRIBUTE',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: "TABLE_KPI",
+                                title: 'TABLE_KPI',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: "IN_STATION_TIME",
+                                title: 'IN_STATION_TIME',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }, {
+                                field: "EMP_NO",
+                                title: 'EMP_NO',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: true
+                            }
+                            ],
+                        locale: tableLocale
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                }
+            })
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        
+        function AddNewControl() {
+            var APTYPE = $("#divControlaptype").find("input").val();
+            var TABLENAME = $("#divControltablename").find("input").val();
+            var TABLEATTRIBUTE = $("#divControltableattribute").find("input").val();
+            var TABLEKPI = $("#divControltablekpi").find("input").val();
+
+            if (APTYPE.length == 0 || TABLENAME.length == 0 || TABLEATTRIBUTE.length == 0 || TABLEKPI.length==0) {
+                layer.msg("Please fill in the content", {
+                    icon: 2,
+                    time: 3000
+                }, function () { });
+                return;
+            }
+
+            postData = { "AP_TYPE": APTYPE, "TABLE_NAME": TABLENAME, "TABLE_ATTRIBUTE": TABLEATTRIBUTE, "TABLE_KPI": TABLEKPI };
+            self.parent.client.CallFunction("MESStation.DBHealth.DBHealth", "InsertData", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                       // GetControlList("");
+                        });
+                    client.CallFunction("MESStation.DBHealth.DBHealth", "LoadData", {}, function (e) {
+                        if (e.Status == "Pass") { $('#tableControlList').bootstrapTable('load', e.Data); }
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyControl() {
+            var APTYPE = $("#divControlaptype").find("input").val();
+            var TABLENAME = $("#divControltablename").find("input").val();
+            var TABLEATTRIBUTE = $("#divControltableattribute").find("input").val();
+            var TABLEKPI = $("#divControltablekpi").find("input").val();
+            postData = { "AP_TYPE": APTYPE, "TABLE_NAME": TABLENAME, "TABLE_ATTRIBUTE": TABLEATTRIBUTE, "TABLE_KPI": TABLEKPI };
+            self.parent.client.CallFunction("MESStation.DBHealth.DBHealth", "UpdateData", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        // GetControlList("");
+                        });
+                    client.CallFunction("MESStation.DBHealth.DBHealth", "LoadData", {}, function (e) {
+                        if (e.Status == "Pass") { $('#tableControlList').bootstrapTable('load', e.Data); }
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function DeleteControl() {
+            var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+            // var ID = val(selectRows[0].ID);
+            postData = {TABLENAME: selectRows[0].TABLE_NAME };
+            self.parent.client.CallFunction("MESStation.DBHealth.DBHealth", "DeleteData", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        // GetControlList("");
+                    });
+                    client.CallFunction("MESStation.DBHealth.DBHealth", "LoadData", {}, function (e) {
+                        if (e.Status == "Pass") { $('#tableControlList').bootstrapTable('load', e.Data); }
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+           // GetControlList("");
+            $("#btnAddControl").click(function () {
+                var addTitle = 'Add New Control';
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+                        $("#divControltablename").find("input").focus();
+                        $("#divControlaptype").find("input").val("DBHEALTH");
+                        $("#divControlaptype").find("input").attr("readonly", "readonly");
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+
+            LoadDataTable();
+            $("#btnSubmit").click(function () {
+                if (submitType == "MODIFY") {
+                    ModifyControl();
+                    Modyfyflag = 0;
+                }
+                else if (submitType == "NEW") {
+                    AddNewControl();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+
+            $("#btnRefreshControl").click(function () {
+                client.CallFunction("MESStation.DBHealth.DBHealth", "LoadData", {}, function (e) {
+                    if (e.Status == "Pass") { $('#tableControlList').bootstrapTable('load', e.Data); }
+                });
+            });
+
+            $("#btnDeleteControl").click(function () {
+                DeleteControl();
+            });
+
+            $("#btnEditControl").click(function () {
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit Mapping';
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "60%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divModify"),
+                    success: function (layero, index) {
+                        $("#divModify").removeClass("hidden");
+                        $("#divControltablename").find("input").attr("readonly", "readonly");
+                        $("#divControlaptype").find("input").attr("readonly", "readonly");
+                        $("#divControltablename").find("input").val(selectRows[0].TABLE_NAME);
+                        $("#divControlaptype").find("input").val(selectRows[0].AP_TYPE);
+                        $("#divControltableattribute").find("input").val(selectRows[0].TABLE_ATTRIBUTE);
+                        $("#divControltablekpi").find("input").val(selectRows[0].TABLE_KPI);
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divModify").addClass("hidden");
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1090 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">ShipOrderProcess</title>
+    <link href="../../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../../css/animate.css" rel="stylesheet">
+    <link href="../../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../../../css/plugins/bootstrapvalidator/bootstrapValidator.min.css" rel="stylesheet">
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+                /*width: 100%;*/
+            }
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SKUSetting">ShipOrderProcess</span></h3>
+    </div>
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">DN List</li>
+            <li>HpeShipData</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div id="outputsite">
+                    <div>
+                        <div id="Table_Toolbar">
+
+                            <div class="form-inline" role="group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Status</span>
+                                    <select class="form-control" id="select_status">
+                                        <option value="-1">ALL</option>
+                                        <option value="0">Wait</option>
+                                        <option value="1">Finished</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="So_List_Table" class="table table-condensed"></table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-tab-item">
+                <table id="HpeShipDataTable" class="table table-condensed"></table>
+            </div>
+        </div>
+    </div>
+
+  
+    <div id="divDnConfirm" class="panel-body hidden">
+        <form class="form-horizontal" id="divNewTypeLayerSan">
+            <div class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-left control-label " set-lan="html:ID">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" id="inputID" disabled />
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_NO">F_TO_NO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_NO" name="input_F_TO_NO" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_DATE">F_TO_DATE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_DATE" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_SHIPDATE">F_TO_SHIPDATE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_SHIPDATE" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_DN">F_TO_DN</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_DN" disabled />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_DN_LINE">F_TO_DN_LINE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_DN_LINE" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_TO_TRAILERNO">F_TO_TRAILERNO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_TO_TRAILERNO" name="input_F_TO_TRAILERNO" />
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_CARRIER_TYPE">F_CARRIER_TYPE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_CARRIER_TYPE" name="input_F_CARRIER_TYPE" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_CARRIER_CODE">F_CARRIER_CODE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_CARRIER_CODE" name="input_F_CARRIER_CODE" />
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_CARRIER_TRAN_TYPE">F_CARRIER_TRAN_TYPE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <select type="text" class="form-control" id="select_F_CARRIER_TRAN_TYPE">
+                            <option value="A">Air</option>
+                            <option value="S">Sea</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_CARRIER_REF_NO">F_CARRIER_REF_NO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_CARRIER_REF_NO" name="input_F_CARRIER_REF_NO" />
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_CARRIER_TRAILER_NO">F_CARRIER_TRAILER_NO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_CARRIER_TRAILER_NO" name="input_F_CARRIER_TRAILER_NO" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_NAME">F_ST_NAME</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_NAME" name="input_F_ST_NAME" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_CONTACT">F_ST_CONTACT</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_CONTACT" name="input_F_ST_CONTACT" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_CONTACT_MAIL">F_ST_CONTACT_MAIL</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_CONTACT_MAIL" name="input_F_ST_CONTACT_MAIL" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_CUSTOMERCODE">F_ST_CUSTOMERCODE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_CUSTOMERCODE" name="input_F_ST_CUSTOMERCODE" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_ADDRESS">F_ST_ADDRESS</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_ADDRESS" name="input_F_ST_ADDRESS" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_CITY">F_ST_CITY</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_CITY" name="input_F_ST_CITY" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_POSTCODE">F_ST_POSTCODE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_POSTCODE" name="input_F_ST_POSTCODE" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_STATE_CODE">F_ST_STATE_CODE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_STATE_CODE" name="input_F_ST_STATE_CODE" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ST_COUNTRY_CODE">F_ST_COUNTRY_CODE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_ST_COUNTRY_CODE" name="input_F_ST_COUNTRY_CODE" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_PO_NO">F_PO_NO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_PO_NO" name="input_F_PO_NO" />
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_PO_LINE_NO">F_PO_LINE_NO</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_PO_LINE_NO" name="input_F_PO_LINE_NO" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_PO_LINE_QTY">F_PO_LINE_QTY</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_PO_LINE_QTY" name="input_F_PO_LINE_QTY" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_PO_DATE">F_PO_DATE</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_PO_DATE" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_INCOTERM">F_INCOTERM</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                        <input type="text" class="form-control" id="input_F_INCOTERM" name="input_F_INCOTERM" />
+                    </div>
+                </div>
+                <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                   
+                </div>
+            </div>
+            <!--<div>
+        <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <label class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label" set-lan="html:F_ITEM_COO">F_ITEM_COO</label>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                <select type="text" class="form-control" id="select_F_ITEM_COO">
+                    <option value="VN">VN</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        </div>
+    </div>-->
+
+            <div id="divDoSubmit" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;margin-top:50px">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" class="btn btn-primary" id="btnSubmit"><i class="fa fa-pencil"></i> <lan set-lan="html:Submit">Submit</lan></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- 全局js -->
+    <script src="../../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../../../Scripts/plugins/bootstrapvalidator/bootstrapValidator.min.js"></script>
+
+    <script src="../../../../Scripts/global.js"></script>
+    <script src="../../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var tableLocale, confrimTitle, editTitle, calendarlang, notEmptyMessage, formErrorMessage;
+        var postData = {};
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var date = new Date();
+        var yyyy = date.getFullYear().toString();
+        var MM = date.getMonth() + 1;
+        var dd = date.getDate();
+        $(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN";
+                confrimTitle = "DN Confirm";
+                calendarlang = "cn";
+                editTitle = "编辑";
+                notEmptyMessage = '该栏位不能为空';
+                formErrorMessage = '输入的值不符合规则';
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW";
+                confrimTitle = "DN Confirm";
+                calendarlang = "cn";
+                editTitle = "編輯";
+                notEmptyMessage = '該欄位不能為空';
+                formErrorMessage = '輸入的值不符合規則';
+            }
+            else {
+                tableLocale = "en";
+                confrimTitle = "DN Confirm";
+                calendarlang = "en";
+                editTitle = "EDIT";
+                notEmptyMessage = 'This form can not be empty';
+                formErrorMessage = 'This value is not valid';
+            };
+            InitPage();
+
+            //初始化日期选择器
+            MM = MM < 10 ? ("0" + MM).toString() : MM.toString();
+            dd = dd < 10 ? ("0" + dd).toString() : dd.toString();
+            laydate('input_F_TO_DATE', yyyy + "-" + MM + "-" + dd);
+            laydate('input_F_TO_SHIPDATE', yyyy + "-" + MM + "-" + dd);
+            laydate('input_F_PO_DATE', yyyy + "-" + MM + "-" + dd);
+
+            //表单验证
+            $('#divNewTypeLayerSan').bootstrapValidator({
+                live: 'enabled',
+                message: formErrorMessage,
+                submitButtons: '#btnSubmit',
+                fields: {
+                    input_F_TO_NO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^[0-9]{1,20}$/,
+                            },
+                        },
+                    },
+                    input_F_TO_TRAILERNO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,20}$/,
+                            },
+                        },
+                    },
+                    input_F_CARRIER_TYPE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^[0-9]{1,5}$/,
+                            },
+                        },
+                    },
+                    input_F_CARRIER_CODE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,20}$/,
+                            },
+                        },
+                    },
+                    input_F_CARRIER_TRAILER_NO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,30}$/,
+                            },
+                        },
+                    },
+                    input_F_CARRIER_REF_NO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,30}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_NAME: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,100}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_CONTACT: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,50}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_CONTACT_MAIL: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^(\.||[a-zA-Z0-9_-])+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 50,
+                            },
+                        },
+                    },
+                    input_F_ST_CUSTOMERCODE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,100}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_ADDRESS: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,100}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_CITY: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,100}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_POSTCODE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,100}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_STATE_CODE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,10}$/,
+                            },
+                        },
+                    },
+                    input_F_ST_COUNTRY_CODE: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,10}$/,
+                            },
+                        },
+                    },
+                    input_F_PO_NO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,50}$/,
+                            },
+                        },
+                    },
+                    input_F_PO_LINE_NO: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^.{1,10}$/,
+                            },
+                        },
+                    },
+                    input_F_PO_LINE_QTY: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            },
+                            regexp: {
+                                regexp: /^[0-9]{1,10}$/,
+                            },
+                        },
+                    },
+                    input_F_INCOTERM: {
+                        validators: {
+                            notEmpty: {
+                                message: notEmptyMessage
+                            }
+                        },
+                    },
+                },
+
+
+            })
+
+            //点击确认的动作
+            $("#btnSubmit").click(function () {
+                var bootstrapValidator = $('#divNewTypeLayerSan').data('bootstrapValidator');
+                bootstrapValidator.validate();
+                if (bootstrapValidator.isValid()) {
+                    postData = {
+                        ID: $("#inputID").val(),
+                        F_TO_DN: $("#input_F_TO_DN").val(),
+                        F_TO_DN_LINE: $("#input_F_TO_DN_LINE").val(),
+                        F_TO_NO: $("#input_F_TO_NO").val(),
+                        F_TO_DATE: $("#input_F_TO_DATE").val(),
+                        F_TO_SHIPDATE: $("#input_F_TO_SHIPDATE").val(),
+                        F_TO_TRAILERNO: $("#input_F_TO_TRAILERNO").val(),
+                        F_CARRIER_TYPE: $("#input_F_CARRIER_TYPE").val(),
+                        F_CARRIER_CODE: $("#input_F_CARRIER_CODE").val(),
+                        F_CARRIER_TRAN_TYPE: $("#select_F_CARRIER_TRAN_TYPE").val(),
+                        F_CARRIER_REF_NO: $("#input_F_CARRIER_REF_NO").val(),
+                        F_CARRIER_TRAILER_NO: $("#input_F_CARRIER_TRAILER_NO").val(),
+                        F_ST_NAME: $("#input_F_ST_NAME").val(),
+                        F_ST_CONTACT: $("#input_F_ST_CONTACT").val(),
+                        F_ST_CONTACT_MAIL: $("#input_F_ST_CONTACT_MAIL").val(),
+                        F_ST_CUSTOMERCODE: $("#input_F_ST_CUSTOMERCODE").val(),
+                        F_ST_ADDRESS: $("#input_F_ST_ADDRESS").val(),
+                        F_ST_CITY: $("#input_F_ST_CITY").val(),
+                        F_ST_POSTCODE: $("#input_F_ST_POSTCODE").val(),
+                        F_ST_STATE_CODE: $("#input_F_ST_STATE_CODE").val(),
+                        F_ST_COUNTRY_CODE: $("#input_F_ST_COUNTRY_CODE").val(),
+                        F_PO_NO: $("#input_F_PO_NO").val(),
+                        F_PO_LINE_NO: $("#input_F_PO_LINE_NO").val(),
+                        F_PO_LINE_QTY: $("#input_F_PO_LINE_QTY").val(),
+                        F_PO_DATE: $("#input_F_PO_DATE").val(),
+                        F_INCOTERM: $("#input_F_INCOTERM").val(),
+                    };
+                    self.parent.client.CallFunction("MESStation.Config.DCN.ShipDataInfoConfirm", "DnConfirm", postData, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.closeAll("page");
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 1000
+                            }, function () {
+                                InitPage();
+                            });
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () { });
+                            return;
+                        }
+                    })
+                }
+            });
+        });
+
+        var InitPage = function () {
+            $("#select_status").on("change", function () {
+                LoadSoList();
+            });
+            LoadSoList();
+            LoadHpeList();
+        }
+
+        var ShowSoListTable = function (data) {
+            $('#So_List_Table').bootstrapTable('destroy');
+            $('#So_List_Table').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                toolbar: "#Table_Toolbar",
+                locale: tableLocale,//表格語言
+                rowStyle: function (row, index) {
+                    var strclass = "";
+                    switch (row.HID) {
+                        case null: strclass = 'danger'; break;
+                        default: strclass = 'success'; break;
+                    }
+                    return { classes: strclass }
+                },
+                columns: [
+                    {
+                        field: 'SerialNumber',
+                        sortable: true,
+                        align: "center",
+                        title: '<label set-lan="html:Index">Index</label>',
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        }
+                    }, {
+                        field: 'ID',
+                        sortable: true,
+                        align: "center",
+                        title: '<label set-lan="html:ID">ID</label>',
+                        visible: false
+                    }, {
+                        field: 'DN_NO',
+                        title: '<label set-lan="html:DN">DN</label>',
+                        align: "center",
+                        sortable: true,
+                    }, {
+                        field: 'DN_LINE',
+                        title: '<label set-lan="html:DN_LINE">DN_LINE</label>',
+                        align: "center"
+                    }, {
+                        field: 'SKUNO',
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'QTY',
+                        title: '<label set-lan="html:QTY">QTY</label>',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'DN_FLAG',
+                        title: 'ShipFlag',
+                        sortable: true,
+                        align: "center",
+                        formatter: function (value, row, index, field) {
+                            switch (value) {
+                                case "0":
+                                    return "<span style='color: red;'>Wait for the shipment</span>";
+                                case "1":
+                                    return "<span style='color: red;'>Wait for the CQA";
+                                case "2":
+                                    return "<span style='color: red;'>Wait for the GT";
+                                case "3":
+                                    return "<span style='color: seagreen;'>GT Finished";
+                                case "5":
+                                    return "<span style='color: seagreen;'>Wait for the Create ASN";
+                                case "6":
+                                    return "<span style='color: seagreen;'>Wait for the Send ASN";
+                                default:
+                                    return "<span style='color: red;'>Data Err</span >";
+                            }
+                        }
+                    }, {
+                        field: 'CREATETIME',
+                        title: '<label set-lan="html:CREATETIME">CREATETIME</label>',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'operate',
+                        title: '<label set-lan="html:OPERATE">OPERATE</label>',
+                        align: 'center',
+                        events: "operateEvents",
+                        formatter: operateFormatter
+                    }
+                ]
+            });
+            $('#outputsite').find("[name='refresh']").unbind("click");
+            $('#outputsite').find("[name='refresh']").bind("click", {}, function (event) {
+                LoadSoList();
+            });
+        }
+
+        var ShowHpeListTable = function (data) {
+            $('#HpeShipDataTable').bootstrapTable('destroy');
+            $('#HpeShipDataTable').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                locale: tableLocale,//表格語言
+                columns: [
+                     {
+                        field: 'ID',
+                        sortable: true,
+                        align: "center",
+                        title: '<label set-lan="html:ID">ID</label>',
+                        visible: false
+                    }, {
+                        field: 'F_TO_NO',
+                        title: '<label set-lan="html:F_TO_NO">F_TO_NO</label>',
+                        align: "center",
+                        sortable: true,
+                    }, {
+                        field: 'F_TO_DATE',
+                        title: '<label set-lan="html:F_TO_DATE">F_TO_DATE</label>',
+                        align: "center"
+                    }, {
+                        field: 'F_TO_SHIPDATE',
+                        title: '<label set-lan="html:F_TO_SHIPDATE">F_TO_SHIPDATE</label>',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'F_TO_DN',
+                        title: '<label set-lan="html:F_TO_DN">F_TO_DN</label>',
+                        align: "center",
+                        sortable: true
+                    },  {
+                        field: 'F_TO_DN_LINE',
+                        title: '<label set-lan="html:F_TO_DN_LINE">F_TO_DN_LINE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_TO_TRAILERNO',
+                        title: '<label set-lan="html:F_TO_TRAILERNO">F_TO_TRAILERNO</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_CARRIER_TYPE',
+                        title: '<label set-lan="html:F_CARRIER_TYPE">F_CARRIER_TYPE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_CARRIER_CODE',
+                        title: '<label set-lan="html:F_CARRIER_CODE">F_CARRIER_CODE</label>',
+                        align: "center",
+                        sortable: true
+                    },
+                    {
+                        field: 'F_CARRIER_TRAN_TYPE',
+                        title: '<label set-lan="html:F_CARRIER_TRAN_TYPE">F_CARRIER_TRAN_TYPE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_CARRIER_TRAILER_NO',
+                        title: '<label set-lan="html:F_CARRIER_TRAILER_NO">F_CARRIER_TRAILER_NO</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_CONTACT',
+                        title: '<label set-lan="html:F_ST_CONTACT">F_ST_CONTACT</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_CONTACT_MAIL',
+                        title: '<label set-lan="html:F_ST_CONTACT_MAIL">F_ST_CONTACT_MAIL</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_CUSTOMERCODE',
+                        title: '<label set-lan="html:F_ST_CUSTOMERCODE">F_ST_CUSTOMERCODE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_ADDRESS',
+                        title: '<label set-lan="html:F_ST_ADDRESS">F_ST_ADDRESS</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_CITY',
+                        title: '<label set-lan="html:F_ST_CITY">F_ST_CITY</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_STATE_CODE',
+                        title: '<label set-lan="html:F_ST_STATE_CODE">F_ST_STATE_CODE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_ST_COUNTRY_CODE',
+                        title: '<label set-lan="html:F_ST_COUNTRY_CODE">F_ST_COUNTRY_CODE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_PO_NO',
+                        title: '<label set-lan="html:F_PO_NO">F_PO_NO</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_PO_LINE_NO',
+                        title: '<label set-lan="html:F_PO_LINE_NO">F_PO_LINE_NO</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_PO_LINE_QTY',
+                        title: '<label set-lan="html:F_PO_LINE_QTY">F_PO_LINE_QTY</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'F_PO_DATE',
+                        title: '<label set-lan="html:F_PO_DATE">F_PO_DATE</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'CREATETIME',
+                        title: '<label set-lan="html:CREATETIME">CREATETIME</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'EDITTIME',
+                        title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'CREATE_EMP',
+                        title: '<label set-lan="html:CREATE_EMP">CREATE_EMP</label>',
+                        align: "center",
+                        sortable: true
+                    }, 
+                    {
+                        field: 'EDIT_EMP',
+                        title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                        align: "center",
+                        sortable: true
+                    }
+                ]
+            });
+            
+        }
+
+        var LoadSoList = function () {
+            var varstatus = $("#select_status").val();
+            client.CallFunction("MESStation.Config.DCN.ShipDataInfoConfirm", "GetDnList", { Status: varstatus }, function (e) {
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 4000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+         var LoadHpeList = function () {
+            client.CallFunction("MESStation.Config.DCN.ShipDataInfoConfirm", "GetHpeList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowHpeListTable(e.Data);
+                } else {
+                    ShowHpeListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 4000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        var DnConfirmLayerShow = function (ID, DN_NO, DN_LINE) {
+            layer.open({
+                type: 1,
+                title: confrimTitle,
+                area: ["85%", "98%"],
+                skin: 'mes-layer-title',
+                scrollbar: false,
+                content: $("#divDnConfirm"),
+                success: function (layero, index) {
+                    $("#divDnConfirm").removeClass("hidden");
+                    $('#divNewTypeLayerSan').data("bootstrapValidator").resetForm();
+
+                    $("#inputID").val(ID);
+                    $("#input_F_TO_DN").val(DN_NO);
+                    $("#input_F_TO_DN_LINE").val(DN_LINE);
+
+                    $("#input_F_TO_NO").val('');
+                    $("#input_F_TO_TRAILERNO").val('');
+                    $("#input_F_CARRIER_TYPE").val('');
+                    $("#input_F_CARRIER_CODE").val('');
+                    $("#input_F_CARRIER_REF_NO").val('');
+                    $("#input_F_CARRIER_TRAILER_NO").val('');
+                    $("#input_F_ST_NAME").val('');
+                    $("#input_F_ST_CONTACT").val('');
+                    $("#input_F_ST_CONTACT_MAIL").val('');
+                    $("#input_F_ST_CUSTOMERCODE").val('');
+                    $("#input_F_ST_ADDRESS").val('');
+                    $("#input_F_ST_CITY").val('');
+                    $("#input_F_ST_POSTCODE").val('');
+                    $("#input_F_ST_STATE_CODE").val('');
+                    $("#input_F_ST_COUNTRY_CODE").val('');
+                    $("#input_F_PO_NO").val('');
+                    $("#input_F_PO_LINE_NO").val('');
+                    $("#input_F_PO_LINE_QTY").val('');
+                    $("#input_F_INCOTERM").val('');
+                },
+                end: function () {
+                    $("#divDnConfirm").addClass("hidden");
+
+                    LoadSoList();
+                }
+            });
+        };
+
+        var EditLayerShow = function (ID) {
+            client.CallFunction("MESStation.Config.DCN.ShipDataInfoConfirm", "EditShipData", { ID: ID }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.open({
+                        type: 1,
+                        title: editTitle,
+                        area: ["85%", "98%"],
+                        skin: 'mes-layer-title',
+                        scrollbar: false,
+                        content: $("#divDnConfirm"),
+                        success: function (layero, index) {
+                            $("#divDnConfirm").removeClass("hidden");
+                            $('#divNewTypeLayerSan').data("bootstrapValidator").resetForm();
+
+                            $("#inputID").val(ID);
+                            $("#input_F_TO_DATE").val((e.Data.F_TO_DATE).toString().substr(0, 10)),
+                                $("#input_F_TO_SHIPDATE").val((e.Data.F_TO_SHIPDATE).toString().substr(0, 10)),
+                                $("#input_F_TO_DN").val(e.Data.F_TO_DN);
+                            $("#input_F_TO_DN_LINE").val(e.Data.F_TO_DN_LINE);
+
+                            $("#input_F_TO_NO").val(e.Data.F_TO_NO);
+                            $("#input_F_TO_TRAILERNO").val(e.Data.F_TO_NO);
+                            $("#input_F_CARRIER_TYPE").val(e.Data.F_CARRIER_TYPE);
+                            $("#input_F_CARRIER_CODE").val(e.Data.F_CARRIER_CODE);
+                            $("#select_F_CARRIER_TRAN_TYPE").val(e.Data.F_CARRIER_TRAN_TYPE),
+                                $("#input_F_CARRIER_REF_NO").val(e.Data.F_CARRIER_REF_NO);
+                            $("#input_F_CARRIER_TRAILER_NO").val(e.Data.F_CARRIER_TRAILER_NO);
+                            $("#input_F_ST_NAME").val(e.Data.F_ST_NAME);
+                            $("#input_F_ST_CONTACT").val(e.Data.F_ST_CONTACT);
+                            $("#input_F_ST_CONTACT_MAIL").val(e.Data.F_ST_CONTACT_MAIL);
+                            $("#input_F_ST_CUSTOMERCODE").val(e.Data.F_ST_CUSTOMERCODE);
+                            $("#input_F_ST_ADDRESS").val(e.Data.F_ST_ADDRESS);
+                            $("#input_F_ST_CITY").val(e.Data.F_ST_CITY);
+                            $("#input_F_ST_POSTCODE").val(e.Data.F_ST_POSTCODE);
+                            $("#input_F_ST_STATE_CODE").val(e.Data.F_ST_STATE_CODE);
+                            $("#input_F_ST_COUNTRY_CODE").val(e.Data.F_ST_COUNTRY_CODE);
+                            $("#input_F_PO_NO").val(e.Data.F_PO_NO);
+                            $("#input_F_PO_LINE_NO").val(e.Data.F_PO_LINE_NO);
+                            $("#input_F_PO_LINE_QTY").val(e.Data.F_PO_LINE_QTY);
+                            $("#input_F_PO_DATE").val((e.Data.F_PO_DATE).toString().substr(0, 10));
+                            $("#input_F_INCOTERM").val(e.Data.F_INCOTERM);
+                        },
+                        end: function () {
+                            $("#divDnConfirm").addClass("hidden");
+                            LoadSoList();
+                        }
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+            });
+        };
+
+        function operateFormatter(value, row, index) {
+            var Btn;
+
+            switch (row.HID) {
+                case null:
+                    Btn = '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;" set-lan="html:Confirm">Confirm</button>';
+                    break;
+                default:
+                    Btn = '<button type="button" class="RoleOfB btn btn-default  btn-sm" style="margin-right:15px;" set-lan="html:Edit">Edit</button>';
+                    break;
+            }
+            return [Btn].join('');
+        }
+
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+                if (row.HID == null)
+                    DnConfirmLayerShow(row.ID, row.DN_NO, row.DN_LINE);
+
+            },
+            'click .RoleOfB': function (e, value, row, index) {
+                if (row.HID != null)
+                    EditLayerShow(row.ID);
+
+            }
+        };
+
+        function laydate(ID, nowaday) {//日期选择控件
+            layui.use('laydate', function () {
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#' + ID,
+                    //type: 'datetime',//year month day datetime
+                    lang: calendarlang,//en or cn
+                    theme: '#337ab7',//default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+                    range: false,//是否开启左右页
+                    value: nowaday,// 'yyyy-MM-dd'默认值
+                    isInitValue: true,//是否初始化默认 值
+                });
+            });
+        }
+
+        layui.use('element', function(){
+            var $ = layui.jquery,
+            element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            });
+    </script>
+</body>
+</html>

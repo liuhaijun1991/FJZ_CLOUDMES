@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>KIT Print Report</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+        .tools .fade {
+            opacity: 0.9;
+        }
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        .blueColor {
+            color: blue;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">WO:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtWO" class="form-control" placeholder="WO" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">SKUNO:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtSKUNO" class="form-control" placeholder="SKUNO" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ISLOAD:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <select id="selIsLoad" class="form-control">
+                            <option selected>ALL</option>
+                            <option>Y</option>
+                            <option>N</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit" id="btnSearch">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divReport" class="container-fluid">
+        <br />
+        <div class="fixed-table-toolbar">
+            <div class="btn-group" id="toolbar" role="group">
+                <button type="button" class="btn btn-outline btn-default" id="btnDELETE">
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"><lan set-lan="html:delete">Delete</lan></i>
+                </button>
+            </div>
+        </div>
+        <table id="reportTable"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".SearchBox").toggle();
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $("#btnSearch").click(function () {
+                SearchData();
+                $(".SearchBox").toggle();
+            });
+            $('#btnDELETE').click(function () {
+                var rows = $("#reportTable").bootstrapTable('getSelections');
+                if (rows.length <= 0) {
+                    swal("Warning ", "Please select valid data !", "warning");
+                    return;
+                }
+                swal({
+                    title: "Tips",
+                    text: "Are you sure you want to delete the selected" + rows.length + " Counts data?",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm Delete!",
+                    showCancelButton: true
+                }, function () {
+                    var WOArray = new Array();
+                    var SNArray = new Array();
+                    for (var i = 0; i < rows.length; i++) {
+                        WOArray.push(rows[i].WO);
+                        SNArray.push(rows[i].SN);
+                    }
+                    var data = { WO: WOArray, SN: SNArray };
+                    self.parent.client.CallFunction("MESReport.DCN.KitPrintReport", "DeleteKitPrint", data, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 2000,
+                            }, function () {
+                                SearchData();
+                            });
+                        }
+                        else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 5000,
+                                btn:["Confirm"]
+                            }, function () {                                
+                            });
+                        }
+                    })
+                });
+            });
+        });
+
+        var SearchData = function () {
+            $("#reportTable").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESReport.DCN.KitPrintReport", "GetKitPrint", {
+                WO: $("#txtWO").val(), SKUNO: $("#txtSKUNO").val(), ISLOAD: $("#selIsLoad").val()
+            }, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, { icon: 1, time: 500 }, function () {
+                        InitTable(e.Data);
+                    });
+                } else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        }
+        var InitTable = function (obj) {
+            var c = [];
+            var checkbox = " title:'checkall',field:'select',checkbox: true, width: 30, align: 'center',valign: 'middle' ";
+            c.push({ checkbox });
+            for (var item in obj[0]) {
+                c.push({ field: item, title: "<label set-lan=\"html:table" + item + "\">" + item + "</label>" });
+            }
+
+            $("#reportTable").bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                toolbar: "#toolbar",
+                toolbarAlign: "left",
+                showExport: true, //是否显示导出按钮
+                exportDataType: 'all', //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel'], //导出文件类型
+                Icons: 'glyphicon-export',
+                columns: c
+            });
+        }
+    </script>
+</body>
+</html>

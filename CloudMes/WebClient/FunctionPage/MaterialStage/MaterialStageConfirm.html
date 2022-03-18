@@ -1,0 +1,1216 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">MaterialStageManage</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        table, td, th {
+            margin: 0;
+            padding: 0px!important;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+        thead th {
+            font-size: 10px !important;
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0px !important;
+            text-align: center;
+            background:  #375A7F !important;
+            color: white;
+        }
+        table.table-bordered > tr >td {
+            height: 120px;
+            max-height: 120px;
+        }
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left: 10px;" set-lan="html:CSKUDETAIL">MaterialStageManage</span></h3>
+    </div>
+    <input type="text" id="userrole" class="form-control hidden" readonly="readonly" />
+    <!--TOOLS-->
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAdd">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDelete">
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefresh">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableList"></table>
+    </div>
+    <!--TOOLS END-->
+    <!--ADD-->
+    <div id="divAdd" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div id="divID" class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div id="uploadfile" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">FILENAME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <!--<label class="btn btn-outline btn-primary input-group" for="FileUpload" style="z-index: 1;"><lan set-lan="html:Upload"> Upload</lan></label>-->
+                    <input id="FileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".xls,.xlsx">
+                    <button type="button" class="btn btn-outline btn-primary" id="AddDownloadTemplateFile">
+                        <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i><lan set-lan="html:Download"> DownloadTemplateFile</lan>
+                    </button>
+                </div>
+            </div>
+            <div id="divSKUNO" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">SKUNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtSKUNO" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_SKUNO" />
+                </div>
+            </div>
+            <div id="divVERSION" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">VERSION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtVERSION" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_VERSION" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">PRODUCTDESC:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <textarea id="txtFileDesc" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_PRODUCTDESC"></textarea>
+                </div>
+            </div>
+            <div id="divSTATION" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">STATION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtSTATION" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_STATION" />
+                </div>
+            </div>
+            <div id="divDESCRIPTION" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">DESCRIPTION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <textarea id="txtDESCRIPTION" class="form-control" set-lan="attr:placeholder=placeholder_DESCRIPTION"></textarea>
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <lan set-lan="html:btnSubmit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--ADD END-->
+    <!--EDIT-->
+    <div id="divModify" class="panel-body hidden" style="font-size: 1em;">
+        <div class="form-horizontal">
+            <div class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="editId" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">FILENAME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input id="editFileUpload" type="file" class="btn btn-outline btn-primary file-outline" accept=".xls,.xlsx">
+                    <button type="button" class="btn btn-outline btn-primary" id="EditDownloadTemplateFile">
+                        <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i><lan set-lan="html:Download" id="btneditdownload">Download</lan>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">SKUNO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="editSKUNO" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_SKUNO" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">VERSION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="editVERSION" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_VERSION" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">PRODUCTDESC:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <textarea id="editFileDesc" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_PRODUCTDESC"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">STATION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="editSTATION" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_STATION" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">DESCRIPTION:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <textarea id="editDESCRIPTION" class="form-control" set-lan="attr:placeholder=placeholder_DESCRIPTION"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">EDITBY:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="editby" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_EDITBY" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">EDITTIME:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="edittime" class="form-control" readonly="readonly" set-lan="attr:placeholder=placeholder_EDITTIME" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnEditSubmit" class="btn btn-outline btn-primary">
+                        <lan set-lan="html:btnSubmit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--EDIT END-->
+    <!--SIGN-->
+    <div id="divSign" class="panel-body hidden" style="font-size: 1em;">
+        <div class="form-horizontal">
+            <div class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="signId" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">STATUS:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <select class="form-control" id="signFlag">
+                            <option>Pass</option>
+                            <option>Reject</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:FOX_SKUNO">REASON:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <textarea id="signReason" class="form-control" set-lan="attr:placeholder=placeholder_REASON" rows="7"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <button type="button" id="btnSign" class="btn btn-outline btn-primary">
+                            <lan set-lan="html:btnSubmit">Submit</lan>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SIGN END-->
+    <!--Material Detail-->
+    <div id="divMaterial" class="panel-body hidden" style="font-size: 1em;">
+        <table id="tableMaterialList" class="table table-condensed"></table>
+    </div>
+<!--Material Detail end-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var postData = {};
+        var userrole = "";
+        var opration = "";
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            GetUserRole();
+            GetList();
+            //增加刪除 Add By ZHB 2020年9月29日10:25:49
+            $("#btnDelete").on("click", function () {
+                var selRows = $('#tableList').bootstrapTable('getSelections');
+                if (selRows.length > 0 && selRows.length < 2) {
+                    layer.open({
+                        title: 'Warning',
+                        btn: ['Delete', 'Cancel'],
+                        content: "Delete operation cannot be rolled back! </br> Are you sure you want to delete these records?",
+                        yes: function (index) {
+                            layer.close(index);
+                            parent.client.CallFunction("MESStation.Config.MaterialStageConfig", "DeleteMaterialConfirmById", { ConfirmID: selRows[0].ID }, function (e) {
+                                if (e.Status == "Pass") {
+                                    layer.msg("Success", { icon: 1, time: 3000 }, function () { GetList(); });
+                                }
+                                else {
+                                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                                }
+                            });
+                        }
+                    });
+                } else if (selRows.length > 1) {
+                    layer.msg("too many records have selected", { icon: 2, time: 3000 }, function () { });
+                } else {
+                    layer.msg("no records selected", { icon: 2, time: 3000 }, function () { });
+                }
+            });
+            $("#btnAdd").click(function () {
+                resetAddc();
+                opration = "ADD";
+                var addTitle = 'Add New MaterialStage';
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "80%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divAdd"),
+                    success: function (layero, index) {
+                        $("#divAdd").removeClass("hidden");
+                    },
+                    end: function () {
+                        $("#divAdd").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnSubmit").click(function () {
+                if ($("#txtSKUNO").val() == "") {
+                    layer.msg("Please upload the file!",
+                        {
+                            icon: 2,
+                            time: 3000
+                        });
+                    return;
+                }
+                Add();
+            });
+            $("#btnEditSubmit").click(function () {
+                var postData = {
+                    "TYPE": "PE",
+                    "ID": $("#editId").val(),
+                    "FILENAME": $("#editSKUNO").val() + $("#editVERSION").val() + $("#editSTATION").val(),
+                    "DESCRIPTION": $("#editDESCRIPTION").val()
+                };
+                Edit(postData);
+            });
+            $("#btnSign").click(function () {
+                var postData = {
+                    "TYPE": "QE",
+                    "ID": $("#signId").val(),
+                    "REASON": $("#signReason").val(),
+                    "FLAG": $("#signFlag").val() == "Pass" ? "1" : "2"
+                };
+                Edit(postData);
+            });
+            $('#FileUpload').change(function (ee) {
+                upload(ee,
+                    function (fileskuno, fileversion, filestation, filedes) {
+                        $("#txtSKUNO").val(fileskuno);
+                        $("#txtVERSION").val(fileversion);
+                        $("#txtSTATION").val(filestation);
+                        $("#txtFileDesc").val(filedes);
+                        savefile(ee,
+                            $("#txtSKUNO").val() + $("#txtVERSION").val() + $("#txtSTATION").val(),
+                            $('#FileUpload'));
+                    },
+                    $(this));
+            });
+            $('#editFileUpload').change(function (ee) {
+                upload(ee,
+                    function (fileskuno, fileversion, filestation, filedes) {
+                        $("#editSKUNO").val(fileskuno);
+                        $("#editVERSION").val(fileversion);
+                        $("#editSTATION").val(filestation);
+                        $("#editFileDesc").val(filedes);
+                        savefile(ee,
+                            $("#editSKUNO").val() + $("#editVERSION").val() + $("#editSTATION").val(),
+                            $('#editFileUpload'));
+                    },
+                    $(this));
+            });
+            $('#EditDownloadTemplateFile').on('click',
+                function () {
+                    DownLoadFile($("#btneditdownload").html(), "Material");
+                });
+            $('#AddDownloadTemplateFile').on('click',
+                function () {
+                    window.open("../../File/84-1003601-15-001-MA1.xls");
+                });
+        });
+        var savefile = function (e, savefilename, c) {
+            var w = new Worker("../../Scripts/Setting/BigFileReader.js");
+            w.onmessage = function (e) {
+                layer.closeAll("loading");
+                if (e.data.Status == "Pass") {
+                    Bas64File = e.data.Bas64File;
+                    parent.client.CallFunction("MESStation.FileUpdate.FileUpload",
+                        "UpLoadFile",
+                        {
+                            Name: savefilename,
+                            FileName: filename,
+                            MD5: "",
+                            UseType: "Material",
+                            Bas64File: Bas64File
+                        },
+                        function (e) {
+                            layer.closeAll('loading');
+                            if (e.Status == "Pass") {
+                                layer.msg("Success",
+                                    {
+                                        icon: 1,
+                                        time: 3000
+                                    },
+                                    function () {
+                                        $("#btneditdownload").html(savefilename);
+                                        c.val(savefilename);
+                                    });
+                            } else {
+                                layer.msg(e.Message,
+                                    {
+                                        icon: 2,
+                                        time: 3000
+                                    },
+                                    function () {
+                                    });
+                            }
+                        });
+                } else {
+                    c.val("");
+                    layer.msg(e.data.Message,
+                        {
+                            icon: 2,
+                            time: 3000
+                        },
+                        function () {
+                        });
+                }
+            };
+            w.onerror = function () {
+                c.val("");
+                layer.msg("Worker Error!",
+                    {
+                        icon: 2,
+                        time: 3000
+                    },
+                    function () {
+                    });
+            }
+            layer.load(3);
+            filename = c.val();
+            filename = filename.substring(filename.lastIndexOf("\\") + 1);
+            UseType = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+            w.postMessage({ file: e.target.files[0], filename: filename, UseType: UseType, ExtName: ".XLS,.XLSX" });
+        }
+        var upload = function (ee, callback, c) {
+            var filename = c.val();
+            if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xls") >= 0)) {
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(ee.target.files[0]);
+                reader.onload = function (e) {
+                    var data = new Uint8Array(reader.result);
+                    var wb = XLSX.read(data, { type: 'array' });
+                    for (let i = 0; i < wb.SheetNames.length; i++)
+                        var newData = window.XLS.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]]);
+                    var fileskuno = newData[3]["NSDII 前置作業系統領料表"];
+                    var filedes = newData[2]["NSDII 前置作業系統領料表"];
+                    var filestation = newData[3]["__EMPTY_8"];
+                    var fileversion = newData[2]["__EMPTY_8"];
+                    var filepartnolist = [];
+                    for (var i = 7; i < newData.length - 3; i++) {
+                        var filepartnolist_row = [];
+                        for (var p in newData[i])
+                            filepartnolist_row.push(newData[i][p]);
+                        filepartnolist.push(filepartnolist_row);
+                    }
+                    var datapa = {
+                        fileSkuno: fileskuno,
+                        fileDes: filedes,
+                        fileStation: filestation,
+                        fileversion: fileversion,
+                        filePartNoList: filepartnolist
+                    };
+                    if (fileskuno == undefined || filestation == undefined || fileversion == undefined) {
+                        layer.msg("Skuno/Version/Station can't be empty!",
+                            {
+                                icon: 2,
+                                time: 4000
+                            });
+                        return;
+                    } else if (opration == "EDIT" && fileskuno + fileversion + filestation !=
+                        $("#editSKUNO").val() + $("#editVERSION").val() + $("#editSTATION").val()) {
+                        layer.msg("The File of the Skuno/Version/Station and the editing data is not consistent!",
+                            {
+                                icon: 2,
+                                time: 6000
+                            });
+                        return;
+                    } else {
+                        parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                            "AddMaterialStageDetail",
+                            datapa,
+                            function (f) {
+                                layer.closeAll('loading');
+                                if (f.Status == "Pass") {
+                                    layer.msg(f.Message,
+                                        {
+                                            icon: 1,
+                                            time: 10
+                                        },
+                                        function () {
+                                            callback(fileskuno, fileversion, filestation, filedes);
+                                        });
+                                } else {
+                                    layer.msg(f.Message,
+                                        {
+                                            icon: 2,
+                                            time: 3000
+                                        },
+                                        function () { });
+                                }
+                            });
+                    }
+                }
+            }
+
+        }
+        var resetAddc = function () {
+            $("#txtSKUNO").val("");
+            $("#txtVERSION").val("");
+            $("#txtSTATION").val("");
+            $("#txtFileDesc").val("");
+            $("#FileUpload").val("");
+            $("#txtDESCRIPTION").val("");
+            $("#editId").val("");
+            $("#editSKUNO").val("");
+            $("#editVERSION").val("");
+            $("#editSTATION").val("");
+            $("#editFileDesc").val("");
+            $("#editFileUpload").val("");
+            $("#editDESCRIPTION").val("");
+            $("#editby").val("");
+            $("#edittime").val("");
+            $("#btneditdownload").html("");
+            $("#signReason").val("");
+        }
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+        var addFunctionAlty = function (value, row, index) {
+            return [
+                '<button id="bind" type="button" class="btn btn-link">' + row.FILENAME + '</button>',
+                '<button id="show" type="button" class="btn btn-success btn-sm">MaterialDetail</button>'
+            ].join('');
+        };
+        var DownLoadFile = function (name, usetype) {
+            self.parent.client.CallFunction("MESStation.FileUpdate.FileUpload",
+                "FileDownLoadWithNameAndUseTypeByBrowser",
+                { "NAME": name, "USETYPE": usetype },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        var blob = b64toBlob(e.Data.Content);
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            navigator.msSaveBlob(blob, e.Data.FileName);
+                        } else {
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = e.Data.FileName;
+                            link.click();
+                            window.URL.revokeObjectURL(link.href);
+                        }
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () { });
+                        return;
+                    }
+                });
+        }
+        var InitTable = function (obj) {
+            $('#tableList').bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                buttonsAlign: "right", //按钮对齐方式
+                toolbar: "#divTableToolbar", //指定工具栏
+                toolbarAlign: "left", //工具栏对齐方式
+                selectItemName: "ID",
+                locale: tableLocale,//中文支持
+                columns: [
+                    {
+                    title: '<label set-lan="html:SELECT">SELECT</label>',
+                    checkbox: true
+                },
+                    {
+                        field: 'ID',
+                        title: 'ID',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'SKUNO',
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'VERSION',
+                        title: '<label set-lan="html:GROUPNAME">VERSION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'WORKORDERNO',
+                        title: '<label set-lan="html:EVENTNAME">WORKORDERNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false
+                    }, {
+                        field: "STATION",
+                        title: '<label set-lan="html:SEQNO">STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "ROUTE",
+                        title: '<label set-lan="html:LASTEDITBY">ROUTE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "FILENAME",
+                        title: '<label set-lan="html:LASTEDITBY">ROUTE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'operate',
+                        title: '<label set-lan="html:FILE">FILE (click to download)</label>',
+                        events: operateEvents, //给按钮注册事件
+                        formatter: addFunctionAlty //表格中增加按钮  
+                    }, {
+                        field: "DESCRIPTION",
+                        title: '<label set-lan="html:LASTEDITTIME">DESCRIPTION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "TOTALNUM",
+                        title: '<label set-lan="html:LASTEDITTIME">TOTALNUM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "USEDNUM",
+                        title: '<label set-lan="html:LASTEDITTIME">USEDNUM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "REMAINNUM",
+                        title: '<label set-lan="html:LASTEDITTIME">REMAINNUM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "UPLOADBY",
+                        title: '<label set-lan="html:LASTEDITTIME">UPLOADBY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "UPLOADTIME",
+                        title: '<label set-lan="html:LASTEDITTIME">UPLOADTIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDITBY",
+                        title: '<label set-lan="html:LASTEDITTIME">EDITBY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDITTIME",
+                        title: '<label set-lan="html:LASTEDITTIME">EDITTIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "FLAG",
+                        title: '<label set-lan="html:LASTEDITTIME">FLAG</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true,
+                        cellStyle: function (value, row, index) {
+                            var bgc = "";
+                            if (value == "0") bgc = "#44cef6";
+                            else if (value == "2") bgc = "#9d2933";
+                            else bgc = "#00e500";
+                            return {
+                                "css": {
+                                    "background-color": bgc,
+                                    "color": "#ffffff"
+                                }
+                            };
+                        },
+                        formatter: function (value, row, index) {
+                            if (value == 0) return "WaitSign";
+                            else if (value == 2) return "Reject";
+                            else return "Completed";
+                        }
+                    }, {
+                        field: "REASON",
+                        title: '<label set-lan="html:LASTEDITTIME">REASON</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "SIGNBY",
+                        title: '<label set-lan="html:LASTEDITTIME">SIGNBY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "SIGNTIME",
+                        title: '<label set-lan="html:LASTEDITTIME">SIGNTIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }
+                ],
+                onDblClickRow: function (row) {
+                    //PE编辑
+                    if (userrole != "QE" && row.FLAG != "1") {
+                        resetAddc();
+                        opration = "EDIT";
+                        var addTitle = 'Edit MaterialStage';
+                        layer.open({
+                            type: 1,
+                            title: addTitle,
+                            area: ["50%", "85%"],
+                            offset: ["10px"],
+                            skin: 'mes-layer-title',
+                            scrollbar: false,
+                            content: $("#divModify"),
+                            success: function (layero, index) {
+                                $("#divModify").removeClass("hidden");
+                                $("#editId").val(row.ID);
+                                $("#editSKUNO").val(row.SKUNO);
+                                $("#editVERSION").val(row.VERSION);
+                                $("#editSTATION").val(row.STATION);
+                                $("#editDESCRIPTION").val(row.DESCRIPTION);
+                                $("#editNAME").val(row.FILENAME);
+                                $("#btneditdownload").html(row.FILENAME);
+                                $("#editby").val(row.EDITBY);
+                                $("#edittime").val(row.EDITTIME);
+                            },
+                            end: function () {
+                                $("#divModify").addClass("hidden");
+                            }
+                        });
+                    }
+                    //QE签核
+                    else if (userrole == "QE" && row.FLAG == "0") {
+                        layer.open({
+                            type: 1,
+                            title: "SIGN" + " =>SKUNO:" + row.SKUNO + " VERSION:" + row.VERSION + " STATION:" + row.STATION,
+                            area: ["35%", "50%"],
+                            offset: ["10px"],
+                            skin: 'mes-layer-title',
+                            scrollbar: false,
+                            content: $("#divSign"),
+                            success: function (layero, index) {
+                                $("#divSign").removeClass("hidden");
+                                $("#signId").val(row.ID);
+                            },
+                            end: function () {
+                                $("#divSign").addClass("hidden");
+                            }
+                        });
+                    }
+                    //QE二次驳回
+                    //else if (userrole == "QE" && row.FLAG == "1") {
+                    //    layer.open({
+                    //        type: 1,
+                    //        title: "SIGN" + " =>SKUNO:" + row.SKUNO + " VERSION:" + row.VERSION + " STATION:" + row.STATION,
+                    //        area: ["35%", "50%"],
+                    //        offset: ["10px"],
+                    //        skin: 'mes-layer-title',
+                    //        scrollbar: false,
+                    //        content: $("#divSign"),
+                    //        success: function (layero, index) {
+                    //            $("#divSign").removeClass("hidden");
+                    //            $("#signId").val(row.ID);
+                    //        },
+                    //        end: function () {
+                    //            $("#divSign").addClass("hidden");
+                    //        }
+                    //    });
+                    //}
+                },
+                onEditableHidden: function (field, row, $el, reason) { // 当编辑状态被隐藏时触发
+                    if (reason === 'save') {
+                        self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                            "UpdateMaterialStageHead",
+                            { ID: row.ID, ISMATERIAL: row.ISMATERIAL },
+                            function (e) {
+                                if (e.Status == "Pass") {
+                                    layer.msg(e.Message,
+                                        {
+                                            icon: 1,
+                                            time: 2000
+                                        },
+                                        function () {
+                                            GetList();
+                                        });
+                                } else {
+                                    layer.msg(e.Message,
+                                        {
+                                            icon: 2,
+                                            time: 3000
+                                        },
+                                        function () {
+                                        });
+                                    return;
+                                }
+                            });
+                    }
+                },
+            });
+            $('#tableList').on('click',
+                'td:has(.editable)',
+                function (e) {
+                    //e.preventDefault();
+                    e.stopPropagation(); // 阻止事件的冒泡行为
+                    $(this).find('.editable').editable('show'); // 打开被点击单元格的编辑状态
+                });
+
+        }
+        var InitMaterialTable = function(obj) {
+            $('#tableMaterialList').bootstrapTable({
+                data: obj,
+                striped: true, //是否显示行间隔色
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                columns: [
+                    {
+                        field: 'ID',
+                        title: 'ID',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'SKUNO',
+                        title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'VERSION',
+                        title: '<label set-lan="html:GROUPNAME">VERSION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'EVENTPOINT',
+                        title: '<label set-lan="html:EVENTNAME">EVENTPOINT</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true
+                    }, {
+                        field: "CUSTPARTNO",
+                        title: '<label set-lan="html:SEQNO">CUSTPARTNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "CUSTPNDESC",
+                        title: '<label set-lan="html:LASTEDITBY">CUSTPNDESC</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "QTY",
+                        title: '<label set-lan="html:LASTEDITBY">QTY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },{
+                        field: "SOPPAGE",
+                        title: '<label set-lan="html:LASTEDITTIME">SOPPAGE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "SOPEVENTPN",
+                        title: '<label set-lan="html:LASTEDITTIME">SOPEVENTPN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "NOTE",
+                        title: '<label set-lan="html:LASTEDITTIME">NOTE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "TOTALQTY",
+                        title: '<label set-lan="html:LASTEDITTIME">TOTALQTY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDITBY",
+                        title: '<label set-lan="html:LASTEDITTIME">EDITBY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: "EDITTIME",
+                        title: '<label set-lan="html:LASTEDITTIME">EDITTIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }
+                ]
+            });
+        }
+        var GetList = function () {
+            $("#tableList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "GetMaterialStageConfirmList",
+                { SKUNO: "" },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 500
+                            },
+                            function () {
+                                InitTable(e.Data);
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        var GetUserRole = function () {
+            self.parent.client.CallFunction("MESStation.Config.CUserControl",
+                "GetUserFunction",
+                { FUNCTIONNAME: "MaterialStage" },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 50
+                            },
+                            function () {
+                                userrole = e.Data.ROLE;
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        var Add = function () {
+            postData = {
+                "SKUNO": $("#txtSKUNO").val(),
+                "VERSION": $("#txtVERSION").val(),
+                "STATION": $("#txtSTATION").val(),
+                "FILENAME": $("#txtSKUNO").val() + $("#txtVERSION").val() + $("#txtSTATION").val(),
+                "DESCRIPTION": $("#txtDESCRIPTION").val(),
+                "REASON": $("#txtREASON").val(),
+                "FLAG": "0"
+            };
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "AddMaterialStageConfirm",
+                postData,
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 1000
+                            },
+                            function () {
+                                layer.closeAll("page");
+                                GetList();
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        var Edit = function (postData) {
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "EditMaterialStageConfirm",
+                postData,
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 1000
+                            },
+                            function () {
+                                layer.closeAll("page");
+                                GetList();
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        var ShowMaterialDetail = function (row) {
+            postData = {
+                "SKUNO": row.SKUNO,
+                "VERSION": row.VERSION,
+                "STATION": row.STATION
+            };
+            self.parent.client.CallFunction("MESStation.Config.MaterialStageConfig",
+                "GetMaterialStageDetailList",
+                postData,
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message,
+                            {
+                                icon: 1,
+                                time: 50
+                            },
+                            function () {
+                                layer.open({
+                                    type: 1,
+                                    title: "Material Detail",
+                                    area: ["70%", "85%"],
+                                    offset: ["10px"],
+                                    skin: 'mes-layer-title',
+                                    scrollbar: false,
+                                    content: $("#divMaterial"),
+                                    success: function (layero, index) {
+                                        $("#tableMaterialList").bootstrapTable('destroy');
+                                        InitMaterialTable(e.Data);
+                                        $("#divMaterial").removeClass("hidden");
+                                    },
+                                    end: function () {
+                                        $("#divMaterial").addClass("hidden");
+                                        //GetList();
+                                    }
+                                });
+                            });
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () {
+                            });
+                        return;
+                    }
+                });
+        }
+        window.operateEvents = {
+            'click #bind': function(e, value, row, index) {
+                DownLoadFile(row.FILENAME, "Material");
+            },
+            'click #show': function (e, value, row, index) {
+                ShowMaterialDetail(row);
+            }
+        };
+
+    </script>
+
+</body>
+</html>
+

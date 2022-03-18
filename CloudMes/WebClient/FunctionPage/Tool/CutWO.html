@@ -1,0 +1,636 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cut WO</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+
+        .tabs-container .tabs-left > .nav-tabs,
+        .tabs-container .tabs-right > .nav-tabs {
+            width: 200px;
+        }
+
+        .file-outline {
+            padding: 4px 0 0 0;
+            margin-left: -4px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        #tableWo {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+
+            #tableWo tbody {
+                height: 200px;
+                overflow-y: scroll;
+                display: block;
+            }
+
+                #tableWo thead, #tableWo tbody tr {
+                    display: table;
+                    width: 100%;
+                    table-layout: fixed;
+                }
+
+                    #tableWo tbody tr td:first-child, #tableWo thead tr th:first-child {
+                        width: 36px;
+                    }
+
+            #tableWo thead {
+                width: calc( 100% - 0.4em );
+            }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:CutWo">Cut WO</span></h3>
+    </div>
+    <div class="panel-body full-height row form-horizontal">
+        <div id="divCutWoContent">
+            <div id="divLeft" class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-top:10px;">
+                <div id="divCutType" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:">Type:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <label class="radio-inline">
+                            <input type="radio" name="CutType" value="CutNum" checked="checked"> Cut Num
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="CutType" value="CutSN"> Cut SN
+                        </label>
+                    </div>
+                </div>
+
+                <div id="divCutWO" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">WO:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <input type="text" class="form-control" set-lan="attr:placeholder=placeholderCutWo" />
+                    </div>
+                </div>
+
+                <div id="divWOQty" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">WO QTY:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <input type="text" class="form-control" set-lan="attr:placeholder=placeholderWoQty" readonly />
+                    </div>
+                </div>
+
+                <div id="divIputQty" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">INPUT QTY:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <input type="text" class="form-control" set-lan="attr:placeholder=placeholderInputQty" readonly />
+                    </div>
+                </div>
+
+                <div id="divExtQty" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">EXT QTY:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <input type="text" class="form-control" set-lan="attr:placeholder=placeholderExtQty" readonly />
+                    </div>
+                </div>
+
+                <div id="divCutNum" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">Cut Num:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <input type="text" class="form-control" set-lan="attr:placeholder=placeholderCutNum" />
+                    </div>
+                </div>
+                <div id="divRemark" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:">Remark:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <textarea class="form-control" rows="3" cols="3"></textarea>
+                    </div>
+                </div>
+                <div id="divCloseWO" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelCustomerName">Close WO:</label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9">
+                        <label class="checkbox" style="padding:0px;margin:0px;"> <input type="checkbox" value="" style="height:30px;width:70px;"></label>
+                    </div>
+                </div>
+                <div id="divCutSubmit" class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-8 col-sm-7 col-md-9 col-lg-9 ">
+                        <button type="button" class="btn btn-outline btn-primary" id="btnCutWoSubmit" style="width:150px;">
+                            <i class="glyphicon glyphicon-ok" aria-hidden="true"></i><lan set-lan="html:">&nbsp; Submit</lan>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-primary" id="btnSearchLog" style="width:150px;">
+                            <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">&nbsp; SearchLog</lan>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divRight" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div id="divCutSN">
+                    <table id="tableSNList" data-height="350" data-show-columns="true"></table>
+                </div>
+            </div>
+        </div>
+
+        <div id="divSearchCutLog" style="display:none;" class="form-horizontal">
+            <div class="col-xs-12" style="margin-top:10px;">
+                <div id="divSearch" class="form-group col-xs-6">
+                    <label class="col-xs-3 control-label text-right" set-lan="html:">WO</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" id="searchWO" />
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-outline btn-primary" id="btnSearch" style="width:150px;">
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">&nbsp; Search</lan>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <table id="tableLogList"  class="table table-hover"></table>
+            </div>
+        </div>       
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+        var client
+        var mesUI;
+        var lan;
+        var callData;
+        $(document).ready(function () {
+            client = self.parent.client;
+            mesUI = new MesClientUI(client);
+            lan = $.cookie($.MES.CK_LAN_NAME);
+            $("#divCutWO").find("input[type=text]").val("");
+            $("#divCutWO").find("input[type=text]").focus();
+            $("#divCutWO").find("input[type=text]").select();
+            $("#divRight").addClass("hidden");
+
+            $("#divCutType").find("input[name=CutType]").click(function () {
+                if ($(this).val() == "CutNum") {
+                    $("#divCutWO").find("input[type=text]").val("");
+                    $("#divCutWO").find("input[type=text]").focus();
+                    $("#divCutWO").find("input[type=text]").select();
+                    $("#divWOQty").find("input[type=text]").val("");
+                    $("#divIputQty").find("input[type=text]").val("");
+                    $("#divExtQty").find("input[type=text]").val("");
+                    $("#divCutNum").find("input[type=text]").val("");
+                    $("#divRemark").find("textarea").val("");
+                    $("#divCutNum").find("input[type=text]").removeAttr("readonly");
+                    $("#divCloseWO").find("input[type=checkbox]").removeAttr("checked");
+                    $("#divRight").addClass("hidden");
+                }
+                else if ($(this).val() == "CutSN") {
+                    $("#divCutWO").find("input[type=text]").val("");
+                    $("#divCutWO").find("input[type=text]").focus();
+                    $("#divCutWO").find("input[type=text]").select();
+                    $("#divWOQty").find("input[type=text]").val("");
+                    $("#divIputQty").find("input[type=text]").val("");
+                    $("#divExtQty").find("input[type=text]").val("");
+                    $("#divCutNum").find("input[type=text]").val("");
+                    $("#divRemark").find("textarea").val("");
+                    $("#divCutNum").find("input[type=text]").attr("readOnly", "readOnly");
+                    $("#divCloseWO").find("input[type=checkbox]").removeAttr("checked");
+                    $("#divRight").removeClass("hidden");
+                    ShowWoData([]);
+                }
+            });
+
+            $("#divCutWO").find("input[type=text]").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetWoInfo($("#divCutWO").find("input[type=text]").val());
+                    if ($("#divCutType").find("input[name=CutType]:checked").val() == "CutSN") {
+                        GetSnDetailByWo($("#divCutWO").find("input[type=text]").val());
+                    }
+                }
+            });
+
+            $("#btnCutWoSubmit").on("click", function () {
+                var cutType = $("#divCutType").find("input[name=CutType]:checked").val();
+                var cutWO = $("#divCutWO").find("input[type=text]").val();
+                var cutNum = $("#divCutNum").find("input[type=text]").val();
+                var remark = $("#divRemark").find("textarea").val();
+                var closeFlag = "";
+                var cutSNId = [];
+                var selectRows;
+                if ($("#divCloseWO").find("input[type=checkbox]").is(':checked')) {
+                    closeFlag = "1";
+                }
+
+                if (cutWO == "" || cutWO == undefined) {
+                    layer.msg("Please input wo", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+
+                if (cutType == "CutNum") {
+                    if (cutNum == "" || cutNum == undefined) {
+                        layer.msg("Please input cut num", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                    //var reg = new RegExp("^[1-9]\d*$");
+                    //if (!reg.test(cutNum)) {
+                    //    layer.msg("Please input a positive integer greater than 0", {
+                    //        icon: 2,
+                    //        time: 3000
+                    //    }, function () { });
+                    //    return;
+                    //}
+
+                    callData = { "WO": cutWO, "NUM": cutNum, "CLOSEFLAG": closeFlag, "REMARK": remark };
+                    client.CallFunction("MESStation.Management.CutWoManager", "CutWoByNum", callData, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 3000
+                            }, function () {
+                            });
+                            GetWoInfo(cutWO);
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                            return;
+                        }
+                    });
+                }
+                else if (cutType == "CutSN") {
+                    selectRows = $('#tableSNList').bootstrapTable('getSelections');
+                    if (selectRows.length <= 0) {
+                        layer.msg("no records selected", {
+                            icon: 2,
+                            time: 3000
+                        }, function () { });
+                        return;
+                    }
+                    for (var i = 0; i < selectRows.length; i++) {
+                        cutSNId.push(selectRows[i].ID);
+                    }
+                    callData = { "WO": cutWO, "ID": cutSNId, "CLOSEFLAG": closeFlag, "REMARK": remark };
+                    client.CallFunction("MESStation.Management.CutWoManager", "CutWoBySNId", callData, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 1,
+                                time: 3000
+                            }, function () {
+                            });
+                            GetWoInfo(cutWO);
+                            GetSnDetailByWo(cutWO);
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                            return;
+                        }
+                    });
+                }
+            });
+
+            $("#btnSearchLog").on("click", function () {
+                layer.open({
+                    id: "SearchCutLog",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "Cut Log",
+                    area: ['80%', '90%'],
+                    content: $("#divSearchCutLog"),
+                    success: function (layero, index) {
+                        $("#searchWO").val("").select().focus();
+                    },
+                    end: function () { },
+                    yes: function (index) {
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+
+            $("#btnSearch").on("click", function () {
+                GetWOCutLog();
+            });
+            $("#searchWO").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    GetWOCutLog();
+                }
+            });
+        });
+
+        function GetWoInfo(wo) {
+            callData = { "WO": wo };
+            client.CallFunction("MESStation.Management.CutWoManager", "GetWoInfo", callData, function (e) {
+                if (e.Status == "Pass") {
+                    $("#divCutWO").find("input[type=text]").val(e.Data.WORKORDERNO);
+                    $("#divWOQty").find("input[type=text]").val(e.Data.WORKORDER_QTY);
+                    $("#divIputQty").find("input[type=text]").val(e.Data.INPUT_QTY);
+                    $("#divExtQty").find("input[type=text]").val(e.Data.WORKORDER_QTY - e.Data.INPUT_QTY);
+                    $("#divCutNum").find("input[type=text]").val(e.Data.WORKORDER_QTY - e.Data.INPUT_QTY);
+                    $("#divCloseWO").find("input[type=checkbox]").removeAttr("checked");
+                } else {
+                    $("#divWOQty").find("input[type=text]").val("");
+                    $("#divIputQty").find("input[type=text]").val("");
+                    $("#divExtQty").find("input[type=text]").val("");
+                    $("#divCutNum").find("input[type=text]").val("");
+                    $("#divRemark").find("textarea").val("");
+                    $("#divCloseWO").find("input[type=checkbox]").removeAttr("checked");
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function GetSnDetailByWo(wo) {
+            callData = { "WO": wo };
+            client.CallFunction("MESStation.Management.CutWoManager", "GetSNDetailByWo", callData, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableSNList').bootstrapTable("load", e.Data);
+                } else {
+                    $('#tableSNList').bootstrapTable("load", []);
+                    $("#divWOQty").find("input[type=text]").val("");
+                    $("#divIputQty").find("input[type=text]").val("");
+                    $("#divExtQty").find("input[type=text]").val("");
+                    $("#divCutNum").find("input[type=text]").val("");
+                    $("#divRemark").find("textarea").val("");
+                    $("#divCloseWO").find("input[type=checkbox]").removeAttr("checked");
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function CheckRow(row) {
+            $("#divCutNum").find("input[type=text]").val($('#tableSNList').bootstrapTable('getSelections').length);
+        }
+
+        function CheckAllRow(rows) {
+            $("#divCutNum").find("input[type=text]").val($('#tableSNList').bootstrapTable('getSelections').length);
+        }
+
+        function ShowWoData(Data) {
+            if (lan == "CHINESE") {
+                lan = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                lan = "zh-TW"
+            }
+            else {
+                lan = "en"
+            }
+            $('#tableSNList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: false,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                fixedColumns: true,
+                fixedNumber: 1,
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: true,                 //是否显示刷新按钮
+                maintainSelected: true,
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "",                      //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "right",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'CustomerList',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                onCheck: function (row) {
+                    CheckRow(row);
+                },
+                onUncheck: function (row) {
+                    CheckRow(row);
+                },
+                onCheckAll: function (rows) {
+                    CheckAllRow(rows);
+                },
+                onUncheckAll: function (rows) {
+                    CheckAllRow(rows);
+                },
+                locale: lan,
+                columns: [{
+                    field: 'select',
+                    title: 'select',
+                    checkbox: true
+                },
+                {
+                    field: "ID",
+                    title: "ID",
+                    visible: false
+                },
+                {
+                    field: 'WORKORDERNO',
+                    title: 'WO',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'SN',
+                    title: 'SN',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'CURRENT_STATION',
+                    title: 'CURRENT_STATION',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'NEXT_STATION',
+                    title: 'NEXT_STATION',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }]
+            });
+        }
+
+        function GetWOCutLog() {
+            client.CallFunction("MESStation.Management.CutWoManager", "GetWOCutLog", { "WO": $("#searchWO").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    //$('#tableCustomerList').bootstrapTable("load", e.Data);
+                    ShowLogData(e.Data);
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        });                    
+                    ShowLogData([]);
+                    return;
+                }
+            });
+        }
+        function ShowLogData(data) {
+            $("#tableLogList").bootstrapTable("destroy");
+            $('#tableLogList').bootstrapTable({
+                data: data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: false,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                fixedColumns: true,
+                fixedNumber: 1,
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: true,                 //是否显示刷新按钮
+                maintainSelected: true,
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: false,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "left",              //查询框对齐方式
+                toolbar: "",                      //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "right",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                columns: [
+                    {
+                        field: 'DATA1',
+                        title: 'WO',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'DATA2',
+                        title: 'QTY',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'LOG_MESSAGE',
+                        title: 'Remark',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: 'EDIT_EMP',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: 'EDIT_TIME',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }]
+            });
+        }
+    </script>
+</body>
+</html>

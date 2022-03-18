@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootStrapaddTabs/bootstrap.addtabs.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        body {
+            background: #fffbf0
+        }
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: xx-small;
+        }
+
+        thead th {
+            font-size: 8px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 5px 2px;
+            text-align: center;
+            background: #8C8C8C !important;
+            color: white;
+        }
+
+        .currentMenu {
+            background-color: #2e6da4 !important;
+        }
+
+        .currentMenubody {
+            background-color: #f0fcff ;
+            
+        }
+
+    </style>
+</head>
+<body class="full-height">
+<br>
+            <div class="col-md-2">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading currentMenu" role="tab" id="headingOne" style="background-color:slategray;color:white">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Menu
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in currentMenu" role="tabpanel" aria-labelledby="headingOne">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="main">
+                    <div id="tabs">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--</div>
+    </div>-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/plugins/bootStrapaddTabs/bootstrap.addtabs.js"></script>
+    <script>
+        var poid, pono, poline;
+        var client = self.parent.client;
+        $(document).ready(function () {
+            var title = "";
+            var t = $('#collapseOne');
+            var menuHtml = "<ul class=\"list-group \">" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu1\" url=\"OpenCardList.html\" class=\"list-group-item currentMenubody\">Open Card    List</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu2\" url=\"CustomerComplainCAR.html\" class=\"list-group-item currentMenubody\">Customer Complain CAR</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu3\" url=\"CARweeklyreport.html\" class=\"list-group-item currentMenubody\">CAR Weekly Report</a>" +
+                "<a href=\"javascript:void(0);\" data-addtab=\"userMenu5\" url=\"CARmonthlyreport.html\" class=\"list-group-item currentMenubody\">CAR Monthly Report</a></ul>";
+            $('#collapseOne').html(menuHtml);
+            $('#tabs').addtabs();
+        });
+    </script>
+</body>
+</html>

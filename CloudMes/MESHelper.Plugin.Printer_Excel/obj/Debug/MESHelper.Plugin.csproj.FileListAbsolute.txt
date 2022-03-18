@@ -1,0 +1,14 @@
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\MESHelper.Plugin.dll.config
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\MESHelper.Plugin.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\MESHelper.Plugin.pdb
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\SqlSugar.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\stdole.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.csproj.AssemblyReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\Interop.VBIDE.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.csproj.ResolveComReference.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.dll
+C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\MESHelper.Plugin.Printer_Excel\obj\Debug\MESHelper.Plugin.pdb

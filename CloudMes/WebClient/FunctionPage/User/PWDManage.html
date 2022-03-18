@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Edit Password</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="panel-heading bg-primary">
+                        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:EditPWD">Password Manage</span></h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="EditPWD" class="clients-list">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5 set-lan="html:EditPWDTitle">修改密码</h5>
+                                </div>
+                                <div id="EditPWDDetail" class="row form-horizontal ibox-content profile-content">
+                                    <form role="form" class="form-horizontal m-t">
+                                        <div class="col-sm-8">
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditUserName">UserName：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="UserName" placeholder="UserName" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditOldPWD">Old Password：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" name="OLDPWD" placeholder="Old Password" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditNewPWD">New Password：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" name="NEWPWD" placeholder="New Password" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group draggable">
+                                                <label class="col-sm-4 control-label" set-lan="html:EditPARTNOVER">Confirm New Password：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" name="CONNEWPWD" placeholder="Confirm New Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4"></div>
+                                        <div class="hr-line-dashed col-sm-12"></div>
+                                        <div class="form-group draggable">
+                                            <div class="col-sm-12 col-sm-offset-4">
+                                                <button type="button" class="btn btn-primary" onclick="UpdatePWD()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">Save</lan></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function (e) {
+            $("#EditPWDDetail input[name=UserName]")[0].value = self.parent.client.UserInfo.EMP_NO;
+            mesUI.SetLanguage("PWDManage");
+        })
+
+        function UpdatePWD() {
+            var param = "{";
+            $("#EditPWDDetail input").each(function () {
+                if ($(this)[0].name != "UserName") {
+                    param = param + "\"" + $(this)[0].name + "\":\"" + $(this).val() + "\",";
+                }
+            });
+            param = param.substring(0, param.length - 1) + "}";
+            self.parent.client.CallFunction("MESStation.MESUserManager.UserManager", "UpdatePassword", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "Success",
+                        text: e.Message,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                } else {
+                    swal({
+                        title: "ALERT",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            })
+            
+        }
+    </script>
+</body>
+</html>

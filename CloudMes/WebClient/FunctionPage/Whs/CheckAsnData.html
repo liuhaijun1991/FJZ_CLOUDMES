@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layer/layui.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #GTPanel {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+            }
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+            font-size: smaller;
+            font-weight: bold;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <hr class="layui-bg-blue">
+    <div id="AsnPanel" class="panel panel-primary">
+        <div class="panel-heading col-xs-12" style="font-size: small; margin-bottom: 10px; font-weight: bold;">
+            <div id="divAsnTitle" class="col-xs-11" style="font-size: 15px; float: left"></div>
+            <div id="divAsnTitleDo" class="col-xs-1"></div>
+        </div>
+        <div id="divGT">
+            <table id="AsnList" class="table table-bordered text-center" style="width: 600px!important"></table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        $(document).ready(function () {
+            var dn = $.MES.getQueryString("Dn");
+            var dnLine = $.MES.getQueryString("DnLine");
+            LoadAsnData(dn, dnLine);
+        });
+
+        var ShowAsnDataTable = function (data) {
+            var col = [];
+            if (data.length > 0) {
+                var row = data[0];
+                for (var item in row) {
+                    var cell = {
+                        field: item,
+                        title: item,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    };
+                    col.push(cell);
+                };
+            };
+            $('#AsnList').bootstrapTable('destroy');
+            $('#AsnList').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                pageSize: 100, //单页记录数
+                pageList: [100, 500], //可选择单页记录数
+                height: 600,
+                width: 1000,
+                rowStyle: function(row, index) {
+                    var strclass = "";
+                    if (row.GTEVENT > row.SEQ)
+                        strclass = 'success';
+                    else if (row.GTEVENT == row.SEQ)
+                        strclass = 'info';
+                    else
+                        strclass = 'danger';
+                    return { classes: strclass }
+                },
+                columns: col
+            }).bootstrapTable({
+                height: $('#height').prop('checked') ? 400 : undefined,
+                data: data,
+                toolbar: '.toolbar',
+                search: true,
+                showColumns: true,
+                clickToSelect: true,
+                fixedColumns: true,
+                fixedNumber: +$('#fixedNumber').val(),
+                fixedRightNumber: +$('#fixedRightNumber').val()
+            });
+        }
+
+
+        var LoadAsnData = function (dn, dnLine) {
+            var AsnTitle = "Current operation : Dn:" + dn + " / DnLine:" + dnLine + "";
+            $('#divAsnTitle').html(AsnTitle);
+            self.parent.client.CallFunction("MESStation.Config.WhsConfig",
+                "GetAsnDataByDnInfo",
+                { Dn: dn, DnLine: dnLine },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        ShowAsnDataTable(e.Data);
+                        showConfirmBtn(dn, dnLine);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent()
+                            .css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    } else {
+                        ShowAsnDataTable([]);
+                        layer.open({
+                            type: 1,
+                            skin: 'layui-layer-demo', //样式类名
+                            closeBtn: 0, //不显示关闭按钮
+                            anim: 2,
+                            shadeClose: true, //开启遮罩关闭
+                            content: e.Message
+                        });
+                        return;
+                    }
+                });
+        }
+
+
+        var showConfirmBtn = function(dn, dnLine) {
+            $('#divAsnTitleDo').html("");
+            var gtBtn = '<button type="button" class="btn btn-success btn-sm" onClick="doConfirm(' +
+                dn +
+                ',\'' +
+                dnLine +
+                '\')" >Data confirmation</button>';
+            $('#divAsnTitleDo').html(gtBtn);
+        }
+
+        var doConfirm = function (dn, dnLine) {
+            var titleHtml = '<b>CQA: Dn#:' + dn + ' DnLine#:' + dnLine + '</b>';
+            layer.confirm(titleHtml, {
+                btn: ['Confirm', 'Cancel'] //按钮
+            }, function () {
+                    var loadingFlag = layer.msg('Reading data, please wait……', { icon: 16, shade: 0.7,shadeClose:false,time:3000000 });
+                self.parent.client.CallFunction("MESStation.Config.WhsConfig", "ShipOutDoCqa", { Dn: dn, DnLine: dnLine }, function (e) {
+                    //layer.closeAll('loading');
+                    layer.close(loadingFlag);
+                    if (e.Status == "Pass") {
+                        layer.msg(' Dn#:' + dn + ' DnLine#:' + dnLine + 'Confirm OK!', { icon: 1 });
+                        $('#divAsnTitleDo').html("");
+                    } else {
+                        layer.msg(e.Message, {icon: 2,time:5000});
+                        return;
+                    }
+                });
+            });
+        };
+
+    </script>
+</body>
+</html>

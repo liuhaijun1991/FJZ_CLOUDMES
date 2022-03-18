@@ -1,0 +1,669 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+        }
+
+        .repair-nav-tabs > li > a {
+            padding: 5px 15px 0 15px !important;
+            margin-left: 0px !important;
+        }
+
+        .repair-nav-tabs > li.active {
+            border-left: 0px solid #f9f7f7;
+            background-color: #f5f5f5;
+        }
+
+        .repair-nav-tabs {
+            background-color: #f5f5f5;
+            padding-left: 0px;
+            margin-left: 0px;
+        }
+
+            .repair-nav-tabs li h3 {
+                font-size: inherit;
+            }
+
+            .repair-nav-tabs > li.active > a,
+            .repair-nav-tabs > li.active > a:hover,
+            .repair-nav-tabs > li.active > a:focus {
+                color: #fff;
+                background-color: #337ab7 !important;
+                border: 1px solid #337ab7;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                font-size: inherit;
+                font-weight: 600;
+            }
+        /*.repair-nav-tabs > li.active {
+            border-left:0;
+            border-right:0;
+            background-color: #f8ac59;
+        }
+        .repair-nav-tabs > li {
+            margin-bottom: 0;
+        }*/
+
+        .fieldset-border {
+            /*margin: 0;*/
+            padding-top: -10px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            /*padding-right: 30px;*/
+            border: 1px solid silver;
+            border-radius: 4px;
+            border-color: #e7eaec;
+            margin-bottom: 5px;
+            border-color: #f8ac59;
+        }
+
+        .legend-border {
+            padding: 0 5px;
+            width: auto;
+            border: 0;
+            font-size: inherit;
+            font-weight: 600;
+            margin-bottom: 0px;
+            /*color:#337ab7;*/
+        }
+
+        .border-primary {
+            border-color: #337ab7;
+        }
+
+        .list-inline li {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .tab-pane table, .panel table {
+            margin-bottom: 0;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .no-border {
+            border: 0;
+        }
+
+        h3 label, h3 span {
+            padding-left: 10px;
+        }
+
+        button lan {
+            padding-left: 5px;
+        }
+
+        .padding-top-5 {
+            padding-top: 5px !important;
+        }
+
+        .padding-right-15 {
+             padding-right:15px !important;
+        }
+
+        .form-group input, .form-group select {
+            /*box-shadow: inset 0px 0px 1px #bcbcbc;*/
+            border-radius: 5px;
+        }
+
+        .tab-pane table {
+            border-radius: 0px;
+        }
+
+        .repair-output .form-group {
+            border-bottom: 1px dotted #337ab7;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+            .repair-output .form-group label {
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+            .repair-output .form-group div {
+                padding-top: 7px;
+                padding-left: 0 !important;
+                width: auto;
+            }
+
+        .table-tr-background-color {
+            background-color: #f8ac59 !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-horizontal .control-label {
+                padding-top: 7px;
+                margin-bottom: 0;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="ibox-title no-border title-bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span>SaveRepair</span></h3>
+        </div>
+        <div class="ibox-content padding-top-5">
+            <div class="row form-horizontal">
+                <div id="divRepairBtn" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="list-inline">
+                        <li><button type="button" class="btn btn-primary" onclick="SaveRepair()"><i class="fa fa-save"></i><lan set-lan="">Save</lan></button></li>
+                        <li><button type="button" class="btn btn-primary" onclick=""><i class="fa fa-file"></i><lan set-lan="">New Fail Code</lan></button></li>
+                        <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divRepairUnlock"><i class="fa fa-unlock"></i><lan set-lan="">Unlock</lan></button></li>
+                        <li><button type="button" class="btn btn-primary" onclick=""><i class="fa fa-refresh"></i><lan set-lan="">Reset</lan></button></li>
+                    </ul>
+                </div>
+
+                <div id="divRepairInputSn" class="col-xs-12 col-sm-8 col-md-8 col-lg-7">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="divRepairSN">
+                        
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="divRepairedBy">
+                       
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="divBackStation">
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" id="divBackStationCheckBox">
+
+                    </div>
+                </div>
+
+                <div id="divOutputSnInfo" class="col-xs-12 col-sm-4 col-md-4 col-lg-5">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 repair-output" id="divSNStatus">
+                        <div class="form-group" view-group="Status_00001">
+                            <label for="Status_00001" class="col-xs-4 control-label text-right">Status:</label>
+                            <div class="col-xs-8">
+                                <u id="RStatus_00001" class="form-control-static">StorageStorage</u>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 repair-output" id="divRepairStatus">
+                        <div class="form-group" view-group="RepairStatus_00001">
+                            <label for="RepairStatus_00001" class="col-xs-4 control-label text-right">Repair Status:</label>
+                            <div class="col-xs-8" style="width: auto;">
+                                <u id="RepairStatus_00001" class="form-control-static">Open</u>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 repair-output" id="divCodeName">
+                        <div class="form-group" view-group="CodeName_00001">
+                            <label for="CodeName_00001" class="col-xs-4 control-label text-right">Code Name:</label>
+                            <div class="col-xs-8">
+                                <u id="CodeName_00001" class="form-control-static">Code Name</u>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="divRepairList">
+                    <div div class="panel panel-default">
+                        <div class="tab-">
+                            <ul class="nav nav-tabs repair-nav-tabs">
+                                <li class="active" style="padding-left:0px;margin-left:0px;">
+                                    <a href="#divFailCodeList" data-toggle="tab"><h3>Fail Code List</h3></a>
+                                </li>
+                                <li>
+                                    <a href="#divRepairActionList" data-toggle="tab"><h3>Repair Action List</h3></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="divFailCodeList">
+                            </div>
+                            <div class="tab-pane fade" id="divRepairActionList">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="divRepairAction">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Repair Action</h3>
+                        </div>
+                        <div class="panel-body  no-padding padding-top-5">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 " id="divFailCodeID" hidden>
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+                                    <div class="form-group" view-group="">
+                                        <label for="" class="col-xs-5 control-label text-right">Fail Code ID:</label>
+                                        <div class="col-xs-7">
+                                            <input id="uFialCode" type="text" class="form-control" placeholder="Fail Code ID" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divActionCode">
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divReseaon">
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divProcess">
+
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divLocation">
+
+                                </div>
+                                <div id="divDuty" class="col-xs-10 col-sm-6 col-md-4 col-lg-6">
+
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divBigItem">
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divSmallItem">
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divKeypartSN">
+                                    
+                                </div>
+                                <div class="col-xs-10 col-sm-6 col-md-4 col-lg-6" id="divNewKeypartSN">
+                                    
+                                </div>
+                            </div>
+                          
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
+                                <fieldset class="fieldset-border">
+                                    <legend class="legend-border">AllPart Info</legend>
+                                    <div class="row padding-right-15">
+                                        <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divNewTRSN">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row padding-right-15">
+                                        <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divNewPartNo">
+                                            
+                                        </div>
+                                        <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divNewMFRName">
+                                            
+                                        </div>
+                                        <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divNewDateCode">
+                                            
+                                        </div>
+                                        <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divNewLotCode">
+                                            
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6" id="divDescription">
+                                    
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xs-offset-3 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <button type="button" class="btn btn-primary" onclick="SaveRepairAction()">
+                                                <i class="fa fa-save"></i><lan set-lan="html:SaveRepairAction">Save Repair Action</lan>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divRepariMsg" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default no-padding">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Message</h3>
+                        </div>
+                        <div class="panel-body no-padding" id="divMessage">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--unlock begin-->
+    <div class="modal fade" id="divRepairUnlock" tabindex="-99" role="dialog" aria-hidden="true" aria-labelledby="Repair Unlock" style="padding-top:50px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#337ab7;color:#ffffff">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                    <h3 class="modal-title"><i class="glyphicon glyphicon-tags"></i><span>Repair Unlock</span></h3>
+                </div>
+                <div class="modal-body" style="height:auto;">
+                    <div class="row form-horizontal">
+                        <div class="col-sm-12" id="divUnlockEmpNO">
+                            <div class="form-group" view-group="EmpNO_00001">
+                                <label for="EmpNO_00001" class="col-sm-3 control-label text-right">Emp NO:</label>
+                                <div class="col-sm-8">
+                                    <input id="EmpNO_00001" type="text" class="form-control" placeholder="Emp NO" value="" onkeypress="EmpKeypress()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="divUnlockPWD">
+                            <div class="form-group" view-group="PassWord_00001">
+                                <label for="PassWord_00001" class="col-sm-3 control-label text-right">Pass Word:</label>
+                                <div class="col-sm-8">
+                                    <input id="PassWord_00001" type="text" class="form-control" placeholder="Pass Word" value="" onkeypress="PWDKeypress()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="divUnlockSN">
+                            <div class="form-group" view-group="SN_00001">
+                                <label for="SN_00001" class="col-sm-3 control-label text-right">SN:</label>
+                                <div class="col-sm-8">
+                                    <input id="SN_00001" type="text" class="form-control" placeholder="SN" value="" onkeypress="UnlockSNKeypress()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 text-right"><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
+                            <div class="col-sm-6"><button type="button" class="btn btn-primary" onclick="RepairUnlockSN()">Unlock</button></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <p id="pUnlockMsg" class="form-control-static"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--unlock end-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var repairStaion;
+        var stationName = $.MES.getQueryString("StationName");
+        //var stationName = 'Repair_HWD';
+        $(document).ready(function () {
+            repairStaion = new MesStation({
+                Client: self.parent.client,
+                Line: "Line1",
+                Name: stationName,
+                //IScale:"4:8",
+                //IContainer: $("#inputsite"),
+                //OContainer: $("#outputsite"),
+                MContainer: $("#divMessage"),
+                MessageShowType: undefined,
+                Init: function (d) {
+                    if (d.Status == "Pass") {
+                        repairStaion.ShowInput({
+                            InputName: "SN",
+                            Container: $("#divRepairSN")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "RepairedBy",
+                            Container: $("#divRepairedBy")
+                        });
+                        //repairStaion.ShowInput({
+                        //    InputName: "BackStation",
+                        //    Container: $("#divBackStation")
+                        //});
+                        //repairStaion.ShowInput({
+                        //    InputName: "BackStationCheckBox",
+                        //    Container: $("#divBackStationCheckBox")
+                        //});
+                        repairStaion.ShowInput({
+                            InputName: "FAILCODEID",
+                            Scale: "5:7",
+                            Enable:false,
+                            Container: $("#divFailCodeID")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "ActionCode",
+                            Scale: "5:7",
+                            Container: $("#divActionCode")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "RootCause",
+                            Scale: "5:7",
+                            Container: $("#divReseaon")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Process",
+                            Scale: "5:7",
+                            Container: $("#divProcess")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Location",
+                            Scale: "5:7",
+                            Container: $("#divLocation")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Duty",
+                            Scale: "5:7",
+                            Container: $("#divDuty")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Items",
+                            Scale: "5:7",
+                            Container: $("#divBigItem")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Son_Items",
+                            Scale: "5:7",
+                            Container: $("#divSmallItem")
+                        });                       
+                        repairStaion.ShowInput({
+                            InputName: "Oldkeypart",
+                            Scale: "5:7",
+                            Container: $("#divKeypartSN")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Newkeypart",
+                            Scale: "5:7",
+                            Container: $("#divNewKeypartSN")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "ReplaceID",
+                            Scale: "5:7",
+                            Container: $("#divNewTRSN")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "KP_NO",
+                            Scale: "5:7",
+                            Container: $("#divNewPartNo")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "MFR_Name",
+                            Scale: "5:7",
+                            Container: $("#divNewMFRName")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Date_Code",
+                            Scale: "5:7",
+                            Container: $("#divNewDateCode")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Lot_Code",
+                            Scale: "5:7",
+                            Container: $("#divNewLotCode")
+                        });
+                        repairStaion.ShowInput({
+                            InputName: "Description",
+                            Scale: "5:7",
+                            Container: $("#divDescription")
+                        });
+                        repairStaion.ShowOutput({
+                            OutputName: "FAILCODE",
+                            Container: $("#divFailCodeList")
+                        });
+                        repairStaion.ShowOutput({
+                            OutputName: "REPAIRACTION",
+                            Container: $("#divRepairActionList")
+                        });
+                        RepairInit();
+                    }
+                    else {
+                        swal("Station initialization failed!", d.Message, "error");
+                    }
+                }
+            });           
+            $("#uFialCode").attr("disabled", true);
+            //Unlock modal 事件
+            $("#divRepairUnlock").on("shown.bs.modal", function () {
+                $("#divRepairUnlock").find("input[type=text]")[0].select();
+                $("#divRepairUnlock").find("input[type=text]")[0].focus();
+            });
+            $("#divRepairUnlock").on("hidden.bs.modal", function () {
+                $("#divRepairSN").find("input[type=text]")[0].select();
+                $("#divRepairSN").find("input[type=text]")[0].focus();
+                $("#divUnlockEmpNO").find("input[type=text]").attr("disabled", false);
+                $("#divUnlockPWD").find("input[type=password]").attr("disabled", false);
+                $("#divRepairUnlock").find("input").val("");
+                $("#pUnlockMsg").html("");
+            });
+        });
+
+        function RepairInit() {
+            var failCodeID=$("#divFailCodeID").find("input[type=text]").val();
+            var event = jQuery.Event("keypress");//模拟一个键盘事件
+            event.keyCode = 13;//keyCode=13是回车
+            //工站加載完成后 初始化樣式 -begin
+            $("#divBackStationCheckBox").find("label").attr("hidden", "hidden");//隱藏Back Station 輸入後台配置的label標籤
+            $("#divBackStationCheckBox").find("input[type=checkbox]").css({ 'margin': '0', 'width': '30px' });//設置Back Station checkbox的margin為0
+            $("#divSNStatus").find("p").css({ color: '#228B22', 'font-weight': 'bolder' });
+            $("#divRepairStatus").find("p").css({ color: '#228B22', 'font-weight': 'bolder' });
+            $("#FailHistory,#RepairHistory,#RepairInfo,#FailCodeList").find("table").css({ 'margin-bottom': '0' });
+            $("#divRepairSN").find("input[type=text]").select();
+            $("#divRepairSN").find("input[type=text]").focus();
+            $("#divCodeName").find("label").addClass("col-lg-4");
+            $("#divCodeName").find(".col-sm-9").addClass("col-lg-8");
+            $("#divUnlockPWD").find("input").removeAttr("type").attr("type", "password");
+            //$("#divRepairAction").find("input[type=text]").attr("disabled", true);
+            //$("#divRepairAction").find("textarea").attr("disabled", true);
+            //$("#divRepairAction").find("select").attr("disabled", true);
+            //工站加載完成后 初始化樣式 -end
+            if ( failCodeID!= "" && failCodeID != undefined) {
+                $("#FAILCODE tr").each(function (i) {
+                    if ($("#FAILCODE tr").eq(i).find("td:first").html() == failCodeID) {
+                        $("#FAILCODE tr").eq(i).addClass("table-tr-background-color");
+                    }
+                });
+            }
+            $("#FAILCODE").on("click-row.bs.table", function (e, row, ele) {
+                //$("#divRepairAction").find("input[type=text]").attr("disabled", false);
+                //$("#divRepairAction").find("textarea").attr("disabled", false);
+                //$("#divRepairAction").find("select").attr("disabled", false);
+                $("#divFailCodeID").find("input[type=text]").val(row.ID);
+                $("#uFialCode").val(row.ID);
+                $("#divFailCodeID").find("input[type=text]").trigger(event);//模拟輸入框按下回车
+                $("#divFailCodeID").find("input[type=text]").attr("disabled", true);
+                $('.table-tr-background-color').removeClass('table-tr-background-color');
+                $(ele).addClass('table-tr-background-color');
+                //$("#divProcess").find("input[type=text]").val(row.FAIL_PROCESS);
+                //$("#divLocation").find("input[type=text]").val(row.FAIL_LOACTION);
+                //$("#divProcess").find("input[type=text]").attr("disabled", true);
+                //$("#divLocation").find("input[type=text]").attr("disabled", true);
+                $("#divActionCode").find("input[type=text]").select();
+                $("#divActionCode").find("input[type=text]").focus();
+            });            
+        }
+
+        function SaveRepairAction() {
+            repairStaion.SetInputValue("TEXT_10049","");
+            repairStaion.SendData();
+        }
+        function SaveRepair() {
+            repairStaion.SetInputValue("TEXT_10050", "");
+            repairStaion.SendData();
+        }
+        function EmpKeypress() {
+            if (event.keyCode == 13) {
+                $("#divUnlockPWD").find("input[type=password]")[0].select();
+                $("#divUnlockPWD").find("input[type=password]")[0].focus();
+            }
+        }
+        function PWDKeypress() {
+            if (event.keyCode == 13) {
+                $("#divUnlockSN").find("input[type=text]")[0].select();
+                $("#divUnlockSN").find("input[type=text]")[0].select();
+                $("#divUnlockEmpNO").find("input[type=text]").attr("disabled", true);
+                $("#divUnlockPWD").find("input[type=password]").attr("disabled", true);
+            }
+        }
+
+        function UnlockSNKeypress()
+        {
+            if (event.keyCode == 13) {
+                RepairUnlockSN();
+            }
+        }
+
+        function ShowUnlockMsg(type, msg) {
+            $("#pUnlockMsg").html("");
+            if (type == "Pass") {
+                $("#pUnlockMsg").css({ "color": "green" });
+            }
+            else {
+                $("#pUnlockMsg").css({ "color": "red" });
+            }
+            $("#pUnlockMsg").html(msg);
+        }
+
+        function RepairUnlockSN() {
+            var emp, pwd;
+            emp = $("#divUnlockEmpNO").find("input[type=text]").val();
+            pwd = $("#divUnlockPWD").find("input[type=password]").val();
+            if (emp == "" || emp == undefined) {
+                ShowUnlockMsg("Fail", "Please input Emp NO");
+                return;
+            }
+            if (pwd == "" || pwd == undefined) {
+                ShowUnlockMsg("Fail", "Pass Word");
+                return;
+            }
+            ShowUnlockMsg("Pass", $("#divUnlockSN").find("input[type=text]").val());
+            $("#divUnlockSN").find("input[type=text]").val("");
+            $("#divUnlockSN").find("input[type=text]")[0].select();
+            $("#divUnlockSN").find("input[type=text]")[0].select();
+        }
+
+
+    </script>
+</body>
+</html>

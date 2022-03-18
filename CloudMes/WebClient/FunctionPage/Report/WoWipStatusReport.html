@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Report</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/
+        #tableUPH th, #tableUPH td {
+            text-align: center;
+        }
+
+        #tableUPH th {
+            padding: 3px;
+            height: 30px;
+        }
+
+        #tableUPH td {
+            width: 100px !important;
+            height: 20px !important;
+        }
+
+        .blueColor {
+            color: blue;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12 inputs">
+
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <button class="btn btn-primary submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid no-padding outputs">
+        <div class="container-fluid no-padding">
+            <h4 id="uphTitle" style="padding-left:10px;"></h4>
+            <div style="overflow-y:auto;overflow-x:auto;margin-top:15px;margin-left:10px;height:600px;">
+                <table id="tableUPH" cellpadding="0" cellspacing="0" border="1" style="font-size:14px;">
+                    <thead>
+                        <!--<tr>
+                            <td rowspan="3">HOUR</td>
+                            <td colspan="10">line1</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">STTION1</td>
+                            <td colspan="2">STTION2</td>
+                            <td colspan="2">STTION3</td>
+                            <td colspan="2">STTION4</td>
+                            <td colspan="2">STTION5</td>
+                        </tr>
+                        <tr>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                        </tr>-->
+                    </thead>
+                    <tbody>
+                        <!--<tr>
+                            <td>01</td>
+                            <td>10</td>
+                            <td>5</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+    <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+    <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <!--<script src="../../Scripts/Mes.js"></script>-->
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script>
+        var ReportClassName = "";
+        var Data = "";
+        var RunFlag = "";
+        var _Report = null;
+        $(document).ready(function () {
+            ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+            //Data = $.MES.getQueryString("Data");//用于其他报表跳转传值
+
+            Data = $.MES.getQueryObj();
+            RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+            if (RunFlag == "1") {
+                RunFlag = "0";
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+                        //if (_Report.Report.Inputs.length > 0) {
+                        //    _Report.SetInputValue(_Report.Report.Inputs[0].Name, Data);
+                        //    _Report.Run();
+                        //}
+                        if (_Report.Report.Inputs.length > 0) {
+                            for (var i = 1; i < Data.length; i++) {
+                                _Report.SetInputValue(Data[i][0], Data[i][1]);
+                            }
+                            _Report.Run();
+                        }
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    _Report.Run();
+                });
+                $(".SearchBox").toggle(false);
+            }
+            else {
+                _Report = new MesReport({
+                    Client: self.parent.client,
+                    IContainer: $(".inputs"),
+                    //OContainer: $(".outputs"),
+                    ReportClassName: ReportClassName,
+                    Init: function (e) {
+
+                    }
+                });
+                $(document).on("click", ".SearchBtn", function (e) {
+                    $(".SearchBox").toggle();
+                });
+                $(document).on("click", ".submit", function (e) {
+                    $(".SearchBox").toggle();
+                    //_Report.Run();
+                    var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                    self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                        { ClassName: ReportClassName, Report: _Report.ReportJson }, ShowReturn, MessageID);
+                });
+                $(".SearchBox").toggle(true);
+            }
+
+        });
+        function ShowReturn(obj) {
+            var _Mes = MesReport.prototype.ObjList[obj.MessageID];
+            delete MesReport.prototype.ObjList[obj.MessageID];
+            if (obj.Status == "Pass") {
+                if (obj.Data.Outputs.length == 1 && obj.Data.Outputs[0].OutputType == "ReportAlart") {
+                    swal({
+                        title: "",
+                        text: obj.Data.Outputs[0].Msg,
+                        type: obj.Data.Outputs[0].AlartType
+                    }, function () { $(".SearchBox").toggle(); });
+                    return;
+                }
+                ShowData(obj.Data.Outputs);
+            }
+            self.parent.Loading(false);
+        }
+        function ShowData(outData) {
+            $("#uphTitle").html("");
+            $("#tableUPH thead").html("");
+            $("#tableUPH tbody").html("");
+            $("#uphTitle").html("<input type='button' value='Export Excel' onclick='ExportTable()'/>");
+            // var lineHtml = "<tr border='1' id='trLine'><td rowspan='3'>HOUR</td>";
+            stationHtml = " <tr style='font-weight:bolder; border:1px solid black'border='1'>";
+            statusHtml = " <tr>";
+            var bodyTr = "";
+
+            for (var obj in outData[0][0]) {
+                if (obj == "CRITICALBONEPILE") {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' colspan='3' bgcolor='GreenYellow'>" + obj + "</td>";
+                    statusHtml = statusHtml + "<td bgcolor='GreenYellow'>Hold</td><td bgcolor='GreenYellow'>Other</td><td bgcolor='GreenYellow'>Total</td>";
+                } else if (obj == "RE_WIP") {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' colspan='4' bgcolor='GreenYellow'>" + obj + "</td>";
+                    statusHtml = statusHtml + "<td bgcolor='GreenYellow'>Hold</td><td bgcolor='GreenYellow'>CB</td><td bgcolor='GreenYellow'>Other</td><td bgcolor='GreenYellow'>Total</td>";
+                } else if (obj == "IN_LINE") {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' colspan='4' bgcolor='#FF9966'>" + obj + "</td>";
+                    statusHtml = statusHtml + "<td bgcolor='#FF9966'>Hold</td><td bgcolor='#FF9966'>CB</td><td bgcolor='#FF9966'>Other</td><td bgcolor='#FF9966'>Total</td>";
+                } else if (obj == "ROUTE_ID") {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' style='display:none' rowspan='2' bgcolor='DarkCyan'>" + obj + "</td>";
+                } else if (obj == "HOLD_WIP" || obj == "ORT" || obj == "TEMPWIP" || obj == "CHECK_IN" || obj == "CHECK_OUT") {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' rowspan='2' bgcolor='#FF9966'>" + obj + "</td>";
+                } else {
+                    stationHtml = stationHtml + "<td nowrap='nowrap' rowspan='2' bgcolor='DarkCyan'>" + obj + "</td>";
+                }
+            }
+            for (var s = 0; s < outData[0].length; s++) {
+                bodyTr = $("<tr id='" + s + "'></tr>");
+                var cd = outData[1]["" + outData[0][s]["ROUTE_ID"] + ""];
+                for (var a in outData[0][s]) {
+                    var data = outData[0][s][a] == undefined ? "0" : outData[0][s][a];
+                    if (a == "CRITICALBONEPILE") {
+                        if (data == "0") {
+                            for (var i = 0; i < 3; i++) {
+                                bodyTr.append("<td bgcolor='MediumSlateBlue'>0</td>");
+                            }
+                        }
+                        else {
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'>0</td>");
+                            for (var i = 0; i < 2; i++) {
+                                bodyTr.append("<td bgcolor='MediumSlateBlue'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>");
+
+                            }
+                        }
+                    } else if (a == "RE_WIP") {
+                        if (data == "0") {
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'>0</td>");
+                        }
+                        else {
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>");
+                            bodyTr.append("<td bgcolor='MediumSlateBlue'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>");
+                        }
+                    }
+                    else if (a == "IN_LINE") {
+                        if (data == "0") {
+                            //for (var i = 0; i < 4; i++) {
+                            //    bodyTr.append("<td bgcolor='#FFCC33'>0</td>");
+                            //}
+                            bodyTr.append("<td bgcolor='#FFCC33'></td>");
+                            bodyTr.append("<td bgcolor='#FFCC33'></td>");
+                            bodyTr.append("<td bgcolor='#FFCC33'></td>");
+                            bodyTr.append("<td bgcolor='#FFCC33'>0</td>");
+                        }
+                        else {
+                            bodyTr.append("<td bgcolor='#FFCC33'></td>");
+                            bodyTr.append("<td bgcolor='#FFCC33'></td>");
+                            for (var i = 0; i < 2; i++) {
+                                bodyTr.append("<td  bgcolor='#FFCC33'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>");
+                            }
+                        }
+                    }
+                    else if (a.toString() == "HOLD_WIP" || a.toString() == "ORT" || a.toString() == "TEMPWIP") {
+                        if (data == "0") {
+                            bodyTr.append("<td bgcolor='#FFCC33'>0</td>");
+                        } else {
+                            bodyTr.append("<td  bgcolor='#FFCC33'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>");
+                        }
+                    }
+                    else if (a.toString() == "CHECK_IN" || a.toString() == "CHECK_OUT") {
+                        if (data == "0") {
+                            bodyTr.append("<td bgcolor='#FFCC33'>0</td>");
+                        } else {
+                            bodyTr.append("<td  bgcolor='#FFCC33'>" + data + "</td>");
+                        }
+                    }
+                    else if (a.toString() == "FAIL_TOTAL") {
+                        if (data == "0") {
+                            bodyTr.append("<td>0</td>");
+                        } else {
+                            bodyTr.append("<td>" + data + "</td>");
+                        }
+                    }
+                    else {
+                        if (a.toString() == "SKUNO" || a.toString() == "PRODUCTNAME" || a.toString() == "CUSTPARTDESC" || a.toString() == "WORKORDERNO" || a.toString() == "GROUPID") {
+                            bodyTr.append("<td bgcolor='Aqua'>" + data + "</td>");
+                        //} else if (a.toString() == "WORKORDER_QTY") {
+                        //    bodyTr.append("<td style='color:blue'>" + data + "</td>");
+                        } else if (a.toString() == "SKU_VER" || a.toString() == "STARTDATE") {
+                            bodyTr.append("<td>" + data + "</td>");
+                        }
+                        else if (a.toString() == "ROUTE_ID") {
+                            bodyTr.append("<td style='display:none'>" + data + "</td>");
+                        } else {
+                            //bodyTr.append("<td><a class='J_menuItem'  data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RunFlag=1'>" + data + "</a></td>")
+                            if (cd != null) {
+                                if (cd.Contain(a)) {
+                                    if (data != "0") {
+                                        if (a.toString().endsWith("LOADING")) {
+                                            bodyTr.append("<td bgcolor='LightSlateGray' style='color:blue'>" + data + "</td>");
+                                        } else if ( a.toString() == "STORAGE" || a.toString() == "FGI")
+                                        {
+                                            bodyTr.append("<td bgcolor='DarkCyan'>" + data + "</td>");
+                                        }
+                                        else {
+                                            bodyTr.append("<td bgcolor='LightSlateGray'><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RouteID=" + outData[0][s]["ROUTE_ID"].toString() + "&RunFlag=1'>" + data + "</a></td>");
+                                        }
+                                       
+                                    } else {
+                                        bodyTr.append("<td bgcolor='LightSlateGray'></td>");
+                                    }
+
+                                } else {
+                                    if (data != 0) {
+                                        if (a.toString().endsWith("LOADING")) {
+                                            bodyTr.append("<td ></td>");
+                                        } else if (  a.toString() == "STORAGE" || a.toString() == "FGI") {
+                                            bodyTr.append("<td bgcolor='DarkCyan'>" + data + "</td>");
+                                        }
+                                        else {
+                                            bodyTr.append("<td><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RouteID=" + outData[0][s]["ROUTE_ID"].toString() + "&RunFlag=1'>" + data + "</a></td>");
+                                        }
+                                        
+                                    } else {
+                                        if (a.toString() == "STORAGE" || a.toString() == "FGI") {
+                                            bodyTr.append("<td bgcolor='DarkCyan'>0</td>");
+                                        } else {
+                                            bodyTr.append("<td></td>");
+                                        }
+                                        
+                                    }
+
+                                }
+                            }
+                            else {
+                                if (data != 0) {
+                                    if (a.toString().endsWith("LOADING")) {
+                                        bodyTr.append("<td></td>");
+                                    } else if ( a.toString() == "STORAGE" || a.toString() == "FGI") {
+                                        bodyTr.append("<td bgcolor='DarkCyan'>" + data + "</td>");
+                                    } else {
+                                        bodyTr.append("<td><a class='J_menuItem' style='color:blue' data-type='Link' data-index='" + a + "' href='javascript:;' url='/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNListBySKU&SKU=" + outData[0][s]["WORKORDERNO"].toString() + "&NextName=" + a + "&RouteID=" + outData[0][s]["ROUTE_ID"].toString() + "&RunFlag=1'>" + data + "</a></td>");
+                                    }
+                                    
+                                } else {
+                                    if (a.toString() == "STORAGE" || a.toString() == "FGI") {
+                                        bodyTr.append("<td bgcolor='DarkCyan'>0</td>");
+                                    } else {
+                                        bodyTr.append("<td></td>");
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                $("#tableUPH tbody").append(bodyTr);
+            }
+
+            stationHtml = stationHtml + "</tr>";
+            statusHtml = statusHtml + "</tr>";
+            $("#tableUPH thead").append(stationHtml + statusHtml);
+            $(".outputs").on("click", ".J_menuItem", OnLinkClick);
+        }
+        function ExportTable() {
+            $("#tableUPH").tableExport(
+                {
+                    type: "excel",
+                    escape: "false"
+                });
+        }
+    </script>
+</body>
+</html>

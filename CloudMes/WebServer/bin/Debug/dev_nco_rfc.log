@@ -1,0 +1,159 @@
+
+**** Log file opened by process 13432 at 2022-02-18 14:29:01 (UTC-07:00 美加山區標準時間)
+
+SAP .NET Connector 3.0 with file version 3.0.17.0 running on 64-bit .NET Framework 4.0.30319.42000
+Program: C:\Users\Administrator\source\repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug\WebServer.exe
+Working directory: C:\Users\Administrator\source\repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug
+Operating system: Windows 8  64-bit 
+Processor: 8x AMD64 (or x64)
+SAP release: 721, Kernel release: 721, Kernel patch level: 623
+Hostname: DESKTOP-71OIF64, IP address: 10.14.128.198, IP_v6 address: 
+
+Default trace level: None
+
+>> Error entry 2022-02-18 14:29:01.676 [Thread 59]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-18 14:32:36.297 [Thread 27]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-18 14:37:58.503 [Thread 33]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-18 14:54:30.163 [Thread 48]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+
+**** Log file opened by process 21640 at 2022-02-18 14:55:39 (UTC-07:00 美加山區標準時間)
+
+SAP .NET Connector 3.0 with file version 3.0.17.0 running on 64-bit .NET Framework 4.0.30319.42000
+Program: C:\Users\Administrator\source\repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug\WebServer.exe
+Working directory: C:\Users\Administrator\source\repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug
+Operating system: Windows 8  64-bit 
+Processor: 8x AMD64 (or x64)
+SAP release: 721, Kernel release: 721, Kernel patch level: 623
+Hostname: DESKTOP-71OIF64, IP address: 10.14.128.198, IP_v6 address: 
+
+Default trace level: None
+
+>> Error entry 2022-02-18 14:55:39.044 [Thread 17]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-18 15:04:28.891 [Thread 28]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+
+**** Log file opened by process 16368 at 2022-02-25 16:45:29 (UTC-07:00 美加山區標準時間)
+
+SAP .NET Connector 3.0 with file version 3.0.17.0 running on 64-bit .NET Framework 4.0.30319.42000
+Program: C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug\WebServer.exe
+Working directory: C:\Users\Administrator\Source\Repos\NN_CLOUDMES\CloudMes\WebServer\bin\Debug
+Operating system: Windows 8  64-bit 
+Processor: 8x AMD64 (or x64)
+SAP release: 721, Kernel release: 721, Kernel patch level: 623
+Hostname: DESKTOP-71OIF64, IP address: 10.14.128.198, IP_v6 address: 
+
+Default trace level: None
+
+>> Error entry 2022-02-25 16:45:29.181 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.193 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.198 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.203 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.208 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.213 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.218 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:29.223 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.869 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.876 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.881 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.886 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.891 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.895 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.899 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:30.904 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.330 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.336 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.341 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.346 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.350 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.355 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.360 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)
+>> Error entry 2022-02-25 16:45:31.364 [Thread 45]
+SAP.Middleware.Connector.RfcInvalidStateException: Cannot convert null or empty string into a BCD
+   at SAP.Middleware.Connector.RfcScalarMetadataBcd.ConvertString(String value, Object& currentValue)
+   at SAP.Middleware.Connector.RfcDataContainer`1.SetValue(Int32 index, String value)

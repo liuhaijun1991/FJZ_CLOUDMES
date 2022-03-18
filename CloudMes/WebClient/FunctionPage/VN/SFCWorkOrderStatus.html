@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">SFC WORDERORDER STATUS</title>
+    <meta charset="utf-8">
+    <meta name="author" content="chc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <style type="text/css">
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 10px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="gray-bg animated fadeInRight">
+    <div class="wrapper wrapper-content">
+        <div class="ibox">
+            <div class="ibox-heading">
+                <div class="bg-primary">
+                    <div class="ibox-title title-bg-primary">
+                        <h3>
+                            <i class="glyphicon glyphicon-tags"></i>
+                            <label id="titleSNInfo" set-lan="html:titleSNInfo">SFC WORDERORDER STATUS</label>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div id="divVisble" style="margin-top:15px;margin-left:15% ;display:none">
+                <table border="0" align="left" cellpadding="0" cellspacing="1" bgcolor="#DBDBDB">
+                    <tr>
+                        <td width="25%" height="22" bgcolor="#629ACD">&nbsp;Work Order Number :</td>
+                        <td width="25%" bgcolor="#FFFFFF" id="tdWono"></td>
+                        <td width="25%" bgcolor="#629ACD">&nbsp;Factory ID :</td>
+                        <td width="25%" bgcolor="#FFFFFF" id="tdFID"></td>
+                    </tr>
+                    <tr>
+                        <td height="22" bgcolor="#629ACD">&nbsp;Sku No :</td>
+                        <td bgcolor="#FFFFFF" id="tdSkuno">&nbsp;</td>
+                        <td bgcolor="#629ACD">&nbsp;Sku Version :</td>
+                        <td bgcolor="#FFFFFF" id="tdSkuVer">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="22" bgcolor="#629ACD">&nbsp;Work Order Qty :</td>
+                        <td bgcolor="#FFFFFF" id="tdWoQty">&nbsp;</td>
+                        <td bgcolor="#629ACD">&nbsp;Finished Qty :</td>
+                        <td bgcolor="#FFFFFF" id="tdWOFinQty">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="22" bgcolor="#629ACD">&nbsp;Work Order Type :</td>
+                        <td bgcolor="#FFFFFF" id="tdWoType">&nbsp;</td>
+                        <td bgcolor="#629ACD">&nbsp;Comment :</td>
+                        <td bgcolor="#FFFFFF" id="tdComment">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="22" bgcolor="#629ACD">&nbsp;Production Type :</td>
+                        <td bgcolor="#FFFFFF" id="tdProType">&nbsp;</td>
+                        <td bgcolor="#629ACD">&nbsp;Build Name :</td>
+                        <td bgcolor="#FFFFFF" id="tdBuildN">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="22" bgcolor="#629ACD">&nbsp;Closed :</td>
+                        <td bgcolor="#FFFFFF" id="tdWOStatus">&nbsp;</td>
+                        <td bgcolor="#629ACD">&nbsp;Close Date :</td>
+                        <td bgcolor="#FFFFFF" id="tdColseDate">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="ibox-content">
+                <div id="divBUDetail" class="row form-horizontal">
+                    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                        <div class="form-group">
+                            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:labelWOName">WORK ORDER:</label>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <input type="text" id="txtSearchWONO" class="form-control" set-lan="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-offset-3 col-sm-offset-0 col-md-offset-0 col-md-offset-0 col-lg-offset-0">
+                        <button type="button" class="btn btn-primary" onclick="SearchWOInfo()"><i class="glyphicon glyphicon-search"></i> <lan set-lan="html:select">Query</lan></button>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="bootstrap-table">
+                            <table id="tableSNStatusList" class="table table-hover"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!--自定義插件-->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+    <script type="text/javascript">
+        var mesUI = new MesClientUI(self.parent.client);
+        $(document).ready(function () {
+            $("#txtSearchWONO").val("");
+            $("#txtSearchWONO").select();
+            $("#txtSearchWONO").focus();
+            $("#tdWono").text("");
+            $("#tdSkuno").text("");
+            $("#tdWoQty").text("");
+            $("#tdWoType").text("");
+            $("#tdProType").text("");
+            $("#tdWOStatus").text("");
+            $("#tdFID").text("");
+            $("#tdSkuVer").text("");
+            $("#tdWOFinQty").text("");
+            $("#tdComment").text("");
+            $("#tdBuildN").text("");
+            $("#tdColseDate").text("");
+            //mesUI.SetLanguage("BUManager");
+            //$("#tableSNStatusList").on("refresh.bs.table",DoSearch(""));
+
+
+        });
+
+        function ShowSNStatusList(Data) {
+            var localeLan = $.cookie($.MES.CK_LAN_NAME);
+            if (localeLan == "CHINESE") {
+                localeLan = "zh-CN"
+            }
+            else if (localeLan == "CHINESE_TW") {
+                localeLan = "zh-TW"
+            }
+            else {
+                localeLan = "en"
+            }
+            $("#tdWono").text(JSON.stringify(Data[0]["WORKORDERNO"]).replace(/\"/g, ""))
+            $("#tdSkuno").text(JSON.stringify(Data[0]["SKUNO"]).replace(/\"/g, ""));
+            $("#tdWoQty").text(JSON.stringify(Data[0]["WORKORDER_QTY"]));
+            $("#tdWoType").text(JSON.stringify(Data[0]["WO_TYPE"]).replace(/\"/g, ""));
+            $("#tdProType").text(JSON.stringify(Data[0]["PRODUCTION_TYPE"]).replace(/\"/g, ""));
+            $("#tdWOStatus").text(JSON.stringify(Data[0]["CLOSED_FLAG"]).replace(/\"/g, ""));
+            $("#tdFID").text(JSON.stringify(Data[0]["PLANT"]).replace(/\"/g, ""));
+            $("#tdSkuVer").text(JSON.stringify(Data[0]["SKU_VER"]).replace(/\"/g, ""));
+            $("#tdWOFinQty").text(JSON.stringify(Data[0]["FINISHED_QTY"]));
+            $("#tdComment").text("");
+            $("#tdBuildN").text("");
+            $("#tdColseDate").text(JSON.stringify(Data[0]["CLOSE_DATE"]).replace(/\"/g, ""));
+            $('#tableSNStatusList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "asc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 5,                       //每页的记录行数（*）
+                pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "right",              //查询框对齐方式
+                toolbar: "#tableEventsToolbar",    //指定工具栏
+                toolbarAlign: "left",              //工具栏对齐方式
+                buttonsAlign: "left",             //按钮对齐方式
+                showExport: true,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'Customer List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                locale: localeLan,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'ID',
+                    title: 'ID',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: false
+                }, {
+                    field: 'SN',
+                    title: '<label set-lan="html:">SYSTEM SN</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true,
+                    formatter: function (value, row, index) {
+                        //超链接到SNReport
+                        var s = '<a class="J_menuItem" data-index="' + JSON.stringify(Data[index]["SN"]).replace(/\"/g, "") + '" href="/FunctionPage/Report/Report.html?ClassName=MESReport.BaseReport.SNReport&SN=' + JSON.stringify(Data[index]["SN"]).replace(/\"/g, "") + '&RunFlag=1">' + JSON.stringify(Data[index]["SN"]).replace(/\"/g, "") + '</a>';
+                        return s;
+                    }
+                }, {
+                    field: 'CURRENT_STATION',
+                    title: '<label set-lan="html:">Current Event</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'NEXT_STATION',
+                    title: '<label set-lan="html:">Next Event</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }, {
+                    field: 'COMPLETED_FLAG',
+                    title: '<label set-lan="html:">Completed</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'REPAIR_FAILED_FLAG',
+                    title: '<label set-lan="html:">Repair Hold</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },]
+            });
+        }
+
+        function SearchWOInfo() {
+            var wo = $("#txtSearchWONO").val().replace(/^\s+|\s+$/g, "");
+            DoSearch(wo);
+        }
+
+        function DoSearch(wo) {
+            var data = { WO: wo };
+            self.parent.client.CallFunction("MESStation.Config.VN.SFCWorkOrderStatusConfig", "GetWoSNStatusList", data, function (e) {
+                if (e.Status == "Pass") {
+                    $("#divVisble").css("display", "block");
+                    ShowSNStatusList(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    $('#tableSNStatusList').bootstrapTable("load", e.Data);
+                    // mesUI.SetLanguage("BUManager");
+                } else {
+                    ShowSNStatusList([]);
+                    $('#tableSNStatusList').bootstrapTable("removeAll");
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

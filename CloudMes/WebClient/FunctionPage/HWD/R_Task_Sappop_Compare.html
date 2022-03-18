@@ -1,0 +1,491 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">BOM_compare</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapSelect/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+
+        .div-table-tool {
+            float: left;
+            padding: 0px;
+            margin: 0px;
+        }
+        /*去掉表格自定義工具按鈕最後一個右上、右下圓角*/
+        #tableEventsToolbar .btn:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        h3 label {
+            padding-left: 15px;
+        }
+
+        .title-bg-primary {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .validationMessage {
+            color: red;
+            padding-top: 7px;
+        }
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+
+        .checkbox-input {
+            /*margin-left: -20px !important;*/
+            height: 25px;
+            width: 100%;
+            margin-top: -3px !important;
+        }
+
+        #divFilterCondition .form-group {
+            margin-bottom: 5px;
+        }
+
+        .divReportInput {
+            z-index: 9999;
+            border: 1px solid #808080;
+            padding-top: 5px;
+            border-radius: 4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            opacity: 1;
+            background-color: #ffffff;
+        }
+
+        .tableEventsToolbar-margin-top {
+            margin-top: 10px;
+        }
+
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+                /*width: 100%;*/
+            }
+        }
+        /*table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }*/
+
+        table, td, th {
+            margin: 0;
+            padding: 0px !important;
+            /* font-size: 0.1em;*/
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+
+        .W120 .th-inner {
+            width: 120px !important;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div id="outputsite">
+        <div>
+
+            <div id="divList">
+                <div id="divFilterCondition" class="col-xs-6 form-horizontal divReportInput">
+                    <div id="divFilterText">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">TASK_NO:</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="txt_TASK_NO" data-bind="value:TASK_NO" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">SKUNO:</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="txt_SKUNO" data-bind="value:SKUNO" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">WO:</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" id="txt_WO" data-bind="value:WO" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">RESULT:</label>
+                                <div class="col-xs-8">
+                                    <select class="form-control" id="select_RESULT">
+                                        <option value="ALL">ALL</option>
+                                        <option value="OK">OK</option>
+                                        <option value="NG">NG</option>
+                                        <option value="DEL">DEL</option>
+                                        <option value="UNLOCK">UNLOCK</option>
+                                        <option value="RELEASE">Release</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">Date From:</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control"  id="txtDATE_FROM" data-bind="value:DATE_FROM" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label text-right">Date To:</label>
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" placeholder="2021-11-18" id="txtDATE_TO" data-bind="value:DATE_TO" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label text-right"></label>
+                            <div class="col-xs-8">
+                                <button class="btn btn-primary small" id="btnSearch"><i class="fa fa-search">搜索</i></button>
+                                <button class="btn btn-primary small" id="btnNotSearch"><i class="fa fa-search">取消</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divListDetail" class="row col-xs-12" style="margin-left:5px;">
+                <div class="bootstrap-table">
+                    <div class="fixed-table-toolbar">
+                        <div class="btn-group div-table-tool" id="tableEventsToolbar" role="group">
+                            <button type="button" class="btn btn-outline btn-default" id="btnToolSearch">
+                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i><lan set-lan="html:">搜索</lan>
+                            </button>
+
+                        </div>
+                    </div>
+                    <table id="tableList" class="table table-hover"></table>
+                </div>
+            </div>
+            <table id="So_List_Table" class="table table-condensed"></table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+
+
+
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var ObjectModel = function () {
+            var self = this;
+            self.TASK_NO = ko.observable("");
+            self.SKUNO = ko.observable("");
+            self.WO = ko.observable("");
+            self.DATE_FROM = ko.observable("");
+            self.DATE_TO = ko.observable("");
+        };
+        var viewModel = new ObjectModel();
+
+        $(document).ready(function () {
+
+            
+            parent.client.CallFunction("MESStation.Config.HWD.R_Task_Sappop_CompareAPI", "GetSAPPOPTIME", { Data: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    //日期不用自動帶出了，需要自動帶出時解除屏蔽
+                    //viewModel.DATE_FROM(e.Data.DATE_FROM);
+                    //viewModel.DATE_TO(e.Data.DATE_TO);
+                    //ko.applyBindings(viewModel, document.getElementById("divFilterText"));
+
+                    $("#txtDATE_FROM").attr("placeholder", e.Data.DATE_FROM);
+                    $("#txtDATE_TO").attr("placeholder", e.Data.DATE_TO);
+                }
+            });
+            $("#btnSearch").click(function () {
+                var TASK_NO = $("#txt_TASK_NO").val();
+                var WO = $("#txt_WO").val();
+                var SKUNO = $("#txt_SKUNO").val();
+                var RESULT = $("#select_RESULT").val();
+                var DATE_FROM = $("#txtDATE_FROM").val();
+                var DATE_TO = $("#txtDATE_TO").val();
+                client.CallFunction("MESStation.Config.HWD.R_Task_Sappop_CompareAPI", "GetR_Task_SAPPOP_Compare", { TASK_NO: TASK_NO, WO: WO, SKUNO: SKUNO, RESULT: RESULT, DATE_FROM: DATE_FROM, DATE_TO: DATE_TO }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowSoListTable(e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            //LoadSoList();
+                        });
+                    }
+                });
+            });
+
+            $("#btnToolSearch").click(function () {
+                $("#txt_TASK_NO").focus().select();
+                $("#divFilterCondition").toggle();
+            });
+            $("#btnNotSearch").click(function () {
+                $("#divFilterCondition").hide();
+            });
+
+
+            $("#btnSearch").click(function () {
+                $("#divFilterCondition").hide();
+            });
+            $(window).resize(function (e) {
+                $("#So_List_Table").bootstrapTable('resetView', {
+                    height: $(window).height() - 40
+                });
+            })
+        });
+
+        var ShowSoListTable = function (data) {
+            var col = [];
+            if (data.length > 0) {
+                debugger;
+                var row = data[0];
+                col.push(
+                    {
+                        field: 'operate',
+                        title: 'Operation',
+                        align: 'center',
+                        events: "operateEvents",
+                        class: 'W120',
+                        formatter: operateFormatter
+                    });
+
+                for (var item in row) {
+
+                    if (item == "DATA1") {
+                        col.push({
+                            field: item,
+                            title: "WO_FLAG",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        });
+                    }
+                    else {
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        });
+                    }
+                }
+            }
+            $('#So_List_Table').bootstrapTable('destroy');
+            $('#So_List_Table').bootstrapTable({
+                height: $(window).height() - 40,
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                pageSize: 15,
+                pageList: [15, 100, 10000],
+                fixedColumns: true,
+                fixedNumber: 5,
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型
+                exportDataType: "all",             //basic', 'all', 'selected'.
+                toolbar: "#btnToolSearch",
+                exportOptions: {
+                    fileName: 'R_Task_Sappop_Compare',  //文件名称设置
+                    worksheetName: 'sheet1',  //表格工作区名称
+                    tableName: 'R_Task_Sappop_Compare'
+                    //excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                exportTypes: ['txt', 'sql', 'doc', 'excel'],  //导出文件类型
+                columns: col,
+                rowStyle: function (row, index) {
+                    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+                    if (row.CANCEL != null && row.CANCEL != "0")
+                        return {
+                            "css": {
+                                "background-color": "#333366",
+                                "color": "#ffffff"
+                            }
+                        }
+                    else if (row.EXCEPTIONINFO != null)
+                        return {
+                            "css": {
+                                "background-color": "#FFE4C4",
+                                "color": "#000000"
+                            }
+                        }
+                    else if (row.COMPLETED != null && row.COMPLETED == "1")
+                        return {
+                            "css": {
+                                "background-color": "#f2fbf2",
+                                "color": "#000000"
+                            }
+                        }
+                    else
+                        return { classes: classes[0] }
+                }
+            });
+            $('#So_List_Table').bootstrapTable('hideColumn', "MEMO");
+            $('#So_List_Table').bootstrapTable('hideColumn', "DATA2");
+            $('#So_List_Table').bootstrapTable('hideColumn', "DATA3");
+            $('#outputsite').find("[name='refresh']").unbind("click");
+            $('#outputsite').find("[name='refresh']").bind("click", {}, function (event) {
+
+
+            });
+
+        }
+
+        function operateFormatter(value, row, index) {
+            var confirmBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">解鎖</button>';
+            return [confirmBtn].join('');
+        }
+
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+
+                client.CallFunction("MESStation.Config.HWD.R_Task_Sappop_CompareAPI", "UpdateR_Task_SAPPOP_Compare", { WO: row.WO }, function (e) {
+                    if (e.Status == "Pass") {
+                        // ShowSoListTable(e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                        debugger;
+
+
+                        layer.msg("解鎖OK!", {
+                            icon: 1,
+                            time: 60000,
+                            title: 'Tip',
+                            btn: ['OK']
+                        }, function () {
+                            var TASK_NO = $("#txt_TASK_NO").val();
+                            var WO = $("#txt_WO").val();
+                            var SKUNO = $("#txt_SKUNO").val();
+                            var RESULT = $("#select_RESULT").val();
+                            RESULT = "UNLOCK"; //直接查詢解鎖的結果
+                            var DATE_FROM = $("#txtDATE_FROM").val();
+                            var DATE_TO = $("#txtDATE_TO").val();
+
+                            client.CallFunction("MESStation.Config.HWD.R_Task_Sappop_CompareAPI", "GetR_Task_SAPPOP_Compare", { TASK_NO: TASK_NO, WO: WO, SKUNO: SKUNO, RESULT: RESULT, DATE_FROM: DATE_FROM, DATE_TO: DATE_TO}, function (e) {
+                                if (e.Status == "Pass") {
+                                    ShowSoListTable(e.Data);
+                                    //去掉導出數據按鈕的左上左下圓角
+                                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                                } else {
+                                    layer.msg(e.Message, {
+                                        icon: 2,
+                                        time: 60000,
+                                        title: 'ERROR',
+                                        btn: ['OK']
+                                    }, function () {
+                                        //LoadSoList();
+                                    });
+                                }
+                            });
+                        });
+
+
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+
+                        });
+                    }
+                });
+            }
+        };
+
+
+
+    </script>
+</body>
+</html>

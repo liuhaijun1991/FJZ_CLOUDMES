@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Skuno Control</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/testbu1.css" rel="stylesheet" />
+  
+</head>
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInRight ">
+        <div>
+           
+            <div class="row row-lg rr">
+                <div class="col-sm-2 col-lg-1">
+                    <nav class="navbar navbar-fixed-side menu_trai">
+                        
+                        <ul class="nav nav-stacked ul1 " id="ul1">
+                           
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-sm-10 col-lg-11">
+                   
+                    <h1 id="bu_name">  </h1>
+                  
+                    <div id="content" style="display:none;">
+                        <div class="bootstrap-table">
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                     <!--toolbar_in_up_del-->
+                                    <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-default" id="BuAdd">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> <lan set-lan="html:add">添加</lan>
+                                        </button>
+                                         <button type="button" class="btn btn-outline btn-default" onclick="Edit()">
+                                            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i><lan set-lan="html:edit">修改</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default"  onclick="Delete()">
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">刪除</lan>
+                                        </button>
+                                    </div>
+                                    <!--end-toolbar_in_up_del-->
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover" id="ViewTable2"></table>
+                        </div><div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+     <!--Modal_edit---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel" set-lan="html:EditThrowPoint">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group" style="display:none">
+                            <label for="recipient-name" class="control-label" set-lan="html:ModalThrowPointEditID" style="display:none">ID:</label>
+                            <input type="text" class="form-control" name="ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label" set-lan="html:ModalThrowPointEditSEQ">SEQ:</label>
+                            <input type="text" class="form-control" name="SEQ">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:ModalThrowPointEditSkuno">機種:</label>
+                            <input type="text" class="form-control" name="SKUNO">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:ModalThrowPointEditStation">工站名稱:</label>
+                            <input type="text" class="form-control" name="STATIONNAME">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" set-lan="html:ModalThrowPointEditStationDes">工站描述:</label>
+                            <input type="text" class="form-control" name="STSTIONDESCRIPATION">
+                            </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="EditThrowPoint()"><i class="fa fa-save"></i><lan set-lan="html:save"> &nbsp;Submit</lan></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"   ><i class="fa fa-close"></i><lan set-lan="html:close"> &nbsp; Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end________Modal_edit---------------------------------------------------------------------------------------->
+    <!--Modal_delete---------------------------------------------------------------------------------------->
+    <div class="modal fade" id="Modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel1" >删除</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group" style="">
+                            <label for="recipient-name" class="control-label"  style="">ID:</label>
+                            <input type="text" class="form-control" name="ID_DEL" id="ID_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">NAME:</label>
+                            <input type="text" class="form-control" name="NAME_DEL" id="NAME_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" >SUBSITE:</label>
+                            <input type="text" class="form-control" name="SUBSITE_DEL" id="SUBSITE_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">VALUE:</label>
+                            <input type="text" class="form-control" name="VALUE_DEL" id="VALUE_DEL" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label" >SEQ_NO:</label>
+                            <input type="text" class="form-control" name="SEQ_NO_DEL" id="SEQ_NO_DEL" readonly>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="press_delete_popup()"><i class="fa fa-save"></i><lan > &nbsp; Submit</lan></button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i><lan > &nbsp;Cancel</lan></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end________Modal_delete---------------------------------------------------------------------------------------->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+ 
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script>
+
+       function press_delete_popup()  // when press submit button on delete popup ,event delete
+       {
+           var ID = $("#ID_DEL").val();
+           var SEQ_NO = $("#SEQ_NO_DEL").val();
+           var NAME = $("#NAME_DEL").val();
+           var p = "{\"ID\":\"" + ID + "\",\"SEQ_NO\":\"" + SEQ_NO + "\"}";
+           self.parent.client.CallFunction("MESStation.Config.BUExConfig", "DeleteBuExByIDSEQNO", JSON.parse(p), function (e) {
+               if (e.Status == "Pass") {
+                   if (e.MessageCode == "Delete Fail") 
+                   {
+                       console.log(e);
+                       swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                   }
+                   else  if (e.MessageCode == "Delete success")
+                   {   // Delete success
+                       swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                       // reload data follow NAME
+                       $("#Modal_delete").modal('hide');
+                      // load_table(NAME);
+                   }
+                   else 
+                   {
+                       swal({
+                           title: "ALERT",
+                           text: e.MessageCode,
+                           type: "warning",
+                           timer: 2000,
+                           showConfirmButton: false
+                       });
+                   }
+               }
+           });
+        }
+      
+        function check_select_one()
+        {
+            var arrselections = $("#ViewTable2").bootstrapTable('getSelections');
+            if (arrselections.length > 1) {
+              
+                swal({
+                    title: "ALERT",
+                    text: "只能选择一行进行编辑",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return false;
+            }
+            if (arrselections.length <= 0) {
+                
+                swal({
+                    title: "ALERT",
+                    text: "请选择有效数据",
+                    type: "warning",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return false;
+            }
+            var rowobject = arrselections[0];
+            return rowobject;
+            
+        }
+
+        function Edit()   // when press edit button
+        {
+            if (check_select_one() == false) { }
+            else
+            { 
+                $("#Modal_edit").modal();
+            }
+          
+        }
+        function Delete()     // when press delete button
+        {
+            if (check_select_one() == false) { }
+            else
+            {
+                var data = check_select_one();
+                //drop data to popup
+                $("#ID_DEL").val(data.ID);
+                $("#NAME_DEL").val(data.NAME);
+                $("#SUBSITE_DEL").val(data.SUBSITE);
+                $("#VALUE_DEL").val(data.VALUE);
+                $("#SEQ_NO_DEL").val(data.SEQ_NO);
+                $("#Modal_delete").modal();
+            }
+            
+        }
+
+        function load_data(buname) 
+        {
+            param = "{\"BUNAME\":\""+buname+"\"}";
+            self.parent.client.CallFunction("MESStation.Config.BUExConfig", "GetBuExByName", JSON.parse(param), function (e) {
+                if (e.Status == "Pass")
+                {
+                    if (e.MessageCode == "MES00000034")
+                    {
+                        console.log(e);
+                        swal({
+                            title: "ALERT",
+                            text: e.MessageCode,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                    else if (e.MessageCode == "MES00000033")
+                        // have data about BUName
+                    {
+                        console.log(e.Data);
+                       // $("#content").fadeOut("slow", function () { });
+                        $('#ViewTable2').bootstrapTable("load", e.Data);
+                        $("#content").show("slow", function () { });
+                    }
+                    else 
+                    {
+                        swal({
+                            title: "ALERT",
+                            text: e.MessageCode,
+                            type: "warning",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                    }
+                    
+                    
+                }
+            });
+        }
+        function load_table(bu)   // when press an item at left menu
+        {    
+            console.log(bu);
+            $("#content").hide();
+            $("#bu_name").text($(bu).text());
+            load_data($(bu).text());
+           
+        }
+       
+        $(document).ready(function () {
+
+            // load menu BU NAME
+            var p = "{\"BU\":\"\"}";
+                self.parent.client.CallFunction("MESStation.Config.BUConfig", "QueryBU", JSON.parse(p), function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.MessageCode == "MES00000034")
+                        {
+                            console.log(e);
+                            swal({
+                                title: "ALERT",
+                                text: e.MessageCode,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                        else if (e.MessageCode == "MES00000033")
+                            // have data about BUName
+                        {   var bu="";
+                            var buname = '';
+                            console.log(e);
+                           for(var i=0;i<e.Data.length;i++)
+                           {
+                                buname = e.Data[i].toString();
+                                bu += '<li> <a href="#" onclick="load_table(this);" > ' + buname + ' </a></li>';
+                           }
+                           bu += '<li> <a href="#" id="AddNew" onclick="load_table(this);" >  </a></li>';
+                               $(".ul1").html(bu);
+                        }
+                        else
+                        {
+                            console.log(e);
+                            swal({
+                                title: "ALERT",
+                                text: e.MessageCode,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                     }
+                });
+             ///////////////////////
+            //////////////datatable
+                        $("#ViewTable2").bootstrapTable({
+                            striped: true,
+                            cache: false,
+                            pagination: true,
+                            sidePagination: "client",
+                            pageNumber: 1,
+                            pageSize: 5,
+                            pageList: [5, 15, 30, 70],
+                            search: true,
+                            strictSearch: true,
+                            searchOnEnterKey: false,
+                            showColumns: true,
+                            clickToSelect: true, 
+                            showRefresh: true,
+                            minimumCountColumns: 3,
+                            showToggle: true,
+                            cardView: false,
+                            detailView: false,
+                            dataType: "json",
+                            method: "post",
+                            searchAlign: "right",
+                            buttonsAlign: "right",
+                            toolbarAlign: "right",
+                            columns: [
+                                {
+                                    field: 'select',
+                                    title: 'select',
+                                    checkbox:true
+                                },
+                                {
+                                field: 'ID',
+                                title: 'ID',
+                                align:'center',
+                              //  visible: false
+                            }, {
+                                field: 'NAME',
+                                title: 'NAME',
+                                align:'center'
+                            },
+                             {
+                                 field: 'SUBSITE',
+                                 title: 'SUB SITE',
+                                 align: 'center'
+                             },
+                            {
+                                field: 'VALUE',
+                                title: 'VALUE',
+                                align: 'center'
+                            },
+                            {
+                                field: 'SEQ_NO',
+                                title: 'SEQ_NO',
+                                align: 'center'
+                            }],
+                            locale: "zh-CN"
+                        });
+
+            /////// 
+                        
+                       
+
+           });
+    </script>
+</body>
+</html>

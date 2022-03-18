@@ -1,0 +1,1055 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:CarrierInformation">CarrierInformation</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+                
+         </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:CarrierInformation">CarrierInformation</span></h3>
+    </div>
+   
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+          <li class="layui-this"><lan set-lan="html:CARRIER CONFIG"> CARRIER CONFIG</lan></li>
+          <li><lan set-lan="html:CARRIER SKUNO INFORMATION"> CARRIER SKUNO INFORMATION</lan></li>
+
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+          <div class="layui-tab-item layui-show">   
+                    <div class="panel-body">
+                        <div id="divTableToolbar">
+                            <div class="btn-group hidden-xs" role="group">
+                                <button type="button" class="btn btn-outline btn-primary" id="btnUpload">
+                                    <i class="fa fa-upload" aria-hidden="true"></i><lan set-lan="html:Upload"> Upload</lan>
+                                 </button>
+                                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteMapping" disabled>
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                                </button>
+                            </div>
+                        </div>
+                        <table id="CarrierList"></table>
+                    </div>
+                </div>
+         
+                <div class="layui-tab-item">
+                        <div class="panel-body">
+                                <div id="divTableToolbarCsku">
+                                    <div class="btn-group hidden-xs" role="group">
+                                        <button type="button" class="btn btn-outline btn-primary" id="btnUploadCsku">
+                                                <i class="fa fa-upload" aria-hidden="true"></i><lan set-lan="html:Upload"> Upload</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-primary" id="btnDeleteCsku" disabled>
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-primary" id="btnRefreshCsku" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px;">
+                                            <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                                        </button>
+                                        <input type="text" class="form-control" style="width:200px" id="searchtbox" set-lan="attr:placeholder=Search" />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        <table id="CarrierSkunoList"></table>
+                </div>
+        </div>
+    </div> 
+
+
+    <div id="divUploadInfo" class="hidden">
+            <div class="form-group" style="margin-top:15px;">
+                <div class="btn-group hidden-xs m-l-lg" style="padding-right:20px">
+                    <label class="btn btn-primary" for="inputUploadFileCsku" style="z-index:999;height:38px;" ><lan set-lan="html:Upload"><i class="fa fa-upload" aria-hidden="true"> </i></lan></label>
+                    <input id="inputUploadFileCsku" type="file" style="display:none;" class="btn btn-outline btn-primary"  accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+                    <input id="inputUploadFileCskuShow" readonly="readonly" class="btn btn-outline btn-primary" onclick="$('#inputUploadFileCsku').click()" style="height:38px;" >
+                </div>
+                <div class="btn-group hidden-xs m-l-lg" ID="EXCELTEMPLATECARRIER">
+                    <button class="btn btn-primary" onclick="javascript: window.location = '../../File/UploadCarrier.xlsx'" style="width: 128px;height: 38px;"><i class="fa fa-save"><span set-lan="html:Excel template">Excel template</span></i></button>
+                </div>
+                <div class="btn-group hidden-xs m-l-lg" ID="EXCELTEMPLATECSKU">
+                    <button class="btn btn-primary" onclick="javascript: window.location = '../../File/UploadCsku.xlsx'" style="width: 128px;height: 38px;"><i class="fa fa-save"><span set-lan="html:Excel template">Excel template</span></i></button>
+                </div>
+            </div>
+            <div class="">
+                <div id="divExcel" style="padding:0 20px;">
+                </div>
+            </div>
+        </div>
+
+        <div id="divUploadFailRecord" class="hidden" style="margin:5px;">
+            <div class="div-table">
+                <table id="divRecordList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="380"></table>
+            </div>
+        </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script> 
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var skuList = [];
+        var submitType = "";
+        var postData = {};
+        var Modyfyflag=0;
+        var EXTVALSIEZ;
+        var EXTVALSEQ;
+        var inputAppend;
+        var excelFlag=0;
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+             
+            mesUI.SetLanguage("CARRIERINFO");
+            GetCarrierList();
+            GetCarrierSkunoList();
+            $("#inputUploadFileCsku").change(function(){//修改上傳控件所需
+                $("#inputUploadFileCskuShow").val(
+                    $("#inputUploadFileCsku").val().
+                         substring(
+                             $("#inputUploadFileCsku").val().lastIndexOf("\\")+1,
+                             $("#inputUploadFileCsku").val().length));
+                })
+
+            $("#searchtbox").unbind("keypress").bind("keypress", function (event){
+                if (event.keyCode == 13)
+                {
+                    GetCarrierSkunoList($('#searchtbox').val());
+                }
+            });
+            $("#btnDeleteMapping").click(function () {//删除1按钮点击动作
+                var selectRows = $('#CarrierList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                 var delTitle = "Sure to Delete?";
+                 var delbtnSubmit="Submit";
+                 var delbtnCancel="Cancel";
+                if (lan == "CHINESE") {
+                    delTitle = "确认删除？";
+                    delbtnSubmit="确认";
+                    delbtnCancel="取消";
+                }
+                else if (lan == "CHINESE_TW") {
+                    delTitle = "確認刪除？";
+                    delbtnSubmit="確認";
+                    delbtnCancel="取消";
+                }
+                swal({
+                        title: delTitle,
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: delbtnSubmit,
+                        cancelButtonText: delbtnCancel,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                        },
+                        function(isConfirm){
+                        if (isConfirm) {
+                            postData = { "ID": selectRows[0].ID };
+                                self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "DeleteDataCarrier", postData, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 1000
+                                        }, function () {
+                                            GetCarrierList("");
+                                        });
+                                    }
+                                    else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () { });
+                                        return;
+                                    }
+                                });
+                        } 
+                        });
+                
+            });
+            $("#btnDeleteCsku").click(function () {//删除2按钮点击动作
+                var selectRows = $('#CarrierSkunoList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                 var delTitle = "Sure to delete this carrier skuno and its link?";
+                 var delbtnSubmit="Submit";
+                 var delbtnCancel="Cancel";
+                if (lan == "CHINESE") {
+                    delTitle = "确认删除该载具配置和其绑定关系？";
+                    delbtnSubmit="确认";
+                    delbtnCancel="取消";
+                }
+                else if (lan == "CHINESE_TW") {
+                    delTitle = "確認刪除該載具配置和其綁定關係？";
+                    delbtnSubmit="確認";
+                    delbtnCancel="取消";
+                }
+                swal({
+                        title: delTitle,
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: delbtnSubmit,
+                        cancelButtonText: delbtnCancel,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                        },
+                        function(isConfirm){
+                        if (isConfirm) {
+                            postData = { "ID": selectRows[0].ID };
+                                self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "DeleteDataCsku", postData, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 1000
+                                        }, function () {
+                                            GetCarrierSkunoList("");
+                                        });
+                                    }
+                                    else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () { });
+                                        return;
+                                    }
+                                });
+                        } 
+                        });
+                
+            });
+            $("#btnRefreshMapping").click(function () {//刷新頁面1按钮点击动作
+                GetCarrierList();
+            });
+            $("#btnRefreshCsku").click(function () {//刷新頁面2按钮点击动作
+                GetCarrierSkunoList();
+            });
+            $("#btnUploadCsku").click(function (e) {//載具機種及信息配置頁面 點擊上傳
+                excelFlag=0;
+                $("#divExcel").html("");
+                var uploadbtnSubmit="Upload";
+                var uploadbtnCancel="Cancel";
+                var uploadtitle="Carrier Skuno information config";
+               if (lan == "CHINESE") {
+  
+                uploadbtnSubmit="上传";
+                uploadbtnCancel="取消";
+                uploadtitle="载具机种信息配置";
+               }
+               else if (lan == "CHINESE_TW") {
+       
+                uploadbtnSubmit="上傳";
+                uploadbtnCancel="取消";
+                uploadtitle="載具機種信息配置";
+               }
+               $("#EXCELTEMPLATECARRIER").css("display","none")
+               $("#EXCELTEMPLATECSKU").css("display","");
+                layer.open({
+                    
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: uploadtitle,
+                            area: ['80%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: [uploadbtnSubmit, uploadbtnCancel],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                                $("#inputUploadFileCsku").val("");
+                                $("#inputUploadFileCskuShow").val("");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                                GetCarrierSkunoList();
+                            },
+                            yes: function (index) {
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "UploadExcelCarrierSkunoInfo", { DataList: JSON.stringify(DataList) }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 800
+                                        }, function () {
+                                            $("#inputUploadFileCsku").val("");
+                                            if(e.Data!=0){
+                                            ShowFailRecord("UploadExcelCSN");}
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 1000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                layer.close(index);
+                            }
+                        });
+                        
+            });
+            $("#btnUpload").click(function (e) {//載具 頁面點擊上傳
+                excelFlag=1;
+                $("#divExcel").html("");
+                var uploadbtnSubmit="Upload";
+                var uploadbtnCancel="Cancel";
+                var uploadtitle="CarrierNo upload";
+               if (lan == "CHINESE") {
+  
+                uploadbtnSubmit="上传";
+                uploadbtnCancel="取消";
+                uploadtitle="载具上传";
+               }
+               else if (lan == "CHINESE_TW") {
+       
+                uploadbtnSubmit="上傳";
+                uploadbtnCancel="取消";
+                uploadtitle="載具上傳";
+               }
+               $("#EXCELTEMPLATECSKU").css("display","none")
+               $("#EXCELTEMPLATECARRIER").css("display","")
+                layer.open({
+                    
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: uploadtitle,
+                            area: ['80%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: [uploadbtnSubmit, uploadbtnCancel],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                                $("#inputUploadFileCsku").val("");
+                                $("#inputUploadFileCskuShow").val("");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                                GetCarrierList();
+                            },
+                            yes: function (index) {
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "UploadExcelCarrier", { DataList: JSON.stringify(DataList) }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg(e.Message, {
+                                            icon: 1,
+                                            time: 800
+                                        }, function () {
+                                            $("#inputUploadFileCsku").val("");
+                                            if(e.Data!=0){
+                                            ShowFailRecord("UploadExcelCarrier");}
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                layer.close(index);
+                            }
+                        });
+                        
+            });    
+
+           
+            var showExcel = document.getElementById("divExcel");
+            $("#inputUploadFileCsku").change(function (e) {//EXCEL內容讀取
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFileCsku").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        var fromTo=wb.Sheets[shitname[0]]['!ref']
+                        var rowcount=fromTo.substring(fromTo.lastIndexOf(':')+2,fromTo.length)
+                        for(var i=0;i<rowcount.length;i++){
+                            if(rowcount.charCodeAt(i)>=48&&rowcount.charCodeAt(i)<=57){
+                                rowcount=rowcount.substring(i,rowcount.length)
+                                break;
+                            }
+                        }
+                        wb.Sheets[shitname[0]]['!ref']=excelFlag==0?'A1:J'+rowcount:'A1:B'+rowcount;//設置讀取行列
+                        wb.SheetNames.forEach(function (sheetName) {
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+
+        });
+
+        function ShowFailRecord(FUNCTIONNAME) {//失败数据显示
+            var DATA1LAN=FUNCTIONNAME=="UploadExcelCSN"?"<label set-lan='html:tableLotNo'>CARRIER_SKUNO</label>":"<label set-lan='html:tableLotNo'>CARRIERNO</label>";
+            var DATA2LAN=FUNCTIONNAME=="UploadExcelCSN"?"<label set-lan='html:tableLotNo'>SKUNO</label>":"<label set-lan='html:tableLotNo'>CARRIER_SKUNO</label>";
+                layer.open({
+                    id: "FailRecord",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "",
+                    area: ['80%', '80%'],
+                    content: $('#divUploadFailRecord'),
+                    success: function () {
+                        $("#divUploadFailRecord").removeClass("hidden");
+                        parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "ShowFailRecord", {FUNCTION_NAME:FUNCTIONNAME}, function (e) {
+                            $('#divRecordList').bootstrapTable("destroy");
+                            if (e.Status == "Pass") {
+                                    $('#divRecordList').bootstrapTable({
+                                        data: e.Data,
+                                        striped: false,                    //是否显示行间隔色
+                                        cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                                        sortable: false,                   //是否启用排序
+                                        sortOrder: "desc",                  //排序方式
+                                        pagination: true,                  //是否显示分页（*）
+                                        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                                        pageNumber: 1,                     //初始化加载第一页，默认第一页
+                                        pageSize: 5,                       //每页的记录行数（*）
+                                        pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                                        showColumns: false,                 //是否显示 内容列下拉框
+                                        showRefresh: false,                 //是否显示刷新按钮
+                                        minimumCountColumns: 2,            //最少允许的列数
+                                        clickToSelect: true,               //是否启用点击选中行
+                                        singleSelect: true,                //单选checkbox
+                                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                                        cardView: false,                   //是否显示详细视图
+                                        detailView: false,                 //是否显示父子表
+                                        search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                                        strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                                        searchOnEnterKey: false,            //回车搜索
+                                        searchTimeOut: 500,                //设置搜索超时时间
+                                        trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                                        searchAlign: "right",              //查询框对齐方式
+                                        toolbarAlign: "right",              //工具栏对齐方式
+                                        buttonsAlign: "right",             //按钮对齐方式
+                                        showExport: false,                  //是否显示导出按钮
+                                        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                                        exportTypes: ['excel', 'csv'],     //导出文件类型
+                                        Icons: 'glyphicon-export',
+                                        exportOptions: {
+                                            ignoreColumn: [0],             //忽略某一列的索引
+                                            fileName: 'FailRecord List',     //文件名称设置
+                                            worksheetName: 'sheet1',       //表格工作区名称
+                                        },
+                                        columns: [{
+                                            field: 'CLASS_NAME',
+                                            title: '<label set-lan="html:tableClassName">CLASS_NAME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'FUNCTION_NAME',
+                                            title: '<label set-lan="html:tableFunctionName">FUNCTION_NAME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'LOG_MESSAGE',
+                                            title: '<label set-lan="html:tableLogMessage">LOG_MESSAGE</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'DATA1',
+                                            title: DATA1LAN,
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'DATA2',
+                                            title: DATA2LAN,
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'EDIT_EMP',
+                                            title: '<label set-lan="html:tableEditEmp">EDIT_EMP</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        },
+                                        {
+                                            field: 'EDIT_TIME',
+                                            title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                                            rowspan: 1,
+                                            align: 'center',
+                                            valign: 'middle',
+                                            sortable: true,
+                                            visible: true
+                                        }]
+                                    });
+                            } else {
+                                layer.msg(e.Message, {
+                                    icon: 2,
+                                    time: 3000
+                                }, function () {
+                                });
+                            }
+                        });
+                   
+                    },
+                    end: function () {
+                        $("#divUploadFailRecord").addClass("hidden");
+                    },
+                });
+            };
+        
+
+        function GetCarrierList() {//获取載具號報表函數
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#CarrierList").html("");
+            $("#CarrierList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "GetCCARRIERListData", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#CarrierList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: true,                      //是否显示表格搜索，此搜索是客户端搜索
+                            strictSearch: false,                //严格搜索：完全匹配
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: true,            //回车搜索
+                            showColumns: false,                 //显示的列下拉列表
+                            showRefresh: false,                 //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: false,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "left",               //查询框对齐方式
+                            buttonsAlign: "right",              //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            locale: tableLocale,                //表格的语言,
+                            onCheck: function (row) {
+                                var rows = $('#CarrierList').bootstrapTable('getSelections');
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#CarrierList').bootstrapTable('getSelections');
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            onSearch:function () {
+                                mesUI.SetLanguage("CARRIERINFO");
+                            },
+                            onSort:function () {
+                                mesUI.SetLanguage("CARRIERINFO");
+                            },
+                            rowStyle: function (row, index) {
+                                    var strclass = "";
+                                    if(parseInt(row.SUSELIMIT)<=parseInt(row.USETIMES)||row.timeLimitFlag==0){
+                                        strclass='danger';
+                                    }
+                                    return { classes: strclass }
+                                },
+   
+                            columns:[
+                                {
+                                    checkbox: true
+                                },
+                                 {
+                                    field: 'ID',
+                                    title: '<label set-lan="html:ID">ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                },{
+                                    field: 'CARRIERNO',
+                                    title: '<label set-lan="html:CARRIERNO">CARRIERNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                },{
+                                    field: 'CARRIER_SKUNO',
+                                    title: '<label set-lan="html:CARRIER_SKUNO">CARRIER_SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                },
+                                {
+                                    field: 'USETIMES',
+                                    title: '<label set-lan="html:USETIMES">USETIMES</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'OPERATE',
+                                    title: '<label set-lan="html:OPERATE">OPERATE</label>',
+                                    align: 'center',
+                                    events: "operateUsetimeReset",
+                                    formatter: operateFUsetimeReset
+                                },
+                                {
+                                    field: 'SUSELIMIT',
+                                    title: 'SUSELIMIT',
+                                    rowspan: 1,
+                                    visible:false
+                                },
+                                {
+                                    field: 'EDITTIME',
+                                    title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITBY',
+                                    title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'enableTime',
+                                    title: 'curTime',
+                                    visible:false
+                                }
+                                , {
+                                    field: 'timeLimitFlag',
+                                    title: 'timeLimitFlag',
+                                    visible:false
+                                }
+                                ]
+                        });
+                       
+                        mesUI.SetLanguage("CARRIERINFO");
+                    
+                } 
+            });
+        }
+        
+        function GetCarrierSkunoList(SEARCHTEXT) {//获取載具機種信息函數
+            $("#btnDeleteCsku").attr("disabled", "disabled");
+            $("#CarrierSkunoList").html("");
+            $("#CarrierSkunoList").bootstrapTable('destroy');
+            postData=(typeof(SEARCHTEXT)=="undefined"||SEARCHTEXT==null||SEARCHTEXT=='')?postData = { "SEARCHTEXT":'' }:postData = { "SEARCHTEXT":SEARCHTEXT };
+            self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "GetCCSIListData", postData, function (e) {
+                if (e.Status == "Pass") {
+                        $('#CarrierSkunoList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: true,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 20,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端
+                            strictSearch: false,                 //是否显示表格筛选搜索
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: false,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: true,                  //是否显示父子表或者本表的所有内容
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbarCsku",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            onCheck: function (row) {
+                                var rows = $('#CarrierSkunoList').bootstrapTable('getSelections');
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteCsku").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteCsku").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#CarrierSkunoList').bootstrapTable('getSelections');
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteCsku").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteCsku").removeAttr("disabled")
+                                }
+                            },
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: '<label set-lan="html:ID">ID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false,
+                                    visible: false
+                                }, {
+                                    field: 'CARRIER_SKUNO',
+                                    title: '<label set-lan="html:CARRIER_SKUNO">CARRIER_SKUNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'CARRIER_TYPE',
+                                    title: '<label set-lan="html:CARRIER_TYPE">CARRIER_TYPE</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'CARRIER_NAME',
+                                    title: '<label set-lan="html:CARRIER_NAME">CARRIER_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'CUSTOMER_NAME',
+                                    title: '<label set-lan="html:CUSTOMER_NAME">CUSTOMER_NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'CARRIER_MFR',
+                                    title: '<label set-lan="html:CARRIER_MFR">CARRIER_MFR</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'LOCATION',
+                                    title: '<label set-lan="html:LOCATION">LOCATION</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'SUSELIMIT',
+                                    title: '<label set-lan="html:SUSELIMIT">SUSELIMIT</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'MAXUSELIMIT',
+                                    title: '<label set-lan="html:MAXUSELIMIT">MAXUSELIMIT</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'LINKQTY',
+                                    title: '<label set-lan="html:LINKQTY">LINKQTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITTIME',
+                                    title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITBY',
+                                    title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: false
+                                }],
+                            onExpandRow: function(index, row, $Subdetail) {
+                            InitSubTable(index, row, $Subdetail);
+                            },
+                            locale: tableLocale//中文支持,
+                        });
+                        
+                        mesUI.SetLanguage("CARRIERINFO");
+                    
+                } 
+            });
+        }
+     
+     
+        var InitSubTable = function (index, row, $detail) {//初始化載具機種信息子表格
+            var cur_table = $detail.html('<table></table>').find('table');
+            var col = [];
+            self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "GetRCSLListData",
+                { CARRIER_SKUNO: row.CARRIER_SKUNO },
+                function(e) {
+                    if (e.Data.length > 0) {
+                        $(cur_table).bootstrapTable({
+                            data: e.Data,
+                            search: false,
+                            clickToSelect: true,
+                            pageSize: 10,
+                            pageList: [10, 25],
+                            striped: true, //是否显示行间隔色
+                            pagination: false, //是否显示分页（*）
+                            paginationPreText: '<', //上下翻页
+                            paginationNextText: '>',
+                            columns: [
+                            {
+                                    field: 'ID',
+                                    title: 'ID',
+                                    visible: false,
+                                    
+                            }, {
+                                    field: 'SKUNO',
+                                    title: '<label set-lan="html:SKUNO">SKUNO</label>',
+                                    width:100,
+                            },{
+                                    field: 'OPERATE',
+                                    title: '<label set-lan="html:OPERATE">OPERATE</label>',
+                                    align: 'center',
+                                    width:100,
+                                    events: "operateEvents",
+                                    formatter: operateFormatter
+                                }
+                                ]
+                        });
+                        mesUI.SetLanguage("CARRIERINFO");
+                    }
+                });
+        };
+        function operateFormatter(value, row, index) {//載具機種信息子表格添加刪除按鈕
+            var delBtn;
+            delBtn = '<button type="button" class="RoleOfA btn btn-danger btn-sm" style="margin-right:15px;"><lan set-lan="html:Delete"> Delete</lan></button>';
+            return [delBtn].join('');
+            }
+       
+        function operateFUsetimeReset(value, row, index) {//载具清零按钮
+        var ResetBtn;
+        var BtnClass;
+        BtnClass=(parseInt(row.SUSELIMIT)<=parseInt(row.USETIMES)||row.timeLimitFlag==0)?'btn-danger':'btn-success'
+        ResetBtn = '<button type="button" class="RoleOfA btn btn-sm '+BtnClass+'" ID="'+row.ID+'" style="margin-right:15px;"><lan set-lan="html:Reset"> Reset</lan></button>';
+        return [ResetBtn].join('');
+        }
+
+        window.operateUsetimeReset={//载具清零动作
+        'click .RoleOfA': function (e, value, row, index) {
+            postData = { "ID": row.ID };
+                self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "ResetCarrierUsetimes", postData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.tips(e.Message,$('#'+row.ID),{
+                                           time: 500,
+                                           tips:[4]
+                                       },
+                        function () {
+                            if(row.hasClass("danger"))
+                            {
+                                row.removeClass("danger");
+                                }
+                        });
+                    }
+                    else {
+                        layer.tips(e.Message,$('#'+row.ID),{
+                                           time: 500,
+                                           tips:[4]
+                                       },
+                       );
+                        return;
+                    }
+                });
+            } 
+        }
+        
+        window.operateEvents={//載具機種信息子表格刪除動作
+        'click .RoleOfA': function (e, value, row, index) {
+           var delTitle = "Sure to Delete?";
+                var delbtnSubmit="Submit";
+                var delbtnCancel="Cancel";
+               if (lan == "CHINESE") {
+                   delTitle = "确认删除？";
+                   delbtnSubmit="确认";
+                   delbtnCancel="取消";
+               }
+               else if (lan == "CHINESE_TW") {
+                   delTitle = "確認刪除？";
+                   delbtnSubmit="確認";
+                   delbtnCancel="取消";
+               }
+               swal({
+                       title: delTitle,
+                       text: "",
+                       type: "warning",
+                       showCancelButton: true,
+                       confirmButtonColor: "#DD6B55",
+                       confirmButtonText: delbtnSubmit,
+                       cancelButtonText: delbtnCancel,
+                       closeOnConfirm: true,
+                       closeOnCancel: true
+                       },
+                       function(isConfirm){
+                       if (isConfirm) {
+                           postData = { "ID": row.ID };
+                               self.parent.client.CallFunction("MESStation.Config.CarrierInfoConfig", "DelRCSLData", postData, function (e) {
+                                   if (e.Status == "Pass") {
+                                       layer.msg(e.Message, {
+                                           icon: 1,
+                                           time: 1000
+                                       }, function () {
+                                        GetCarrierSkunoList();
+                                       });
+                                   }
+                                   else {
+                                       layer.msg(e.Message, {
+                                           icon: 2,
+                                           time: 3000
+                                       }, function () { });
+                                       return;
+                                   }
+                               });
+                       } 
+                       });
+            
+        }}
+        
+      
+
+        
+   
+   
+    </script>
+
+</body>
+</html>
+

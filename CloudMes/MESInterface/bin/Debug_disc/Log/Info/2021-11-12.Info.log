@@ -1,0 +1,160 @@
+
+
+
+ RecordTime¡G2021-11-12 10:38:55,395 
+Type¡G  INFO  
+Class¡GMESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+MSG¡GStart 
+
+
+
+
+ RecordTime¡G2021-11-12 10:38:56,455 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin CollectingPassTask ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:17,395 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd CollectingPassTask ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:17,395 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin CollectingRepairData ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:21,242 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd CollectingRepairData ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:21,243 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin UpdateCollectFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:21,369 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd UpdateCollectFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:21,369 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin ConvertCSVAction ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:27,989 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd ConvertCSVAction ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:27,989 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin TRACE,FJZ0000000062D UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,580 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd TRACE,FJZ0000000062D UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,580 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin TEST,FJZ0000000062E UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,643 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd TEST,FJZ0000000062E UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,643 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin DEFECT,FJZ0000000062F UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,649 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd DEFECT,FJZ0000000062F UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:29,649 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin MFG,FJZ0000000062G UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:32,240 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd MFG,FJZ0000000062G UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:32,240 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GBegin REPAIR,FJZ0000000062H UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:32,281 
+Type¡G  INFO  
+Class¡GMES_DCN.Juniper.DISCQMSDataNew.Run  
+MSG¡GEnd REPAIR,FJZ0000000062H UpdateSendFlag ... 
+
+
+
+
+ RecordTime¡G2021-11-12 10:41:32,281 
+Type¡G  INFO  
+Class¡GMESInterface.DCN.JuniperSendDISCQMSDataB2BSyn.SaveCSV  
+MSG¡GEnd 
+

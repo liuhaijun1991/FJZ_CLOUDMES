@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>Report</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        .form-group .control-label {
+            padding-top: 5px;
+        }
+
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 400px;
+            z-index: 999;
+        }
+
+        .outputs {
+            height: calc(100% - 54px);
+            overflow-y: scroll;
+        }
+
+        .tools .fade {
+            opacity: 0.9;
+        }
+
+        .intro {
+            background-color: #C9C9C9;
+            border: 2px solid #fff;
+        }
+
+        .introa {
+            border: 1px solid #C9C9C9;
+            font-size: 5px;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+        /*.introa{ border:3px solid #C9C9C9;font-size: 5px;margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}*/
+        #tableUPH th, #tableUPH td {
+            text-align: center;
+        }
+
+        #tableUPH th {
+            padding: 3px;
+            height: 30px;
+        }
+
+        #tableUPH td {
+            width: 100px !important;
+            height: 30px !important;
+        }
+
+        .blueColor {
+            color: blue;
+        }
+    </style>
+</head>
+<body class="color-cPage">
+        <div class="tools bg-primary p-xs">
+            <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+            <div class="SearchBox fa-border fade" style="display: none">
+                <div class="col-xs-12 inputs">
+
+                </div>
+                <br />
+                <div class="col-xs-12">
+                    <button class="btn btn-primary submit">SUBMIT</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid no-padding">
+            <h4 id="uphTitle" style="padding-left:10px;"></h4>
+            <div style="overflow-y:auto">
+                <table id="tableUPH" cellpadding="0" cellspacing="0" border="1">
+                    <thead>
+                        <!--<tr>
+                            <td rowspan="3">HOUR</td>
+                            <td colspan="10">line1</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">STTION1</td>
+                            <td colspan="2">STTION2</td>
+                            <td colspan="2">STTION3</td>
+                            <td colspan="2">STTION4</td>
+                            <td colspan="2">STTION5</td>
+                        </tr>
+                        <tr>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                            <td>PASS</td>
+                            <td>FAIL</td>
+                        </tr>-->
+                        
+                    </thead>
+                    <tbody>
+                        <!--<tr>
+    <td>01</td>
+    <td>10</td>
+    <td>5</td>
+    <td>PASS</td>
+    <td>FAIL</td>
+    <td>PASS</td>
+    <td>FAIL</td>
+    <td>PASS</td>
+    <td>FAIL</td>
+    <td>PASS</td>
+    <td>FAIL</td>
+</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--<div class="container-fluid no-padding outputs">
+
+    </div>-->
+        <!-- 全局js -->
+        <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+        <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+        <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 第三方插件 -->
+        <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+        <script src="../../Scripts/plugins/JSON/json2.js"></script>
+        <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+        <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+        <script src="../../Scripts/plugins/highcharts/highcharts.js"></script>
+        <script src="../../Scripts/plugins/highcharts/exporting.js"></script>
+        <script src="../../Scripts/plugins/highcharts/export-csv.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+        <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+        <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+        <!-- 自定义 -->
+        <script src="../../Scripts/global.js"></script>
+        <!--<script src="../../Scripts/Mes.js"></script>-->
+        <script src="../../Scripts/Report/MesClient.Report.js"></script>
+        <script>
+            var ReportClassName = "";
+            var Data = "";
+            var RunFlag = "";
+            var _Report = null;
+            $(document).ready(function () {
+                ReportClassName = $.MES.getQueryString("ClassName");//每个报表必须配置的报表后台类
+                //Data = $.MES.getQueryString("Data");//用于其他报表跳转传值
+
+                Data = $.MES.getQueryObj();
+                RunFlag = $.MES.getQueryString("RunFlag");//用于其他报表跳转自动查询
+                if (RunFlag == "1") {
+                    RunFlag = "0";
+                    _Report = new MesReport({
+                        Client: self.parent.client,
+                        IContainer: $(".inputs"),
+                        OContainer: $(".outputs"),
+                        ReportClassName: ReportClassName,
+                        Init: function (e) {
+                            //if (_Report.Report.Inputs.length > 0) {
+                            //    _Report.SetInputValue(_Report.Report.Inputs[0].Name, Data);
+                            //    _Report.Run();
+                            //}
+                            if (_Report.Report.Inputs.length > 0) {
+                                for (var i = 1; i < Data.length; i++) {
+                                    _Report.SetInputValue(Data[i][0], Data[i][1]);
+                                }
+                                _Report.Run();
+                            }
+                        }
+                    });
+                    $(document).on("click", ".SearchBtn", function (e) {
+                        $(".SearchBox").toggle();
+                    });
+                    $(document).on("click", ".submit", function (e) {
+                        $(".SearchBox").toggle();
+                        _Report.Run();
+                    });
+                    $(".SearchBox").toggle(false);
+                }
+                else {
+                    _Report = new MesReport({
+                        Client: self.parent.client,
+                        IContainer: $(".inputs"),
+                        //OContainer: $(".outputs"),
+                        ReportClassName: ReportClassName,
+                        Init: function (e) {
+
+                        }
+                    });
+                    $(document).on("click", ".SearchBtn", function (e) {
+                        $(".SearchBox").toggle();
+                    });
+                    $(document).on("click", ".submit", function (e) {
+                        $(".SearchBox").toggle();
+                        //_Report.Run();
+                        var MessageID = "MSGID" + parseInt(Math.random() * 99).toString() + Date.now().toString();
+                        self.parent.client.CallFunction("MESStation.Report.CallReport", "RunReport",
+                            { ClassName: ReportClassName, Report: _Report.ReportJson }, ShowReturn, MessageID);
+                    });
+                    $(".SearchBox").toggle(true);
+                }
+
+            });
+            function ShowReturn(obj) {
+                var _Mes = MesReport.prototype.ObjList[obj.MessageID];
+                delete MesReport.prototype.ObjList[obj.MessageID];
+                if (obj.Status == "Pass") {
+                    if (obj.Data.Outputs.length == 1 && obj.Data.Outputs[0].OutputType == "ReportAlart") {
+                        swal({
+                            title: "",
+                            text: obj.Data.Outputs[0].Msg,
+                            type: obj.Data.Outputs[0].AlartType
+                        }, function () { $(".SearchBox").toggle(); });
+                        return;
+                    }
+                    ShowData(obj.Data.Outputs);
+                }
+                self.parent.Loading(false);
+            }    
+            function ShowData(outData) {
+                $("#uphTitle").html("");
+                $("#tableUPH thead").html("");
+                $("#tableUPH tbody").html("");
+                $("#uphTitle").html("<input type='button' value='Export Excel' onclick='ExportTable()'/>");
+                var lineHtml = "<tr border='1' id='trLine'><td rowspan='3'>HOUR</td>";
+                stationHtml = " <tr>";
+                statusHtml = " <tr>";               
+                var bodyTr = "";               
+                for (var i = 0; i < outData[0].length; i++) {
+                    lineHtml = lineHtml + "<td colspan='" + outData[0][i].station.length * 2 + "'>" + outData[0][i].LineName + "</td>";
+                    for (var j = 0; j < outData[0][i].station.length; j++) {
+                        stationHtml = stationHtml + "<td colspan='2'>" + outData[0][i].station[j].station_name + "</td>";
+                        statusHtml = statusHtml + "<td>PASS</td><td> FAIL</td>";
+                    }
+                    for (var m = 0; m < outData[0][i].station.length; m++) {
+                        for (var k = 0; k < outData[0][i].station[m].UPH.length; k++) {
+                            var idd = "Time" + k;
+                            if (i == 0 && m == 0)
+                            {
+                                bodyTr = $("<tr id='" + idd + "'><td>" + outData[0][i].station[m].UPH[k].Time + "</td></tr>");
+                                $("#tableUPH tbody").append(bodyTr);
+                            }
+                            $("#" + idd).append("<td>" + outData[0][i].station[m].UPH[k].PassQty + "</td><td>" + outData[0][i].station[m].UPH[k].FailQty + "</td>");
+                        }
+                    }
+                }
+                lineHtml = lineHtml + "</tr>";
+                stationHtml = stationHtml + "</tr>";
+                statusHtml = statusHtml + "</tr>";                
+                $("#tableUPH thead").append(lineHtml + stationHtml + statusHtml);
+            }   
+            function ExportTable() {
+                $("#tableUPH").tableExport(
+                    {
+                        type: "excel",
+                        escape: "false"
+                    });
+            }
+        </script>
+</body>
+</html>

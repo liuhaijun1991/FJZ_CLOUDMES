@@ -1,0 +1,748 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGMES_Report</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../Scripts/plugins/layui/css/layui.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+        thead th {
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0px !important;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+        .SearchBox {
+            color: #000;
+            opacity: 1;
+            width: 460px;
+            height: auto;
+            padding: 30px;
+            background-color: #fff;
+            position: fixed;
+            border: solid 1.8px #75bfff;
+            border-radius: 5px;
+            min-width: 350px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="tools bg-primary p-xs">
+        <button class="btn btn-default SearchBtn"><span class="glyphicon glyphicon-search"></span></button>
+        <div class="SearchBox fa-border fade" style="display: none">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">PcbaSn:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtBarcode" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">Packing3:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtPallet" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" style="margin-top: 5px;">ItemSale:</label>
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <input type="text" id="txtSkuNo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12" style="padding-top: 10px">
+                <button class="btn btn-primary btn-sm btn-block" id="btnSearch">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefresh">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDelete">
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <div class="btn-group hidden-xs" role="group">
+                    <label class="btn btn-outline btn-primary" for="fileUpload" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;">
+                        <i class="fa fa-upload" aria-hidden="true"></i><lan set-lan="html:Upload"> Upload</lan>
+                    </label>
+                    <input id="fileUpload" type="file" style="display:none;" class="btn btn-outline btn-primary" accept=".xlsx,.xls">
+                    <input id="textUpload" type="text" readonly="readonly" class="btn btn-outline btn-primary" onclick="$('#fileUpload').click()">
+                </div>
+                <!--<button type="button" class="btn btn-outline btn-primary" id="btnFailMsg">
+                    <i class="glyphicon glyphicon-cloud" aria-hidden="true"></i><lan set-lan="html:Delete"> Message</lan>
+                </button>-->
+            </div>
+        </div>
+        <table id="tableTGMESList"></table>
+    </div>
+    <div id="divExcel" class="hidden" style="padding:0 20px;"></div>
+    <div id="divDeleteRemark" class="panel-body hidden">
+        <div class="form-group">
+            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:Pallet">棧板:</label>
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                <input class="form-control" id="txtPallet" style="resize:vertical;margin-bottom:5px;" />
+            </div>
+            <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:Remark">備註:</label>
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                <textarea class="form-control" id="txtRemark" style="resize:vertical"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="divFailMsg" class="panel-body hidden">
+        <table id="tableMsgList"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/layui/layui.all.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script src="../../Scripts/Station/MesClient.StationLayer.js"></script>
+
+    <script>
+        var postData = {};
+        var mesUI = new MesClientUI(self.parent.client);
+
+        $(document).ready(function () {
+            SelectTGMESList();
+            $(document).on("click", ".SearchBtn", function (e) {
+                $(".SearchBox").toggle();
+            });
+            $("#btnSearch").click(function () {
+                SelectTGMESList();
+                $(".SearchBox").toggle();
+            });            
+            $("#btnRefresh").click(function () {
+                SelectTGMESList();
+            });
+            $("#btnDelete").click(function () {
+                DeleteTGMESInfo();
+            });
+            $("#fileUpload").change(function (e) {
+                $("#textUpload").val($(this).val());
+                var showExcel = document.getElementById("divExcel");
+                var filename = $(this).val().toLowerCase();
+                if (filename.indexOf(".xlsx") >= 0 || filename.indexOf(".xls") >= 0) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        var fromTo = wb.Sheets[shitname[0]]['!ref']
+                        var rowcount = fromTo.substring(fromTo.lastIndexOf(':') + 2, fromTo.length)
+                        for (var i = 0; i < rowcount.length; i++) {
+                            if (rowcount.charCodeAt(i) >= 48 && rowcount.charCodeAt(i) <= 57) {
+                                rowcount = rowcount.substring(i, rowcount.length)
+                                break;
+                            }
+                        }
+                        wb.Sheets[shitname[0]]['!ref'] = 'A1:BC' + rowcount;//設置讀取行列
+                        wb.SheetNames.forEach(function (sheetName) {
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    };
+                    ShowExcel();
+                }
+                else {
+                    layer.msg("請選擇EXCEL類型的文件！</br>", { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                    return;
+                }
+            });
+            $("#btnFailMsg").click(function () {
+                layer.open({
+                    id: "UploadFailMessage",
+                    type: 1,
+                    shade: 0.8,
+                    shadeClose: false,
+                    title: "上傳TGMES失敗信息",
+                    area: ['80%', '80%'],
+                    content: $('#divFailMsg'),
+                    btn: ["OK"],
+                    success: function () {
+                        $("#divFailMsg").removeClass("hidden");
+                        postData = {};
+                        parent.client.CallFunction("MESStation.Config.HWD.TGMESApi", "UploadTGMESMessage", postData, function (e) {
+                            $('#tableMsgList').bootstrapTable("destroy");
+                            if (e.Status == "Pass") {
+                                ShowFailMessage(e.Data);
+                            } else {
+                                layer.msg(e.Message, { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                            }
+                        });
+                    },
+                    end: function () {
+                        $("#divFailMsg").addClass("hidden");
+                    },
+                    yes: function (index) {
+                        $("#divFailMsg").val("");
+                        $('#tableMsgList').bootstrapTable("removeAll");
+                        layer.close(index);
+                    },
+                    cancel: function (index) {
+                        $("#divFailMsg").val("");
+                        $('#tableMsgList').bootstrapTable("removeAll");
+                        layer.close(index);
+                    }
+                });
+            });
+        });
+        var SelectTGMESList = function () {
+            $("#tableTGMESList").bootstrapTable('destroy');
+            postData = { Barcode: $("#txtBarcode").val(), Pallet: $("#txtPallet").val(), SkuNo: $("#txtSkuNo").val()};
+            self.parent.client.CallFunction("MESStation.Config.HWD.TGMESApi", "SelectTGMESList", postData,
+                function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, { icon: 1, time: 500 }, function () { ShowTGMESList(e.Data); });
+                    } else {
+                        layer.msg(e.Message, { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                        return;
+                    }
+                });
+        };
+        var ShowTGMESList = function (data) {
+            $('#tableTGMESList').bootstrapTable({
+                data: data,
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: true, //是否启用排序
+                sortOrder: "asc", //排序方式
+                sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                showColumns: false, //是否显示所有的列
+                showRefresh: false, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                showToggle: false, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                dataType: "json", //期待返回数据类型
+                method: "post", //请求方式
+                searchAlign: "right", //查询框对齐方式
+                search: true,
+                buttonsAlign: "right", //按钮对齐方式
+                toolbar: "#divTableToolbar", //指定工具栏
+                toolbarAlign: "left", //工具栏对齐方式
+                selectItemName: "ID",
+                columns: [
+                    {
+                        title: '<label set-lan="html:SELECT">SELECT</label>',
+                        checkbox: true
+                    }, {
+                        field: 'ID',
+                        title: 'ID',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'WORKORDERNO',
+                        title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'QTY_M',
+                        title: '<label set-lan="html:QTY_M">QTY_M</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'PCBA_BARCODE',
+                        title: '<label set-lan="html:PCBA_BARCODE">PCBA_BARCODE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "PRODUCT_BARCODE",
+                        title: '<label set-lan="html:PRODUCT_BARCODE">PRODUCT_BARCODE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "COMPLETED_FLAG",
+                        title: '<label set-lan="html:COMPLETED_FLAG">COMPLETED</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "COMPLETED_TIME",
+                        title: '<label set-lan="html:COMPLETED_TIME">COMPLETED_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: 'SHIPPED_FLAG',
+                        title: '<label set-lan="html:SHIPPED_FLAG">SHIPPED</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "SHIPDATE",
+                        title: '<label set-lan="html:SHIPDATE">SHIPDATE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "CURRENT_STATION",
+                        title: '<label set-lan="html:CURRENT_STATION">CURRENT_STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "NEXT_STATION",
+                        title: '<label set-lan="html:NEXT_STATION">NEXT_STATION</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "IMEI",
+                        title: '<label set-lan="html:IMEI">IMEI</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "PHYSICSNO",
+                        title: '<label set-lan="html:PHYSICSNO">PHYSICSNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "MAC_1",
+                        title: '<label set-lan="html:MAC_1">MAC_1</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "SPECIAL_SN_ID",
+                        title: '<label set-lan="html:SPECIAL_SN_ID">SPECIAL_SN_ID</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "WIFI_KEY",
+                        title: '<label set-lan="html:WIFI_KEY">WIFI_KEY</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "PACKING2",
+                        title: '<label set-lan="html:PACKING2">PACKING2</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "PACKINGWEIGHT2",
+                        title: '<label set-lan="html:PACKINGWEIGHT2">PACKINGWEIGHT2</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "PACKING3",
+                        title: '<label set-lan="html:PACKING3">PACKING3</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "EMS_PCBA_PART_NO",
+                        title: '<label set-lan="html:EMS_PCBA_PART_NO">EMS_PCBA_PART_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "HW_PCBA_PART_NO",
+                        title: '<label set-lan="html:HW_PCBA_PART_NO">HW_PCBA_PART_NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "ITEM_SALES",
+                        title: '<label set-lan="html:ITEM_SALES">ITEM_SALES</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "ITEM_BOM",
+                        title: '<label set-lan="html:ITEM_BOM">ITEM_BOM</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "LOTNO",
+                        title: '<label set-lan="html:LOTNO">LOTNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "MODEL",
+                        title: '<label set-lan="html:MODEL">MODEL</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "ORIGIN_CN",
+                        title: '<label set-lan="html:ORIGIN_CN">ORIGIN_CN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "ORIGIN_EN",
+                        title: '<label set-lan="html:ORIGIN_EN">ORIGIN_EN</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "SSID",
+                        title: '<label set-lan="html:SSID">SSID</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "SSID3",
+                        title: '<label set-lan="html:SSID3">SSID3</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "PRODUCT_DATE",
+                        title: '<label set-lan="html:PRODUCT_DATE">PRODUCT_DATE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "VALID_FLAG",
+                        title: '<label set-lan="html:VALID_FLAG">VALID_FLAG</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "REMARK",
+                        title: '<label set-lan="html:REMARK">REMARK</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: "EDIT_EMP",
+                        title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "EDIT_TIME",
+                        title: '<label set-lan="html:EDIT_TIME">EDIT_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "DATALOAD_EMP",
+                        title: '<label set-lan="html:DATALOAD_EMP">DATALOAD_EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }, {
+                        field: "DATALOAD_TIME",
+                        title: '<label set-lan="html:DATALOAD_TIME">DATALOAD_TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    }
+                ]
+            });
+        };
+        var DeleteTGMESInfo = function (rows) {
+            layer.open({
+                type: 1,
+                title: "刪除",
+                area: ["30%", "30%"],
+                offset: ["110px"],
+                skin: 'mes-layer-title',
+                btn: ['確認', '取消'],
+                scrollbar: false,
+                content: $("#divDeleteRemark"),
+                success: function (layero, index) {
+                    $("#divDeleteRemark").removeClass("hidden");
+                },
+                end: function () {
+                    $("#divDeleteRemark").addClass("hidden");
+                },
+                yes: function (index) {
+                    if ($("#txtPallet").val() == "" || $("#txtPallet").val() == undefined) {
+                        layer.msg("請輸入刪除棧板號！", { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                        return;
+                    }
+                    if ($("#txtRemark").val() == "" || $("#txtRemark").val() == undefined) {
+                        layer.msg("請輸入刪除原因！", { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                        return;
+                    }
+                    postData = { Pallet: $("#txtPallet").val(), Remark: $("#txtRemark").val() };
+                    parent.client.CallFunction("MESStation.Config.HWD.TGMESApi", "DeleteTGMESInfo", postData, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.close(index);
+                            $("#txtPallet").val("");
+                            $("#txtRemark").val("");
+                            layer.msg(e.Message, { icon: 1, time: 3000 }, function () { });
+                            SelectTGMESList();
+                        }
+                        else {
+                            layer.msg(e.Message, { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                        }
+                    });
+                }
+            });
+        };
+        var ShowExcel = function () {
+            layer.open({
+                id: "UploadData",
+                type: 1,
+                shade: 0.8,
+                shadeClose: false,
+                title: "上傳TGMES信息",
+                area: ['80%', '80%'],
+                content: $('#divExcel'),
+                btn: ["確認", "取消"],
+                success: function (layero, index) {
+                    $("#divExcel").removeClass("hidden");
+                },
+                end: function () {
+                    $("#divExcel").addClass("hidden");
+                },
+                yes: function (index) {
+                    var loadIndex = layer.load(1, {
+                        shade: [0.5, 'gray'],
+                        content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                            + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                            + "<span> Uploading Excel...</span></div></div>"
+                    });
+                    var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                    parent.client.CallFunction("MESStation.Config.HWD.TGMESApi", "UploadTGMESInfo", { DataList: JSON.stringify(DataList) }, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, { icon: 1, time: 3000 }, function () { SelectTGMESList(); });
+                            layer.close(index);
+                            layer.close(loadIndex);
+                            $("#fileUpload").val("");
+                            $("#textUpload").val("");
+                        } else {
+                            layer.msg(e.Message, { icon: 2, time: 5000, btn: ['OK'] }, function () { });
+                            layer.close(loadIndex);
+                            $("#fileUpload").val("");
+                            $("#textUpload").val("");
+                        }
+                    });
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                    $("#fileUpload").val("");
+                    $("#textUpload").val("");
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    $("#fileUpload").val("");
+                    $("#textUpload").val("");
+                }
+            });
+        };
+        var ShowFailMessage = function (Data) {
+            $('#tableMsgList').bootstrapTable({
+                data: Data,
+                striped: false,                    //是否显示行间隔色
+                cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                sortable: false,                   //是否启用排序
+                sortOrder: "desc",                  //排序方式
+                pagination: true,                  //是否显示分页（*）
+                sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                     //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
+                showColumns: false,                 //是否显示 内容列下拉框
+                showRefresh: false,                 //是否显示刷新按钮
+                minimumCountColumns: 2,            //最少允许的列数
+                clickToSelect: true,               //是否启用点击选中行
+                singleSelect: true,                //单选checkbox
+                showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                   //是否显示详细视图
+                detailView: false,                 //是否显示父子表
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                searchOnEnterKey: false,            //回车搜索
+                searchTimeOut: 500,                //设置搜索超时时间
+                trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                searchAlign: "right",              //查询框对齐方式
+                toolbarAlign: "right",              //工具栏对齐方式
+                buttonsAlign: "right",             //按钮对齐方式
+                showExport: false,                  //是否显示导出按钮
+                exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                exportTypes: ['excel', 'csv'],     //导出文件类型
+                Icons: 'glyphicon-export',
+                exportOptions: {
+                    ignoreColumn: [0],             //忽略某一列的索引
+                    fileName: 'FailMessage List',     //文件名称设置
+                    worksheetName: 'sheet1',       //表格工作区名称
+                },
+                columns: [{
+                    field: 'CLASS_NAME',
+                    title: '<label set-lan="html:tableClassName">CLASS_NAME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'FUNCTION_NAME',
+                    title: '<label set-lan="html:tableFunctionName">FUNCTION_NAME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'LOG_MESSAGE',
+                    title: '<label set-lan="html:tableLogMessage">LOG_MESSAGE</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'EDIT_EMP',
+                    title: '<label set-lan="html:tableEditEmp">EDIT_EMP</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                },
+                {
+                    field: 'EDIT_TIME',
+                    title: '<label set-lan="html:tableEditTime">EDIT_TIME</label>',
+                    rowspan: 1,
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    visible: true
+                }]
+            });
+        }
+    </script>
+</body>
+</html>

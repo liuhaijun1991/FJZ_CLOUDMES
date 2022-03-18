@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Sku control detail</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" >WO TAA</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAddMapping">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEditMapping" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan > Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDeleteMapping" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan > Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefreshMapping">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan > Refresh</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableControlList"></table>
+    </div>
+    <div id="divEditControl" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ISTAA：</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <select class="form-control" name="seq_no" id="seq_no">
+                        <option>YES</option>
+                        <option>NO</option>
+                    </select>
+                </div>
+            </div>
+            <div id="divValue" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">WO:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtvalue" disabled class="form-control" />
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <lan>Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var skuList = [];
+        var submitType = "";
+        var postData = {};
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            GetControlList("");
+            $("#btnAddMapping").click(function () {
+                var addTitle = 'Add New Mapping';
+                $("#txtvalue").removeAttr("disabled");
+                if (lan == "CHINESE") {
+                    addTitle = "添加新的机种管控记录"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "添加新的機種管控記錄"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "70%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        //$("#divSkuno").find("input").removeAttr("readonly");
+                        $("#seq_no").val("");
+                        $("#txtvalue").val("");
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnEditMapping").click(function () {
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                $("#txtvalue").attr("disabled", "disabled");
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit Mapping';
+                if (lan == "CHINESE") {
+                    addTitle = "编辑机种管控信息"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "編輯機種管控信息"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["50%", "70%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        var a = selectRows[0].SEQ_NO;
+                        if (a == "1") {
+                            $("#seq_no").val("YES");
+                        }
+                        else { $("#seq_no").val("NO");}
+                        $("#txtvalue").val(selectRows[0].VALUE);
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                    }
+                });
+            });
+            $("#btnDeleteMapping").click(function () {
+                var selectRows = $('#tableControlList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    layer.msg("Please select one record", {
+                        icon: 2,
+                        time: 3000
+                    }, function () { });
+                    return;
+                }
+                postData = { "WO": selectRows[0].VALUE };
+                self.parent.client.CallFunction("MESStation.Config.RWoBaseExt", "DeleteBaseExt", postData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            GetControlList("");
+                        });
+                    }
+                    else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () { GetControlList("");});
+                        return;
+                    }
+                });
+            });
+            $("#btnRefreshMapping").click(function () {
+                GetControlList("");
+            });
+            $("#btnSubmit").click(function () {
+                if (submitType == "MODIFY") {
+                    ModifyControl();
+                }
+                else if (submitType == "NEW") {
+                    AddNewControl();
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        });
+
+        function AddNewControl() {
+            var WO = $("#txtvalue").val();
+            var SEQ_NO = $("#seq_no").val();
+            if (WO == "" || SEQ_NO == "")
+            {
+                layer.msg("wo or seq_no is null", {
+                    icon: 2,
+                    time: 3000
+                }, function () {
+                });
+                return;
+            }
+            postData = { "WO": WO, "SEQ_NO": SEQ_NO};
+            self.parent.client.CallFunction("MESStation.Config.RWoBaseExt", "AddRWoBaseExt", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetControlList("");
+                    });
+                }
+                else
+                {
+                    $("#txtvalue").val('');
+                    $("#seq_no").val('');
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        //GetControlList("");
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyControl()
+        {
+            var WO = $("#txtvalue").val();
+            var seq_no = $("#seq_no").val();
+            postData = { "WO": WO, "seq_no": seq_no};
+            self.parent.client.CallFunction("MESStation.Config.RWoBaseExt", "UdateWoBaseExt", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetControlList("");
+                    });
+                }
+                else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        GetControlList("");
+                    });
+                    return;
+                }
+            });
+        }
+
+        function GetControlList(wo) {
+            postData = { "WO": wo };
+            $("#btnEditMapping").attr("disabled", "disabled");
+            $("#btnDeleteMapping").attr("disabled", "disabled");
+            $("#tableControlList").html("");
+            $("#tableControlList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.RWoBaseExt", "SelectR_wo_base_ext", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        $('#tableControlList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 5,                        //每页的记录行数（*）
+                            pageList: [5, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            onCheck: function (row) {
+                                var rows = $('#tableControlList').bootstrapTable('getSelections');
+                                if (rows.length == 1) {
+                                    //$("#btnEditMapping").attr("disabled", "disabled");
+                                    $("#btnEditMapping").removeAttr("disabled");
+                                } else {
+                                    //$("#btnEditMapping").removeAttr("disabled");
+                                    $("#btnEditMapping").attr("disabled", "disabled");
+                                }
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#tableControlList').bootstrapTable('getSelections');
+                                $("#btnEditMapping").attr("disabled", "disabled");
+                                if (rows.length <= 0) {
+                                    $("#btnDeleteMapping").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnDeleteMapping").removeAttr("disabled")
+                                }
+                            },
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: 'ID',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'NAME',
+                                    title: '<label set-lan="html:NAME">NAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'VALUE',
+                                    title: '<label set-lan="html:WORKORDERNO">WORKORDERNO</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }],
+                            locale: tableLocale//中文支持,
+                        });
+                        mesUI.SetLanguage("CSKUDETAIL");
+                    });
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

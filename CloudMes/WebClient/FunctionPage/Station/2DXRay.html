@@ -1,0 +1,627 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>2DX-RAY</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <style type="text/css">
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+
+<body class="color-cPage gray-bg">
+    <div class="ibox full-height">
+        <div class="panel-heading bg-primary">
+            <h3>
+                <i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;"
+                    set-lan="html:Configuration">Configuration</span>
+            </h3>
+        </div>
+        <div class="ibox-content">
+            <div class="row full-height">
+                <div class="col-xs-12" id="IOSite">
+                    <div class="col-xs-5">
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px;font-weight:bold;"
+                                set-lan="html:Information">Information</div>
+                            <br />
+                            <div class="row full-height">
+                                <div class="panel-body col-lg-5" style="margin-left: 20px;">
+                                    <div>
+                                        <Label>
+                                            <lan set-lan="html:User"> User</lan>
+                                        </Label>
+                                        <input type="text" ID="inUser" class="form-control col-lg-12" />
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <Label>
+                                            <lan set-lan="html:Model"> Model</lan>
+                                        </Label>
+                                        <input type="text" ID="inModel" class="form-control col-lg-12"
+                                            readonly="readonly" />
+                                    </div> <br />
+                                    <div>
+                                        <Label>
+                                            <lan set-lan="html:Customer"> Customer</lan>
+                                        </Label>
+                                        <input type="text" ID="inCustomer" class="form-control col-lg-12"
+                                            readonly="readonly" />
+                                        <br />
+                                    </div><br />
+                                    <div>
+                                        <Label>
+                                            <lan set-lan="html:User"> Building Story</lan>
+                                        </Label>
+                                        <select type="text" id="inBuild" class="form-control col-lg-12"></select>
+                                    </div> <br />
+                                    <div>
+                                        <Label>
+                                            <lan set-lan="html:Model"> Production Line</lan>
+                                        </Label>
+                                        <select type="text" id="inLine" class="form-control col-lg-12"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style=" font-size:small; margin-bottom:10px; font-weight:bold;"
+                                set-lan="html:2DX-RAY">2DX-RAY</div>
+                            <div class="row full-height">
+                                <div class="panel-body col-lg-5" style="margin-left: 20px;">
+                                    <div>
+                                        <button type="button" class="btn btn-lg" id="btnReset">
+                                            <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                                            <lan set-lan="html:Reset"> Reset</lan>
+                                        </button>
+                                    </div>
+                                    <br />
+                                    <div class="row full-height"
+                                        style=" font-size:small; margin-bottom:10px; font-weight:bold;">
+                                        <div class="col-xs-10">
+                                            <div>
+                                                <Label>
+                                                    <lan set-lan="html:SSN"> SSN</lan>
+                                                </Label>
+                                                <input type="text" ID="inSSN" class="form-control col-lg-12" />
+                                            </div>
+                                            <br /><br />
+                                            <div id="divLocation">
+                                                <Label>
+                                                    <lan set-lan="html:Location"> Location</lan>
+                                                </Label>
+                                                <input type="text" ID="inLocation" class="form-control col-lg-12" />
+                                            </div>
+                                            <div id="divVoid">
+                                                <Label>
+                                                    <lan set-lan="html:Void"> Void%</lan>
+                                                </Label>
+                                                <input type="text" ID="inVoid" class="form-control col-lg-12" />
+                                            </div>
+                                            <div>
+                                                <Label>
+                                                    <lan set-lan="html:Status"> Pass/Fail</lan>
+                                                </Label>
+                                                <input type="text" ID="inStatus" class="form-control col-lg-12" />
+                                            </div>
+                                            <div id="divRemark">
+                                                <Label>
+                                                    <lan set-lan="html:Status"> Remark</lan>
+                                                </Label>
+                                                <input type="text" ID="inRemark" class="form-control col-lg-12" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-1">
+                                            <div class="form-group">
+                                                <Label>
+                                                    Norm<input type="checkbox" ID="inNorm" class="radio radio-inline">
+                                                </Label>
+                                                <Label>
+                                                    MisAlignmet<input type="checkbox" ID="inAlignmet"
+                                                        class="radio radio-inline">
+                                                </Label>
+                                                <Label>
+                                                    Other<input type="checkbox" ID="inOther" class="radio radio-inline">
+                                                </Label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="button" ID="inNextBGA" onclick="nextBGA();" value="NEXT_BGA" />
+                                            &nbsp; <input type="button" ID="inNextSSN" onclick="nextSSN();"
+                                                value="NEXT_SSN" />
+                                            &nbsp; <input type="button" ID="inNotBga" onclick="notBga();"
+                                                value="NOT_BGA" />
+                                            &nbsp; <input type="button" ID="inComplete" onclick="complete();"
+                                                value="COMPLETE" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success col-xs-12 no-padding">
+                            <div class="panel-heading" style="font-size:small; font-weight:bold;"
+                                set-lan="html:Message">Message</div>
+                            <div class="panel-body no-padding pre-scrollable" id="messagesite">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        // var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var postData = {};
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var user = "";
+        var model = "";
+        var build = "";
+        var line = "";
+        var sn = "";
+        var location1 = "";//不能使用lacation  具體看  Scripts/global.js
+        var invoid = "";
+        var customer = "";
+        var status = "";
+        var norm = "";
+        var alignmet = "<1/4";
+        var inAlignmet = "";
+        var other = "";
+        var remark1 = "";
+        var workorderno = "";
+        var nextStation = "";
+        var reMessage = "";
+        var pFcmdOther = false;
+        var pFlgVoidGetF = false;
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            $("#divRemark").addClass("hidden");
+            //mesUI.SetLanguage("2DXSetting");
+            // Gettable();
+            $("#btnReset").click(function () {
+                var cancelMessage;
+                if (lan == "CHINESE") {
+                    cancelMessage = "取消输入";
+                }
+                else if (lan == "CHINESE_TW") {
+                    cancelMessage = "取消輸入";
+                }
+                else {
+                    cancelMessage = "Cancel Input";
+                };
+                $("#inUser").val("");
+                $("#inModel").val("");
+                $("#inBuild").empty();
+                $("#inLine").empty();
+                $("#inSSN").val("");
+                $("#inLocation").val("");
+                $("#inVoid").val("");
+                $("#inCustomer").val("");
+                $("#inStatus").val("");
+                $("input:checkbox").removeAttr("checked");
+                $("#inUser").focus();
+                var E = new MessageElements();
+                $("#messagesite").push(E);
+                E.Default(Message = cancelMessage, State = 2, $("#messagesite"));
+            });
+
+            $("#inUser").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                if (e.keyCode == 13) {
+                    user = $("#inUser").val().trim();
+                    if (user.length != 0) {
+                        $("#inLine").empty();
+                        self.parent.client.CallFunction("MESStation.Config._2DXLineConfig", "Get2DXLINE", {}, function (e) {
+                            var sel = $("#inBuild");
+                            sel.empty();
+                            sel.append($("<option value=''> </option>"));
+                            if (e.Status == "Pass") {
+                                for (var a = 0; a < e.Data.length; a++) {
+                                    sel.append($("<option value='" + e.Data[a] + "'>" + e.Data[a] + "</option>"));
+                                }
+                                $("#inBuild").focus();
+                                E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                            }
+                        });
+                    }
+                }
+            });
+            $("#inBuild").change(function () {//选择Build时动作
+                build = $("#inBuild").val().trim();
+                self.parent.client.CallFunction("MESStation.Config._2DXLineConfig", "Get2DXLINEForBuild", { "BUILD": build }, function (e) {
+                    var sel = $("#inLine");
+                    sel.empty();
+                    sel.append($("<option value=''> </option>"));
+                    if (e.Status == "Pass") {
+                        for (var a = 0; a < e.Data.length; a++) {
+                            sel.append($("<option value='" + e.Data[a] + "'>" + e.Data[a] + "</option>"));
+                        }
+                    }
+                });
+            });
+            $("#inLine").change(function () {//选择Line时动作
+                line = $("#inLine").val().trim();
+                $("#inSSN").val();
+                $("#inSSN").focus();
+            });
+            $("#inSSN").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                $("#inModel").val("");
+                $("#inCustomer").val("");
+                sn = $("#inSSN").val().trim();
+                user = $("#inUser").val().trim();
+
+                if (e.keyCode == 13) {
+                    if (user.length == 0) {
+                        E.Default(Message = "User can not be empty", State = 0, $("#messagesite"));
+                        $("#inUser").focus();
+                        return;
+                    }
+
+                    if (sn.length != 0) {
+                        self.parent.client.CallFunction("MESStation.Config._2DXLineConfig", "GetCustomer", { "SN": sn }, function (e) {
+                            if (e.Status == "Pass") {
+                                $("#inModel").val(e.Data["SKUNO"]);
+                                $("#inCustomer").val(e.Data["DESCRIPTION"]);
+                                model = $("#inModel").val().trim();
+                                customer = $("#inCustomer").val().trim();
+                                workorderno = e.Data["WORKORDERNO"].trim();
+                                nextStation = e.Data["NEXT_STATION"].trim();
+                                if ($("#inLocation").is(":hidden")) {
+                                    $("#inStatus").focus();
+                                }
+                                else { 
+                                $("#inLocation").focus();
+                                $("#inLocation").select();
+                                E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                                }
+                            } else if (e.Status == "Fail") {
+                                E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                            } else {
+                                E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                            }
+                        });
+                    } else {
+                        $("#inSSN").focus();
+                        E.Default(Message = "SN can not be empty", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inLocation").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                $("#inVoid").val("");
+                location1 = $("#inLocation").val().trim();
+                if (e.keyCode == 13) {
+                    if (location1.length != 0) {
+                        $("#inVoid").focus();
+                    }
+                    else {
+                        $("#inLocation").focus();
+                        E.Default(Message = "Location can not be empty", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inVoid").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                invoid = $("#inVoid").val().trim();
+                if (e.keyCode == 13) {
+                    if (invoid.length != 0 && ($("#inNorm").prop("checked") == true || $("#inAlignmet").prop("checked") == true)) {
+                        status = $("#inStatus").val("FAIL");
+                        $("#inStatus").focus();
+                    } else if (invoid.length != 0 && $("#inOther").prop("checked") == true) {
+                        alignmet = ">=1/4";
+                        status = $("#inStatus").val("FAIL");
+                        $("#divRemark").removeClass("hidden");
+                        $("#inRemark").focus();
+                    }
+                    else if (invoid.length != 0 && $("#inOther").prop("checked") == false) {
+                        if (invoid / 100 > 0.2) {
+                            $("#divRemark").addClass("hidden");
+                            $("#inRemark").val("");
+                            $("#inStatus").val("FAIL");
+                            $("#inStatus").focus();
+
+                        } else if (invoid / 100 > 0.1 && invoid / 100 <= 0.2) {
+                            $("#divRemark").addClass("hidden");
+                            $("#inVoid").focus();
+                            $("#inVoid").select();
+                            E.Default(Message = "Please inform the productionline engineer about the value", State = 0, $("#messagesite"));
+                        } else {
+                            $("#divRemark").addClass("hidden");
+                            $("#inRemark").val("");
+                            $("#inStatus").val("");
+                            $("#inStatus").focus();
+                            E.Default(Message = "OK", State = 2, $("#messagesite"));
+                        }
+
+                    }
+                    else {
+                        $("#inStatus").val("");
+                        $("#divRemark").addClass("hidden");
+                        $("#inVoid").focus();
+                        $("#inVoid").select();
+                        E.Default(Message = "Void can not be empty", State = 0, $("#messagesite"));
+                    }
+                }
+            });
+            $("#inStatus").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                status = $("#inStatus").val().trim();
+                remark = $("#inRemark").val().trim()
+                if (e.keyCode == 13) {
+                    if ($("#inNorm").prop("checked") == true) {
+                        norm = "1";
+                    } else {
+                        norm = "0";
+                    }
+                    if ($("#inAlignmet").prop("checked") == true) {
+                        inAlignmet = "1";
+                        alignmet = ">=1/4";
+                    } else {
+                        inAlignmet = "0";
+                        alignmet = "<1/4";
+                    } 
+                    if ($("#inOther").prop("checked") == true) {
+                        other = "1";
+                    } else {
+                        other = "0";
+                    }
+                    if ((invoid / 100 > 0.2 || norm == "1" || other == "1") && status != "FAIL") {
+                        E.Default(Message = "Please input 'fail' or scan 'fail'", State = 0, $("#messagesite"));
+                        $("#inStatus").focus();
+                        return;
+                    }
+                    if (invoid / 100 <= 0.2 && norm == "0" && inAlignmet =="0" && other == "0" && status.toUpperCase() != "PASS") {
+                        E.Default(Message = "Please scan 'Pass'", State = 0, $("#messagesite"));
+                        $("#inStatus").focus();
+                        return;
+                    }
+                    if ($("#inOther").prop("checked") == true) {
+                        $("#divRemark").removeClass("hidden");
+                        $("#inRemark").focus();
+                    } else {
+                        inserData();
+                    }
+                }
+            });
+            $("#inRemark").unbind("keypress").bind("keypress", function (e) {
+                var E = new MessageElements();
+                status = $("#inStatus").val().trim();
+                remark = $("#inRemark").val().trim()
+                if (e.keyCode == 13) {
+                    if ($("#inNorm").prop("checked") == true) {
+                        norm = "1";
+                    } else {
+                        norm = "0";
+                    }
+                    if ($("#inAlignmet").prop("checked") == true) {
+                        alignmet = ">=1/4";
+                    } else {
+                        alignmet = "<1/4";
+                    }
+                    if ($("#inOther").prop("checked") == true) {
+                        other = "1";
+                    } else {
+                        other = "0";
+                    }
+                    inserData();
+                }
+            });
+            $("#inNorm").change(function () {
+                if ($("#inNorm").prop("checked") == true) {
+                    $("#divRemark").addClass("hidden");
+                    $("#inStatus").val("");
+                    $("#inStatus").focus();
+                    status = $("#inStatus").val("FAIL");
+                    $("#inStatus").select();
+                } else {
+                    $("#inStatus").val("");
+                    $("#inSSN").focus();
+
+                }
+            });
+            $("#inAlignmet").change(function () {
+                if ($("#inAlignmet").prop("checked") == true) {
+                    $("#divRemark").addClass("hidden");
+                    $("#inStatus").val("");
+                    $("#inStatus").focus();
+                    status = $("#inStatus").val("FAIL");
+                    $("#inStatus").select();
+                } else {
+                    $("#inStatus").val("");
+                    $("#inSSN").focus();
+                }
+            });
+            $("#inOther").change(function () {
+                if ($("#inOther").prop("checked") == true) {
+                    status = $("#inStatus").val("FAIL");
+                    $("#divRemark").removeClass("hidden");
+                    $("#inRemark").val("");
+                    $("#inRemark").focus();
+                    
+                } else {
+                    $("#inStatus").val("");
+                    $("#inRemark").val("");
+                    $("#divRemark").addClass("hidden");
+                    $("#inSSN").focus();
+                }
+            });
+            nextBGA = function () {
+                norm = "0";
+                //alignmet = "0";
+                other = "0";
+                location1 = "";
+                invoid = "";
+                status = "";
+                remark = "";
+                $("#inLocation").focus();
+            };
+            nextSSN = function () {
+                norm = "0";
+                //alignmet = "0";
+                other = "0";
+                location1 = "";
+                invoid = "";
+                status = "";
+                remark = "";
+                $("#inSSN").focus();
+                $("#inSSN").select();
+            };
+            notBga = function () {
+                location1 = "0";
+                invoid = "0";
+                remark = "";
+                $("#divLocation").addClass("hidden");
+                $("#divVoid").addClass("hidden");
+                $("#inNextBGA").addClass("hidden");
+                $("#inSSN").focus();
+                $("#inSSN").select();
+            };
+            complete = function () {
+                norm = "0";
+                alignmet = "0";
+                other = "0";
+                location1 = "";
+                invoid = "";
+                status = "";
+                remark = "";
+
+                $("#inSSN").val("");
+                $("#inLocation").val("");
+                $("#inVoid").val("");
+                $("#inCustomer").val("");
+                $("#inStatus").val("");
+                $("#inRemark").val("");
+                $("#divLocation").removeClass("hidden");
+                $("#divVoid").removeClass("hidden");
+                $("#inNextBGA").removeClass("hidden");
+                $("#divRemark").addClass("hidden");
+                $("#inLine").focus();
+            };
+            var inserData = function () {
+                var E = new MessageElements();
+                postData = {
+                    "User": user, "Skuno": model, "Customer": customer, "Build": build, "Line": line, "Sn": sn, "Workorderno": workorderno, "Location": location1, "Void": invoid, "Status": status,
+                    "Norm": norm, "Alignmet": alignmet, "Other": other, "Remark": remark, "NextStation": nextStation };
+                if (user.length != 0 && model.length != 0 && customer.length != 0 && build.length != 0 && line.length != 0 && sn.length != 0 && location1.length != 0 && invoid.length != 0) {
+                    self.parent.client.CallFunction("MESStation.Config._2DXLineConfig", "AddPassRecord", postData, function (e) {
+                        if (e.Status == "Pass") {
+                            $("#inSSN").val("");
+                            $("#inLocation").val("");
+                            $("#inVoid").val("");
+                            $("#inCustomer").val("");
+                            $("#inStatus").val("");
+                            $("#inRemark").val("");
+                            $("#inSSN").focus();
+                            E.Default(Message = e.Message, State = 2, $("#messagesite"));
+                        } else {
+                            $("#inSSN").val("");
+                            $("#inLocation").val("");
+                            $("#inVoid").val("");
+                            $("#inCustomer").val("");
+                            $("#inStatus").val("");
+                            $("#inRemark").val("");
+                            $("#inSSN").focus();
+                            E.Default(Message = e.Message, State = 0, $("#messagesite"));
+                        }
+                    });
+                    $("#inStatus").focus();
+                } else {
+                    E.Default(Message ="Please complete needed information", State = 0, $("#messagesite"));
+                }
+            };
+            var MessageElements = function () {
+                MessageElements.prototype.Default = function (Message, State, Container) {
+                    var DTime = new Date();
+                    var time = DTime.format("yyyy-MM-dd hh:mm:ss");
+                    var type = State == 0 ? "error" : (State == 1 || State == 6 ? "success" : (State == 2 ? "info" : (State == 3 ? "warning" : "info")));
+                    if (Container.find) {
+                        if (Container.find("tbody").length > 0) {
+                            Container.find("tbody>tr:gt(200)").remove();
+                            var n = Container.find("tbody>tr:first>td:first").text();
+                            var tr = $("<tr class=\"" + type + "\"><td>" + (Number(n) + 1).toString() + "</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                            Container.find("tbody").prepend(tr);
+                        }
+                        else {
+                            var table = $("<table class=\"table table-striped\"></table>");
+                            var th = $("<thead><tr><th>#</th><th>Type</th><th>Message</th><th>DataTime</th></tr></thead>");
+                            var tb = $("<tbody></tbody>");
+                            var tr = $("<tr class=\"" + type + "\"><td>1</td><td>" + type + "</td><td>" + Message + "</td><td>" + time + "</td></tr>");
+                            tb.append(tr);
+                            table.append(th);
+                            table.append(tb);
+                            Container.empty();
+                            Container.prepend(table);
+                        }
+                    }
+                };
+            };
+
+        });
+
+    </script>
+
+</body>
+
+</html>

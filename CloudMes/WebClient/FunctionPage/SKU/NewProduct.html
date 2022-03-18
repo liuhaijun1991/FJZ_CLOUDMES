@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Skuno Control</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <style>
+        .ui-autocomplete {
+            display: block;
+            z-index: 999999999;
+            max-height: 180px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-heading bg-primary">
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:SKUSetting">Sku Setting</span></h3>
+    </div>
+    <div class="panel-body">
+        <!--Sku List Toolbar-->
+        <div id="Table_Toolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="NewSku">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="EditSku" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="DeleteSku" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+            </div>
+        </div>
+        <!--Sku List-->
+        <table id="Sku_List_Table"></table>
+    </div>
+    <div id="ModifyList" class="panel-body hidden">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#ModifySkuno"><i class="fa fa-list"></i> <lan set-lan="html:SkunoMsg">Skuno Info</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#EditThrowPoint"><i class="fa fa-th-list"></i> <lan set-lan="html:ThrowPoint">Throw Point</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#RouteList"><i class="fa fa-th-list"></i> <lan set-lan="html:RouteList">Route List</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#PackList"><i class="fa fa-th-list"></i> <lan set-lan="html:PackList">Pack List</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#LabelList"><i class="fa fa-th-list"></i> <lan set-lan="html:LabelList">Label List</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#AqlList"><i class="fa fa-th-list"></i> <lan set-lan="html:AqlList">Aql List</lan></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#OtherSettings"><i class="fa fa-th-list"></i> <lan set-lan="html:OtherSettings">OtherSettings</lan></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="ModifySkuno" class="tab-pane active row row-lg">
+                <div id="EditModelDetail" class="form-horizontal m-t-md">
+                    <div class="form-group col-xs-6" style="display:none">
+                        <label id="la1" class="col-xs-4 control-label" set-lan="html:ModifyModelMsgID">ID：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="ID" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgSKUNO">SKUNO：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="SKUNO" id="SKUNO" set-lan="attr:placeholder=ModifyTxtSKUNO" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgBU">BU：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="BU" set-lan="attr:placeholder=ModifyTxtBU0000" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgVERSION">VERSION：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="VERSION" set-lan="attr:placeholder=ModifyTxtVERSION" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgCODENAME">CODENAME：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="SKU_NAME" set-lan="attr:placeholder=ModifyTxtCODENAME" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelSkuType">SKU TYPE：</label>
+                        <div class="col-xs-8">
+                            <select class="form-control" name="SKU_TYPE">
+                                <option value="MODEL">MODEL</option>
+                                <option value="PCBA">PCBA</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgDESCRIPTION">DESCRIPTION：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="DESCRIPTION" set-lan="attr:placeholder=ModifyTxtDESCRIPTION" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgCSERIESID">CSERIESID：</label>
+                        <div class="col-xs-8" name="divSeries">
+                            <select id="C_SERIES_ID" class="form-control" name="C_SERIES_ID"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgCUSTPARTNO">CUSTPARTNO：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="CUST_PARTNO" set-lan="attr:placeholder=ModifyTxtCUSTPARTNO" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgCUSTSKUCODE">CUSTSKUCODE：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="CUST_SKU_CODE" set-lan="attr:placeholder=ModifyTxtCUSTSKUCODE" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgSNRULE">SNRULE：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="SN_RULE" set-lan="attr:placeholder=ModifyTxtSNRULE" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgPANELRULE">PANEL RULE：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="PANEL_RULE" set-lan="attr:placeholder=ModifyTxtPANELRULE" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6" style="display:none">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgLASTEDITTIME">LAST_EDIT_TIME：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="LAST_EDIT_TIME" set-lan="attr:placeholder=ModifyModelMsgLASTEDITTIME" />
+                        </div>
+                    </div>
+                </div>
+                <div id="EditModelOtherSet" class="form-horizontal m-t-md">
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgRadisosp">ISOSP：</label>
+                        <div class="col-xs-8">
+                            <select id="RADISOSP" class="form-control" name="RADISOSP">
+                                <option value=""></option>
+                                <option value="OSP">OSP:OSP Board</option>
+                                <!--<option value="AG">AG:化金/化銀/鍍金</option>-->
+                                <option value="AG">AG:Gold/Silver/Gilded</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:ModifyModelMsgRadHightemp">HIGHTEMP：</label>
+                        <div class="col-xs-8">
+                            <select id="RADHIGHTEMP" class="form-control" name="RADHIGHTEMP">
+                                <option value=""></option>
+                                <option value="Y">Y:Double Side have PTH</option>
+                                <option value="SY">SY:Single Side has PTH</option>
+                                <option value="DN">DN:Double Side have no PTH</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal m-t-md">
+                    <div class="hr-line-dashed col-xs-12"></div>
+                    <div class="form-group col-xs-12">
+                        <div class="col-sm-8 col-sm-offset-4">
+                            <button type="button" class="btn btn-primary" id="SaveSku"><i class="fa fa-pencil"></i> <lan set-lan="html:BtnSave">Save</lan></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="EditThrowPoint" class="tab-pane row row-lg">
+                <div class="panel-body">
+                    <div id="ThrowPointForm" role="form" class="form-horizontal row">
+                        <div class="form-group col-xs-6" style="display:none">
+                            <label for="recipient-name" class="col-xs-3 control-label" set-lan="html:ModalThrowPointEditID" style="display:none">ID:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="ID">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label for="message-text" class="col-xs-3 control-label" set-lan="html:STATION_NAME">工站名稱:</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="STATION_NAME">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6" id="divStationCode">
+                            <label for="message-text" class="col-xs-3 control-label" set-lan="html:SAP_STATION_CODE">SAP_STATION_CODE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="SAP_STATION_CODE">
+                                    <option value="0010" selected="selected">0010</option>
+                                    <option value="0020">0020</option>
+                                    <option value="0030">0030</option>
+                                    <option value="0040">0040</option>
+                                    <option value="0050">0050</option>
+                                    <option value="0060">0060</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label for="message-text" class="col-xs-3 control-label" set-lan="html:WORKORDER_TYPE">WORKORDER_TYPE:</label>
+                            <!--<input type="text" class="form-control" name="WORKORDER_TYPE">-->
+                            <div class="col-xs-9">
+                                <select class="form-control" name="WORKORDER_TYPE">
+                                    <option value="REGULAR">REGULAR</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group hidden-xs" role="group">
+                        <button type="button" class="btn btn-outline btn-primary" id="NewPoint">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add"> Add</lan>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="BFPoint_Toolbar">
+                        <div class="btn-group hidden-xs" role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="DeletePoint" disabled>
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="BFPoint_List_Table" class="table table-hover"></table>
+                </div>
+            </div>
+            <div id="RouteList" class="tab-pane row row-lg">
+                <div class="panel-body">
+                    <div role="form" class="form-inline">
+                        <div class="form-group">
+                            <input type="text" id="SKUAddRouteName" class="form-control">
+                        </div>
+                        <div class="btn-group hidden-xs" role="group">
+                            <label class="btn btn-outline input-group" style="padding-top: 5px;padding-bottom: 5px;">
+                                <input type="checkbox"><lan set-lan="html:DefaultRoute">Set Default</lan>
+                            </label>
+                        </div>
+                        <div class="btn-group hidden-xs" role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="SKU_Route">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:Add"> Add</lan>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="RouteList_Toolbar">
+                        <div class="btn-group hidden-xs" role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="DeleteRoute" disabled>
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="RouteListTable" class="table table-hover"></table>
+                </div>
+            </div>
+            <div id="PackList" class="tab-pane row row-lg">
+                <div class="panel-body">
+                    <div id="PackConfigForm" role="form" class="form-horizontal">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:PACK_TYPE">PACK_TYPE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="PACK_TYPE">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:MAX_QTY">MAX_QTY:</label>
+                            <div class="col-xs-9">
+                                <input class="form-control" name="MAX_QTY">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:TRANSPORT_TYPE">TRANSPORT_TYPE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="TRANSPORT_TYPE">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:INSIDE_PACK_TYPE">INSIDE_PACK_TYPE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="INSIDE_PACK_TYPE">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:SN_RULE">SN_RULE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="SN_RULE">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:DESCRIPTION">DESCRIPTION:</label>
+                            <div class="col-xs-9">
+                                <textarea class="form-control" name="DESCRIPTION"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline btn-primary" id="AddPack">
+                            <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i><lan set-lan="html:add"> Save</lan>
+                        </button>
+                    </div>
+                </div>
+                <div class="hr-line-dashed col-xs-12"></div>
+                <div class="panel-body">
+                    <div id="PackList_Toolbar">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="DeletePack" disabled>
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="PackListTable" class="table table-hover "></table>
+                </div>
+            </div>
+            <div id="LabelList" class="tab-pane row row-lg">
+                <div class="panel-body">
+                    <div role="form" class="form-horizontal row">
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:STATION">STATION:</label>
+                            <div class="col-xs-9">
+                                <input class="form-control" name="STATION">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <label class="col-xs-6 control-label text-right" set-lan="html:LABELNAME">LABELNAME:</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" name="LABELNAME">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:LABELTYPE">LABELTYPE:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="LABELTYPE"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <label class="col-xs-6 control-label text-right" set-lan="html:PrintQTY">PrintQTY:</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" name="QTY">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <label class="col-xs-6 control-label text-right" set-lan="html:PRINTSEQ">PRINTSEQ:</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" name="SEQ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline btn-primary" id="AddLabel">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                            <lan set-lan="text:add"> Add</lan>
+                        </button>
+                    </div>
+                </div>
+                <div class="hr-line-dashed col-xs-12"></div>
+                <div class="panel-body">
+                    <div id="LabelList_Toolbar">
+                        <div class="btn-group " role="group">
+                            <button type="button" class="btn btn-outline btn-primary" id="DeleteLabel" disabled>
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete"> Delete</lan>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="LabelListTable" class="table table-hover"></table>
+                </div>
+            </div>
+            <div id="AqlList" class="tab-pane row row-lg">
+                <div class="panel-body">
+                    <div role="form" class="form-horizontal row">
+                        <div class="form-group col-xs-4">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:AqlType">AqlType:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="AqlType"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-4">
+                            <label class="col-xs-3 control-label text-right" set-lan="html:DefaultLevel">DefaultLevel:</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" name="DefaultLevel"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-4">
+                             <div class="btn-group" role="group">
+                                 <button type="button" class="btn btn-outline btn-primary" id="ConfirmAql">
+                                     <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                     <lan set-lan="text:add"> Confrim</lan>
+                                 </button>
+                             </div>
+                        </div>
+                    </div>
+            
+                </div>
+                <div class="panel-body">
+                    <table id="SkuAqlListTable" class="table table-hover"></table>
+                    <table id="AqlListTable" class="table table-hover"></table>
+                </div>
+            </div>
+            <div id="OtherSettings" class="tab-pane row row-lg">
+                <div id="OtherSettingParams" class="form-horizontal m-t-md">
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetBoxWT">BoxWT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="BOXWT" id="BOXWT" set-lan="attr:placeholder=OtherSetTxtBoxWT" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetBoxBT">BoxBT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="BOXBT" id="BOXBT" set-lan="attr:placeholder=OtherSetTxtBoxBT" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetPalletWT">PalletWT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="PALLETWT" set-lan="attr:placeholder=OtherSetTxtPalletWT" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetMaterialId">MaterialId：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="MATERIALID" set-lan="attr:placeholder=OtherSetTxtMaterialId" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetNakedPalletWT">NakedPallet+PackageMaterialWT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="NAKEDPALLETWT" set-lan="attr:placeholder=OtherSetTxtNAKEDPALLETWT" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetDnWTMargin">FactDNWT-StandardDNWT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="DNWTMARGIN" set-lan="attr:placeholder=OtherSetTxtDnWTMargin" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetCartonVolume">Carton Volume：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="CARTONVOLUME" set-lan="attr:placeholder==OtherSetTxtCartonVolume" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetPalletVolume">Pallet Volume：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="PALLETVOLUME" set-lan="attr:placeholder=OtherSetTxtPalletVolume" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetAttCaseIdPrefix">CASE ID Prefix：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="ATTCASEIDPREFIX" set-lan="attr:placeholder=OtherSetTxtAttCaseIdPrefix" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetAttCaseIdSuffix">CASE ID Suffix：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="ATTCASEIDSUFFIX" set-lan="attr:placeholder=OtherSetTxtAttCaseIdSuffix" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetSlippage">Slippage：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="SLIPPAGE" set-lan="attr:placeholder=OtherSetTxtSlippage" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetNakedCartonWT">Naked Carton WT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="NAKEDCARTONWT" set-lan="attr:placeholder=OtherSetTxtNakedCartonWT" />
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label class="col-xs-4 control-label" set-lan="html:OtherSetPalletWTRatio">(SapPalletWT-FactPalletWT)/FactPalletWT：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="PALLETWTRATIO" set-lan="attr:placeholder=OtherSetTxtPalletWTRatio" />
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed col-xs-12"></div>
+                    <div class="form-group col-xs-12">
+                        <div class="col-sm-8 col-sm-offset-4">
+                            <button type="button" class="btn btn-primary" id="SaveOtherSettings"><i class="fa fa-pencil"></i> <lan set-lan="html:BtnSave">Save</lan></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Setting/NewProduct.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reg Api</title>
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div id="RegApi" class="form-horizontal">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">FunctionName</label>
+                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                    <label class="form-control" id="FunctionName">AddInputRule</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Description</label>
+                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                    <label class="form-control" id="Description">添加文本框輸入規則</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Permissions</label>
+                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                    <ul id="Permissions" class="list-group"></ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Parameters</label>
+                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                    <ul id="Parameters" class="list-group">
+                        <li class="list-group-item node-treeview5">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">PageName</label>
+                                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                                    <input type="text" class="form-control" id="PageName" value="">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item node-treeview5">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">InputName</label>
+                                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                                    <input type="text" class="form-control" id="InputName" value="">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item node-treeview5">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Expression</label>
+                                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                                    <input type="text" class="form-control" id="Expression" value="">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item node-treeview5">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Desc</label>
+                                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                                    <input type="text" class="form-control" id="Desc" value="">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-lg-2 col-xs-2 col-md-2 control-label">Return</label>
+                <div class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
+                    <textarea id="ServiceRetrun" style=" height:200px; width:600px;" readonly="readonly"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-4 col-xs-4 col-md-4 col-sm-offset-2 col-xs-offset-2 col-md-offset-2 col-lg-offset-2">
+                <button class="btn btn-primary" onclick="submitFunction()">Debug</button>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script>
+        var ClassName = "MESStation.GlobalConfig.InputRuleConfig";
+        var FunctionName = "AddInputRule";
+        //$(document).ready(function () {});
+        function submitFunction() {
+            var paras = $("#Parameters").find(".form-control");
+            var data = "{";
+            for (var item = 0; item < paras.length; item++) {
+                if (paras[item].id == "Expression") {
+                    data += "\"" + paras[item].id + "\":\"" + encodeURI($("#" + paras[item].id).val()) + "\",";
+                }
+                else {
+                    data += "\"" + paras[item].id + "\":\"" + $("#" + paras[item].id).val() + "\",";
+                }
+            }
+            data = data.substr(0, data.length - 1);
+            data += "}";
+            self.parent.client.CallFunction(ClassName, FunctionName, JSON.parse(data), function (e) {
+                var result = JSON.stringify(e, null, 4);
+                $("#ServiceRetrun").text(result);
+
+            })
+        }
+
+    </script>
+</body>
+</html>

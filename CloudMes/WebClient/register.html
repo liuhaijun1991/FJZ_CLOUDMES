@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>MES系统</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/Win8style.css" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="win8-bg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="well m-t-lg col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 ">                
+                <div class="form-horizontal" style="color:#404041">
+                    <div class="form-group">
+                        <div class="col-xs-6 col-xs-offset-3"><h1 id="Hander"></h1></div>
+                    </div>
+                    <div id="Parameters">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-4">
+                            <button class="btn btn-primary" onclick="javascript:window.location='index.html'">Cancel</button>
+                        </div>
+                        <div class=" col-sm-4">
+                            <button class="btn btn-primary" onclick="submitFunction()">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script src="Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="Scripts/global.js"></script>
+    <script src="Scripts/MesClient.js"></script>
+    <script>
+        var client;
+        var ClassName = "MESStation.UserManager";
+        var FunctionName = "CreateNewUser";
+        var Func;
+        $(document).ready(function () {
+            client = new MesClient(function () {
+                client.GetMesFunctionList(ClassName, function (e) {
+                    if (e.Status == "Pass") {
+                        Func = e.Data.APIS[FunctionName];
+                        $("#Hander").text(Func.FunctionName);
+                        var para = $("#Parameters");
+                        for (var i = 0; i < Func.Parameters.length; i++) {
+                            var group = $("<div class=\"form-group\"></div>");
+                            var label = $("<label for=\"" + Func.Parameters[i].InputName + "\" class=\"col-xs-4 control-label text-right\">" + Func.Parameters[i].InputName + "</label>");
+                            var inputDIV = $("<div class=\"col-xs-7\">");
+                            var input = $("<input type=\"text\" class=\"form-control\" id=\"" + Func.Parameters[i].InputName + "\" placeholder=\"" + Func.Parameters[i].DefaultValue + "\">");
+                            inputDIV.append(input);
+                            group.append(label);
+                            group.append(inputDIV);
+                            para.append(group);
+                        }
+                    }
+                });
+            });            
+        });
+
+        function submitFunction() {
+            var data = "{ ";
+            for (var i = 0; i < Func.Parameters.length; i++) {
+                var InputName = Func.Parameters[i].InputName;
+                data += "\"" + InputName + "\":\"" + $("#" + InputName).val() + "\",";
+            }
+            data = data.substr(0, data.length - 1);
+            data += "}";
+            client.CallFunction(ClassName, FunctionName, JSON.parse(data), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: "注册提示",
+                        text: "註冊成功！",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }, function () {
+                        window.location = "index.html";
+                    });
+                }
+                else {
+                    swal({
+                        title: "注册提示",
+                        text: "注册失败！",
+                        timer: 2000,
+                        showConfirmButton: false                        
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

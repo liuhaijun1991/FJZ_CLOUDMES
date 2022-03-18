@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Unix Packout</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .input-group-addon {
+            color: black;
+            font: bold;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .form-control, .single-line {
+            color: black;
+        }
+
+        .SOLINE {
+            background-color: rgb(0 0 0 / 0.2);
+            border-radius: 8px;
+            padding-top: 10px;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position:absolute;
+            top:0px;
+        }
+
+            .SOLINE #SOLineQRCode {
+                text-align: center;
+                width: 80px;
+                height: 80px;
+                margin: 0 auto;
+            }
+
+            .SOLINE #SOLineText {
+                text-align: center;
+                width: 120px;
+                height: 20px;
+                margin: 5px auto;
+            }
+
+        .SNList {
+            height: calc(100% - 130px);
+            overflow-y: scroll;
+        }
+
+            .SNList .SNGroup {
+                height: 180px;
+                background-color: rgb(0 0 0 / 0.2);
+                text-align: center;
+                border: 1px solid rgba(0 0 0 / 0.2);
+            }
+
+                .SNList .SNGroup .Title {
+                    width: 250px;
+                    margin: 10px auto;
+                }
+
+                .SNList .SNGroup .SN {
+                    width: 50%;
+                    margin: 5px auto;
+                    float: left;
+                }
+
+                .SNList .SNGroup .CLEI {
+                    width: 50%;
+                    margin: 5px auto;
+                    float: left;
+                }
+
+                    .SNList .SNGroup .SN .QRCODE, .SNList .SNGroup .CLEI .QRCODE {
+                        margin: 0 auto;
+                        text-align: center;
+                        width: 80px;
+                        height: 80px;
+                        background-color: brown;
+                    }
+
+                    .SNList .SNGroup .SN .TEXT, .SNList .SNGroup .CLEI .TEXT {
+                        text-align: center;
+                        width: 100%;
+                        height: 20px;
+                        margin: 5px auto;
+                    }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="container-fluid bg-primary full-height">
+        <div style="width:500px;height:100px; margin:50px auto;">
+            <div class="search-form">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon3">Search</span>
+                    <input type="text" class="form-control" placeholder="please enter one unit sn of bundle" id="UnixPackoutSN">
+                </div>
+            </div>
+        </div>
+        <div class="SOLINE card">
+            <div id="SOLineQRCode" class="card-img-top"></div>
+            <div id="SOLineText" class="card-body"></div>
+        </div>
+        <div class="SNList row">
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../Scripts/plugins/qrcode/qrcode.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript" lang="javascript">
+        var snQrcode = [];
+        var SOLQRCode = new QRCode(document.getElementById("SOLineQRCode"), {
+            width: 80,
+            height: 80
+        });
+        function load_data(sn) {
+            var loadindex = layer.load(0, { shade: [0.2, '#393d49'] });
+            self.parent.client.CallFunction("MESJuniper.Api.BundlePackAPI", "GetBundleInfo", { SN: sn }, function (e) {
+                layer.close(loadindex);
+                if (e.Status == "Pass") {
+                    SOLQRCode.makeCode(e.Data.SOLine);
+                    $("#SOLineText").text(e.Data.SOLine);
+                    snQrcode = [];
+                    var snlist = $(".SNList");
+                    snlist.empty();
+                    for (var i = 0; i < e.Data.SNData.length; i++) {
+                        var sn = e.Data.SNData[i].SN;
+                        var G = $('<div class="SNGroup col-xs-3"></div>');
+                        snlist.append(G);
+                        var T = $('<div class="Title">' + e.Data.SNData[i].SKUNO + '</div>');
+                        G.append(T);
+                        var S = $('<div class="SN"></div>');
+                        G.append(S);
+                        var C = $('<div class="CLEI"></div>');
+                        G.append(C);
+                        var sqc = $('<div class="QRCODE" id="' + sn + '"></div>');
+                        S.append(sqc);
+                        var tx = $('<div class="TEXT">' + sn + '</div>');
+                        S.append(tx);
+                        var cqc = $('<div class="QRCODE" id="clei_' + sn + '"></div>');
+                        C.append(cqc);
+
+                        var snq = new QRCode(document.getElementById(sn), {
+                            width: 80,
+                            height: 80
+                        });
+                        snQrcode.push(snq);
+                        snq.makeCode(sn);
+                        var cleiq = new QRCode(document.getElementById("clei_" + sn), {
+                            width: 80,
+                            height: 80
+                        });
+                        snQrcode.push(cleiq);
+                        cleiq.makeCode(e.Data.SNData[i].CLEI);
+                    }
+                } else {
+                    layer.msg(e.Message);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $('#UnixPackoutSN').on('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    load_data(this.value);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

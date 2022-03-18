@@ -1,0 +1,717 @@
+﻿<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head" runat="server">
+
+    <meta charset="utf-8" />
+    <title>Employee Online System</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+
+    <style type="text/css">
+        .auto-style1 {
+            width: 15%;
+            height: 20px;
+            background-color: white;
+            word-wrap: break-word;
+        }
+
+        .auto-style2 {
+            width: 10%;
+            height: 20px;
+            background-color: Highlight;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body bgcolor="#E0E0E0">
+   
+    <form id="form1">
+
+        <div id="divBack"  hidden>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="Back(true)"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">Back</lan></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="divEdit"  hidden>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">LINE</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtLINE" placeholder="LINE" disabled />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:STATION">STATION</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtSTATION" placeholder="STATION" disabled />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">WORKUSER</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtWORKUSER" placeholder="WORKUSER" disabled />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">WORKUSERNAME</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtWORKUSERNAME" placeholder="WORKUSERNAME" disabled />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">DEFECT1</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtDEFECT1" placeholder="DEFECT1" />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">DEFECT2</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtDEFECT2" placeholder="DEFECT2" />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">ONTIME</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtONTIME" placeholder="ONTIME" disabled />
+                    </div>
+
+                    <label class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label text-right" set-lan="html:LINE">OFFTIME</label>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+                        <input type="text" class="form-control" id="txtOFFTIME" placeholder="OFFTIME" disabled />
+                    </div>
+                    <br />
+                    &nbsp;&nbsp;
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <div class="btn-group col-xs-offset-3 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+                            <button type="button" class="btn btn-primary" onclick="Edit()"><i class="fa fa-save"></i> <lan set-lan="html:save">Save</lan></button>
+                        </div>
+
+                        <div >
+                         <label class="col-xs-5 col-sm-5 col-md-5 col-lg-4 text-center"  set-lan="html:LINE" id="Edit_Message"  style=" height:10%; width:100%;font-size:larger"  ></label>
+                       </div>
+
+                    </div>
+             
+
+                </div>
+            </div>
+        </div>
+
+        <div id="divSearch"  show>
+            <table style="width:100%; height:100%; text-align:center" cellpadding="0" cellspacing="0" border="1" >
+                <tr>
+                    <td bgcolor="#E0E0E0" colspan="2"><b>Binding of line body work station</b></td>
+                    <td bgcolor="#E0E0E0" colspan="2"><b></b></td>
+                </tr>
+                <tr>
+                    <td class="auto-style2"><span id="liune" style="FONT-WEIGHT: bold;color:aliceblue">Line:</span></td>
+                    <td class="auto-style1">
+                        <input type="text" height="2000" id="TxtLine" class="form-control" AutoPostback="true" placeholder="Scan Line">
+                    </td>
+                    <td class="auto-style2"><span id="Label1" style="FONT-WEIGHT: bold;color:aliceblue">Station:</span></td>
+                    <td class="auto-style1">
+                        <input type="text" id="TxtStation" class="form-control" AutoPostback="true" placeholder="Scan Station" value="">
+                    </td>
+                    <td style="width:100%;height:800px; vertical-align:top; text-align:center" rowspan="11">
+                        <table id="tableList" class="table table-hover"></table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="auto-style2"><span id="Labe2" style="FONT-WEIGHT: bold;color:aliceblue">User:</span></td>
+                    <td class="auto-style1">
+                        <input type="text" id="TxtUser" class="form-control" placeholder="Scan User" value="">
+                    </td>
+                    <td class="auto-style2"><span id="Labe3" style="FONT-WEIGHT: bold;color:aliceblue">Message:</span></td>
+                    <td class="auto-style1">
+                        <textarea id="Lb_Message" disabled style=" height:65%; width:100%;" class="form-control"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#E0E0E0" colspan="2"><b>Historical online query</b></td>
+                    <td height="10px" bgcolor="#E0E0E0" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="auto-style2" style="color:aliceblue"><b>Line:</b></td>
+                    <td class="auto-style1">
+                        <!--<input type="datetime" id="TxtLineSerch" class="form-control" placeholder="Scan Line" />-->
+                        <select id="SelectLine" class="form-control"></select>
+                    </td>
+                    <td class="auto-style2" style="color:aliceblue"><b>Shift:</b></td>
+                    <td class="auto-style1">
+                        <select class="form-control" id="SelectShift">
+                            <option value="ALL">ALL</option>
+                            <option value="Date">Date</option>
+                            <option value="Night">Night</option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="auto-style2" style="color:aliceblue"><b>User:</b></td>
+                    <td class="auto-style1">
+                        <input type="text" id="TxtUserSerch" class="form-control" placeholder="Scan User">
+                    </td>
+
+                    <td class="auto-style2" style="color:aliceblue"><b>sn:</b></td>
+                    <td class="auto-style1">
+                        <input type="text" id="Txtsn" class="form-control" placeholder="sn">
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="auto-style2" style="color:aliceblue"><b>DateFrom:</b></td>
+                    <td class="auto-style1">
+                        <input type="text" id="DateFrom" class="form-control" placeholder="Select Date" />
+                    </td>
+                    <td class="auto-style2" style="color:aliceblue"><b>DateTo:</b></td>
+                    <td class="auto-style1">
+                        <input type="text" id="DateTo" class="form-control" placeholder="Select Date" />
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td class="auto-style2" style="color:aliceblue"><b>DEFECT:</b></td>
+                    <td class="auto-style1">
+                        <input type="text" id="TxtDEFECT" class="form-control" placeholder="DEFECT">
+                    </td>
+
+                    <td class="auto-style2" style="color:aliceblue"><b>Search:</b></td>
+                    <td class="auto-style1">
+                        <button type="button" class="btn btn-outline btn-default" onclick="submitSearch()" id="Btn_Search">
+                            <i class="glyphicon glyphicon-edit" aria-hidden="true"></i><lan set-lan="html:">Search</lan>
+                        </button>
+                    </td>
+
+                </tr>
+
+                <tr valign="top">
+                    <td colspan="4" style="text-align:center">
+                        <table id="tableList1" class="table table-hover"></table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout-3.5.0.js"></script>
+    <script src="../../Scripts/plugins/Knockout/knockout.validation.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定義插件 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script type="text/javascript">
+            var client;
+            var bSubmit = false;
+            var localelan = $.cookie($.MES.CK_LAN_NAME);
+            localelan = localelan == "CHINESE" ? "zh-CN" : (localelan == "CHINESE_TW" ? "zh-TW" : "en");
+
+
+    var ShowTable1 = function (data) {
+        $("#tableList1").bootstrapTable("destroy");
+
+        self.parent.client.CallFunction("MESStation.Config.StationOnline", "CheckEditPrivilege", {}, function (e) {
+            if (e.Status == "Pass") {
+
+                $("#tableList1").bootstrapTable({
+                    //ajax: ajaxRequest,
+                    data: data,
+                    striped: true,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: false,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 15,                      //每页的记录行数（*）
+                    pageList: [15, 20],               //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    clickToSelect: false,               //是否启用点击选中行
+                    singleSelect: false,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    //searchAlign: "left",              //查询框对齐方式
+                    //toolbar: "#tableEventsToolbar",    //指定工具栏
+                    //toolbarAlign: "left",              //工具栏对齐方式
+                    //buttonsAlign: "left",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    locale: localelan,
+                    exportOptions: {
+                        ignoreColumn: [10],             //忽略某一列的索引
+                        fileName: 'List',              //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    rowStyle: function (row, index) {
+                        switch (row.STATUS) {
+                            case "PASS":
+                                return { css: { 'color': '#00FF00' } };
+                                break;
+                            case "FAIL":
+                                return { css: { 'color': '#ff0000' } };
+                                break;
+                            default:
+                                return "";
+                                break;
+                        }
+                    },
+                    columns: [
+                        {
+                            field: "Edit", title: "Operation", align: 'center', valign: 'middle',
+                            formatter: function (value, row, index) {
+                                return [
+                                    '<button type="button" id="btnModify" set-lan="value:operate" class="btnModify btn btn-success" style="display:inline">EDIT</button>',
+                                ].join('');
+                            },
+                            events: operateEvents
+
+                        },
+                        { field: "LINE", title: "Line", align: 'center', valign: 'middle' },
+                        { field: "STATION", title: "Station", align: 'center', valign: 'middle' },
+                        { field: "WORKUSER", title: "WorkUser", align: 'center', valign: 'middle' },
+                        { field: "WORKUSERNAME", title: "WorkUserName", align: 'center', valign: 'middle' },
+                        { field: "DEFECT1", title: "DEFECT1", align: 'center', valign: 'middle' },
+                        { field: "DEFECT2", title: "DEFECT2", align: 'center', valign: 'middle' },
+                        { field: "ONTIME", title: "OnTime", align: 'center', valign: 'middle' },
+                        { field: "OFFTIME", title: "OffTime", align: 'center', valign: 'middle' },
+                    ]
+                });
+            }
+            else {
+
+                  $("#tableList1").bootstrapTable({
+                    //ajax: ajaxRequest,
+                    data: data,
+                    striped: true,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: false,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 15,                      //每页的记录行数（*）
+                    pageList: [15, 20],               //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    clickToSelect: false,               //是否启用点击选中行
+                    singleSelect: false,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    //searchAlign: "left",              //查询框对齐方式
+                    //toolbar: "#tableEventsToolbar",    //指定工具栏
+                    //toolbarAlign: "left",              //工具栏对齐方式
+                    //buttonsAlign: "left",             //按钮对齐方式
+                    showExport: true,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    locale: localelan,
+                    exportOptions: {
+                        ignoreColumn: [10],             //忽略某一列的索引
+                        fileName: 'List',              //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    rowStyle: function (row, index) {
+                        switch (row.STATUS) {
+                            case "PASS":
+                                return { css: { 'color': '#00FF00' } };
+                                break;
+                            case "FAIL":
+                                return { css: { 'color': '#ff0000' } };
+                                break;
+                            default:
+                                return "";
+                                break;
+                        }
+                    },
+                    columns: [
+                        { field: "LINE", title: "Line", align: 'center', valign: 'middle' },
+                        { field: "STATION", title: "Station", align: 'center', valign: 'middle' },
+                        { field: "WORKUSER", title: "WorkUser", align: 'center', valign: 'middle' },
+                        { field: "WORKUSERNAME", title: "WorkUserName", align: 'center', valign: 'middle' },
+                        { field: "DEFECT1", title: "DEFECT1", align: 'center', valign: 'middle' },
+                        { field: "DEFECT2", title: "DEFECT2", align: 'center', valign: 'middle' },
+                        { field: "ONTIME", title: "OnTime", align: 'center', valign: 'middle' },
+                        { field: "OFFTIME", title: "OffTime", align: 'center', valign: 'middle' },
+                    ]
+                });
+
+            }
+        });
+
+       
+        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+    }
+
+    var ShowTable = function (data) {
+    $("#tableList").bootstrapTable("destroy");
+    $("#tableList").bootstrapTable({
+        //ajax: ajaxRequest,
+        data: data,
+        striped: true,                    //是否显示行间隔色
+        cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        sortable: false,                   //是否启用排序
+        sortOrder: "asc",                  //排序方式
+        pagination: false,                  //是否显示分页（*）
+        sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                     //初始化加载第一页，默认第一页
+        pageSize: 27,                      //每页的记录行数（*）
+        pageList: [27, 30],               //可供选择的每页的行数（*）
+        showColumns: false,                 //是否显示 内容列下拉框
+        showRefresh: false,                 //是否显示刷新按钮
+        clickToSelect: false,               //是否启用点击选中行
+        singleSelect: false,                //单选checkbox
+        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+        cardView: false,                   //是否显示详细视图
+        detailView: false,                 //是否显示父子表
+        search: false,
+        strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+        searchOnEnterKey: false,            //回车搜索
+        searchTimeOut: 500,                //设置搜索超时时间
+        trimOnSearch: true,                //设置为 true 将允许空字符搜索
+        //searchAlign: "left",              //查询框对齐方式
+        //toolbar: "#tableEventsToolbar",    //指定工具栏
+        //toolbarAlign: "left",              //工具栏对齐方式
+        //buttonsAlign: "left",             //按钮对齐方式
+        showExport: false,                  //是否显示导出按钮
+        exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+        exportTypes: ['excel', 'csv'],     //导出文件类型
+        Icons: 'glyphicon-export',
+        locale: localelan,
+        exportOptions: {
+            ignoreColumn: [0],             //忽略某一列的索引
+            fileName: 'List',              //文件名称设置
+            worksheetName: 'sheet1',       //表格工作区名称
+        },
+        rowStyle: function (row, index) {
+            switch (row.STATUS) {
+                case "PASS":
+                    return { css: { 'color': '#00FF00' } };
+                    break;
+                case "FAIL":
+                    return { css: { 'color': '#ff0000' } };
+                    break;
+                default:
+                    return "";
+                    break;
+            }
+        },
+        columns: [
+            {
+                field: "Delete", title: "Operation", align: 'center', valign: 'middle',
+                formatter: function (value, row, index) {
+                    return ['<button id="btnDelete" type="button" class="btn btn-default" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:"></lan></button >'].join('');
+                },
+                events: ColumnBtnClick
+            },
+            { field: "ID", title: "ID", align: 'center', valign: 'middle', visible: false },
+            { field: "LINE", title: "Line", align: 'center', valign: 'middle' },
+            { field: "STATION", title: "Station", align: 'center', valign: 'middle' },
+            { field: "WORKUSER", title: "WorkUser", align: 'center', valign: 'middle' },
+            { field: "WORKUSERNAME", title: "WorkUserName", align: 'center', valign: 'middle' },
+        ]
+    });
+    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+}
+
+    window.operateEvents = {
+
+        'click .btnModify': function (e, value, row, index) {
+            $("#divBack").show();
+            $("#divEdit").show();
+            $("#divSearch").hide();
+            $("#txtLINE").val(row.LINE);
+            $("#txtSTATION").val(row.STATION);
+            $("#txtWORKUSER").val(row.WORKUSER);
+            $("#txtWORKUSERNAME").val(row.WORKUSERNAME);
+            $("#txtDEFECT1").val(row.DEFECT1);
+            $("#txtDEFECT2").val(row.DEFECT2);
+            $("#txtONTIME").val(row.ONTIME);
+            $("#txtOFFTIME").val(row.OFFTIME);
+        }
+    };
+
+    function Edit() {
+
+        var line = $("#txtLINE").val().replace(/^\s+|\s+$/g, "");
+        var station = $("#txtSTATION").val().replace(/^\s+|\s+$/g, "");
+        var workuser = $("#txtWORKUSER").val().replace(/^\s+|\s+$/g, "");
+        var workusername = $("#txtWORKUSERNAME").val().replace(/^\s+|\s+$/g, "");
+        var defect1 = $("#txtDEFECT1").val().replace(/^\s+|\s+$/g, "");
+        var defect2 = $("#txtDEFECT2").val().replace(/^\s+|\s+$/g, "");
+        var ontime = $("#txtONTIME").val().replace(/^\s+|\s+$/g, "");
+        var offtime = $("#txtOFFTIME").val().replace(/^\s+|\s+$/g, "");
+
+        var data = { LINE: line,STATION:station, WORKUSER:workuser, WORKUSERNAME:workusername, DEFECT1:defect1,DEFECT2:defect2,ONTIME:ontime,OFFTIME: offtime };
+
+        self.parent.client.CallFunction("MESStation.Config.StationOnline", "Edit", data, function (e) {
+            if (e.Status == "Pass") {
+                $("#Edit_Message").text(e.Data);
+                $("#Edit_Message").css({ 'background-color': 'white', 'color': 'green' });
+            } else {
+                $("#Edit_Message").text(e.Data);
+                $("#Edit_Message").css({ 'background-color': 'white', 'color': 'red' });
+            }
+        });
+    }
+  
+    function ClearValue() {
+
+        $("#Edit_Message").text("");
+        $("#tableList1").bootstrapTable("destroy");
+         ShowTable1();
+    }
+    
+    function Back(isDoSearch) {
+        ClearValue();
+        $("#divBack").hide();
+        $("#divEdit").hide();
+        $("#divSearch").show();
+
+    }
+
+    window.ColumnBtnClick = {
+        'click #btnDelete': function (e, value, row, index) {
+            parent.client.CallFunction("MESStation.Config.StationOnline", "Delete", row, function (e) {
+                if (e.Status == "Pass") {
+                    SeachData();
+                    $("#Lb_Message").text(e.Data);
+                    $("#Lb_Message").css({ 'background-color': 'white', 'color': 'green' });
+                }
+                else {
+                    SeachData();
+                    $("#Lb_Message").text(e.Data);
+                    $("#Lb_Message").css({ 'background-color': 'white', 'color': 'red' });
+
+                }
+            });
+        }
+    }
+
+    function SeachData() {
+        var inputData = {
+
+        }
+        var loadIndex = layer.load(1, {
+            shade: [0.5, 'gray'],
+            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                + "<span> Executing,Please wait ...</span></div></div>"
+        });
+        self.parent.client.CallFunction("MESStation.Config.StationOnline", "BingData", inputData, function (e) {
+            if (e.Status == "Pass") {
+                ShowTable(e.Data);
+                $("#Lb_Message").text(e.data);
+            }
+            else {
+                layer.msg(e.Message, {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { });
+            }
+            layer.close(loadIndex);
+        });
+    }
+
+    function GetLine() {
+        var StationNameData = [];
+        ClassName = "MESStation.Config.StationOnline";
+        FunctionName = "GetLine";
+
+        self.parent.client.CallFunction(ClassName, FunctionName, {}, function (e) {
+            var sel = $("#SelectLine").empty();
+            if (e.Status === "Pass") {
+                for (var a = 0; a < e.Data.length; a++) {
+                    $("#SelectLine").append($("<option value='" + e.Data[a].LINE + "'>" + e.Data[a].LINE + "</option>"));
+                }
+            }
+            else {
+                swal(e.Message, "", "warning");
+            }
+        })
+    };
+
+    function submitSearch() {
+        var inputData = {
+            LineData: $("#SelectLine").val(),
+            UserData: $("#TxtUserSerch").val(),
+            DateFrom: $("#DateFrom").val(),
+            DateTo: $("#DateTo").val(),
+            ShiftData: $("#SelectShift").val(),
+            SnData: $("#Txtsn").val(),
+            Station_NameData: $("#TxtStation_Name").val(),
+            DEFECT: $("#TxtDEFECT").val(),
+        }
+        var loadIndex = layer.load(1, {
+            shade: [0.5, 'gray'],
+            content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                + "<span> Executing,Please wait ...</span></div></div>"
+        });
+        parent.client.CallFunction("MESStation.Config.StationOnline", "LsData", inputData, function (e) {
+            if (e.Status == "Pass") {
+                ShowTable1(e.Data);
+            }
+            else {
+                layer.msg(e.Message, {
+                    icon: 2,
+                    time: 60000,
+                    title: 'ERROR',
+                    btn: ['OK']
+                }, function () { });
+                ShowTable1();
+            }
+            layer.close(loadIndex);
+        });
+}
+
+    $(document).ready(function () {
+        GetLine()
+
+        SeachData()
+
+        $("#DateFrom").datetimepicker({
+            format: 'yyyy-mm-dd',//选择年月日時分秒
+            language: 'zh-CN',
+            autoclose: true,
+            todayHighlight: true,
+            startView: 2,
+            minView: 2
+        });
+
+        $("#DateTo").datetimepicker({
+            format: 'yyyy-mm-dd',//选择年月日時分秒
+            language: 'zh-CN',
+            autoclose: true,
+            todayHighlight: true,
+            startView: 2,
+            minView: 2
+        });
+
+        $("#TxtLine").keydown(function (event) {
+            if (event.keyCode == 13) {
+                var inputData = {
+                    Line: $("#TxtLine").val()
+                }
+                self.parent.client.CallFunction("MESStation.Config.StationOnline", "CheckLine", inputData, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#TxtStation").focus().select();
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'green' });
+                    }
+                    else {
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'red' });
+                        $("#TxtLine").focus().select();
+                    }
+                });
+            }
+        });
+
+        $("#TxtStation").keydown(function (e) {
+            if (event.keyCode == 13) {
+                var inputData = {
+                    Line: $("#TxtLine").val(),
+                    Station: $("#TxtStation").val(),
+                }
+
+                self.parent.client.CallFunction("MESStation.Config.StationOnline", "CheckStation", inputData, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#TxtUser").focus().select();
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'green' });
+                    }
+                    else {
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'red' });
+                        $("#TxtStation").focus().select();
+                    }
+                });
+
+            }
+        });
+
+        $("#TxtUser").keydown(function (event) {
+            if (event.keyCode == 13) {
+                var inputData = {
+                    Line: $("#TxtLine").val(),
+                    Station: $("#TxtStation").val(),
+                    User: $("#TxtUser").val()
+                }
+                self.parent.client.CallFunction("MESStation.Config.StationOnline", "CheckUser", inputData, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'green' });
+                        $("#TxtStation").focus().select();
+                        $("#TxtStation").text("");
+                        $("#TxtUser").text("");
+                        SeachData();
+                    }
+                    else {
+                        $("#Lb_Message").text(e.Data);
+                        $("#Lb_Message").css({ 'background-color': 'white', 'color': 'red' });
+                        $("#TxtStation").focus().select();
+                        $("#TxtStation").val();
+                        $("#TxtUser").val();
+                        SeachData();
+                    }
+                });
+            }
+        });
+    });
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Label Setting</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .ui-autocomplete {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        .loadingBgColor {
+            background-color: #393D49;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+        }
+
+        .site-title {
+        }
+
+        fieldset {
+            display: block;
+            margin-inline-start: 2px;
+            margin-inline-end: 2px;
+            padding-block-start: 0.35em;
+            padding-inline-start: 0.75em;
+            padding-inline-end: 0.75em;
+            padding-block-end: 0.625em;
+            min-inline-size: min-content;
+            border-width: 2px;
+            border-style: groove;
+            border-color: threedface;
+            border-image: initial;
+        }
+
+        .site-title fieldset {
+            border: none;
+            padding: 0;
+            border-top: 1px solid #eee;
+        }
+
+            .site-title fieldset legend {
+                margin-left: 20px;
+                padding: 0 10px;
+                font-size: 22px;
+                font-weight: 300;
+            }
+
+        legend {
+            display: block;
+            width: initial;
+            border-width: initial;
+            border-style: none;
+            border-color: initial;
+            border-image: initial;
+            margin-bottom: 0px !important;
+        }
+
+
+        .form-group {
+            overflow: auto;
+        }
+
+            .form-group label {
+                padding-top: 8px;
+                text-align: right;
+            }
+
+        .fixed-table-toolbar {
+            overflow: auto;
+        }
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body full-height">
+        <div id="LabelType_Toolbar">
+            <button type="button" class="btn btn-outline btn-primary" id="AddLabelType">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:Add"> Add</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="EditLabelType" disabled>
+                <i class="glyphicon glyphicon-edit" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="CopyLabelType" disabled>
+                <i class="glyphicon glyphicon-copy" aria-hidden="true"></i><lan set-lan="html:Copy"> Copy</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="CopyLabelTypeJson" disabled>
+                <i class="glyphicon glyphicon-copy" aria-hidden="true"></i><lan set-lan="html:CopyJson"> CopyJson</lan>
+            </button>
+            <!--<button type="button" class="btn btn-outline btn-primary" id="DeleteLabelType">
+                <i class="glyphicon glyphicon-remove" aria-hidden="true"></i><lan set-lan="html:DELETE"> DELETE</lan>
+            </button>-->
+        </div>
+        <table id="LabelType_Table"></table>
+    </div>
+    <div id="NewLabelTypePanel" class="panel-body hidden" style="padding:30px">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-md-4 col-lg-3">
+                <div class="form-group col-xs-12">
+                    <label class="col-xs-4 control-label text-right" set-lan="html:TypeName">Type Name:</label>
+                    <div class="col-xs-8">
+                        <input class="form-control" id="txt_TypeName" />
+                    </div>
+                </div>
+                <div class="col-xs-4 font-color-1">
+                    <button id="TestLabel" class="btn btn-primary">Show Label</button>
+                </div>
+                <div class="col-xs-4 font-color-1">
+                    <button id="TestResult" class="btn btn-primary">Show Text</button>
+                </div>
+                <div class="col-xs-4 font-color-1">
+                    <button id="JsonPaste" class="btn btn-primary">Json Paste</button>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="site-title">
+                    <fieldset><legend><a name="blockquote">Data Keys</a></legend></fieldset>
+                </div>
+                <div id="KeysList_Toolbar">
+                    <button class="btn btn-outline btn-primary" id="AddKey">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:ADD">ADD</lan>
+                    </button>
+                </div>
+                <table id="Keys_Table"></table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="site-title">
+                <fieldset><legend><a name="blockquote">Input List</a></legend></fieldset>
+            </div>
+            <div id="InputsList_Toolbar">
+                <button class="btn btn-outline btn-primary" id="AddInput">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:ADD">ADD</lan>
+                </button>
+            </div>
+            <table id="Inputs_Table"></table>
+        </div>
+        <div class="row">
+            <div class="site-title">
+                <fieldset><legend><a name="blockquote">Output List</a></legend></fieldset>
+            </div>
+            <div id="FuntionsList_Toolbar">
+                <button class="btn btn-outline btn-primary" id="AddFunction">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:ADD">ADD</lan>
+                </button>
+            </div>
+            <table id="FunctionList_Table"></table>
+        </div>
+    </div>
+    <div id="ShowJsonPanel" class="panel-body hidden" style="width:100%;height:100%">
+        <textarea id="JsonText" style="width:100%;height:100%"></textarea>
+    </div>
+    <div id="NewInputPanel" class="panel-body hidden">
+        <div class="form-horizontal layui-layer-padding">
+            <div class="form-group">
+                <label for="txt_IName" class="col-xs-4">Input Name:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_IName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txt_IKey" class="col-xs-4">Session Key:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_IKey" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txt_IType" class="col-xs-4">Session Type:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_IType" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txt_IValue" class="col-xs-4">Default Value:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_IValue" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="NewKeyPanel" class="panel-body hidden">
+        <div class="form-horizontal layui-layer-padding">
+            <div class="form-group">
+                <label for="txt_key" class="col-xs-4">Key:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_key" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txt_value" class="col-xs-4">Value:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_value" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="NewFunctionPanel" class="panel-body hidden">
+        <div class="form-horizontal layui-layer-padding">
+            <div class="form-group">
+                <label for="txt_OutputName" class="col-xs-4">Output Key:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="txt_OutputName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cmb_Group" class="col-xs-4">Group:</label>
+                <div class="col-xs-8">
+                    <select class="form-control" id="cmb_Group"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cmb_Function" class="col-xs-4">Function:</label>
+                <div class="col-xs-8">
+                    <select class="form-control" id="cmb_Function"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lab_Params" class="col-xs-4">Params:</label>
+                <div class="col-xs-8" id="Group_Params">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="TestLabelPanel" class="panel-body hidden">
+        <div class="form-horizontal layui-layer-padding">
+            <div class="form-group" id="divLabel">
+                <label for="txt_OutputName" class="col-xs-4">LabelName:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" id="LabelName" />
+                </div>
+            </div>
+            <div class="form-group" id="divImage">
+                <div class="col-xs-12" style="min-width:200px;min-height:450px;border:1px dashed #0094ff; background-image:url(../../img/Imgboxbg.jpg);background-repeat:repeat;text-align:center">
+                    <img style="max-width:calc(100% - 20px) ;max-height:calc(100% - 20px); margin:10px; text-align:center; vertical-align:middle;" id="Preview" />
+                    <img style="display:none; width:auto;height:auto;" id="uImg" />
+                    <div id="loadingImg" class="loadingBgColor" style="position:absolute;top:0px;left:0px;width:100%;height:100%;display:none">
+                        <img style="margin:50% auto;" src="../../Scripts/plugins/layer/skin/default/loading-2.gif" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/Setting/ConfigLabelType.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>

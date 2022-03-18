@@ -1,0 +1,317 @@
+﻿<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Line Manager</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-12">
+                    <h3>Section 主檔信息</h3>
+                    <div class="ibox-content">
+                        <div class="example">
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-toolbar table-responsive">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                            <button type="button" class="btn btn-outline btn-default" id="r_fSectionAdd">
+                                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default" id="r_fSectionEdit">
+                                                <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-default" id="r_fSectionDel">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover " id="r_tblSectionList"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="r_ModifySectionList">
+            <div class="ibox-content">
+                <h3 id="Header"></h3>
+                <div class="tab-pane active row row-lg">
+                    <div class="col-sm-12">
+                        <div class="ibox-title">
+                        </div>
+                        <div id="r_editDetail" class="row form-horizontal ibox-content profile-content">
+                            <div id="Parameters" class="form-horizontal m-t"></div>
+                            <form role="form">
+                                <div class="col-sm-2"></div>
+                                <div class="hr-line-dashed col-sm-12"></div>
+                                <div class="form-group draggable" id="r_editLine">
+                                    <div class="col-sm-12 col-sm-offset-4">
+                                        <button type="button" class="btn btn-primary" onclick="r_btnSubmit()"><i class="fa fa-pencil"></i> <lan set-lan="html:save">SAVE</lan></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script>
+        var client;
+        var ClassName = "MESStation.Config.CSectionConfig";
+        var FunctionName = "SectionInsert";
+        var Func;
+        var Caveat;
+        var Func_Des;
+        var isPostBack = false;
+        $(document).ready(function () {
+            $('#r_SectionList').show();
+            $('#r_ModifySectionList').hide();
+
+            loadtable(1, 4, "ShowAllData", {}, isPostBack);
+
+            $('#r_fSectionAdd').click(function () {
+                $('#r_ModifySectionList').show();
+                $('#r_SectionList').hide();
+                client = new MesClient(function () {
+                    self.parent.client.GetMesFunctionList(ClassName, function (e) {
+                        if (e.Status == "Pass") {
+                            Func = e.Data.APIS[FunctionName];
+                            $("#Header").text(Func.FunctionName);
+                            var para = $("#Parameters");
+                            para.append("<div class=\"form-group\"></div>");
+                            for (var i = 0; i < Func.Parameters.length; i++) {
+                                var group = $("<div class=\"form-group col-sm-6 \"></div>");
+                                var label = $("<label for=\"" + Func.Parameters[i].InputName + "\" class=\"col-sm-2 control-label\">" + Func.Parameters[i].InputName + "</label>");
+                                var inputDIV = $("<div class=\"col-sm-10\"></div>");
+                                var input = $("<input type=\"text\" class=\"form-control\" id=\"" + Func.Parameters[i].InputName + "\" placeholder=\"" + Func.Parameters[i].DefaultValue + "\">");
+                                inputDIV.append(input);
+                                group.append(label);
+                                group.append(inputDIV);
+                                para.append(group);
+                            }
+                        }
+                    })
+                });
+                $("#Parameters").find(".form-control").val("");
+            });
+
+
+            $('#r_fSectionEdit').click(function () {
+                var arrselections = $("#r_tblSectionList").bootstrapTable('getSelections');
+                if (arrselections.length > 1) {
+                    swal({
+                        title: "WARNING",
+                        text: "Please select only 1 item!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                if (arrselections.length <= 0) {
+                    swal({
+                        title: "WARNING",
+                        text: "Please select 1 item!",
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+                $('#r_ModifySectionList').show();
+                $('#r_SectionList').hide();
+                self.parent.client.CallFunction(ClassName, "UpdateSectionByID", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        $("#Header").text("Modify Section");
+                        var para = $("#Parameters");
+                        Func = e.Data["0"];
+                        para.append("<div class=\"form-group\"></div>");
+                        for (var i in e.Data["0"]) {
+                            if (i == "ID") {
+                                var group = $("<div class=\"form-group  col-sm-6\" hidden=\"true\"></div>");
+                            }
+                            else {
+                                var group = $("<div class=\"form-group  col-sm-6\"></div>");
+                            }
+                            var label = $("<label for=\"" + i + "\" class=\"col-sm-2 control-label\">" + i + "</label>");
+                            var inputDIV = $("<div class=\"col-sm-10\"></div>");
+                            var input = $("<input type=\"text\" class=\"form-control\" value=\"" + e.Data["0"][i] + "\" id=\"" + i + "\">");
+                            inputDIV.append(input);
+                            group.append(label);
+                            group.append(inputDIV);
+                            para.append(group);
+                        }
+                    }
+                })
+            });
+
+            $('#r_fSectionDel').click(function () {
+                var arrselections = $("#r_tblSectionList").bootstrapTable('getSelections');
+                if (arrselections.length <= 0) {
+                    swal("Warning!", "Please select a valid data!", "warning");
+                    return;
+                }
+                swal({
+                    title: "DELETE!",
+                    text: "Are you sure?",
+                    type: "warning",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: true
+                }, function () {
+                    var data = "{ \"ID\" :\"";
+                    for (var i = 0; i < arrselections.length; i++) {
+                        data += arrselections[i].ID + ",";
+                    }
+                    data = data.substr(0, data.length - 1);
+                    data += "\"}";
+                    
+                    client = new MesClient(function () {
+                        self.parent.client.CallFunction(ClassName, "DeleteSectionByID", JSON.parse(data), function (e) {
+                            if (e.Status == "Pass") {
+                                swal({
+                                    title: "提示",
+                                    text: "刪除成功！",
+                                    type: "success",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }, function () {
+                                    window.location = "SectionManager.html";
+                                });
+                            }
+                        })
+                    });
+
+                });
+
+            });        });
+
+        function loadtable(n, s, f, d, i) {
+            client = new MesClient(function () {
+                self.parent.client.CallFunction(ClassName, f, d, function (e) {
+                    if (e.Status == "Pass") {
+                        if (i) {
+                            $('#r_tblSectionList').bootstrapTable('load', [e.Data]);
+                        }
+                        else {
+                            var c = [];
+                            var checkbox = " title:'checkall',field:'select',checkbox: true, width: 30, align: 'center',valign: 'middle' ";
+                            c.push({ checkbox });
+                            for (var item in e.Data[0]) {
+                                c.push({ field: item, title: item });
+                            }
+                            $('#r_tblSectionList').bootstrapTable({
+                                data: e.Data,
+                                striped: true,
+                                cache: false,
+                                pagination: true,
+                                showToggle: true,
+                                cardView: false,
+                                detailView: false,
+                                sidePagination: "client",
+                                pageNumber: n,
+                                pageSize: s,
+                                pageList: [5, 20, 60, 100],
+                                search: true,
+                                strictSearch: true,
+                                searchOnEnterKey: false,
+                                showColumns: true,
+                                showRefresh: true,
+                                minimumCountColumns: 2,
+                                clickToSelect: true,
+                                dataType: "json",
+                                method: "post",
+                                searchAlign: "right",
+                                buttonsAlign: "right",
+                                toolbar: "#toolbar",
+                                toolbarAlign: "right",
+                                columns: c,
+                                locale: "zh-CN",
+                                onpagechange: function (n, s) {
+                                    loadtable(n, s);
+                                }
+                            });
+                            $('#r_tblSectionList').bootstrapTable('hideColumn', 'ID');
+                        }
+                    }
+                    else {
+                        swal({
+                            title: "提示",
+                            text: e.Message,
+                            timer: 2000,
+                            type: "warning",
+                            showConfirmButton: false
+                        });
+                    }
+                })
+            });
+        }
+
+        function r_btnSubmit() {
+            var data = "{";
+            if ($("#Header").text() == "Modify Section") {
+                Caveat = "修改";
+                Func_Des = "ModifySection";
+            } else {
+                Caveat = "註冊";
+                Func_Des = "SectionInsert";
+                for (var i = 0; i < Func.Parameters.length; i++) {
+                    var InputName = Func.Parameters[i].InputName;
+                    data += "\"" + InputName + "\":\"" + $("#" + InputName).val() + "\",";
+                }
+            }
+            data = data.substr(0, data.length - 1);
+            data += "}";
+            self.parent.client.CallFunction(ClassName, Func_Des, JSON.parse(data), function (e) {
+                if (e.Status == "Pass") {
+                    swal({
+                        title: Caveat + "提示",
+                        text: Caveat + "成功！",
+                        timer: 2000,
+                        type: "success",
+                        showConfirmButton: false
+                    }, function () {
+                        window.location = "SectionManager.html";
+                    });
+                }
+                else {
+                    swal({
+                        title: Caveat + "提示",
+                        text: Caveat + "失敗！",
+                        type: "error",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>-->

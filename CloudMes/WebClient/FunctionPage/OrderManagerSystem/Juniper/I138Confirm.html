@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">MaterialStageManage</title>
+    <link href="../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-editable.css" rel="stylesheet" />
+    <link href="../../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 230px));
+                /*width: 100%;*/
+            }
+        }
+        table, td, th {
+            margin: 0;
+            padding: 0px!important;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+        thead th {
+            font-size: 10px !important;
+            font-weight: bold;
+            line-height: 10px !important;
+            padding: 0px !important;
+            text-align: center;
+            background:  #375A7F !important;
+            color: white;
+        }
+        table.table-bordered > tr >td {
+            height: 120px;
+            max-height: 120px;
+        }
+        .bg-red {
+            background-color: #660000 !important;
+            color:white;
+        }
+        .bg-success {
+            background-color: #ccffff !important;
+        }
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div id="outputsite">
+        <div>
+            <div id="Table_Toolbar">
+                <div class="form-inline" role="group">
+                    <div class="input-group">
+                        <table>
+                            <tr>
+                                <!--<td>
+                                    <span class="form-control input-group-addon">Plant</span>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="select_site">
+                                        <option value="ALL">ALL</option>
+                                        <option value="0016000219">FJZ</option>
+                                        <option value="0016000220">FVN</option>
+                                    </select>
+                                </td>-->
+                                <td>
+                                    <button type="button" class="btn btn-outline btn-primary" id="btnAdd">
+                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> Upload</lan>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <table id="I138Table" class="table table-condensed"></table>
+        </div>
+        <div id="divAdd" class="panel-body hidden">
+            <div>
+                <div id="PreI138_Table_Toolbar">
+                    <div class="form-inline" role="group">
+                        <div class="input-group">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input id="FileUpload" type="file" class=" btn btn-outline btn-primary file-outline" accept=".xls,.xlsx">
+                                    </td>
+                                    <td>
+                                        <button type="button" class=" btn btn-outline btn-primary" id="AddDownloadTemplateFile">
+                                            <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i><lan set-lan="html:Download"> DownloadTemplateFile</lan>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                                            <lan set-lan="html:btnSubmit">Submit</lan>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <table id="Pre138Table" class="table table-condensed"></table>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Material Detail end-->
+    <!-- 全局js -->
+    <script src="../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <!--<script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>-->
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-editable.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-editable.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../../Scripts/global.js"></script>
+    <script src="../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        var pre138 = [];
+        $(document).ready(function () {
+            initpage();
+            $('#FileUpload').change(function (ee) {
+                upload(ee,
+                    null,
+                    //function (fileskuno, fileversion, filestation, filedes) {
+                    //    $("#txtSKUNO").val(fileskuno);
+                    //    $("#txtVERSION").val(fileversion);
+                    //    $("#txtSTATION").val(filestation);
+                    //    $("#txtFileDesc").val(filedes);
+                    //    savefile(ee,
+                    //        $("#txtSKUNO").val() + $("#txtVERSION").val() + $("#txtSTATION").val(),
+                    //        $('#FileUpload'));
+                    //},
+                    $(this));
+            });
+            $("#btnAdd").click(function () {
+                pre138 = [];
+                ShowPreI138Table(null);
+                $('#FileUpload').val('');
+                $("#btnSubmit").show();
+                var addTitle = 'Upload I138';
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["80%", "80%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divAdd"),
+                    success: function (layero, index) {
+                        $("#divAdd").removeClass("hidden");
+                    },
+                    end: function () {
+                        $("#divAdd").addClass("hidden");
+                    },
+                    cancel: function (index) {
+                        LoadSoList();
+                    }
+                });
+            });
+            $("#btnSubmit").click(function () {
+                var layerIndex = layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    shadeClose: false,
+                    skin: 'layer_shin',
+                    offset: 'aotu',
+                    content: " <div style='background-color:transparent; border: 1px solid #fff;border-radius: 15px;padding:10px 5px;'> <div class=''><div class= 'sk-spinner sk-spinner-wave'><div class='sk-rect1'></div>"
+                        + "<div class='sk-rect2'></div><div class='sk-rect3'></div><div class='sk-rect4'></div><div class='sk-rect5'></div></div >"
+                        //+ "<div class='text-center font-bold note-fontsize-10'>系統正在加急處理,請耐心等待 ...</div></div ></div >"
+                        + "<div class='text-center font-bold note-fontsize-10'>The system is processing urgently,please wait patiently ...</div></div ></div >"
+                });
+                client.CallFunction("MESJuniper.Api.OrderManager", "Upload138List", { predata: pre138 }, function (e) {                 
+                    if (e.Status == "Pass") {
+                        $("#btnSubmit").hide();
+                        layer.msg("Success!", {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            pre138 = [];
+                            layer.close(layerIndex);
+                            ShowPreI138Table(e.Data);
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 1000
+                        }, function () {
+                                $('#FileUpload').val('');
+                                pre138 = [];
+                                layer.close(layerIndex);
+                                if (e.Data!=null)
+                            ShowPreI138Table(e.Data);
+                        });
+                    }
+                });
+            });
+            $('#AddDownloadTemplateFile').on('click',
+                function () {
+                    window.open("../../../File/I138UploadTemplateFile.xlsx");
+                });
+        });
+
+        var savefile = function (e, savefilename, c) {
+            var w = new Worker("../../Scripts/Setting/BigFileReader.js");
+            w.onmessage = function (e) {
+                layer.closeAll("loading");
+                if (e.data.Status == "Pass") {
+                    Bas64File = e.data.Bas64File;
+                    parent.client.CallFunction("MESStation.FileUpdate.FileUpload",
+                        "UpLoadFile",
+                        {
+                            Name: savefilename,
+                            FileName: filename,
+                            MD5: "",
+                            UseType: "Material",
+                            Bas64File: Bas64File
+                        },
+                        function (e) {
+                            layer.closeAll('loading');
+                            if (e.Status == "Pass") {
+                                layer.msg("Success",
+                                    {
+                                        icon: 1,
+                                        time: 3000
+                                    },
+                                    function () {
+                                        $("#btneditdownload").html(savefilename);
+                                        c.val(savefilename);
+                                    });
+                            } else {
+                                layer.msg(e.Message,
+                                    {
+                                        icon: 2,
+                                        time: 3000
+                                    },
+                                    function () {
+                                    });
+                            }
+                        });
+                } else {
+                    c.val("");
+                    layer.msg(e.data.Message,
+                        {
+                            icon: 2,
+                            time: 3000
+                        },
+                        function () {
+                        });
+                }
+            };
+            w.onerror = function () {
+                c.val("");
+                layer.msg("Worker Error!",
+                    {
+                        icon: 2,
+                        time: 3000
+                    },
+                    function () {
+                    });
+            }
+            layer.load(3);
+            filename = c.val();
+            filename = filename.substring(filename.lastIndexOf("\\") + 1);
+            UseType = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+            w.postMessage({ file: e.target.files[0], filename: filename, UseType: UseType, ExtName: ".XLS,.XLSX" });
+        }
+        var upload = function (ee, callback, c) {
+            var filename = c.val();
+            if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xls") >= 0)) {
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(ee.target.files[0]);
+                reader.onload = function (e) {
+                    var data = new Uint8Array(reader.result);
+                    var wb = XLSX.read(data, { type: 'array' });
+                    for (let i = 0; i < wb.SheetNames.length; i++)
+                        pre138 = window.XLS.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]]);
+                    ShowPreI138Table(pre138);
+                }
+            }
+        }
+        var b64toBlob = function (b64Data, sliceSize) {
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays);
+            return blob;
+        };
+        var DownLoadFile = function (name, usetype) {
+            self.parent.client.CallFunction("MESStation.FileUpdate.FileUpload",
+                "FileDownLoadWithNameAndUseTypeByBrowser",
+                { "NAME": name, "USETYPE": usetype },
+                function (e) {
+                    if (e.Status == "Pass") {
+                        var blob = b64toBlob(e.Data.Content);
+                        if (window.navigator.msSaveOrOpenBlob) {
+                            navigator.msSaveBlob(blob, e.Data.FileName);
+                        } else {
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = e.Data.FileName;
+                            link.click();
+                            window.URL.revokeObjectURL(link.href);
+                        }
+                    } else {
+                        layer.msg(e.Message,
+                            {
+                                icon: 2,
+                                time: 3000
+                            },
+                            function () { });
+                        return;
+                    }
+                });
+        }
+        var ShowPreI138Table = function (data) {
+            if (data == null) {
+                $('#Pre138Table').bootstrapTable('destroy'); return;
+            }
+            var col = [];
+            if (data.length > 0) {
+                var row = data[0];
+                for (var item in row) {
+                    col.push({
+                        field: item,
+                        title: item,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    });
+                }
+            }
+            $('#Pre138Table').bootstrapTable('destroy');
+            $('#Pre138Table').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                fixedColumns: true,
+                pageSize: 15,
+                pageList: [15, 100, 10000],
+                fixedNumber: 3,
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "all",             //basic', 'all', 'selected'.
+                toolbar: "#PreI138_Table_Toolbar",
+                exportOptions: {
+                    fileName: 'OrderList',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'OrderList'
+                    //excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                exportTypes: ['txt', 'sql', 'doc', 'excel'],  //导出文件类型
+                columns: col,
+                rowStyle: function (row, index) {
+                    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+                    if (row.STATUS === "Check Fail")
+                        return {
+                            classes: classes[4]
+                        }
+                    return {
+                        classes: classes[1]
+                    }
+                }
+            });
+            //$('#Pre138Table').bootstrapTable('hideColumn', "JNPPLANT"); //tableTest3为table的ID
+            //$('#Pre138Table').bootstrapTable('hideColumn', "VENDORID"); //tableTest3为table的ID
+            //$('#Pre138Table').bootstrapTable('hideColumn', "I137ID"); //tableTest3为table的ID
+        }
+        var Show138Table = function (data) {
+            var col = [];
+            if (data.length > 0) {
+                var row = data[0];
+                for (var item in row) {
+                    if (item == "F_MSG")
+                        col.push({
+                            field: item,
+                            title: item,
+                            width: "100",
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        });
+                    else
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        });
+                }
+            }
+            $('#I138Table').bootstrapTable('destroy');
+            $('#I138Table').bootstrapTable({
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                fixedColumns: true,
+                pageSize: 15,
+                pageList: [15, 100, 10000],
+                fixedNumber: 3,
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "all",             //basic', 'all', 'selected'.
+                toolbar: "#Table_Toolbar",
+                exportOptions: {
+                    fileName: '138Data',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: '138Data'
+                    //excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                exportTypes: ['xlsx', 'excel'],  //导出文件类型
+                columns: col,
+                rowStyle: function (row, index) {
+                    var classes = ['active', 'success', 'info', 'warning', 'danger', 'bg-red', 'bg-success'];
+                    if (row.EXCEPTIONTYPE === "E")
+                        return { classes: classes[5] }
+                    return { classes: classes[6] }
+                }
+            });
+        }
+        function operateFormatter(value, row, index) {
+            //var detailBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">查看</button>';
+            var confirmBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">PoDetail</button>';
+            return [confirmBtn].join('');
+        }
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+                ShowPoInfoTab(row);
+            }
+        };
+        var LoadSoList = function () {
+            var plant = "ALL";
+            client.CallFunction("MESJuniper.Api.OrderManager", "Get138List", { plant: plant }, function (e) {
+                if (e.Status == "Pass") {
+                    Show138Table(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    //ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+        var ShowPoInfoTab = function (obj) {
+            //var url = "PoCommit/PoCommit.html?POID=" + obj.F_ID ;
+            var url = "PoInfo.html?POID=" + obj.ID;
+            var titlehtml = "<span class=\"layui-breadcrumb\" lay-separator=\"—\">" +
+                "<a href = \"\" > OrderManager  /  </a>" +
+                "<a href=\"\">" + obj.F_PO + "  /  </a>" +
+                "<a><cite>" + obj.F_LINE + "</cite></a></span>";
+            layer.open({
+                title: titlehtml,
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['95%', '90%'], //宽高
+                content: url,
+                cancel: function (index) {
+                    //LoadSoList();
+                }
+            });
+        };
+        var initpage = function () {
+            $("#select_site").on("change", function () {
+                LoadSoList();
+            });
+            LoadSoList();
+        }
+    </script>
+</body>
+</html>
+

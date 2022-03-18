@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Shipping Scehedule Create DN</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .datetimepicker {
+            z-index: 99999999 !important;
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body">
+        <div id="toolbar">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="sr-only" for="msg_type">From:</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <input type="text" class="form-control inline" readonly name="DATE_FROM" id="DATE_FROM" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="msg_type">To:</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <input type="text" class="form-control inline" readonly name="DATE_TO" id="DATE_TO" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table id="PO_List_Table" class="table table-condensed"></table>
+    </div>
+    <div class="row" id="CreateDNParams" style="padding: 15px 0px; margin: 0px; display: none">
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">PO_NO：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" readonly name="PO_NO" id="PO_NO" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">PO_Item：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" readonly name="PO_ITEM" id="PO_ITEM" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <table id="SO_List_Table" class="table table-condensed"></table>
+        </div>
+        <div class="form-group col-xs-12 hidden" id="qty_Site">
+            <label class="col-xs-4 control-label">QTY：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="QTY" id="QTY" />
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        $(document).ready(function () {
+            $("#DATE_FROM").val((new Date()).format("yyyy-MM-dd"));
+            $("#DATE_TO").val((new Date()).format("yyyy-MM-dd"));
+            $("#DATE_FROM").datetimepicker({
+                format: 'yyyy-mm-dd',//选择年月日時分秒
+                language: 'zh-CN',
+                weekStart: 0,//一周从哪一天开始。0（星期日）到6（星期六）
+                todayBtn: 0,//显示‘今日’按钮
+                autoclose: true,//当选择一个日期之后是否立即关闭此日期时间选择器
+                todayHighlight: true,//如果为true, 高亮当前日期。
+                startView: 2,//日期时间选择器打开之后首先显示的视图 0-hour,1-day,2-month,3-year,4-decade
+                minView: 2,
+                minuteStep: 1,
+                clearBtn: false,
+                forceParse: true,
+                keyboardNavigation: true,
+                initialDate: new Date(-10)
+            }).on("changeDate", function (ev) {
+                if ($("#DATE_TO").val() > $("#DATE_FROM").val()) {
+                    GetData();
+                }
+            });
+            $("#DATE_TO").datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: 'zh-CN',
+                weekStart: 0,
+                todayBtn: 0,
+                autoclose: true,
+                todayHighlight: true,
+                startView: 2,
+                minView: 2,
+                minuteStep: 1,
+                clearBtn: false,
+                forceParse: true,
+                keyboardNavigation: true,
+                initialDate: new Date(+10)
+            }).on("changeDate", function (ev) {
+                if ($("#DATE_TO").val() > $("#DATE_FROM").val()) {
+                    GetData();
+                }
+            });
+            GetData();
+        });
+
+        var GetData = function () {
+            client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "GetCustPOList", { STATUS: '', DATE_FROM: $("#DATE_FROM").val(), DATE_TO: $("#DATE_TO").val() }, function (e) {
+                if (e.Status == "Pass") {
+                    ShowPOListTable($.extend([], e.Data));
+                } else {
+                    ShowPOListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+        }
+
+        var SearchData = function (PO) {
+            client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "GetCustPOListByPO", { PO_NO: PO }, function (e) {
+                if (e.Status == "Pass" && e.Data.length > 0) {
+                    ShowPOListTable(e.Data);
+                }
+            });
+        }
+
+        var ShowPOListTable = function (data) {
+            $('#PO_List_Table').bootstrapTable('destroy');
+            $('#PO_List_Table').bootstrapTable({
+                data: data,
+                toolbar: "#toolbar",
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                onSearch: function (text) {
+                    if (!this.data.Contain(text)) {
+                        SearchData(text);
+                    }
+                },
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                onRefresh: function (param) {
+                    GetData();
+                },
+                columns: [
+                    {
+                        field: 'CUST_PO_NO',
+                        title: 'PO#',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'LINE_NO',
+                        title: 'LINE_NO',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'CUST_SKUNO',
+                        title: 'CUST_SKUNO',
+                        align: "center",
+                        sortable: true,
+                    }, {
+                        field: 'SKUNO',
+                        title: 'SKUNO',
+                        align: "center"
+                    }, {
+                        field: 'QTY',
+                        title: 'QTY',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'DN_QTY',
+                        title: 'DN_QTY',
+                        align: "center"
+                    }, {
+                        field: 'SHIPED_QTY',
+                        title: 'SHIPED_QTY',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'ENABLE_DATE_FROM',
+                        title: 'ENABLE_DATE_FROM',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'ENABLE_DATE_TO',
+                        title: 'ENABLE_DATE_TO',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'NEED_BY_DATE',
+                        title: 'NEED_BY_DATE',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'STATUS',
+                        title: 'STATUS',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'EDIT_EMP',
+                        title: 'Edit By',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'EDIT_DATE',
+                        title: 'Edit Date',
+                        align: "center",
+                        sortable: true
+                    }, {
+                        field: 'operate',
+                        title: 'Operation ',
+                        align: 'center',
+                        events: "operateEvents",
+                        formatter: operateFormatter
+                    }
+                ]
+            });
+        };
+
+        function operateFormatter(value, row, index) {
+            var Convert;
+            if (row.STATUS == "OPEN") {
+                Convert = '<button type="button" class="CreateDN btn btn-default  btn-sm" style="margin-right:15px;">Create DN</button>';
+            } else {
+                Convert = "";
+            }
+            return [Convert].join('');
+        }
+
+        window.operateEvents = {
+            'click .CreateDN': function (e, value, row, index) {
+                CreateDN(row);
+            }
+        };
+
+        var CreateDN = function (obj) {
+            $("#PO_NO").val(obj.CUST_PO_NO);
+            $("#PO_ITEM").val(obj.LINE_NO);
+            var poobj = obj;
+            var skuno = obj.SKUNO;
+            if (skuno == null && skuno == undefined) {
+                layer.msg("SKUNO cann't be null!", { icon: 2, timer: 5000 });
+                return;
+            }
+            layer.open({
+                title: 'Create DN',
+                type: 1,
+                area: ['700px', '500px'],
+                content: $('#CreateDNParams'),
+                btn: ['Submit', 'Cancel'],
+                yes: function (index, layero) {
+                    var qty = $("#QTY").val();
+                    var selRow = $('#SO_List_Table').bootstrapTable("getSelections");
+                    if (selRow.length == 0) {
+                        layer.msg("Please select a SO record!", { icon: 2, timer: 5000 });
+                        return false;
+                    }
+                    if (qty == null || qty == "" || qty == undefined) {
+                        layer.msg("Please enter quantity of DN!", { icon: 2, timer: 5000 });
+                        return false;
+                    }
+                    if (isNaN(qty) || !(Number(qty) % 1 === 0)) {
+                        $("#QTY").val("");
+                        layer.msg("Please enter a valid integer!", { icon: 2, timer: 5000 });
+                        return false;
+                    }
+                    if (poobj.QTY - poobj.DN_QTY < qty) {
+                        layer.msg("Your enter quantity can't greater than the remaining quantity of PO!", { icon: 2, timer: 5000 });
+                        return false;
+                    }
+                    if (selRow[0].QTY - selRow[0].DN_QTY < qty) {
+                        layer.msg("Your enter quantity can't greater than the remaining quantity of SO!", { icon: 2, timer: 5000 });
+                        return false;
+                    }
+                    layer.load(2, { shade: [0.8, '#393D49'] });
+                    client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "CreateDNBySOPO", { SO_NO: selRow[0].SO_NO, SO_ITEN: selRow[0].LINE_SEQ, QTY: qty, PO_NO: poobj.CUST_PO_NO, PO_ITEM: poobj.LINE_NO }, function (e) {
+                        layer.closeAll("loading");
+                        if (e.Status == "Pass") {
+                            layer.msg('OK!', { icon: 1, timer: 5000 });
+                            GetData();
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                timer: 5000
+                            });
+                        }
+                    });
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                },
+                success: function (layero, index) {
+                    client.CallFunction("MESStation.Config.ShippingScheduleConfigAPI", "GetSOListBySkuno", { SKUNO: skuno }, function (e) {
+                        if (e.Status == "Pass") {
+                            ShowSOListTable($.extend([], e.Data));
+                        } else {
+                            ShowSOListTable([]);
+                            swal({
+                                title: "",
+                                text: e.Message,
+                                type: "warning",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            return;
+                        }
+                    });
+                },
+                end: function () {
+                    $('#SO_List_Table').bootstrapTable('destroy');
+                    $("#qty_Site").addClass("hidden");
+                    $("#QTY").val("");
+                }
+            });
+        };
+
+        var ShowSOListTable = function (data) {
+            $('#SO_List_Table').bootstrapTable('destroy');
+            $('#SO_List_Table').bootstrapTable({
+                data: data,
+                striped: true,
+                singleSelect: true,
+                clickToSelect: true,
+                onClickRow: function (row, elem, filed) {
+                    $("#qty_Site").removeClass("hidden");
+                },
+                onUncheck: function (row, $element) {
+                    $("#qty_Site").addClass("hidden");
+                    $("#QTY").val("");
+                },
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        field: 'SO_NO',
+                        title: 'SO#',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'LINE_SEQ',
+                        title: 'LINE_SEQ',
+                        sortable: true,
+                        align: "center",
+                        visible: false
+                    }, {
+                        field: 'SKUNO',
+                        title: 'SKUNO',
+                        align: "center"
+                    }, {
+                        field: 'QTY',
+                        title: 'QTY',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'DN_QTY',
+                        title: 'DN_QTY',
+                        align: "center"
+                    }
+                ]
+            });
+        };
+
+
+    </script>
+</body>
+</html>

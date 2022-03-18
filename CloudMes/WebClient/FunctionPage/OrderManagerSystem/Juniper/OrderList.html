@@ -1,0 +1,519 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">OrderList</title>
+    <link href="../../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.css" rel="stylesheet" />
+    <link href="../../../css/plugins/bootstrapSelect/bootstrap-select.min.css" rel="stylesheet" />
+    <style type="text/css">
+        @media(max-width:1599px) {
+            #outputsite {
+                margin: 0 auto;
+                width: calc((100% - 30px));
+                /*width: 100%;*/
+            }
+        }
+        /*table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }*/
+
+        table, td, th {
+            margin: 0;
+            padding: 0px !important;
+            /* font-size: 0.1em;*/
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+
+        .W120 .th-inner {
+            width: 120px !important;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div id="outputsite">
+        <div>
+            <div id="Table_Toolbar">
+                <div class="form-inline" role="group">
+                    <div class="input-group">
+                        <table>
+                            <tr>
+                                <td>
+                                    <span class="form-control input-group-addon">Plant</span>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="select_site">
+                                        <option value="ALL">ALL</option>
+                                        <option value="FJZ">FJZ</option>
+                                        <option value="FVN">FVN</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <span class="form-control input-group-addon">Type</span>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="select_type">
+                                        <option value="ALL">ALL</option>
+                                        <option value="CTO">CTO</option>
+                                        <option value="BTS">BTS</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <span class="form-control input-group-addon">STATUS</span>
+                                </td>
+                                <td>
+                                    <select id="select_status" class="form-control" multiple="multiple" data-selected-text-format="count>1"></select>
+                                </td>
+                                <td>
+                                    <button type="button" class="form-control" id="btnSearch">Search</button>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="txt_po_list" style="margin-left:20px;margin-right:10px;" />
+                                </td>
+                                <td>
+                                    <button type="button" class="form-control" id="btnSearchByPoList">SearchByPoList</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="form-control" id="btnDownLoadAllData">DownLoadAllData</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <table id="So_List_Table" class="table table-condensed"></table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-fixed-columns.min.js"></script>
+    <script src="../../../Scripts/plugins/jquery-base64/jquery.base64.js"></script>
+    <script src="../../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../../Scripts/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
+    <script src="../../../Scripts/global.js"></script>
+    <script src="../../../Scripts/MesClient.UI.js"></script>
+    <script src="../../../Scripts/MesClient.js"></script>
+    <script src="../../../Scripts/Report/MesClient.Report.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+        $(document).ready(function () {
+            initpage();
+            $("#btnSearchByPoList").click(function () {
+                var polist = $("#txt_po_list").val();
+                client.CallFunction("MESJuniper.Api.OrderManager", "GetOrderListByPOList", { POLIST: polist }, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowSoListTable(e.Data);
+                        //去掉導出數據按鈕的左上左下圓角
+                        $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            //LoadSoList();
+                        });
+                    }
+                });
+            });
+            $("#btnDownLoadAllData").click(function () {
+                var loadIndex = layer.load(1, {
+                    shade: [0.5, 'gray'],
+                    content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                        + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                        + "<span> Processing,Please wait ...</span></div></div>"
+                });
+                var plant = $("#select_site").val();
+                var potype = $("#select_type").val();
+                var postatus = $("#select_status").val();
+                var specials = $("#select_specials").val();
+                client.CallFunction("MESJuniper.Api.OrderManager", "GetOrderList_FileStr", { plant: plant, potype: potype, postatus: postatus, specials: specials }, function (e) {
+                    if (e.Status == "Pass") {
+                        downloadFile(e.Data.fileName,e.Data.content);
+                        layer.close(loadIndex);
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 60000,
+                            title: 'ERROR',
+                            btn: ['OK']
+                        }, function () {
+                            //LoadSoList();
+                        });
+                    }
+                });
+            });
+            $("#btnSearch").click(function () {
+                LoadSoList();
+            });
+            $(window).resize(function (e) {
+                $("#So_List_Table").bootstrapTable('resetView', {
+                    height: $(window).height() - 40
+                });
+            })
+        });
+        var downloadFile = function (fileName, fileContent) {
+            var blob = b64toBlob(fileContent);
+            if (window.navigator.msSaveOrOpenBlob) {
+                navigator.msSaveBlob(blob, fileName);
+            } else {
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+            }
+        };
+        var ShowSoListTable = function (data) {
+            var col = [];
+            if (data.length > 0) {
+                var row = data[0];
+                col.push(
+                    {
+                        field: 'operate',
+                        title: 'Operation',
+                        align: 'center',
+                        events: "operateEvents",
+                        class: 'W120',
+                        formatter: operateFormatter
+                    });
+                col.push({
+                    field: 'POTYPE',
+                    title: 'POTYPE',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                });
+                col.push({
+                    field: 'PONO',
+                    title: 'PONO',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                });
+                col.push({
+                    field: 'POLINE',
+                    title: 'POLINE',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                });
+                col.push({
+                    field: 'PREWO',
+                    title: 'PREWO',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                });
+                col.push({
+                    field: 'JUNIPERPID',
+                    title: 'JUNIPERPID',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                });
+                for (var item in row) {
+                    if (item == 'POTYPE' || item == 'PONO' || item == 'POLINE' || item == 'PREWO' || item =='JUNIPERPID') {
+                        continue;
+                    }
+                    if (item == "HOLD")
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            cellStyle: function (value, row, index) {
+                                var bgc = "";
+                                if (value != null && value != "") bgc = "#ff3300";
+                                //else bgc = "#00e500";
+                                return {
+                                    "css": {
+                                        "background-color": bgc,
+                                        "color": "#ffffff"
+                                    }
+                                };
+                            },
+                            sortable: true
+                        });
+                    else if (item == "EXCEPTIONINFO")
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            cellStyle: function (value, row, index) {
+                                var bgc = "";
+                                if (value != null && value != "") bgc = "#ff3300";
+                                //else bgc = "#00e500";
+                                return {
+                                    "css": {
+                                        "background-color": bgc,
+                                        "color": "#ffffff"
+                                    }
+                                };
+                            },
+                            sortable: true
+                        });
+                    else if (item == "CANCEL")
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            cellStyle: function (value, row, index) {
+                                var bgc = "";
+                                if (value != null && value != "0")
+                                    return {
+                                        "css": {
+                                            "background-color": "#cc0000",
+                                            "color": "#ffffff"
+                                        }
+                                    };
+                                else return {
+                                    "css": {
+                                    }
+                                };
+                            },
+                            formatter: function (value, row, index) {
+                                var value = "";
+                                if (row.CANCEL == "1") {
+                                    value = "CANCEL_WAIT";
+                                } else if (row.CANCEL == "2") {
+                                    value = "CANCEL_FINISHED";
+                                } else {
+                                    value = "N/A";
+                                }
+                                return value;
+                            },
+                            sortable: true
+                        });
+                    else
+                        col.push({
+                            field: item,
+                            title: item,
+                            align: 'center',
+                            valign: 'middle',
+                            sortable: true
+                        });
+                }
+            }
+            $('#So_List_Table').bootstrapTable('destroy');
+            $('#So_List_Table').bootstrapTable({
+                height: $(window).height() - 40,
+                data: data,
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                searchOnEnterKey: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                pageSize: 15,
+                pageList: [15, 100, 10000],
+                fixedColumns: true,
+                fixedNumber: 5,
+                showExport: true,                   //是否显示导出     exportTypes: ['xlsx', 'excel'],  //导出文件类型  
+                exportDataType: "all",             //basic', 'all', 'selected'.
+                toolbar: "#Table_Toolbar",
+                exportOptions: {
+                    fileName: 'OrderList',  //文件名称设置  
+                    worksheetName: 'sheet1',  //表格工作区名称  
+                    tableName: 'OrderList'
+                    //excelstyles: ['background-color', 'color', 'font-size', 'font-weight', 'border-top']
+                },
+                exportTypes: ['txt', 'sql', 'doc', 'excel'],  //导出文件类型
+                columns: col,
+                rowStyle: function (row, index) {
+                    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+                    if (row.CANCEL != null && row.CANCEL != "0")
+                        return {
+                            "css": {
+                                "background-color": "#333366",
+                                "color": "#ffffff"
+                            }
+                        }
+                    else if (row.EXCEPTIONINFO != null)
+                        return {
+                            "css": {
+                                "background-color": "#FFE4C4",
+                                "color": "#000000"
+                            }
+                        }
+                    else if (row.COMPLETED != null && row.COMPLETED == "1")
+                        return {
+                            "css": {
+                                "background-color": "#f2fbf2",
+                                "color": "#000000"
+                            }
+                        }
+                    else
+                        return { classes: classes[0] }
+                }
+            });
+            $('#outputsite').find("[name='refresh']").unbind("click");
+            $('#outputsite').find("[name='refresh']").bind("click", {}, function (event) {
+                LoadSoList();
+            });
+            $('#So_List_Table').bootstrapTable('hideColumn', "ID"); //tableTest3为table的ID
+            $('#So_List_Table').bootstrapTable('hideColumn', "ORIGINALID"); //tableTest3为table的ID
+            $('#So_List_Table').bootstrapTable('hideColumn', "ORIGINALITEMID"); //tableTest3为table的ID
+            $('#So_List_Table').bootstrapTable('hideColumn', "ITEMID"); //tableTest3为table的ID
+            $('#So_List_Table').bootstrapTable('hideColumn', "ORDERTYPE"); //tableTest3为table的ID
+        }
+
+        function operateFormatter(value, row, index) {
+            //var detailBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">查看</button>';
+            var confirmBtn = '<button type="button" class="RoleOfA btn btn-info btn-sm" style="margin-right:15px;">PoDetail</button>';
+            return [confirmBtn].join('');
+        }
+
+        window.operateEvents = {
+            'click .RoleOfA': function (e, value, row, index) {
+                ShowPoInfoTab(row);
+            }
+        };
+
+        var LoadSoList = function () {
+            var plant = $("#select_site").val();
+            var potype = $("#select_type").val();
+            var postatus = $("#select_status").val();
+            var specials = $("#select_specials").val();
+            var loadIndex = layer.load(1, {
+                shade: [0.5, 'gray'],
+                content: "<div style='padding: 20px 10px;width: 300px;background-color:#ffffff;border:1px solid #ffffff;margin-left: -150px;border-radius: 5px;'>"
+                    + "<div class='layui-layer-loading2' style='padding-left: 40px;height: auto;width: auto;'>"
+                    + "<span> Processing,Please wait ...</span></div></div>"
+            });
+            client.CallFunction("MESJuniper.Api.OrderManager", "GetOrderList", { plant: plant, potype: potype, postatus: postatus, specials: specials }, function (e) {
+                layer.close(loadIndex);
+                if (e.Status == "Pass") {
+                    ShowSoListTable(e.Data);
+                    //去掉導出數據按鈕的左上左下圓角
+                    $("lan:contains('Export Data')").parent().css({ 'border-top-left-radius': '0', 'border-bottom-left-radius': '0' });
+                } else {
+                    ShowSoListTable([]);
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        var ShowPoInfoTab = function (obj) {
+            //var url = "PoCommit/PoCommit.html?POID=" + obj.F_ID ;
+            var url = "PoInfo.html?POID=" + obj.ID + "&PO=" + obj.PONO + "&POLINE=" + obj.POLINE;
+            var titlehtml = "<span class=\"layui-breadcrumb\" lay-separator=\"—\">" +
+                "<a href = \"\" > OrderManager  /  </a>" +
+                "<a href=\"\">" + obj.PONO + "  /  </a>" +
+                "<a><cite>" + obj.POLINE + "</cite></a></span>";
+            layer.open({
+                title: titlehtml,
+                type: 2,
+                skin: 'layui-layer-demo', //样式类名
+                anim: 2,
+                maxmin: true,
+                area: ['95%', '90%'], //宽高
+                content: url,
+                cancel: function (index) {
+                    //LoadSoList();
+                }
+            });
+        };
+
+        var initpage = function () {
+            GetStatusMap();
+            $("#select_site").on("change", function () {
+                LoadSoList();
+            });
+            $("#select_type").on("change", function () {
+                LoadSoList();
+            });
+            $("#select_status").on("change", function (e) {
+                var ps = $("#select_status").val();
+                if (ps && ps.indexOf("Special") >= 0) {
+                    $("#select_status").selectpicker('val', ['Special']);
+                    $("#select_status option").each((i, e) => {
+                        if (e.value != "Special" && e.value != "ALL") {
+                            e.setAttribute("disable", "disable");
+                        }
+                    });
+                } else {
+                    $("#select_status option").each((i, e) => {
+                        if (e.value != "Special" && e.value != "ALL") {
+                            e.setAttribute("disable", "");
+                        }
+                    });
+                }
+            });
+        }
+
+        var GetStatusMap = function () {
+            client.CallFunction("MESJuniper.Api.OrderManager", "GetStatusMaps", {}, function (e) {
+                if (e.Status == "Pass") {
+                    $("#select_status").empty();
+                    $("#select_status").append("<option value='ALL'>ALL</option>");
+                    $("#select_status").append("<option value='Special'>Special</option>");
+                    for (var i = 0; i < e.Data.length; i++) {
+                        $("#select_status").append("<option value='" + e.Data[i] + "'>" + e.Data[i] + "</option>");
+                    }
+                    $("#select_status").selectpicker("destroy").selectpicker({ noneSelectedText: 'ALL' });
+                    $("#select_status").selectpicker('val', ['ValidationI137','WaitCreatePreWo','CBS','PreAsn','PrintLabelAndList','RmqEnd','NotProduce','WaitDismantle','OnHold','ShipOut','FinalAsn','OnePreUploadBom','CancelPreAsn','AddNonBom','ReceiveGroupId','SecPreUploadBom','CreateWo','DownloadWo','Production',]);
+                    LoadSoList();
+                } else {
+                    swal({
+                        title: "",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+
+        }
+
+
+    </script>
+</body>
+</html>

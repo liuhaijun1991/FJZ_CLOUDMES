@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>OSP電子看板</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .TClass {
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .ThClass {
+            font-size: 22px;
+            height: 18px;
+            border: 2px solid;
+        }
+        .TbClass {
+            font-size: 18px;
+            height: 18px;
+            border: 2px solid;
+        }
+    </style>
+</head>
+<body class="color-cPage">    
+    <div class="container-fluid no-padding">
+        <table style="color: #000000;">
+            <tr>
+                <td style="width:3%">
+                    <div style="width:100%;float:left;"><input id="refTime" type="text" value="60" style="width:100%;font-size:18px;text-align:center;" /></div>
+                </td>
+                <td align="right"><div id="current-time" style="background-color: #0099CC;text-align:right;font-size:18px;"></div></td>
+            </tr>
+        </table>
+        <table id="tableOSP" border="1" align="center" class="TClass">
+            <thead align="center" style="border: 2px solid;">
+                <!--<tr><td style="font-size:30px;height:35px;background-color:#FFFF00;" colspan="9">OSP超時一覽表</td></tr>-->
+                <tr><td style="font-size:30px;height:35px;background-color:#FFFF00;" colspan="11">OSP Over Time Board</td></tr>
+                <tr>
+                    <td class="ThClass" style="background-color:#CCFFFF;"></td>
+                    <td class="ThClass" style="background-color:#CCFFFF;"></td>
+                    <td class="ThClass" style="background-color:#CCFFFF;"></td>
+                    <td class="ThClass" style="background-color:#CCFFFF;" colspan="2">SMT1</td>
+                    <td class="ThClass" style="background-color:#CCFFFF;" colspan="2">SMT2</td>
+                    <td class="ThClass" style="background-color:#CCFFFF;" colspan="2">VI</td>
+                    <td class="ThClass" style="background-color:#CCFFFF;" colspan="2">ICT</td>
+                </tr>
+                <tr>
+                    <td class="ThClass" style="background-color:#CCFFFF;">SKUNO</td>
+                    <td class="ThClass" style="background-color:#CCFFFF;">WO</td>
+                    <td class="ThClass" style="background-color:#CCFFFF;">Total OSP OT Qty</td>
+                    <td class="ThClass" style="background-color:#FFFF33;">12H-72H</td>
+                    <td class="ThClass" style="background-color:#FF0000;">>72H</td>
+                    <td class="ThClass" style="background-color:#FFFF33;">36H-72H</td>
+                    <td class="ThClass" style="background-color:#FF0000;">>72H</td>
+                    <td class="ThClass" style="background-color:#FFFF33;">48H-72H</td>
+                    <td class="ThClass" style="background-color:#FF0000;">>72H</td>
+                    <td class="ThClass" style="background-color:#FF0000;">60H-72H</td>
+                </tr>
+            </thead>
+            <tbody align="center"></tbody>
+        </table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+
+    <script type="text/javascript">
+        var refTime = 60;
+        setInterval(function () {
+            var now = new Date().format("yyyy年MM月dd日hh點mm分ss秒");
+            $('#current-time').text(now);
+        }, 1000);
+
+        setInterval(function () {
+            window.location.reload();
+            $('#refTime').val(refTime);
+        }, refTime * 1000);
+
+        $('#refTime').keypress(function (event) {
+            if (event.which == 13) {
+                refTime = $('#refTime').val();
+                $('#refTime').blur();
+            }
+        });
+
+        $(document).ready(function () {
+            var GetOSPData = function () {
+                parent.client.CallFunction("MESReport.DCN.OSPBoard", "GET", {}, function (e) {
+                    if (e.Status == "Pass") {
+                        ShowData(e.Data);
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            }
+            var ShowData = function (data) {
+                $("#tableOSP tbody").html("");
+                var bodyHtml = "";
+                var tBodyHtml = "";
+                for (var i = 0; i < data.length; i++) {
+                    bodyHtml = "<tr>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#6699FF;'>" + data[i].SKUNO + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#6699FF;'>" + data[i].WORKORDERNO + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#6699FF;'>" + data[i].QTY + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FFFF33;'>" + data[i].SMT1_12 + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FF0000;'><font color='#ffffff'>" + data[i].SMT1_72 + "</font></td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FFFF33;'>" + data[i].SMT2_36 + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FF0000;'><font color='#ffffff'>" + data[i].SMT2_72 + "</font></td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FFFF33;'>" + data[i].VI_48 + "</td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FF0000;'><font color='#ffffff'>" + data[i].VI_72 + "</font></td>";
+                    bodyHtml = bodyHtml + "<td class='TbClass' style='background-color:#FF0000;'><font color='#ffffff'>" + data[i].ICT_72 + "</font></td>";
+                    bodyHtml = bodyHtml + "</tr>";
+                    tBodyHtml = tBodyHtml + bodyHtml;
+                }
+                $("#tableOSP tbody").append(tBodyHtml);
+            }
+
+            GetOSPData();
+        });
+    </script>
+</body>
+</html>

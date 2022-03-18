@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>主頁</title>
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="lib/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="layui-btn-container pa">
+        <button id="AddReport" class="layui-btn layui-btn-normal"><i class="fa fa-plus" aria-hidden="true"></i> 新增報表</button>
+    </div>
+    <table id="ReportList" lay-filter="ReportList"></table>
+    <script src="lib/layui/layui.js"></script>
+    <script>
+        //一般直接写在一个js文件中
+        layui.config({
+            base: 'lib/'
+        }).extend({
+        }).use(['layer', 'IWebSocket', 'table', 'common'], function () {
+            var $ = layui.$;
+            var table = layui.table;
+            table.render({
+                id: 'ReportList',
+                elem: '#ReportList',
+                data: [],
+                cols: [[
+                    { field: 'ID', title: 'ID', width: 200 },
+                    { field: 'KEY', title: '名称' },
+                    { field: 'CONFIGTYPE', title: '类别', width: 120 }
+                ]]
+            });
+            table.on('row(ReportList)', function (obj) {
+                window.open('/ReportPage.html?id=' + obj.data.ID, '_blank');
+            });
+            layui.IWebSocket.init({
+                url: 'ws://' + layui.Config.SOCKET_SERVERIP + ':' + layui.Config.SOCKET_SERVERPORT + '/' + layui.Config.SOCKET_SERVICE
+            }, function (e) {
+                layui.IWebSocket.Login('TEST', 'TEST', function (d) {
+                    layui.IWebSocket.Call('MesReportCenter.ReportCenterBaseAPI', 'GetReportList', {}, function (e) {
+                        table.reload('ReportList', { data: e.Data });
+                    });
+                });
+            });
+            $('#AddReport').on('click', function () {
+                window.open('/view/admin/index.html', '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

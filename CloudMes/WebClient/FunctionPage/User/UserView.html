@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">個人信息</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .margintop0 {
+            margin-top: 0px;
+        }
+
+        .margintop5 {
+            margin-top: 5px;
+        }
+
+        marginbottom5 {
+            margin-bottom: 5px;
+        }
+
+        .margintop10 {
+            margin-top: 10px;
+        }
+
+        .marginbottom10 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h2 set-lan="html:OwnerDetail">personal data</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 set-lan="html:ViewOwnerDetail">personal data</h5>
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <div class="row m-t-lg" style="margin-top: 0px;" id="OwnerDetail">
+                                <div class="col-sm-6">
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewID">UserName：</label>
+                                        <label name="show" id="ID" ></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_NAME">UserName：</label>
+                                        <input type="text" name="show" id="EMP_NAME">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewBU_NAME">UserName：</label>
+                                        <label name="show" id="BU_NAME"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewFACTORY">UserName：</label>
+                                        <label name="show" id="FACTORY"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewPHONE_NUMBER">UserName：</label>
+                                        <input name="show" id="PHONE_NUMBER">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_LEVEL">UserName：</label>
+                                        <label name="show" id="EMP_LEVEL"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewPOSITION_NAME">UserName：</label>
+                                        <input name="show" id="POSITION_NAME">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_EN_NAME">UserName：</label>
+                                        <input name="show" id="EMP_EN_NAME">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_DESC">UserName：</label>
+                                        <input name="show" id="EMP_DESC">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_NO">UserName：</label>
+                                        <label name="show" id="EMP_NO"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEMP_PASSWORD">UserName：</label>
+                                        <label name="show" id="EMP_PASSWORD"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewDPT_NAME">UserName：</label>
+                                        <label name="show" id="DPT_NAME"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewMAIL_ADDRESS">UserName：</label>
+                                        <input name="show" id="MAIL_ADDRESS">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewLOCK_FLAG">UserName：</label>
+                                        <label name="show" id="LOCK_FLAG"></label>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewLOCATION">UserName：</label>
+                                        <input name="show" id="LOCATION">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewAGENT_EMP_NO">UserName：</label>
+                                        <input name="show" id="AGENT_EMP_NO">
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="control-label label" set-lan="html:ViewEDIT_EMP">UserName：</label>
+                                        <label name="show" id="EDIT_EMP"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block" onclick="edit()" ><i class="fa fa-pencil"></i> <lan set-lan="html:edit">Modify personal information</lan></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 set-lan="html:LateseNews">最新动态</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div id="ViewList">
+                            </div>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary btn-block m"><i class="fa fa-arrow-down"></i> <lan set-lan="html:ViewMore">显示更多</lan></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script>
+        $(document).ready(function () {
+            //顯示用戶個人信息
+
+            var param = "{\"EMP_NO\":\"" + self.parent.client.UserInfo.EMP_NO + "\"}";
+            self.parent.client.CallFunction("MESStation.MESUserManager.UserManager", "SelectInformation", JSON.parse(param), function (e) {
+                if (e.Status == "Pass") {
+                    for (var i = 0; i < e.Data.length; i++) {
+                        if (e.Data[i].EMP_NO == self.parent.client.UserInfo.EMP_NO) {
+                            var data = e.Data[i];
+                            var a, contentParma = "";
+                            for (a in data) {
+                                if (a == "ID" || a == "BU_NAME" || a == "FACTORY" || a == "EMP_LEVEL" || a == "EMP_NO" || a == "LOCK_FLAG" || a == "EDIT_EMP" || a == "EMP_PASSWORD" || a == "DPT_NAME") {
+                                    $("#OwnerDetail div div label[id=" + a + "]").html(data[a]);
+                                } else {
+                                    $("#OwnerDetail div div input[id=" + a + "]").val(data[a]);
+                                }
+
+                            }
+                        }
+                    }
+                } else {
+                    swal({
+                        title: "ALERT",
+                        text: e.Message,
+                        type: "warning",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+            });
+            var mesUI = new MesClientUI(self.parent.client);
+            mesUI.SetLanguage("ViewOwnerDetail");
+            
+            edit = function () {
+                var data = "{";
+
+                var dd = $("#OwnerDetail").find("[name=show]");
+                for (var item = 0; item < dd.length; item++) {
+                    var inputname = dd[item].id;
+                    if (inputname == "ID" || inputname == "BU_NAME" || inputname == "FACTORY" || inputname == "EMP_LEVEL" || inputname == "EMP_NO" ||
+                        inputname == "LOCK_FLAG" || inputname == "EDIT_EMP" || inputname == "EMP_PASSWORD" || inputname == "DPT_NAME") {
+                        //data += "\"" + inputname + "\":\"\",";
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname).html() + "\",";
+                    }
+                    else {
+                        data += "\"" + inputname + "\":\"" + $("#" + inputname).val() + "\",";
+                    }
+                }
+                data = data.substr(0, data.length - 1);
+                data += "}";
+                self.parent.client.CallFunction("MESStation.MESUserManager.UserManager", "UpdateUserInformation", JSON.parse(data), function (e) {
+                    if (e.Status == "Pass") {
+                        swal({
+                            title: "Success",
+                            text: e.Message,
+                            timer: 2000,
+                            type: "success",
+                            showConfirmButton: false
+                        });
+                        setTimeout(function () {
+                            $("#OwnerDetail").find(".form-control").val("");
+                        }, 2001);
+                    } else {
+                        swal({
+                            title: "Error",
+                            text: e.Message,
+                            type: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                })
+            };
+            //var JosnDataParam = [
+            //{ ParamName: "登錄名", Paramvalue: "H7100000" },
+            //{ ParamName: "姓名", Paramvalue: "張三" },
+            //{ ParamName: "員工號", Paramvalue: "H7100000" },
+            //{ ParamName: "事業處", Paramvalue: "CESBG" },
+            //{ ParamName: "部門", Paramvalue: "IT" },
+            //{ ParamName: "分機", Paramvalue: "560-12345" },
+            //{ ParamName: "傳真", Paramvalue: "" },
+            //{ ParamName: "電子郵箱", Paramvalue: "182000@mail.foxconn.com" },
+            //{ ParamName: "用戶描述", Paramvalue: "会点前端技术，div+css啊，jQuery之类的，不是很精；热爱生活，热爱互联网，热爱新技术；有一个小的团队，在不断的寻求新的突破。" }
+            //];
+            //var countParam = JosnDataParam.length;
+            //$("#OwnerDetail").html("");
+            //var contentParma = "";
+            //for (var p = 0; p < countParam; p++) {
+            //    if (JosnDataParam[p].Paramvalue.length > 50) {
+            //        contentParma = contentParma + "<div class=\'col-sm-12";
+            //    } else {
+            //        contentParma = contentParma + "<div class=\'col-sm-6";
+            //    }
+            //    contentParma = contentParma + " margintop10 marginbottom10\'><span class=\'label\'>" + JosnDataParam[p].ParamName + " :</span>&nbsp;&nbsp;<lable>";
+            //    contentParma = contentParma + JosnDataParam[p].Paramvalue + "</lable></div>";
+            //}
+            //$("#OwnerDetail").append(contentParma);
+
+            //添加訪問記錄信息
+            //var JosnData = [
+            //{ action: "您瀏覽了", name: "路由瀏覽頁面", time: "30分钟前" },
+            //{ action: "您瀏覽了", name: "路由清單頁面", time: "45分钟前" },
+            //{ action: "您瀏覽了", name: "個人頁面", time: "1小時30分钟前" },
+            //{ action: "您瀏覽了", name: "關於我們", time: "3小時" },
+            //{ action: "您上傳了", name: "料號清單", time: "1天前" },
+            //{ action: "您刪除了", name: "路由RMA000001", time: "1天前" }
+            //];
+            //var count = JosnData.length;
+            //$("#ViewList").html("");
+            //var content = "";
+            //for (var i = 0; i < count; i++) {
+            //    content = content + "<div class=\'feed-element\'><div class=\'media-body\'><small class=\'pull-right";
+            //    if (i == 0) {
+            //        content = content + " text-navy";
+            //    }
+            //    content = content + "\'>" + JosnData[i].time + "</small><span>" + JosnData[i].action + "</span> <strong>" + JosnData[i].name + "</strong>.</div></div>";
+            //}
+            //$("#ViewList").append(content);
+        });
+    </script>
+</body>
+</html>

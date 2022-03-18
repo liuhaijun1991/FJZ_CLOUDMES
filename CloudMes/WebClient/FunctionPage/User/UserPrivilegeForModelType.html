@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>UserPrivilegeForModelType</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <!--標題欄 -->
+        <div class="panel-heading bg-primary">
+            <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:roleprivilege">User privilege manager</span></h3>
+        </div>
+        <div class="ibox-content">
+            <!--主頁面-->
+            <div id="UserPrivilegeView">
+                <!--快速搜索欄-->
+                <div class="row">
+                    <!--col-xs:手機屏幕<768px;sm:平板<992;md:桌面顯示器<1200;lg:大屏>1200-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="col-xs-5   col-sm-6  col-md-5  col-lg-4 col-xs-offset-2">
+                                <input type="text" set-lan="attr:placeholder=placeholderuserrole" oninput="TextChange()" class="form-control" id="SearchText">
+                            </div>
+                            <div class="col-xs-3   col-sm-2 col-md-2  col-lg-1">
+                                <button class="btn btn-primary" id="Search"><i class="fa fa-search"><lan set-lan="html:Search">Search</lan></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="bootstrap-table">
+                            <!--增加/刪除欄-->
+                            <div class="fixed-table-toolbar">
+                                <div class="bs-bars pull-left">
+                                    <div class="btn-group " id="exampleTableEventsToolbar" role="group">
+                                        <button type="button" class="btn btn-outline btn-default" id="AddUserPrivilege">
+                                            <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:add">Add</lan>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-default" id="DelUserPrivilege">
+                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:delete">Delete</lan>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--用戶名列表-->
+                            <table id="UserInformation" class="table table-hover "></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--點擊增加權限后,顯示的頁面-->
+            <div id="UserPrivilegeModal" style="display:none;">
+                <!--返回欄-->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;margin-top: -10px;">
+                        <button type="button" class="btn btn-primary" id="GoBack"><i class="fa fa-step-backward"></i> <lan set-lan="html:back">back</lan></button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="divUserPrivilegeAdd" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display:none;">
+                            <!--員工信息欄-->
+                            <div class="row ">
+                                <div class="col-md-12 col-sm-12 col-md-12 col-lg-12 ">
+                                    <!--顯示工號-->
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h3 class="col-xs-5 col-sm-5 col-md-5 col-lg-5 control-label text-right" set-lan="html:Edit_EMP">Edit_EMP:</h3>
+                                            <h3 class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-left" id="Edit_EMP"></h3> 
+                                        </div>
+                                    </div>
+                                    <!--顯示姓名-->
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <h3 class="col-xs-5 col-sm-5 col-md-5 col-lg-5 control-label text-right" set-lan="html:Edit_NAME">Edit_NAME:</h3>
+                                            <h3 class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-left" id="Edit_NAME" ></h3> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+                            <!--權限列表,其中包含搜索欄-->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="bootstrap-table">
+                                    <table id="Privilegelist" class="table table-hover"></table>
+                                </div>
+                            </div>
+                            <!--權限添加確認按鈕-->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                    <div id="AddPrivilegeBtn" style="display:none;">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" id="AddConfirm"><i class="fa fa-pencil" set-lan="html:ConfirmNewPermissions">Confirm new permission</i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--權限添加刪除按鈕-->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                    <div id="DelUserPrivilegeBtn" style="display:none;">
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="button" class="btn btn-primary" id="DelConfirm"><i class="fa fa-pencil"></i> <lan set-lan="html:ConfirmDeletingPermissions">Confirm Delete Permission</lan></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/content.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/WebSocketClient.js"></script>
+
+
+    <script src="../../Scripts/contabs.js"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/pace/pace.min.js"></script>
+    <script src="../../Scripts/plugins/iCheck/icheck.min.js"></script>
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script>
+        var ClassName = "";
+        var FunctionName = "";
+        var LoginName = self.parent.client.UserInfo.EMP_NO;
+        var LoginLevel = self.parent.client.UserInfo.EMP_LEVEL;
+        var mesUI = new MesClientUI(self.parent.client);
+        //用于bootstrapTable.locale: tableLocale 支持語言屬性
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        $(document).ready(function () {     
+            //改變頁面的語言
+            mesUI.SetLanguage("UserPrivilegeForModelType");
+            $("#GoBack").click(function () {
+                ClearAll();
+            });
+            //初始化bootstrapTable.locale: tableLocale 支持語言屬性
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            // ---------------------------------用户权限管理模块---------------------------------//
+            // 為主界面的快速搜索按鈕綁定click事件
+            $("#Search").click(function () {
+                Search();
+            });
+            //為主界面的快速搜索輸入框綁定keyup事件
+            $("#SearchText").keyup(function(event){
+                if (event.keyCode == 13) {
+                    Search();
+                }
+            });
+
+            //增加用戶权限管理:從登陸用戶有的權限列表中,只取受分配員工沒有權限的列表
+            $("#AddUserPrivilege").click(function () {
+                var PrivilegeFlag = false;
+                //等級為0的沒有權限進行新增操作
+                if (LoginLevel !="0") {
+                    UserPrivilegeAdd();
+                }
+                else {
+                    if (PrivilegeFlag) {
+                        UserPrivilegeAdd();
+                    }
+                    else {
+                        MessageAlert("ERROR", "Do not have permission to add！！");
+                        return;
+                    }
+                }
+            });
+          
+            //刪除用戶權限
+            $("#DelUserPrivilege").click(function () {
+                var PrivilegeFlag = false;
+                //權限等于0帳戶沒有權限作刪除操作
+                if (LoginLevel !="0") {
+                    UserPrivilegeDelete();
+                }
+                else {
+                    MessageAlert("ERROR", "No permission to delete！！");
+                        return;
+                }
+            });
+           
+            //Add点击SAVE触发事件
+            $("#AddConfirm").click(function () {
+                //獲取Checked項
+                var SaveData = [];
+                var Selections = $("#Privilegelist").bootstrapTable('getSelections');
+                var IndexData = $("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpID = IndexData[0].ID;
+                //防止空值傳入
+                if (Selections.length <= 0) {
+                    MessageAlert("ERROR", "Please select the data to be added！");
+                    return;
+                }
+                //獲取所有選中的權限的C_Model_Type.ID
+                for (var i = 0; i < Selections.length; i++) {
+                    SaveData[i] = Selections[i].ID;
+                }
+                swal({
+                    title: "Are you sure you want to add this" + SaveData.length + "data?",
+                    text: "数据无价，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#f8bb86",
+                    confirmButtonText: "Insert",
+                    closeOnConfirm: false
+                }, function () {
+                    //完成權限添加
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "AddUserPrivilegeForModelType";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmpID: EditEmpID, ID_ITEMS: SaveData }, function (e) {
+                        if (e.Status == "Pass") {
+                            MessageAlert("OK", "你操作的数据已更新成功！");
+                            ClearAll();
+                            $("#UserPrivilegeView").show();
+                            $("#UserPrivilegeModal").hide();
+                        }
+                        else {
+                            MessageAlert("ERROR", "你操作的数据更新失敗,請稍後重試！");
+                            return;
+                        }
+                    })
+                });
+            });
+            //Del点击删除触发事件
+            $("#DelConfirm").click(function ()  {
+                //獲取Checked項
+                var SaveData = [];
+                var Selections = $("#Privilegelist").bootstrapTable('getSelections');
+                var IndexData=$("#UserInformation").bootstrapTable('getSelections');
+                var EditEmpID = IndexData[0].ID;
+                //防止空值傳入
+                if (Selections.length <= 0) {
+                    MessageAlert("ERROR", "请选择需要添加的数据！");
+                    return;
+                }
+                //獲取選中所有選擇的權限
+                for (var i = 0; i < Selections.length; i++) {
+                    SaveData[i] = Selections[i].ID;
+                }
+                swal({
+                    title: "您确定要删除这" + SaveData.length + "条信息吗",
+                    text: "删除后将无法恢复，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Delete",
+                    closeOnConfirm: false
+                }, function () {
+                    //完成權限刪除
+                    ClassName = "MESStation.MESUserManager.UserPrivilege";
+                    FunctionName = "DeleteModelUserPrivilege";
+                    self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmpID: EditEmpID, ID_ITEMS: SaveData }, function (e) {
+                        if (e.Status == "Pass") {
+                            MessageAlert("OK", "你操作的数据已删除成功！");
+                            ClearAll();
+                            $("#UserPrivilegeView").show();
+                            $("#UserPrivilegeModal").hide();
+                        }
+                        else {
+                            MessageAlert("ERROR", "你操作的数据更新失敗,請稍後重試！");
+                            return;
+                        }
+                    });
+                });
+            });
+            //創建表格
+            LoadData(false); 
+            // ---------------------------------------END---------------------------------------//
+                      
+        });
+        //點擊查詢按鈕
+        function Search() {
+            var SearchValue = "";
+            SearchValue = $.trim($("#SearchText").val()).toUpperCase();
+            //查詢出所有員工信息調用LoadData(true)并加載
+            if (SearchValue == "") {
+                LoadData(true);
+            }//否則依工號查詢
+            else {
+                //該函數:9級可操作該廠區所有用戶;1級只可為本部門人員分配權限;0只可為本人分配權限
+                ClassName = "MESStation.MESUserManager.UserManager";
+                FunctionName = "LoadInformation";
+                self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: SearchValue }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            var UserData = [];
+                            UserData = e.Data;
+                            //得到列表
+                            $('#UserInformation').bootstrapTable("load", UserData);
+                           
+                        } else {
+                            MessageAlert("ERROR", "查不到該工號！");
+                        }
+                    } else {
+                        MessageAlert("ERROR", "查不到該工號！");
+                    }
+                });
+            }           
+        }
+
+        //只有當輸入框為空時調用,依工號查詢需要點擊查詢按鈕
+        function TextChange() {
+            if ($("#SearchText").val() == "")
+            {
+                LoadData(true);
+            }
+        };
+
+        //顯示用戶界面,隱藏權限分配頁面,重新加載用戶信息
+        function ClearAll() {
+            //顯示用戶界面,隱藏權限分配頁面
+            $("#UserPrivilegeView").show();
+            $("#UserPrivilegeModal").hide();
+            var SearchValue = "";
+            SearchValue = $.trim($("#SearchText").val()).toUpperCase();
+            //重新加載用戶信息
+            ClassName = "MESStation.MESUserManager.UserManager";
+            FunctionName = "LoadInformation";
+            self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: SearchValue }, function (e) {
+                if (e.Status == "Pass") {
+                    var UserData = [];
+                    UserData = e.Data;
+                    $("#UserInformation").bootstrapTable("load", UserData);
+                }
+            });
+            //清除權限分配頁面的工號&姓名信息
+            $("#Edit_EMP").html("");
+            $("#Edit_NAME").html("");
+        }
+        //點擊刪除權限后,進入權限刪除頁面
+        function UserPrivilegeDelete() {
+            var Selections = $("#UserInformation").bootstrapTable('getSelections');
+            var EditEmpno = "";
+            var j = 0;
+            if (Selections.length != 1) {
+                MessageAlert("ERROR", "只能選中一行數據或選擇數據為空！");
+                return;
+            }
+            else {
+                //Call Function 獲取對應所有的權限
+                EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+                ClassName = "MESStation.MESUserManager.UserPrivilege";
+                FunctionName = "SelectModelTypePrivilege";
+                self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: EditEmpno }, function (e) {
+                    if (e.Status == "Pass") {
+                        if (e.Data.length > 0) {
+                            $("#Edit_EMP").html(Selections[0].EMP_NO);
+                            $("#Edit_NAME").html(Selections[0].EMP_NAME);
+                            $("#Privilegelist").bootstrapTable('destroy');
+                            ShowTable(e.Data, "#Privilegelist", false);
+                           
+                            $("#UserPrivilegeView").hide();
+                            $("#UserPrivilegeModal").show();
+                            $("#divUserPrivilegeAdd").show();
+                            $("#AddPrivilegeBtn").hide();
+                            $("#DelUserPrivilegeBtn").show();
+                        }
+                        else {
+                            MessageAlert("ERROR", "此用戶沒有權限！");
+                            return;
+                        }
+
+                    }
+                    else {
+                        MessageAlert("ERROR", "數據庫中不存在資料！");
+                        return;
+                    }
+                })
+            }
+        }
+        //點擊新增權限后,進入權限分配頁面
+        function UserPrivilegeAdd() {
+            var Selections = $("#UserInformation").bootstrapTable('getSelections');
+            var EditEmpno = "";
+            if (Selections.length < 1 || Selections.length > 1) {
+                MessageAlert("ERROR", "请選择一行數據进行操作！");
+                return;
+            }
+            EditEmpno = Selections[0].EMP_NO.toUpperCase().replace(/^\s+|\s+$/g, "");
+            //從登陸用戶有的權限列表中,只取受分配員工沒有權限的列表
+            ClassName = "MESStation.MESUserManager.UserPrivilege";
+            FunctionName = "PrivilegeForModelType";
+            self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: EditEmpno }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.length > 0) {
+                        //重新刷新權限列表:工號/姓名,重新加載權限列表
+                        $("#Edit_EMP").html(Selections[0].EMP_NO);
+                        $("#Edit_NAME").html( Selections[0].EMP_NAME);
+                        $("#Privilegelist").bootstrapTable('destroy');
+                        ShowTable(e.Data, "#Privilegelist", false);
+                      
+                        //隱藏主界面
+                        $("#UserPrivilegeView").hide();
+                        //顯示權限添加頁面
+                        $("#UserPrivilegeModal").show();
+                        $("#divUserPrivilegeAdd").show();
+                        //顯示添加確認按鈕,隱藏刪除確認扭鈕
+                        $("#AddPrivilegeBtn").show();
+                        $("#DelUserPrivilegeBtn").hide();
+                    }
+                    else {
+                        MessageAlert("ERROR", "對方已擁有你全部權限！");
+                        return;
+                    }
+                }
+                else {
+                    MessageAlert("ERROR", "數據庫中不存在資料！");
+                    return;
+                }
+            });
+        }
+        //初始化Table,并加載數據:CheckFlag為True則表示列表支持行展開
+        function ShowTable(Data, TableName, CheckFlag) {
+            var fie = [];
+            //var checkbox = "";
+            //列名設定
+            fie.push({ title: 'checkall', field: 'checkall', checkbox: true, align: 'center' });
+            //fie.push({ field: 'ID', title: '<label set-lan="html:ID">ID</label>' }, { field: 'FACTORY', title: '<label set-lan="html:FACTORY">FACTORY</label>' }, { field: 'BU_NAME', title: '<label set-lan="html:BU_NAME">BU_NAME</label>' }, { field: 'EMP_NO', title: '<label set-lan="html:EMP_NO">EMP_NO</label>' }, { field: 'EMP_NAME', title: '<label set-lan="html:EMP_NAME">EMP_NAME</label>' }, { field: 'DPT_NAME', title: '<label set-lan="html:DPT_NAME">DPT_NAME</label>' }, { field: 'LOCATION', title: '<label set-lan="html:LOCATION">LOCATION</label>' }, { field: 'EDIT_EMP', title: '<label set-lan="html:EDIT_EMP">EDIT_EMP</label>' });
+            for (var item in Data[0]) {
+                fie.push({ field: item, title: '<label set-lan="html:' + item + '">' + item + '</label> ' });
+            }
+
+            if (CheckFlag) {
+                $(TableName).bootstrapTable({
+                    data: Data,                          //數據源
+                    striped: false,                      //是否显示行间隔色
+                    cache: false,                       //是否使用缓存，默认为true
+                    pagination: true,                   //是否显示分页（*）
+                    sortable: false,                     //是否启用排序
+                    sortOrder: "asc",                   //排序方式
+                    sidePagination: "client",
+                    pageNumber: 1,                       //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    search: false,                     //不自帶搜索功能
+                    strictSearch: false,               //自帶搜索功能中,是否區分大小寫
+                    searchOnEnterKey: true,            //自帶搜索功能中,是否采用回车才執行搜索動作
+                    showColumns: false,
+                    showRefresh: false,                  //是否显示刷新按钮
+                    minimumCountColumns: 2,             //最少允许的列数
+                    clickToSelect: true,                //是否启用点击选中行
+                    singleSelect: false,
+                    showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                    //是否显示详细视图
+                    detailView: true,
+                    dataType: "json",//期待返回数据类型
+                    buttonsAlign: "left",//按钮对齐方式
+                    toolbar: "#toolbar",//指定工具栏
+                    toolbarAlign: "left",//工具栏对齐方式
+                    columns: fie,                      //列名
+                    //當展開一行時觸發
+                    onExpandRow: function (index, row, $detail) {
+                        var parentid = row.EMP_NO;
+                        var DataSource = [];//數據源
+                        var c = [];//列名
+                        ClassName = "MESStation.MESUserManager.UserPrivilege";
+                        FunctionName = "SelectModelTypePrivilege";
+                        self.parent.client.CallFunction(ClassName, FunctionName, { LoginUserEmp: LoginName, EditEmp: parentid }, function (e) {
+                            if (e.Data.length > 0) {
+                                DataSource = e.Data;
+                                for (var item in DataSource[0]) {
+                                    c.push({ field: item, title: '<label set-lan="html:' + item + '">' + item + '</label> ' });
+                                }
+                                //為$detail添加Table元素
+                                var cur_table = $detail.html('<table id="SonTable"></table>').find('table');
+                                $(cur_table).bootstrapTable({
+                                    data: DataSource,
+                                    striped: false,                      //是否显示行间隔色
+                                    cache: false,                       //是否使用缓存，默认为true
+                                    pagination: true,                   //是否显示分页（*）
+                                    sortable: false,                     //是否启用排序
+                                    sortOrder: "asc",                   //排序方式
+                                    sidePagination: "client",
+                                    pageNumber: 1,                       //初始化加载第一页，默认第一页
+                                    pageSize: 10,                       //每页的记录行数（*）
+                                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                                    search: false,
+                                    strictSearch: false,
+                                    searchOnEnterKey: true,            //回车搜索
+                                    showColumns: false,
+                                    showRefresh: false,                  //是否显示刷新按钮
+                                    minimumCountColumns: 2,             //最少允许的列数
+                                    clickToSelect: true,                //是否启用点击选中行
+                                    singleSelect: false,
+                                    showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                                    cardView: false,                    //是否显示详细视图
+                                    detailView: false,
+                                    dataType: "json",//期待返回数据类型
+                                    buttonsAlign: "left",//按钮对齐方式
+                                    toolbar: "#toolbar",//指定工具栏
+                                    toolbarAlign: "left",//工具栏对齐方式
+                                    columns: c
+                                })
+                                $(cur_table).bootstrapTable('hideColumn', 'ID');
+                                mesUI.SetLanguage("UserPrivilegeForModelType");
+                            }
+                        });
+                        
+                    },
+                    locale: tableLocale//中文支持,
+                });
+              
+                $(TableName).bootstrapTable('hideColumn', 'EMP_PASSWORD');
+                $(TableName).bootstrapTable('hideColumn', 'EMP_LEVEL');
+                $(TableName).bootstrapTable('hideColumn', 'POSITION_NAME');
+                $(TableName).bootstrapTable('hideColumn', 'MAIL_ADDRESS');
+                $(TableName).bootstrapTable('hideColumn', 'PHONE_NUMBER');
+                $(TableName).bootstrapTable('hideColumn', 'LOCK_FLAG');
+                $(TableName).bootstrapTable('hideColumn', 'AGENT_EMP_NO');
+                $(TableName).bootstrapTable('hideColumn', 'EMP_DESC');
+                $(TableName).bootstrapTable('hideColumn', 'EMP_EN_NAME');
+
+            }
+            else {
+                $(TableName).bootstrapTable({
+                    data: Data,
+                    striped: false,                      //是否显示行间隔色
+                    cache: false,                       //是否使用缓存，默认为true
+                    pagination: true,                   //是否显示分页（*）
+                    sortable: false,                     //是否启用排序
+                    sortOrder: "asc",                   //排序方式
+                    sidePagination: "client",
+                    pageNumber: 1,                       //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    search: true,                      //自帶搜索功能
+                    strictSearch: false,              //自帶搜索功能中,是否區分大小寫
+                    searchOnEnterKey: false,            //自帶搜索功能中,是否采用回车才執行搜索動作
+                    showColumns: false,
+                    showRefresh: false,//是否显示刷新按钮
+                    maintainSelected: true,
+                    minimumCountColumns: 2,             //最少允许的列数
+                    clickToSelect: true,                //是否启用点击选中行
+                    singleSelect: false,
+                    showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                    //是否显示详细视图
+                    detailView: false,
+                    dataType: "json",//期待返回数据类型
+                    buttonsAlign: "left",//按钮对齐方式
+                    toolbar: "#toolbar",//指定工具栏
+                    toolbarAlign: "left",//工具栏对齐方式
+                    columns: fie,
+                    locale: tableLocale,//中文支持,
+                });
+            }
+            $(TableName).bootstrapTable('hideColumn', 'ID');
+            mesUI.SetLanguage("UserPrivilegeForModelType");
+        }
+        //MessageAlert列表
+        function MessageAlert(MsgType, MsgTitle) {
+            if (MsgType == "ERROR") {
+                swal({
+                    title: MsgTitle,
+                    text: "温馨提示：数据无价，请谨慎操作！",
+                    type: "warning",
+                    timer: 5000,
+                    showConfirmButton: true
+                });
+                return;
+            }
+            if (MsgType == "OK") {
+                swal({
+                    title: MsgTitle,
+                    text: "温馨提示：数据无价，请谨慎操作！",
+                    type: "success",
+                    timer: 5000,
+                    showConfirmButton: true
+                });
+                return;
+            }
+        }
+        //依據員工等級查詢出相應員工信息,并加載到Table中
+        function LoadData(SearchNull) {
+            //該函數:9級可操作該廠區所有用戶;1級只可為本部門人員分配權限;0只可為本人分配權限
+            ClassName = "MESStation.MESUserManager.UserManager";
+            FunctionName = "LoadInformation";
+            self.parent.client.CallFunction(ClassName, FunctionName, { PageRow: "", PageCount: "", emp_no: "" }, function (e) {
+                if (e.Status == "Pass") {
+                    if (e.Data.length > 0) {
+                        //SearchNull為True,則直接加載數據
+                        if (SearchNull) {
+                            $('#UserInformation').bootstrapTable("load", e.Data);
+                        }//否則需要初始化Table,并加載數據
+                        else {
+                            ShowTable(e.Data, "#UserInformation", true);
+                        }
+                    }
+                }
+                else {
+                    MessageAlert("ERROR", "沒有找到對應的數據！");
+                    return;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

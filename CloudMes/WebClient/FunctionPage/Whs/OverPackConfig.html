@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">Over Pack Config</title>
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .datetimepicker {
+            z-index: 99999999 !important;
+        }
+
+        table, td, th {
+            margin: 0;
+            padding: 0 5px 2px;
+            vertical-align: middle;
+            text-align: left;
+            border-color: white !important;
+        }
+
+        thead th {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 19px;
+            padding: 0 8px 2px;
+            text-align: center;
+            background: #375A7F !important;
+            color: white;
+        }
+    </style>
+</head>
+<body class="full-height">
+    <div class="panel-body">
+        <div id="toolbar">
+            <button type="button" class="btn btn-outline btn-primary" id="New">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+            </button>
+            <button type="button" class="btn btn-outline btn-primary" id="Edit" disabled>
+                <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+            </button>
+        </div>
+        <table id="DataTable" class="table table-condensed"></table>
+    </div>
+    <div class="panel-body hidden" id="OverPack">
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">Skuno：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="Skuno" id="Skuno" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">PackQTY：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" name="PackQTY" id="PackQTY" />
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="col-xs-4 control-label">PrintType：</label>
+            <div class="col-xs-8">
+                <select class="form-control" name="PrintType" id="PrintType"></select>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapDateTimePicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script type="text/javascript">
+        var client = self.parent.client;
+
+        function operateFormatter(value, row, index) {
+            return [
+                '<button type="button" class="Edit btn btn-primary  btn-sm" style="margin-right:15px;">Edit</button>',
+                '<button type="button" class="Delete btn btn-danger  btn-sm" style="margin-right:15px;">Delete</button>'
+            ].join('');
+        }
+
+        window.operateEvents = {
+            'click .Edit': function (e, value, row, index) {
+                Edit(row);
+            },
+            'click .Delete': function (e, value, row, index) {
+                Delete(row);
+            }
+        };
+
+        var Init = function () {
+            $("#Edit").attr("disabled", "disabled");
+            client.CallFunction("MESStation.Config.DCN.OverPackConfigAPI", "GetPrintTypeList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    var pt = $("#PrintType");
+                    pt.empty();
+                    for (var i = 0; i < e.Data.length; i++) {
+                        pt.append("<option value=\"" + e.Data[i] + "\">" + e.Data[i] + "</option>");
+                    }
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        timer: 5000
+                    });
+                    return;
+                }
+            });
+        };
+
+        var GetData = function () {
+            client.CallFunction("MESStation.Config.DCN.OverPackConfigAPI", "GetOverPackConfigList", {}, function (e) {
+                if (e.Status == "Pass") {
+                    ShowTable(e.Data);
+                } else {
+                    ShowtTable([]);
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        timer: 5000
+                    });
+                    return;
+                }
+            });
+        }        
+
+        var ShowTable = function (data) {
+            $('#DataTable').bootstrapTable('destroy');
+            $('#DataTable').bootstrapTable({
+                data: data,
+                toolbar: "#toolbar",
+                striped: true,
+                pagination: true,
+                clickToSelect: true,
+                search: true,
+                trimOnSearch: true,
+                showRefresh: true,
+                onRefresh: function (param) {
+                    GetData();
+                },
+                onCheck: function (row) {
+                    var rows = $('#DataTable').bootstrapTable('getSelections');
+                    if (rows.length > 1 || rows.length <= 0) {
+                        $("#Edit").attr("disabled", "disabled");
+                    } else {
+                        $("#Edit").removeAttr("disabled");
+                    }
+                },
+                onUncheck: function (row) {
+                    var rows = $('#DataTable').bootstrapTable('getSelections');
+                    if (rows.length > 1 || rows.length <= 0) {
+                        $("#Edit").attr("disabled", "disabled");
+                    } else {
+                        $("#Edit").removeAttr("disabled")
+                    }
+                },
+                onCheckAll: function (rowsAfter, rowsBefore) {
+                    $("#Edit").attr("disabled", "disabled");
+                },
+                onUncheckAll: function (rowsAfter, rowsBefore) {
+                    $("#Edit").attr("disabled", "disabled");
+                },
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        field: 'Skuno',
+                        title: 'Skuno',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'PackQTY',
+                        title: 'PackQTY',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'PrintType',
+                        title: 'PrintType',
+                        align: "center",
+                        sortable: true,
+                    }, {
+                        field: 'EDIT_EMP',
+                        title: 'EDIT_EMP',
+                        align: "center"
+                    }, {
+                        field: 'EDIT_TIME',
+                        title: 'EDIT_TIME',
+                        sortable: true,
+                        align: "center"
+                    }, {
+                        field: 'operate',
+                        title: 'Operation',
+                        width:'155px',
+                        align: 'center',
+                        events: "operateEvents",
+                        formatter: operateFormatter
+                    }
+                ]
+            });
+        };
+
+        var Edit = function (obj) {
+            obj = obj ? obj : {
+                Skuno: "",
+                PackQTY: "",
+                PrintType: ""
+            }
+            layer.open({
+                title: 'Edit Over Pack',
+                type: 1,
+                area: ['400px', '300px'],
+                content: $('#OverPack'),
+                btn: ['Submit', 'Cancel'],
+                yes: function (index, layero) {
+                    for (var item in obj) {
+                        if (layero.find("#" + item).length > 0) {
+                            var v = layero.find("#" + item).val();
+                            if (v == undefined || v == "") {
+                                layer.msg(item + " can not be null!", {
+                                    icon: 2,
+                                    timer: 5000
+                                });
+                                return false;
+                            }
+                            obj[item] = v;
+                        }
+                    }
+                    layer.load(2, { shade: [0.8, '#393D49'] });
+                    client.CallFunction("MESStation.Config.DCN.OverPackConfigAPI", "SaveOverPackConfig", { JSONDATA: obj }, function (e) {
+                        layer.closeAll("loading");
+                        if (e.Status == "Pass") {
+                            layer.close(index);
+                            layer.msg('OK!', { icon: 1, timer: 5000 });
+                            Init();
+                            GetData();
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                timer: 5000
+                            });
+                        }
+                    });
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                },
+                success: function (layero, index) {
+                    $("#OverPack").removeClass("hidden");
+                    for (var item in obj) {
+                        if (layero.find("#" + item)) {
+                            layero.find("#" + item).val(obj[item]);
+                        }
+                    }
+                },
+                end: function () {
+                    $("#OverPack").addClass("hidden");
+                    $("#OverPack input").val('');
+                }
+            });
+        };
+
+        var Delete = function (obj) {
+            if (obj == undefined || obj == null) {
+                layer.msg("Can not delete undefined!", {
+                    icon: 2,
+                    timer: 5000
+                });
+            }
+            layer.load(2, { shade: [0.8, '#393D49'] });
+            client.CallFunction("MESStation.Config.DCN.OverPackConfigAPI", "DeleteOverPackConfig", { JSONDATA: obj }, function (e) {
+                layer.closeAll("loading");
+                if (e.Status == "Pass") {
+                    layer.msg('OK!', { icon: 1, timer: 5000 });
+                    GetData();
+                } else {
+                    layer.msg(e.Message, {
+                        icon: 2,
+                        timer: 5000
+                    });
+                }
+            });
+        };
+
+        $(document).ready(function () {
+            Init();
+            GetData();
+            $("#New").on("click", function (e) {
+                Edit();
+            });
+            $("#Edit").on("click", function (e) {
+                var rows = $('#DataTable').bootstrapTable("getSelections");
+                if (rows.length == 0) {
+                    layer.msg("Please select a record!", {
+                        icon: 2,
+                        timer: 5000
+                    });
+                } else if (rows.length > 1) {
+                    layer.msg("Only a record can !", {
+                        icon: 2,
+                        timer: 5000
+                    });
+                } else {
+                    Edit(rows[0]);
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

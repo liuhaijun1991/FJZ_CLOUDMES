@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Repair Station</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../Scripts/plugins/layer/layui.css" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootswatch/bootstrap.min.default.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+
+        .ouput {
+            font-size: 1.5rem !important;
+        }
+
+            .ouput .form-group {
+                width: 100%;
+                float: left;
+                border-bottom: 1px dotted #337ab7;
+                padding: 0 !important;
+                margin-right: 15px;
+                margin-bottom: 0px;
+                padding-top: 8px !important;
+            }
+
+                .ouput .form-group label {
+                    padding: 0 15px 0 0 !important;
+                    margin: 0;
+                    font-size: initial;
+                    float: left;
+                    width: auto;
+                }
+
+                .ouput .form-group div {
+                    width: auto;
+                    padding: 0px !important;
+                    min-height: 18px;
+                }
+
+        #INPUT_BUTTON_SITE div {
+            padding-left: 5px;
+            padding-bottom: 5px;
+        }
+
+        .form-group .control-label {
+            padding: 5px;
+        }
+
+        #INPUT_SITE > div {
+            margin-top: 15px;
+        }
+
+        .head-bg-primary thead {
+            background-color: #2e6da4 !important;
+        }
+
+            .head-bg-primary thead > tr > th {
+                background-color: #2e6da4 !important;
+                color: white;
+            }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="row-fluid well" style="margin-bottom:0 !important">
+        <div class="row" style="margin-bottom:5px;" id="INPUT_BUTTON_SITE">
+            <!--按鈕begin-->
+            <div id="INPUT_COMFIRM">
+
+            </div>
+            <div id="INPUT_REPLACE">
+
+            </div>
+            <div id="INPUT_RESET">
+                <button type="button" class="btn btn-primary" id="btnReset">
+                    <span class="glyphicon glyphicon-refresh"></span> Reset
+                </button>
+            </div>
+        </div><!--按鈕end-->
+        <hr class="bg-info" />
+        <div class="row">
+            <!--SN輸入begin-->
+            <div class="col-xs-12 col-sm-12 col-md-4" id="INPUT_SN">
+
+            </div>
+        </div><!--SN輸入end-->
+        <hr class="bg-info" />
+        <div class="row ouput">
+            <div class="col-xs-12">
+                <div class="col-xs-12 col-sm-4" id="OUTPUT_WO">
+
+                </div>
+                <div class="col-xs-12 col-sm-4" id="OUTPUT_SKUNO">
+
+                </div>
+                <div class="col-xs-12 col-sm-4" id="OUTPUT_REPAIR_COUNT">
+
+                </div>
+            </div>
+        </div>
+        <hr class="bg-info" />
+        <div class="row">
+            <!--Fail信息顯示begin-->
+            <div class="col-xs-12 col-sm-12 col-md-4 ouput">
+                <div class="col-xs-12" style="margin-bottom:5px;" id="OUTPUT_FAILCODID">
+
+                </div>
+                <div class="col-xs-12" style="margin-bottom:5px;" id="OUTPUT_FAIL_LINE">
+
+                </div>
+                <div class="col-xs-12" style="margin-bottom:5px;" id="OUTPUT_FAIL_SHIFT">
+
+                </div>
+                <div class="col-xs-12" style="margin-bottom:5px;" id="OUTPUT_FAIL_STATION">
+
+                </div>
+                <div class="col-xs-12" style="margin-bottom:5px;" id="OUTPUT_FAIL_DATE">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-8 head-bg-primary" id="OUTPUT_FAIL_LIST" style=" max-height:170px; overflow-y:scroll;">
+
+            </div>
+        </div><!--Fail信息顯示end-->
+        <hr class="bg-info" />
+        <div class="row" id="INPUT_SITE">
+            <!--輸入內容begin-->
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_ACTIONCODE">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 ouput" id="OUTPUT_ACTIONDESC">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_ERRORCODE">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 ouput" id="OUTPUT_ROOTCAUSE">
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_PART_LIST">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_ORIGINAL_SN">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_REPLACE_MPN">
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3" id="INPUT_REPLACE_SN">
+
+            </div>
+            <div class="col-xs-12 col-sm-9" id="INPUT_REMARK">
+
+            </div>
+            <div class="col-xs-12 col-sm-3" id="INPUT_RETURN_STATION">
+
+            </div>
+        </div><!--輸入內容end-->
+        <hr class="bg-info" />
+        <div class="row" style="margin-top:15px;">
+            <!--頁面底部begin-->
+            <div class="col-xs-12 col-sm-12 col-md-3 head-bg-primary" style="height:273px;max-height:273px; overflow-y:scroll;" id="MESSAGE_SITE">
+                <!--左下角process log begin-->
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Message
+                            </th>
+                            <th>
+                                DateTime
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>......</td><td>......</td><td>......</td>
+                    </tbody>
+                </table>
+            </div><!--左下角process log end-->
+            <div class="col-xs-12 col-sm-12 col-md-9">
+                <!--右下角滑動欄begin-->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#OUTPUT_REPAIR_HIS" role="tab" data-toggle="tab">Repair His</a></li>
+                    <li role="presentation"><a href="#OUTPUT_ACTION_HIS" role="tab" data-toggle="tab">Action His</a></li>
+                    <li role="presentation"><a href="#OUTPUT_FAILCODE_HIS" role="tab" data-toggle="tab">Fail Code His</a></li>
+                    <li role="presentation"><a href="#OUTPUT_REPLACE_HIS" role="tab" data-toggle="tab">Replace His</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active head-bg-primary" id="OUTPUT_REPAIR_HIS" style=" max-height:180px; overflow-y:scroll;">
+                        
+                    </div>
+                    <div role="tabpanel" class="tab-pane head-bg-primary" id="OUTPUT_ACTION_HIS" style=" max-height:180px; overflow-y:scroll;">
+                        
+                    </div>
+                    <div role="tabpanel" class="tab-pane head-bg-primary" id="OUTPUT_FAILCODE_HIS" style=" max-height:180px; overflow-y:scroll;">
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane head-bg-primary" id="OUTPUT_REPLACE_HIS" style=" max-height:180px; overflow-y:scroll;">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>
+                                        Create Date
+                                    </th>
+                                    <th>
+                                        Fail Part No
+                                    </th>
+                                    <th>
+                                        Fail Serial No
+                                    </th>
+                                    <th>
+                                        Replace Part No
+                                    </th>
+                                    <th>
+                                        Replace Serial No
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-info">
+                                <tr><td>......</td><td>......</td><td>......</td><td>......</td><td>......</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!--右下角滑動欄end-->
+        </div><!--頁面底部end-->
+    </div>
+    <!--BEGIN CheckIn Window-->
+    <div class="modal bs-example-modal-md" id="modal-container-CheckIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabelCheckIn">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelCheckIn">Check In</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2 input-group input-group-sm" style="margin-bottom:5px;">
+                            <span class="input-group-addon" style=" width:100px;">SerialNo:</span>
+                            <div class="controls">
+                                <input id="Input_CheckInSN" type="text" class="form-control input-sm" onkeypress="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="CheckIn_ReSet">重置</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CheckIn Window-->
+    <!--BEGIN CheckOut Window-->
+    <div class="modal bs-example-modal-md" id="modal-container-CheckOut" tabindex="-1" role="dialog" aria-labelledby="myModalLabelCheckOut">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelCheckOut">Check Out</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2 input-group input-group-sm" style="margin-bottom:5px;">
+                            <span class="input-group-addon" style=" width:100px;">SerialNo:</span>
+                            <div class="controls">
+                                <input id="Input_CheckOutSN" type="text" class="form-control input-sm" onkeypress="return CheckOut(this,event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="CheckKpSize" style=" padding-left:100px;">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="CheckOut_ReSet" onclick="CheckOut(this,event)">重置</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CheckOut Window-->
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+    <script>
+        var Client = null;
+        var stationName = "";
+        var option = null;
+        var station = null;
+        var line = "Line1";
+        var mesUI = null;
+        $(document).ready(function () {
+            Client = self.parent.client;
+            line = "REPAIR"
+            stationName = $.MES.getQueryString("StationName");
+            option = {
+                Client: Client,
+                Line: line,
+                ScanType: "Pass",
+                Name: stationName,
+                MContainer: $("#MESSAGE_SITE"),
+                MessageShowType: undefined,
+                BeforeInit: function () {
+                    self.parent.Loading(true);
+                },
+                Init: function (d) {
+                    if (d.Status == "Pass") {
+                        station.ShowInput({
+                            InputName: "Fix",
+                            Scale: "0:8",
+                            Container: $("#INPUT_COMFIRM")
+                        });
+                        station.ShowInput({
+                            InputName: "SaveAction",
+                            Scale: "0:10",
+                            Container: $("#INPUT_REPLACE")
+                        });
+                        station.ShowInput({
+                            InputName: "SN",
+                            Scale: "2:10",
+                            Container: $("#INPUT_SN")
+                        });
+
+                        station.ShowOutput({
+                            OutputName: "WO",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_WO")
+                        });
+                        station.ShowOutput({
+                            OutputName: "SKUNO",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_SKUNO")
+                        });
+                        station.ShowOutput({
+                            OutputName: "RepairCount",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_REPAIR_COUNT")
+                        });
+                        station.ShowOutput({
+                            OutputName: "FAILID",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_FAILCODID")
+                        });
+                        station.ShowOutput({
+                            OutputName: "LINE",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_FAIL_LINE")
+                        });
+                        station.ShowOutput({
+                            OutputName: "SHIFT",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_FAIL_SHIFT")
+                        });
+                        station.ShowOutput({
+                            OutputName: "STATION",
+                            Scale: "2:10",
+                            Container: $("#OUTPUT_FAIL_STATION")
+                        });
+
+                        
+                        station.ShowInput({
+                            InputName: "FAILITEM",
+                            Field:'ID',
+                            Container: $("#OUTPUT_FAIL_LIST")
+                        });
+
+                        station.ShowInput({
+                            InputName: "ActionCode",
+                            Scale: "4:8",
+                            Container: $("#INPUT_ACTIONCODE")
+                        });
+
+                        station.ShowOutput({
+                            OutputName: "ActionDesc",
+                            Scale: "4:8",
+                            Container: $("#OUTPUT_ACTIONDESC")
+                        });
+
+                        station.ShowInput({
+                            InputName: "ErrorCode",
+                            Scale: "4:8",
+                            Container: $("#INPUT_ERRORCODE")
+                        });
+                        station.ShowOutput({
+                            OutputName: "RootCause",
+                            Scale: "4:8",
+                            Container: $("#OUTPUT_ROOTCAUSE")
+                        });
+                        station.ShowInput({
+                            InputName: "PARTNO",
+                            Scale: "4:8",
+                            Container: $("#INPUT_PART_LIST")
+                        });
+                        station.ShowInput({
+                            InputName: "OriginalSN",
+                            Scale: "4:8",
+                            Container: $("#INPUT_ORIGINAL_SN")
+                        });
+                        station.ShowInput({
+                            InputName: "ReplaceMPN",
+                            Scale: "4:8",
+                            Container: $("#INPUT_REPLACE_MPN")
+                        });
+                        station.ShowInput({
+                            InputName: "ReplaceSN",
+                            Scale: "4:8",
+                            Container: $("#INPUT_REPLACE_SN")
+                        });
+                        station.ShowInput({
+                            InputName: "Remark",
+                            Scale: "1:11",
+                            Container: $("#INPUT_REMARK")
+                        });
+                        station.ShowInput({
+                            InputName: "ReturnStation",
+                            Scale: "4:8",
+                            Container: $("#INPUT_RETURN_STATION")
+                        });
+
+
+                        station.ShowOutput({
+                            OutputName: "RepairHis",
+                            Container: $("#OUTPUT_REPAIR_HIS")
+                        });
+                        station.ShowOutput({
+                            OutputName: "ActionHis",
+                            Container: $("#OUTPUT_ACTION_HIS")
+                        });
+                        station.ShowOutput({
+                            OutputName: "FailHis",
+                            Container: $("#OUTPUT_FAILCODE_HIS")
+                        });
+                        station.ShowOutput({
+                            OutputName: "ReplaceHis",
+                            Container: $("#OUTPUT_REPLACE_HIS")
+                        });
+
+                    }
+                    else {
+                        swal("工站初始化失败！", d.Message, "error");
+                    }
+                }
+            };
+
+            station = new MesStation(option);
+            //$("#INPUT_COMFIRM").find(".col-xs-10").attr("class","col-xs-8");
+           
+
+            $("#btnReset").on("click", function (e) {
+                self.parent.Loading(true);
+                $("#MESSAGE_SITE").empty();
+                option.ScanType = station.ScanType;
+                station = new MesStation(option);
+            });
+        });
+    </script>
+</body>
+</html>

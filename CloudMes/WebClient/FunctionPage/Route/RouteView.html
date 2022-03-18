@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/iCheck/custom.css" rel="stylesheet" />
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .margintop0 {
+            margin-top: 0px;
+        }
+
+        .margintop5 {
+            margin-top: 5px;
+        }
+
+        marginbottom5 {
+            margin-bottom: 5px;
+        }
+
+        .margintop10 {
+            margin-top: 10px;
+        }
+
+        .marginbottom10 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2 set-lan="html:ViewRouteDetail">ViewRouteDetail</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 set-lan="html:RouteDetail">RouteDetail</h5>
+                    </div>
+                    <div class="ibox-content profile-content">
+                        <div class="row m-t-lg" style="margin-top: 0px;" id="RouteDetail">
+                            <div class="col-sm-12 margintop10 marginbottom10"><span class="label">RouteID :</span>&nbsp;&nbsp;<lable>PACE260-000222343444</lable></div>
+                            <div class="col-sm-3 margintop10 marginbottom10"><span class="label">RouteCategory :</span>&nbsp;&nbsp;<lable>PCBA</lable></div>
+                            <div class="col-sm-3 margintop10 marginbottom10"><span class="label">CustomerID :</span>&nbsp;&nbsp;<lable>PCAE</lable></div>
+                            <div class="col-sm-3 margintop10 marginbottom10"><span class="label">MineSkuno :</span>&nbsp;&nbsp;<lable>HHPN</lable></div>
+                            <div class="col-sm-12 margintop10 marginbottom10"><span class="label">RouteDesc :</span>&nbsp;&nbsp;<lable>Waiting...</lable></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 set-lan="html:RouteStationDetail">EventStationInfo</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="bootstrap-table">
+                            <table class="table table-hover " id="RouteList">
+                               
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content profile-content">
+                        <div class="user-button">
+                            <div class="row">
+                                <div class="col-sm-12 col-sm-offset-4">
+                                    <button type="button" class="btn btn-primary "><i class="fa fa-pencil"></i> <lan set-lan="html:edit">Edit</lan></button>
+                                    <button type="button" class="btn btn-primary "><i class="fa fa-arrow-up"></i> <lan set-lan="html:back">Goback</lan></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- Peity -->
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="../../Scripts/plugins/iCheck/icheck.min.js"></script>
+    <!-- 自定义js -->
+    <script src="../../Scripts/content.js?v=1.0.0"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            var count, content;
+            //加載路由的基本信息
+            var JsonParma = [
+                { ParamName: "RouteID", Paramvalue: "PACE260-000222343444" },
+                { ParamName: "RouteCategory", Paramvalue: "PCBA" },
+                { ParamName: "CustomerID", Paramvalue: "PCAE" },
+                { ParamName: "MineSkuno", Paramvalue: "HHPN" },
+                { ParamName: "RouteDesc", Paramvalue: "Waiting..." }
+            ];
+            $("#RouteDetail").html("");
+            count = JsonParma.length;
+            content = "";
+            for (var i = 0; i < count; i++) {
+                if (JsonParma[i].Paramvalue.length > 50) {
+                    content += "<div class=\'col-sm-12";
+                }
+                else if (JsonParma[i].Paramvalue.length > 30 && JsonParma[i].Paramvalue.length <= 50) {
+                    content += "<div class=\'col-sm-8";
+                }
+                else {
+                    content += "<div class=\'col-sm-4";
+                }
+                content += " margintop10 marginbottom10\'><span class=\'label\'>" + JsonParma[i].ParamName + " :</span>&nbsp;&nbsp;<lable>" + JsonParma[i].Paramvalue + "</lable></div>";
+            }
+            $("#RouteDetail").append(content);
+
+
+            //加載路由中工站的詳細信息
+            var JosnData = [
+            { EventSeqNo: 10, EventPoint: "SILOADING", NextEventPoint: "ASSY", RREventPoint: "", EventFeature: "", VirtualStation: "" },
+            { EventSeqNo: 20, EventPoint: "ASSY", NextEventPoint: "FT1", RREventPoint: "ASSY", EventFeature: "", VirtualStation: "" },
+            { EventSeqNo: 30, EventPoint: "FT1", NextEventPoint: "FT2", RREventPoint: "FT1", EventFeature: "", VirtualStation: "" },
+            { EventSeqNo: 40, EventPoint: "FT2", NextEventPoint: "MA1", RREventPoint: "FT1", EventFeature: "", VirtualStation: "" },
+            { EventSeqNo: 50, EventPoint: "MA1", NextEventPoint: "MC", RREventPoint: "FT1", EventFeature: "", VirtualStation: "" }
+            ];
+            $("#RouteList").bootstrapTable({
+                data: JosnData,
+                detailView: false,//父子表
+                clickToSelect: false,
+                pagination: true,
+                sidePagination: "client",
+                pageSize: 10,
+                pageList: [10, 25],
+                columns: [{
+                    field: 'EventSeqNo',
+                    title: 'EventSeqNo'
+                }, {
+                    field: 'EventPoint',
+                    title: 'EventPoint'
+                }, {
+                    field: 'NextEventPoint',
+                    title: 'NextEventPoint'
+                }, {
+                    field: 'RREventPoint',
+                    title: 'RREventPoint'
+                }, {
+                    field: 'EventFeature',
+                    title: 'EventFeature'
+                }, {
+                    field: 'VirtualStation',
+                    title: 'VirtualStation'
+                }]
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿<script src="../../../lib/layui/layui.js"></script>
+<script>
+    layui.link('../../../lib/layui/css/layui.css');
+</script>
+<style>
+    .layui-form-label {
+        padding: 9px 0px;
+    }
+
+    legend {
+        width: auto;
+        padding: 0;
+        margin-bottom: unset;
+        border-bottom: unset;
+    }
+</style>
+<div class="layui-row" style="margin:20px">
+    <div class="layui-form" lay-filter="DataConfig">
+        <input class="layui-hide" lay-filter="ConfigObjectID" name="ConfigObjectID" value="" />
+        <input class="layui-hide" lay-filter="ConfigObjectType" name="ConfigObjectType" value="" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">名稱</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="sourceName" lay-filter="sourceName" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">類型</label>
+            <div class="layui-input-block">
+                <select name="sourceType" lay-filter="sourceType" lay-verify="">
+                    <option value="HTTP" selected>HTTP</option>
+                    <option value="SQL" disabled>SQL</option>
+                    <option value="SOCKET" disabled>SOCKET</option>
+                    <option value="JSON" disabled>JSON</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">URL</label>
+            <div class="layui-input-block">
+                <input class="layui-input" type="text" name="sourceData" lay-filter="sourceData" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.config({
+        base: '../../../lib/'
+    }).extend({
+        common: 'common',
+        ChartDefaultOption: 'echarts/ChartDefaultOption'
+    }).use(['common', 'jquery', 'form', 'element', 'ChartDefaultOption'], function () {
+        var elid = layui.common.getQueryString('elid');
+        var type = layui.common.getQueryString('type');
+        var form = layui.form;
+        var element = layui.element;
+        var $ = layui.$;
+        var SourceName = $(parent.document).find('#' + elid).attr('sourceName');
+        var SourceURL = $(parent.document).find('#' + elid).attr('sourceData');
+        var SourceType = $(parent.document).find('#' + elid).attr('sourceType');
+        element.render();
+        form.val("DataConfig", {
+            "ConfigObjectID": elid,
+            "ConfigObjectType": type,
+            "sourceName": SourceName,
+            "sourceData": SourceURL,
+            "sourceType": SourceType
+        });
+        form.render();
+        var tb = $('#' + elid);
+        //各种基于事件的操作，下面会有进一步介绍
+    });
+</script>

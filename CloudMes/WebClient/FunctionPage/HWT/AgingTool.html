@@ -1,0 +1,974 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title set-lan="html:Title">Aging Tool</title>
+    <meta charset="utf-8">
+    <meta name="author" content="fgg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <style type="text/css">
+        h4 i span {
+            padding-left: 5px;
+        }
+
+        .panel-body-0 {
+            padding-top: 0px;
+        }
+
+        .margin-bottom-5 {
+            margin-bottom: 5px;
+        }
+
+            .margin-bottom-5 .form-group {
+                margin-bottom: 5px;
+            }
+
+            .margin-bottom-5 .panel-body {
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 5px;
+                padding-bottom: 0px;
+            }
+
+        .div-table {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+
+
+        .fixed-table-container {
+            clear: right;
+        }
+
+        td ol {
+            padding: 0;
+            margin: 0;
+            list-style: decimal inside;
+        }
+
+            td ol li:not(:last-child) {
+                border-bottom: 1px solid #ddd;
+            }
+
+        .tabs-container .tabs-left > .nav-tabs,
+        .tabs-container .tabs-right > .nav-tabs {
+            width: 200px;
+        }
+
+
+        .file-outline {
+            /*padding: 4px 0px 10px 0px;*/
+            padding-top: 3px;
+            margin-left: 1px !important;
+            z-index: 0;
+            height: 34px;
+            position: absolute !important;
+            clip: rect(0px 400px 34px 75px);
+        }
+    </style>
+</head>
+<body class="color-cPage gray-bg">
+    <div class="panel blank-panel">
+        <div class="panel-heading" style="padding: 5px 15px">
+            <!--<div class="panel-title m-b-md">
+                <h4>图标选项卡</h4>
+            </div>-->
+            <div class="panel-options">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="AgingStation.html#tab-settingInfo" data-linkdiv="#tab-settingInfo">
+                            <h4><i class="fa fa-wrench"><span set-lan="html:SettingInfo">老化機種配置信息</span></i></h4>
+                            <!--<h4><i class="fa fa-wrench"><span set-lan="html:SettingInfo">Setting Info</span></i></h4>-->
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="AgingStation.html#tab-replaceSN" data-linkdiv="#tab-replaceSN">
+                            <h4><i class="fa fa-copy"><span set-lan="html:ReplaseSN">替換老化條碼</span></i></h4>
+                            <!--<h4><i class="fa fa-copy"><span set-lan="html:ReplaceSN">Replace SN</span></i></h4>-->
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="AgingStation.html#tab-agingFail" data-linkdiv="#tab-agingFail">
+                            <h4><i class="fa fa-pencil-square-o"><span set-lan="html:AgingFail">老化不良掃描</span></i></h4>
+                            <!--<h4><i class="fa fa-pencil-square-o"><span set-lan="html:AgingFail">Aging Fail</span></i></h4>-->
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="AgingStation.html#tab-mofityTime" data-linkdiv="#tab-mofityTime">
+                            <h4><i class="fa fa-pencil"><span set-lan="html:AgingFail">修改老化時間</span></i></h4>
+                            <!--<h4><i class="fa fa-pencil"><span set-lan="html:MofityTime">Modify Time</span></i></h4>-->
+                        </a>
+                    </li>                   
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body panel-body-0">
+            <div class="tab-content form-horizontal">
+                <div id="tab-settingInfo" class="tab-pane active ">
+                    <div class="form-group">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label class="col-xs-3 control-label text-right">老化櫃:</label>
+                            <div class="col-xs-9">
+                                <input id="txtSettingCabinetNo" type="text" class="form-control" placeholder="老化櫃" value="">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label class="col-xs-3 control-label text-right">機 種:</label>
+                            <div class="col-xs-9">
+                                <input id="txtSettingSkuno" type="text" class="form-control" placeholder="機 種" value="">
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <button id="btnSettingSearch" class="btn btn-primary"><i class="fa fa-search"><span set-lan="html:">搜索</span></i></button>                          
+                            <button id="btnUploadInfo" class="btn btn-primary" style="margin-left:10px;"><i class="fa fa-upload"><span set-lan="html:">上傳機種信息</span></i></button>
+                        </div>
+                    </div>
+                    <div class="div-table">   
+                        <div id="divSettingTableTool" class="btn-group div-table-tool" role="group"></div>
+                        <table id="tableSettingList" class="table table-bordered table-hover" data-toggle="table" data-classes="table table-hover" data-height="418"></table>
+                    </div>
+                </div>
+                <div id="tab-replaceSN" class="tab-pane">
+                    <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8 col-xs-offset-1 col-sm-offset-1">
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">舊序列號:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceSN" type="text" class="form-control" placeholder="舊序列號" value="">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">樓層:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceFloor" type="text" class="form-control" placeholder="樓層" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">老化櫃:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceCabinetNo" type="text" class="form-control" placeholder="老化櫃" value="" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">老化框:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceShelfNo" type="text" class="form-control" placeholder="老化框" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">工具板:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceTool" type="text" class="form-control" placeholder="工具板" value="" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">位置:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceLocation" type="text" class="form-control" placeholder="位置" value="" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">新序列號:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceNewSN" type="text" class="form-control" placeholder="新序列號" value="">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">備註:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplaceRemark" type="text" class="form-control" placeholder="備註" value="">
+                                    <!--<textarea id="txtReplaceRemark" type="text" class="form-control" rows="3" placeholder="備註" value=""></textarea>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right">密碼:</label>
+                                <div class="col-xs-9">
+                                    <input id="txtReplacePassword" type="password" class="form-control" placeholder="密碼" value="">
+                                </div>
+                            </div>                          
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <label class="col-xs-3 control-label text-right"></label>
+                                <div class="col-xs-9">
+                                    <button id="btnReplaceSubmit" class="btn btn-primary"><i class="fa fa-check"><span set-lan="html:Submit">確認</span></i></button>
+                                    <button id="btnReplaceCancel" class="btn btn-primary" style="margin-left:10px;"><i class="fa fa-repeat"><span set-lan="html:Cancel">取消</span></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-agingFail" class="tab-pane">
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">序列號:</label>
+                            <div class="col-xs-9">
+                                <input id="txtFailSN" type="text" class="form-control" placeholder="序列號" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">不良代碼:</label>
+                            <div class="col-xs-9">
+                                <input id="txtFailCode" type="text" class="form-control" placeholder="不良代碼" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">密碼:</label>
+                            <div class="col-xs-9">
+                                <input id="txtFailPassword" type="password" class="form-control" placeholder="密碼" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-mofityTime" class="tab-pane">
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">老化櫃序號:</label>
+                            <div class="col-xs-9">
+                                <input id="txtCabinetNo" type="text" class="form-control" placeholder="老化櫃序號" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">時長(分鐘):</label>
+                            <div class="col-xs-9">
+                                <input id="txtModifyTime" type="text" class="form-control" placeholder="時長(分鐘)" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right">密碼:</label>
+                            <div class="col-xs-9">
+                                <input id="txtModifyPassword" type="password" class="form-control" placeholder="密碼" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6  col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                            <label class="col-xs-3 control-label text-right"></label>
+                            <div class="col-xs-9">
+                                <button id="btnModifySubmit" class="btn btn-primary"><i class="fa fa-check"><span set-lan="html:Submit">確認</span></i></button>
+                                <button id="btnModifyCancel" class="btn btn-primary" style="margin-left:10px;"><i class="fa fa-repeat"><span set-lan="html:Cancel">取消</span></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="divUploadInfo" class="hidden">
+        <div class="form-group" style="margin-top:15px;">
+            <div class="btn-group hidden-xs m-l-lg" style="padding-right:200px">
+                <label class="btn btn-primary " for="inputUploadFile" style="z-index:999;height: 34px;"><lan set-lan="html:Upload"> 文件路徑:</lan></label>
+                <input id="inputUploadFile" type="file" class="btn btn-outline btn-primary file-outline" accept=".xlsx,.xlsm,.xlsb,.xls,.xltx,.xltm,.xlt,.xlam,.xla">
+            </div>
+        </div>
+        <div class="">
+            <div id="divExcel" style="padding:0 20px;">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.min.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/toastr/toastr.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.full.min.js"></script>
+    <script src="../../Scripts/plugins/excel/xlsx.core.min.js"></script>
+    <script src="../../Scripts/plugins/excel/jquery.tabletojson.js"></script>
+    <!-- 自定义 -->
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Station/MesClient.Station.js"></script>
+
+    <script>
+        var DataList = [];
+        $(document).ready(function () {
+            $("#tab-settingInfo").find("input[type=text]")[0].focus();
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                // 获取已激活的标签页的名称
+                //var activeTab = $(e.target).text();
+                // 获取前一个激活的标签页的名称
+                //var previousTab = $(e.relatedTarget).text();
+                $($(e.target).data("linkdiv")).find("input[type=text]")[0].focus();
+                $($(e.target).data("linkdiv")).find("input[type=text]").val("");
+                
+            });
+
+            //老化機種配置信息 Begin
+            var ShowSettingData = function (Data) {
+                $('#tableSettingList').bootstrapTable("destroy");
+                $('#tableSettingList').bootstrapTable({
+                    data: Data,
+                    striped: false,                    //是否显示行间隔色
+                    cache: false,                      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    sortable: false,                   //是否启用排序
+                    sortOrder: "asc",                  //排序方式
+                    pagination: true,                  //是否显示分页（*）
+                    sidePagination: "client",          //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                     //初始化加载第一页，默认第一页
+                    pageSize: 5,                       //每页的记录行数（*）
+                    pageList: [5, 20, 60, 100],        //可供选择的每页的行数（*）
+                    showColumns: false,                 //是否显示 内容列下拉框
+                    showRefresh: false,                 //是否显示刷新按钮
+                    minimumCountColumns: 2,            //最少允许的列数
+                    clickToSelect: true,               //是否启用点击选中行
+                    singleSelect: true,                //单选checkbox
+                    showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                   //是否显示详细视图
+                    detailView: false,                 //是否显示父子表
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，
+                    strictSearch: false,               //设置为 true启用 全匹配搜索，否则为模糊搜索
+                    searchOnEnterKey: false,            //回车搜索
+                    searchTimeOut: 500,                //设置搜索超时时间
+                    trimOnSearch: true,                //设置为 true 将允许空字符搜索
+                    searchAlign: "right",              //查询框对齐方式
+                    //toolbar: "#divSettingTableTool",    //指定工具栏
+                    toolbarAlign: "right",              //工具栏对齐方式
+                    buttonsAlign: "right",             //按钮对齐方式
+                    showExport: false,                  //是否显示导出按钮
+                    exportDataType: 'all',             //'basic', 'all', 'selected'  exportDataType表示导出的模式是当前页、所有数据还是选中数据
+                    exportTypes: ['excel', 'csv'],     //导出文件类型
+                    Icons: 'glyphicon-export',
+                    exportOptions: {
+                        ignoreColumn: [0],             //忽略某一列的索引
+                        fileName: 'Aging Setting List',     //文件名称设置
+                        worksheetName: 'sheet1',       //表格工作区名称
+                    },
+                    //locale: tableLocale,
+                    columns: [{
+                        field: 'ID',
+                        title: 'ID',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }, {
+                        field: 'CABINET_NO',
+                        title: '<label set-lan="html:tableCabinetNo">老化櫃編號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'SHELF_NO',
+                        title: '<label set-lan="html:tableShelfNo">老化框編號</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'SHELF_QTY',
+                        title: '<label set-lan="html:tableShelfQty">老化櫃放板數量</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'ITEM_NAME',
+                        title: '<label set-lan="html:tableItemName">名稱</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'ITEM_CODE',
+                        title: '<label set-lan="html:tableItemCode">機種</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    }, {
+                        field: 'AGINGTIME',
+                        title: '<label set-lan="html:tableAgingTime">老化時長(分鐘)</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'AGINGTYPE',
+                        title: '<label set-lan="html:tableAgingType">AGING TYPE</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'TOOLS_FLAG',
+                        title: '<label set-lan="html:tableToolsFlag">是否使用工具包板</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'TOOLSNO',
+                        title: '<label set-lan="html:tableToolsNo">TOOLSNO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'TOOLS_LENGTH',
+                        title: '<label set-lan="html:tableToolsLength">TOOLS LENGTH</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'TOOLS_SLOT',
+                        title: '<label set-lan="html:tableToolsSlot">TOOLS SLOT</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'SOLT_NO',
+                        title: '<label set-lan="html:tableSlotNo">SLOT NO</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'ONESHELFQTY',
+                        title: '<label set-lan="html:tableOneShelfQty">工具板數量</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'DESCRIPTION1',
+                        title: '<label set-lan="html:tableDescription1">老化櫃描述</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'DESCRIPTION2',
+                        title: '<label set-lan="html:tableDescription2">單板描述</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: true
+                    },
+                    {
+                        field: 'EDIT_EMP',
+                        title: '<label set-lan="html:tableEditEmp">EDIT EMP</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    },
+                    {
+                        field: 'EDIT_TIME',
+                        title: '<label set-lan="html:tableEditTime">EDIT TIME</label>',
+                        rowspan: 1,
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible: false
+                    }]
+                });
+            }
+            var DoSettingSearch = function (skuno, cabinetno) {
+                parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "SettingSearch", { SKUNO: skuno, CABINTNO: cabinetno }, function (e) {
+                    $('#tableSettingList').bootstrapTable("destroy");
+                    if (e.Status == "Pass") {
+                        ShowSettingData(e.Data);
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            }
+            $("#btnSettingSearch").click(function (e) {
+                var skuno = $.trim($("#txtSettingSkuno").val());
+                var cabinetNo = $.trim($("#txtSettingCabinetNo").val());
+                DoSettingSearch(skuno, cabinetNo);
+            });
+            var showExcel = document.getElementById("divExcel");
+            $("#btnUploadInfo").click(function (e) {
+                $("#divExcel").html("");
+                parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "CheckUploadPermissions", { DataList: JSON.stringify(DataList) }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.open({
+                            id: "UploadData",
+                            type: 1,
+                            shade: 0.8,
+                            shadeClose: false,
+                            title: "上傳機種信息",
+                            area: ['80%', '80%'],
+                            content: $('#divUploadInfo'),
+                            btn: ["上傳", "取消"],
+                            success: function (layero, index) {
+                                $("#divUploadInfo").removeClass("hidden");
+                            },
+                            end: function () {
+                                $("#divUploadInfo").addClass("hidden");
+                            },
+                            yes: function (index) {
+                                var DataList = $("#divExcel").children("table").eq(0).tableToJSON(); // Convert the table into a javascript object
+                                //console.log(DataList);
+                                //alert(JSON.stringify(DataList));
+                                parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "UploadSettingExcel", { DataList: JSON.stringify(DataList) }, function (e) {
+                                    if (e.Status == "Pass") {
+                                        layer.close(index);
+                                        layer.msg("Success", {
+                                            icon: 1,
+                                            time: 3000
+                                        }, function () {
+                                            $("#inputUploadFile").val("");
+                                        });
+                                    } else {
+                                        layer.msg(e.Message, {
+                                            icon: 2,
+                                            time: 3000
+                                        }, function () {
+                                        });
+                                    }
+                                });
+                            },
+                            cancel: function (index) {
+                                $("#inputUploadFile").val("");
+                                $("#excelTable").html("");
+                                layer.close(index);
+                            }
+                        });
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+            $("#inputUploadFile").change(function (e) {
+                $("#divExcel").html("");
+                var filename = $("#inputUploadFile").val();
+                if ((filename.indexOf(".xlsx") >= 0) || (filename.indexOf(".xlsm") >= 0) || (filename.indexOf(".xlsb") >= 0) || (filename.indexOf(".xls") >= 0) || (filename.indexOf(".xltx") >= 0) || (filename.indexOf(".xltm") >= 0) || (filename.indexOf(".xlt") >= 0) || (filename.indexOf(".xlam") >= 0) || (filename.indexOf(".xla") >= 0)) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(e.target.files[0]);
+                    reader.onload = function (e, callback) {
+                        var data = new Uint8Array(reader.result);
+                        var wb = XLSX.read(data, { type: 'array' });
+                        var shitname = wb.SheetNames;
+                        showExcel.innerHTML = "";
+                        wb.SheetNames.forEach(function (sheetName) {
+                            //var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'binary', bookType: 'html' }); //binary為二進制方式，會導致中文亂碼
+                            var htmlstr = XLSX.write(wb, { sheet: shitname[0], type: 'string', bookType: 'html' });
+                            showExcel.innerHTML += htmlstr;
+                        });
+                        $("#divExcel").find("td").each(function () { $(this).text($(this).text().trim()); });
+                        for (var i = 0; i < $("#divExcel").children("table").length; i++) {
+                            $("#divExcel").children("table").eq(i).addClass("hidden");
+                        }
+                        $("#divExcel").children("table").eq(0).removeClass("hidden").addClass("table table-bordered table-hover");
+                        $("#divExcel").children("table").eq(0).css("text-align", "center");
+                        $("#divExcel").children("table").eq(0).attr({
+                            "data-toggle": "table",
+                            "data-classes": "table table-hover",
+                            "data-height": "355"
+                        });
+                    }
+                }
+                else {
+
+                    alert('Please select excel file with xlsx/xlsm/xlsb/xls/xltx/xltm/xlt/xlam/xla formats');
+                }
+            });
+            //老化機種配置信息 End
+
+            //替換老化條碼 Begin
+            $("#txtReplaceSN").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var sn = $.trim($("#txtReplaceSN").val());
+                    if (sn == "") {
+                        layer.msg("請輸入舊的序列號", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                            });
+                        return;
+                    }
+                    parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "GetAgingObjBySN", { SN: sn }, function (e) {                       
+                        if (e.Status == "Pass") {
+                            $("#txtReplaceFloor").val(e.Data[0].FLOOR);
+                            $("#txtReplaceCabinetNo").val(e.Data[0].CABINETNO);
+                            $("#txtReplaceShelfNo").val(e.Data[0].SHELFNO);
+                            $("#txtReplaceTool").val(e.Data[0].TOOLSNO);
+                            $("#txtReplaceLocation").val(e.Data[0].SLOTNO);
+                            $("#txtReplaceNewSN").val("");
+                            $("#txtReplaceNewSN").focus();                            
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                        }
+                    });
+                }               
+            });
+            $("#txtReplaceNewSN").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var newsn = $.trim($("#txtReplaceNewSN").val());
+                    if (newsn == "") {
+                        layer.msg("請輸入新的序列號", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtReplaceRemark").val("");
+                    $("#txtReplaceRemark").focus();
+                }
+            });
+            $("#txtReplaceRemark").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var remark = $.trim($("#txtReplaceRemark").val());
+                    if (remark == "") {
+                        layer.msg("請輸入備註", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtReplacePassword").val("");
+                    $("#txtReplacePassword").focus();
+                }
+            });
+            $("#txtReplacePassword").bind("keypress", function (event) {
+                if (event.keyCode == 13) { 
+                    var pwd = $.trim($("#txtReplacePassword").val());
+                    if (pwd == "") {
+                        layer.msg("請輸入密碼", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#btnReplaceSubmit").focus();
+                }
+            });
+            $("#btnReplaceSubmit").click(function (e) {
+                var oldsn = $("#txtReplaceSN").val();
+                var newsn = $("#txtReplaceNewSN").val();
+                var pwd = $("#txtReplacePassword").val();
+                var remark = ("#txtReplaceRemark").val();
+                parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "ReplaceAgingSN", { OLDSN: oldsn, NEWSN: newsn, PWD: pwd, REMARK: remark }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 0,
+                            time: 3000
+                        }, function () {
+                        });
+                        $("#txtReplaceSN").val("");
+                        $("#txtReplaceFloor").val("");
+                        $("#txtReplaceCabinetNo").val("");
+                        $("#txtReplaceShelfNo").val("");
+                        $("#txtReplaceTool").val("");
+                        $("#txtReplaceLocation").val("");
+                        $("#txtReplaceNewSN").val("");
+                        $("#txtReplacePassword").val("");
+                        ("#txtReplaceRemark").val("");
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+            $("#btnReplaceCancel").click(function (e) {
+                $("#txtReplaceSN").val("");
+                $("#txtReplaceFloor").val("");
+                $("#txtReplaceCabinetNo").val("");
+                $("#txtReplaceShelfNo").val("");
+                $("#txtReplaceTool").val("");
+                $("#txtReplaceLocation").val("");
+                $("#txtReplaceNewSN").val("");
+                $("#txtReplacePassword").val("");
+                ("#txtReplaceRemark").val("");
+            });
+            //替換老化條碼 End
+
+            //老化不良掃描 Begin
+            $("#txtFailSN").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var failSN = $.trim($("#txtFailSN").val());
+                    if (failSN == "") {
+                        layer.msg("請輸入SN", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtFailCode").val("");
+                    $("#txtFailCode").focus();
+                }
+            });
+            $("#txtFailCode").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var failCode = $.trim($("#txtFailCode").val());
+                    if (failCode == "") {
+                        layer.msg("請輸入不良代碼", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtFailPassword").val("");
+                    $("#txtFailPassword").focus();
+                }
+            });
+            $("#txtFailPassword").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var failSN = $.trim($("#txtFailSN").val());
+                    var failCode = $.trim($("#txtFailCode").val());
+                    var failPassword = $.trim($("#txtFailPassword").val());                    
+                    if (failSN == "") {
+                        layer.msg("請輸入SN", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }                    
+                    if (failCode == "") {
+                        layer.msg("請輸入不良代碼", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    if (failPassword == "") {
+                        layer.msg("請輸入密碼", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "AgingScanFail", { FAILSN: failSN, FAILCODE: failCode, PWD: failPassword }, function (e) {
+                        if (e.Status == "Pass") {
+                            layer.msg(e.Message, {
+                                icon: 0,
+                                time: 3000
+                            }, function () {
+                            });
+                            $("#txtFailSN").val("");
+                            $("#txtFailCode").val("");
+                            $("#txtFailPassword").val("");
+                        } else {
+                            layer.msg(e.Message, {
+                                icon: 2,
+                                time: 3000
+                            }, function () {
+                            });
+                        }
+                    });
+                }
+            });
+            //老化不良掃描 End
+
+            //老化時間修改 Begin
+            $("#txtCabinetNo").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var modifyCabinet = $.trim($("#txtCabinetNo").val());
+                    if (modifyCabinet == "") {
+                        layer.msg("請輸入老化柜編號", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtMofityTime").val("");
+                    $("#txtMofityTime").focus();
+                }
+            });
+            $("#txtModifyTime").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var mofiftyTime = $.trim($("#txtModifyTime").val());
+                    if (mofiftyTime == "") {
+                        layer.msg("請輸入修改的時間", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#txtModifyPassword").val("");
+                    $("#txtModifyPassword").focus();
+                }
+            });
+            $("#txtModifyPassword").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var modifyPwd = $.trim($("#txtModifyPassword").val());
+                    if (modifyPwd == "") {
+                        layer.msg("請輸入密碼", {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                        return;
+                    }
+                    $("#btnModifySubmit").focus();
+                }
+            });
+            $("#btnModifySubmit").click(function (e) {
+                var modifyCabinet = $.trim($("#txtCabinetNo").val());           
+                var modifyTime = $.trim($("#txtModifyTime").val());                
+                var modifyPwd = $.trim($("#txtModifyPassword").val());
+                if (modifyCabinet == "") {
+                    layer.msg("請輸入老化柜編號", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        });
+                    $("#txtCabinetNo").focus();
+                    $("#txtCabinetNo").select();
+                    return;
+                }
+                if (mofiftyTime == "") {
+                    layer.msg("請輸入修改的時間", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        });
+                    $("#txtModifyTime").focus();
+                    $("#txtModifyTime").select();
+                    return;
+                }
+                if (!((/^(\+|-)?\d+$/.test(modifyTime)) && modifyTime > 0)) {
+                   
+                    layer.msg("時間必須為整數！", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                    });                   
+                    $("#txtModifyTime").focus();
+                    $("#txtModifyTime").select();
+                    return;
+                }
+                if (modifyPwd == "") {
+                    layer.msg("請輸入密碼", {
+                        icon: 2,
+                        time: 3000
+                    }, function () {
+                        });
+                    $("#txtModifyPassword").focus();
+                    $("#txtModifyPassword").select();
+                    return;
+                }
+                parent.client.CallFunction("MESStation.Config.HWT.CAgeingTypeConfig", "AgingModifyTime", { CABINTNO: modifyCabinet, TIME: modifyTime, PWD: modifyPwd, REMARK: remark }, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, {
+                            icon: 0,
+                            time: 3000
+                        }, function () {
+                        });
+                        $("#txtCabinetNo").val("");
+                        $("#txtModifyTime").val("");
+                        $("#txtModifyPassword").val("");        
+                    } else {
+                        layer.msg(e.Message, {
+                            icon: 2,
+                            time: 3000
+                        }, function () {
+                        });
+                    }
+                });
+            });
+            $("#btnModifyCancel").click(function (e) {
+                $("#txtCabinetNo").val("");
+                $("#txtModifyTime").val("");
+                $("#txtModifyPassword").val("");     
+            });
+            //老化時間修改 End           
+        });
+    </script>
+</body>
+</html>

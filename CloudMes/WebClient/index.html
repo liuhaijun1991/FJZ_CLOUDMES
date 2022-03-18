@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>FOXCONN MES System Live</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut" href="favicon.ico">
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/font-awesome/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/Win8style.css?v=4.1.0" rel="stylesheet">
+</head>
+<body class="img-bg">
+    <!--加載窗口開始-->
+    <div class="ibox-content full-height login_page win8-bg" id="loadingScreen">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+            <div class="text-center font-bold note-fontsize-10">loading ...</div>
+        </div>
+    </div>
+    <!--加載窗口結束-->
+    <!--登錄窗口開始-->
+    <div class="container-fluid login_page full-height win8-bg" id="LoginLayer" style="display:none">
+        <div class="middle-box text-center loginscreen animated fadeInDown large-header" id="LoginBox">
+            <div style="background-color:rgba(255,255,255,0.7);margin-top: 50px;">
+                <img class="logo-name" alt="image" src="img/Cloudmes.png" width="250"/>
+                <!--<h1 class="logo-name"><font>M</font>ES</h1>-->
+            </div>
+            <h3 set-lan="html:wellcome">Welcome to MES</h3>
+            <div class="m-t">
+                <div class="form-group">
+                    <input type="text" class="form-control login-control" placeholder="Username" required="" id="txtUserName" set-lan="attr:placeholder=UPlaceholder">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control login-control" placeholder="Password" required="" id="txtPassWord" set-lan="attr:placeholder=PPlaceholder">
+                </div>
+                <div class="form-group">
+                    <select id="txtBU" class="form-control login-control" title="Select Customer" set-lan="attr:title=BU"></select>
+                </div>
+                <div class="form-group">
+                    <select id="txtLanguage" class="form-control login-control" title="Select Language" set-lan="attr:title=LanSelectT"></select>
+                </div>
+                <button class="btn btn-primary block full-width m-b" btn-login="true" set-lan="html:Login">Login</button>
+                <p class="text-muted text-center">
+                    <!--<a href="login.html#"><small set-lan="html:Forget">忘记密码了？</small></a> | <a href="register.html"><small set-lan="html:Register">注册一个新账号</small></a>-->
+                    <a href="ChangePWD.html#"><small set-lan="html:ChangePWD"> Change Password?</small></a>|<a href="login.html#"><small set-lan="html:Forget">Forgot Password?</small></a>|
+                    <a href="CreateUser.html"><small set-lan="html:Register">Create New Account</small></a>|<a href="../MesHelp/publish.htm"><small set-lan="html:MesHelp">MesHelp</small></a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--登錄窗口結束-->
+    <!--主程序窗口開始-->
+    <div class="container-fluid full-height full-width no-padding win8-bg" id="wrapper" style="display:none;">
+        <div class="row border-bottom  m-l-none m-r-none">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0" id ="mesmainhead">
+                <div class="navbar-header">
+                    <div class="logosite col-xs-12 col-md-4" style="padding-left: 0px;">
+                        <img alt="image" src="img/meslogo.png" />
+                        <!--<span class="logo">MES<sub style="font-size:12px;"> V1.0</sub></span>-->
+                    </div>
+                    <div class="search-form col-xs-12 col-md-8" style="padding-top: 10px;">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3" set-lan="html:QuickStart">Search</span>
+                            <input type="text" class="form-control" id="QuickStartInput">
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <!--<li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <li class="m-t-xs">
+                                <div class="dropdown-messages-box">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="img/a7.jpg">
+                                    </a>
+                                    <div class="media-body">
+                                        <small class="pull-right">46小时前</small>
+                                        <strong>小四</strong> 这是一死的，消息模块还没做
+                                        <br>
+                                        <small class="text-muted">3天前 2017.12.15</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="img/a4.jpg">
+                                    </a>
+                                    <div class="media-body ">
+                                        <small class="pull-right text-navy">25小时前</small>
+                                        <strong>大爷</strong> 测试测试测试--
+                                        <br>
+                                        <small class="text-muted">昨天</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a class="J_menuItem" href="mailbox.html" data-index="88">
+                                        <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <a href="mailbox.html">
+                                    <div>
+                                        <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+                                        <span class="pull-right text-muted small">4分钟前</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="profile.html">
+                                    <div>
+                                        <i class="fa fa-qq fa-fw"></i> 3条新回复
+                                        <span class="pull-right text-muted small">12分钟前</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a class="J_menuItem" href="notifications.html" data-index="89">
+                                        <strong>查看所有 </strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-user"></i>
+                            <span class="text-muted text-xs block  inline"><strong class="font-bold font-color-1"><samp id="userName_Show">USER</samp></strong> <samp id="userLevel_Show">Admin</samp></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-none">
+                            <li>
+                                <a class="J_menuItem" href="FunctionPage/User/PWDManage.html" set-lan="html:ChangePWD">Change Password</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="FunctionPage/User/UserView.html" set-lan="html:Personal">Profile</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="FunctionPage/contactsView.html" set-lan="html:Contact">Contact Us</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" btn-logout="true" set-lan="html:SafetyExit">Sign Out</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="swatch">
+                                    Debug
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" checked class="onoffswitch-checkbox" id="debugSetting">
+                                        <label class="onoffswitch-label" for="debugSetting">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:void(0)" id="openMesHelper">Open Meshelper</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row content-tabs m-l-none m-r-none">
+            <button class="roll-nav roll-left J_tabLeft">
+                <i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active J_menuTab" data-id="indexPage" set-lan="html:Home">HOME</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight">
+                <i class="fa fa-forward"></i>
+            </button>
+            <div class="btn-group roll-nav roll-right">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">
+                    <lan set-lan="html:CloseTabs">Close Tabs</lan><span class="caret"></span>
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive">
+                        <a set-lan="html:NavCurrentTabs">Current Tab</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll">
+                        <a set-lan="html:CloseAllTabs">Close All Tabs</a>
+                    </li>
+                    <li class="J_tabCloseOther">
+                        <a set-lan="html:CloseOtherTabs">Close Other Tabs</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="#" btn-logout="true" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i><lan set-lan="html:Exit"></lan></a>
+        </div>
+        <div class="full-width full-height J_mainContent" id="content-main">
+            <div class="J_iframe" name="iframe0" width="100%" height="100%" src="" frameborder="0" data-parent="root" data-id="indexPage" seamless>
+                <div class="row">
+                    <div id="back"></div>
+                </div>
+                <div id="NavBlock" class="NavBlock bs-glyphicons full-height">
+                </div>
+            </div>
+            <div class="J_iframe" name="iframe1" width="100%" height="100%" src="" frameborder="0" data-id="QuickStartPage" seamless>
+                <div class="row">
+                    <div id="Qback"></div>
+                </div>
+                <div id="QuickStart" class="NavBlock bs-glyphicons full-height">
+                </div>
+            </div>
+            <iframe class="J_iframe full-height full-width" name="iframe1" marginheight="0" marginwidth="0" src="" frameborder="0" data-id="" seamless></iframe>
+        </div>
+    </div>
+    <!--主程序窗口結束-->
+    <!-- 全局js -->
+    <script src="Scripts/plugins/jquery/jquery.min.js"></script>
+    <script src="Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="Scripts/plugins/JSON/json2.js"></script>
+    <script src="Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="Scripts/plugins/layer/layer.min.js"></script>
+    <script src="Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- 自定义js -->
+    <script src="Scripts/global.js"></script>
+    <script src="Scripts/contabs.js"></script>
+    <script src="Scripts/MesClient.js"></script>
+    <script src="Scripts/MesClient.UI.js"></script>
+    <script src="Scripts/Mes.js?v=1.0"></script>
+    <script>
+        layer = layer;
+        var Loading = function (flag) {
+            if (flag) {
+                $("#loadingScreen").show();
+            }
+            else {
+                $("#loadingScreen").hide();
+            }
+        };
+        $(document).ready(function () {
+            $(document).on('show.bs.modal', '.modal', function (event) {
+                var zIndex = 1024 + (10 * $('.modal:visible').length);
+                $(this).css('z-index', zIndex);
+                setTimeout(function () {
+                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                }, 0);
+            });
+        });
+    </script>
+</body>
+</html>

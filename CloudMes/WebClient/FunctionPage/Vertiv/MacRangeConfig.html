@@ -1,0 +1,879 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title set-lan="html:Title">MacRangeConfig</title>
+    <link href="../../css/plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/plugins/font-awesome/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/bootstrapTable/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../css/bu_manager.css" rel="stylesheet" />
+    <link href="../../css/plugins/jQueryUI/jquery-ui.min.css" rel="stylesheet" />
+
+    <style>
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+            /* 防止水平滚动条 */
+            overflow-x: hidden;
+            z-index: 99999999;
+        }
+        /* IE 6 不支持 max-height
+         * 我们使用 height 代替，但是这会强制菜单总是显示为那个高度
+         */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+        body .mes-layer-title .layui-layer-title {
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body class="full-height  animated fadeInRight">
+    <div class="panel-heading bg-primary">
+        <!--<h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:MacRangeConfig">Mac 區間配置</span></h3>-->
+        <h3><i class="glyphicon glyphicon-tags"></i><span style="padding-left:10px;" set-lan="html:MacRangeConfig">Mac Range Set</span></h3>
+    </div>
+    <div class="panel-body">
+        <div id="divTableToolbar">
+            <div class="btn-group hidden-xs" role="group">
+                <button type="button" class="btn btn-outline btn-primary" id="btnAdd">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><lan set-lan="html:New"> New</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnEdit" disabled>
+                    <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i><lan set-lan="html:Edit"> Edit</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnDelete" disabled>
+                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i><lan set-lan="html:Delete"> Delete</lan>
+                </button>
+                <button type="button" class="btn btn-outline btn-primary" id="btnRefresh">
+                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i><lan set-lan="html:Refresh"> Refresh</lan>
+                </button>
+            </div>
+        </div>
+        <table id="tableConfigList"></table>
+    </div>
+    <div id="divEditControl" class="panel-body hidden">
+        <div class="form-horizontal">
+            <div id="divID" class="form-group hidden">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right">ID:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div id="divRuleName" class="form-group">
+                <!--<label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:RuleName">Mac規則:</label>-->
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:RuleName">Mac Rule:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtRuleName" class="form-control" set-lan="attr:placeholder=placeholderRuleName" />
+                </div>
+            </div>
+            <div id="divMinRange" class="form-group">
+                <!--<label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MinRange">最小區間:</label>-->
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MinRange">Min Interval:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtMinRange" class="form-control" set-lan="attr:placeholder=placeholderMinRange" />
+                </div>
+            </div>
+            <div id="divMaxRange" class="form-group">
+                <!--<label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MaxRange">最大區間:</label>-->
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MaxRange">Max Interval:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtMaxRange" class="form-control" set-lan="attr:placeholder=placeholderMaxRange" />
+                </div>
+            </div>
+            <div id="divQty" class="form-group">
+                <!--<label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MaxRange">區間數量:</label>-->
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right" set-lan="html:MaxRange">Interval Qty:</label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <input type="text" id="txtQty" class="form-control" disabled set-lan="attr:placeholder=placeholderQty" />
+                </div>
+            </div>
+            <div id="divDoSubmit" class="form-group">
+                <label class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label text-right"></label>
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                    <button type="button" id="btnSubmit" class="btn btn-outline btn-primary">
+                        <!--<lan set-lan="html:Submit">提交</lan>-->
+                        <lan set-lan="html:Submit">Submit</lan>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divRangeDetail" class="panel-body hidden">
+        <table id="tableDetailList"></table>
+    </div>
+    <div id="divMacRangeDetail" class="panel-body hidden">
+        <table id="tableMacDetailList"></table>
+    </div>
+
+    <!-- 全局js -->
+    <script src="../../Scripts/plugins/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="../../Scripts/plugins/jquery/jquery.cookie.js"></script>
+    <script src="../../Scripts/plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 第三方插件 -->
+    <script src="../../Scripts/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="../../Scripts/plugins/JSON/json2.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-zh-TW.min.js"></script>
+    <script src="../../Scripts/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../../Scripts/plugins/layer/layer.min.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/tableExport.js"></script>
+    <script src="../../Scripts/plugins/bootstrapTable/bootstrap-table-export.min.js"></script>
+
+    <script src="../../Scripts/global.js"></script>
+    <script src="../../Scripts/MesClient.UI.js"></script>
+    <script src="../../Scripts/MesClient.js"></script>
+    <script src="../../Scripts/Report/MesClient.Report.js"></script>
+
+    <script>
+        var mesUI = new MesClientUI(self.parent.client);
+        var tableLocale = "";
+        var lan = $.cookie($.MES.CK_LAN_NAME);
+        var ruleNameList = [];
+        var submitType = "";
+        var postData = {};
+        $(document).ready(function () {
+            if (lan == "CHINESE") {
+                tableLocale = "zh-CN"
+            }
+            else if (lan == "CHINESE_TW") {
+                tableLocale = "zh-TW"
+            }
+            else {
+                tableLocale = "en"
+            };
+            mesUI.SetLanguage("MacRangeConfig");
+            GetRangeRuleList();
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "GetAllMacRuleName", {}, function (e) {
+                try {
+                    $("#txtRuleName").autocomplete("destroy");
+                } catch (e) {
+
+                }
+                if (e.Status == "Pass") {
+                    ruleNameList.splice(0, ruleNameList.length);
+                    for (var i = 0; i < e.Data.length; i++) {
+                        ruleNameList.push(e.Data[i].NAME);
+                    }
+                    AutocompleteInput("txtRuleName", ruleNameList);
+                }
+                else {
+                    layer.msg(e.Message, { icon: 2, time: 2000 }, function () { layer.closeAll("page"); });
+                    return;
+                }
+            });
+            $("#btnAdd").click(function () {
+                var addTitle = 'Add New Range';
+                if (lan == "CHINESE") {
+                    addTitle = "添加新的Mac区间"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "添加新的Mac區間"
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["40%", "50%"],
+                    offset: ["10px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        $("#divRuleName").find("input").val("");
+                        $("#divRuleName").find("input").focus();
+                        $("#divRuleName").find("input").removeAttr("disabled");
+                        $("#divMinRange").find("input").val("");
+                        $("#divMaxRange").find("input").val("");
+                        $("#divQty").find("input").val("");
+
+                        submitType = "NEW";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                        $("#btnAdd").removeAttr("disabled")
+                        $("#btnDelete").attr("disabled", "disabled");
+                    }
+                });
+            });
+            $("#btnEdit").click(function () {
+                var selectRows = $('#tableConfigList').bootstrapTable('getSelections');
+                if (selectRows.length != 1) {
+                    //layer.msg("請選擇一行數據!",
+                    layer.msg("Please choose a row data!",
+                        { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                var addTitle = 'Edit Mac Range';
+                if (lan == "CHINESE") {
+                    addTitle = "编辑Mac区间"
+                }
+                else if (lan == "CHINESE_TW") {
+                    addTitle = "編輯Mac區間"
+                }
+                if (parseInt(selectRows[0].PRINTED) > 0) {
+                    //layer.msg("已開始打印的區間不可修改!",
+                    layer.msg("Unable to change the range when it has started printing!",
+                        { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                if (selectRows[0].COMPLITED == "Y") {
+                    //layer.msg("已完全打印的不可修改!",
+                    layer.msg("Unable to change the range when it had finished print!",
+                        { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                layer.open({
+                    type: 1,
+                    title: addTitle,
+                    area: ["40%", "50%"],
+                    offset: ["10px"],
+                    scrollbar: false,
+                    skin: 'mes-layer-title',
+                    content: $("#divEditControl"),
+                    success: function (layero, index) {
+                        $("#divEditControl").removeClass("hidden");
+                        $("#divID").find("input").val(selectRows[0].ID);
+                        $("#divRuleName").find("input").val(selectRows[0].RULENAME);
+                        $("#divRuleName").find("input").attr("disabled", "disabled");
+                        $("#divMinRange").find("input").focus();
+                        $("#divMinRange").find("input").select();
+                        $("#divMinRange").find("input").val(selectRows[0].MIN);
+                        $("#divMaxRange").find("input").val(selectRows[0].MAX);
+                        $("#divQty").find("input").val(selectRows[0].QTY);
+                        submitType = "MODIFY";
+                    },
+                    end: function () {
+                        $("#divEditControl").addClass("hidden");
+                        $("#btnAdd").removeAttr("disabled")
+                        $("#btnDelete").attr("disabled", "disabled");
+                    }
+                });
+            });
+            $("#btnDelete").click(function () {
+                var selectRows = $('#tableConfigList').bootstrapTable('getSelections');
+                if (selectRows.length == 0) {
+                    //layer.msg("請至少選擇一行數據進行刪除!", { icon: 2, time: 3000 }, function () { });
+                    layer.msg("Please choose at least one row data to delete !",
+                        { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                var ids = "";
+                for (var i = 0; i < selectRows.length; i++) {
+                    ids += selectRows[0].ID + ",";
+                }
+                postData = { "IDs": ids.substring(0, ids.length - 1) };
+                self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "DeleteMacRange", postData, function (e) {
+                    if (e.Status == "Pass") {
+                        layer.msg(e.Message, { icon: 1, time: 1000 }, function () { GetRangeRuleList(); });
+                    }
+                    else {
+                        layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                        return;
+                    }
+                });
+            });
+            $("#btnRefresh").click(function () {
+                GetRangeRuleList();
+                $("#btnAdd").removeAttr("disabled")
+                $("#btnDelete").attr("disabled", "disabled");
+            });
+            $("#divRuleName").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divMinRange").find("input").focus();
+                }
+            });
+            $("#divMinRange").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    $("#divMaxRange").find("input").focus();
+
+                    var min = $("#divMinRange").find("input").val();
+                    var max = $("#divMaxRange").find("input").val();
+                    if (parseInt(min, 16) > parseInt(max, 16) || parseInt(min, 16) == parseInt(max, 16)) {
+                        //layer.msg("最小區間需小於最大區間!",
+                        layer.msg("The min interval must less than the max interval!",
+                            { icon: 2, time: 3000 }, function () { });
+                        $("#divMinRange").find("input").val("");
+                        return;
+                    }
+                    if (min != "" && max != "") {
+                        $("#divQty").find("input").val(parseInt(max, 16) - parseInt(min, 16) + 1);
+                    }
+                }
+            });
+            $("#divMaxRange").find("input").unbind("keypress").bind("keypress", function (event) {
+                if (event.keyCode == 13) {
+                    var min = $("#divMinRange").find("input").val();
+                    var max = $("#divMaxRange").find("input").val();
+                    if (parseInt(min, 16) > parseInt(max, 16) || parseInt(min, 16) == parseInt(max, 16)) {
+                        //layer.msg("最小區間需小於最大區間!",
+                        layer.msg("The min interval must less than the max interval!",
+                            { icon: 2, time: 3000 }, function () { });
+                        $("#divMaxRange").find("input").val("");
+                        return;
+                    }
+                    if (min != "" && max != "") {
+                        $("#divQty").find("input").val(parseInt(max, 16) - parseInt(min, 16) + 1);
+                    }
+                    $("#divDoSubmit").find("button").focus();
+                }
+            });
+            $("#btnSubmit").click(function () {
+                if ($("#divQty").find("input").val() == "") {
+                    //layer.msg("Qty不能為空!",
+                    layer.msg("Qty can't be nullable !",
+                        { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+                if (submitType == "MODIFY") {
+                    ModifyConfig();
+                }
+                else if (submitType == "NEW") {
+                    AddNewConfig();
+                }
+                else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        });
+
+        function AddNewConfig() {
+            var ruleName = $("#divRuleName").find("input").val();
+            var minRange = $("#divMinRange").find("input").val();
+            var maxRange = $("#divMaxRange").find("input").val();
+            var qty = $("#divQty").find("input").val();
+
+            postData = { "RuleName": ruleName, "MinRange": minRange, "MaxRange": maxRange, "Qty": qty };
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "AddMacRange", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetRangeRuleList();
+                    });
+                }
+                else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function ModifyConfig() {
+            var id = $("#divID").find("input").val();
+            var ruleName = $("#divRuleName").find("input").val();
+            var minRange = $("#divMinRange").find("input").val();
+            var maxRange = $("#divMaxRange").find("input").val();
+            var qty = $("#divQty").find("input").val();
+
+            postData = { "ID": id, "RuleName": ruleName, "MinRange": minRange, "MaxRange": maxRange, "Qty": qty };
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "UpdateMacRange", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll("page");
+                        GetRangeRuleList();
+                    });
+                }
+                else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () {
+                    });
+                    return;
+                }
+            });
+        }
+
+        function GetRangeRuleList() {
+            postData = {};
+            $("#btnEdit").attr("disabled", "disabled");
+            $("#btnDelete").attr("disabled", "disabled");
+            $("#tableConfigList").html("");
+            $("#tableConfigList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "SelectMacRange", postData, function (e) {
+                if (e.Status == "Pass") {
+                    layer.msg(e.Message, {
+                        icon: 1,
+                        time: 500
+                    }, function () {
+                        $('#tableConfigList').bootstrapTable({
+                            data: e.Data,
+                            striped: true,                      //是否显示行间隔色
+                            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                            pagination: true,                   //是否显示分页（*）
+                            sortable: false,                    //是否启用排序
+                            sortOrder: "asc",                   //排序方式
+                            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                            pageNumber: 1,                      //初始化加载第一页，默认第一页
+                            pageSize: 10,                        //每页的记录行数（*）
+                            pageList: [10, 20, 60, 100],         //可供选择的每页的行数（*）
+                            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                            strictSearch: false,
+                            singleSelect: true,                 //单选checkbox
+                            searchOnEnterKey: false,            //回车搜索
+                            showColumns: false,                 //是否显示所有的列
+                            showRefresh: false,                  //是否显示刷新按钮
+                            minimumCountColumns: 2,             //最少允许的列数
+                            clickToSelect: true,                //是否启用点击选中行
+                            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                            showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                            cardView: false,                    //是否显示详细视图
+                            detailView: false,                  //是否显示父子表
+                            dataType: "json",                   //期待返回数据类型
+                            method: "post",                     //请求方式
+                            searchAlign: "right",               //查询框对齐方式
+                            search: true,
+                            buttonsAlign: "right",               //按钮对齐方式
+                            toolbar: "#divTableToolbar",        //指定工具栏
+                            toolbarAlign: "left",               //工具栏对齐方式
+                            onCheck: function (row) {
+                                var rows = $('#tableConfigList').bootstrapTable('getSelections');
+                                if (rows.length == 1) {
+                                    $("#btnEdit").removeAttr("disabled");
+                                } else {
+                                    $("#btnEdit").attr("disabled", "disabled");
+                                }
+                                if (rows.length <= 0) {
+                                    $("#btnAdd").removeAttr("disabled")
+                                    $("#btnDelete").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnAdd").attr("disabled", "disabled");
+                                    $("#btnDelete").removeAttr("disabled")
+                                }
+                            },
+                            onUncheck: function (row) {
+                                var rows = $('#tableConfigList').bootstrapTable('getSelections');
+                                $("#btnEdit").attr("disabled", "disabled");
+                                if (rows.length <= 0) {
+                                    $("#btnAdd").removeAttr("disabled")
+                                    $("#btnDelete").attr("disabled", "disabled");
+                                } else {
+                                    $("#btnAdd").attr("disabled", "disabled");
+                                    $("#btnDelete").removeAttr("disabled")
+                                }
+                            },
+                            columns: [
+                                {
+                                    checkbox: true
+                                }, {
+                                    field: 'ID',
+                                    title: 'ID',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'RULEID',
+                                    title: '<label set-lan="html:RULEID">RULEID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: false
+                                }, {
+                                    field: 'RULENAME',
+                                    title: '<label set-lan="html:RULENAME">RULENAME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'MIN',
+                                    title: '<label set-lan="html:MIN">MIN</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'MAX',
+                                    title: '<label set-lan="html:MAX">MAX</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'QTY',
+                                    title: '<label set-lan="html:QTY">QTY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'PRINTED',
+                                    title: '<label set-lan="html:PRINTED">PRINTED</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    events: operateEvents, //给按钮注册事件
+                                    formatter: addFunctionAlty, //表格中增加按钮
+                                    sortable: true
+                                }, {
+                                    field: 'VALID',
+                                    title: '<label set-lan="html:VALID">VALID</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: "COMPLITED",
+                                    title: '<label set-lan="html:COMPLITED">COMPLITED</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: "CURVAL",
+                                    title: '<label set-lan="html:CURVAL">CURVAL</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true,
+                                    visible: true
+                                }, {
+                                    field: 'CREATETIME',
+                                    title: '<label set-lan="html:CREATETIME">CREATETIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'CREATEBY',
+                                    title: '<label set-lan="html:CREATEBY">CREATEBY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITTIME',
+                                    title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }, {
+                                    field: 'EDITBY',
+                                    title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                    rowspan: 1,
+                                    align: 'center',
+                                    valign: 'middle',
+                                    sortable: true
+                                }],
+                            locale: tableLocale//中文支持
+                        });
+                        mesUI.SetLanguage("MacRangeConfig");
+                    });
+                } else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        }
+
+        function AutocompleteInput(input, inputSource) {
+            $("#" + input).autocomplete({
+                minLength: 0,
+                source: inputSource,
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                },
+                create: function (event, ui) {
+                    $(this).bind("click", function () {
+                        var active = $(this).attr("autocomplete");
+                        if (active == "off") {
+                            $(this).autocomplete("search", "");
+                        }
+                    });
+                },
+                scroll: true,
+                scrollHeight: 50,
+                position: { my: "left top", at: "left bottom" }
+            });
+        }
+
+        var addFunctionAlty = function (value, row, index) {
+            if (parseInt(row.PRINTED) > 0) {
+                return [
+                    '<button id="bind" class="J_menuItem" type="button" class="btn btn-link">' + row.PRINTED + '</button>'
+                ].join('');
+            }
+            else {
+                return row.PRINTED;
+            }
+        };
+        var qtyFormatter = function (value, row, index) {
+            if (parseInt(row.QTY) > 0) {
+                return [
+                    '<button id="bind" class="J_menuItem" type="button" class="btn btn-link">' + row.QTY + '</button>'
+                ].join('');
+            }
+            else {
+                return row.PRINTED;
+            }
+        };
+        window.operateEvents = {
+            'click #bind': function (e, value, row, index) {
+                layer.open({
+                    type: 1,
+                    title: "Printed Wo Detail",
+                    area: ["50%", "83%"],
+                    offset: ["10px", "5px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divRangeDetail"),
+                    success: function (layero, index) {
+                        $("#divRangeDetail").removeClass("hidden");
+                        ShowRangeDetailList(row.ID);
+                    },
+                    end: function () {
+                        $("#divRangeDetail").addClass("hidden");
+                    }
+                });
+            }
+        };
+        window.qtyEvents = {
+            'click #bind': function (e, value, row, index) {
+                layer.open({
+                    type: 1,
+                    title: "Printed Mac Detail",
+                    area: ["50%", "83%"],
+                    offset: ["10px", "885px"],
+                    skin: 'mes-layer-title',
+                    scrollbar: false,
+                    content: $("#divMacRangeDetail"),
+                    success: function (layero, index) {
+                        $("#divMacRangeDetail").removeClass("hidden");
+                        ShowMacRangeDetailList(row.RULEID, row.EXT1, row.EXT4);
+                    },
+                    end: function () {
+                        $("#divMacRangeDetail").addClass("hidden");
+                    }
+                });
+            }
+        };
+        var ShowRangeDetailList = function (ruleId) {
+            $("#tableDetailList").html("");
+            $("#tableDetailList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "SelectRangeDetail", { "RuleID": ruleId }, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableDetailList').bootstrapTable({
+                        data: e.Data,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: false,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 10,                        //每页的记录行数（*）
+                        pageList: [10, 20, 50, 100],         //可供选择的每页的行数（*）
+                        search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                        strictSearch: false,
+                        singleSelect: true,                 //单选checkbox
+                        searchOnEnterKey: false,            //回车搜索
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "RULEID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: "left",               //查询框对齐方式
+                        buttonsAlign: "left",               //按钮对齐方式
+                        showExport: true,
+                        exportDataType: "all",
+                        columns: [
+                            {
+                                field: 'RULEID',
+                                title: '<label set-lan="html:RULEID">RULEID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'EXT4',
+                                title: '<label set-lan="html:SEQ">SEQ</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EXT1',
+                                title: '<label set-lan="html:WO">WO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'MAC_START',
+                                title: '<label set-lan="html:MAC_START">MAC_START</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'MAC_END',
+                                title: '<label set-lan="html:MAC_END">MAC_END</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'QTY',
+                                title: '<label set-lan="html:QTY">QTY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                events: qtyEvents, //给按钮注册事件
+                                formatter: qtyFormatter, //表格中增加按钮
+                                sortable: true
+                            }, {
+                                field: 'EXT2',
+                                title: '<label set-lan="html:TOTAL_QTY">TOTAL_QTY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EXT3',
+                                title: '<label set-lan="html:STATION">STATION</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }],
+                        locale: tableLocale//中文支持
+                    });
+                } else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        };
+        var ShowMacRangeDetailList = function (ruleId, wo, seq) {
+            $("#tableMacDetailList").html("");
+            $("#tableMacDetailList").bootstrapTable('destroy');
+            self.parent.client.CallFunction("MESStation.Config.Vertiv.MacRangeConfig", "SelectMacRangeDetail", { "RuleID": ruleId, "Wo": wo, "Seq": seq }, function (e) {
+                if (e.Status == "Pass") {
+                    $('#tableMacDetailList').bootstrapTable({
+                        data: e.Data,
+                        striped: true,                      //是否显示行间隔色
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        pagination: true,                   //是否显示分页（*）
+                        sortable: false,                    //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 10,                        //每页的记录行数（*）
+                        pageList: [10, 20, 50, 100],         //可供选择的每页的行数（*）
+                        search: true,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                        strictSearch: false,
+                        singleSelect: true,                 //单选checkbox
+                        searchOnEnterKey: false,            //回车搜索
+                        showColumns: false,                 //是否显示所有的列
+                        showRefresh: false,                  //是否显示刷新按钮
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                        showToggle: false,                  //是否显示详细视图和列表视图的切换按钮
+                        cardView: false,                    //是否显示详细视图
+                        detailView: false,                  //是否显示父子表
+                        dataType: "json",                   //期待返回数据类型
+                        method: "post",                     //请求方式
+                        searchAlign: "left",               //查询框对齐方式
+                        buttonsAlign: "left",               //按钮对齐方式
+                        showExport: true,
+                        exportDataType: "all",
+                        columns: [
+                            {
+                                field: 'ID',
+                                title: '<label set-lan="html:ID">ID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'RULEID',
+                                title: '<label set-lan="html:RULEID">RULEID</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true,
+                                visible: false
+                            }, {
+                                field: 'EXT4',
+                                title: '<label set-lan="html:SEQ">SEQ</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EXT1',
+                                title: '<label set-lan="html:WO">WO</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EXT2',
+                                title: '<label set-lan="html:QTY">QTY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'VALUE',
+                                title: '<label set-lan="html:MAC">MAC</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EXT3',
+                                title: '<label set-lan="html:STATION">STATION</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EDITTIME',
+                                title: '<label set-lan="html:EDITTIME">EDITTIME</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }, {
+                                field: 'EDITBY',
+                                title: '<label set-lan="html:EDITBY">EDITBY</label>',
+                                rowspan: 1,
+                                align: 'center',
+                                valign: 'middle',
+                                sortable: true
+                            }],
+                        locale: tableLocale//中文支持
+                    });
+                } else {
+                    layer.msg(e.Message, { icon: 2, time: 3000 }, function () { });
+                    return;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
